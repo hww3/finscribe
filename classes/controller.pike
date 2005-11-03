@@ -7,5 +7,7 @@ Fins.Controller comments = ((program)"comment_controller.pike")();
 
 public void index(Request id, Response response, mixed ... args)
 {
+  if(!sizeof(args))
    response->redirect("space");
+  else response->not_found("/" + args*"/");
 }
