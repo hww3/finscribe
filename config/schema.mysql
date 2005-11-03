@@ -1,0 +1,71 @@
+# MySQL dump 8.16
+#
+# Host: localhost    Database: blog
+#--------------------------------------------------------
+# Server version	3.23.43
+
+#
+# Table structure for table 'comments'
+#
+
+CREATE TABLE comments (
+  id int(11) NOT NULL auto_increment,
+  object_id int(11) NOT NULL default '0',
+  author_id int(11) NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  contents blob,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'datatypes'
+#
+
+CREATE TABLE datatypes (
+  id int(11) NOT NULL auto_increment,
+  mimetype char(32) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'object_versions'
+#
+
+CREATE TABLE object_versions (
+  id int(11) NOT NULL auto_increment,
+  object_id int(11) NOT NULL default '0',
+  author_id int(11) NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  subject varchar(128) default NULL,
+  contents blob NOT NULL,
+  version int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'objects'
+#
+
+CREATE TABLE objects (
+  id int(11) NOT NULL auto_increment,
+  path varchar(128) NOT NULL default '',
+  author_id int(11) NOT NULL default '0',
+  created datetime default NULL,
+  datatype_id int(11) NOT NULL default '0',
+  is_attachment int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'users'
+#
+
+CREATE TABLE users (
+  id int(11) NOT NULL auto_increment,
+  username char(12) NOT NULL default '',
+  password char(16) default NULL,
+  name char(36) NOT NULL default '',
+  email char(64) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
