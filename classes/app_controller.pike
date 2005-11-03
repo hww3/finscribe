@@ -7,7 +7,7 @@ public void index(Request id, Response response, mixed ... args)
 {
   if(!args || !sizeof(args))
   {
-     response->redirect("Start");
+     response->redirect("start");
      return;
   }
 
