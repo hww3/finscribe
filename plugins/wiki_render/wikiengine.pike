@@ -4,6 +4,9 @@ import Fins.Model;
 
 object wiki;
 
+int exists_queries;
+multiset existing_objects = (<>);
+
 void create(object _wiki)
 {
   wiki = _wiki;
@@ -16,10 +19,22 @@ int exists(string _file)
 {
   array res;
 
+  exists_queries ++;
+  if(exists_queries==100)
+  {
+    existing_objects=(<>);
+    exists=0;
+  }
+  if(existing_objects[_file]) return 1;
+
   res = Model.find("object", (["path": _file]));
 
   if(!sizeof(res)) return 0;
-  else return 1;
+  else 
+  {
+    existing_objects[_file] = 1;
+    return 1;
+  }
 }
 
 int showCreate()
@@ -40,7 +55,9 @@ void appendLink(String.Buffer buf, string name, string view, string|void anchor)
 void appendCreateLink(String.Buffer buf, string name, string view)
 {
   werror("appendCreateLink: %O %O\n", name, view);
-  buf->add("[create <a href=\"/exec/edit/");
+  buf->add("&#");
+  buf->add((string)'[');
+  buf->add("; create <a href=\"/exec/edit/");
   buf->add(name);
   buf->add("\">");
   buf->add(view);
