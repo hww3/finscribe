@@ -24,6 +24,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
      if(i==0 && search(elem, "=") == -1)
      {
         name = elem;
+        link = elem;
      }
      else if(i==1 && search(elem, "=") == -1)
      {

@@ -38,7 +38,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add("<img src=\"/static/images/Icon-Permalink.png\" width=\"8\" height=\"9\" alt=\"permalink\" border=\"0\"/>");
     buf->add("</a>");
     buf->add("</b><p/>\n");
-    buf->add(params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request])));
+    buf->add(params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
     buf->add("<p/>");
 
     if(sizeof(entry["comments"]))

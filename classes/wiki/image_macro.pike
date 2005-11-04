@@ -9,7 +9,7 @@ string describe()
 
 void evaluate(String.Buffer buf, Macros.MacroParameters params)
 {
-werror("%O\n", mkmapping(indices(params), values(params)));
+//werror("%O\n", mkmapping(indices(params), values(params)));
   if(!sizeof(params->parameters))
   {
     buf->add("INVALID IMAGE");
@@ -25,8 +25,10 @@ werror("%O\n", mkmapping(indices(params), values(params)));
      if(!i && search(elem, "=") == -1)
      {
         image = elem;
-       if(params->extras->request && params->extras->request->not_query)
-         image = combine_path(params->extras->request->not_query, image);
+       if(params->extras->obj && params->extras->obj)
+{
+         image = combine_path("/space/" + params->extras->obj["path"], image);
+}
      }
      else if(search(elem, "=")== -1)
      {
