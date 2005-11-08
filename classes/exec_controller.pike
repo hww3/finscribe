@@ -53,9 +53,9 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 				
 				string mailmsg = tp->render(dp);
 				
-				Protocols.SMTP.Client(application->	config->values->mail->host)->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(application->config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
 																											"Your FinBlog password", 
-																											application->config->values->mail->return_address, 
+																											application->config->get_value("mail", "return_address"), 
 																											mailmsg);
 				
 				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
@@ -146,7 +146,8 @@ public void login(Request id, Response response, mixed ... args)
       d->add("UserName", "");
    }
 
-   if(application->config->values->administration->autocreate && application->config->values->administration->autocreate == "1")
+   if(application->config->get_value("administration", "autocreate") && 
+         application->config->get_value("administration", "autocreate") == "1")
 	{
 		d->add("autocreate", 1);
 	}

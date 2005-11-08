@@ -10,7 +10,7 @@ static void create()
 void load_model()
 {
 	
-   object s = Sql.Sql(application->config->values->model->datasource);
+   object s = Sql.Sql(application->config->get_value("model", "datasource"));
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
    d->debug = 1;
