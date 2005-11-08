@@ -1,6 +1,6 @@
 import Fins;
 import Fins.Model;   
-inherit Fins.Controller;
+inherit Fins.FinsController;
 
 
 public void index(Request id, Response response, mixed ... args)
@@ -19,6 +19,52 @@ public void notfound(Request id, Response response, mixed ... args)
 
 }
 
+public void createaccount(Request id, Response response, mixed ... args)
+{
+  	Template.Template t = Template.get_template(Template.Simple, "createaccount.tpl");
+  	Template.TemplateData d = Template.TemplateData();
+  
+	response->set_template(t, d);
+}
+
+public void forgotpassword(Request id, Response response, mixed ... args)
+{
+     Template.Template t = Template.get_template(Template.Simple, "forgotpassword.tpl");
+     Template.TemplateData d = Template.TemplateData();
+
+	  d->add("username", "");
+
+		if(id->variables->username)
+		{
+			d->add("username", id->variables->username);
+			array a = Model.find("user", (["UserName": id->variables->username]));
+
+			if(!sizeof(a))
+			{
+				response->flash("msg", "Unable to find a user account with that username. Please try again.\n");
+			}
+			
+			else
+			{
+				Template.Template tp = Template.get_template(Template.Simple, "sendpassword.tpl");
+				Template.TemplateData dp = Template.TemplateData();
+				
+				dp->add("password", a[0]["Password"]);
+				
+				string mailmsg = tp->render(dp);
+				
+				Protocols.SMTP.Client(application->	config->values->mail->host)->simple_mail(a[0]["Email"], 
+																											"Your FinBlog password", 
+																											application->config->values->mail->return_address, 
+																											mailmsg);
+				
+				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
+				response->redirect("/exec/login");
+			}
+			
+		}
+     response->set_template(t, d);
+}
 
 public void logout(Request id, Response response, mixed ... args)
 {
@@ -99,7 +145,16 @@ public void login(Request id, Response response, mixed ... args)
                                id->request_headers["referer"] || "/space/");
       d->add("UserName", "");
    }
-   
+
+   if(application->config->values->administration->autocreate && application->config->values->administration->autocreate == "1")
+	{
+		d->add("autocreate", 1);
+	}
+	else
+	{
+		d->add("autocreate", 0);
+	}
+	
    if(id->variables->action)
    {
       if(id->variables->action == "Cancel")

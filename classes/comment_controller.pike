@@ -1,6 +1,6 @@
 import Fins;
 import Fins.Model;
-inherit Fins.Controller;
+inherit Fins.FinsController;
 
 
 public void index(Request id, Response response, mixed ... args)

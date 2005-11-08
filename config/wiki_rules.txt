@@ -48,5 +48,4 @@ macro.recent-changes.class=Public.Web.Wiki.Macros.RecentChanges
 macro.table.class=Public.Web.Wiki.Macros.Table
 macro.image.class=wiki/image_macro
 macro.weblog.class=wiki/weblog_macro
-macro.weblog.recentchanges=wiki/recentchanges_macro
 

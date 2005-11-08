@@ -1,6 +1,6 @@
 import Fins;
 import Fins.Model;
-inherit Fins.Controller;
+inherit Fins.FinsController;
 
 
 public void index(Request id, Response response, mixed ... args)
@@ -44,7 +44,7 @@ private void handle_wiki(object obj, Request id, Response response)
  
   if(id->misc->session_variables->userid)
   {
-     object user = Model.find_by_id("user", id->misc->session_variables->userid);
+     object user = model->find_by_id(id, "user", id->misc->session_variables->userid);
      dta->add("username", user["UserName"]);
      dta->add("user", user["Name"]);
 

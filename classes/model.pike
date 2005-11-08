@@ -1,5 +1,6 @@
 import Fins;
 import Fins.Model;
+inherit Fins.FinsModel;
 
 static void create()
 {
@@ -8,7 +9,8 @@ static void create()
 
 void load_model()
 {
-   object s = Sql.Sql("mysql://bill:foobar12@buoy.riverweb.com/blog");
+	
+   object s = Sql.Sql(application->config->values->model->datasource);
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
    d->debug = 1;

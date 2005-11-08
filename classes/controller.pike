@@ -1,9 +1,9 @@
 import Fins;
-inherit Fins.Controller;
+inherit Fins.FinsController;
 
-Fins.Controller exec = ((program)"exec_controller.pike")();
-Fins.Controller space = ((program)"app_controller.pike")();
-Fins.Controller comments = ((program)"comment_controller.pike")();
+Fins.FinsController exec = ((program)"exec_controller.pike")();
+Fins.FinsController space = ((program)"app_controller.pike")();
+Fins.FinsController comments = ((program)"comment_controller.pike")();
 
 public void index(Request id, Response response, mixed ... args)
 {

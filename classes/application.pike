@@ -2,8 +2,6 @@ import Fins;
 inherit Fins.Application;
 import Fins.Model;
 
-object model;
-
 Public.Web.Wiki.RenderEngine engine;
 
 static void create(Fins.Configuration config)
@@ -16,25 +14,17 @@ static void create(Fins.Configuration config)
   add_constant("get_object_contents", get_object_contents);
   add_constant("get_when", get_when);  
 
-  load_wiki();
-  load_model();
+	load_wiki();
+  ::create(config);
 
   Template.add_simple_macro("breadcrumbs", macro_breadcrumbs);
   Template.add_simple_macro("snip", macro_snip);
   
-  ::create(config);
 }
 
 void load_wiki()
 {
    engine = ((program)"wikiengine")(this);
-}
-
-void load_model()
-{
-
-   model = ((program)"model")();
-
 }
 
 string macro_breadcrumbs(Template.TemplateData data, string|void args)
