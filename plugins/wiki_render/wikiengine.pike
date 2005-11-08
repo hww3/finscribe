@@ -23,7 +23,7 @@ int exists(string _file)
   if(exists_queries==100)
   {
     existing_objects=(<>);
-    exists=0;
+    exists_queries=0;
   }
   if(existing_objects[_file]) return 1;
 
