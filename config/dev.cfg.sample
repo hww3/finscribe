@@ -1,0 +1,13 @@
+[model]
+class=model
+datasource=mysql://foo:bar@localhost/blog
+
+[controller]
+class=controller
+
+[mail]
+host=buoy.riverweb.com
+return_address=hww3@riverweb.com
+
+[administration]
+autocreate=1
