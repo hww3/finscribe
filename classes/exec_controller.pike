@@ -102,7 +102,7 @@ public void upload(Request id, Response response, mixed ... args)
                }
                else{              
                object dto = dtos[0];
-               obj_o = DataObjectInstance(UNDEFINED, "object");
+               obj_o = Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
@@ -110,7 +110,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = DataObjectInstance(UNDEFINED, "object_version");
+            object obj_n = Model.new("object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -218,7 +218,7 @@ public void comments(Request id, Response response, mixed ... args)
             d->add("preview", application->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
-            object obj_n = DataObjectInstance(UNDEFINED, "comment");
+            object obj_n = Model.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
             obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
@@ -284,7 +284,7 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                object dto = dtos[0];
-               obj_o = DataObjectInstance(UNDEFINED, "object");
+               obj_o = Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -292,7 +292,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = DataObjectInstance(UNDEFINED, "object_version");
+            object obj_n = Model.new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -402,7 +402,7 @@ write("LOOKING AT " + entry["path"]);
                path = combine_path(obj, date + "/" +  seq);
 
                object dto = dtos[0];
-               obj_o = DataObjectInstance(UNDEFINED, "object");
+               obj_o = Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -411,7 +411,7 @@ write("LOOKING AT " + entry["path"]);
                obj_o->save();
             }
 
-            object obj_n = DataObjectInstance(UNDEFINED, "object_version");
+            object obj_n = Model.new("object_version");
             obj_n["contents"] = contents;
 
             int v;
