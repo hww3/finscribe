@@ -173,3 +173,44 @@ class Comment_object
      return Calendar.Second();
    }
 }
+
+
+int new_from_string(string path, string contents, string type)
+{
+  object obj_o;
+  array dtos = Model.find("datatype", (["mimetype": type]));
+               if(!sizeof(dtos))
+               {
+                  throw(Error.Generic("Mime type " + type + " not valid."));
+               }
+               else{
+               object dto = dtos[0];
+               obj_o = Model.new("object");
+               obj_o["datatype"] = dto;
+               obj_o["is_attachment"] = 1;
+               obj_o["author"] = Model.find_by_id("user", 1);
+               obj_o["datatype"] = dto;
+               obj_o["path"] = path;
+               obj_o->save();
+
+            object obj_n = Model.new("object_version");
+            obj_n["contents"] = contents;
+
+            int v;
+            object cv;
+
+            obj_o->refresh();
+
+            if(cv = obj_o["current_version"])
+            {
+              v = cv["version"];
+            }
+            obj_n["version"] = (v+1);
+            obj_n["object"] = obj_o;
+            obj_n["author"] = Model.find_by_id("user", 1);
+            obj_n->save();
+            return 1;
+
+            }
+  
+}

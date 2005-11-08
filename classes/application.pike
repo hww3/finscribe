@@ -59,7 +59,7 @@ string get_page_breadcrumbs(string page)
 
   foreach(p; int i; string component)
   {
-    if(newcomponent)
+    if(newcomponent && !(i==1))
       newcomponent=newcomponent+"/" + component;
     else
       newcomponent = component;

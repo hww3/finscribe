@@ -5,6 +5,9 @@ datasource=mysql://hww3:jazonk@localhost/blog
 [controller]
 class=controller
 
+[view]
+class=view
+
 [mail]
 host=buoy.riverweb.com
 return_address=hww3@riverweb.com

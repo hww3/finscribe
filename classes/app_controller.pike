@@ -86,6 +86,6 @@ private void handle_data(object obj, Request id, Response response)
 {
   string contents = get_object_contents(obj, id);
   response->set_data(contents);
-  response->set_type("image/jpeg");
+  response->set_type(obj["datatype"]["mimetype"]);
 }
 
