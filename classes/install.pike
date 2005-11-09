@@ -1,3 +1,4 @@
+inherit Fins.FinsBase;
 
 int run()
 {
@@ -14,25 +15,25 @@ int run()
   // then we load up the templates
   foreach(glob("*.tpl", get_dir(".")), string fn)
   {
-    application->model->new_from_string(combine_path("themes/default/", fn), 
+    model()->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "text/template", 1);
   }
 
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
-    application->model->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
+    model()->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
               Stdio.read_file(fn), "text/wiki");
   }
 
   foreach(glob("*.css", get_dir(".")), string fn)
   {
-    application->model->new_from_string(combine_path("themes/default/", fn), 
+    model()->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "text/css", 1);
   }
 
   foreach(glob("*.js", get_dir(".")), string fn)
   {
-    application->model->new_from_string(combine_path("themes/default/", fn), 
+    model()->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "text/javascript", 1);
   }
 

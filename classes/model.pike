@@ -2,15 +2,16 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsModel;
 
-static void create()
+static void create(Fins.Application a)
 {
+  ::create(a);
   load_model();
 }
 
 void load_model()
 {
 	
-   object s = Sql.Sql(application->config->get_value("model", "datasource"));
+   object s = Sql.Sql(app()->config->get_value("model", "datasource"));
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
 //   d->debug = 1;
@@ -138,7 +139,7 @@ class Comment_object
       add_field(StringField("contents", 1024, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("nice_created", "created", format_created));
-      add_field(TransformField("wiki_contents", "contents", application->engine->render));
+      add_field(TransformField("wiki_contents", "contents", app()->engine->render));
       set_primary_key("id");
    }
    

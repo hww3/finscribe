@@ -6,7 +6,6 @@ Public.Web.Wiki.RenderEngine engine;
 
 static void create(Fins.Configuration _config)
 {
-  add_constant("application", this);
   add_constant("get_object_name", get_object_name);
   add_constant("get_object", get_object);
   add_constant("get_blog_entries", get_blog_entries);
@@ -31,7 +30,7 @@ void load_wiki()
 
 int install()
 {
-  object i = ((program)"install")();
+  object i = ((program)"install")(this);
   return i->run();
 }
 

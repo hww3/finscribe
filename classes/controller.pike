@@ -1,9 +1,18 @@
 import Fins;
 inherit Fins.FinsController;
 
-Fins.FinsController exec = ((program)"exec_controller.pike")();
-Fins.FinsController space = ((program)"app_controller.pike")();
-Fins.FinsController comments = ((program)"comment_controller.pike")();
+Fins.FinsController exec;
+Fins.FinsController space;
+Fins.FinsController comments;
+
+static void create(Fins.Application a)
+{
+  ::create(a);
+  exec = ((program)"exec_controller")(a);
+  space = ((program)"app_controller")(a);
+  comments = ((program)"comment_controller")(a);
+
+}
 
 public void index(Request id, Response response, mixed ... args)
 {

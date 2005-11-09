@@ -35,7 +35,7 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view->get_template(view->template, "objectnotfound.tpl");
+     Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
      Template.TemplateData d = Template.TemplateData();
      
      d->add("obj", args*"/");
@@ -49,7 +49,7 @@ private void handle_wiki(object obj, Request id, Response response)
   string contents = get_object_contents(obj, id);
 
   Template.TemplateData dta = Template.TemplateData();
-  Template.Template t = view->get_template(view->template, "wikiobjectcomments.tpl");
+  Template.Template t = view()->get_template(view()->template, "wikiobjectcomments.tpl");
  
   if(id->misc->session_variables->userid)
   {
@@ -61,7 +61,7 @@ private void handle_wiki(object obj, Request id, Response response)
  
   dta->add("obj", obj["path"]);
   dta->add("title", title);
-  dta->add("content", application->engine->render(contents, (["request": id, "obj": obj])));
+  dta->add("content", app()->engine->render(contents, (["request": id, "obj": obj])));
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
   dta->add("when", get_when(obj["current_version"]["created"]));

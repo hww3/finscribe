@@ -11,7 +11,7 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view->get_template(view->template, "objectnotfound.tpl");
+     Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
      Template.TemplateData d = Template.TemplateData();
 
      d->add("obj", args*"/");
@@ -21,7 +21,7 @@ public void notfound(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-  	Template.Template t = view->get_template(view->template, "createaccount.tpl");
+  	Template.Template t = view()->get_template(view()->template, "createaccount.tpl");
   	Template.TemplateData d = Template.TemplateData();
   
 	response->set_template(t, d);
@@ -29,7 +29,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view->get_template(view->template, "forgotpassword.tpl");
+     Template.Template t = view()->get_template(view()->template, "forgotpassword.tpl");
      Template.TemplateData d = Template.TemplateData();
 
 	  d->add("username", "");
@@ -46,16 +46,16 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			
 			else
 			{
-				Template.Template tp = view->get_template(view->template, "sendpassword.tpl");
+				Template.Template tp = view()->get_template(view()->template, "sendpassword.tpl");
 				Template.TemplateData dp = Template.TemplateData();
 				
 				dp->add("password", a[0]["Password"]);
 				
 				string mailmsg = tp->render(dp);
 				
-				Protocols.SMTP.Client(application->config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(app()->config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
 																											"Your FinBlog password", 
-																											application->config->get_value("mail", "return_address"), 
+																											app()->config->get_value("mail", "return_address"), 
 																											mailmsg);
 				
 				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
@@ -137,7 +137,7 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void login(Request id, Response response, mixed ... args)
 {
-   Template.Template t = view->get_template(view->template, "login.tpl");
+   Template.Template t = view()->get_template(view()->template, "login.tpl");
    Template.TemplateData d = Template.TemplateData();
    if(!id->variables->return_to)
    {
@@ -146,8 +146,8 @@ public void login(Request id, Response response, mixed ... args)
       d->add("UserName", "");
    }
 
-   if(application->config->get_value("administration", "autocreate") && 
-         application->config->get_value("administration", "autocreate") == "1")
+   if(app()->config->get_value("administration", "autocreate") && 
+         app()->config->get_value("administration", "autocreate") == "1")
 	{
 		d->add("autocreate", 1);
 	}
@@ -203,10 +203,10 @@ public void comments(Request id, Response response, mixed ... args)
    title = get_object_title(obj_o, id);
    obj = args*"/";
    
-   Template.Template t = view->get_template(view->template, "comment.tpl");
+   Template.Template t = view()->get_template(view()->template, "comment.tpl");
    Template.TemplateData d = Template.TemplateData();
 
-   d->add("object", application->engine->render(obj_o["current_version"]["contents"], 
+   d->add("object", app()->engine->render(obj_o["current_version"]["contents"], 
                                                           (["request": id, "obj": obj])));
    
    if(id->variables->action)
@@ -215,7 +215,7 @@ public void comments(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
          case "Preview":
-            d->add("preview", application->engine->render(contents, (["request": id, "obj": obj])));
+            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
             object obj_n = Model.new("comment");
@@ -262,7 +262,7 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
    
-   Template.Template t = view->get_template(view->template, "edit.tpl");
+   Template.Template t = view()->get_template(view()->template, "edit.tpl");
    Template.TemplateData d = Template.TemplateData();
    
    if(id->variables->action)
@@ -272,7 +272,7 @@ public void edit(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
          case "Preview":
-            d->add("preview", application->engine->render(contents, (["request": id, "obj": obj])));
+            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
             if(!obj_o)
@@ -313,7 +313,7 @@ public void edit(Request id, Response response, mixed ... args)
             string dtp = obj_o["datatype"]["mimetype"];
             if(dtp == "text/template")
             {
-               view->flush_template(args[2..]*"/");
+               view()->flush_template(args[2..]*"/");
             }
 
             response->flash("msg", "Succesfully Saved.");
@@ -366,7 +366,7 @@ public void post(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
    
-   Template.Template t = view->get_template(view->template, "post.tpl");
+   Template.Template t = view()->get_template(view()->template, "post.tpl");
    Template.TemplateData d = Template.TemplateData();
    
    if(id->variables->action)
@@ -375,7 +375,7 @@ public void post(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
          case "Preview":
-            d->add("preview", application->engine->render(contents, (["request": id, "obj": obj])));
+            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
             // posting should always create a new entry; afterwards it's a standard object

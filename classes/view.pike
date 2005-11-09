@@ -6,8 +6,10 @@ program template;
 static mapping templates = ([]);
 static mapping simple_macros = ([]);
 
-static void create()
+static void create(Fins.Application a)
 {
+  ::create(a);
+
   template = (program)"blog_template";
 }
 
