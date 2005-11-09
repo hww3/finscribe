@@ -16,7 +16,6 @@ public Template.Template get_template(program templateType, string templateName,
 {
   object t;
 
-werror("GET_TEMPLATE\n");
   if(!sizeof(templateName))
     throw(Error.Generic("get_template(): template name not specified.\n"));
 

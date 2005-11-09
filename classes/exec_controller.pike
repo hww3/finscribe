@@ -262,11 +262,12 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
    
-   Template.Template t = view->get_template(Template.Simple, "edit.tpl");
+   Template.Template t = view->get_template(view->template, "edit.tpl");
    Template.TemplateData d = Template.TemplateData();
    
    if(id->variables->action)
    {
+      object dto;
       contents = id->variables->contents;
       switch(id->variables->action)
       {
@@ -276,14 +277,14 @@ public void edit(Request id, Response response, mixed ... args)
          case "Save":
             if(!obj_o)
             {
-               array dtos = Model.find("datatype", (["mimetype": "text/wiki"]));
+               array dtos = Model.find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
                   break;
                }
               
-               object dto = dtos[0];
+               dto = dtos[0];
                obj_o = Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
@@ -308,6 +309,12 @@ public void edit(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;            
             obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
+            string dtp = obj_o["datatype"]["mimetype"];
+            if(dtp == "text/template")
+            {
+               view->flush_template(args[2..]*"/");
+            }
+
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
             break;
