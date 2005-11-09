@@ -10,7 +10,7 @@ multiset existing_objects = (<>);
 void create(object _wiki)
 {
   wiki = _wiki;
-  string s = Stdio.read_file("config/wiki_rules.txt");
+  string s = Stdio.read_file(combine_path(application->config->app_dir, "config/wiki_rules.txt"));
   ::create(s);
 }
 

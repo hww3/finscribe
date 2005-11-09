@@ -1,13 +1,6 @@
 
 int run()
 {
-  // first, we create the user
-  object u = Fins.Model.new("user");
-  u["Name"] = "Bill Welliver";
-  u["Password"] = "foo";
-  u["UserName"] = "bill";
-  u["Email"] = "foo@bar.com";
-  u->save();
  
   // then, we create the datatypes
   cd("templates");
@@ -44,9 +37,6 @@ int run()
   }
 
   // then we load up the start object.
-   application->model->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.", "text/wiki");
-   application->model->new_from_string("object-index", "{object-index}\n\nView [attachment-index]\n", "text/wiki");
-   application->model->new_from_string("attachment-index", "{attachment-index}", "text/wiki");
 
 }
 

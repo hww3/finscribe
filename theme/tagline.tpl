@@ -3,7 +3,7 @@
     <img src="/static/images/alchemy.gif" alt="electronic.alchemy" border="0"/>   
   </div>
   <div id="page-title">
-   <div id="page-tagline">Welcome to my Blog!</div>
+   <div id="page-tagline">where the past meets the future</div>
   <div id="page-buttons"> [
 {if:start:data->obj=="start"}
  start 

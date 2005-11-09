@@ -4,7 +4,7 @@ import Fins.Model;
 
 Public.Web.Wiki.RenderEngine engine;
 
-static void create(Fins.Configuration config)
+static void create(Fins.Configuration _config)
 {
   add_constant("application", this);
   add_constant("get_object_name", get_object_name);
@@ -14,8 +14,10 @@ static void create(Fins.Configuration config)
   add_constant("get_object_contents", get_object_contents);
   add_constant("get_when", get_when);  
 
+  config = _config;
+
 	load_wiki();
-  ::create(config);
+  ::create(_config);
 
   Template.add_simple_macro("breadcrumbs", macro_breadcrumbs);
   Template.add_simple_macro("snip", macro_snip);
