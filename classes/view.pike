@@ -1,8 +1,15 @@
 import Fins;
 inherit Fins.FinsView;
 
+program template;
+
 static mapping templates = ([]);
 static mapping simple_macros = ([]);
+
+static void create()
+{
+  template = (program)"blog_template";
+}
 
 //!
 public Template.Template get_template(program templateType, string templateName, void|object context)

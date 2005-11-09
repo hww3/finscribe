@@ -40,7 +40,7 @@ private void handle_wiki(object obj, Request id, Response response)
   string contents = get_object_contents(obj, id);
 
   Template.TemplateData dta = Template.TemplateData();
-  Template.Template t = view->get_template(Template.Simple, "wikiobject.tpl");
+  Template.Template t = view->get_template(view->template, "wikiobject.tpl");
  
   if(id->misc->session_variables->userid)
   {
