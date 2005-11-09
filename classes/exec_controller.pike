@@ -286,6 +286,7 @@ public void edit(Request id, Response response, mixed ... args)
               
                dto = dtos[0];
                obj_o = Model.new("object");
+               obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
                obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;

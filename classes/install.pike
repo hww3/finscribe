@@ -27,9 +27,25 @@ int run()
 
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
-    application->model->new_from_string(combine_path("themes/default/", fn[0..-6]), 
+    application->model->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
               Stdio.read_file(fn), "text/wiki");
   }
+
+  foreach(glob("*.css", get_dir(".")), string fn)
+  {
+    application->model->new_from_string(combine_path("themes/default/", fn), 
+              Stdio.read_file(fn), "text/css");
+  }
+
+  foreach(glob("*.js", get_dir(".")), string fn)
+  {
+    application->model->new_from_string(combine_path("themes/default/", fn), 
+              Stdio.read_file(fn), "text/javascript");
+  }
+
   // then we load up the start object.
-   application->model->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.", "text/wiki"); }
+   application->model->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.", "text/wiki");
+   application->model->new_from_string("object-index", "{object-index}", "text/wiki");
+
+}
 

@@ -27,6 +27,12 @@ void load_wiki()
    engine = ((program)"wikiengine")(this);
 }
 
+int install()
+{
+  object i = ((program)"install");
+  return i->run();
+}
+
 string macro_breadcrumbs(Template.TemplateData data, string|void args)
 {
   return get_page_breadcrumbs(data->get_data()[args]||"");
