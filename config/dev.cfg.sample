@@ -1,6 +1,6 @@
 [model]
 class=model
-datasource=mysql://hww3:jazonk@localhost/blog
+datasource=mysql://hww3:gazonk@localhost/blog
 
 [controller]
 class=controller
