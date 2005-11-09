@@ -29,7 +29,7 @@ void load_wiki()
 
 int install()
 {
-  object i = ((program)"install");
+  object i = ((program)"install")();
   return i->run();
 }
 

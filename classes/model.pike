@@ -175,7 +175,7 @@ class Comment_object
 }
 
 
-int new_from_string(string path, string contents, string type)
+int new_from_string(string path, string contents, string type, int|void att)
 {
   object obj_o;
   array dtos = Model.find("datatype", (["mimetype": type]));
@@ -187,7 +187,10 @@ int new_from_string(string path, string contents, string type)
                object dto = dtos[0];
                obj_o = Model.new("object");
                obj_o["datatype"] = dto;
-               obj_o["is_attachment"] = 1;
+               if(att)
+                 obj_o["is_attachment"] = 1;
+               else 
+                 obj_o["is_attachment"] = 0;
                obj_o["author"] = Model.find_by_id("user", 1);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
