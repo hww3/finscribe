@@ -69,7 +69,9 @@ string macro_recent_changes()
   string ret = "";
 //  res = sql->query("SELECT page from GotPikeWiki group by page order by created desc limit 5");
 
-  res = Model.find("object", ([]), Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
+  res = Model.find("object", (["is_attachment": 
+Model.Criteria("is_attachment!=1")]), 
+Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
 
   foreach(res, mixed row)
   {
