@@ -11,7 +11,7 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     Template.Template t = Template.get_template(Template.Simple, "objectnotfound.tpl");
+     Template.Template t = view->get_template(Template.Simple, "objectnotfound.tpl");
      Template.TemplateData d = Template.TemplateData();
 
      d->add("obj", args*"/");
@@ -21,7 +21,7 @@ public void notfound(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-  	Template.Template t = Template.get_template(Template.Simple, "createaccount.tpl");
+  	Template.Template t = view->get_template(Template.Simple, "createaccount.tpl");
   	Template.TemplateData d = Template.TemplateData();
   
 	response->set_template(t, d);
@@ -29,7 +29,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-     Template.Template t = Template.get_template(Template.Simple, "forgotpassword.tpl");
+     Template.Template t = view->get_template(Template.Simple, "forgotpassword.tpl");
      Template.TemplateData d = Template.TemplateData();
 
 	  d->add("username", "");
@@ -46,7 +46,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			
 			else
 			{
-				Template.Template tp = Template.get_template(Template.Simple, "sendpassword.tpl");
+				Template.Template tp = view->get_template(Template.Simple, "sendpassword.tpl");
 				Template.TemplateData dp = Template.TemplateData();
 				
 				dp->add("password", a[0]["Password"]);
@@ -137,7 +137,7 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void login(Request id, Response response, mixed ... args)
 {
-   Template.Template t = Template.get_template(Template.Simple, "login.tpl");
+   Template.Template t = view->get_template(Template.Simple, "login.tpl");
    Template.TemplateData d = Template.TemplateData();
    if(!id->variables->return_to)
    {
@@ -203,7 +203,7 @@ public void comments(Request id, Response response, mixed ... args)
    title = get_object_title(obj_o, id);
    obj = args*"/";
    
-   Template.Template t = Template.get_template(Template.Simple, "comment.tpl");
+   Template.Template t = view->get_template(Template.Simple, "comment.tpl");
    Template.TemplateData d = Template.TemplateData();
 
    d->add("object", application->engine->render(obj_o["current_version"]["contents"], 
@@ -262,7 +262,7 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
    
-   Template.Template t = Template.get_template(Template.Simple, "edit.tpl");
+   Template.Template t = view->get_template(Template.Simple, "edit.tpl");
    Template.TemplateData d = Template.TemplateData();
    
    if(id->variables->action)
@@ -358,7 +358,7 @@ public void post(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
    
-   Template.Template t = Template.get_template(Template.Simple, "post.tpl");
+   Template.Template t = view->get_template(Template.Simple, "post.tpl");
    Template.TemplateData d = Template.TemplateData();
    
    if(id->variables->action)

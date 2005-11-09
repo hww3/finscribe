@@ -10,7 +10,6 @@ multiset existing_objects = (<>);
 void create(object _wiki)
 {
   wiki = _wiki;
-  werror("CWD: " + getcwd());
   string s = Stdio.read_file("config/wiki_rules.txt");
   ::create(s);
 }
@@ -44,7 +43,7 @@ int showCreate()
 
 void appendLink(String.Buffer buf, string name, string view, string|void anchor)
 {
-  werror("appendLink: %O %O %O\n", name, view, anchor);
+  //werror("appendLink: %O %O %O\n", name, view, anchor);
   buf->add("<a href=\"/space/");
   buf->add(name + (anchor?("#" + anchor):""));
   buf->add("\">");
@@ -54,7 +53,7 @@ void appendLink(String.Buffer buf, string name, string view, string|void anchor)
 
 void appendCreateLink(String.Buffer buf, string name, string view)
 {
-  werror("appendCreateLink: %O %O\n", name, view);
+  //werror("appendCreateLink: %O %O\n", name, view);
   buf->add("&#");
   buf->add((string)'[');
   buf->add("; create <a href=\"/exec/edit/");
