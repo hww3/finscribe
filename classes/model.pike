@@ -13,7 +13,7 @@ void load_model()
    object s = Sql.Sql(application->config->get_value("model", "datasource"));
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
-   d->debug = 1;
+//   d->debug = 1;
    add_object_type(Object_object(d));
    add_object_type(Object_version_object(d));
    add_object_type(Datatype_object(d));
