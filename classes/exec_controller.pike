@@ -23,7 +23,68 @@ public void createaccount(Request id, Response response, mixed ... args)
 {
   	Template.Template t = view()->get_template(view()->template, "createaccount.tpl");
   	Template.TemplateData d = Template.TemplateData();
-  
+
+   string Name, UserName, Email, Password, Password2, return_to;
+
+	Name = "";
+	UserName = "";
+	Email = "";
+	Password = "";
+   return_to = "/space/start";
+	
+	if(id->variables->action)
+	{
+		Name = id->variables->Name;
+		UserName = id->variables->UserName;
+		Email = id->variables->Email;
+		Password = id->variables->Password;
+		Password2 = id->variables->Password2;
+		return_to = id->variables->return_to;
+
+		if(action == "Save")
+		{
+			// check the username
+			if(sizeof(Name)< 2)
+			{
+				response->flash("msg", "You must provide a username with at least 2 characters.\n");
+			}
+			else if(sizeof(Model.find("user", (["UserName": UserName]))) != 0)
+			{
+				response->flash("msg", "The username you have chosen is already in use by another user.\n");
+			}
+			else if(!sizeof(Name) || !sizeof(Email))
+			{
+				response->flash("msg", "You must provide a Real name and e-mail address.\n");
+			}
+			else if(sizeof(Password)<4 || (Password != Password2))
+			{
+				response->flash("msg", "Your password must be typed identically in both fields, and must be at least 4 characters long.\n");
+			}
+			else
+			{
+				// if we got here, everything should be good to go.
+				object u = Model.new("user");
+				u["UserName"] = UserName;
+				u["Name"] = Name;
+				u["Email"] = Email;
+				u["Password"] = Password;
+				u->save();
+				response->flash("msg", "User created successfully.\n");
+				response->redirect("/space/start");
+			}
+		}
+		else
+		{
+			response->flash("msg", "Unknown action " + id->variables->action);
+		}
+
+	}
+
+   d->add("Name", Name);
+	d->add("UserName", UserName);
+	d->add("Email", Email);
+	d->add("Password", Password);
+
 	response->set_template(t, d);
 }
 
