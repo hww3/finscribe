@@ -41,7 +41,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 		Password2 = id->variables->Password2;
 		return_to = id->variables->return_to;
 
-		if(action == "Save")
+		if(id->variables->action == "Create")
 		{
 			// check the username
 			if(sizeof(Name)< 2)
@@ -308,7 +308,7 @@ public void comments(Request id, Response response, mixed ... args)
 
 public void edit(Request id, Response response, mixed ... args)
 {
-   string contents, title, obj;
+   string contents, title, obj, subject;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -330,6 +330,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       object dto;
       contents = id->variables->contents;
+		subject = id->variables->subject ||"";
       switch(id->variables->action)
       {
          case "Preview":
@@ -368,7 +369,9 @@ public void edit(Request id, Response response, mixed ... args)
               v = cv["version"];
             }
             obj_n["version"] = (v+1);
-            obj_n["object"] = obj_o;            
+            obj_n["object"] = obj_o;  
+				if(subject)
+          		obj_n["subject"] = subject;
             obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             string dtp = obj_o["datatype"]["mimetype"];
@@ -395,10 +398,12 @@ public void edit(Request id, Response response, mixed ... args)
       else
       {
          contents = "";
+			subject = "";
       }
    }
 
    d->add("contents", contents);
+   d->add("subject", subject);
    d->add("title", title);
    d->add("obj", obj);
    
