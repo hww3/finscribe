@@ -394,6 +394,7 @@ public void edit(Request id, Response response, mixed ... args)
       if(obj_o)
       {
          contents = get_object_contents(obj_o, id);
+         subject = obj_o["current_version"]["subject"];
       }
       else
       {
