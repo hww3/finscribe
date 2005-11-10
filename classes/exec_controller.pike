@@ -330,7 +330,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       object dto;
       contents = id->variables->contents;
-		subject = id->variables->subject ||"";
+      subject = id->variables->subject ||"";
       switch(id->variables->action)
       {
          case "Preview":
@@ -370,8 +370,8 @@ public void edit(Request id, Response response, mixed ... args)
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;  
-				if(subject && sizeof(subject))
-          		obj_n["subject"] = subject;
+            if(subject && sizeof(subject))
+              obj_n["subject"] = subject;
             obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             string dtp = obj_o["datatype"]["mimetype"];
@@ -395,11 +395,12 @@ public void edit(Request id, Response response, mixed ... args)
       {
          contents = get_object_contents(obj_o, id);
          subject = obj_o["current_version"]["subject"];
+         if(!subject || subject == "0") subject = "";
       }
       else
       {
          contents = "";
-			subject = "";
+	 subject = "";
       }
    }
 
