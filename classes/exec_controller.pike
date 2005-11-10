@@ -48,7 +48,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			{
 				response->flash("msg", "You must provide a username with at least 2 characters.\n");
 			}
-			else if(sizeof(Model.find("user", (["UserName": UserName]))) != 0)
+			else if(sizeof(model()->find("user", (["UserName": UserName]))) != 0)
 			{
 				response->flash("msg", "The username you have chosen is already in use by another user.\n");
 			}
@@ -63,7 +63,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			else
 			{
 				// if we got here, everything should be good to go.
-				object u = Model.new("user");
+				object u = model()->new("user");
 				u["UserName"] = UserName;
 				u["Name"] = Name;
 				u["Email"] = Email;
@@ -98,7 +98,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 		if(id->variables->username)
 		{
 			d->add("username", id->variables->username);
-			array a = Model.find("user", (["UserName": id->variables->username]));
+			array a = model()->find("user", (["UserName": id->variables->username]));
 
 			if(!sizeof(a))
 			{
@@ -156,22 +156,22 @@ public void upload(Request id, Response response, mixed ... args)
   string path = Stdio.append_path(id->variables->root, id->variables["save-as-filename"]);
   string obj=id->variables->root;
   object obj_o;
-               array dtos = Model.find("datatype", (["mimetype": id->variables["mime-type"]]));
+               array dtos = model()->find("datatype", (["mimetype": id->variables["mime-type"]]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Mime type " + id->variables["mime-type"] + " not valid.");
                }
                else{              
                object dto = dtos[0];
-               obj_o = Model.new("object");
+               obj_o = model()->new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
-               obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = Model.new("object_version");
+            object obj_n = model()->new("object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -184,8 +184,8 @@ public void upload(Request id, Response response, mixed ... args)
               v = cv["version"];
             }
             obj_n["version"] = (v+1);
-            obj_n["object"] = obj_o;            
-            obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+            obj_n["object"] = obj_o;
+            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             response->flash("msg", "Succesfully Saved.");
 
@@ -225,7 +225,7 @@ public void login(Request id, Response response, mixed ... args)
          return;
       }
       
-      array r = Model.find("user", (["UserName": id->variables->UserName, "Password": id->variables->Password]));
+      array r = model()->find("user", (["UserName": id->variables->UserName, "Password": id->variables->Password]));
       if(r && sizeof(r))
       {
          // success!
@@ -279,10 +279,10 @@ public void comments(Request id, Response response, mixed ... args)
             d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
-            object obj_n = Model.new("comment");
+            object obj_n = model()->new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
-            obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
@@ -339,7 +339,7 @@ public void edit(Request id, Response response, mixed ... args)
          case "Save":
             if(!obj_o)
             {
-               array dtos = Model.find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
+               array dtos = model()->find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
@@ -347,16 +347,16 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                dto = dtos[0];
-               obj_o = Model.new("object");
+               obj_o = model()->new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
-               obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
                obj_o->save();
             }
 
-            object obj_n = Model.new("object_version");
+            object obj_n = model()->new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -372,7 +372,7 @@ public void edit(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;  
             if(subject && sizeof(subject))
               obj_n["subject"] = subject;
-            obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             string dtp = obj_o["datatype"]["mimetype"];
             if(dtp == "text/template")
@@ -449,7 +449,7 @@ public void post(Request id, Response response, mixed ... args)
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
             {
-               array dtos = Model.find("datatype", (["mimetype": "text/wiki"]));
+               array dtos = model()->find("datatype", (["mimetype": "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
@@ -478,16 +478,16 @@ write("LOOKING AT " + entry["path"]);
                path = combine_path(obj, date + "/" +  seq);
 
                object dto = dtos[0];
-               obj_o = Model.new("object");
+               obj_o = model()->new("object");
                obj_o["datatype"] = dto;
-               obj_o["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o["is_attachment"] = 2;
                obj_o->save();
             }
 
-            object obj_n = Model.new("object_version");
+            object obj_n = model()->new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -503,7 +503,7 @@ write("LOOKING AT " + entry["path"]);
             obj_n["object"] = obj_o;            
             if(id->variables->subject)
               obj_n["subject"] = id->variables->subject;            
-            obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);

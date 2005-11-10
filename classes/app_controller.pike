@@ -47,7 +47,7 @@ private void handle_wiki(object obj, Request id, Response response)
  
   if(id->misc->session_variables->userid)
   {
-     object user = model()->find_by_id(id, "user", id->misc->session_variables->userid);
+     object user = model()->find_by_id("user", id->misc->session_variables->userid);
      dta->add("username", user["UserName"]);
      dta->add("user", user["Name"]);
 
@@ -55,10 +55,10 @@ private void handle_wiki(object obj, Request id, Response response)
 
   int numattachments; 
 
-  array o = Model.find("object", ([ "is_attachment": 1, 
+  array o = model()->find("object", ([ "is_attachment": 1, 
                           "path": Model.LikeCriteria(obj["path"] + "/%"),
                           "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
-  array datatypes = Model.find("datatype", ([]));
+  array datatypes = model()->find("datatype", ([]));
   numattachments = sizeof(o);
 
   dta->add("obj", obj["path"]);
@@ -93,7 +93,7 @@ private void handle_text(object obj, Request id, Response response)
  
   if(id->misc->session_variables->userid)
   {
-     object user = model()->find_by_id(id, "user", id->misc->session_variables->userid);
+     object user = model()->find_by_id("user", id->misc->session_variables->userid);
      dta->add("username", user["UserName"]);
      dta->add("user", user["Name"]);
 
@@ -101,10 +101,10 @@ private void handle_text(object obj, Request id, Response response)
 
   int numattachments; 
 
-  array o = Model.find("object", ([ "is_attachment": 1, 
+  array o = model()->find("object", ([ "is_attachment": 1, 
                           "path": Model.LikeCriteria(obj["path"] + "/%"),
                           "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
-  array datatypes = Model.find("datatype", ([]));
+  array datatypes = model()->find("datatype", ([]));
   numattachments = sizeof(o);
 
   dta->add("obj", obj["path"]);

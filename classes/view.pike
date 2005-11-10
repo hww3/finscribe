@@ -17,6 +17,11 @@ static void create(Fins.Application a)
 public Template.Template get_template(program templateType, string templateName, void|object context)
 {
   object t;
+  if(!context) 
+  {
+    context = Template.TemplateContext();
+    context->application = app();
+  }
 
   if(!sizeof(templateName))
     throw(Error.Generic("get_template(): template name not specified.\n"));

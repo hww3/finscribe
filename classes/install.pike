@@ -7,7 +7,7 @@ int run()
   cd("templates");
   foreach(Stdio.read_file("datatypes.conf")/"\n", string dt)
   {
-    object d = Fins.Model.new("datatype");
+    object d = Fins.model()->new("datatype");
     d["mimetype"] = String.trim_whites(dt);
     d->save();
   }

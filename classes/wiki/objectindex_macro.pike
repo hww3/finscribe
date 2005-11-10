@@ -12,7 +12,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 {
 //werror("%O\n", mkmapping(indices(params), values(params)));
 
-  array o = Model.find("object", (["is_attachment": 0]));
+  array o = params->engine->wiki->model->find("object", (["is_attachment": 0]));
 
   array e = ({});
   array f = ({});

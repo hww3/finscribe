@@ -27,7 +27,7 @@ int exists(string _file)
   }
   if(existing_objects[_file]) return 1;
 
-  res = Model.find("object", (["path": _file]));
+  res = wiki->model->find("object", (["path": _file]));
 
   if(!sizeof(res)) return 0;
   else 
@@ -70,7 +70,7 @@ string macro_recent_changes()
   string ret = "";
 //  res = sql->query("SELECT page from GotPikeWiki group by page order by created desc limit 5");
 
-  res = Model.find("object", (["is_attachment": 
+  res = wiki->model->find("object", (["is_attachment": 
 Model.Criteria("is_attachment!=1")]), 
 Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
 

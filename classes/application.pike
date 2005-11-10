@@ -108,7 +108,7 @@ private string get_when(object c)
 
 array get_blog_entries(string obj)
 {
-  array o = Model.find("object", ([ "is_attachment": 2,
+  array o = model->find("object", ([ "is_attachment": 2,
                           "path": Model.LikeCriteria(obj + "/%"),
                           "_page": Model.Criteria("LOCATE('/', path, " + (strlen(obj)+2) + ")") ]),
                         Model.Criteria("ORDER BY path DESC"));
@@ -128,7 +128,7 @@ string get_object_name(string obj)
 
 private object get_object(array args, Request|void id)
 {
-   array r = Model.find("object", (["path": args*"/"]));
+   array r = model->find("object", (["path": args*"/"]));
 
    if(sizeof(r))
      return r[0];

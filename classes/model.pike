@@ -1,6 +1,6 @@
 import Fins;
-import Fins.Model;
 inherit Fins.FinsModel;
+import Fins.Model;
 
 static void create(Fins.Application a)
 {
@@ -15,6 +15,7 @@ void load_model()
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
 //   d->debug = 1;
+   d->repository = this;
    add_object_type(Object_object(d));
    add_object_type(Object_version_object(d));
    add_object_type(Datatype_object(d));
@@ -24,7 +25,7 @@ void load_model()
 
 class Object_object
 {
-   inherit DataObject;
+   inherit Model.DataObject;
 
    static void create(DataModelContext c)
    {  
@@ -58,7 +59,7 @@ class Object_object
 
 class Object_version_object
 {
-   inherit DataObject;
+   inherit Model.DataObject;
 
    static void create(DataModelContext c)
    {  
@@ -86,7 +87,7 @@ class Object_version_object
 
 class Datatype_object
 {
-   inherit DataObject;
+   inherit Model.DataObject;
 
    static void create(DataModelContext c)
    {  
@@ -107,7 +108,7 @@ class Datatype_object
 
 class User_object
 {
-   inherit DataObject;
+   inherit Model.DataObject;
 
    static void create(DataModelContext c)
    {  
@@ -126,7 +127,7 @@ class User_object
 
 class Comment_object
 {
-   inherit DataObject;
+   inherit Model.DataObject;
 
    static void create(DataModelContext c)
    {  
@@ -179,25 +180,25 @@ class Comment_object
 int new_from_string(string path, string contents, string type, int|void att)
 {
   object obj_o;
-  array dtos = Model.find("datatype", (["mimetype": type]));
+  array dtos = find("datatype", (["mimetype": type]));
                if(!sizeof(dtos))
                {
                   throw(Error.Generic("Mime type " + type + " not valid."));
                }
                else{
                object dto = dtos[0];
-               obj_o = Model.new("object");
+               obj_o = new("object");
                obj_o["datatype"] = dto;
                if(att)
                  obj_o["is_attachment"] = 1;
                else 
                  obj_o["is_attachment"] = 0;
-               obj_o["author"] = Model.find_by_id("user", 1);
+               obj_o["author"] = find_by_id("user", 1);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = Model.new("object_version");
+            object obj_n = new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -211,7 +212,7 @@ int new_from_string(string path, string contents, string type, int|void att)
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = Model.find_by_id("user", 1);
+            obj_n["author"] = find_by_id("user", 1);
             obj_n->save();
             return 1;
 
