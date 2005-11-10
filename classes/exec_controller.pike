@@ -19,6 +19,56 @@ public void notfound(Request id, Response response, mixed ... args)
 
 }
 
+public void deletecomment(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to delete comments.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+  
+   if(!id->variables->id)
+   {
+      response->flash("msg", "You provide a comment id to delete.");
+      response->redirect(id->referrer || "/space/");
+      return;
+   }
+
+   object c = model()->find_by_id("comment", (int)id->variables->id);
+
+   if(!c)
+   {
+      response->flash("msg", "Comment #" + id->variables->id + " does not exist.");
+      response->redirect(id->referrer || "/space/");
+      return;
+   }
+
+   // we need to add a check for admin privs here.
+   // user["is_admin"]
+   if(model()->find_by_id("user", (int)id->misc->session_variables->userid)["id"] 
+         == c["object"]["author"]["id"])
+   {
+     // we can delete!
+      c->delete();
+      response->flash("msg", "Comment deleted successfully.");
+      response->redirect(id->referrer || "/space/");
+      return;
+
+   }
+   else
+   {
+      response->flash("msg", "Only administrators and page owners can delete comments.");
+      response->redirect(id->referrer || "/space/");
+      return;
+   }
+
+     response->flash("msg", "How'd we get here?.");
+ 
+
+}
+
 public void createaccount(Request id, Response response, mixed ... args)
 {
   	Template.Template t = view()->get_template(view()->template, "createaccount.tpl");
@@ -134,7 +184,7 @@ public void logout(Request id, Response response, mixed ... args)
      m_delete(id->misc->session_variables, "userid");
   }
 
-  response->redirect(id->request_headers["referer"]||"/space/");
+  response->redirect(id->referrer||"/space/");
 }
 
 public void upload(Request id, Response response, mixed ... args)
@@ -203,7 +253,7 @@ public void login(Request id, Response response, mixed ... args)
    if(!id->variables->return_to)
    {
       d->add("return_to", (id->misc->flash && id->misc->flash->from) || 
-                               id->request_headers["referer"] || "/space/");
+                               id->referrer || "/space/");
       d->add("UserName", "");
    }
 
