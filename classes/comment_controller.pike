@@ -54,7 +54,7 @@ private void handle_wiki(object obj, Request id, Response response)
   if(id->misc->session_variables->userid)
   {
      object user = model()->find_by_id("user", id->misc->session_variables->userid);
-     dta->add("username", user["UserName"]);
+     dta->add("UserName", user["UserName"]);
      dta->add("user", user["Name"]);
 
   }

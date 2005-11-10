@@ -1,7 +1,7 @@
 <html>
 <head>
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-   <title>FinBlog :: {title}</title>
+   <title>electronic.alchemy :: {title}</title>
 </head>
 <body>
 {include:tagline.tpl}
@@ -34,10 +34,17 @@ Version #{version}.
 <a name="{comments:comments.id}"></a>
 <img src="/static/images/Icon-Comment.png" width="15" height="11" 
 border="0"></a>
-Posted by {comments:comments.author.Name}, {comments:comments.nice_created}.
+
+
+Posted by {comments:comments.author.UserName}, {comments:comments.nice_created}.
 <a href="/comments/{obj}#{comments:comments.id}"><img 
 src="/static/images/Icon-Permalink.png" width="8" height="9" 
 alt="permalink" border="0"/></a>
+
+{if:owner:data->is_admin||(data->UserName && data->UserName==data->comments["author"]["UserName"])}
+<a href="/exec/deletecomment?id={comments:comments.id}">Delete</a>
+{endif:owner}
+
 <p/>
          {comments:comments.wiki_contents}
          <p/>
@@ -57,3 +64,4 @@ alt="permalink" border="0"/></a>
 <div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill Welliver</div>
 </body>
 </html>
+
