@@ -370,7 +370,7 @@ public void edit(Request id, Response response, mixed ... args)
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;  
-				if(subject)
+				if(subject && sizeof(subject))
           		obj_n["subject"] = subject;
             obj_n["author"] = Model.find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
