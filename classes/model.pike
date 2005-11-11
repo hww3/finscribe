@@ -178,7 +178,7 @@ class Comment_object
 }
 
 
-int new_from_string(string path, string contents, string type, int|void att)
+int new_from_string(string path, string contents, string type, int|void att, int|void skip_if_exists)
 {
   int isnew = 1;
   object obj_o;
@@ -192,6 +192,7 @@ int new_from_string(string path, string contents, string type, int|void att)
   catch(obj_o=find("object", (["path": path]));
   if(obj_o && sizeof(obj_o))
   {
+    if(skip_if_exists) return 0;
     obj_o  = obj_o[0];
     isnew=0;
   }
