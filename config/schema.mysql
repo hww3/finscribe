@@ -66,6 +66,7 @@ CREATE TABLE users (
   password char(16) default NULL,
   name char(36) NOT NULL default '',
   email char(64) NOT NULL default '',
+  is_admin int(1) NOT NULL default 0,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

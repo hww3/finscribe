@@ -47,8 +47,8 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
    // we need to add a check for admin privs here.
    // user["is_admin"]
-   if(model()->find_by_id("user", (int)id->misc->session_variables->userid)["id"] 
-         == c["object"]["author"]["id"])
+   object us = model()->find_by_id("user", (int)id->misc->session_variables->userid);
+   if(us["is_admin"] || (us["id"] == c["object"]["author"]["id"]))
    {
      // we can delete!
       c->delete();
