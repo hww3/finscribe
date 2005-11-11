@@ -189,11 +189,12 @@ int new_from_string(string path, string contents, string type, int|void att, int
                }
                else{
                object dto = dtos[0];
-  catch(obj_o=find("object", (["path": path]));
-  if(obj_o && sizeof(obj_o))
+  mixed a;
+  catch(a=find("object", (["path": path]) ));
+  if(a && sizeof(a))
   {
     if(skip_if_exists) return 0;
-    obj_o  = obj_o[0];
+    obj_o  = a[0];
     isnew=0;
   }
   else

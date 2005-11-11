@@ -20,6 +20,7 @@ static void create(Fins.Configuration _config)
 
   Template.add_simple_macro("breadcrumbs", macro_breadcrumbs);
   Template.add_simple_macro("snip", macro_snip);
+	Template.add_simple_macro("boolean", macro_boolean);
   
 }
 
@@ -50,6 +51,41 @@ string macro_snip(Template.TemplateData data, string|void args)
    return engine->render(contents);
 }
 
+
+string macro_boolean(Template.TemplateData data, string|void args)
+{
+	array a = args/".";
+	mapping d = data->get_data();
+	string p = "";
+	
+	foreach(a;; string elem)
+	{
+		p = p + "." + elem;
+		
+		if(!d[elem] && zero_type(d[elem]))
+      {
+			return "unknown element " + p;
+		}
+		
+		else if (mappingp(d[elem]))
+		{
+			d = d[elem];
+		}
+		
+		else if (intp(d[elem]))
+		{
+			return (d[elem] != 0)?"Yes":"No";
+		}
+		else if(stringp(d[elem]))
+		{
+			return ((int)d[elem] != 0)?"Yes":"No";
+		}
+		else
+		{
+			return "invalid type for boolean " + p;
+		}
+	}
+}
 
 string get_page_breadcrumbs(string page)
 {
