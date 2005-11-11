@@ -180,6 +180,7 @@ class Comment_object
 
 int new_from_string(string path, string contents, string type, int|void att)
 {
+  int isnew = 1;
   object obj_o;
   array dtos = find("datatype", (["mimetype": type]));
                if(!sizeof(dtos))
@@ -188,6 +189,13 @@ int new_from_string(string path, string contents, string type, int|void att)
                }
                else{
                object dto = dtos[0];
+  catch(obj_o=find("object", (["path": path]));
+  if(obj_o && sizeof(obj_o))
+  {
+    obj_o  = obj_o[0];
+    isnew=0;
+  }
+  else
                obj_o = new("object");
                obj_o["datatype"] = dto;
                if(att)
@@ -197,7 +205,8 @@ int new_from_string(string path, string contents, string type, int|void att)
                obj_o["author"] = find_by_id("user", 1);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
-               obj_o->save();
+           if(isnew)
+            obj_o->save();
 
             object obj_n = new("object_version");
             obj_n["contents"] = contents;

@@ -39,5 +39,11 @@ int run()
 
   // then we load up the start object.
 
+   model()->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.", "text/wiki");
+   model()->new_from_string("object-index", "{object-index}\n\nView [attachment-index]\n", "text/wiki");
+   model()->new_from_string("attachment-index", "{attachment-index}", "text/wiki");
+
+
+
 }
 
