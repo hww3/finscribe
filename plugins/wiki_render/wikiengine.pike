@@ -81,8 +81,8 @@ Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
     if(row["is_attachment"] == 1) continue;
     else if(row["is_attachment"] == 2) type = "Blogentry";
 
-    string icon = "<img src=\"/static/images/Icon-" + type+ ".png\" alt=\"*\"> ";
-    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + get_object_title(row) + "</a><br>";
+    string icon = "<img src=\"/static/images/Icon-" + type+ ".png\" alt=\"*\"/> ";
+    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + get_object_title(row) + "</a><br/>";
   }
 
   return ret;

@@ -40,7 +40,7 @@ int run()
   foreach(glob("*.js", get_dir(".")), string fn)
   {
     model()->new_from_string(combine_path("themes/default/", fn), 
-              Stdio.read_file(fn), "text/javascript", 1);
+              Stdio.read_file(fn), "application/javascript", 1);
   }
 
   // then we load up the start object.

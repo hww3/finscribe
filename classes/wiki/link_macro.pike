@@ -61,7 +61,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   if(!img)
   {  
      buf->add("<img height=\"9\" width=\"8\" src=\"");
-     buf->add("/static/images/Icon-Extlink.png\">");
+     buf->add("/static/images/Icon-Extlink.png\" alt=\"&#91;external]\"/>");
   }
   buf->add("<a href=\"");
   buf->add(link);

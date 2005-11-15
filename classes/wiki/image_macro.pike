@@ -75,13 +75,13 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   }
      buf->add("<img src=\"");
      buf->add(image);
-     buf->add("\"");
+     buf->add("\" alt=\"");
      if(alt)
      {
-        buf->add(" alt=\"");
         buf->add(alt);
-        buf->add("\"");
      }
+     buf->add("\"");
+
      if(align)
      {
         buf->add(" align=\"");
@@ -89,7 +89,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
         buf->add("\"");
      }
 
-     buf->add(">");
+     buf->add("/>");
   if(link)
   {
      buf->add("</a>");
