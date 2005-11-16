@@ -22,8 +22,8 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   // we should get a limit for the number of entries to display.
 
   array a = params->parameters / "|";
-  if(sizeof(a) && a[0] && strlen(a))
-    limit = (int)a;
+  if(sizeof(a) && a[0] && strlen(a[0]))
+    limit = (int)a[0];
   else limit = 10;
 
   if(!root)
