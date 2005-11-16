@@ -142,12 +142,12 @@ private string get_when(object c)
    return howlongago;
 }
 
-array get_blog_entries(string obj)
+array get_blog_entries(string obj, int|void max)
 {
   array o = model->find("object", ([ "is_attachment": 2,
                           "path": Model.LikeCriteria(obj + "/%"),
                           "_page": Model.Criteria("LOCATE('/', path, " + (strlen(obj)+2) + ")") ]),
-                        Model.Criteria("ORDER BY path DESC"));
+                        Model.Criteria("ORDER BY path DESC" + (max?(" LIMIT " + max) : "")));
 
   // ok, that gives us a good guess; let's narrow it down a bit.
 
