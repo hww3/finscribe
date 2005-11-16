@@ -275,7 +275,9 @@ public void login(Request id, Response response, mixed ... args)
          return;
       }
       
-      array r = model()->find("user", (["UserName": id->variables->UserName, "Password": id->variables->Password]));
+      array r = model()->find("user", (["UserName": id->variables->UserName, 
+                                        "Password": id->variables->Password, 
+                                        "is_active": 1]));
       if(r && sizeof(r))
       {
          // success!
