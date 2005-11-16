@@ -4,20 +4,27 @@ inherit Macros.Macro;
 
 string describe()
 {
-   return "Handles images";
+   return "Produces a weblog";
 }
 
 void evaluate(String.Buffer buf, Macros.MacroParameters params)
 {
   string root;
+  int limit;
 
   if(params->extras->obj && objectp(params->extras->obj))
     root = params->extras->obj["path"];
   else
     root = params->extras->obj;
 
-
   params->extras->request->misc->object_is_weblog = 1;
+
+  // we should get a limit for the number of entries to display.
+
+  array a = params->parameters / "|";
+  if(sizeof(a) && a[0] && strlen(a))
+    limit = (int)a;
+  else limit = 10;
 
   if(!root)
   {
@@ -25,7 +32,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     return;
   } 
 
-  array o = get_blog_entries(root);
+  array o = get_blog_entries(root, limit);
 
   foreach(o; int i; object entry)
   {
