@@ -120,6 +120,7 @@ class User_object
       add_field(StringField("UserName", 12, 0));
       add_field(StringField("Email", 64, 0));
       add_field(IntField("is_admin", 1, 1));
+      add_field(IntField("is_active", 1, 1));
       add_field(StringField("Password", 16, 0));
       set_primary_key("id");
    }
