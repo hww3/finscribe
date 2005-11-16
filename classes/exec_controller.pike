@@ -518,7 +518,7 @@ public void post(Request id, Response response, mixed ... args)
                {
                  foreach(r;;object entry) 
                  {
-write("LOOKING AT " + entry["path"]);
+		   write("LOOKING AT " + entry["path"]);
                    // we assume that everything in here will be organized chronologically, and that no out of 
                    // date order pathnames will show up in the list.
                    if(has_prefix(entry["path"], obj + "/" + date + "/"))
