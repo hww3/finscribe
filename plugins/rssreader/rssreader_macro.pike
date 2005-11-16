@@ -35,7 +35,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   {
     r = rss_fetch(doc, 10);
     if(r)
-      params->engine->wiki->cache->set("__RSSdata-" + doc, r, 60);
+      params->engine->wiki->cache->set("__RSSdata-" + doc, r, 1800);
   }
 
   Public.Web.RSS.Item item;
