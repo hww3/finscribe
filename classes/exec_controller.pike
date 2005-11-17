@@ -54,6 +54,9 @@ public void editcategory(Request id, Response response, mixed ... args)
 
   array o = model()->find("object", (["path": path]));
   array c = model()->find("category", (["category": category]));
+  array x;
+  if(sizeof(c))
+    x = model()->find("object", (["path": path, "categories": c[0]]));
   if(!sizeof(o))
   {
     response->flash("msg", "Unknown object " + path + ".");
@@ -61,6 +64,10 @@ public void editcategory(Request id, Response response, mixed ... args)
   else if(!sizeof(c))
   {
     response->flash("msg", "Unknown category " + category + ".");
+  }
+  else if(sizeof(x))
+  {
+    response->flash("msg", "Category " + category + " is already assigned to this item.");
   }
   else if(id->variables->action == "Include")
   {
