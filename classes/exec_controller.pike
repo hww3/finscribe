@@ -143,12 +143,12 @@ public void forgotpassword(Request id, Response response, mixed ... args)
      Template.Template t = view()->get_template(view()->template, "forgotpassword.tpl");
      Template.TemplateData d = Template.TemplateData();
 
-	  d->add("username", "");
+	  d->add("UserName", "");
 
-		if(id->variables->username)
+		if(id->variables->UserName)
 		{
-			d->add("username", id->variables->username);
-			array a = model()->find("user", (["UserName": id->variables->username]));
+			d->add("UserName", id->variables->UserName);
+			array a = model()->find("user", (["UserName": id->variables->UserName]));
 
 			if(!sizeof(a))
 			{

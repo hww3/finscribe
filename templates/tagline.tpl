@@ -19,7 +19,7 @@
 
 
    {if:loggedin:data->user}
-| logged in as {username} | <a href="/exec/logout">logout</a>
+| logged in as {UserName} | <a href="/exec/logout">logout</a>
   {if:isblog:data->object_is_weblog}
       |  <a href="/exec/post/{obj}">post blog</a>
   {endif:isblog}
