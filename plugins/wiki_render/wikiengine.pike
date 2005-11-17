@@ -48,7 +48,7 @@ void appendLink(String.Buffer buf, string name, string view, string|void anchor)
   buf->add("<a href=\"/space/");
   buf->add(name + (anchor?("#" + anchor):""));
   buf->add("\">");
-  buf->add(wiki->get_object_name(view));
+  buf->add(wiki->model->get_object_name(view));
   buf->add("</a>");
 }
 
@@ -82,7 +82,7 @@ Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
     else if(row["is_attachment"] == 2) type = "Blogentry";
 
     string icon = "<img src=\"/static/images/Icon-" + type+ ".png\" alt=\"*\"/> ";
-    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + get_object_title(row) + "</a><br/>";
+    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + wiki->model->get_object_title(row) + "</a><br/>";
   }
 
   return ret;

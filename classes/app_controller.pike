@@ -11,7 +11,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
-  object obj = predef::get_object(args, id);
+  object obj = model()->get_fbobject(args, id);
 
   if(!obj)
   {
@@ -39,8 +39,8 @@ public void index(Request id, Response response, mixed ... args)
 
 private void handle_wiki(object obj, Request id, Response response)
 {
-  string title = get_object_title(obj, id);  
-  string contents = get_object_contents(obj, id);
+  string title = model()->get_object_title(obj, id);  
+  string contents = model()->get_object_contents(obj, id);
 
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
@@ -68,7 +68,7 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("content", app()->engine->render(contents, (["request": id, "obj": obj])));
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
-  dta->add("when", get_when(obj["current_version"]["created"]));
+  dta->add("when", model()->get_when(obj["current_version"]["created"]));
   dta->add("editor", obj["current_version"]["author"]["Name"]);
   dta->add("editor_username", obj["current_version"]["author"]["UserName"]);
   dta->add("version", (string)obj["current_version"]["version"]);
@@ -89,8 +89,8 @@ private void handle_wiki(object obj, Request id, Response response)
 
 private void handle_text(object obj, Request id, Response response)
 {
-  string title = get_object_title(obj, id);  
-  string contents = get_object_contents(obj, id);
+  string title = model()->get_object_title(obj, id);  
+  string contents = model()->get_object_contents(obj, id);
 
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
@@ -116,7 +116,7 @@ private void handle_text(object obj, Request id, Response response)
   dta->add("content", contents);
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
-  dta->add("when", get_when(obj["current_version"]["created"]));
+  dta->add("when", model()->get_when(obj["current_version"]["created"]));
   dta->add("editor", obj["current_version"]["author"]["Name"]);
   dta->add("editor_username", obj["current_version"]["author"]["UserName"]);
   dta->add("version", (string)obj["current_version"]["version"]);
@@ -136,7 +136,7 @@ werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
 
 private void handle_data(object obj, Request id, Response response)
 {
-  string contents = get_object_contents(obj, id);
+  string contents = model()->get_object_contents(obj, id);
   response->set_data(contents);
   response->set_type(obj["datatype"]["mimetype"]);
 }

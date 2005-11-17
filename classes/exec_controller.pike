@@ -397,8 +397,8 @@ public void comments(Request id, Response response, mixed ... args)
       return;
    }
 
-   obj_o = predef::get_object(args, id);
-   title = get_object_title(obj_o, id);
+   obj_o = model()->get_fbobject(args, id);
+   title = model()->get_object_title(obj_o, id);
    obj = args*"/";
    
    Template.Template t = view()->get_template(view()->template, "comment.tpl");
@@ -456,7 +456,7 @@ public void edit(Request id, Response response, mixed ... args)
       return;
    }
    
-   obj_o = predef::get_object(args, id);
+   obj_o = model()->get_fbobject(args, id);
    title = args[-1];
    obj = args*"/";
    
@@ -530,7 +530,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       if(obj_o)
       {
-         contents = get_object_contents(obj_o, id);
+         contents = model()->get_object_contents(obj_o, id);
          subject = obj_o["current_version"]["subject"];
          if(!subject || subject == "0") subject = "";
       }
@@ -567,7 +567,7 @@ public void post(Request id, Response response, mixed ... args)
       return;
    }
    
-   obj_o = predef::get_object(args, id);
+   obj_o = model()->get_fbobject(args, id);
    title = args[-1];
    obj = args*"/";
    
@@ -595,7 +595,7 @@ public void post(Request id, Response response, mixed ... args)
 
 	       // let's get the next blog path name...              
                string path = "";
-               array r = get_blog_entries(obj);
+               array r = model()->get_blog_entries(obj);
                int seq = 1;
                object c = Calendar.now();
                string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
@@ -656,7 +656,7 @@ public void post(Request id, Response response, mixed ... args)
       if(obj_o)
       {
         contents = "";
-//         contents = get_object_contents(obj_o, id);
+//         contents = model()->get_object_contents(obj_o, id);
       }
       else
       {

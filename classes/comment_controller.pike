@@ -2,7 +2,6 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsController;
 
-
 public void index(Request id, Response response, mixed ... args)
 {
   if(!args || !sizeof(args))
@@ -11,7 +10,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
-  object obj = predef::get_object(args, id);
+  object obj = model()->get_fbobject(args, id);
 
   if(!obj)
   {
@@ -40,13 +39,12 @@ public void notfound(Request id, Response response, mixed ... args)
      
      d->add("obj", args*"/");
      response->set_template(t, d);
-
 }
 
 private void handle_wiki(object obj, Request id, Response response)
 {
-  string title = get_object_title(obj, id);  
-  string contents = get_object_contents(obj, id);
+  string title = model()->get_object_title(obj, id);  
+  string contents = model()->get_object_contents(obj, id);
 
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobjectcomments.tpl");
@@ -65,7 +63,7 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("content", app()->engine->render(contents, (["request": id, "obj": obj])));
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
-  dta->add("when", get_when(obj["current_version"]["created"]));
+  dta->add("when", model()->get_when(obj["current_version"]["created"]));
   dta->add("editor", obj["current_version"]["author"]["Name"]);
   dta->add("editor_username", obj["current_version"]["author"]["UserName"]);
   dta->add("version", (string)obj["current_version"]["version"]);
@@ -73,12 +71,10 @@ private void handle_wiki(object obj, Request id, Response response)
 
   // now, let's get the comments for this page.
   
-
   array comments = obj["comments"];
 
   dta->add("comments", comments);
   dta->add("numcomments", sizeof(comments) || "No");
   
   response->set_template(t, dta);
-
 }

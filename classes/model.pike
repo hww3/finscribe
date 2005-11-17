@@ -8,7 +8,7 @@ static void create(Fins.Application a)
   load_model();
 }
 
-void load_model()
+public void load_model()
 {
 	
    object s = Sql.Sql(app()->config->get_value("model", "datasource"));
@@ -23,6 +23,82 @@ void load_model()
    add_object_type(Comment_object(d));
    add_object_type(User_object(d));
 }
+
+public array get_blog_entries(string obj, int|void max)
+{
+  array o = find("object", ([ "is_attachment": 2,
+                          "path": Model.LikeCriteria(obj + "/%"),
+                          "_page": Model.Criteria("LOCATE('/', path, " + (strlen(obj)+2) + ")") ]),
+                        Model.Criteria("ORDER BY path DESC" + (max?(" LIMIT " + max) : "")));
+
+  // ok, that gives us a good guess; let's narrow it down a bit.
+
+  o = Array.filter(o, lambda(mixed e){ if(sscanf(e["path"], obj + "/%*4d-%*2d-%*2d/%*d/%*1s") ==4) return 1; });
+
+  return o;
+
+}
+
+public string get_object_name(string obj)
+{
+   return (obj/"/")[-1];
+}
+
+public object get_fbobject(array args, Request|void id)
+{
+   array r = find("object", (["path": args*"/"]));
+
+   if(sizeof(r))
+     return r[0];
+   else return 0;
+}
+
+public string get_object_title(object obj, Request|void id)
+{
+   string t = obj["current_version"]["subject"];
+   return (t && sizeof(t))?t:get_object_name(obj["path"]);
+}
+
+public string get_object_contents(object obj, Request|void id)
+{
+
+   return obj["current_version"]["contents"];
+}
+
+public string get_when(object c)
+{
+   string howlongago;
+
+   c = c->distance(Calendar.now());
+
+   if(c->number_of_minutes() < 3)
+   {
+      howlongago = "Just a moment ago";
+   }
+   else if(c->number_of_minutes() < 60)
+   {
+      howlongago = c->number_of_minutes() + " minutes ago";
+   }
+   else if(c->number_of_hours() < 24)
+   {
+      howlongago = c->number_of_hours() + " hours ago";
+   }
+   else
+   {
+      howlongago = c->number_of_days() + " days ago";
+   }
+
+   return howlongago;
+}
+
+
+
+/*
+
+    here are the model objects for the o-r mapping
+  
+*/
+
 
 class Object_object
 {

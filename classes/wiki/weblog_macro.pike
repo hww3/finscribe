@@ -32,7 +32,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     return;
   } 
 
-  array o = get_blog_entries(root, limit);
+  array o = params->engine->wiki->model->get_blog_entries(root, limit);
 
   foreach(o; int i; object entry)
   {
