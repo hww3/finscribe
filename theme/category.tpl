@@ -12,9 +12,12 @@
 <div class="flash-message">{!flash:msg}</div>
    <div class="snip-wrapper">
       <div class="snip-content">
+Items in this category:
+<ul>
 {foreach:objects}
-  <li> {objects:objects.title}
+  <li> <a href="/space/{objects:objects.path}">{objects:objects.title}</a>
 {end:objects}
+</ul>
 <p/>
          </div>
       </div>

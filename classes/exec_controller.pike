@@ -19,6 +19,32 @@ public void notfound(Request id, Response response, mixed ... args)
 
 }
 
+public void category(Request id, Response response, mixed ... args)
+{
+   if(!args || !sizeof(args))
+   {
+     response->set_data("You must provide a category to view.\n");
+   }
+
+   Template.Template t = view()->get_template(view()->template, "category.tpl");
+   Template.TemplateData d = Template.TemplateData();
+
+
+   array c = model()->find("category", (["category": args[0]]));
+  
+   if(!c || !sizeof(c))
+   {
+     response->set_data("Category " + args[0] + " does not exist.\n");
+     return;
+   }
+
+   d->add("category", c[0]);
+   d->add("objects", c[0]["objects"]);
+
+   response->set_template(t, d);
+
+}
+
 public void deletecomment(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
