@@ -10,25 +10,21 @@ border="0">
 <table>
 {foreach:categories}
 <tr><td><a 
-href="/space/{categories:categories.category}">{categories:categories.category}</a></td></tr>
+href="/exec/category/{categories:categories.category}">{categories:categories.category}</a></td></tr>
 {end:categories}
 </table>
 
  {if:loggedin:data->user}
 
-<form action="/exec/upload" method="post" 
+<form action="/exec/editcategory" method="post" 
 enctype="multipart/form-data">
 <input type="hidden" name="root" value="{obj}"/>
-Attachment name: <input type="text" name="save-as-filename"
-size="35"/><br>
-File: <input name="upload-file" type="file"/>
-<br/>
-MimeType: <select name="mime-type">
-{foreach:datatypes}<option>{datatypes:datatypes.mimetype}
-{end:datatypes}
+Existing Category: <select name="existing-category">
+{foreach:existing-categories}<option>{existing-categories:existing-categories.category}
+{end:existing-categories}
 </select>
 <br/>
-<input type="submit" name="action" value="Attach"/>
+<input type="submit" name="action" value="Include"/>
 </form>
 
 {endif:loggedin}

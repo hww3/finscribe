@@ -60,6 +60,7 @@ private void handle_wiki(object obj, Request id, Response response)
                           "path": Model.LikeCriteria(obj["path"] + "/%"),
                           "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
   array datatypes = model()->find("datatype", ([]));
+  array categories = model()->find("category", ([]));
   numattachments = sizeof(o);
 
   dta->add("obj", obj["path"]);
@@ -74,14 +75,13 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("numattachments", numattachments);  
   dta->add("attachments", o);  
   dta->add("datatypes", datatypes);
+  dta->add("existing-categories", categories);
   dta->add("object_is_weblog", id->misc->object_is_weblog);
 
   // now, let's get the comments for this page.
-  dta->add("debug", 1);
   dta->add("numcomments", sizeof(obj["comments"]));
   dta->add("numcategories", sizeof(obj["categories"]));
   dta->add("categories", (obj["categories"]));
-werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
   
   response->set_template(t, dta);
 
