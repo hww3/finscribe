@@ -19,6 +19,65 @@ public void notfound(Request id, Response response, mixed ... args)
 
 }
 
+public void editcategory(Request id, Response response, mixed ... args)
+{
+   if(!args || !sizeof(args))
+   {
+     response->set_data("You must provide an object to modify categories for.\n");
+   }
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to edit a category.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+  if((!id->variables["existing-category"] || 
+     !sizeof(id->variables["existing-category"])) && 
+     (!id->variables["new-category"] ||
+     !sizeof(id->variables["new-category"]))) 
+  {
+    response->flash("msg", "No category specified.\n");
+    response->redirect(id->referrer || "/space/");
+    return;
+  }
+  string category = id->variables["existing-category"];
+  if(!category || !sizeof(category))
+  { 
+    category = id->variables["new-category"];
+    object nc = model()->new("category");
+    nc["category"] = category;
+    nc->save();
+  }
+  string path = args*"/";
+
+  array o = model()->find("object", (["path": path]));
+  array c = model()->find("category", (["category": category]));
+  if(!sizeof(o))
+  {
+    response->flash("msg", "Unknown object " + path + ".");
+  }
+  else if(!sizeof(c))
+  {
+    response->flash("msg", "Unknown category " + category + ".");
+  }
+  else if(id->variables->action == "Include")
+  {
+    o[0]["categories"]+=c[0];
+    response->flash("msg", "Added to " + category + ".");
+  }
+
+  else if(id->variables->action == "Remove")
+  {
+    o[0]["categories"]-=c[0];
+    response->flash("msg", "Removed from " + category + ".");
+  }
+
+  response->redirect(id->referrer || "/space/");
+
+}
+
 public void category(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))

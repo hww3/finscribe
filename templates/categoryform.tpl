@@ -16,15 +16,17 @@ href="/exec/category/{categories:categories.category}">{categories:categories.ca
 
  {if:loggedin:data->user}
 
-<form action="/exec/editcategory" method="post" 
+<form action="/exec/editcategory/{obj}" method="post" 
 enctype="multipart/form-data">
-<input type="hidden" name="root" value="{obj}"/>
 Existing Category: <select name="existing-category">
+<option value="">Select a category
 {foreach:existing-categories}<option>{existing-categories:existing-categories.category}
 {end:existing-categories}
-</select>
+</select> or new category: <input type="text" name="new-category" 
+size="15" value=""/>
 <br/>
 <input type="submit" name="action" value="Include"/>
+<input type="submit" name="action" value="Remove"/>
 </form>
 
 {endif:loggedin}
