@@ -79,6 +79,8 @@ private void handle_wiki(object obj, Request id, Response response)
   // now, let's get the comments for this page.
   
   dta->add("numcomments", sizeof(obj["comments"]));
+  dta->add("numcategories", sizeof(obj["categories"]));
+werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
   
   response->set_template(t, dta);
 
@@ -125,7 +127,8 @@ private void handle_text(object obj, Request id, Response response)
   // now, let's get the comments for this page.
   
   dta->add("numcomments", sizeof(obj["comments"]));
-  
+  dta->add("numcategories", sizeof(obj["categories"]));
+werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
   response->set_template(t, dta);
 
 }

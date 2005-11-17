@@ -14,7 +14,7 @@ void load_model()
    object s = Sql.Sql(app()->config->get_value("model", "datasource"));
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
-   d->debug = 1;
+//   d->debug = 1;
    d->repository = this;
    add_object_type(Object_object(d));
    add_object_type(Object_version_object(d));
@@ -44,7 +44,7 @@ class Object_object
       add_field(InverseForeignKeyReference("versions", "object_version", "object", Model.Criteria("ORDER BY version DESC")));
       add_field(InverseForeignKeyReference("current_version", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
-		add_field(MultiKeyReference("categories", "objects_categories", "object_id", "category_id", "category", "id"));
+		add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
    }
 
@@ -70,6 +70,7 @@ class Category_object
 		set_instance_name("category");
 		add_field(PrimaryKeyField("id"));
 		add_field(StringField("category", 64, 0));
+		add_field(MultiKeyReference(this, "objects", "objects_categories", "category_id", "object_id", "object", "id"));
 		set_primary_key("id");
 	}
 }
