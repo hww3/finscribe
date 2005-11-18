@@ -2,9 +2,42 @@ inherit Fins.FinsBase;
 
 int run()
 {
+  // first, let's create an admin user.
+  string password, email;
+  write("Please enter a password for the user 'admin': ");
+  password = gets();
+  write("Please enter the email address for 'admin': ");
+  password = gets();
+
+  write("\nAdmin User Details\n");
+  write("--------------------\n");
+  write("Username: admin\n");
+  write("Password: " + password + "\n");
+  write("Email: " + email + "\n");
+  write("\n");
+
+  string resp;
+
+  while(1)
+  {
+    write("Correct? (y/n) ");
+    resp = gets();
+    if(lower_case(resp) == "n") { write("aborting.\n"); return 0; }
+    else if (lower_case(resp) == "y")
+       break;
+  }
+
+  write("Creating admin user...\n");
+  object u = model()->new("user");
+  u["UserName"] = "admin";
+  u["Password"] = password;
+  u["Name"] = "Admin User;
+  u["Email"] = email
  
   // then, we create the datatypes
-  cd("templates");
+  cd("theme");
+
+  write("Loading datatypes...\n");
   foreach(Stdio.read_file("datatypes.conf")/"\n", string dt)
   {
     object d;
@@ -19,18 +52,21 @@ int run()
   }
 
   // then we load up the templates
+  write("Loading templates...\n");
   foreach(glob("*.tpl", get_dir(".")), string fn)
   {
     model()->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "text/template", 1);
   }
 
+  write("Loading predefined wiki objects...\n");
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
     model()->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
               Stdio.read_file(fn), "text/wiki");
   }
 
+  write("Loading stylesheets...\n");
   foreach(glob("*.css", get_dir(".")), string fn)
   {
 ˆ    model()->new_from_string(combine_path("themes/default/", fn), 
@@ -45,7 +81,8 @@ int run()
 
   // then we load up the start object.
 
-   model()->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.", "text/wiki", 0, 1);
+  write("Loading initial objects...\n");
+   model()->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
    model()->new_from_string("object-index", "{object-index}\n\nView [attachment-index]\n", "text/wiki", 0, 1);
    model()->new_from_string("attachment-index", "{attachment-index}", "text/wiki", 0, 1);
 
