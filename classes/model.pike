@@ -177,8 +177,8 @@ class Object_object
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("title", "path", lambda(mixed n){return (n/"/")[-1];}));
       add_field(TransformField("nice_created", "created", format_created));
-      add_field(InverseForeignKeyReference("versions", "object_version", "object", Model.Criteria("ORDER BY version DESC")));
-      add_field(InverseForeignKeyReference("current_version", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
+      add_field(CacheField("current_version", "current_version_uncached", c));
+      add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
 		add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
