@@ -14,7 +14,7 @@ public void load_model()
    object s = Sql.Sql(app()->config->get_value("model", "datasource"));
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
-//   d->debug = 1;
+   d->debug = 1;
    d->repository = this;
    add_object_type(Object_object(d));
    add_object_type(Object_version_object(d));
@@ -22,6 +22,56 @@ public void load_model()
 	add_object_type(Category_object(d));
    add_object_type(Comment_object(d));
    add_object_type(User_object(d));
+}
+
+Model.DataObjectInstance find_by_id(string|object ot, int id)
+{
+   object o;
+   string key = "";
+
+   if(objectp(ot))
+     key = sprintf("OBJECTCACHE_%s_%d", ot->instance_name, id);
+   else key=sprintf("OBJECTCACHE_%s_%d", ot, id);
+
+   o = cache()->get(key);
+
+   if(o) return o;
+
+   o = ::find_by_id(ot, id);
+  
+   if(o) cache()->set(key, o, 600);
+
+   return o;
+}
+
+mixed get_datatypes()
+{
+  mixed res;
+
+  res = cache()->get("DATATYPES_");
+  
+  if(res) return res;
+
+  res = find("datatype", ([]));
+
+  cache()->set("DATATYPES_", res, 600);
+
+  return res;
+}
+
+mixed get_categories()
+{
+  mixed res;
+
+  res = cache()->get("CATEGORIES_");
+  
+  if(res) return res;
+
+  res = find("category", ([]));
+
+  cache()->set("CATEGORIES_", res, 600);
+
+  return res;
 }
 
 public array get_blog_entries(string obj, int|void max)
@@ -46,10 +96,20 @@ public string get_object_name(string obj)
 
 public object get_fbobject(array args, Request|void id)
 {
-   array r = find("object", (["path": args*"/"]));
+   array r;
+   string a = args*"/";
+
+   r=cache()->get("PATHOBJECTCACHE_" + a);
+
+   if(r && sizeof(r)) return r[0];
+
+   r = find("object", (["path": a]));
 
    if(sizeof(r))
+   {
+     cache()->set("PATHOBJECTCACHE_" + a, r, 600);
      return r[0];
+   }
    else return 0;
 }
 

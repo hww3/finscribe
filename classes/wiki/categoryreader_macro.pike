@@ -87,7 +87,7 @@ mixed category_fetch(string category, object params)
 
 
   if(!category)
-    r = params->engine->wiki->model->find("category", ([]));
+    r = params->engine->wiki->model->get_categories();
   else
     r = params->engine->wiki->model->find("category", (["category" : category]));
 

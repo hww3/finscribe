@@ -5,7 +5,6 @@ import Fins.Model;
 object wiki;
 
 int exists_queries;
-multiset existing_objects = (<>);
 
 void create(object _wiki)
 {
@@ -19,20 +18,14 @@ int exists(string _file)
 {
   array res;
 
-  exists_queries ++;
-  if(exists_queries==100)
-  {
-    existing_objects=(<>);
-    exists_queries=0;
-  }
-  if(existing_objects[_file]) return 1;
+  if(wiki->cache->get("PATHdata_" + _file)) return 1;
 
   res = wiki->model->find("object", (["path": _file]));
 
   if(!sizeof(res)) return 0;
   else 
   {
-    existing_objects[_file] = 1;
+    wiki->cache->set("PATHdata_" + _file, 1, 600);
     return 1;
   }
 }
@@ -70,9 +63,14 @@ string macro_recent_changes()
   string ret = "";
 //  res = sql->query("SELECT page from GotPikeWiki group by page order by created desc limit 5");
 
-  res = wiki->model->find("object", (["is_attachment": 
-Model.Criteria("is_attachment!=1")]), 
-Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
+  res = wiki->cache->get("MACRORECENTCHANGES");
+  if(!res)
+  {
+    res = wiki->model->find("object", (["is_attachment": 
+                             Model.Criteria("is_attachment!=1")]), 
+                             Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
+    wiki->cache->set("MACRORECENTCHANGES", res, 600);
+  }
 
   foreach(res, mixed row)
   {

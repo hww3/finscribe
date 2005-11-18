@@ -59,8 +59,8 @@ private void handle_wiki(object obj, Request id, Response response)
   array o = model()->find("object", ([ "is_attachment": 1, 
                           "path": Model.LikeCriteria(obj["path"] + "/%"),
                           "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
-  array datatypes = model()->find("datatype", ([]));
-  array categories = model()->find("category", ([]));
+  array datatypes = model()->get_datatypes();
+  array categories = model()->get_categories();
   numattachments = sizeof(o);
 
   dta->add("obj", obj["path"]);
@@ -108,7 +108,7 @@ private void handle_text(object obj, Request id, Response response)
   array o = model()->find("object", ([ "is_attachment": 1, 
                           "path": Model.LikeCriteria(obj["path"] + "/%"),
                           "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
-  array datatypes = model()->find("datatype", ([]));
+  array datatypes = model()->get_datatypes();
   numattachments = sizeof(o);
 
   dta->add("obj", obj["path"]);
