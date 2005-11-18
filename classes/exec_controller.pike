@@ -329,6 +329,7 @@ public void upload(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
+            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             response->flash("msg", "Succesfully Saved.");
 
             }
@@ -518,6 +519,7 @@ public void edit(Request id, Response response, mixed ... args)
               obj_n["subject"] = subject;
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
+            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             string dtp = obj_o["datatype"]["mimetype"];
             if(dtp == "text/template")
             {
@@ -649,6 +651,7 @@ public void post(Request id, Response response, mixed ... args)
               obj_n["subject"] = id->variables->subject;            
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
+            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
             break;

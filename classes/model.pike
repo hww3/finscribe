@@ -175,7 +175,7 @@ class Object_object
       add_field(StringField("path", 128, 0));
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
-      add_field(TransformField("title", "path", lambda(mixed n){return (n/"/")[-1];}));
+      add_field(TransformField("title", "path", get_title));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", c));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
@@ -189,7 +189,15 @@ class Object_object
      return Calendar.Second();
    }
 
-   string format_created(object c)
+   string get_title(mixed n, object i)
+   {
+     string a = i["current_version"]["subject"];
+     if(a && sizeof(a)) return a;
+     else return (n/"/")[-1];
+   }
+
+
+   string format_created(object c, object i)
    {
      return c->format_ext_ymd();
    }
@@ -224,7 +232,7 @@ class Object_version_object
       add_field(KeyReference("author", "author_id", "user"));
       add_field(IntField("version", 0, 1));
       add_field(StringField("subject", 128, 1));
-      add_field(TransformField("content_length", "contents", lambda(mixed n){return sizeof(n);}));
+      add_field(TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
       add_field(StringField("contents", 102400, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
@@ -299,7 +307,7 @@ class Comment_object
       set_primary_key("id");
    }
    
-   static string format_created(object c)
+   static string format_created(object c, object i)
    {
       string howlongago;
 
