@@ -366,7 +366,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
                  obj_o["is_attachment"] = 1;
                else 
                  obj_o["is_attachment"] = 0;
-               obj_o["author"] = find_by_id("user", 1);
+               obj_o["author"] = find("user", (["UserName": "admin"]))[0];
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
            if(isnew)
@@ -386,7 +386,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = find_by_id("user", 1);
+            obj_n["author"] = find("user", (["UserName": "admin"]))[0];
             obj_n->save();
             return 1;
 

@@ -210,6 +210,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				u["Name"] = Name;
 				u["Email"] = Email;
 				u["Password"] = Password;
+                                u["is_active"] = 1;
 				u->save();
 				response->flash("msg", "User created successfully.\n");
 				response->redirect("/space/start");
