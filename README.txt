@@ -2,13 +2,12 @@ setting up FinBlog
 
 0. Make sure that the FinBlog directory is within the Fins directory.
 1. Create a mysql database for the blog.
+     mysqladmin -uusername -p create blogDBName
 2. Populate the new database with the config/schema.mysql script.
-     mysql [connection parameters] < config/schema.mysql
+     mysql [connection parameters] blogDBName < config/schema.mysql
 3. Edit the default theme contained in theme to your liking.
-4. Edit the installer script classes/install.pike, setting the 
-     initial user to your desired values.
 5. Create a configuration file for your blog, by copying config/dev.cfg 
-     and editing as necessary.
+     and editing as necessary, and save it in FinBlog/config.
 6. Install the objects in the model:
 
      [from the Fins directory]
@@ -17,6 +16,10 @@ setting up FinBlog
      when you get the > prompt, enter:
 
      application->install(); 
+
+     answer the questions to set the password and email address
+     for the administrator user.
+
      quit
 
      your application database will be populated with an initial user and 
