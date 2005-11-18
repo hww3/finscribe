@@ -48,6 +48,21 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add(params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
     buf->add("<p/>");
 
+    if(sizeof(entry["categories"]))
+    {
+       buf->add("Categories: ");
+       foreach(entry["categories"];; object c)
+       {
+         buf->add("<a href=\"/exec/category/");
+         buf->add(c["category"]);
+         buf->add("\">");
+         buf->add(c["category"]);
+         buf->add("</a> ");
+       }
+    buf->add("<p/>");
+    }
+
+
     if(sizeof(entry["comments"]))
     {
       buf->add("<a href=\"/comments/");
