@@ -25,7 +25,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
      if(!i && search(elem, "=") == -1)
      {
         image = elem;
-       if(params->extras->obj && params->extras->obj)
+       if(params->extras->obj && objectp(params->extras->obj))
 {
          image = combine_path("/space/" + params->extras->obj["path"], image);
 }
