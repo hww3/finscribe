@@ -23,7 +23,9 @@
   {if:isblog:data->object_is_weblog}
       |  <a href="/exec/post/{obj}">post blog</a>
   {endif:isblog}
-
+  {if:isadmin:data->is_admin==1}
+      | <a href="/admin/">admin</a>
+  {endif:isadmin}
    {else:loggedin} 
 | <a href="/exec/login">login</a> 
    {endif:loggedin}
