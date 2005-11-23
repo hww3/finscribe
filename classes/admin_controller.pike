@@ -1,9 +1,22 @@
 import Fins;
 inherit Fins.FinsController;
 
+public void index(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+
+	Template.Template t = view()->get_template(view()->template, "adminindex.tpl");
+	Template.TemplateData d = Template.TemplateData();
+
+	response->set_template(t, d);
+}
 
 public void listusers(Request id, Response response, mixed ... args)
 {
+	if(!app()->is_admin_user(id, response))
+          return;
+
 	Template.Template t = view()->get_template(view()->template, "listusers.tpl");
 	Template.TemplateData d = Template.TemplateData();
 
@@ -19,6 +32,9 @@ public void listusers(Request id, Response response, mixed ... args)
 
 public void edituser(Request id, Response response, mixed ... args)
 {
+	if(!app()->is_admin_user(id, response))
+          return;
+
 	Template.Template t = view()->get_template(view()->template, "edituser.tpl");
 	Template.TemplateData d = Template.TemplateData();
 	
@@ -27,8 +43,77 @@ public void edituser(Request id, Response response, mixed ... args)
 
 public void deleteuser(Request id, Response response, mixed ... args)
 {
-	Template.Template t = view()->get_template(view()->template, "deleteuser.tpl");
-	Template.TemplateData d = Template.TemplateData();
-	
-  response->set_template(t, d);
+	if(!app()->is_admin_user(id, response))
+          return;
+
+  object u;
+
+  if(!id->variables->userid)
+  {
+    response->flash("msg", "No user provided.");
+  }
+  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  {
+    response->flash("msg", "User id " + id->variables->userid + " does not exist.");
+  }
+  else
+  {
+    u->delete();
+    response->flash("msg", "User " + u["Name"] + " deleted.");
+  }
+  response->redirect("listusers");
+
 }
+
+public void toggle_useractive(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+  object u;
+
+  if(!id->variables->userid)
+  {
+    response->flash("msg", "No user provided.");
+  }
+  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  {
+    response->flash("msg", "User id " + id->variables->userid + " does not exist.");
+  }
+  else
+  {
+    u["is_active"] = !u["is_active"];
+    
+    string pre = "";
+    if(!u["is_active"]) pre = "de";
+    response->flash("msg", "User " + u["Name"] + " " + pre + "activated.");
+  }
+  response->redirect("listusers");
+}
+
+
+public void toggle_useradmin(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+  object u;
+
+  if(!id->variables->userid)
+  {
+    response->flash("msg", "No user provided.");
+  }
+  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  {
+    response->flash("msg", "User id " + id->variables->userid + " does not exist.");
+  }
+  else
+  {
+    u["is_admin"] = !u["is_admin"];
+    
+    string pre = "granted";
+    if(!u["is_admin"]) pre = "revoked";
+    response->flash("msg", "User administrative rights " + pre + " for " + 
+       u["Name"] + ".");
+  }
+  response->redirect("listusers");
+}
+
