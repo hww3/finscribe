@@ -18,7 +18,7 @@
           <h1>Admin</h1>
         
 	<ul>
-		<li><a href="userlist">Edit Users</a>
+		<li><a href="listusers">Edit Users</a>
 	</ul>
           
      </div>
