@@ -13,9 +13,13 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   int limit;
 
   if(params->extras->obj && objectp(params->extras->obj))
-    root = params->extras->obj["path"];
-  else
     root = params->extras->obj;
+  else
+  {
+    array o = params->engine->wiki->model->find("object", (["path": params->extras->obj]));
+    if(sizeof(o))
+      root = o[0];
+  }
 
   params->extras->request->misc->object_is_weblog = 1;
 
@@ -38,7 +42,9 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   {
     buf->add(entry["nice_created"]);
     buf->add("<br/>\n<b>");
-    buf->add((entry["current_version"]["subject"]||"No Subject"));
+    string s = entry["current_version"]["subject"];
+    if(!s || !strlen(s)) s = "No Subject";
+    buf->add((s));
     buf->add(" <a href=\"/space/");
     buf->add(entry["path"]);
     buf->add("\">");

@@ -58,8 +58,9 @@ public void deleteuser(Request id, Response response, mixed ... args)
   }
   else
   {
+    string n = u["Name"];
     u->delete();
-    response->flash("msg", "User " + u["Name"] + " deleted.");
+    response->flash("msg", "User " + n + " deleted.");
   }
   response->redirect("listusers");
 

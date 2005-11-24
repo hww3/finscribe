@@ -1,0 +1,56 @@
+
+CREATE TABLE categories (
+  id integer primary key,
+  category char(64) NOT NULL default ''
+);
+
+CREATE TABLE comments (
+  id integer primary key,
+  object_id int(11) NOT NULL default '0',
+  author_id int(11) NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  contents blob
+);
+
+CREATE TABLE datatypes (
+  id integer primary key,
+  mimetype char(32) default NULL
+) ;
+
+CREATE TABLE object_versions (
+  id integer primary key,
+  object_id int(11) NOT NULL default '0',
+  author_id int(11) NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  subject varchar(128) default NULL,
+  contents blob NOT NULL,
+  version int(11) NOT NULL default '0'
+) ;
+
+CREATE TABLE objects (
+  id integer primary key,
+  path varchar(128) NOT NULL default '',
+  author_id int(11) NOT NULL default '0',
+  created datetime default NULL,
+  parent_id int(11) NULL default '0',
+  datatype_id int(11) NOT NULL default '0',
+  is_attachment int(11) default NULL,
+  metadata blob
+);
+
+
+CREATE TABLE objects_categories (
+  object_id int(11) NOT NULL default '0',
+  category_id int(11) NOT NULL default '0'
+);
+
+CREATE TABLE users (
+  id integer primary key,
+  username char(12) NOT NULL default '',
+  password char(16) default NULL,
+  is_admin int(1) default '0',
+  is_active int(1) default NULL,
+  name char(36) NOT NULL default '',
+  email char(64) NOT NULL default ''
+);
+

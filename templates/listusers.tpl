@@ -27,8 +27,8 @@ User?</td><td>Active?</td><td></td></tr>
             <td>{users:users.Email}</td>
             <td><a href="toggle_useradmin?userid={users.id}">{!boolean:users.is_admin}</a></td>
             <td><a href="toggle_useractive?userid={users.id}">{!boolean:users.is_active}</a></td>
-            <td>[<a href="edituser/{users:users.id}">Edit</a> | 
-                <a href="deleteuser/{users:users.id}">Delete</a> ]</td>
+            <td>[<a href="edituser?userid={users:users.id}">Edit</a> | 
+                <a href="deleteuser?userid={users:users.id}">Delete</a> ]</td>
         </tr>
           {end:users}
         </table>

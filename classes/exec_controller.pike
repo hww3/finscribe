@@ -294,11 +294,19 @@ public void upload(Request id, Response response, mixed ... args)
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
-   }
+   } 
 
   string path = Stdio.append_path(id->variables->root, id->variables["save-as-filename"]);
   string obj=id->variables->root;
+  array a = model()->find("object", (["path": obj ]));
   object obj_o;
+  object p;
+  if(sizeof(a)) p = a[0];
+  else 
+  {
+    throw(Error.Generic("Unable to find root object to attach this document to.\n"));
+  }
+  
                array dtos = model()->find("datatype", (["mimetype": id->variables["mime-type"]]));
                if(!sizeof(dtos))
                {
@@ -309,6 +317,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o = model()->new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
+               obj_o["parent"] = p;
                obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
@@ -336,8 +345,6 @@ public void upload(Request id, Response response, mixed ... args)
             }
 
             response->redirect("/space/" + obj);
-
-
 }
 
 public void login(Request id, Response response, mixed ... args)
@@ -566,7 +573,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-   string contents, title, obj;
+   string contents, subject, obj;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -578,8 +585,9 @@ public void post(Request id, Response response, mixed ... args)
    }
    
    obj_o = model()->get_fbobject(args, id);
-   title = args[-1];
    obj = args*"/";
+   subject = "";
+   contents = "";
    
    Template.Template t = view()->get_template(view()->template, "post.tpl");
    Template.TemplateData d = Template.TemplateData();
@@ -587,6 +595,7 @@ public void post(Request id, Response response, mixed ... args)
    if(id->variables->action)
    {
       contents = id->variables->contents;
+      subject = id->variables->subject;
       switch(id->variables->action)
       {
          case "Preview":
@@ -605,7 +614,7 @@ public void post(Request id, Response response, mixed ... args)
 
 	       // let's get the next blog path name...              
                string path = "";
-               array r = model()->get_blog_entries(obj);
+               array r = model()->get_blog_entries(obj_o);
                int seq = 1;
                object c = Calendar.now();
                string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
@@ -624,18 +633,23 @@ public void post(Request id, Response response, mixed ... args)
 
                path = combine_path(obj, date + "/" +  seq);
 
+               // this is the parent, to which the new entry is associated.
+               object p = obj_o;
+
                object dto = dtos[0];
                obj_o = model()->new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
+               obj_o["parent"] = p;
                obj_o["is_attachment"] = 2;
                obj_o->save();
             }
 
             object obj_n = model()->new("object_version");
             obj_n["contents"] = contents;
+            obj_n["subject"] = subject;
 
             int v;
             object cv;
@@ -676,7 +690,7 @@ public void post(Request id, Response response, mixed ... args)
    }
 
    d->add("contents", contents);
-   d->add("title", title);
+   d->add("subject", subject);
    d->add("obj", obj);
    
    response->set_template(t, d);

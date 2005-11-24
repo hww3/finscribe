@@ -56,9 +56,7 @@ private void handle_wiki(object obj, Request id, Response response)
 
   int numattachments; 
 
-  array o = model()->find("object", ([ "is_attachment": 1, 
-                          "path": Model.LikeCriteria(obj["path"] + "/%"),
-                          "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
+  array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
   array datatypes = model()->get_datatypes();
   array categories = model()->get_categories();
   numattachments = sizeof(o);
@@ -105,9 +103,7 @@ private void handle_text(object obj, Request id, Response response)
 
   int numattachments; 
 
-  array o = model()->find("object", ([ "is_attachment": 1, 
-                          "path": Model.LikeCriteria(obj["path"] + "/%"),
-                          "_page": Model.Criteria("NOT LOCATE('/', path, " + (strlen(obj["path"])+2) + ")") ]));
+  array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
   array datatypes = model()->get_datatypes();
   numattachments = sizeof(o);
 

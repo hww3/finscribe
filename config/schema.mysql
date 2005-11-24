@@ -61,8 +61,10 @@ CREATE TABLE objects (
   path varchar(128) NOT NULL default '',
   author_id int(11) NOT NULL default '0',
   created datetime default NULL,
+  parent_id int(11) NULL default '0',
   datatype_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
+  metadata blob,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

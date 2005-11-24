@@ -38,7 +38,7 @@ Model.DataObjectInstance find_by_id(string|object ot, int id)
    if(o) return o;
 
    o = ::find_by_id(ot, id);
-  
+werror("got : %O\n", o);  
    if(o) cache()->set(key, o, 600);
 
    return o;
@@ -53,6 +53,7 @@ mixed get_datatypes()
   if(res) return res;
 
   res = find("datatype", ([]));
+werror("got : %O\n", res);  
 
   cache()->set("DATATYPES_", res, 600);
 
@@ -74,19 +75,12 @@ mixed get_categories()
   return res;
 }
 
-public array get_blog_entries(string obj, int|void max)
+public array get_blog_entries(object obj, int|void max)
 {
-  array o = find("object", ([ "is_attachment": 2,
-                          "path": Model.LikeCriteria(obj + "/%"),
-                          "_page": Model.Criteria("LOCATE('/', path, " + (strlen(obj)+2) + ")") ]),
+  array o = find("object", ([ "is_attachment": 2, "parent": obj]), 
                         Model.Criteria("ORDER BY path DESC" + (max?(" LIMIT " + max) : "")));
 
-  // ok, that gives us a good guess; let's narrow it down a bit.
-
-  o = Array.filter(o, lambda(mixed e){ if(sscanf(e["path"], obj + "/%*4d-%*2d-%*2d/%*d/%*1s") ==4) return 1; });
-
   return o;
-
 }
 
 public string get_object_name(string obj)
@@ -172,6 +166,7 @@ class Object_object
       add_field(PrimaryKeyField("id"));
       add_field(KeyReference("author", "author_id", "user"));
       add_field(KeyReference("datatype", "datatype_id", "datatype"));
+      add_field(KeyReference("parent", "parent_id", "object", UNDEFINED, 1));
       add_field(StringField("path", 128, 0));
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
@@ -180,7 +175,7 @@ class Object_object
       add_field(CacheField("current_version", "current_version_uncached", c));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
-		add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
+      add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
    }
 
