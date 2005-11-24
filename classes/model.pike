@@ -38,7 +38,6 @@ Model.DataObjectInstance find_by_id(string|object ot, int id)
    if(o) return o;
 
    o = ::find_by_id(ot, id);
-werror("got : %O\n", o);  
    if(o) cache()->set(key, o, 600);
 
    return o;
@@ -53,11 +52,23 @@ mixed get_datatypes()
   if(res) return res;
 
   res = find("datatype", ([]));
-werror("got : %O\n", res);  
 
   cache()->set("DATATYPES_", res, 600);
 
   return res;
+}
+
+mixed get_metadata(object obj)
+{
+  string md = obj["metadata"];
+  if(strlen(md))  
+    return decode_value(md);
+  else return ([]);
+}
+
+void set_metadata(object obj, mixed metadata)
+{
+  obj["metadata"] = encode_value(metadata);
 }
 
 mixed get_categories()
