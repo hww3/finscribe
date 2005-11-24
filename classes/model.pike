@@ -173,6 +173,7 @@ class Object_object
       add_field(TransformField("title", "path", get_title));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", c));
+      add_field(StringField("metadata", 1024, 0, ""));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
       add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
