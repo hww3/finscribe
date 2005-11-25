@@ -61,7 +61,7 @@ mixed get_datatypes()
 mixed get_metadata(object obj)
 {
   string md = obj["metadata"];
-  if(strlen(md))  
+  if(md && strlen(md))  
     return decode_value(md);
   else return ([]);
 }

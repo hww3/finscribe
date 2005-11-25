@@ -80,7 +80,7 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("numcomments", sizeof(obj["comments"]));
   dta->add("numcategories", sizeof(obj["categories"]));
   dta->add("categories", (obj["categories"]));
-  dta->add("metadata", model()->get_metadata(obj["metadata"]));  
+  dta->add("metadata", model()->get_metadata(obj));  
   response->set_template(t, dta);
 
 }
