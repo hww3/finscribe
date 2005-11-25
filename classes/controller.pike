@@ -5,6 +5,7 @@ Fins.FinsController exec;
 Fins.FinsController space;
 Fins.FinsController comments;
 Fins.FinsController admin;
+Fins.FinsController xmlrpc;
 
 static void create(Fins.Application a)
 {
@@ -13,6 +14,7 @@ static void create(Fins.Application a)
   space = ((program)"app_controller")(a);
   comments = ((program)"comment_controller")(a);
   admin = ((program)"admin_controller")(a);
+  xmlrpc = ((program)"xmlrpc_controller")(a);
 }
 
 public void index(Request id, Response response, mixed ... args)

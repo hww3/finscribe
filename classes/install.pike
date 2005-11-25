@@ -56,14 +56,6 @@ int run()
     d->save();
   }
 
-  // then we load up the templates
-  write("Loading templates...\n");
-  foreach(glob("*.tpl", get_dir(".")), string fn)
-  {
-    model()->new_from_string(combine_path("themes/default/", fn), 
-              Stdio.read_file(fn), "text/template", 1);
-  }
-
   write("Loading predefined wiki objects...\n");
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
