@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>FinBlog :: admin</title>
+   <title>electronic alchemy :: admin</title>
 </head>
 <body>
 {include:tagline.tpl}
@@ -25,11 +25,6 @@
       </div>
       </div>
       </div>
-         <div id="page-portlet-1-wrapper">
-          <div id="page-portlet-1">
-         {!snip:themes/default/portlet-1}
-         </div>
-         </div>
          
 </div>
 
