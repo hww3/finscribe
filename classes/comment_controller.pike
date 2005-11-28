@@ -51,7 +51,7 @@ private void handle_wiki(object obj, Request id, Response response)
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobjectcomments.tpl");
  
-  app()->set_default_data(id, d);
+  app()->set_default_data(id, dta);
 
   dta->add("obj", obj["path"]);
   dta->add("title", title);
