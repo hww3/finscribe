@@ -9,6 +9,8 @@ public void index(Request id, Response response, mixed ... args)
 	Template.Template t = view()->get_template(view()->template, "adminindex.tpl");
 	Template.TemplateData d = Template.TemplateData();
 
+        app()->set_default_data(id, d);
+
 	response->set_template(t, d);
 }
 
@@ -19,6 +21,8 @@ public void listusers(Request id, Response response, mixed ... args)
 
 	Template.Template t = view()->get_template(view()->template, "listusers.tpl");
 	Template.TemplateData d = Template.TemplateData();
+
+        app()->set_default_data(id, d);
 
 	mixed ul;
 
@@ -38,6 +42,7 @@ public void edituser(Request id, Response response, mixed ... args)
 	Template.Template t = view()->get_template(view()->template, "edituser.tpl");
 	Template.TemplateData d = Template.TemplateData();
 	
+        app()->set_default_data(id, d);
   	response->set_template(t, d);
 }
 

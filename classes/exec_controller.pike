@@ -14,6 +14,8 @@ public void notfound(Request id, Response response, mixed ... args)
      Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
      Template.TemplateData d = Template.TemplateData();
 
+     app()->set_default_data(id, d);
+
      d->add("obj", args*"/");
      response->set_template(t, d);
 
@@ -95,6 +97,7 @@ public void category(Request id, Response response, mixed ... args)
    Template.Template t = view()->get_template(view()->template, "category.tpl");
    Template.TemplateData d = Template.TemplateData();
 
+   app()->set_default_data(id, d);
 
    array c = model()->find("category", (["category": args[0]]));
   
@@ -166,6 +169,8 @@ public void createaccount(Request id, Response response, mixed ... args)
   	Template.Template t = view()->get_template(view()->template, "createaccount.tpl");
   	Template.TemplateData d = Template.TemplateData();
 
+        app()->set_default_data(id, d);
+
    string Name, UserName, Email, Password, Password2, return_to;
 
 	Name = "";
@@ -235,6 +240,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 {
      Template.Template t = view()->get_template(view()->template, "forgotpassword.tpl");
      Template.TemplateData d = Template.TemplateData();
+     app()->set_default_data(id, d);
 
 	  d->add("UserName", "");
 
@@ -351,6 +357,9 @@ public void login(Request id, Response response, mixed ... args)
 {
    Template.Template t = view()->get_template(view()->template, "login.tpl");
    Template.TemplateData d = Template.TemplateData();
+
+     app()->set_default_data(id, d);
+
    if(!id->variables->return_to)
    {
       d->add("return_to", (id->misc->flash && id->misc->flash->from) || 
@@ -420,6 +429,8 @@ public void comments(Request id, Response response, mixed ... args)
    Template.Template t = view()->get_template(view()->template, "comment.tpl");
    Template.TemplateData d = Template.TemplateData();
 
+     app()->set_default_data(id, d);
+
    d->add("object", app()->engine->render(obj_o["current_version"]["contents"], 
                                                           (["request": id, "obj": obj])));
    
@@ -479,6 +490,8 @@ public void edit(Request id, Response response, mixed ... args)
    Template.Template t = view()->get_template(view()->template, "edit.tpl");
    Template.TemplateData d = Template.TemplateData();
    
+     app()->set_default_data(id, d);
+
    if(id->variables->action)
    {
       object dto;
@@ -592,6 +605,8 @@ public void post(Request id, Response response, mixed ... args)
    Template.Template t = view()->get_template(view()->template, "post.tpl");
    Template.TemplateData d = Template.TemplateData();
    
+     app()->set_default_data(id, d);
+
    if(id->variables->action)
    {
       contents = id->variables->contents;

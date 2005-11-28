@@ -44,16 +44,9 @@ private void handle_wiki(object obj, Request id, Response response)
 
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
+
+  app()->set_default_data(id, dta);
  
-  if(id->misc->session_variables->userid)
-  {
-     object user = model()->find_by_id("user", id->misc->session_variables->userid);
-     dta->add("UserName", user["UserName"]);
-	  dta->add("is_admin", user["is_admin"]);
-     dta->add("user", user["Name"]);
-
-  }
-
   int numattachments; 
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
@@ -92,15 +85,9 @@ private void handle_text(object obj, Request id, Response response)
 
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
- 
-  if(id->misc->session_variables->userid)
-  {
-     object user = model()->find_by_id("user", id->misc->session_variables->userid);
-     dta->add("UserName", user["UserName"]);
-     dta->add("user", user["Name"]);
-	  dta->add("is_admin", user["is_admin"]);
-  }
 
+  app()->set_default_data(id, dta);
+ 
   int numattachments; 
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));

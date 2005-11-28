@@ -37,6 +37,8 @@ public void notfound(Request id, Response response, mixed ... args)
      Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
      Template.TemplateData d = Template.TemplateData();
      
+     app()->set_default_data(id, d);
+
      d->add("obj", args*"/");
      response->set_template(t, d);
 }
@@ -49,15 +51,8 @@ private void handle_wiki(object obj, Request id, Response response)
   Template.TemplateData dta = Template.TemplateData();
   Template.Template t = view()->get_template(view()->template, "wikiobjectcomments.tpl");
  
-  if(id->misc->session_variables->userid)
-  {
-     object user = model()->find_by_id("user", id->misc->session_variables->userid);
-     dta->add("UserName", user["UserName"]);
-     dta->add("user", user["Name"]);
-	  dta->add("is_admin", user["is_admin"]);
+  app()->set_default_data(id, d);
 
-  }
- 
   dta->add("obj", obj["path"]);
   dta->add("title", title);
   dta->add("content", app()->engine->render(contents, (["request": id, "obj": obj])));
