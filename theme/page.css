@@ -1,7 +1,7 @@
 /**
  * General Stylesheet definitions.
  * @author Matthias L. Jugel
- * @version $Id: page.css,v 1.2 2005-11-23 19:35:50 hww3 Exp $
+ * @version $Id: page.css,v 1.3 2005-11-28 22:36:48 hww3 Exp $
  */
 
 body {
@@ -29,7 +29,7 @@ page-title {
 	border-color: black;
 	border-width: 1px 0px;
 	line-height: 11px;
-	background-color: #eeeeee;
+	background-color: #ffffff;
 	font-size: 14px;
 	voice-family: inherit;
 	height: 14px; /* the correct height */
@@ -37,7 +37,7 @@ page-title {
 }
 
 #page-tagline {
-  background-color: #eeeee0;
+  background-color: #ffffff;
   display: inline;
   font-size: 120%;
   padding-right: 10px;
