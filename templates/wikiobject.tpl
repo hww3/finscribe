@@ -13,12 +13,16 @@
    Created by {author_username}. Last updated by {editor_username}, 
 {when}. Version #{version}.
      {endif:isblog}
-{if:loggedin:data->user}<div class="snip-buttons"> [ <a href="/exec/edit/{obj}">edit</a> ] </div> 
+{if:loggedin:data->user}<div class="snip-buttons"> 
+{if:locked:data->metadata["locked"]!=1}[ <a 
+href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} ] </div> 
 {endif:loggedin}
 <div class="flash-message">{!flash:msg}</div>
    <div class="snip-wrapper">
       <div class="snip-content">
    {include:attachmentform.tpl}
+    <br/>
+   {include:categoryform.tpl}
          {content}
 <p/>
 {if:weblog:data->object_is_weblog}
