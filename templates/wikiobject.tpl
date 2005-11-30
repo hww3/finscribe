@@ -21,7 +21,6 @@ href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} ] </div>
    <div class="snip-wrapper">
       <div class="snip-content">
    {include:attachmentform.tpl}
-    <br/>
    {include:categoryform.tpl}
          {content}
 <p/>
