@@ -19,8 +19,9 @@ static void create(Fins.Application a)
 
 public void index(Request id, Response response, mixed ... args)
 {
+werror("ARGS: %O\n", args);
   if(!sizeof(args))
-   response->redirect("space");
-  if(object_program(id) == Fins.FCGIRequest)
-   response->not_found("/" + args*"/");
+     response->redirect("space");
+  else if(object_program(id) == Fins.FCGIRequest)
+     response->not_found("/" + args*"/");
 }
