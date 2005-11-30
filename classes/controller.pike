@@ -21,4 +21,6 @@ public void index(Request id, Response response, mixed ... args)
 {
   if(!sizeof(args))
    response->redirect("space");
+  if(object_program(id) == Fins.FCGIRequest)
+   response->not_found("/" + args*"/");
 }
