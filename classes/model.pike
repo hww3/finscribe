@@ -16,6 +16,10 @@ public void load_model()
    d->sql = s;
    d->debug = 1;
    d->repository = this;
+   d->initialize();
+
+   context = d;
+
    add_object_type(Object_object(d));
    add_object_type(Object_version_object(d));
    add_object_type(Datatype_object(d));
@@ -230,9 +234,25 @@ class Object_object
        if(data && strlen(data))
        {
          catch {
-           metadata = decode_value(data);
+           metadata = decode_value(MIME.decode_base64(data));
          };
        }
+     }
+
+    Iterator _get_iterator()
+    {
+      return Mapping.Iterator(metadata);
+    }
+
+
+     array _indices()
+     {
+       return indices(metadata);
+     }
+
+     array _values()
+     {
+       return values(metadata);
      }
 
      mixed _m_delete(mixed arg)
@@ -284,7 +304,7 @@ class Object_object
 
    string dump()
    {
-     return encode_value(metadata);
+     return MIME.encode_base64(encode_value(metadata));
    }
 
  }
