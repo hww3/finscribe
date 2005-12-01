@@ -7,8 +7,6 @@
 {include:tagline.tpl}
    <div id="page-wrapper">
     <div id="page-content">
-   <h3>{title}</h3>
- 
 <div class="snip-buttons">  </div> 
 
 <div class="flash-message">{!flash:msg}</div>
