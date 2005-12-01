@@ -1,7 +1,7 @@
 <html>
 <head>
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-<title>FinBlog :: editing {title}</title>
+<title>{config.name} :: editing {title}</title>
 </head>
 <body>
 {include:tagline.tpl}

@@ -110,16 +110,13 @@ string get_page_breadcrumbs(string page)
 
 public void set_default_data(Fins.Request id, Fins.Template.TemplateData dta)
 {
-
   if(id->misc->session_variables->userid)
   {
      object user = model->find_by_id("user", id->misc->session_variables->userid);
      dta->add("UserName", user["UserName"]);
           dta->add("is_admin", user["is_admin"]);
      dta->add("user", user["Name"]);
-
   }
-
 }
 
 public int is_admin_user(Fins.Request id, Fins.Response response)

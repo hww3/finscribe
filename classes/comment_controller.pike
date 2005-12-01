@@ -34,8 +34,9 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
-     Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("objectnotfound.tpl");
      
      app()->set_default_data(id, d);
 
@@ -48,9 +49,10 @@ private void handle_wiki(object obj, Request id, Response response)
   string title = model()->get_object_title(obj, id);  
   string contents = model()->get_object_contents(obj, id);
 
-  Template.TemplateData dta = Template.TemplateData();
-  Template.Template t = view()->get_template(view()->template, "wikiobjectcomments.tpl");
- 
+      Template.Template t;
+        Template.TemplateData dta;
+        [t, dta] = view()->prep_template("wikiobjectcomments.tpl");
+
   app()->set_default_data(id, dta);
 
   dta->add("obj", obj["path"]);

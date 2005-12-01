@@ -14,3 +14,8 @@ return_address=hww3@riverweb.com
 
 [administration]
 autocreate=1
+
+[site]
+name=electronic alchemy
+logo=/static/images/logo.gif
+tagline=where the past meets the future

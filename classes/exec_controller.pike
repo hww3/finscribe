@@ -11,8 +11,10 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view()->get_template(view()->template, "objectnotfound.tpl");
-     Template.TemplateData d = Template.TemplateData();
+
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("objectnotfound.tpl");
 
      app()->set_default_data(id, d);
 
@@ -94,8 +96,9 @@ public void category(Request id, Response response, mixed ... args)
      response->set_data("You must provide a category to view.\n");
    }
 
-   Template.Template t = view()->get_template(view()->template, "category.tpl");
-   Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("category.tpl");
 
    app()->set_default_data(id, d);
 
@@ -111,7 +114,6 @@ public void category(Request id, Response response, mixed ... args)
    d->add("objects", c[0]["objects"]);
 
    response->set_template(t, d);
-
 }
 
 public void deletecomment(Request id, Response response, mixed ... args)
@@ -166,8 +168,9 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-  	Template.Template t = view()->get_template(view()->template, "createaccount.tpl");
-  	Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("createaccount.tpl");
 
         app()->set_default_data(id, d);
 
@@ -238,8 +241,10 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-     Template.Template t = view()->get_template(view()->template, "forgotpassword.tpl");
-     Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("forgotpassword.tpl");
+
      app()->set_default_data(id, d);
 
 	  d->add("UserName", "");
@@ -256,8 +261,11 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			
 			else
 			{
-				Template.Template tp = view()->get_template(view()->template, "sendpassword.tpl");
-				Template.TemplateData dp = Template.TemplateData();
+
+      Template.Template tp;
+        Template.TemplateData dp;
+        [tp, dp] = view()->prep_template("sendpassword.tpl");
+
 				
 				dp->add("password", a[0]["Password"]);
 				
@@ -355,8 +363,9 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void login(Request id, Response response, mixed ... args)
 {
-   Template.Template t = view()->get_template(view()->template, "login.tpl");
-   Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("login.tpl");
 
      app()->set_default_data(id, d);
 
@@ -412,7 +421,7 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-   write("comments\n");
+werror("COMMENTS: %O\n", args);
 
    if(!id->misc->session_variables->userid)
    {
@@ -425,11 +434,12 @@ public void comments(Request id, Response response, mixed ... args)
    obj_o = model()->get_fbobject(args, id);
    title = model()->get_object_title(obj_o, id);
    obj = args*"/";
-   
-   Template.Template t = view()->get_template(view()->template, "comment.tpl");
-   Template.TemplateData d = Template.TemplateData();
+    
+   Template.Template t; 
+   Template.TemplateData d;
+   [t, d] = view()->prep_template("comment.tpl");
 
-     app()->set_default_data(id, d);
+   app()->set_default_data(id, d);
 
    d->add("object", app()->engine->render(obj_o["current_version"]["contents"], 
                                                           (["request": id, "obj": obj])));
@@ -486,10 +496,11 @@ public void edit(Request id, Response response, mixed ... args)
    obj_o = model()->get_fbobject(args, id);
    title = args[-1];
    obj = args*"/";
-   
-   Template.Template t = view()->get_template(view()->template, "edit.tpl");
-   Template.TemplateData d = Template.TemplateData();
-   
+
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("edit.tpl");
+
      app()->set_default_data(id, d);
 
    if(id->variables->action)
@@ -602,8 +613,9 @@ public void post(Request id, Response response, mixed ... args)
    subject = "";
    contents = "";
    
-   Template.Template t = view()->get_template(view()->template, "post.tpl");
-   Template.TemplateData d = Template.TemplateData();
+      Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("post.tpl");
    
      app()->set_default_data(id, d);
 

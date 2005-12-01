@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>FinBlog :: {title}</title>
+   <title>{config.name} :: {title}</title>
 </head>
 <body>
 {include:tagline.tpl}

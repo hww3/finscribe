@@ -6,8 +6,9 @@ public void index(Request id, Response response, mixed ... args)
 	if(!app()->is_admin_user(id, response))
           return;
 
-	Template.Template t = view()->get_template(view()->template, "adminindex.tpl");
-	Template.TemplateData d = Template.TemplateData();
+	Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("adminindex.tpl");
 
         app()->set_default_data(id, d);
 
@@ -19,8 +20,9 @@ public void listusers(Request id, Response response, mixed ... args)
 	if(!app()->is_admin_user(id, response))
           return;
 
-	Template.Template t = view()->get_template(view()->template, "listusers.tpl");
-	Template.TemplateData d = Template.TemplateData();
+	Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("listusers.tpl");
 
         app()->set_default_data(id, d);
 
@@ -39,8 +41,9 @@ public void edituser(Request id, Response response, mixed ... args)
 	if(!app()->is_admin_user(id, response))
           return;
 
-	Template.Template t = view()->get_template(view()->template, "edituser.tpl");
-	Template.TemplateData d = Template.TemplateData();
+	Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("edituser.tpl");
 	
         app()->set_default_data(id, d);
   	response->set_template(t, d);
@@ -122,4 +125,3 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
   }
   response->redirect("listusers");
 }
-

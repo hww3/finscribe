@@ -42,8 +42,9 @@ private void handle_wiki(object obj, Request id, Response response)
   string title = model()->get_object_title(obj, id);  
   string contents = model()->get_object_contents(obj, id);
 
-  Template.TemplateData dta = Template.TemplateData();
-  Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
+        Template.Template t;
+        Template.TemplateData dta;
+        [t, dta] = view()->prep_template("wikiobject.tpl");
 
   app()->set_default_data(id, dta);
  
@@ -83,8 +84,9 @@ private void handle_text(object obj, Request id, Response response)
   string title = model()->get_object_title(obj, id);  
   string contents = model()->get_object_contents(obj, id);
 
-  Template.TemplateData dta = Template.TemplateData();
-  Template.Template t = view()->get_template(view()->template, "wikiobject.tpl");
+        Template.Template t;
+        Template.TemplateData dta;
+        [t, dta] = view()->prep_template("wikiobject.tpl");
 
   app()->set_default_data(id, dta);
  

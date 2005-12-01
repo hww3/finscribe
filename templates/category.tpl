@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>FinBlog :: Category {category.category}</title>
+   <title>{config.name} :: Category {category.category}</title>
 </head>
 <body>
 {include:tagline.tpl}

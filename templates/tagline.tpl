@@ -1,9 +1,9 @@
 <!-- this is tagline.tpl -->
   <div id="page-logo">
-    <img src="/static/images/logo.gif" alt="FinBlog" border="0"/>   
+    <img src="{config.logo}" alt="{config.name}" border="0"/>   
   </div>
   <div id="page-title">
-   <div id="page-tagline">Another FinBlog Site</div>
+   <div id="page-tagline">{config.tagline}</div>
   <div id="page-buttons"> [
 {if:start:data->obj=="start"}
  start 
