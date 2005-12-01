@@ -7,7 +7,6 @@
 {include:tagline.tpl}
    <div id="page-wrapper">
     <div id="page-content">
-   <h3>{title}</h3>
  
 <div class="snip-buttons"> </div> 
 
@@ -15,7 +14,7 @@
    <div class="snip-wrapper">
       <div class="snip-content">
 
-          <h1>User List</h1>
+          <h3>User List</h3>
         
         <table>
             <tr><td>User Name</td><td>Real Name</td><td>e-mail</td><td>Admin 
