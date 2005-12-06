@@ -21,13 +21,13 @@ public void index(Request id, Response response, mixed ... args)
  
   array o = model()->get_blog_entries(obj, 10);
 
-  Node n = generate_rss(obj, o);
+  Node n = generate_rss(obj, o, id);
 
   response->set_type("text/xml");
   response->set_data(render_xml(n));
 }
 
-private Node generate_rss(object root, array entries)
+private Node generate_rss(object root, array entries, object id)
 {
   Node n = new_xml("1.0", "rss");
   n->set_attribute("version", "2.0");
@@ -52,7 +52,7 @@ private Node generate_rss(object root, array entries)
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
-      item->new_child("description", replace(row["current_version"]["contents"], ({"\n\n", "\n"}), ({"<p>\n", "<br/>"})));
+      item->new_child("description", app()->engine->render(row["current_version"]["contents"], (["request": id, "obj": row])));
     }
   return n;
 }
