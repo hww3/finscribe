@@ -1,4 +1,8 @@
-setting up FinScribe
+Setting up FinScribe
+
+FinScribe runs under Pike versions 7.6.50 or newer. Additionally, there 
+are a number of additional modules which provided necessary functionality. 
+Item 0 below describes these prerequisites.
 
 FinScribe supports storing its data either using mySQL or SQLite. Depending 
 on which you choose to use, you'll need to have the appropriate libraries 
@@ -7,7 +11,24 @@ installed, and later choose to add support for one of these database
 engines, you can easily do that. SQLite is probably the easier of the two 
 to install support for, as you can use Monger.
 
-0. Make sure that the FinScribe directory is within the Fins directory.
+0. Make sure you have installed any prerequisite software:
+   a. Third party libraries:
+      - A supported database engine client (mysql or SQLite)
+      - PCRE
+      - libxml2
+      - libfcgi (optional, only required if using FinsRunner to serve
+        your application using FastCGI
+   b. Modules bundled with Pike (only necessary if you installed the 
+      corresponding library _after_ you compiled/installed Pike.)
+      - _Regexp_PCRE
+      - Mysql
+   c. Third party Pike modules, installable using the following command: 
+         pike -x monger modulename
+      - Sql.Provider.SQLite (if using SQLite as your database)
+      - Public.Parser.XML2
+      - Public.Web.RSS
+      - Public.Web.Wiki
+      - Public.Web.FCGI (if deploying using FastCGI)
 1. Prepare the database:
    Mysql:
    a. Create a mysql database for the blog.
@@ -38,7 +59,11 @@ to install support for, as you can use Monger.
 
 7. Start the blog application:
 
-    ./fin_serve portnumber FinScribe yourconfigname
+    ./fin_serve portnumber . yourconfigname
+ 
+   or
+
+   ./start.sh
 
 8. Access your application by pointing your browser to the proper 
   portnumber.
