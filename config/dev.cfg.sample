@@ -1,6 +1,9 @@
 [model]
 class=model
-datasource=mysql://hww3:gazonk@localhost/blog
+#datasource=mysql://hww3:gazonk@localhost/blog
+
+# this path is relative to the current directory
+datasource=SQLite://blog.db
 
 [controller]
 class=controller
