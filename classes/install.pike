@@ -79,7 +79,7 @@ int run()
   // then we load up the start object.
 
   write("Loading initial objects...\n");
-  model()->new_from_string("start", "1 Welcome to FinBlog.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
+  model()->new_from_string("start", "1 Welcome to FinScribe.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
   model()->new_from_string("object-index", "{object-index}\n\nView [attachment-index]\n", "text/wiki", 0, 1);
   model()->new_from_string("attachment-index", "{attachment-index}", "text/wiki", 0, 1);
 

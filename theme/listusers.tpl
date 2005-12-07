@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>FinBlog :: admin :: userlist</title>
+   <title>FinScribe :: admin :: userlist</title>
 </head>
 <body>
 {include:tagline.tpl}

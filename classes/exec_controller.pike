@@ -272,7 +272,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 				string mailmsg = tp->render(dp);
 				
 				Protocols.SMTP.Client(app()->config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
-																											"Your FinBlog password", 
+																											"Your FinScribe password", 
 																											app()->config->get_value("mail", "return_address"), 
 																											mailmsg);
 				

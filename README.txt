@@ -1,13 +1,13 @@
-setting up FinBlog
+setting up FinScribe
 
-FinBlog supports storing its data either using mySQL or SQLite. Depending 
+FinScribe supports storing its data either using mySQL or SQLite. Depending 
 on which you choose to use, you'll need to have the appropriate libraries 
 installed before building and installing Pike. If you already have Pike 
 installed, and later choose to add support for one of these database 
 engines, you can easily do that. SQLite is probably the easier of the two 
 to install support for, as you can use Monger.
 
-0. Make sure that the FinBlog directory is within the Fins directory.
+0. Make sure that the FinScribe directory is within the Fins directory.
 1. Prepare the database:
    Mysql:
    a. Create a mysql database for the blog.
@@ -24,7 +24,7 @@ to install support for, as you can use Monger.
 4. Install the objects in the model:
 
      [from the Fins directory]
-     ./fin_serve hilfe FinBlog yourconfigname
+     ./fin_serve hilfe FinScribe yourconfigname
 
      when you get the > prompt, enter:
 
@@ -38,7 +38,7 @@ to install support for, as you can use Monger.
 
 7. Start the blog application:
 
-    ./fin_serve portnumber FinBlog yourconfigname
+    ./fin_serve portnumber FinScribe yourconfigname
 
 8. Access your application by pointing your browser to the proper 
   portnumber.
