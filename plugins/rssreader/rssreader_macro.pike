@@ -11,6 +11,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 {
   string doc;
   int limit;
+  int hidetitle;
 
   // we should get a limit for the number of entries to display.
 
@@ -29,6 +30,11 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     limit = (int)a[1];
   else limit = 10;
 
+  if(sizeof(a)>2 && a[2] && strlen(a[2]))
+	{
+		if(a[2]=="hidetitle")
+		  hidetitle = 1;
+	}
   object r = params->engine->wiki->cache->get("__RSSdata-" + doc);
 
   if(!r)
@@ -47,9 +53,13 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   }
 
   buf->add("<div class=\"rss-feed\">");
-  buf->add(r->data->title);
-  buf->add("<hr/>\n");
- 
+
+  if(!hidetitle)
+  {
+    buf->add(r->data->title);
+    buf->add("<hr/>\n");
+  }
+
   foreach(r->items, item)
   {
     buf->add("<li/>\n");
