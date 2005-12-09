@@ -43,6 +43,6 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add("\">");
     buf->add(p[1]);
     buf->add("</a><br>\n");
-    prev = p[1][0];
+    prev = p[i][0];
   }  
 }
