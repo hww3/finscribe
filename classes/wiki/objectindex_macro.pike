@@ -32,7 +32,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   int prev;
   foreach(f; int i; array p)
   {
-	 werror("current: %O\n", e[i][0]);
+//	 werror("current: %O\n", e[i][0]);
     if(prev != e[i][0])
     {
       buf->add("<h4>");
@@ -44,7 +44,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add("\">");
     buf->add(p[1]);
     buf->add("</a><br>\n");
-    prev = p[1][0];
-	werror("prev: %O ", prev);
+    prev = e[i][0];
+//	werror("prev: %O ", prev);
   }  
 }
