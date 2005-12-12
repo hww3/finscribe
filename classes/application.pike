@@ -17,6 +17,11 @@ static void create(Fins.Configuration _config)
   
 }
 
+void load_cache()
+{
+  cache = FinScribe.Cache;
+}
+
 void load_wiki()
 {
    engine = ((program)"wikiengine")(this);

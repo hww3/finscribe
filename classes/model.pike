@@ -1,6 +1,6 @@
 import Fins;
-inherit Fins.FinsModel;
 import Fins.Model;
+inherit Fins.FinsModel;
 
 static void create(Fins.Application a)
 {
@@ -15,17 +15,25 @@ public void load_model()
    object d = Fins.Model.DataModelContext(); 
    d->sql = s;
    d->debug = 1;
-   d->repository = this;
+   d->repository = FinScribe.Repo;
+   d->cache = FinScribe.Cache;
+   d->app = app();
    d->initialize();
 
    context = d;
 
-   add_object_type(Object_object(d));
-   add_object_type(Object_version_object(d));
-   add_object_type(Datatype_object(d));
-	add_object_type(Category_object(d));
-   add_object_type(Comment_object(d));
-   add_object_type(User_object(d));
+   FinScribe.Repo.add_object_type(FinScribe.Model.Object_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.Object);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Object_version_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.Object_version);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Datatype_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.Datatype);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Category_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.Category);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Comment_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.Comment);
+   FinScribe.Repo.add_object_type(FinScribe.Model.User_object(d));
+   FinScribe.Repo.add_instance_type(FinScribe.Model.User);
 }
 
 Model.DataObjectInstance find_by_id(string|object ot, int id)
@@ -41,7 +49,7 @@ Model.DataObjectInstance find_by_id(string|object ot, int id)
 
    if(o) return o;
 
-   o = ::find_by_id(ot, id);
+   o = FinScribe.Repo.find_by_id(ot, id);
    if(o) cache()->set(key, o, 600);
 
    return o;
@@ -55,7 +63,7 @@ mixed get_datatypes()
   
   if(res) return res;
 
-  res = find("datatype", ([]));
+  res = FinScribe.Repo.find("datatype", ([]));
 
   cache()->set("DATATYPES_", res, 600);
 
@@ -92,7 +100,7 @@ mixed get_categories()
 
 public array get_blog_entries(object obj, int|void max)
 {
-  array o = find("object", ([ "is_attachment": 2, "parent": obj]), 
+  array o = FinScribe.Repo.find("object", ([ "is_attachment": 2, "parent": obj]), 
                         Model.Criteria("ORDER BY path DESC" + (max?(" LIMIT " + max) : "")));
 
   return o;
@@ -112,7 +120,7 @@ public object get_fbobject(array args, Request|void id)
 
    if(r && sizeof(r)) return r[0];
 
-   r = find("object", (["path": a]));
+   r = FinScribe.Repo.find("object", (["path": a]));
 
    if(sizeof(r))
    {
@@ -159,294 +167,6 @@ public string get_when(object c)
 
    return howlongago;
 }
-
-
-
-/*
-
-    here are the model objects for the o-r mapping
-  
-*/
-
-
-class Object_object
-{
-   inherit Model.DataObject;
-
-   static object metadata;
-
-   static void create(DataModelContext c)
-   {  
-      ::create(c);
-      set_table_name("objects");
-      set_instance_name("object");
-      add_field(PrimaryKeyField("id"));
-      add_field(KeyReference("author", "author_id", "user"));
-      add_field(KeyReference("datatype", "datatype_id", "datatype"));
-      add_field(KeyReference("parent", "parent_id", "object", UNDEFINED, 1));
-      add_field(StringField("path", 128, 0));
-      add_field(IntField("is_attachment", 0, 0));
-      add_field(DateTimeField("created", 0, created));
-      add_field(TransformField("title", "path", get_title));
-      add_field(TransformField("nice_created", "created", format_created));
-      add_field(CacheField("current_version", "current_version_uncached", c));
-      add_field(StringField("metadata", 1024, 0, ""));
-      add_field(TransformField("md", "metadata", get_md));
-      add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
-      add_field(InverseForeignKeyReference("comments", "comment", "object"));
-      add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
-      set_primary_key("id");
-   }
-
-   static object created()
-   {
-     return Calendar.Second();
-   }
-
-   object get_md(mixed md, object i)
-   {
-     if(!metadata)
-       return (metadata = MetaData(md, i));
-     else return metadata;
-   }
-
-   string get_title(mixed n, object i)
-   {
-     string a = i["current_version"]["subject"];
-     if(a && sizeof(a)) return a;
-     else return (n/"/")[-1];
-   }
-
-   string format_created(object c, object i)
-   {
-     return c->format_ext_ymd();
-   }
-
-   class MetaData
-   {
-     mapping metadata = ([]);
-     object obj;
-
-     static void create(mixed data, object i)
-     {
-       obj = i;
-
-       if(data && strlen(data))
-       {
-         catch {
-           metadata = decode_value(MIME.decode_base64(data));
-         };
-       }
-     }
-
-    Iterator _get_iterator()
-    {
-      return Mapping.Iterator(metadata);
-    }
-
-
-     array _indices()
-     {
-       return indices(metadata);
-     }
-
-     array _values()
-     {
-       return values(metadata);
-     }
-
-     mixed _m_delete(mixed arg)
-     {
-       if(!metadata[arg] && !zero_type(metadata[arg]))
-       {
-         m_delete(arg, metadata);
-         save();
-       }
-     }
-  
-
-     mixed `[](mixed a)
-     {
-       return `->(a);
-     }
-
-     mixed `[]=(mixed a, mixed b)
-     {
-       return `->=(a,b);
-     }
-
-     mixed `->(mixed a)
-     {
-       werror("calling ->\n");
-       if(a == "dump")
-         return dump;
-       if(a == "save")
-         return save;
-
-       if(metadata)
-         return metadata[a];
-       else return 0;
-     }
-
-     mixed `->=(mixed a, mixed b)
-     {
-       werror("calling ->=\n");
-       metadata[a] = b;
-       save();
-     }
-
-   int save()
-   {
-      obj["metadata"] = dump(); 
-      return 1;
-   }
-
-
-   string dump()
-   {
-     return MIME.encode_base64(encode_value(metadata));
-   }
-
- }
-
-}
-
-class Category_object
-{
-	inherit Model.DataObject;
-	
-	static void create(DataModelContext c)
-	{
-		::create(c);
-		set_table_name("categories");
-		set_instance_name("category");
-		add_field(PrimaryKeyField("id"));
-		add_field(StringField("category", 64, 0));
-		add_field(MultiKeyReference(this, "objects", "objects_categories", "category_id", "object_id", "object", "id"));
-		set_primary_key("id");
-	}
-}
-class Object_version_object
-{
-   inherit Model.DataObject;
-
-   static void create(DataModelContext c)
-   {  
-      ::create(c);
-      set_table_name("object_versions");
-      set_instance_name("object_version");
-      add_field(PrimaryKeyField("id"));
-      add_field(KeyReference("object", "object_id", "object"));
-      add_field(KeyReference("author", "author_id", "user"));
-      add_field(IntField("version", 0, 1));
-      add_field(StringField("subject", 128, 1));
-      add_field(TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
-      add_field(StringField("contents", 102400, 0));
-      add_field(DateTimeField("created", 0, created));
-      add_field(InverseForeignKeyReference("comments", "comment", "object"));
-
-      set_primary_key("id");
-   }
-
-   static object created()
-   {
-     return Calendar.Second();
-   }
-}
-
-class Datatype_object
-{
-   inherit Model.DataObject;
-
-   static void create(DataModelContext c)
-   {  
-      ::create(c);
-      set_table_name("datatypes");
-      set_instance_name("datatype");
-      add_field(PrimaryKeyField("id"));
-      add_field(StringField("mimetype", 32, 0));
-      set_primary_key("id");
-   }
-
-   static object created()
-   {
-     return Calendar.Second();
-   }
-}
-
-
-class User_object
-{
-   inherit Model.DataObject;
-
-   static void create(DataModelContext c)
-   {  
-      ::create(c);
-      set_table_name("users");
-      set_instance_name("user");
-      add_field(PrimaryKeyField("id"));
-      add_field(StringField("Name", 36, 0));
-      add_field(StringField("UserName", 12, 0));
-      add_field(StringField("Email", 64, 0));
-      add_field(IntField("is_admin", 1, 1));
-      add_field(IntField("is_active", 1, 1));
-      add_field(StringField("Password", 16, 0));
-      set_primary_key("id");
-   }
-}
-
-
-class Comment_object
-{
-   inherit Model.DataObject;
-
-   static void create(DataModelContext c)
-   {  
-      ::create(c);
-      set_table_name("comments");
-      set_instance_name("comment");
-      add_field(PrimaryKeyField("id"));
-      add_field(KeyReference("object", "object_id", "object"));
-      add_field(KeyReference("author", "author_id", "user"));
-      add_field(StringField("contents", 1024, 0));
-      add_field(DateTimeField("created", 0, created));
-      add_field(TransformField("nice_created", "created", format_created));
-      add_field(TransformField("wiki_contents", "contents", app()->engine->render));
-      set_primary_key("id");
-   }
-   
-   static string format_created(object c, object i)
-   {
-      string howlongago;
-
-      c = c->distance(Calendar.now());
-
-      if(c->number_of_minutes() < 3)
-      {
-         howlongago = "Just a moment ago";
-      }
-      else if(c->number_of_minutes() < 60)
-      {
-         howlongago = c->number_of_minutes() + " minutes ago";
-      }
-      else if(c->number_of_hours() < 24)
-      {
-         howlongago = c->number_of_hours() + " hours ago";
-      }
-      else
-      {
-         howlongago = c->number_of_days() + " days ago";
-      }
-
-      return howlongago;    
-   }
-   
-   static object created()
-   {
-     return Calendar.Second();
-   }
-}
-
 
 int new_from_string(string path, string contents, string type, int|void att, int|void skip_if_exists)
 {
