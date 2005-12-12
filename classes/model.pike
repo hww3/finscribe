@@ -38,21 +38,12 @@ public void load_model()
 
 Model.DataObjectInstance find_by_id(string|object ot, int id)
 {
-   object o;
-   string key = "";
+  return FinScribe.Repo.find_by_id(ot, id);
+}
 
-   if(objectp(ot))
-     key = sprintf("OBJECTCACHE_%s_%d", ot->instance_name, id);
-   else key=sprintf("OBJECTCACHE_%s_%d", ot, id);
-
-   o = cache()->get(key);
-
-   if(o) return o;
-
-   o = FinScribe.Repo.find_by_id(ot, id);
-   if(o) cache()->set(key, o, 600);
-
-   return o;
+array find(string|object ot, mapping attr, object|void criteria)
+{
+  return FinScribe.Repo.find(ot, attr, criteria);
 }
 
 mixed get_datatypes()
@@ -91,7 +82,7 @@ mixed get_categories()
   
   if(res) return res;
 
-  res = find("category", ([]));
+  res = FinScribe.Repo.find("category", ([]));
 
   cache()->set("CATEGORIES_", res, 600);
 
@@ -172,7 +163,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
 {
   int isnew = 1;
   object obj_o;
-  array dtos = find("datatype", (["mimetype": type]));
+  array dtos = FinScribe.Repo.find("datatype", (["mimetype": type]));
                if(!sizeof(dtos))
                {
                   throw(Error.Generic("Mime type " + type + " not valid."));
@@ -180,7 +171,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
                else{
                object dto = dtos[0];
   mixed a;
-  catch(a=find("object", (["path": path]) ));
+  catch(a=FinScribe.Repo.find("object", (["path": path]) ));
   if(a && sizeof(a))
   {
     if(skip_if_exists) return 0;
@@ -194,7 +185,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
                  obj_o["is_attachment"] = 1;
                else 
                  obj_o["is_attachment"] = 0;
-               obj_o["author"] = find("user", (["UserName": "admin"]))[0];
+               obj_o["author"] = FinScribe.Repo.find("user", (["UserName": "admin"]))[0];
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
            if(isnew)
@@ -214,7 +205,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = find("user", (["UserName": "admin"]))[0];
+            obj_n["author"] = FinScribe.Repo.find("user", (["UserName": "admin"]))[0];
             obj_n->save();
             return 1;
 

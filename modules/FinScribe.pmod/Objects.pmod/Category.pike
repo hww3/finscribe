@@ -1,4 +1,4 @@
 inherit Fins.Model.DirectAccessInstance;
 
 constant type_name = "category";
-constant repository = FinScribe.Repo;
+object repository = FinScribe.Repo;

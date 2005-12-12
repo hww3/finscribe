@@ -1,5 +1,5 @@
 inherit Fins.Model.DirectAccessInstance;
 
 constant type_name = "user";
-constant repository = FinScribe.Repo;
+object repository = FinScribe.Repo;
 
