@@ -480,6 +480,30 @@ werror("COMMENTS: %O\n", args);
    
 }
 
+public void new(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to edit content.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+   if(id->variables->title)
+   {
+     response->redirect("/exec/edit/" + id->variables->title);
+     return;
+   }   
+
+     Template.Template t;
+     Template.TemplateData d;
+     [t, d] = view()->prep_template("new.tpl");
+
+     app()->set_default_data(id, d);
+     response->set_template(t,d);
+}
+
 public void edit(Request id, Response response, mixed ... args)
 {
    string contents, title, obj, subject;

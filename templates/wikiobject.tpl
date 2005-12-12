@@ -15,7 +15,8 @@
      {endif:isblog}
 {if:loggedin:data->user}<div class="snip-buttons"> 
 {if:locked:data->metadata["locked"]!=1}[ <a 
-href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} ] </div> 
+href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} | <a 
+href="/exec/new">new</a> ] </div> 
 {endif:loggedin}
 <div class="flash-message">{!flash:msg}</div>
    <div class="snip-wrapper">
