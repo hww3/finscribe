@@ -1,0 +1,1 @@
+inherit Fins.Model.Repository;
