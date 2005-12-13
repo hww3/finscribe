@@ -19,7 +19,7 @@ public void index(Request id, Response response, mixed ... args)
     response->redirect("/exec/notfound/" + args*"/");
   }
  
-  array o = model()->get_blog_entries(obj, 10);
+  array o = obj->get_blog_entries(10);
 
   Node n = generate_rss(obj, o, id);
 
