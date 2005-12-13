@@ -432,7 +432,7 @@ werror("COMMENTS: %O\n", args);
    }
 
    obj_o = model()->get_fbobject(args, id);
-   title = model()->get_object_title(obj_o, id);
+   title = obj_o->get_object_title(id);
    obj = args*"/";
     
    Template.Template t; 
@@ -595,7 +595,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       if(obj_o)
       {
-         contents = model()->get_object_contents(obj_o, id);
+         contents = obj_o->get_object_contents(id);
          subject = obj_o["current_version"]["subject"];
          if(!subject || subject == "0") subject = "";
       }
@@ -732,7 +732,7 @@ public void post(Request id, Response response, mixed ... args)
       if(obj_o)
       {
         contents = "";
-//         contents = model()->get_object_contents(obj_o, id);
+//         contents = obj_o->get_object_contents(id);
       }
       else
       {

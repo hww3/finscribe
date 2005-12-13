@@ -44,7 +44,7 @@ string macro_snip(Template.TemplateData data, string|void args)
 
    if(!obj) return "";
 
-   string contents = model->get_object_contents(obj);
+   string contents = obj->get_object_contents();
 
    return engine->render(contents);
 }

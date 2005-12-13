@@ -80,7 +80,7 @@ string macro_recent_changes()
     else if(row["is_attachment"] == 2) type = "Blogentry";
 
     string icon = "<img src=\"/static/images/Icon-" + type+ ".png\" alt=\"*\"/> ";
-    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + wiki->model->get_object_title(row) + "</a><br/>";
+    ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + row["title"] + "</a><br/>";
   }
 
   return ret;

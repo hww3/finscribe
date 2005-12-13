@@ -9,14 +9,16 @@ string describe()
 
 void evaluate(String.Buffer buf, Macros.MacroParameters params)
 {
-  string root;
+  object root;
   int limit;
 
-  if(params->extras->obj && objectp(params->extras->obj))
+werror("EVALUATE: %O\n", params->extras->obj);
+
+  if(params->extras->obj && !stringp(params->extras->obj))
     root = params->extras->obj;
   else
   {
-    array o = params->engine->wiki->model->find("object", (["path": params->extras->obj]));
+    array o = params->engine->wiki->model->find("object", (["path": params->extras->obj["path"]]));
     if(sizeof(o))
       root = o[0];
   }
@@ -35,8 +37,8 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add("Unable to render Weblog because the weblog page location could not be determined."); 
     return;
   } 
-
-  array o = params->engine->wiki->model->get_blog_entries(root, limit);
+werror("root: %O\n", object_program(root));
+  array o = root->get_blog_entries(limit);
 
   foreach(o; int i; object entry)
   {

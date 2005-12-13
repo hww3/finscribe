@@ -2,38 +2,18 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsModel;
 
-static void create(Fins.Application a)
-{
-  ::create(a);
-  load_model();
-}
+object repository = FinScribe.Repo;
 
 public void load_model()
 {
-	
-   object s = Sql.Sql(app()->config->get_value("model", "datasource"));
-   object d = Fins.Model.DataModelContext(); 
-   d->sql = s;
-   d->debug = 1;
-   d->repository = FinScribe.Repo;
-   d->cache = FinScribe.Cache;
-   d->app = app();
-   d->initialize();
+  ::load_model();
 
-   context = d;
-
-   FinScribe.Repo.add_object_type(FinScribe.Model.Object_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.Object);
-   FinScribe.Repo.add_object_type(FinScribe.Model.Object_version_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.Object_version);
-   FinScribe.Repo.add_object_type(FinScribe.Model.Datatype_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.Datatype);
-   FinScribe.Repo.add_object_type(FinScribe.Model.Category_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.Category);
-   FinScribe.Repo.add_object_type(FinScribe.Model.Comment_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.Comment);
-   FinScribe.Repo.add_object_type(FinScribe.Model.User_object(d));
-   FinScribe.Repo.add_instance_type(FinScribe.Model.User);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Object_object(context), FinScribe.Model.Object);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Object_version_object(context), FinScribe.Model.Object_version);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Datatype_object(context), FinScribe.Model.Datatype);   
+   FinScribe.Repo.add_object_type(FinScribe.Model.Category_object(context), FinScribe.Model.Category);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Comment_object(context), FinScribe.Model.Comment);
+   FinScribe.Repo.add_object_type(FinScribe.Model.User_object(context), FinScribe.Model.User);
 }
 
 Model.DataObjectInstance find_by_id(string|object ot, int id)
@@ -44,6 +24,11 @@ Model.DataObjectInstance find_by_id(string|object ot, int id)
 array find(string|object ot, mapping attr, object|void criteria)
 {
   return FinScribe.Repo.find(ot, attr, criteria);
+}
+
+string get_object_name(string n)
+{
+  return (n/"/")[-1];
 }
 
 mixed get_datatypes()
@@ -89,19 +74,6 @@ mixed get_categories()
   return res;
 }
 
-public array get_blog_entries(object obj, int|void max)
-{
-  array o = FinScribe.Repo.find("object", ([ "is_attachment": 2, "parent": obj]), 
-                        Model.Criteria("ORDER BY path DESC" + (max?(" LIMIT " + max) : "")));
-
-  return o;
-}
-
-public string get_object_name(string obj)
-{
-   return (obj/"/")[-1];
-}
-
 public object get_fbobject(array args, Request|void id)
 {
    array r;
@@ -119,18 +91,6 @@ public object get_fbobject(array args, Request|void id)
      return r[0];
    }
    else return 0;
-}
-
-public string get_object_title(object obj, Request|void id)
-{
-   string t = obj["current_version"]["subject"];
-   return (t && sizeof(t))?t:get_object_name(obj["path"]);
-}
-
-public string get_object_contents(object obj, Request|void id)
-{
-
-   return obj["current_version"]["contents"];
 }
 
 public string get_when(object c)

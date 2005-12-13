@@ -57,7 +57,7 @@ werror("cat: %O\n", cat);
       buf->add("<a href=\"/space/");
       buf->add(item["path"]);
       buf->add("\">");
-      buf->add(params->engine->wiki->model->get_object_title(item));
+      buf->add(item->get_object_title());
       buf->add("</a>");
       buf->add("\n");
       ci++;

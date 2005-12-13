@@ -39,8 +39,8 @@ public void index(Request id, Response response, mixed ... args)
 
 private void handle_wiki(object obj, Request id, Response response)
 {
-  string title = model()->get_object_title(obj, id);  
-  string contents = model()->get_object_contents(obj, id);
+  string title = obj["title"];  
+  string contents = obj->get_object_contents(id);
 
         Template.Template t;
         Template.TemplateData dta;
@@ -81,8 +81,8 @@ private void handle_wiki(object obj, Request id, Response response)
 
 private void handle_text(object obj, Request id, Response response)
 {
-  string title = model()->get_object_title(obj, id);  
-  string contents = model()->get_object_contents(obj, id);
+  string title = obj["title"];  
+  string contents = obj->get_object_contents(id);
 
         Template.Template t;
         Template.TemplateData dta;
@@ -121,7 +121,7 @@ werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
 
 private void handle_data(object obj, Request id, Response response)
 {
-  string contents = model()->get_object_contents(obj, id);
+  string contents = obj->get_object_contents(id);
   response->set_data(contents);
   response->set_type(obj["datatype"]["mimetype"]);
 }

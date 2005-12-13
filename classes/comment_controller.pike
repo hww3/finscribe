@@ -46,8 +46,8 @@ public void notfound(Request id, Response response, mixed ... args)
 
 private void handle_wiki(object obj, Request id, Response response)
 {
-  string title = model()->get_object_title(obj, id);  
-  string contents = model()->get_object_contents(obj, id);
+  string title = obj->get_object_title(id);  
+  string contents = obj->get_object_contents(id);
 
       Template.Template t;
         Template.TemplateData dta;
