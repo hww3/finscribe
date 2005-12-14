@@ -3,3 +3,5 @@ Changes since version 0.1
 - added lock object functionality (only a document's owner may edit a 
   locked document.)
 - added new object functionality
+- added visual diff
+- added viewing of previous versions
