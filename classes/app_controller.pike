@@ -40,7 +40,6 @@ public void index(Request id, Response response, mixed ... args)
 private void handle_wiki(object obj, Request id, Response response)
 {
   string title = obj["title"];  
-  string contents = obj->get_object_contents(id);
 
         Template.Template t;
         Template.TemplateData dta;
@@ -51,6 +50,19 @@ private void handle_wiki(object obj, Request id, Response response)
   int numattachments; 
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
+  object v;
+
+  if(id->variables->show_version)
+  {
+    v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+    response->flash("msg", "Showing archived version");
+  }
+  else
+  {
+    v = obj["current_version"];
+  }
+
+  string contents = v["contents"];
   array datatypes = model()->get_datatypes();
   array categories = model()->get_categories();
   numattachments = sizeof(o);
@@ -60,10 +72,10 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("content", app()->engine->render(contents, (["request": id, "obj": obj])));
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
-  dta->add("when", model()->get_when(obj["current_version"]["created"]));
-  dta->add("editor", obj["current_version"]["author"]["Name"]);
-  dta->add("editor_username", obj["current_version"]["author"]["UserName"]);
-  dta->add("version", (string)obj["current_version"]["version"]);
+  dta->add("when", model()->get_when(v["created"]));
+  dta->add("editor", v["author"]["Name"]);
+  dta->add("editor_username", v["author"]["UserName"]);
+  dta->add("version", (string)v["version"]);
   dta->add("numattachments", numattachments);  
   dta->add("attachments", o);  
   dta->add("datatypes", datatypes);
@@ -82,7 +94,6 @@ private void handle_wiki(object obj, Request id, Response response)
 private void handle_text(object obj, Request id, Response response)
 {
   string title = obj["title"];  
-  string contents = obj->get_object_contents(id);
 
         Template.Template t;
         Template.TemplateData dta;
@@ -91,6 +102,20 @@ private void handle_text(object obj, Request id, Response response)
   app()->set_default_data(id, dta);
  
   int numattachments; 
+
+  object v;
+
+  if(id->variables->show_version)
+  {
+    v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+    response->flash("msg", "Showing archived version");
+  }
+  else
+  {
+    v = obj["current_version"];
+  }
+
+  string contents = v["contents"];
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
   array datatypes = model()->get_datatypes();
@@ -101,10 +126,10 @@ private void handle_text(object obj, Request id, Response response)
   dta->add("content", contents);
   dta->add("author", obj["author"]["Name"]);
   dta->add("author_username", obj["author"]["UserName"]);
-  dta->add("when", model()->get_when(obj["current_version"]["created"]));
-  dta->add("editor", obj["current_version"]["author"]["Name"]);
-  dta->add("editor_username", obj["current_version"]["author"]["UserName"]);
-  dta->add("version", (string)obj["current_version"]["version"]);
+  dta->add("when", model()->get_when(v["created"]));
+  dta->add("editor", v["author"]["Name"]);
+  dta->add("editor_username", v["author"]["UserName"]);
+  dta->add("version", (string)v["version"]);
   dta->add("numattachments", numattachments);  
   dta->add("attachments", o);  
   dta->add("datatypes", datatypes);
@@ -121,7 +146,19 @@ werror("NUMCATEGORIES: %O", sizeof(obj["categories"]));
 
 private void handle_data(object obj, Request id, Response response)
 {
-  string contents = obj->get_object_contents(id);
+  object v;
+
+  if(id->variables->show_version)
+  {
+    v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+  }
+  else
+  {
+    v = obj["current_version"];
+  }
+
+  string contents = v["contents"];
+
   response->set_data(contents);
   response->set_type(obj["datatype"]["mimetype"]);
 }

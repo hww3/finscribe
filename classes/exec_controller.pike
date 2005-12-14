@@ -50,7 +50,7 @@ public void editcategory(Request id, Response response, mixed ... args)
   if(!category || !sizeof(category))
   { 
     category = id->variables["new-category"];
-    object nc = model()->new("category");
+    object nc = FinScribe.Repo.new("category");
     nc["category"] = category;
     nc->save();
   }
@@ -213,7 +213,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			else
 			{
 				// if we got here, everything should be good to go.
-				object u = model()->new("user");
+				object u = FinScribe.Repo.new("user");
 				u["UserName"] = UserName;
 				u["Name"] = Name;
 				u["Email"] = Email;
@@ -328,7 +328,7 @@ public void upload(Request id, Response response, mixed ... args)
                }
                else{              
                object dto = dtos[0];
-               obj_o = model()->new("object");
+               obj_o = FinScribe.Repo.new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
@@ -337,7 +337,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = model()->new("object_version");
+            object obj_n = FinScribe.Repo.new("object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -453,7 +453,7 @@ werror("COMMENTS: %O\n", args);
             d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
-            object obj_n = model()->new("comment");
+            object obj_n = FinScribe.Repo.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
@@ -548,7 +548,7 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                dto = dtos[0];
-               obj_o = model()->new("object");
+               obj_o = FinScribe.Repo.new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
                obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
@@ -557,7 +557,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = model()->new("object_version");
+            object obj_n = FinScribe.Repo.new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -688,7 +688,7 @@ public void post(Request id, Response response, mixed ... args)
                object p = obj_o;
 
                object dto = dtos[0];
-               obj_o = model()->new("object");
+               obj_o = FinScribe.Repo.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -698,7 +698,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = model()->new("object_version");
+            object obj_n = FinScribe.Repo.new("object_version");
             obj_n["contents"] = contents;
             obj_n["subject"] = subject;
 
@@ -745,5 +745,158 @@ public void post(Request id, Response response, mixed ... args)
    d->add("obj", obj);
    
    response->set_template(t, d);
+}
+
+
+public void diff(Request id, Response response, mixed ... args)
+{
+   object obj_o;
+
+   obj_o = model()->get_fbobject(args, id);
+   if(!obj_o)
+   {
+     response->set_data("unable to find object " + args*"/");
+     return;
+   } 
+
+    Template.Template t;
+    Template.TemplateData d;
+    [t, d] = view()->prep_template("diff.tpl");
+   
+     app()->set_default_data(id, d);
+
+
+   int from, to;
+   string cfrom, cto;
+   array os;
+
+   to = (int)id->variables->to;
+   from = (int)id->variables->from;
+
+   if(!to)
+     cto = obj_o["current_version"]["contents"];
+   else
+   {
+     os = model()->find("object_version", (["object": obj_o, "version": to]));
+     if(!sizeof(os))
+     {
+       response->set_data("version " + to + " does not exist.\n");
+       return;
+     }
+     cto = os[0]["contents"];
+   }
+
+   os = model()->find("object_version", (["object": obj_o, "version": from]));
+   if(!sizeof(os))
+   {
+     response->set_data("version " + to + " does not exist.\n");
+     return;
+   }
+   cfrom = os[0]["contents"];
+
+   cfrom = replace(cfrom, "\r", "");
+   cto = replace(cto, "\r", "");
+   array old, new;
+   old = cfrom/"\n";
+   new = cto/"\n";
+
+   array diff = Array.diff(old, new);
+
+   string resultStr = "";
+   array newTokens, oldTokens;
+
+   newTokens = diff[0];
+   oldTokens = diff[1];
+
+    int i, j, szo, szn;
+    i = j = 0;
+    szo = sizeof(oldTokens);
+    szn = sizeof(newTokens);
+    if ( szn > szo )
+        oldTokens += allocate(szn-szo);
+    else if ( szo > szn )
+        newTokens += allocate(szo-szn);
+
+    int line1, line2;
+    line1 = line2 = 1;
+werror("OLDTOKENS: %O\n---------------------------\nNEWTOKENS: %O\n-------------------------------\n", 
+oldTokens, newTokens);
+resultStr = "<table>\n";
+    while ( i < szn && j < szo )
+    {
+      resultStr +="<tr>\n";
+        if ( newTokens[i] == oldTokens[j] ) {
+werror("line is the same.\n");
+resultStr +="<td>&nbsp;</td><td>";
+            line1 += sizeof(newTokens[i]);
+            line2 += sizeof(oldTokens[j]);
+            if(arrayp(oldTokens[j]))
+              resultStr += (oldTokens[j] * "<br/>\n") ;
+            else
+              resultStr += (oldTokens[j]+ "<br/>\n") ;
+            i++;
+            j++;
+resultStr +="</td>";
+        }
+        else {
+werror("line is not the same.\n");
+            if ( !arrayp(newTokens[i]) || sizeof(newTokens[i])  == 0 ) {
+//                resultStr += "#" + line2 + ": <br />";
+                resultStr += "<td>-</td><td bgcolor=\"pink\">" + (oldTokens[j]*"<br />") + "<br/></td>";
+                line2 += sizeof(oldTokens[j]);
+            }
+            else if ( !arrayp(oldTokens[j]) || sizeof(oldTokens[j]) == 0 ) {
+//                resultStr += "#" + line1 + ": <br />";
+                resultStr += "<td><b>+</b></td><td bgcolor=\"lightgreen\">" + (newTokens[j]*"<br />") + "<br /></td>";
+                line1 += sizeof(newTokens[i]);
+            }
+            else {
+//                resultStr += "#" + line1 + ": <br />";
+                resultStr += "<td><b>+</b></td><td bgcolor=\"lightgreen\">" + (newTokens[j]*"<br />") + "<br /></td></tr>\n<tr>";
+                resultStr += "<td><b>-</b></td><td bgcolor=\"pink\">" + (oldTokens[j]*"<br />") + "<br /></td>";
+                line1 += sizeof(newTokens[i]);
+                line2 += sizeof(oldTokens[j]);
+            }
+            i++;
+            j++;
+        }
+      resultStr +="</tr>\n";
+    }
+
+   resultStr += "</table>\n";
+   d->add("object", obj_o);
+   d->add("diff", resultStr);
+   response->set_template(t, d);
+
+
+}
+
+public void versions(Request id, Response response, mixed ... args)
+{
+   object obj_o;
+
+   obj_o = model()->get_fbobject(args, id);
+   if(!obj_o)
+   {
+     response->set_data("unable to find object " + args*"/");
+     return;
+   } 
+
+    Template.Template t;
+    Template.TemplateData d;
+    [t, d] = view()->prep_template("versions.tpl");
+   
+     app()->set_default_data(id, d);
+
+
+   d->add("object", obj_o);
+   array a = model()->find("object_version", (["object": obj_o]), 
+                                      Fins.Model.Criteria("ORDER BY VERSION DESC"));
+   werror("a: %O\n", a);
+   d->add("versions", a);
+   
+   response->set_template(t, d);
+
+
 }
 
