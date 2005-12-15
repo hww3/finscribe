@@ -621,7 +621,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-   string contents, subject, obj;
+   string contents, subject, obj, trackbacks;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -636,7 +636,8 @@ public void post(Request id, Response response, mixed ... args)
    obj = args*"/";
    subject = "";
    contents = "";
-   
+   trackbacks = "";
+
       Template.Template t;
         Template.TemplateData d;
         [t, d] = view()->prep_template("post.tpl");
@@ -647,6 +648,7 @@ public void post(Request id, Response response, mixed ... args)
    {
       contents = id->variables->contents;
       subject = id->variables->subject;
+		trackbacks = id->variables->trackbacks;
       switch(id->variables->action)
       {
          case "Preview":
@@ -665,7 +667,7 @@ public void post(Request id, Response response, mixed ... args)
 
 	       // let's get the next blog path name...              
                string path = "";
-               array r = model()->get_blog_entries(obj_o);
+               array r = obj_o->get_blog_entries();
                int seq = 1;
                object c = Calendar.now();
                string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
@@ -717,7 +719,18 @@ public void post(Request id, Response response, mixed ... args)
               obj_n["subject"] = id->variables->subject;            
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
+
             cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+
+				if(sizeof(trackbacks))
+				{
+					object u = Standards.URI(app()->config->get_value("site", "url"));
+					u->path = combine_path(u->path, "/space");
+
+					foreach((trackbacks/"\n")-({""});; string url)
+						FinScribe.Blog.trackback_ping(obj_o, u, url);
+				}
+
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
             break;
@@ -741,6 +754,7 @@ public void post(Request id, Response response, mixed ... args)
    }
 
    d->add("contents", contents);
+	d->add("trackbacks", trackbacks);
    d->add("subject", subject);
    d->add("obj", obj);
    
