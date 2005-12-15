@@ -653,6 +653,20 @@ public void post(Request id, Response response, mixed ... args)
       {
          case "Preview":
             d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
+				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
+				if(id->misc->permalinks)
+				{
+					foreach(id->misc->permalinks, string url)
+					{
+						string l;
+						l = FinScribe.Blog.detect_trackback_url(url);
+						if(l && search(bu, l)==-1)
+						  bu += ({l});
+					}
+				}
+				werror("BU: %O %O\n", bu, Array.uniq(bu));
+				trackbacks = Array.uniq(bu)*"\n";
+
             break;
          case "Save":
             // posting should always create a new entry; afterwards it's a standard object
@@ -675,7 +689,7 @@ public void post(Request id, Response response, mixed ... args)
                {
                  foreach(r;;object entry) 
                  {
-		   write("LOOKING AT " + entry["path"]);
+//		   write("LOOKING AT " + entry["path"]);
                    // we assume that everything in here will be organized chronologically, and that no out of 
                    // date order pathnames will show up in the list.
                    if(has_prefix(entry["path"], obj + "/" + date + "/"))
@@ -833,14 +847,13 @@ public void diff(Request id, Response response, mixed ... args)
 
     int line1, line2;
     line1 = line2 = 1;
-werror("OLDTOKENS: %O\n---------------------------\nNEWTOKENS: %O\n-------------------------------\n", 
-oldTokens, newTokens);
+//werror("OLDTOKENS: %O\n---------------------------\nNEWTOKENS: %O\n-------------------------------\n", oldTokens, newTokens);
 resultStr = "<table>\n";
     while ( i < szn && j < szo )
     {
       resultStr +="<tr>\n";
         if ( newTokens[i] == oldTokens[j] ) {
-werror("line is the same.\n");
+//werror("line is the same.\n");
 resultStr +="<td>&nbsp;</td><td>";
             line1 += sizeof(newTokens[i]);
             line2 += sizeof(oldTokens[j]);
@@ -853,7 +866,7 @@ resultStr +="<td>&nbsp;</td><td>";
 resultStr +="</td>";
         }
         else {
-werror("line is not the same.\n");
+//werror("line is not the same.\n");
             if ( !arrayp(newTokens[i]) || sizeof(newTokens[i])  == 0 ) {
 //                resultStr += "#" + line2 + ": <br />";
                 resultStr += "<td>-</td><td bgcolor=\"pink\">" + (oldTokens[j]*"<br />") + "<br/></td>";

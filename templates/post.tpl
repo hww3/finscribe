@@ -15,7 +15,7 @@ Subject: <input type="text" name="subject" size="40" value="{subject}"/>
 <br/>
 <textarea rows="20" cols="80" name="contents">{contents}</textarea>
 <br/>
-Trackback URLs:<br/>
+TrackBack URLs (click preview to detect <a href="http://en.wikipedia.org/wiki/Trackback"TrackBack></a> URLs):<br/>
 <textarea rows="5" cols="80" name="trackbacks">{trackbacks}</textarea> 
 <br>
 <input type="submit" name="action" value="Preview"/>

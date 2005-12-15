@@ -49,3 +49,32 @@ string make_excerpt(string c)
 	
 	return c;
 }
+
+//
+// load a document by url and try to determine its trackback url.
+// currently, this is done by searching all of the comment blocks within the
+// loaded document, looking for a block of rdf embedded within the comment.
+//
+string detect_trackback_url(string url)
+{
+	string s = Protocols.HTTP.get_url_data(url);
+	object n = Public.Parser.XML2.parse_html(s);
+	
+	foreach(Public.Parser.XML2.select_xpath_nodes("//comment()", n);; object cmnt)
+	{
+		object r;
+		array c;
+		
+		if(catch(r = Public.Parser.XML2.parse_xml(cmnt->get_text())))
+		  continue;
+		c = Public.Parser.XML2.select_xpath_nodes("//*[local-name()=\"RDF\" and namespace-uri()=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"]/*[local-name()=\"Description\"]", r);
+		if(sizeof(c))
+		{
+			mapping m = c[0]->get_attributes();
+			// we fudge it a little bit, as the libxml2 glue doesn't seem to be getting ns attributes properly.
+			if(m->ping)
+				return m->ping;
+		}
+	}
+	
+}
