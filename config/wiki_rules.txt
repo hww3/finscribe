@@ -16,7 +16,7 @@ filter.newline.class=Public.Web.Wiki.Filters.NewLine
 filter.url.match=([[:space:]]|^)((http|ftp)s?://(%[[:digit:]A-Fa-f][[:digit:]A-Fa-f]|[-_.!~*';/?:@#&=+$,[:alnum:]])+)
 #regex.url.match=([^\"'=]|^)((http|ftp)s?://(%[[:digit:]A-Fa-f][[:digit:]A-Fa-f]|[-_.!~*';/?:@#&=+$,[:alnum:]])+)
 filter.url.print=$1<span class="nobr"><img height="9" width="8" src="/static/images/Icon-Extlink.png" alt="&#91;external]"/><a href="$2">$2</a></span>
-filter.url.class=Public.Web.Wiki.Filters.Url
+filter.url.class=FinScribe.Blog.URLFilter
 filter.heading.match=^[[:space:]]*(1(?:\.1)?)[[:space:]]+(.*?)$
 filter.heading.print=<h3 class="heading-$1">$2</h3>
 filter.heading.class=Public.Web.Wiki.Filters.Heading

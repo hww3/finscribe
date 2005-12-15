@@ -65,6 +65,13 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   }
   buf->add("<a href=\"");
   buf->add(link);
+
+  	if(params->extras->request)
+  	{
+		if(!params->extras->request->misc->permalinks) params->extras->request->misc->permalinks = ({});
+		params->extras->request->misc->permalinks += ({ link });
+	}
+
   buf->add("\">");
   buf->add(name);
   buf->add("</a>");
