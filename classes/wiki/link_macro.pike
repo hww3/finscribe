@@ -38,11 +38,6 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
      else
      {
         array b = elem/"=";
-        if(!sizeof(b)==2)
-        {
-           buf->add("INVALID LINK PARAMETER: " + elem);
-           return;
-        }
 
         switch(b[0])
         {
@@ -50,10 +45,8 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
              img = b[1];
              break;
             default:
-            {
-               buf->add("INVALID LINK PARAMETER: " + elem);
-               return;
-            }
+             link = elem;
+             break;
         }
      }
   }
