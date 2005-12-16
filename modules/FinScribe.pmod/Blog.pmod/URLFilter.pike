@@ -11,9 +11,10 @@ inherit Public.Web.Wiki.Filters.RegexFilter;
          for(int i=1; i<=sizeof(components); i++)
             replacements+=({"$"+i});
          buf->add(predef::replace(dest ,replacements, ({match})+components));
-			if(!context->request->misc->permalinks)
+			if(context->request && !context->request->misc->permalinks)
 				context->request->misc->permalinks = ({});
-			context->request->misc->permalinks += ({components[1]});
+                        if(context->request && context->request->misc)
+                          context->request->misc->permalinks += ({components[1]});
 
       }
       else

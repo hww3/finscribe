@@ -432,7 +432,7 @@ werror("COMMENTS: %O\n", args);
    }
 
    obj_o = model()->get_fbobject(args, id);
-   title = obj_o->get_object_title(id);
+   title = obj_o["title"];
    obj = args*"/";
     
    Template.Template t; 

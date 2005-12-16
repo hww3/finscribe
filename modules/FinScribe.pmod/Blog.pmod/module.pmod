@@ -78,3 +78,15 @@ string detect_trackback_url(string url)
 	}
 	
 }
+
+array limit(array a, int|void limit)
+{
+  if(!limit) limit = 10;
+
+  int q = sizeof(a);
+
+  if(q > limit)
+    return a[..(limit-1)];
+  else return a;
+
+}
