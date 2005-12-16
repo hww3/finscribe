@@ -12,7 +12,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   object root;
   int limit;
 
-werror("EVALUATE: %O\n", params->extras->obj);
+// werror("EVALUATE: %O\n", params->extras->obj);
 
   if(params->extras->obj && !stringp(params->extras->obj))
     root = params->extras->obj;
@@ -37,8 +37,14 @@ werror("EVALUATE: %O\n", params->extras->obj);
     buf->add("Unable to render Weblog because the weblog page location could not be determined."); 
     return;
   } 
-werror("root: %O\n", object_program(root));
-  array o = root->get_blog_entries(limit);
+//werror("root: %O\n", object_program(root));
+
+  array o;
+
+  if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
+    o = root->get_blog_entries();
+  else
+    o = root->get_blog_entries(limit);
 
   foreach(o; int i; object entry)
   {
@@ -95,4 +101,11 @@ werror("root: %O\n", object_program(root));
 
   }
 
+  if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
+    buf->add("<a href=\"?weblog=recent\">Recent Entries...</a> | ");
+  else
+    buf->add("<a href=\"?weblog=full\">More Entries...</a> | ");
+  buf->add("<a href=\"/rss/");
+  buf->add(root["path"]);
+  buf->add("\">RSS Feed</a>");
 }
