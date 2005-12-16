@@ -33,18 +33,18 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 
 string make_excerpt(string c)
 {
-	if(sizeof(c)<100)
+	if(sizeof(c)<500)
   	  return c;
-   int loc = search(" ", c, 100);
+   int loc = search(c, " ", 499);
 
 	// we don't have a space?
    if(loc == -1)
 	{
-		c = c[0..100] + "...";
+		c = c[0..499] + "...";
 	}
 	else
 	{
-		c = c[0..loc] + "...";
+		c = c[..loc] + "...";
 	}
 	
 	return c;
