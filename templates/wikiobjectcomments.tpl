@@ -15,8 +15,11 @@
 Version #{version}.
    <br/>
    
-   {if:loggedin:data->user}<div class="snip-buttons"> [ <a href="/exec/edit/{obj}">edit</a> ] </div>
+ <div class="snip-buttons"> [
+
+ {if:loggedin:data->user}  <a href="/exec/edit/{obj}">edit</a>
    {endif:loggedin} 
+] </div>
    <br/>
    
    <font color="red">{!flash:msg}</font>
@@ -28,7 +31,9 @@ Version #{version}.
          {content}
          
          <p/>
-         <b>{numcomments} Comments</b> | <a href="/exec/comments/{obj}">Post a Comment</a>
+         <b>{numcomments} Comments</b> | <a href="/exec/comments/{obj}">Post a Comment</a> 
+         | <a href="/rss/{obj}?type=comments">RSS Feed</a>
+
          <p/>
          {foreach:comments}
 <a name="{comments:comments.id}"></a>

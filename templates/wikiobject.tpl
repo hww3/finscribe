@@ -34,7 +34,7 @@ href="/exec/new">new</a> |
             {else:comments}
                  No comments 
             {endif:comments}
- | <a href="/exec/comments/{obj}">Post a Comment</a>
+ | <a href="/exec/comments/{obj}">Post a Comment</a> | <a href="/rss/{obj}?type=comments">RSS Feed</a>
          <p/>
 {endif:weblog}
          </div>

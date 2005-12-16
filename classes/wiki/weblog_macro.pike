@@ -86,6 +86,10 @@ werror("root: %O\n", object_program(root));
     buf->add(" | <a href=\"/exec/comments/");
     buf->add(entry["path"]);
     buf->add("\">Post Comment</a>");
+    buf->add(" | <a href=\"/rss/");
+    buf->add(entry["path"]);
+    buf->add("?type=comments\">RSS Feed</a>");
+
     buf->add("<p/>\n");
     buf->add("<p/>\n");
 
