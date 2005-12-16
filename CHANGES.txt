@@ -9,3 +9,5 @@ Changes since version 0.1
     URLS
 - RSS 2.0 feeds for comments and version history (in addition to the 
     existing feeds for weblog posts)
+- Added full and partial weblog display
+- Added RSS Feed links for Weblogs, Versions and Comments
