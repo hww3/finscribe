@@ -1,7 +1,11 @@
 Changes since version 0.1
 
 - added lock object functionality (only a document's owner may edit a 
-  locked document.)
+  locked document)
 - added new object functionality
 - added visual diff
 - added viewing of previous versions
+- added TrackBack pinging support with automatic detection of TrackBack 
+    URLS
+- RSS 2.0 feeds for comments and version history (in addition to the 
+    existing feeds for weblog posts)
