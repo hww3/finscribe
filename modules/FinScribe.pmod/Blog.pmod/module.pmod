@@ -10,10 +10,36 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 	r->url = (string)my_baseurl;
 	r->blog_name = obj["parent"]["title"];
 
-	string result = Protocols.HTTP.post_url_data(url, r);
+        string result;
+        object q;
+        int count = 0;
+        object u = Standards.URI(url);
+	do
+        {
+           u = Standards.URI(url, u);
+          werror("TRACKBACK: Posting to " + (string)u);
+          q = Protocols.HTTP.post_url(u, r);
+        count++;
+        }
+        while(q->status == 302 && q->headers["location"] && (url = q->headers["location"]) && count < 10);
 
+werror("TRACKBACK PING RESULT: %O\n", q);
+werror("TRACKBACK PING RESULT: %O\n", q->data());
 
-   object n = Public.Parser.XML2.parse_xml(result);
+        result = q->data();
+
+	if(!result || !sizeof(result))
+        {
+           werror("result from trackback ping returned empty!\n");
+           return 1;
+        }
+
+   object n;
+   if(catch(n = Public.Parser.XML2.parse_xml(result)))
+   {
+      werror("error parsing: " + result + "<<\n\n");
+     return 1;
+   }
 
 	array na = Public.Parser.XML2.select_xpath_nodes("/response/error", n);
    if(!sizeof(na))

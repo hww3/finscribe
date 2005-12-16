@@ -421,8 +421,6 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-werror("COMMENTS: %O\n", args);
-
    if(!id->misc->session_variables->userid)
    {
       response->flash("msg", "You must login to comment.");
@@ -664,7 +662,6 @@ public void post(Request id, Response response, mixed ... args)
 						  bu += ({l});
 					}
 				}
-				werror("BU: %O %O\n", bu, Array.uniq(bu));
 				trackbacks = Array.uniq(bu)*"\n";
 
             break;
@@ -847,13 +844,11 @@ public void diff(Request id, Response response, mixed ... args)
 
     int line1, line2;
     line1 = line2 = 1;
-//werror("OLDTOKENS: %O\n---------------------------\nNEWTOKENS: %O\n-------------------------------\n", oldTokens, newTokens);
 resultStr = "<table>\n";
     while ( i < szn && j < szo )
     {
       resultStr +="<tr>\n";
         if ( newTokens[i] == oldTokens[j] ) {
-//werror("line is the same.\n");
 resultStr +="<td>&nbsp;</td><td>";
             line1 += sizeof(newTokens[i]);
             line2 += sizeof(oldTokens[j]);
@@ -866,7 +861,6 @@ resultStr +="<td>&nbsp;</td><td>";
 resultStr +="</td>";
         }
         else {
-//werror("line is not the same.\n");
             if ( !arrayp(newTokens[i]) || sizeof(newTokens[i])  == 0 ) {
 //                resultStr += "#" + line2 + ": <br />";
                 resultStr += "<td>-</td><td bgcolor=\"pink\">" + (oldTokens[j]*"<br />") + "<br/></td>";
@@ -919,7 +913,6 @@ public void versions(Request id, Response response, mixed ... args)
    d->add("object", obj_o);
    array a = model()->find("object_version", (["object": obj_o]), 
                                       Fins.Model.Criteria("ORDER BY VERSION DESC"));
-   werror("a: %O\n", a);
    d->add("versions", a);
    
    response->set_template(t, d);
@@ -927,3 +920,77 @@ public void versions(Request id, Response response, mixed ... args)
 
 }
 
+
+public void trackback(Request id, Response response, mixed ... args)
+{
+  response->set_type("text/xml");
+
+  if(id->request_type != "POST")
+  {
+    response->set_data(trackback_error("TrackBacks must be submitted as a HTTP POST."));
+    return;
+  }
+
+  else
+  { 
+    if(!id->variables->url)
+    {
+      response->set_data(trackback_error("TrackBacks must include a 'url' field."));
+      return;
+    }
+
+    object obj_o = model()->get_fbobject(args, id);
+    if(!obj_o)
+    {
+      response->set_data(trackback_error("Unable to find object " + args*"/" + "."));
+      return;
+    } 
+
+    object url;
+    string contents;
+
+    if(catch(url = Standards.URI(id->variables->url)) || ! url)
+    {
+      response->set_data(trackback_error("Invalid URL: " + id->variables->url + "."));
+      return;
+    }
+
+    if(!(contents = Protocols.HTTP.get_url_data(url)))
+    {
+      response->set_data(trackback_error("Unable to fetch URL: " + id->variables->url + "."));
+      return;
+    }
+
+    object md = obj_o["md"];
+
+    if(!md->trackback_urls || search(md->trackback_urls, (string)id->variables->url) == -1)
+    {
+      // ok, we don't already have a trackback for this url, let's try to add one.
+
+      // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
+      object lookingfor = Standards.URI("/space/" + args*"/", app()->config->get_value("site", "url"));
+      werror("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
+      if(search(contents, (string)lookingfor)==-1)
+      {
+        response->set_data(trackback_error("You didn't link to us, no TrackBack for you!"));
+        return;
+      }
+
+      if(!md->trackback_urls) md->trackback_urls = ({ (string)url });
+      else md->trackback_urls += ({(string)url });
+    
+      md->trackbacks++;
+    }
+
+    werror("ADDED TRACKBACK!\n");
+
+    response->set_data("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>0</error>\n</response>\n");
+  }
+}
+
+private string trackback_error(string e)
+{
+werror("TRACKBACK ERROR: %O\n", e);
+  return ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>1</error>\n<message>" + e + "</message>\n</response>\n");
+
+}

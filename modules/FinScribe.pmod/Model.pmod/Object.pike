@@ -57,6 +57,14 @@ import Fins.Model;
      mapping metadata = ([]);
      object obj;
 
+     static int(0..1) _is_type(string tn)
+     {
+        if(tn =="mapping")
+          return 1;
+        else 
+          return 0;
+     }
+
      static void create(mixed data, object i)
      {
        obj = i;

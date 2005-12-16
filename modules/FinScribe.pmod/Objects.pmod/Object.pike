@@ -20,4 +20,12 @@ public string get_object_contents(Fins.Request|void id)
    return this["current_version"]["contents"];
 }
 
+mixed get_metadata()
+{
+  return this["md"];
+}
 
+void set_metadata(mixed metadata)
+{
+  this_object()["metadata"] = MIME.encode_base64(encode_value(metadata));
+}

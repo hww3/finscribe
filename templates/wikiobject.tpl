@@ -35,6 +35,7 @@ href="/exec/new">new</a> |
                  No comments 
             {endif:comments}
  | <a href="/exec/comments/{obj}">Post a Comment</a> | <a href="/rss/{obj}?type=comments">RSS Feed</a>
+  {if:tb:data->metadata->trackbacks} | {metadata.trackbacks} TrackBacks{endif:tb}
          <p/>
 {endif:weblog}
          </div>
