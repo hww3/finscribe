@@ -13,21 +13,11 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
         string result;
         object q;
         int count = 0;
-        object u = Standards.URI(url);
-	do
-        {
-           u = Standards.URI(url, u);
-          werror("TRACKBACK: Posting to " + (string)u);
-          q = Protocols.HTTP.post_url(u, r);
-        count++;
-        }
-        while(q->status == 302 && q->headers["location"] && (url = q->headers["location"]) && count < 10);
 
-werror("TRACKBACK PING RESULT: %O\n", q);
-werror("TRACKBACK PING RESULT: %O\n", q->data());
 
-        result = q->data();
+        result = post_url_data(url, r);
 
+		werror("TRACKBACK PING RESULT: %O\n", result);
 	if(!result || !sizeof(result))
         {
            werror("result from trackback ping returned empty!\n");
@@ -83,25 +73,35 @@ string make_excerpt(string c)
 //
 string detect_trackback_url(string url)
 {
-	string s = Protocols.HTTP.get_url_data(url);
-	object n = Public.Parser.XML2.parse_html(s);
+	string s = get_url_data(url);
+
+   if(!s || !sizeof(s)) return 0;
+
+	werror("TRACKBACK: got data: %O\n", s);
 	
-	foreach(Public.Parser.XML2.select_xpath_nodes("//comment()", n);; object cmnt)
+	object n = Public.Parser.XML2.parse_html(s);
+	foreach(Public.Parser.XML2.select_xpath_nodes("//comment()", n) || ({});; object cmnt)
 	{
 		object r;
 		array c;
 		
+		werror("Looking at a comment block...\n");
 		if(catch(r = Public.Parser.XML2.parse_xml(cmnt->get_text())))
 		  continue;
+		werror("Parsed it: %O\n", r);
 		c = Public.Parser.XML2.select_xpath_nodes("//*[local-name()=\"RDF\" and namespace-uri()=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"]/*[local-name()=\"Description\"]", r);
-		if(sizeof(c))
+		foreach(c;; Public.Parser.XML2.Node rdf)
 		{
-			mapping m = c[0]->get_attributes();
+			werror("Looking at a block that's RDF...\n");
+			mapping m = rdf->get_attributes();
+         werror("We're looking for %O, got %O\n", url, m->identifier);
 			// we fudge it a little bit, as the libxml2 glue doesn't seem to be getting ns attributes properly.
-			if(m->ping)
+			if(m->ping && m->identifier == url)
 				return m->ping;
 		}
 	}
+	
+	return 0;
 	
 }
 
@@ -115,4 +115,45 @@ array limit(array a, int|void limit)
     return a[..(limit-1)];
   else return a;
 
+}
+
+string get_url_data(string url)
+{
+	
+	int count = 0;
+	
+	Protocols.HTTP.Query q;
+	
+	     object u = Standards.URI(url);
+	do
+        {
+           u = Standards.URI(url, u);
+          werror("TRACKBACK:  Getting " + (string)u);
+          q = Protocols.HTTP.get_url(u);
+        count++;
+        }
+        while(q->status == 302 && q->headers["location"] && (url = q->headers["location"]) && count < 10);
+
+  return q->data();
+   
+}
+
+string post_url_data(string url, mapping r)
+{
+	int count = 0;
+	
+	Protocols.HTTP.Query q;
+	
+	     object u = Standards.URI(url);
+	do
+        {
+           u = Standards.URI(url, u);
+          werror("TRACKBACK: Posting to " + (string)u);
+          q = Protocols.HTTP.post_url(u, r);
+        count++;
+        }
+        while(q->status == 302 && q->headers["location"] && (url = q->headers["location"]) && count < 10);
+
+  return q->data();
+   
 }

@@ -1,7 +1,7 @@
 <html>
 <head>
     <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-<title>Login</title>
+<title>{config.site.name} Login</title>
 </head>
 <body>
 {include:tagline.tpl}

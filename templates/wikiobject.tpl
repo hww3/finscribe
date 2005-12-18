@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>{config.name} :: {title}</title>
+   <title>{config.site.name} :: {title}</title>
 </head>
 <body>
 {include:tagline.tpl}
@@ -12,6 +12,9 @@
    <h3>{title}</h3>
    Created by {author_username}. Last updated by {editor_username}, 
 {when}. Version #{version}.
+
+<!-- {include:trackback.tpl} -->
+
      {endif:isblog}
 <div class="snip-buttons"> [
 {if:loggedin:data->user}
@@ -34,8 +37,8 @@ href="/exec/new">new</a> |
             {else:comments}
                  No comments 
             {endif:comments}
- | <a href="/exec/comments/{obj}">Post a Comment</a> | <a href="/rss/{obj}?type=comments">RSS Feed</a>
-  {if:tb:data->metadata->trackbacks} | {metadata.trackbacks} TrackBacks{endif:tb}
+ | <a href="/exec/comments/{obj}">Post a Comment</a> | <a href="/rss/{object.path}?type=comments">RSS Feed</a>
+ | <a href="/exec/display_trackbacks/{object.path}">{numtrackbacks} TrackBacks</a>
          <p/>
 {endif:weblog}
          </div>

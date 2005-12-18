@@ -915,11 +915,31 @@ public void versions(Request id, Response response, mixed ... args)
                                       Fins.Model.Criteria("ORDER BY VERSION DESC"));
    d->add("versions", a);
    
-   response->set_template(t, d);
 
 
 }
 
+public void display_trackbacks(Request id, Response response, mixed ... args)
+{
+
+    object obj_o = model()->get_fbobject(args, id);
+    if(!obj_o)
+    {
+      response->set_data(trackback_error("Unable to find object " + args*"/" + "."));
+      return;
+    } 
+
+	 Template.Template t;
+    Template.TemplateData d;
+    [t, d] = view()->prep_template("display_trackbacks.tpl");
+   
+     app()->set_default_data(id, d);
+	  d->add("object", obj_o);
+   d->add("trackbacks", obj_o["md"]["trackbacks"]);
+
+   response->set_template(t, d);
+
+}
 
 public void trackback(Request id, Response response, mixed ... args)
 {
@@ -963,7 +983,7 @@ public void trackback(Request id, Response response, mixed ... args)
 
     object md = obj_o["md"];
 
-    if(!md->trackback_urls || search(md->trackback_urls, (string)id->variables->url) == -1)
+    if(!md->trackbacks || search(md->trackbacks, (string)id->variables->url) == -1)
     {
       // ok, we don't already have a trackback for this url, let's try to add one.
 
@@ -976,17 +996,26 @@ public void trackback(Request id, Response response, mixed ... args)
         return;
       }
 
-      if(!md->trackback_urls) md->trackback_urls = ({ (string)url });
-      else md->trackback_urls += ({(string)url });
-    
-      md->trackbacks++;
-    }
+      
+		mapping tb = (["url": url]);
+		if(id->variables->title)
+			tb->title = FinScribe.Blog.make_excerpt(id->variables->title);
+		if(id->variables->blog_name)
+			tb->blog_name = FinScribe.Blog.make_excerpt(id->variables->blog_name);
+		if(id->variables->excerpt)
+			tb->excerpt = FinScribe.Blog.make_excerpt(id->variables->excerpt);
+
+
+      if(!md->trackbacks) md->trackbacks = ({ tb });
+      else md->trackbacks += ({ tb });
+   }
 
     werror("ADDED TRACKBACK!\n");
 
     response->set_data("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>0</error>\n</response>\n");
   }
 }
+
 
 private string trackback_error(string e)
 {

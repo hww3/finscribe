@@ -81,13 +81,15 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("datatypes", datatypes);
   dta->add("existing-categories", categories);
   dta->add("object_is_weblog", id->misc->object_is_weblog);
+  dta->add("object", obj);
   dta->add("metadata", obj->get_metadata());
 
   // now, let's get the comments for this page.
   dta->add("numcomments", sizeof(obj["comments"]));
   dta->add("numcategories", sizeof(obj["categories"]));
   dta->add("categories", (obj["categories"]));
-  dta->add("metadata", obj["md"]);  
+  dta->add("metadata", obj["md"]); 
+  dta->add("numtrackbacks", sizeof(obj["md"]["trackbacks"] || ([])));
   response->set_template(t, dta);
 
 }

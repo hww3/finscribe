@@ -6,7 +6,9 @@ Changes since version 0.1
 - added visual diff
 - added viewing of previous versions
 - added TrackBack pinging support with automatic detection of TrackBack 
-    URLS
+    URLs
+- added TrackBack receive support, with automatic embedding of TrackBack
+    URLs in displayed documents
 - RSS 2.0 feeds for comments and version history (in addition to the 
     existing feeds for weblog posts)
 - Added full and partial weblog display

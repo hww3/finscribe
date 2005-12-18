@@ -1,7 +1,7 @@
 <html>
 <head>
   {include:header.tpl}
-   <title>{config.name} :: admin :: userlist</title>
+   <title>{config.site.name} :: admin :: userlist</title>
 </head>
 <body>
 {include:tagline.tpl}

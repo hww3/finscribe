@@ -16,14 +16,9 @@ static void create(Fins.Application a)
 
 public array prep_template(string tn)
 {
-  mapping c = ([]);
-  c["name"] = app()->config->get_value("site", "name");
-  c["logo"] = app()->config->get_value("site", "logo");
-  c["tagline"] = app()->config->get_value("site", "tagline");
-
   object t = get_template(template, tn);
   object d = Fins.Template.TemplateData();
-  d->set_data((["config": c])); 
+  d->set_data((["config": app()->config])); 
   return ({t, d});
 }
 
