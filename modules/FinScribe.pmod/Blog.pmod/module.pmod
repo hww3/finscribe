@@ -163,9 +163,13 @@ int weblogs_ping(string site, string url)
 {
 	string endpoint = "http://rpc.weblogs.com/RPC2";
 	string method = "weblogUpdates.ping";
+	object c;
+	mapping x;
 	
-	object c = Protocols.XMLRPC.Client(endpoint);
-	mapping x = c[method](site, url)[0];
+	catch{
+	  c = Protocols.XMLRPC.Client(endpoint);
+	  x = c[method](site, url)[0];
+   };
 
   if(x->message)
   {

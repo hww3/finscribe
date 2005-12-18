@@ -745,7 +745,7 @@ public void post(Request id, Response response, mixed ... args)
 				if((int)app()->config->get_value("blog", "weblog_ping"))
 				{
 					FinScribe.Blog.weblogs_ping(obj_o["title"], 
-						(string)Standards.URI("/space/" + obj_o["path"], app()->config->get_value("site", "url")));
+							(string)Standards.URI("/space/" + obj_o["path"], app()->config->get_value("site", "url")));
 					
 				}
 
