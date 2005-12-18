@@ -1,0 +1,94 @@
+# MySQL dump 8.16
+#
+# Host: localhost    Database: blog
+#--------------------------------------------------------
+# Server version	3.23.43
+
+#
+# Table structure for table 'categories'
+#
+
+CREATE TABLE categories (
+  id integer NOT NULL auto_increment,
+  category char(64) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'comments'
+#
+
+CREATE TABLE comments (
+  id integer NOT NULL auto_increment,
+  object_id integer NOT NULL default '0',
+  author_id integer NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  contents char(65000),
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'datatypes'
+#
+
+CREATE TABLE datatypes (
+  id integer NOT NULL auto_increment,
+  mimetype char(32) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'object_versions'
+#
+
+CREATE TABLE object_versions (
+  id integer NOT NULL auto_increment,
+  object_id integer NOT NULL default '0',
+  author_id integer NOT NULL default '0',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  subject varchar(128) default NULL,
+  contents char(65000) NOT NULL,
+  version integer NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'objects'
+#
+
+CREATE TABLE objects (
+  id integer NOT NULL auto_increment,
+  path varchar(128) NOT NULL default '',
+  author_id integer NOT NULL default '0',
+  created datetime default NULL,
+  parent_id integer NULL default '0',
+  datatype_id integer NOT NULL default '0',
+  is_attachment integer default NULL,
+  metadata char(65000),
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'objects_categories'
+#
+
+CREATE TABLE objects_categories (
+  object_id integer NOT NULL default '0',
+  category_id integer NOT NULL default '0'
+) TYPE=MyISAM;
+
+#
+# Table structure for table 'users'
+#
+
+CREATE TABLE users (
+  id integer NOT NULL auto_increment,
+  username char(12) NOT NULL default '',
+  password char(16) default NULL,
+  is_admin int(1) default '0',
+  is_active int(1) default NULL,
+  name char(36) NOT NULL default '',
+  email char(64) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
