@@ -157,3 +157,21 @@ string post_url_data(string url, mapping r)
   return q->data();
    
 }
+
+
+int weblogs_ping(string site, string url)
+{
+	string endpoint = "http://rpc.weblogs.com/RPC2";
+	string method = "weblogUpdates.ping";
+	
+	object c = Protocols.XMLRPC.Client(endpoint);
+	mapping x = c[method](site, url)[0];
+
+  if(x->message)
+  {
+	  werror("WEBLOG PING: %O\n", x->message);
+  }
+
+  return x->flerror;
+
+}

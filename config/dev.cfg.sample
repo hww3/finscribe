@@ -23,3 +23,6 @@ name=electronic alchemy
 logo=/static/images/logo.gif
 tagline=where the past meets the future
 url=http://hww3.riverweb.com
+
+[blog]
+weblog_ping=1

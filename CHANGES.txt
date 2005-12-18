@@ -13,3 +13,4 @@ Changes since version 0.1
     existing feeds for weblog posts)
 - Added full and partial weblog display
 - Added RSS Feed links for Weblogs, Versions and Comments
+- added pings for Weblogs.com on weblog post

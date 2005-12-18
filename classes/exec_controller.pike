@@ -742,6 +742,13 @@ public void post(Request id, Response response, mixed ... args)
 						FinScribe.Blog.trackback_ping(obj_o, u, url);
 				}
 
+				if((int)app()->config->get_value("blog", "weblog_ping"))
+				{
+					FinScribe.Blog.weblogs_ping(obj_o["title"], 
+						(string)Standards.URI("/space/" + obj_o["path"], app()->config->get_value("site", "url")));
+					
+				}
+
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
             break;
