@@ -16,9 +16,9 @@
 <!-- {include:trackback.tpl} -->
 
      {endif:isblog}
-<div class="snip-buttons"> [
+<div class="snip-buttons"> [ 
 {if:loggedin:data->user}
-{if:locked:data->metadata["locked"]!=1} <a 
+{if:locked:data->metadata["locked"]!=1 || data->UserName == data->object["author"]["UserName"]} <a 
 href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} | <a 
 href="/exec/new">new</a> |
 {endif:loggedin}

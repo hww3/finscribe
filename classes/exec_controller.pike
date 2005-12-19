@@ -218,10 +218,27 @@ public void createaccount(Request id, Response response, mixed ... args)
 				u["Name"] = Name;
 				u["Email"] = Email;
 				u["Password"] = Password;
-                                u["is_active"] = 1;
+            u["is_active"] = 1;
 				u->save();
 				response->flash("msg", "User created successfully.\n");
 				response->redirect("/space/start");
+				
+				object p = FinScribe.Repo.find("object", (["path": "themes/default/newuser"]))[0];
+				
+				object up = FinScribe.Repo.new("object");
+				up["path"] = u["UserName"];
+				up["author"] = u;
+				up["datatype"] = p["datatype"];
+				up["is_attachment"] = 0;
+				
+				up->save();
+				up["md"]["locked"] = 1;
+				
+				object uv = FinScribe.Repo.new("object_version");
+				uv["author"] = u;
+				uv["object"] = up;
+				uv["contents"] = p["current_version"]["contents"];
+				uv->save();
 			}
 		}
 		else
@@ -922,8 +939,7 @@ public void versions(Request id, Response response, mixed ... args)
                                       Fins.Model.Criteria("ORDER BY VERSION DESC"));
    d->add("versions", a);
    
-
-
+   response->set_template(t, d);
 }
 
 public void display_trackbacks(Request id, Response response, mixed ... args)
