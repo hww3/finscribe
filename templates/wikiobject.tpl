@@ -19,8 +19,10 @@
 <div class="snip-buttons"> [ 
 {if:loggedin:data->user}
 {if:locked:data->metadata["locked"]!=1 || data->UserName == data->object["author"]["UserName"]} <a 
-href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} | <a 
-href="/exec/new">new</a> |
+href="/exec/edit/{obj}">edit</a>{else:locked} edit{endif:locked} | 
+{if:a:data->UserName == data->object["author"]["UserName"] || data->is_admin}
+{if:l:data->metadata["locked"]} <a href="/exec/toggle_lock/{object.path}">unlock</a> {else:l} <a href="/exec/toggle_lock/{object.path}">lock</a> {endif:l} {else:a} {if:nl:data->metadata["locked"]} unlock {else:nl} lock {endif:nl} {endif:a}
+| <a href="/exec/new">new</a> |
 {endif:loggedin}
 <a href="/exec/versions/{obj}">versions</a> ] </div>
 <div class="flash-message">{!flash:msg}</div>

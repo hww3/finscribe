@@ -495,6 +495,38 @@ public void comments(Request id, Response response, mixed ... args)
    
 }
 
+public void toggle_lock(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to lock objects.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+  object obj_o = model()->get_fbobject(args, id);
+
+	if(!obj_o)
+	{
+		response->flash("msg", "Object " + args*"/" + " does not exist.");
+      response->redirect(id->referrer);		
+		return;
+	}
+
+   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model()->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
+	{
+		response->flash("msg", "A locked object can only be toggled by its owner or an administrator.");
+      response->redirect(id->referrer);		
+		return;
+	}
+	
+	obj_o["md"]["locked"] = !obj_o["md"]["locked"];
+
+   response->flash("msg", "Object successfully " + (obj_o["md"]["locked"]?"":"un") + "locked.");
+   response->redirect(id->referrer);
+}
+
 public void new(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
@@ -535,6 +567,14 @@ public void edit(Request id, Response response, mixed ... args)
    obj_o = model()->get_fbobject(args, id);
    title = args[-1];
    obj = args*"/";
+
+   if(obj_o && obj_o["md"]["locked"] && obj_o["author"]["id"] != id->misc->session_variables->userid)
+	{
+		response->flash("msg", "A locked object can only be edited by its owner.");
+//      response->flash("from", id->not_query);
+      response->redirect(id->referrer);		
+		return;
+	}
 
       Template.Template t;
         Template.TemplateData d;
