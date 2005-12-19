@@ -139,7 +139,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
     isnew=0;
   }
   else
-               obj_o = new("object");
+               obj_o = FinScribe.Repo.new("object");
                obj_o["datatype"] = dto;
                if(att)
                  obj_o["is_attachment"] = 1;
@@ -151,7 +151,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
            if(isnew)
             obj_o->save();
 
-            object obj_n = new("object_version");
+            object obj_n = FinScribe.Repo.new("object_version");
             obj_n["contents"] = contents;
 
             int v;

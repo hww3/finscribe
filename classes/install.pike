@@ -30,7 +30,7 @@ int run()
   }
 
   write("Creating admin user...\n");
-  object u = model()->new("user");
+  object u = FinScribe.Model.User(UNDEFINED);
   u["UserName"] = "admin";
   u["Password"] = password;
   u["Name"] = "Admin User";
@@ -51,7 +51,7 @@ int run()
     if(d && sizeof(d))
        continue;
     else
-      d = model()->new("datatype");
+      d = FinScribe.Model.Datatype(UNDEFINED);
     d["mimetype"] = dt;
     d->save();
   }

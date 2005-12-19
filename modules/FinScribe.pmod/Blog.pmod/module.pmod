@@ -171,11 +171,11 @@ int weblogs_ping(string site, string url)
 	  x = c[method](site, url)[0];
    };
 
-  if(x->message)
+  if(x && x->message)
   {
 	  werror("WEBLOG PING: %O\n", x->message);
   }
 
-  return x->flerror;
+  return (x && x->flerror)||0;
 
 }

@@ -61,8 +61,7 @@ string macro_recent_changes()
 {
   mixed res;
   string ret = "";
-//  res = sql->query("SELECT page from GotPikeWiki group by page order by created desc limit 5");
-
+catch{
   res = wiki->cache->get("MACRORECENTCHANGES");
   if(!res)
   {
@@ -82,7 +81,7 @@ string macro_recent_changes()
     string icon = "<img src=\"/static/images/Icon-" + type+ ".png\" alt=\"*\"/> ";
     ret = ret +  icon + "<a href=\"/space/" + row["path"] + "\">" + row["title"] + "</a><br/>";
   }
-
+};
   return ret;
 }
 
