@@ -1,94 +1,80 @@
-# MySQL dump 8.16
-#
-# Host: localhost    Database: blog
-#--------------------------------------------------------
-# Server version	3.23.43
-
-#
-# Table structure for table 'categories'
-#
 
 CREATE TABLE categories (
-  id integer NOT NULL auto_increment,
-  category char(64) NOT NULL default '',
+  id SERIAL not null,
+  category varchar(64) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'comments'
-#
+\g
+
 
 CREATE TABLE comments (
-  id integer NOT NULL auto_increment,
+  id SERIAL not null,
   object_id integer NOT NULL default '0',
   author_id integer NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
-  contents char(65000),
+  created timestamp NOT NULL default '1970-01-01 00:00:00+00',
+  contents varchar(65000),
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'datatypes'
-#
+\g
+
 
 CREATE TABLE datatypes (
-  id integer NOT NULL auto_increment,
-  mimetype char(32) default NULL,
+  id SERIAL not null,
+  mimetype varchar(32) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'object_versions'
-#
+\g
+
 
 CREATE TABLE object_versions (
-  id integer NOT NULL auto_increment,
+  id SERIAL not null,
   object_id integer NOT NULL default '0',
   author_id integer NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
+  created timestamp NOT NULL default '1970-01-01 00:00:00+00',
   subject varchar(128) default NULL,
-  contents char(65000) NOT NULL,
+  contents text NOT NULL,
   version integer NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'objects'
-#
+\g
 
 CREATE TABLE objects (
-  id integer NOT NULL auto_increment,
+  id SERIAL not null,
   path varchar(128) NOT NULL default '',
   author_id integer NOT NULL default '0',
-  created datetime default NULL,
+  created timestamp default NULL,
   parent_id integer NULL default '0',
   datatype_id integer NOT NULL default '0',
   is_attachment integer default NULL,
-  metadata char(65000),
+  metadata text,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'objects_categories'
-#
+\g
+
 
 CREATE TABLE objects_categories (
   object_id integer NOT NULL default '0',
   category_id integer NOT NULL default '0'
-) TYPE=MyISAM;
+)
 
-#
-# Table structure for table 'users'
-#
+\g
+
 
 CREATE TABLE users (
-  id integer NOT NULL auto_increment,
-  username char(12) NOT NULL default '',
-  password char(16) default NULL,
-  is_admin int(1) default '0',
-  is_active int(1) default NULL,
-  name char(36) NOT NULL default '',
-  email char(64) NOT NULL default '',
+  id SERIAL not null,
+  username varchar(12) NOT NULL default '',
+  password varchar(16) default NULL,
+  is_admin smallint default 0,
+  is_active smallint default NULL,
+  name varchar(36) NOT NULL default '',
+  email varchar(64) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+
+\g
 
