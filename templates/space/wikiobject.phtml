@@ -1,10 +1,10 @@
 <html>
 <head>
-  <%@ include file="header.psp" %>
+  <%@ include file="header.phtml" %>
    <title><%$config.site.name%> :: <%$title %></title>
 </head>
 <body>
-<%@ include file="tagline.psp" %>
+<%@ include file="tagline.phtml" %>
    <div id="page-wrapper">
     <div id="page-content">
       <% if data["object_is_weblog"] %>
@@ -23,8 +23,8 @@ href="/exec/new">new</a> |
 <div class="flash-message"><% flash var="msg" %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
-   <%@ include file="attachmentform.psp" %>
-   <%@ include file="categoryform.psp" %>
+   <%@ include file="space/attachmentform.phtml" %>
+   <%@ include file="space/categoryform.phtml" %>
          <%$content%>
 <p/>
 <% if data["object_is_weblog"] %>
