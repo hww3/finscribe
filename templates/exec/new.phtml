@@ -1,18 +1,18 @@
 <html>
 <head>
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-<title>{config.site.name} :: creating object</title>
+<title><%$config.site.name%> :: creating object</title>
 </head>
 <body>
-{include:tagline.tpl}
+<%@include file="tagline.psp" %>
 
-{include:pagebegin.tpl}
+<%@include file="pagebegin.psp" %>
    <h3>Create new object</h3>
 
 <form action="" method="post">
-Object path: <input type="text" size="40" name="title" value="{title}"/><br>
+Object path: <input type="text" size="40" name="title" value="<%%>"/><br>
 <br>
 <input type="submit" name="action" value="Create">
 </form>
 
-{include:footer.tpl}
+<%@include file="footer.psp" %>

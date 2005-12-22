@@ -1,15 +1,15 @@
 <html>
 <head>
-  {include:header.tpl}
-   <title>{config.site.name} :: admin</title>
+  <%@include file="header.psp" %>
+   <title><%config.site.name%> :: admin</title>
 </head>
 <body>
-{include:tagline.tpl}
+<%@include file="tagline.psp" %>
    <div id="page-wrapper">
     <div id="page-content">
 <div class="snip-buttons">  </div> 
 
-<div class="flash-message">{!flash:msg}</div>
+<div class="flash-message"><%flash var="msg"%></div>
    <div class="snip-wrapper">
       <div class="snip-content">
 

@@ -1,0 +1,36 @@
+<% if !data->object_is_weblog %>
+<% if data->user||data->numcategories!=0 %>
+<a id='link-categories-<%$obj%>'
+onclick="toggleVisibility('categories-<%$obj%>')"><img
+id="icon-categories-<%$obj%>" src="/static/images/Icon-Unfold.png" 
+border="0">
+<%$numcategories%> Categories</a><br/>
+<div id="categories-<%$obj%>" style="display:none;margin-left:20px">
+<table>
+<% foreach var="categories" val="category"%>
+<tr><td><a 
+href="/exec/category/<%$category.category%>"><%$category.category%></a></td></tr>
+<% end %>
+</table>
+
+ <%if data->user%>
+
+<form action="/exec/editcategory/<%$obj%>" method="post" 
+enctype="multipart/form-data">
+Existing Category: <select name="existing-category">
+<option value="">Select a category
+<% foreach var="existing-categories" 
+val="existing-category" %><option><%$existing-category.category%>
+<% end %>
+</select> or new category: <input type="text" name="new-category" 
+size="15" value=""/>
+<br/>
+<input type="submit" name="action" value="Include"/>
+<input type="submit" name="action" value="Remove"/>
+</form>
+
+<% endif %>
+<% endif %>
+</div>
+
+<% endif %>

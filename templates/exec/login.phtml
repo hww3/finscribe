@@ -4,8 +4,8 @@
 <title>Login</title>
 </head>
 <body>
-{include:tagline.tpl}
-{include:pagebegin.tpl}
+<%@include file="tagline.psp"%>
+<%@include file="pagebegin.psp"%>
    <h3>Login</h3>
 
    <p>
@@ -13,10 +13,10 @@
 <table>
 <tr>
 <td>
-<input type="hidden" name="return_to" value="{return_to}"/>
+<input type="hidden" name="return_to" value="<%$return_to%>"/>
 Login: 
 </td><td>
-<input type="string" name="UserName" value="{UserName}"/><br/>
+<input type="string" name="UserName" value="<%$UserName%>"/><br/>
 </td>
 </tr>
 <tr>
@@ -33,9 +33,9 @@ Password:</td><td>
 </form>
 <p/>
 <a href="/exec/forgotpassword">Forgot password?</a>
-{if:autocreate:data->autocreate}
+<% if data->autocreate %>
 |
 <a href="/exec/createaccount">Create an account</a>
-{endif:autocreate}
+<%endif%>
 
-{include:footer.tpl}
+<%@ include file="footer.psp"%>

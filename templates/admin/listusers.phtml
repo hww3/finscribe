@@ -1,0 +1,46 @@
+<html>
+<head>
+  <%@include file="header.psp"%>
+   <title><%$config.site.name%> :: admin :: userlist</title>
+</head>
+<body>
+<%@include file="tagline.psp"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>User List</h3>
+        
+        <table>
+            <tr><td>User Name</td><td>Real Name</td><td>e-mail</td><td>Admin 
+User?</td><td>Active?</td><td></td></tr>  
+          <% foreach var="users" val="user"%>
+        <tr>
+            <td><%$user.UserName%></td>
+            <td><%$user.Name%></td>
+            <td><%$user.Email%></td>
+            <td><a href="toggle_useradmin?userid=<%$user.id%>"><%boolean var="users.is_admin"%></a></td>
+            <td><a href="toggle_useractive?userid=<%$user.id%>"><%boolean var="users.is_active"%></a></td>
+            <td>[<a href="edituser?userid=<%$user.id%>">Edit</a> | 
+                <a href="deleteuser?userid=<%$user.id%>">Delete</a> ]</td>
+        </tr>
+          <% end %>
+        </table>
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+

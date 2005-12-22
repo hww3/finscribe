@@ -1,22 +1,23 @@
 <html>
 <head>
-  {include:header.tpl}
-   <title>{config.site.name} :: Category {category.category}</title>
+  <%@include file="header.psp" %>
+   <title><%$config.site.name%> :: Category <%$category.category%></title>
 </head>
 <body>
-{include:tagline.tpl}
+<%@ include file="tagline.psp" %>
    <div id="page-wrapper">
     <div id="page-content">
-   <h3>{category.category}</h3>
-{if:loggedin:data->user}<div class="snip-buttons"> [ <a href="/exec/edit/{obj}">edit</a> ] </div> 
-<div class="flash-message">{!flash:msg}</div>
+   <h3><%$category.category%></h3>
+<% if data->user %><div class="snip-buttons"> [ <a href="/exec/edit/<%obj%>">edit</a> ] </div> 
+<% endif %>
+<div class="flash-message"><%flash var="msg" %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
 Items in this category:
 <ul>
-{foreach:objects}
-  <li> <a href="/space/{objects:objects.path}">{objects:objects.title}</a>
-{end:objects}
+<% foreach var="objects" val="o" %>
+  <li> <a href="/space/<%$o.path%>"><%$o.title%></a>
+<% end %>
 </ul>
 <p/>
          </div>
@@ -25,7 +26,7 @@ Items in this category:
       </div>
          <div id="page-portlet-1-wrapper">
           <div id="page-portlet-1">
-         {!snip:themes/default/portlet-1}
+         <% snip snip="themes/default/portlet-1" %>
          </div>
          </div>
          
