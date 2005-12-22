@@ -19,6 +19,8 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
+  obj["md"]["views"] ++;
+
   string datatype = obj["datatype"]["mimetype"];
 
   switch(datatype)

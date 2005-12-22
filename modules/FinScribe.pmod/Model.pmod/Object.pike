@@ -3,7 +3,7 @@ import Fins.Model;
 
    inherit Model.DataObject;
 
-   static object metadata;
+   static mapping metadata = ([]);
 
    static void create(DataModelContext c)
    {  
@@ -35,9 +35,13 @@ import Fins.Model;
 
    object get_md(mixed md, object i)
    {
-     if(!metadata)
-       return (metadata = MetaData(md, i));
-     else return metadata;
+     if(!metadata[i->get_id()] || !metadata[i->get_id()][1])
+     {
+       object md = MetaData(md, i);
+       metadata[i->get_id()][1] = md;
+       return md;
+     }
+     else return metadata[i->get_id()][1];
    }
 
    string get_title(mixed n, object i)
@@ -115,7 +119,6 @@ import Fins.Model;
 
      mixed `->(mixed a)
      {
-       werror("calling ->\n");
        if(a == "dump")
          return dump;
        if(a == "save")
@@ -128,7 +131,6 @@ import Fins.Model;
 
      mixed `->=(mixed a, mixed b)
      {
-       werror("calling ->=\n");
        metadata[a] = b;
        save();
      }
@@ -146,3 +148,35 @@ import Fins.Model;
    }
 
  }
+
+  void add_ref(Fins.Model.DataObjectInstance o)
+  {
+    ::add_ref(o);
+    // FIXME: we shouldn't have to do this in more than one location!
+    if(!metadata[o->get_id()])
+    {
+      metadata[o->get_id()] = ({0, 0});
+    }
+
+    metadata[o->get_id()][0]++;
+
+}
+
+  void sub_ref(Fins.Model.DataObjectInstance o)
+  {
+    if(!o->is_initialized()) return;
+
+    if(!metadata[o->get_id()]) return;
+
+    metadata[o->get_id()][0]--;
+
+    if(metadata[o->get_id()][0] == 0)
+    {
+      m_delete(metadata, o->get_id());
+    }
+
+    ::sub_ref(o);
+  }
+
+
+

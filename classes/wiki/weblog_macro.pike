@@ -64,7 +64,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
     if(sizeof(entry["categories"]))
     {
-       buf->add("Categories: ");
+       buf->add("Posted in ");
        foreach(entry["categories"];; object c)
        {
          buf->add("<a href=\"/exec/category/");
@@ -102,8 +102,10 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add("\">");
 werror("TB: %O, %O\n", entry["path"], entry["md"]["trackbacks"]);
     buf->add((string)sizeof(entry["md"]["trackbacks"] || ({})));
-    buf->add(" TrackBacks</a>");
+    buf->add(" TrackBacks</a> | ");
 
+    buf->add((string)entry["md"]["views"]);
+    buf->add(" reads");
 
     buf->add("<p/>\n");
     buf->add("<p/>\n");
