@@ -1,4 +1,11 @@
-Changes since version 0.1
+Version 0.2
+
+- added vew tracking on objects
+- weblog entry formatting is now controlled by a template, allowing
+  end users to customize the look of their weblogs
+- updated to latest fins source, including new templates
+
+Version 0.1
 
 - added lock object functionality (only a document's owner may edit a 
   locked document)
