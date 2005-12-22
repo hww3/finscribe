@@ -1,5 +1,6 @@
 import Fins;
-inherit Fins.Application;
+inherit Fins.Application : app;
+inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 
 Public.Web.Wiki.RenderEngine engine;
@@ -9,11 +10,10 @@ static void create(Fins.Configuration _config)
   config = _config;
 
 	load_wiki();
-  ::create(_config);
+  app::create(_config);
 
   Template.add_simple_macro("breadcrumbs", macro_breadcrumbs);
   Template.add_simple_macro("snip", macro_snip);
-	Template.add_simple_macro("boolean", macro_boolean);
   
 }
 
@@ -36,7 +36,7 @@ int install()
 string macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
   if(!mappingp(args)) return "";
-  return get_page_breadcrumbs(data->get_data()[args->var]||"");
+  return get_page_breadcrumbs(get_var_value(args->var, data->get_data())||"");
 }
 
 string macro_snip(Template.TemplateData data, mapping|void args)
@@ -50,42 +50,6 @@ string macro_snip(Template.TemplateData data, mapping|void args)
    string contents = obj->get_object_contents();
 
    return engine->render(contents);
-}
-
-string macro_boolean(Template.TemplateData data, mapping|void args)
-{
-  if(!mappingp(args)) return "";
-	array a = args->var/".";
-	mapping d = data->get_data();
-	string p = "";
-	
-	foreach(a;; string elem)
-	{
-		p = p + "." + elem;
-		
-		if(!d[elem] && zero_type(d[elem]))
-      {
-			return "unknown element " + p;
-		}
-		
-		else if (mappingp(d[elem]))
-		{
-			d = d[elem];
-		}
-		
-		else if (intp(d[elem]))
-		{
-			return (d[elem] != 0)?"Yes":"No";
-		}
-		else if(stringp(d[elem]))
-		{
-			return ((int)d[elem] != 0)?"Yes":"No";
-		}
-		else
-		{
-			return "invalid type for boolean " + p;
-		}
-	}
 }
 
 string get_page_breadcrumbs(string page)
