@@ -1002,7 +1002,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
 
 	 Template.Template t;
     Template.TemplateData d;
-    [t, d] = view()->prep_template("exec/display_trackbacks.tpl");
+    [t, d] = view()->prep_template("exec/display_trackbacks.phtml");
    
      app()->set_default_data(id, d);
 	  d->add("object", obj_o);
