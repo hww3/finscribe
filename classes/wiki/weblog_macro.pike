@@ -48,67 +48,19 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   foreach(o; int i; object entry)
   {
-    buf->add(entry["nice_created"]);
-    buf->add("<br/>\n<b>");
+    object t, d;
+    [t, d] = params->engine->wiki->view->prep_template("space/weblogentry.phtml");
+
+
+    d->add("entry", entry);
     string s = entry["current_version"]["subject"];
     if(!s || !strlen(s)) s = "No Subject";
-    buf->add((s));
-    buf->add(" <a href=\"/space/");
-    buf->add(entry["path"]);
-    buf->add("\">");
-    buf->add("<img src=\"/static/images/Icon-Permalink.png\" width=\"8\" height=\"9\" alt=\"permalink\" border=\"0\"/>");
-    buf->add("</a>");
-    buf->add("</b><p/>\n");
-    buf->add(params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
-    buf->add("<p/>");
+    d->add("subject", s);
 
-    if(sizeof(entry["categories"]))
-    {
-       buf->add("Posted in ");
-       foreach(entry["categories"];; object c)
-       {
-         buf->add("<a href=\"/exec/category/");
-         buf->add(c["category"]);
-         buf->add("\">");
-         buf->add(c["category"]);
-         buf->add("</a> ");
-       }
-    buf->add("<p/>");
-    }
+    d->add("contents", params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
 
-
-    if(sizeof(entry["comments"]))
-    {
-      buf->add("<a href=\"/comments/");
-      buf->add(entry["path"]);
-      buf->add("\">");
-      buf->add((string)sizeof(entry["comments"]));
-      buf->add(" Comments</a>\n");
-    }
-    else
-    {
-      buf->add("No Comments");
-    }
-    buf->add(" | <a href=\"/exec/comments/");
-    buf->add(entry["path"]);
-    buf->add("\">Post Comment</a>");
-
-    buf->add(" | <a href=\"/rss/");
-    buf->add(entry["path"]);
-    buf->add("?type=comments\">RSS Feed</a>");
-
-    buf->add(" | <a href=\"/exec/display_trackbacks/");
-    buf->add(entry["path"]);
-    buf->add("\">");
-    buf->add((string)sizeof(entry["md"]["trackbacks"] || ({})));
-    buf->add(" TrackBacks</a> | ");
-
-    buf->add((string)entry["md"]["views"]);
-    buf->add(" reads");
-
-    buf->add("<p/>\n");
-    buf->add("<p/>\n");
-
+  
+    buf->add(t->render(d));
   }
 
   if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
