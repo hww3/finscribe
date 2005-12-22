@@ -100,7 +100,6 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     buf->add(" | <a href=\"/exec/display_trackbacks/");
     buf->add(entry["path"]);
     buf->add("\">");
-werror("TB: %O, %O\n", entry["path"], entry["md"]["trackbacks"]);
     buf->add((string)sizeof(entry["md"]["trackbacks"] || ({})));
     buf->add(" TrackBacks</a> | ");
 
