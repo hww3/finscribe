@@ -24,8 +24,8 @@ User?</td><td>Active?</td><td></td></tr>
             <td><%$user.UserName%></td>
             <td><%$user.Name%></td>
             <td><%$user.Email%></td>
-            <td><a href="toggle_useradmin?userid=<%$user.id%>"><%boolean var="users.is_admin"%></a></td>
-            <td><a href="toggle_useractive?userid=<%$user.id%>"><%boolean var="users.is_active"%></a></td>
+            <td><a href="toggle_useradmin?userid=<%$user.id%>"><%boolean var="user.is_admin"%></a></td>
+            <td><a href="toggle_useractive?userid=<%$user.id%>"><%boolean var="user.is_active"%></a></td>
             <td>[<a href="edituser?userid=<%$user.id%>">Edit</a> | 
                 <a href="deleteuser?userid=<%$user.id%>">Delete</a> ]</td>
         </tr>
