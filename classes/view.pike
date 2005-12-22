@@ -12,11 +12,6 @@ static void create(Fins.Application a)
 
 public array prep_template(string tn)
 {
-  mapping c = ([]);
-  c["name"] = app()->config->get_value("site", "name");
-  c["logo"] = app()->config->get_value("site", "logo");
-  c["tagline"] = app()->config->get_value("site", "tagline");
-
   object t;
 
   t = get_template(Fins.Template.Simple, tn);
