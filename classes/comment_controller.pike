@@ -14,7 +14,7 @@ public void index(Request id, Response response, mixed ... args)
 
   if(!obj)
   {
-     response->redirect("/app/notfound/" + (args*"/")); 
+     response->redirect("/exec/notfound/" + (args*"/")); 
      return;
   }
 
@@ -32,17 +32,6 @@ public void index(Request id, Response response, mixed ... args)
   return;
 }
 
-public void notfound(Request id, Response response, mixed ... args)
-{
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("objectnotfound.tpl");
-     
-     app()->set_default_data(id, d);
-
-     d->add("obj", args*"/");
-     response->set_template(t, d);
-}
 
 private void handle_wiki(object obj, Request id, Response response)
 {
@@ -51,7 +40,7 @@ private void handle_wiki(object obj, Request id, Response response)
 
       Template.Template t;
         Template.TemplateData dta;
-        [t, dta] = view()->prep_template("wikiobjectcomments.tpl");
+        [t, dta] = view()->prep_template("comments/wikiobjectcomments.phtml");
 
   app()->set_default_data(id, dta);
 

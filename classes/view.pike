@@ -1,22 +1,26 @@
 import Fins;
 inherit Fins.FinsView;
 
-program template;
-
 static mapping templates = ([]);
 static mapping simple_macros = ([]);
 
 static void create(Fins.Application a)
 {
   ::create(a);
-
-  template = (program)"blog_template";
 }
 
 
 public array prep_template(string tn)
 {
-  object t = get_template(template, tn);
+  mapping c = ([]);
+  c["name"] = app()->config->get_value("site", "name");
+  c["logo"] = app()->config->get_value("site", "logo");
+  c["tagline"] = app()->config->get_value("site", "tagline");
+
+  object t;
+
+  t = get_template(Fins.Template.Simple, tn);
+
   object d = Fins.Template.TemplateData();
   d->set_data((["config": app()->config])); 
   return ({t, d});

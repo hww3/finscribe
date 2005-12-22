@@ -33,14 +33,18 @@ int install()
   return i->run();
 }
 
-string macro_breadcrumbs(Template.TemplateData data, string|void args)
+string macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
-  return get_page_breadcrumbs(data->get_data()[args]||"");
+  werror("args: %O\n", args);
+  if(!mappingp(args)) return "";
+  return get_page_breadcrumbs(data->get_data()[args->var]||"");
 }
 
-string macro_snip(Template.TemplateData data, string|void args)
+string macro_snip(Template.TemplateData data, mapping|void args)
 {
-   object obj = model->get_fbobject(args/"/");
+   if(!mappingp(args)) return "";
+   if(!args->snip) return "";
+   object obj = model->get_fbobject((args->snip)/"/");
 
    if(!obj) return "";
 
@@ -49,9 +53,10 @@ string macro_snip(Template.TemplateData data, string|void args)
    return engine->render(contents);
 }
 
-string macro_boolean(Template.TemplateData data, string|void args)
+string macro_boolean(Template.TemplateData data, mapping|void args)
 {
-	array a = args/".";
+  if(!mappingp(args)) return "";
+	array a = args->var/".";
 	mapping d = data->get_data();
 	string p = "";
 	

@@ -43,7 +43,7 @@ private void handle_wiki(object obj, Request id, Response response)
 
         Template.Template t;
         Template.TemplateData dta;
-        [t, dta] = view()->prep_template("wikiobject.tpl");
+        [t, dta] = view()->prep_template("space/wikiobject.phtml");
 
   app()->set_default_data(id, dta);
  
@@ -100,7 +100,7 @@ private void handle_text(object obj, Request id, Response response)
 
         Template.Template t;
         Template.TemplateData dta;
-        [t, dta] = view()->prep_template("wikiobject.tpl");
+        [t, dta] = view()->prep_template("space/wikiobject.phtml");
 
   app()->set_default_data(id, dta);
  

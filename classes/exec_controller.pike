@@ -2,6 +2,14 @@ import Fins;
 import Fins.Model;   
 inherit Fins.FinsController;
 
+int i=0;
+
+public void foo(Request id, Response response, mixed ... args)
+{
+  i++;
+  sleep(3);
+  response->set_data( "This is request " + i +".");
+}
 
 public void index(Request id, Response response, mixed ... args)
 {
@@ -14,7 +22,7 @@ public void notfound(Request id, Response response, mixed ... args)
 
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("objectnotfound.tpl");
+        [t, d] = view()->prep_template("exec/objectnotfound.phtml");
 
      app()->set_default_data(id, d);
 
@@ -98,7 +106,7 @@ public void category(Request id, Response response, mixed ... args)
 
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("category.tpl");
+        [t, d] = view()->prep_template("exec/category.phtml");
 
    app()->set_default_data(id, d);
 
@@ -170,7 +178,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 {
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("createaccount.tpl");
+        [t, d] = view()->prep_template("exec/createaccount.phtml");
 
         app()->set_default_data(id, d);
 
@@ -260,7 +268,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 {
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("forgotpassword.tpl");
+        [t, d] = view()->prep_template("exec/forgotpassword.phtml");
 
      app()->set_default_data(id, d);
 
@@ -281,7 +289,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 
       Template.Template tp;
         Template.TemplateData dp;
-        [tp, dp] = view()->prep_template("sendpassword.tpl");
+        [tp, dp] = view()->prep_template("exec/sendpassword.phtml");
 
 				
 				dp->add("password", a[0]["Password"]);
@@ -382,7 +390,7 @@ public void login(Request id, Response response, mixed ... args)
 {
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("login.tpl");
+        [t, d] = view()->prep_template("exec/login.phtml");
 
      app()->set_default_data(id, d);
 
@@ -452,7 +460,7 @@ public void comments(Request id, Response response, mixed ... args)
     
    Template.Template t; 
    Template.TemplateData d;
-   [t, d] = view()->prep_template("comment.tpl");
+   [t, d] = view()->prep_template("exec/comment.phtml");
 
    app()->set_default_data(id, d);
 
@@ -545,7 +553,7 @@ public void new(Request id, Response response, mixed ... args)
 
      Template.Template t;
      Template.TemplateData d;
-     [t, d] = view()->prep_template("new.tpl");
+     [t, d] = view()->prep_template("exec/new.phtml");
 
      app()->set_default_data(id, d);
      response->set_template(t,d);
@@ -578,7 +586,7 @@ public void edit(Request id, Response response, mixed ... args)
 
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("edit.tpl");
+        [t, d] = view()->prep_template("exec/edit.phtml");
 
      app()->set_default_data(id, d);
 
@@ -695,7 +703,7 @@ public void post(Request id, Response response, mixed ... args)
 
       Template.Template t;
         Template.TemplateData d;
-        [t, d] = view()->prep_template("post.tpl");
+        [t, d] = view()->prep_template("exec/post.phtml");
    
      app()->set_default_data(id, d);
 
@@ -850,7 +858,7 @@ public void diff(Request id, Response response, mixed ... args)
 
     Template.Template t;
     Template.TemplateData d;
-    [t, d] = view()->prep_template("diff.tpl");
+    [t, d] = view()->prep_template("exec/diff.phtml");
    
      app()->set_default_data(id, d);
 
@@ -969,7 +977,7 @@ public void versions(Request id, Response response, mixed ... args)
 
     Template.Template t;
     Template.TemplateData d;
-    [t, d] = view()->prep_template("versions.tpl");
+    [t, d] = view()->prep_template("exec/versions.phtml");
    
      app()->set_default_data(id, d);
 
@@ -994,7 +1002,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
 
 	 Template.Template t;
     Template.TemplateData d;
-    [t, d] = view()->prep_template("display_trackbacks.tpl");
+    [t, d] = view()->prep_template("exec/display_trackbacks.tpl");
    
      app()->set_default_data(id, d);
 	  d->add("object", obj_o);
