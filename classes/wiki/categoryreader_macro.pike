@@ -7,7 +7,7 @@ string describe()
    return "Displays a list of items in a category";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
   string category;
   int limit;
@@ -16,7 +16,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
 
   array a = params->parameters / "|";
-
+	array res = ({});
   if(!sizeof(a) || !strlen(a[0])); // nothing
   else category = a[0];
 
@@ -36,8 +36,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   if(!r) 
   {
-    buf->add("RSS: invalid RSS document\n");
-    return;
+    return ({"RSS: invalid RSS document\n"});
   }
 
   int ci=0;
@@ -46,36 +45,35 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   {
     object item;
 
-    buf->add("<div class=\"category-feed\">");
-    buf->add(cat["category"]);
-    buf->add("<hr/>\n<ul>\n");
+    res+=({"<div class=\"category-feed\">"});
+    res+=({cat["category"]});
+    res+=({"<hr/>\n<ul>\n"});
     ci=0; 
-werror("cat: %O\n", cat);
     foreach(cat["objects"];; item)
     {
-      buf->add("<li/>\n");
-      buf->add("<a href=\"/space/");
-      buf->add(item["path"]);
-      buf->add("\">");
-      buf->add(item->get_object_title());
-      buf->add("</a>");
-      buf->add("\n");
+      res+=({"<li/>\n"});
+      res+=({"<a href=\"/space/"});
+      res+=({item["path"]});
+      res+=({"\">"});
+      res+=({item->get_object_title()});
+      res+=({"</a>"});
+      res+=({"\n"});
       ci++;
       if(ci==limit) break;
     }
-    buf->add("</ul>\n");
-    buf->add("<a href=\"/exec/category/");
-    buf->add(cat["category"]);
-    buf->add("\">View all in ");
-    buf->add(cat["category"]);
-    buf->add("...</a>");
-    buf->add("<p/>\n");
+    res+=({"</ul>\n"});
+    res+=({"<a href=\"/exec/category/"});
+    res+=({cat["category"]});
+    res+=({"\">View all in "});
+    res+=({cat["category"]});
+    res+=({"...</a>"});
+    res+=({"<p/>\n"});
    
    }
 
-    buf->add("</div>");
+    res+=({"</div>"});
 
-  return;
+  return res;
 }
 
 

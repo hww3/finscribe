@@ -8,12 +8,12 @@ string describe()
    return "Generates an index of objects marked as attachments";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
 //werror("%O\n", mkmapping(indices(params), values(params)));
 
   array o = params->engine->wiki->model->find("object", (["is_attachment": 1]));
-
+  array res = ({});
   array e = ({});
   array f = ({});
 
@@ -34,15 +34,16 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   {
     if(prev != e[i][0])
     {
-      buf->add("<h4>");
-      buf->add(upper_case(sprintf("%c", e[i][0])));
-      buf->add("</h4>\n");
+      res+=({"<h4>"});
+      res+=({upper_case(sprintf("%c", e[i][0]))});
+      res+=({"</h4>\n"});
     }
-    buf->add("<a href=\"/space/");
-    buf->add(p[0]);
-    buf->add("\">");
-    buf->add(p[1]);
-    buf->add("</a><br>\n");
+    res+=({"<a href=\"/space/"});
+    res+=({p[0]});
+    res+=({"\">"});
+    res+=({p[1]});
+    res+=({"</a><br>\n"});
     prev = p[1][0];
   }  
+  return res;
 }

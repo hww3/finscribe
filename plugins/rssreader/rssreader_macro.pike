@@ -7,7 +7,7 @@ string describe()
    return "Consumes an RSS Feed";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
   string doc;
   int limit;
@@ -15,13 +15,12 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   // we should get a limit for the number of entries to display.
 
-
+array res = ({});
   array a = params->parameters / "|";
 
   if(!sizeof(a) || !strlen(a[0]))
   {
-    buf->add("No RSS URL provided!\n");
-    return;
+    return ({"No RSS URL provided!\n"});
   }
 
   else doc = a[0];
@@ -48,32 +47,31 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   if(!r) 
   {
-    buf->add("RSS: invalid RSS document\n");
-    return;
+    return ({"RSS: invalid RSS document\n"});
   }
 
-  buf->add("<div class=\"rss-feed\">");
+  res+=({"<div class=\"rss-feed\">"});
 
   if(!hidetitle)
   {
-    buf->add(r->data->title);
-    buf->add("<hr/>\n");
+    res+=({r->data->title});
+    res+=({"<hr/>\n"});
   }
 
   foreach(r->items, item)
   {
-    buf->add("<li/>\n");
-    buf->add("<a href=\"");
-    buf->add(item->data->link);
-    buf->add("\">");
-    buf->add(item->data->title);
-    buf->add("</a>");
-    buf->add("\n");
+    res+=({"<li/>\n"});
+    res+=({"<a href=\""});
+    res+=({item->data->link});
+    res+=({"\">"});
+    res+=({item->data->title});
+    res+=({"</a>"});
+    res+=({"\n"});
   }
 
-  buf->add("</div>");
+  res+=({"</div>}"});
 
-  return;
+  return res;
 }
 
 

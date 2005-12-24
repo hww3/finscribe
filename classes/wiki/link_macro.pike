@@ -7,16 +7,15 @@ string describe()
    return "Handles internal/external links";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
   if(!sizeof(params->parameters))
   {
-    buf->add("INVALID LINK");
-    return;
+    return ({"INVALID LINK"});
   }
 
   string link, name, img;
-  
+  array res = ({});
   array a = params->parameters/"|";
   
   foreach(a;int i; string elem)
@@ -32,8 +31,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
      }
      else if(search(elem, "=")== -1)
      {
-        buf->add("INVALID LINK PARAMETER: " + elem);
-        return;
+        return ({"INVALID LINK PARAMETER: " + elem});
      }
      else
      {
@@ -53,11 +51,11 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   if(!img)
   {  
-     buf->add("<img height=\"9\" width=\"8\" src=\"");
-     buf->add("/static/images/Icon-Extlink.png\" alt=\"&#91;external]\"/>");
+     res+=({"<img height=\"9\" width=\"8\" src=\""});
+     res+=({"/static/images/Icon-Extlink.png\" alt=\"&#91;external]\"/>"});
   }
-  buf->add("<a href=\"");
-  buf->add(link);
+ res+=({"<a href=\""});
+  res+=({link});
 
   	if(params->extras->request)
   	{
@@ -65,7 +63,9 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 		params->extras->request->misc->permalinks += ({ link });
 	}
 
-  buf->add("\">");
-  buf->add(name);
-  buf->add("</a>");
+  res+=({"\">"});
+  res+=({name});
+  res+=({"</a>"});
+
+  return res;
 }

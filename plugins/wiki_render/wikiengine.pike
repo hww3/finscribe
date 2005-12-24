@@ -35,6 +35,23 @@ int showCreate()
   return 1;
 }
 
+string render(string s, mixed|void extras)
+{
+  array a;
+  string h = Crypto.md5()->hash(s);
+
+  if(!(a = wiki->cache->get("WIKICOMPILER_" + h)))
+  {
+	
+	werror("didn't have it in cache.\n");
+    a = compile(s, extras);	
+    if(a)
+      wiki->cache->set("WIKICOMPILER_" + h, a, 600);
+  }
+
+  return output(a, extras);    
+}
+
 void appendLink(String.Buffer buf, string name, string view, string|void anchor)
 {
   //werror("appendLink: %O %O %O\n", name, view, anchor);

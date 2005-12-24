@@ -1,8 +1,10 @@
 import Public.Web.Wiki;
 inherit Public.Web.Wiki.Filters.RegexFilter;
 
-  public void filter(String.Buffer buf, string match, array|void components, RenderEngine engine, mixed|void context)
+  public array filter(string match, array|void components, RenderEngine engine, mixed|void context)
   {
+    array res = ({});
+
      if(!dest)
        dest = predef::replace(extra->print, "\\n", "\n");
 
@@ -10,7 +12,7 @@ inherit Public.Web.Wiki.Filters.RegexFilter;
                         array replacements = ({"$0"});
          for(int i=1; i<=sizeof(components); i++)
             replacements+=({"$"+i});
-         buf->add(predef::replace(dest ,replacements, ({match})+components));
+         res+=({predef::replace(dest ,replacements, ({match})+components) });
 			if(context->request && !context->request->misc->permalinks)
 				context->request->misc->permalinks = ({});
                         if(context->request && context->request->misc)
@@ -18,6 +20,7 @@ inherit Public.Web.Wiki.Filters.RegexFilter;
 
       }
       else
-         buf->add(dest);
+         res+=({dest});
          
+   return res;
   }

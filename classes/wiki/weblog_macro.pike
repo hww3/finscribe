@@ -7,11 +7,11 @@ string describe()
    return "Produces a weblog";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
   object root;
   int limit;
-
+  array res = ({});
 // werror("EVALUATE: %O\n", params->extras->obj);
 
   if(params->extras->obj && !stringp(params->extras->obj))
@@ -34,8 +34,7 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
 
   if(!root)
   {
-    buf->add("Unable to render Weblog because the weblog page location could not be determined."); 
-    return;
+    return ({"Unable to render Weblog because the weblog page location could not be determined."}); 
   } 
 //werror("root: %O\n", object_program(root));
 
@@ -60,14 +59,16 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
     d->add("contents", params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
 
   
-    buf->add(t->render(d));
+    res += ({t->render(d)});
   }
 
   if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
-    buf->add("<a href=\"?weblog=recent\">Recent Entries...</a> | ");
+    res+=({"<a href=\"?weblog=recent\">Recent Entries...</a> | "});
   else
-    buf->add("<a href=\"?weblog=full\">More Entries...</a> | ");
-  buf->add("<a href=\"/rss/");
-  buf->add(root["path"]);
-  buf->add("\">RSS Feed</a>");
+    res+=({"<a href=\"?weblog=full\">More Entries...</a> | "});
+  res+=({"<a href=\"/rss/"});
+  res+=({root["path"]});
+  res+=({"\">RSS Feed</a>"});
+
+  return res;
 }

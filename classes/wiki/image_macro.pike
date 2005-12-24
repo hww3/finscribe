@@ -7,17 +7,16 @@ string describe()
    return "Handles images";
 }
 
-void evaluate(String.Buffer buf, Macros.MacroParameters params)
+array evaluate(Macros.MacroParameters params)
 {
 //werror("%O\n", mkmapping(indices(params), values(params)));
   if(!sizeof(params->parameters))
   {
-    buf->add("INVALID IMAGE");
-    return;
+    return ({"INVALID IMAGE"});
   }
 
   string link, image, alt, align;
-  
+  array res = ({});
   array a = params->parameters/"|";
   
   foreach(a;int i; string elem)
@@ -32,16 +31,14 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
      }
      else if(search(elem, "=")== -1)
      {
-        buf->add("INVALID IMAGE PARAMETER: " + elem);
-        return;
+        return({"INVALID IMAGE PARAMETER: " + elem});
      }
      else
      {
         array b = elem/"=";
         if(!sizeof(b)==2)
         {
-           buf->add("INVALID IMAGE PARAMETER: " + elem);
-           return;
+           return ({"INVALID IMAGE PARAMETER: " + elem});
         }
 
         switch(b[0])
@@ -60,8 +57,8 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
              break;
             default:
             {
-               buf->add("INVALID IMAGE PARAMETER: " + elem);
-               return;
+               return ({"INVALID IMAGE PARAMETER: " + elem});
+
             }
         }
      }
@@ -69,29 +66,31 @@ void evaluate(String.Buffer buf, Macros.MacroParameters params)
   
   if(link)
   {
-     buf->add("<a href=\"");
-     buf->add(link);
-     buf->add("\">");
+     res+=({"<a href=\""});
+     res+=({link});
+     res+=({"\">"});
   }
-     buf->add("<img src=\"");
-     buf->add(image);
-     buf->add("\" alt=\"");
+     res+=({"<img src=\""});
+     res+=({image});
+     res+=({"\" alt=\""});
      if(alt)
      {
-        buf->add(alt);
+        res+=({alt});
      }
-     buf->add("\"");
+     res+=({"\""});
 
      if(align)
      {
-        buf->add(" align=\"");
-        buf->add(align);
-        buf->add("\"");
+        res+=({" align=\""});
+        res+=({align});
+        res+=({"\""});
      }
 
-     buf->add("/>");
+     res+=({"/>"});
   if(link)
   {
-     buf->add("</a>");
+     res+=({"</a>"});
   }
+
+  return res;
 }
