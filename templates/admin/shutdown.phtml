@@ -1,27 +1,23 @@
 <html>
 <head>
-  <%@include file="header.phtml" %>
-   <title><%$config.site.name%> :: admin</title>
+  <%@include file="header.phtml"%>
+   <title><%$config.site.name%> :: admin :: shutting down</title>
 </head>
 <body>
-<%@include file="tagline.phtml" %>
+<%@include file="tagline.phtml"%>
    <div id="page-wrapper">
     <div id="page-content">
-<div class="snip-buttons">  </div> 
+ 
+<div class="snip-buttons"> </div> 
 
 <div class="flash-message"><%flash var="msg"%></div>
    <div class="snip-wrapper">
       <div class="snip-content">
 
-          <h3>Admin</h3>
+          <h3>Shutdown Begun</h3>
         
-	<ul>
-		<li><a href="listusers">Edit Users</a>
-	</ul>
-	<ul>
-		<li><a href="shutdown">Shutdown</a>
-	</ul>
-			
+		This application will shut down in 5 seconds.
+				
           
      </div>
       </div>
@@ -34,3 +30,4 @@
 Welliver</div>
 </body>
 </html>
+

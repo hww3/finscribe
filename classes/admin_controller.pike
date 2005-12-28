@@ -15,6 +15,28 @@ public void index(Request id, Response response, mixed ... args)
 	response->set_template(t, d);
 }
 
+public void shutdown(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+	
+		Template.Template t;
+	        Template.TemplateData d;
+	
+		if(!id->variables->really_shutdown)
+	        [t, d] = view()->prep_template("admin/confirmshutdown.phtml");
+		else
+		{
+		    [t, d] = view()->prep_template("admin/shutdown.phtml");
+			// this is bad, we should have a better way of doing this...
+			call_out(exit, 5, 0);
+		}
+	        app()->set_default_data(id, d);
+	
+		response->set_template(t,d);
+	
+}
+
 public void listusers(Request id, Response response, mixed ... args)
 {
 	if(!app()->is_admin_user(id, response))

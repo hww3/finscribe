@@ -1,0 +1,46 @@
+<html>
+<head>
+  <%@include file="header.phtml"%>
+   <title><%$config.site.name%> :: admin :: confirm shutdown</title>
+</head>
+<body>
+<%@include file="tagline.phtml"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>Confirm Shutdown</h3>
+        
+
+		Do you really what to shut down this application?
+		<p>
+			<table>
+				<tr><td>
+			<form method="post">
+				<input name="really_shutdown" value="Yes" type="submit"/>
+				</form>
+				</td><td>
+				<form method="post" value="/admin/">
+				<input name="cancel" value="No" value="submit"/>
+			</form>
+			</td></tr>
+			</table>
+				
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+
