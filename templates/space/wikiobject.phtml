@@ -16,6 +16,16 @@
 <div class="snip-buttons"> [
 <% if data["user"]  %>
   <% if data["metadata"]["locked"]!=1 %> <a 
+href="/exec/edit/<%$obj%>">edit</a>
+<% else %> edit <% endif %>
+|  
+<% if: data->UserName == data->object["author"]["UserName"] || data->is_admin %> 
+<% if data->metadata["locked"] %> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> <% else %> <a 
+href="/exec/toggle_lock/<%$object.path%>">lock</a> <% endif %> <% else %> <% if data->metadata["locked"] %> unlock 
+<% else %> lock <% endif %>
+ <% endif %>
+| <a href="/exec/new">new</a> | 
+
 href="/exec/edit/<%$obj %>">edit</a> <% else %> edit <% endif %> | <a 
 href="/exec/new">new</a> |
 <% endif %>
