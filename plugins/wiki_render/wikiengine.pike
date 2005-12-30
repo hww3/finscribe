@@ -25,7 +25,7 @@ int exists(string _file)
   if(!sizeof(res)) return 0;
   else 
   {
-    wiki->cache->set("PATHdata_" + _file, 1, 600);
+    wiki->cache->set("PATHdata_" + _file, 1, 1200);
     return 1;
   }
 }
