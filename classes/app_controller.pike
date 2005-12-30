@@ -129,6 +129,7 @@ private void handle_text(object obj, Request id, Response response)
   }
   
   response->set_header("Cache-Control", "max-age=3600");
+  response->set_header("Last-Modified", v["created"]->format_http());
 
   string contents = v["contents"];
 
@@ -181,7 +182,7 @@ private void handle_data(object obj, Request id, Response response)
   }
   
   response->set_header("Cache-Control", "max-age=3600");
-
+  response->set_header("Last-Modified", v["created"]->format_http());
 
   string contents = v["contents"];
 
