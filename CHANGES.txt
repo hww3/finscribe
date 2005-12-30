@@ -1,6 +1,15 @@
+Version 0.3
+- made view tracking optional, via a configuration setting.
+- added lock to templates (not sure why it was missing)
+- static items and non-wiki content are now cache-friendly, which should 
+  speed response time
+- switched to new version of wiki renderer; should increase rendering times
+  by up to 10x for pages that don't use a lot of dynamic macros.
+- removed reference to non-existent css file
+
 Version 0.2
 
-- added vew tracking on objects
+- added view tracking on objects
 - weblog entry formatting is now controlled by a template, allowing
   end users to customize the look of their weblogs
 - updated to latest fins source, including new templates
