@@ -19,7 +19,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
-  obj["md"]["views"] ++;
+//  obj["md"]["views"] ++;
 
   string datatype = obj["datatype"]["mimetype"];
 
@@ -120,6 +120,16 @@ private void handle_text(object obj, Request id, Response response)
     v = obj["current_version"];
   }
 
+  if(id->request_headers["if-modified-since"] &&
+      Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
+        > v["created"]->unix_time())
+  {
+    response->not_modified();
+    return;
+  }
+  
+  response->set_header("Cache-Control", "max-age=3600");
+
   string contents = v["contents"];
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
@@ -161,6 +171,17 @@ private void handle_data(object obj, Request id, Response response)
   {
     v = obj["current_version"];
   }
+
+  if(id->request_headers["if-modified-since"] &&
+      Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
+        > v["created"]->unix_time())
+  {
+    response->not_modified();
+    return;
+  }
+  
+  response->set_header("Cache-Control", "max-age=3600");
+
 
   string contents = v["contents"];
 
