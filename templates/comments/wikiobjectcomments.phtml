@@ -1,7 +1,7 @@
 <html>
 <head>
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-   <title><%$config.site.name%> :: <%obj%></title>
+   <title><%$config.site.name%> :: <%$obj%></title>
 </head>
 <body>
 <%@include file="tagline.phtml" %>
@@ -9,7 +9,7 @@
    <div id="page-wrapper">
     <div id="page-content">
 
-   <h3><%obj%></h3>
+   <h3><%$obj%></h3>
    Created by <%$author_username%>. Last updated by <%$editor_username%>, 
 <%$when%>. 
 Version #<%$version%>.
@@ -17,7 +17,7 @@ Version #<%$version%>.
    
  <div class="snip-buttons"> [
 
- <% if data->user %>  <a href="/exec/edit/<%obj%>">edit</a>
+ <% if data->user %>  <a href="/exec/edit/<%$obj%>">edit</a>
    <% endif %>
 ] </div>
    <br/>
@@ -42,7 +42,7 @@ border="0"></a>
 
 
 Posted by <%$comment.author.UserName%>, <%$comment.nice_created%>.
-<a href="/comments/<%obj%>#<%$comment.id%>"><img 
+<a href="/comments/<%$obj%>#<%$comment.id%>"><img 
 src="/static/images/Icon-Permalink.png" width="8" height="9" 
 alt="permalink" border="0"/></a>
 
