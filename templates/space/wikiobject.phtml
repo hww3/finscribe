@@ -13,8 +13,10 @@
    Created by <%$author_username %>. Last updated by <%$editor_username %>, 
 <%$when%>. Version #<%$version%>.
      <% endif %>
-<div class="snip-buttons"> [
+
+
 <% if data["user"]  %>
+<div class="snip-buttons"> [
   <% if data["metadata"]["locked"]!=1 %> <a href="/exec/edit/<%$obj%>">edit</a><% else %> edit <% endif %>
 |  
 	<% if data->UserName == data->object["author"]["UserName"] || data->is_admin %> 
@@ -22,11 +24,12 @@
 		<% else %> <a href="/exec/toggle_lock/<%$object.path%>">lock</a> <% endif %> 
 	<% else %> <% if data->metadata["locked"] %> unlock <% else %> lock <% endif %>
  <% endif %>
+
+| <a href="/exec/new">new</a> | <a href="/exec/edit/<%$obj %>">edit</a> <% else %> edit 
 | <a href="/exec/new">new</a> | 
-
-href="/exec/edit/<%$obj %>">edit</a> <% else %> edit | <a href="/exec/new">new</a> | <% endif %> 
-
 <a href="/exec/versions/<%$obj %>">versions</a> ] </div>
+<% endif %> 
+
 <div class="flash-message"><% flash var="msg" %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
