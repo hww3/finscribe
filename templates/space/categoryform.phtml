@@ -7,9 +7,9 @@ border="0">
 <%$numcategories%> Categories</a><br/>
 <div id="categories-<%$obj%>" style="display:none;margin-left:20px">
 <table>
-<% foreach var="categories" val="category"%>
+<% foreach var="categories" val="cat" %>
 <tr><td><a 
-href="/exec/category/<%$category.category%>"><%$category.category%></a></td></tr>
+href="/exec/category/<%$cat.category%>"><%$cat.category%></a></td></tr>
 <% end %>
 </table>
 
