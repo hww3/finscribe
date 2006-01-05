@@ -4,6 +4,20 @@ string type_name = "object";
 object repository = FinScribe.Repo;
 
 
+   int is_editable(object user)
+   {
+     if(!user) return 0;
+     if(this["md"]["locked"] && user["id"] != this["author"]["id"]) return 0;
+     else return 1;
+   }
+
+   int is_lockable(object user)
+   {
+     if(!user) return 0;
+     if(user["id"] == this["author"]["id"] || user["is_admin"]) return 1;
+     else return 0;
+   }
+
 
 public array get_blog_entries(int|void max)
 {

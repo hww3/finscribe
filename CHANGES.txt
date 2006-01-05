@@ -6,6 +6,7 @@ Version 0.3
 - switched to new version of wiki renderer; should increase rendering times
   by up to 10x for pages that don't use a lot of dynamic macros.
 - removed reference to non-existent css file
+- fixes for numerous template format bugs
 
 Version 0.2
 

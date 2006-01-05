@@ -87,6 +87,10 @@ private void handle_wiki(object obj, Request id, Response response)
   dta->add("object", obj);
   dta->add("metadata", obj->get_metadata());
 
+  dta->add("islocked", obj["md"]["locked"]);
+  dta->add("iseditable", obj->is_editable(dta->get_data()["user_object"]));
+  dta->add("islockable", obj->is_lockable(dta->get_data()["user_object"]));
+  
   // now, let's get the comments for this page.
   dta->add("numcomments", sizeof(obj["comments"]));
   dta->add("numcategories", sizeof(obj["categories"]));
