@@ -7,6 +7,9 @@ Version 0.3
   by up to 10x for pages that don't use a lot of dynamic macros.
 - removed reference to non-existent css file
 - fixes for numerous template format bugs
+- added hooks for permission checks to objects. this should result in 
+  more consistent application behavior, and make it easier to add a full
+  fledged permission layer.
 
 Version 0.2
 
