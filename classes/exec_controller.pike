@@ -576,19 +576,20 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
 
-   if(obj_o && obj_o["md"]["locked"] && obj_o["author"]["id"] != id->misc->session_variables->userid)
-	{
-		response->flash("msg", "A locked object can only be edited by its owner.");
-//      response->flash("from", id->not_query);
-      response->redirect(id->referrer);		
-		return;
-	}
-
       Template.Template t;
         Template.TemplateData d;
         [t, d] = view()->prep_template("exec/edit.phtml");
 
      app()->set_default_data(id, d);
+
+
+   if(!obj_o->is_editable(d->get_data()["user_object"]))
+   {
+	response->flash("msg", "You do not have permission to edit this object");
+      response->redirect(id->referrer);		
+		return;
+   }
+
 
    if(id->variables->action)
    {
