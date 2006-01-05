@@ -24,8 +24,8 @@
   File: <input name="upload-file" type="file"/>
   <br/>
   MimeType: <select name="mime-type">
-  {foreach:datatypes}<option><%$datatypes.mimetype%>
-  {end:datatypes}
+  <% foreach var="datatypes" val="dt" %><option><%$dt.mimetype%>
+  <% end %>
   </select>
   <br/>
   <input type="submit" name="action" value="Attach"/>
