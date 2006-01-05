@@ -36,7 +36,7 @@ int install()
 string macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
   if(!mappingp(args)) return "";
-  return get_page_breadcrumbs(get_var_value(args->var, data->get_data())||"");
+  return get_page_breadcrumbs(get_var_value(args->var, data->get_data())||args->val||"");
 }
 
 string macro_snip(Template.TemplateData data, mapping|void args)
