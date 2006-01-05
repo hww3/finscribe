@@ -19,8 +19,7 @@ href="/exec/category/<%$cat.category%>"><%$cat.category%></a></td></tr>
 enctype="multipart/form-data">
 Existing Category: <select name="existing-category">
 <option value="">Select a category
-<% foreach var="existing-categories" 
-val="existing-category" %><option><%$existing-category.category%>
+<% foreach var="existing-categories" val="ec" %><option><%$ec.category%>
 <% end %>
 </select> or new category: <input type="text" name="new-category" 
 size="15" value=""/>
