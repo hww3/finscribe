@@ -69,6 +69,23 @@ array evaluate(Macros.MacroParameters params)
   res+=({"<a href=\"/rss/"});
   res+=({root["path"]});
   res+=({"\">RSS Feed</a>"});
+  res+=({WeblogReplacerObject()});
 
   return res;
 }
+
+
+  class WeblogReplacerObject()
+                                                {
+
+                                                        array render(object engine, mixed extras)
+                                                        {
+								extras->request->misc->object_is_weblog = 1;
+                                                                return ({""});
+                                                        }
+
+                                                        string _sprintf(mixed t)
+                                                        {
+                                                                return "WeblogReplacer()";
+                                                        }
+                                                }
