@@ -6,7 +6,8 @@
 <body>
 <%@ include file="tagline.phtml" %>
 
-{include:pagebegin.phtml}
+<%@ include file="pagebegin.phtml" %>
+
    <h3>Editing: <%$obj%></h3>
 
 
@@ -15,6 +16,7 @@ Subject: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
 <textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br>
 <input type="submit" name="action" value="Preview">
+<input type="submit" name="action" value="Cancel">
 <input type="submit" name="action" value="Save">
 </form>
 

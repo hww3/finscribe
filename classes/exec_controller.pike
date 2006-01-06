@@ -598,6 +598,11 @@ public void edit(Request id, Response response, mixed ... args)
       subject = id->variables->subject ||"";
       switch(id->variables->action)
       {
+	 case "Cancel":
+            response->flash("msg", "Blog Posting cancelled.");
+	    response->redirect("/space/" + obj);
+	    return;
+            break;
          case "Preview":
             d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
             break;
@@ -715,6 +720,11 @@ public void post(Request id, Response response, mixed ... args)
 		trackbacks = id->variables->trackbacks;
       switch(id->variables->action)
       {
+	 case "Cancel":
+            response->flash("msg", "Blog Posting cancelled.");
+	    response->redirect("/space/" + obj);
+	    return;
+            break;
          case "Preview":
             d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
