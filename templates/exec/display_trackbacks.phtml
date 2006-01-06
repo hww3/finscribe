@@ -8,10 +8,12 @@
    <div class="snip-wrapper">
       <div class="snip-content">
 
-The trackback URL for this article is: <%$config.site.url%>/exec/trackback/<%$object.path%>.
+The trackback URL for this article is: 
+<a 
+href="<%$config.site.url%>/exec/trackback/<%$object.path%>"><%$config.site.url%>/exec/trackback/<%$object.path%></a>.
 
 <%foreach var="trackbacks" val="trackback" %>
-<%$trackback.url%><br/>
+<a href="<%$trackback.url%>"><%$trackback.url%></a><br/>
 <%$trackback.excerpt%>
 <hr/>
 <% end %>
