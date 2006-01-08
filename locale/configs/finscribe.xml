@@ -1,4 +1,4 @@
-<project name="finscribe">
+<project name="FinScribe">
 <baselang>eng</baselang>
 <xmlpath>../locale/%L/finscribe.xml</xmlpath>
 <nocopy />

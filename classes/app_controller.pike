@@ -1,4 +1,4 @@
-//<locale-token project="finscribe">LOCALE</locale-token>
+//<locale-token project="FinScribe">LOCALE</locale-token>
 
 #define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
 

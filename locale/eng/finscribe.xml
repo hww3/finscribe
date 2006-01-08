@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <locale version="1.0"/>
-<project>finscribe</project>
-<language>swe</language>
+<project>FinScribe</project>
+<language>eng</language>
+<dumped>1136698005</dumped>
 <file>../classes/admin_controller.pike</file>
 <file>../classes/app_controller.pike</file>
 <file>../classes/comment_controller.pike</file>
@@ -11,5 +12,79 @@
 
 <str id="1">
 <o>Showing archived version</o>
+<t></t>
+</str>
+
+<str id="2">
+<o>hello from exec, perhaps you'd like to choose a function?
+</o>
+<t></t>
+</str>
+
+<str id="3">
+<o>You must provide an object to modify categories for.
+</o>
+<t></t>
+</str>
+
+<str id="4">
+<o>You must login to edit a category.</o>
+<t></t>
+</str>
+
+<str id="5">
+<o>Unknown object </o>
+<t></t>
+</str>
+
+<str id="6">
+<o>Unknown category </o>
+<t></t>
+</str>
+
+<str id="7">
+<o>Category </o>
+<t></t>
+</str>
+
+<str id="8">
+<o> is already assigned to this item.</o>
+<t></t>
+</str>
+
+<str id="9">
+<o>Include</o>
+<t></t>
+</str>
+
+<str id="10">
+<o>Added to </o>
+<t></t>
+</str>
+
+<str id="11">
+<o>Remove</o>
+<t></t>
+</str>
+
+<str id="12">
+<o>Removed from </o>
+<t></t>
+</str>
+
+<str id="13">
+<o>You must provide a category to view.
+</o>
+<t></t>
+</str>
+
+<str id="14">
+<o> does not exist.
+</o>
+<t></t>
+</str>
+
+<str id="15">
+<o>You must login to delete comments.</o>
 <t></t>
 </str>

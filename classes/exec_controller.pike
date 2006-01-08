@@ -1,3 +1,7 @@
+//<locale-token project="FinScribe">LOCALE</locale-token>
+
+#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
+
 import Fins;
 import Fins.Model;   
 inherit Fins.FinsController;
@@ -13,7 +17,7 @@ public void foo(Request id, Response response, mixed ... args)
 
 public void index(Request id, Response response, mixed ... args)
 {
-  response->set_data("hello from exec, perhaps you'd like to choose a function?\n");
+  response->set_data(LOCALE(2, "hello from exec, perhaps you'd like to choose a function?\n"));
 }
 
 
@@ -35,11 +39,11 @@ public void editcategory(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))
    {
-     response->set_data("You must provide an object to modify categories for.\n");
+     response->set_data(LOCALE(3, "You must provide an object to modify categories for.\n"));
    }
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to edit a category.");
+      response->flash("msg", LOCALE(4, "You must login to edit a category."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -71,28 +75,27 @@ public void editcategory(Request id, Response response, mixed ... args)
     x = model()->find("object", (["path": path, "categories": c[0]]));
   if(!sizeof(o))
   {
-    response->flash("msg", "Unknown object " + path + ".");
+    response->flash("msg", LOCALE(5, "Unknown object ") + path + ".");
   }
   else if(!sizeof(c))
   {
-    response->flash("msg", "Unknown category " + category + ".");
+    response->flash("msg", LOCALE(6, "Unknown category ") + category + ".");
   }
   else if(sizeof(x))
   {
-    response->flash("msg", "Category " + category + " is already assigned to this item.");
+    response->flash("msg", LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item."));
   }
-  else if(id->variables->action == "Include")
+  else if(id->variables->action == LOCALE(9, "Include"))
   {
     o[0]["categories"]+=c[0];
-    response->flash("msg", "Added to " + category + ".");
+    response->flash("msg", LOCALE(10, "Added to ") + category + ".");
   }
 
-  else if(id->variables->action == "Remove")
+  else if(id->variables->action == LOCALE(11, "Remove"))
   {
     o[0]["categories"]-=c[0];
-    response->flash("msg", "Removed from " + category + ".");
+    response->flash("msg", LOCALE(12, "Removed from ") + category + ".");
   }
-
   response->redirect(id->referrer || "/space/");
 
 }
@@ -101,7 +104,7 @@ public void category(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))
    {
-     response->set_data("You must provide a category to view.\n");
+     response->set_data(LOCALE(13, "You must provide a category to view.\n"));
    }
 
       Template.Template t;
@@ -114,7 +117,7 @@ public void category(Request id, Response response, mixed ... args)
   
    if(!c || !sizeof(c))
    {
-     response->set_data("Category " + args[0] + " does not exist.\n");
+     response->set_data(LOCALE(7, "Category ") + args[0] + LOCALE(14, " does not exist.\n"));
      return;
    }
 
@@ -128,7 +131,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to delete comments.");
+      response->flash("msg", LOCALE(15, "You must login to delete comments."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
