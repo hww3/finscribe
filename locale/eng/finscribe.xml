@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<locale version="1.0"/>
+<project>finscribe</project>
+<language>swe</language>
+<file>../classes/admin_controller.pike</file>
+<file>../classes/app_controller.pike</file>
+<file>../classes/comment_controller.pike</file>
+<file>../classes/controller.pike</file>
+<file>../classes/exec_controller.pike</file>
+<file>../classes/rss_controller.pike</file>
+
+<str id="1">
+<o>Showing archived version</o>
+<t></t>
+</str>

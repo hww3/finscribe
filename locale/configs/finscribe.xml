@@ -1,0 +1,12 @@
+<project name="finscribe">
+<baselang>eng</baselang>
+<xmlpath>../locale/%L/finscribe.xml</xmlpath>
+<nocopy />
+<file>../classes/app_controller.pike</file>
+<file>../classes/exec_controller.pike</file>
+<file>../classes/admin_controller.pike</file>
+<file>../classes/rss_controller.pike</file>
+<file>../classes/comment_controller.pike</file>
+<file>../classes/controller.pike</file>
+
+</project>

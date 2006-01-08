@@ -1,3 +1,8 @@
+//<locale-token project="finscribe">LOCALE</locale-token>
+
+#define LOCALE_PROJECT "finscribe"
+#define LOCALE(X,Y) Locale.translate(LOCALE_PROJECT, id->get_lang(), X, Y)
+
 import Fins;
 import Fins.Model;
 inherit Fins.FinsController;
@@ -5,6 +10,7 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
+
   if(!args || !sizeof(args))
   {
      response->redirect("start");
@@ -58,7 +64,7 @@ private void handle_wiki(object obj, Request id, Response response)
   if(id->variables->show_version)
   {
     v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
-    response->flash("msg", "Showing archived version");
+    response->flash("msg", LOCALE(1, "Showing archived version", id));
   }
   else
   {
@@ -118,7 +124,7 @@ private void handle_text(object obj, Request id, Response response)
   if(id->variables->show_version)
   {
     v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
-    response->flash("msg", "Showing archived version");
+    response->flash("msg", LOCALE(1, "Showing archived version", id));
   }
   else
   {

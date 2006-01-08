@@ -9,9 +9,13 @@ static void create(Fins.Configuration _config)
 {
   config = _config;
 
-	load_wiki();
+  load_wiki();
+
   app::create(_config);
 
+  Locale.register_project("finscribe", combine_path(config->app_dir, "locale/%L/finscribe.xml"));
+
+  werror("LOCALES: %O\n", Locale.list_languages("finscribe"));
   Template.add_simple_macro("breadcrumbs", macro_breadcrumbs);
   Template.add_simple_macro("snip", macro_snip);
   
