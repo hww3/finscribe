@@ -1,7 +1,6 @@
 //<locale-token project="finscribe">LOCALE</locale-token>
 
-#define LOCALE_PROJECT "finscribe"
-#define LOCALE(X,Y) Locale.translate(LOCALE_PROJECT, id->get_lang(), X, Y)
+#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
 
 import Fins;
 import Fins.Model;
@@ -60,11 +59,10 @@ private void handle_wiki(object obj, Request id, Response response)
 
   array o = model()->find("object", ([ "is_attachment": 1, "parent": obj ]));
   object v;
-
   if(id->variables->show_version)
   {
     v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
-    response->flash("msg", LOCALE(1, "Showing archived version", id));
+    response->flash("msg", LOCALE(1, "Showing archived version"));
   }
   else
   {
@@ -124,7 +122,7 @@ private void handle_text(object obj, Request id, Response response)
   if(id->variables->show_version)
   {
     v = model()->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
-    response->flash("msg", LOCALE(1, "Showing archived version", id));
+    response->flash("msg", LOCALE(1, "Showing archived version"));
   }
   else
   {
