@@ -10,6 +10,8 @@ Version 0.3
 - added hooks for permission checks to objects. this should result in 
   more consistent application behavior, and make it easier to add a full
   fledged permission layer.
+- added Cancel button to post and edit functions.
+- added Localization framework; localizations not included.
 
 Version 0.2
 
