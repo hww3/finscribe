@@ -12,6 +12,8 @@ Version 0.3
   fledged permission layer.
 - added Cancel button to post and edit functions.
 - added Localization framework; localizations not included.
+- cleaned up category template
+- added /rss/categoryname?type=category feed of category items
 
 Version 0.2
 
