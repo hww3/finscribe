@@ -1,0 +1,3 @@
+\[ <a href="/space/object-index">object-index</a> | <a href="/space/attachment-index">attachment-index</a> | category-index ]
+<p>
+{category-index}
