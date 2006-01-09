@@ -63,6 +63,12 @@ int run()
               Stdio.read_file(fn), "text/wiki");
   }
 
+  array a = model()->find("object", (["path": Fins.Model.LikeCriteria("%-index")]));
+ 
+  // move all "*-index" objects up to the root.
+  foreach(a;; object i)
+    i["path"] = (i["path"]/"/")[-1];
+
   write("Loading stylesheets...\n");
   foreach(glob("*.css", get_dir(".")), string fn)
   {
@@ -80,8 +86,5 @@ int run()
 
   write("Loading initial objects...\n");
   model()->new_from_string("start", "1 Welcome to FinScribe.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
-  model()->new_from_string("object-index", "{object-index}\n\nView [attachment-index]\n", "text/wiki", 0, 1);
-  model()->new_from_string("attachment-index", "{attachment-index}", "text/wiki", 0, 1);
 
 }
-

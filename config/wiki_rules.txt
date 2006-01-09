@@ -51,6 +51,7 @@ macro.weblog.class=wiki/weblog_macro
 macro.recentchanges.class=wiki/recentchanges_macro
 macro.object-index.class=wiki/objectindex_macro
 macro.attachment-index.class=wiki/attachmentindex_macro
+macro.category-index.class=wiki/categoryindex_macro
 macro.rss-reader.class=wiki/rssreader_macro
 macro.category-reader.class=wiki/categoryreader_macro
 

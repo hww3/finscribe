@@ -73,6 +73,7 @@ public void editcategory(Request id, Response response, mixed ... args)
   array x;
   if(sizeof(c))
     x = model()->find("object", (["path": path, "categories": c[0]]));
+
   if(!sizeof(o))
   {
     response->flash("msg", LOCALE(5, "Unknown object ") + path + ".");
@@ -586,7 +587,7 @@ public void edit(Request id, Response response, mixed ... args)
      app()->set_default_data(id, d);
 
 
-   if(!obj_o->is_editable(d->get_data()["user_object"]))
+   if(obj_o && !obj_o->is_editable(d->get_data()["user_object"]))
    {
 	response->flash("msg", "You do not have permission to edit this object");
       response->redirect(id->referrer);		

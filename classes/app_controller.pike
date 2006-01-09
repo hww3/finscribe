@@ -24,7 +24,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
-  if(app()->config["site"]["track_views"])
+  if((int)app()->config["site"]["track_views"])
     obj["md"]["views"] ++;
 
   string datatype = obj["datatype"]["mimetype"];

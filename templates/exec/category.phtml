@@ -8,8 +8,6 @@
    <div id="page-wrapper">
     <div id="page-content">
    <h3><%$category.category%></h3>
-<% if data->user %><div class="snip-buttons"> [ <a href="/exec/edit/<%$obj%>">edit</a> ] </div> 
-<% endif %>
 <div class="flash-message"><%flash var="msg" %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
@@ -20,6 +18,9 @@ Items in this category:
 <% end %>
 </ul>
 <p/>
+
+<a href="/rss/<%$category.category %>?type=category">RSS Feed</a>
+
          </div>
       </div>
       </div>
@@ -31,7 +32,6 @@ Items in this category:
          </div>
          
 </div>
-
 <div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill Welliver</div>
 </body>
 </html>
