@@ -36,6 +36,28 @@ int install()
   return i->run();
 }
 
+string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)
+{
+  String.Buffer b = String.Buffer();
+
+  b+="<a id='";
+  b+=arguments["name"];
+  b+=" onclick=\"toggleVisibility('";
+  b+=arguments["name"];
+  b+="')\"><img id=\"icon-";
+  b+=arguments["name"];
+  b+="\" src=\"/static/images/Icon-Unfold.png\" border=\"0\">";
+
+  b+=arguments["title"];
+  b+="<br/><div id=\"";
+  b+=arguments["name"];
+  b+="\" style=\"display:none;margin-left:20px\">";
+
+  return b->get();
+}
+
+
+
 string macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
   if(!mappingp(args)) return "";
