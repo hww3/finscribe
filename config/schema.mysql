@@ -120,3 +120,41 @@ CREATE TABLE groups_groups (
 
 
 
+#
+# Table structure for table 'acls'
+#
+
+CREATE TABLE acls (
+  id int(11) NOT NULL auto_increment,
+  name char(36) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+CREATE TABLE acls_rules (
+  acl_id int(11) NOT NULL,
+  rule_id int(11) NOT NULL
+) TYPE=MyISAM;
+
+CREATE TABLE aclrules (
+  id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL,
+  group_id int(11) NOT NULL,
+  x_read int(1) default '0',  
+  x_annotate int(1) default '0',  
+  x_write int(1) default '0',  
+  x_delete int(1) default '0',  
+  x_exec int(1) default '0',  
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+CREATE TABLE aclrules_users (
+  aclrule_id int(11) NOT NULL,
+  user_id int(11) NOT NULL
+) TYPE=MyISAM;
+
+CREATE TABLE aclrules_groups (
+  aclrule_id int(11) NOT NULL,
+  group_id int(11) NOT NULL
+) TYPE=MyISAM;
+
+
