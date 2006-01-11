@@ -1,0 +1,4 @@
+- reassign user ownership of objects when a user is deleted.
+- proper group editing interface.
+- full localization
+- acl editing
