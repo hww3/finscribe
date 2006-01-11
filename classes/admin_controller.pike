@@ -132,6 +132,44 @@ public void edituser(Request id, Response response, mixed ... args)
 	
         app()->set_default_data(id, d);
   	response->set_template(t, d);
+
+        object u = model()->find_by_id("user", (int)id->variables->userid);
+	d->add("user", u);
+
+        if(id->variables->action)
+        {
+          if(id->variables->action == LOCALE(0, "Cancel"))
+          {
+            response->redirect("/admin");
+            return;
+          }
+
+          else if(id->variables->action == LOCALE(0, "Save"))
+          {
+            if(id->variables->Name != u["Name"])
+               u["Name"] = id->variables->Name;
+
+            if(id->variables->Name != u["Email"])
+               u["Email"] = id->variables->Email;
+
+
+            if(id->variables->Password && sizeof(id->variables->Password))
+            {
+               if(id->variables->Password != id->variables->ConfirmPassword)
+               {
+                 response->flash("msg", "You entered two differing password.");
+                 return;
+               }
+
+               u["Password"] = id->variables->Password;
+            }
+
+            response->flash("msg", "User was updated successfully.");
+            response->redirect("/admin/listusers");
+            return;
+          }
+        }
+
 }
 
 public void deleteuser(Request id, Response response, mixed ... args)
