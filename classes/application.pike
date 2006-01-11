@@ -123,7 +123,9 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   if(!id->misc->session_variables->userid)
   {
     response->flash("msg", "You must be logged in as an administrator to continue.");
-    response->redirect(id->referrer || "/space/start");
+    
+    response->redirect((id->referrer && sizeof(id->referrer)) ? 
+                                      id->referrer:"/space/start");
     return 0;
   }
 
