@@ -54,3 +54,19 @@ CREATE TABLE users (
   email char(64) NOT NULL default ''
 );
 
+CREATE TABLE groups (
+  id integer primary key,
+  name char(36) NOT NULL default ''
+);
+
+CREATE TABLE users_groups (
+  user_id int(11) NOT NULL default '0',
+  group_id int(11) NOT NULL default '0'
+);
+
+CREATE TABLE groups_groups (
+  member_id int(11) NOT NULL default '0',
+  group_id int(11) NOT NULL default '0'
+);
+
+

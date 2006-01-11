@@ -78,3 +78,28 @@ CREATE TABLE users (
 
 \g
 
+
+CREATE TABLE groups (
+  id SERIAL not null,
+  name varchar(36) NOT NULL default '',
+  PRIMARY KEY  (id)
+)
+
+\g
+
+
+CREATE TABLE users_groups (
+  user_id integer NOT NULL default '0',
+  group_id integer NOT NULL default '0'
+)
+
+\g
+
+CREATE TABLE groups_groups (
+  member_id integer NOT NULL default '0',
+  group_id integer NOT NULL default '0'
+)
+
+\g
+
+

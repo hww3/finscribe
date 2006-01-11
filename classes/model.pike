@@ -14,6 +14,7 @@ public void load_model()
    FinScribe.Repo.add_object_type(FinScribe.Model.Category_object(context), FinScribe.Model.Category);
    FinScribe.Repo.add_object_type(FinScribe.Model.Comment_object(context), FinScribe.Model.Comment);
    FinScribe.Repo.add_object_type(FinScribe.Model.User_object(context), FinScribe.Model.User);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Group_object(context), FinScribe.Model.Group);
 }
 
 Model.DataObjectInstance find_by_id(string|object ot, int id)
