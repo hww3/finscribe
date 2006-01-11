@@ -157,7 +157,7 @@ public void edituser(Request id, Response response, mixed ... args)
             {
                if(id->variables->Password != id->variables->ConfirmPassword)
                {
-                 response->flash("msg", "You entered two differing password.");
+                 response->flash("msg", "You entered two differing passwords.");
                  return;
                }
 

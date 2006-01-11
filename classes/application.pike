@@ -123,19 +123,16 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   if(!id->misc->session_variables->userid)
   {
     response->flash("msg", "You must be logged in as an administrator to continue.");
-    
-    response->redirect((id->referrer && sizeof(id->referrer)) ? 
-                                      id->referrer:"/space/start");
+    response->redirect("/exec/login");
     return 0;
   }
 
-  object user = model->find_by_id("user", 
-id->misc->session_variables->userid);
+  object user = model->find_by_id("user", id->misc->session_variables->userid);
   
   if(!user)
   {
     response->flash("msg", "Unable to find a user for your userid.");
-    response->redirect(id->referrer || "/space/start");
+    response->redirect("/exec/login");
     return 0;
   }
   
@@ -144,7 +141,7 @@ id->misc->session_variables->userid);
   else
   {
     response->flash("msg", "You must be an administrator to access that resource.");
-    response->redirect(id->referrer || "/space/start");
+    response->redirect("/exec/login");
     return 0;
   }
 }
