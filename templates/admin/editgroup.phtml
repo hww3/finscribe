@@ -1,0 +1,52 @@
+<html>
+<head>
+  <%@include file="header.phtml"%>
+   <title><%$config.site.name%> :: admin :: edit group</title>
+</head>
+<body>
+<%@include file="tagline.phtml"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>Edit Group</h3>
+
+	<form action="" method="post">
+        <input type="text" size="32" name="Name" value="<%$group.Name%>" />
+        <p/>
+        <b>User Members</b><br/>
+
+        <% foreach var="group.users" val="member" %>
+        <%$member.Name%><br />
+        <% end %>
+
+        <p/>
+        <b>Group Members</b><br/>
+
+        <% foreach var="group.groups" val="member" %>
+        <%$member.Name%><br />
+        <% end %>
+
+        <p/>
+        <input type="submit" name="action" value="Cancel" />
+        <input type="submit" name="action" value="Save" />
+        </form>
+        
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+

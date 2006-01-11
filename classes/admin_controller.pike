@@ -1,3 +1,8 @@
+//<locale-token project="FinScribe">LOCALE</locale-token>
+
+#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
+
+
 import Fins;
 inherit Fins.FinsController;
 
@@ -56,6 +61,64 @@ public void listusers(Request id, Response response, mixed ... args)
 	d->add("users", ul);
 	
 	response->set_template(t, d);
+}
+
+public void listgroups(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+
+	Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("admin/listgroups.phtml");
+
+        app()->set_default_data(id, d);
+
+	mixed ul;
+
+	if(!id->variables->limit)
+		ul = model()->find("group",([]));
+	
+	d->add("groups", ul);
+	
+	response->set_template(t, d);
+}
+
+public void editgroup(Request id, Response response, mixed ... args)
+{
+	if(!app()->is_admin_user(id, response))
+          return;
+
+	Template.Template t;
+        Template.TemplateData d;
+        [t, d] = view()->prep_template("admin/editgroup.phtml");
+	
+        app()->set_default_data(id, d);
+
+        
+        object g = model()->find_by_id("group", (int)id->variables->groupid);
+	d->add("group", g);
+
+        if(id->variables->action)
+        {
+          if(id->variables->action == LOCALE(0, "Cancel"))
+          {
+            response->redirect("/admin");
+            return;
+          }
+
+          else if(id->variables->action == LOCALE(0, "Save"))
+          {
+            if(id->variables->Name != g["Name"])
+               g["Name"] = id->variables->Name;
+
+            response->flash("msg", "Group was updated successfully.");
+            response->redirect("/admin/listgroups");
+            return;
+          }
+        }
+
+  	response->set_template(t, d);
 }
 
 public void edituser(Request id, Response response, mixed ... args)

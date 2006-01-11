@@ -1,0 +1,41 @@
+<html>
+<head>
+  <%@include file="header.phtml"%>
+   <title><%$config.site.name%> :: admin :: grouplist</title>
+</head>
+<body>
+<%@include file="tagline.phtml"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>Group List</h3>
+        
+        <table>
+            <tr><td>Group Name</td></tr>  
+          <% foreach var="groups" val="group"%>
+        <tr>
+            <td><%$group.Name%></td>
+            <td>[ <a href="editgroup?groupid=<%$group.id%>">Edit</a> | 
+                <a href="deletegroup?groupid=<%$group.id%>">Delete</a> ]</td>
+        </tr>
+          <% end %>
+        </table>
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+
