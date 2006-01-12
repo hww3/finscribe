@@ -38,15 +38,24 @@ int showCreate()
 string render(string s, mixed|void extras)
 {
   array a;
-  string h = Crypto.md5()->hash(s);
 
-  if(!(a = wiki->cache->get("WIKICOMPILER_" + h)))
+    string fn, h;
+    if(extras && objectp(extras->obj))
+      fn = extras->obj["path"];
+    else if (extras && stringp(extras->obj))
+      fn = extras->obj;
+
+  if(fn)
   {
-	
-	werror("didn't have it in cache.\n");
+    h = Crypto.md5()->hash(s);
+    a = wiki->cache->get("WIKICOMPILER_" + fn + "_" + h);
+  }
+
+  if(!a)
+  {
     a = compile(s, extras);	
-    if(a)
-      wiki->cache->set("WIKICOMPILER_" + h, a, 600);
+    if(a && fn)
+      wiki->cache->set("WIKICOMPILER_"+ fn + "_" + h, a, 600);
   }
 
   return output(a, extras);    
