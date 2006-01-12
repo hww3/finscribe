@@ -18,6 +18,8 @@ Version 0.3
 - added pike code hilighting to code macro
 - beginning of localization, starting with strings contained in internal code
 - added groups to data model
+- added some ui refinements thanks to Dojo
+- blog posting allows publication date to be selected
 
 Version 0.2
 
