@@ -21,10 +21,10 @@ TrackBack URLs (click preview to detect <a href="http://en.wikipedia.org/wiki/Tr
 <script type="text/javascript">
 	function toggleCreated()
 	{
-		document.forms[0].address.disabled = !document.forms[0].address.disabled;
+		document.forms[0].created.disabled = !document.forms[0].created.disabled;
 	}
 </script>
-Publish Date: <input type="text" size="15" name="created"/ > <input type="checkbox" name="created_toggle" onclick="toggleCreated()"/>
+Publish Date: <input type="text" size="15" <%$showcreated%> name="created" value="<%$created%>"/ > <input type="checkbox" name="created_toggle" <%$createchecked%> onclick="toggleCreated()"/> (enter a date and hit "preview" to validate.)
 <br/>
 <input type="submit" name="action" value="Preview"/>
 <input type="submit" name="action" value="Cancel"/>

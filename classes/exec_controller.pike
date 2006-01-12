@@ -669,7 +669,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-   string contents, subject, obj, trackbacks;
+   string contents, subject, obj, trackbacks, created;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -685,8 +685,12 @@ public void post(Request id, Response response, mixed ... args)
    subject = "";
    contents = "";
    trackbacks = "";
+   created = "";
 
    object t = view->get_view("exec/post");
+
+   t->add("showcreated", "disabled=\"1\"");
+   t->add("createchecked", "selected=\0\"");
    
    app->set_default_data(id, t);
 
@@ -703,6 +707,16 @@ public void post(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
+			if(id->variables->created)
+			{
+				catch 
+				{
+					object c = Calendar.Gregorian.dwim_day(id->variables->created);
+					created = c->format_time();
+					t->add("showcreated", "");
+  				    t->add("createchecked", "checked=\"1\"");
+				};
+			}
             t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
@@ -733,7 +747,11 @@ public void post(Request id, Response response, mixed ... args)
                string path = "";
                array r = obj_o->get_blog_entries();
                int seq = 1;
-               object c = Calendar.now();
+               object c;
+               if(id->variables->created && sizeof(id->variables->created))
+                 c = Calendar.Gregorian.dwim_day(id->variables->created);
+ 			   else 
+                 c = Calendar.now();
                string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
                if(sizeof(r))
                {
@@ -760,6 +778,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o["parent"] = p;
+               obj_o["created"] = c;
                obj_o["is_attachment"] = 2;
                obj_o->save();
             }
@@ -825,6 +844,7 @@ public void post(Request id, Response response, mixed ... args)
    }
 
    t->add("contents", contents);
+   t->add("created", created);
    t->add("trackbacks", trackbacks);
    t->add("subject", subject);
    t->add("obj", obj);
