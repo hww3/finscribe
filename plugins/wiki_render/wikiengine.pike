@@ -47,19 +47,26 @@ string render(string s, mixed|void extras)
 
   if(fn)
   {
-    h = Crypto.md5()->hash(s);
-    a = wiki->cache->get("WIKICOMPILER_" + fn + "_" + h);
+    a = wiki->cache->get(make_key(s, fn));
   }
 
   if(!a)
   {
     a = compile(s, extras);	
     if(a && fn)
-      wiki->cache->set("WIKICOMPILER_"+ fn + "_" + h, a, 600);
+      wiki->cache->set(make_key(s, fn), a, 600);
   }
 
   return output(a, extras);    
 }
+
+string make_key(string s, string fn)
+{
+  string h = Crypto.md5()->hash(s);
+
+  return "WIKICOMPILER_" + fn + "_" + h;
+}
+
 
 void appendLink(String.Buffer buf, string name, string view, string|void anchor)
 {

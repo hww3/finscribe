@@ -822,6 +822,9 @@ public void post(Request id, Response response, mixed ... args)
 					
 				}
 
+            cache->clear(app->engine->make_key(obj_o["parent"]->get_object_contents(), 
+                                                     obj_o["parent"]["path"]));
+
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
             break;
