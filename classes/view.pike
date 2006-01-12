@@ -1,69 +1,71 @@
 import Fins;
 inherit Fins.FinsView;
 
-static mapping templates = ([]);
-static mapping simple_macros = ([]);
-
-static void create(Fins.Application a)
+string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)
 {
-  ::create(a);
+  String.Buffer b = String.Buffer();
+
+  b+="<a id='";
+  b+=arguments["name"];
+  b+=" onclick=\"toggleVisibility('";
+  b+=arguments["name"];
+  b+="')\"><img id=\"icon-";
+  b+=arguments["name"];
+  b+="\" src=\"/static/images/Icon-Unfold.png\" border=\"0\">";
+
+  b+=arguments["title"];
+  b+="<br/><div id=\"";
+  b+=arguments["name"];
+  b+="\" style=\"display:none;margin-left:20px\">";
+
+  return b->get();
 }
 
-
-public array prep_template(string tn)
+string simple_macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
-  object t;
-
-  t = get_template(Fins.Template.Simple, tn);
-
-  object d = Fins.Template.TemplateData();
-  d->set_data((["config": app()->config])); 
-  return ({t, d});
+  if(!mappingp(args)) return "";
+  return get_page_breadcrumbs(get_var_value(args->var, data->get_data())||args->val||"");
 }
 
-//!
-public Template.Template get_template(program templateType, string templateName, void|object context)
+string get_page_breadcrumbs(string page)
 {
-  object t;
-  if(!context) 
+  array s = ({});
+  string newcomponent;
+  array p = page/"/";
+
+  // in this application, if we're at the root, 
+  // we don't have any place left to go.
+  if(sizeof(p) == 1 && p[0]=="start") return "";
+
+  if(p[0] != "start")
+    p = ({"start"}) + p;
+
+  foreach(p; int i; string component)
   {
-    context = Template.TemplateContext();
-    context->application = app();
+    if(newcomponent && !(i==1))
+      newcomponent=newcomponent+"/" + component;
+    else
+      newcomponent = component;
+
+    if(i == (sizeof(p)-1))
+      s += ({ component });
+    else
+      s += ({ "<a href=\"/space/" + newcomponent + "\">" + component + "</a>" });
   }
 
-  if(!sizeof(templateName))
-    throw(Error.Generic("get_template(): template name not specified.\n"));
-
-  if(!templates[templateType])
-  {
-    templates[templateType] = ([]);
-  }
-
-  if(!templates[templateType][templateName])
-  {
-    t = templateType(templateName, context);
-
-    if(!t)
-    {
-      throw(Error.Generic("get_template(): unable to load template " + templateName + "\n"));
-    }
-
-    templates[templateType][templateName] = t;
-  }
-
-  return templates[templateType][templateName];
-
+  return (s * " &gt; ");
 }
 
-//!
-public int flush_template(string templateName)
+string macro_snip(Template.TemplateData data, mapping|void args)
 {
-   foreach(templates;; mapping templateT)
-   if(templateT[templateName])
-   {
-      m_delete(templateT, templateName);
-      return 1;
-   }
-   return 0;
+   if(!mappingp(args)) return "";
+   if(!args->snip) return "";
+   object obj = model->get_fbobject((args->snip)/"/");
+
+   if(!obj) return "";
+
+   string contents = obj->get_object_contents();
+
+   return app->engine->render(contents);
 }
 

@@ -24,14 +24,12 @@ public void index(Request id, Response response, mixed ... args)
 public void notfound(Request id, Response response, mixed ... args)
 {
 
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/objectnotfound.phtml");
+     object t = view->get_view("exec/objectnotfound");
 
-     app()->set_default_data(id, d);
+     app->set_default_data(id, t);
 
-     d->add("obj", args*"/");
-     response->set_template(t, d);
+     t->add("obj", args*"/");
+     response->set_view(t);
 
 }
 
@@ -108,11 +106,9 @@ public void category(Request id, Response response, mixed ... args)
      response->set_data(LOCALE(13, "You must provide a category to view.\n"));
    }
 
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/category.phtml");
+    object t = view->get_view("exec/category");
 
-   app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
    array c = model()->find("category", (["category": args[0]]));
   
@@ -122,10 +118,10 @@ public void category(Request id, Response response, mixed ... args)
      return;
    }
 
-   d->add("category", c[0]);
-   d->add("objects", c[0]["objects"]);
+   t->add("category", c[0]);
+   t->add("objects", c[0]["objects"]);
 
-   response->set_template(t, d);
+   response->set_view(t);
 }
 
 public void deletecomment(Request id, Response response, mixed ... args)
@@ -145,7 +141,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
       return;
    }
 
-   object c = model()->find_by_id("comment", (int)id->variables->id);
+   object c = model->find_by_id("comment", (int)id->variables->id);
 
    if(!c)
    {
@@ -156,7 +152,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
    // we need to add a check for admin privs here.
    // user["is_admin"]
-   object us = model()->find_by_id("user", (int)id->misc->session_variables->userid);
+   object us = model->find_by_id("user", (int)id->misc->session_variables->userid);
    if(us["is_admin"] || (us["id"] == c["object"]["author"]["id"]))
    {
      // we can delete!
@@ -180,11 +176,9 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/createaccount.phtml");
+   object t = view->get_view("exec/createaccount");
 
-        app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
    string Name, UserName, Email, Password, Password2, return_to;
 
@@ -210,7 +204,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			{
 				response->flash("msg", "You must provide a username with at least 2 characters.\n");
 			}
-			else if(sizeof(model()->find("user", (["UserName": UserName]))) != 0)
+			else if(sizeof(model->find("user", (["UserName": UserName]))) != 0)
 			{
 				response->flash("msg", "The username you have chosen is already in use by another user.\n");
 			}
@@ -260,27 +254,25 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 	}
 
-   d->add("Name", Name);
-	d->add("UserName", UserName);
-	d->add("Email", Email);
-	d->add("Password", Password);
+   t->add("Name", Name);
+   t->add("UserName", UserName);
+   t->add("Email", Email); 
+   t->add("Password", Password);
 
-	response->set_template(t, d);
+   response->set_view(t);
 }
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/forgotpassword.phtml");
+    object t = view->get_view("exec/forgotpassword");
 
-     app()->set_default_data(id, d);
+     app->set_default_data(id, t);
 
-	  d->add("UserName", "");
+	 t->add("UserName", "");
 
 		if(id->variables->UserName)
 		{
-			d->add("UserName", id->variables->UserName);
+			t->add("UserName", id->variables->UserName);
 			array a = model()->find("user", (["UserName": id->variables->UserName]));
 
 			if(!sizeof(a))
@@ -291,18 +283,16 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			else
 			{
 
-      Template.Template tp;
-        Template.TemplateData dp;
-        [tp, dp] = view()->prep_template("exec/sendpassword.phtml");
+                object tp = view->get_view("exec/sendpassword");
 
 				
-				dp->add("password", a[0]["Password"]);
+				tp->add("password", a[0]["Password"]);
 				
-				string mailmsg = tp->render(dp);
+				string mailmsg = tp->render();
 				
-				Protocols.SMTP.Client(app()->config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
 																											"Your FinScribe password", 
-																											app()->config->get_value("mail", "return_address"), 
+																											config->get_value("mail", "return_address"), 
 																											mailmsg);
 				
 				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
@@ -310,7 +300,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			}
 			
 		}
-     response->set_template(t, d);
+     response->set_view(t);
 }
 
 public void logout(Request id, Response response, mixed ... args)
@@ -341,7 +331,7 @@ public void upload(Request id, Response response, mixed ... args)
 
   string path = Stdio.append_path(id->variables->root, id->variables["save-as-filename"]);
   string obj=id->variables->root;
-  array a = model()->find("object", (["path": obj ]));
+  array a = model->find("object", (["path": obj ]));
   object obj_o;
   object p;
   if(sizeof(a)) p = a[0];
@@ -350,7 +340,7 @@ public void upload(Request id, Response response, mixed ... args)
     throw(Error.Generic("Unable to find root object to attach this document to.\n"));
   }
   
-               array dtos = model()->find("datatype", (["mimetype": id->variables["mime-type"]]));
+               array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Mime type " + id->variables["mime-type"] + " not valid.");
@@ -382,7 +372,7 @@ public void upload(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
-            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+            cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             response->flash("msg", "Succesfully Saved.");
 
             }
@@ -392,27 +382,25 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void login(Request id, Response response, mixed ... args)
 {
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/login.phtml");
+     object t = view->get_view("exec/login");
 
-     app()->set_default_data(id, d);
+     app->set_default_data(id, t);
 
    if(!id->variables->return_to)
    {
-      d->add("return_to", (id->misc->flash && id->misc->flash->from) || 
+      t->add("return_to", (id->misc->flash && id->misc->flash->from) || 
                                id->referrer || "/space/");
-      d->add("UserName", "");
+      t->add("UserName", "");
    }
 
-   if(app()->config->get_value("administration", "autocreate") && 
-         app()->config->get_value("administration", "autocreate") == "1")
+   if(config->get_value("administration", "autocreate") && 
+         config->get_value("administration", "autocreate") == "1")
 	{
-		d->add("autocreate", 1);
+		t->add("autocreate", 1);
 	}
 	else
 	{
-		d->add("autocreate", 0);
+		t->add("autocreate", 0);
 	}
 	
    if(id->variables->action)
@@ -423,7 +411,7 @@ public void login(Request id, Response response, mixed ... args)
          return;
       }
       
-      array r = model()->find("user", (["UserName": id->variables->UserName, 
+      array r = model->find("user", (["UserName": id->variables->UserName, 
                                         "Password": id->variables->Password, 
                                         "is_active": 1]));
       if(r && sizeof(r))
@@ -436,13 +424,13 @@ public void login(Request id, Response response, mixed ... args)
       else
       {
          response->flash("msg", "Login Incorrect.");
-         d->add("UserName", id->variables->UserName);
-         d->add("return_to", id->variables->return_to);
+         t->add("UserName", id->variables->UserName);
+         t->add("return_to", id->variables->return_to);
          
       }
    }
    
-   response->set_template(t, d);
+   response->set_view(t);
 }
 
 public void comments(Request id, Response response, mixed ... args)
@@ -458,17 +446,15 @@ public void comments(Request id, Response response, mixed ... args)
       return;
    }
 
-   obj_o = model()->get_fbobject(args, id);
+   obj_o = model->get_fbobject(args, id);
    title = obj_o["title"];
    obj = args*"/";
     
-   Template.Template t; 
-   Template.TemplateData d;
-   [t, d] = view()->prep_template("exec/comment.phtml");
+   object t = view->get_view("exec/comment");
 
-   app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
-   d->add("object", app()->engine->render(obj_o["current_version"]["contents"], 
+   t->add("object", app->engine->render(obj_o["current_version"]["contents"], 
                                                           (["request": id, "obj": obj])));
    
    if(id->variables->action)
@@ -477,13 +463,13 @@ public void comments(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
          case "Preview":
-            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
             object obj_n = FinScribe.Repo.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
-            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
@@ -499,11 +485,11 @@ public void comments(Request id, Response response, mixed ... args)
      contents = "";
    }
 
-   d->add("contents", contents);
-   d->add("title", title);
-   d->add("obj", obj);
+   t->add("contents", contents);
+   t->add("title", title);
+   t->add("obj", obj);
    
-   response->set_template(t, d);
+   response->set_view(t);
    
 }
 
@@ -517,7 +503,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
       return;
    }
 
-  object obj_o = model()->get_fbobject(args, id);
+  object obj_o = model->get_fbobject(args, id);
 
 	if(!obj_o)
 	{
@@ -526,7 +512,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 		return;
 	}
 
-   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model()->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
+   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
 	{
 		response->flash("msg", "A locked object can only be toggled by its owner or an administrator.");
       response->redirect(id->referrer);		
@@ -555,12 +541,10 @@ public void new(Request id, Response response, mixed ... args)
      return;
    }   
 
-     Template.Template t;
-     Template.TemplateData d;
-     [t, d] = view()->prep_template("exec/new.phtml");
+      object t = view->get_view("exec/new");
 
-     app()->set_default_data(id, d);
-     response->set_template(t,d);
+     app->set_default_data(id, t);
+     response->set_view(t);
 }
 
 public void edit(Request id, Response response, mixed ... args)
@@ -576,18 +560,16 @@ public void edit(Request id, Response response, mixed ... args)
       return;
    }
    
-   obj_o = model()->get_fbobject(args, id);
+   obj_o = model->get_fbobject(args, id);
    title = args[-1];
    obj = args*"/";
 
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/edit.phtml");
+   object t = view->get_view("exec/edit");
 
-     app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
 
-   if(obj_o && !obj_o->is_editable(d->get_data()["user_object"]))
+   if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
    {
 	response->flash("msg", "You do not have permission to edit this object");
       response->redirect(id->referrer);		
@@ -608,12 +590,12 @@ public void edit(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
             break;
          case "Save":
             if(!obj_o)
             {
-               array dtos = model()->find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
+               array dtos = model->find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
@@ -624,7 +606,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o = FinScribe.Repo.new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
-               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
                obj_o->save();
@@ -646,13 +628,13 @@ public void edit(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;  
             if(subject && sizeof(subject))
               obj_n["subject"] = subject;
-            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
-            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+            cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             string dtp = obj_o["datatype"]["mimetype"];
             if(dtp == "text/template")
             {
-               view()->flush_template(args[2..]*"/");
+               view->flush_template(args[2..]*"/");
             }
 
             response->flash("msg", "Succesfully Saved.");
@@ -679,12 +661,12 @@ public void edit(Request id, Response response, mixed ... args)
       }
    }
 
-   d->add("contents", contents);
-   d->add("subject", subject);
-   d->add("title", title);
-   d->add("obj", obj);
+   t->add("contents", contents);
+   t->add("subject", subject);
+   t->add("title", title);
+   t->add("obj", obj);
    
-   response->set_template(t, d);
+   response->set_view(t);
 }
 
 //! we don't check to make sure that a page has a {weblog}
@@ -705,17 +687,15 @@ public void post(Request id, Response response, mixed ... args)
       return;
    }
    
-   obj_o = model()->get_fbobject(args, id);
+   obj_o = model->get_fbobject(args, id);
    obj = args*"/";
    subject = "";
    contents = "";
    trackbacks = "";
 
-      Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("exec/post.phtml");
+   object t = view->get_view("exec/post");
    
-     app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
    if(id->variables->action)
    {
@@ -730,7 +710,7 @@ public void post(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-            d->add("preview", app()->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
 				{
@@ -749,7 +729,7 @@ public void post(Request id, Response response, mixed ... args)
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
             {
-               array dtos = model()->find("datatype", (["mimetype": "text/wiki"]));
+               array dtos = model->find("datatype", (["mimetype": "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
@@ -811,7 +791,7 @@ public void post(Request id, Response response, mixed ... args)
             obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
 
-            cache()->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+            cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
 				if(sizeof(trackbacks))
 				{
@@ -822,10 +802,10 @@ public void post(Request id, Response response, mixed ... args)
 						FinScribe.Blog.trackback_ping(obj_o, u, url);
 				}
 
-				if((int)app()->config->get_value("blog", "weblog_ping"))
+				if((int)config->get_value("blog", "weblog_ping"))
 				{
 					FinScribe.Blog.weblogs_ping(obj_o["title"], 
-							(string)Standards.URI("/space/" + obj_o["path"], app()->config->get_value("site", "url")));
+							(string)Standards.URI("/space/" + obj_o["path"], config->get_value("site", "url")));
 					
 				}
 
@@ -851,12 +831,12 @@ public void post(Request id, Response response, mixed ... args)
       }
    }
 
-   d->add("contents", contents);
-	d->add("trackbacks", trackbacks);
-   d->add("subject", subject);
-   d->add("obj", obj);
+   t->add("contents", contents);
+   t->add("trackbacks", trackbacks);
+   t->add("subject", subject);
+   t->add("obj", obj);
    
-   response->set_template(t, d);
+   response->set_view(t);
 }
 
 
@@ -864,19 +844,16 @@ public void diff(Request id, Response response, mixed ... args)
 {
    object obj_o;
 
-   obj_o = model()->get_fbobject(args, id);
+   obj_o = model->get_fbobject(args, id);
    if(!obj_o)
    {
      response->set_data("unable to find object " + args*"/");
      return;
    } 
 
-    Template.Template t;
-    Template.TemplateData d;
-    [t, d] = view()->prep_template("exec/diff.phtml");
+    object t = view->prep_template("exec/diff");
    
-     app()->set_default_data(id, d);
-
+    app->set_default_data(id, t);
 
    int from, to;
    string cfrom, cto;
@@ -889,7 +866,7 @@ public void diff(Request id, Response response, mixed ... args)
      cto = obj_o["current_version"]["contents"];
    else
    {
-     os = model()->find("object_version", (["object": obj_o, "version": to]));
+     os = model->find("object_version", (["object": obj_o, "version": to]));
      if(!sizeof(os))
      {
        response->set_data("version " + to + " does not exist.\n");
@@ -898,7 +875,7 @@ public void diff(Request id, Response response, mixed ... args)
      cto = os[0]["contents"];
    }
 
-   os = model()->find("object_version", (["object": obj_o, "version": from]));
+   os = model->find("object_version", (["object": obj_o, "version": from]));
    if(!sizeof(os))
    {
      response->set_data("version " + to + " does not exist.\n");
@@ -972,10 +949,9 @@ resultStr +="</td>";
     }
 
    resultStr += "</table>\n";
-   d->add("object", obj_o);
-   d->add("diff", resultStr);
-   response->set_template(t, d);
-
+   t->add("object", obj_o);
+   t->add("diff", resultStr);
+   response->set_view(t);
 
 }
 
@@ -983,47 +959,43 @@ public void versions(Request id, Response response, mixed ... args)
 {
    object obj_o;
 
-   obj_o = model()->get_fbobject(args, id);
+   obj_o = model->get_fbobject(args, id);
    if(!obj_o)
    {
      response->set_data("unable to find object " + args*"/");
      return;
    } 
 
-    Template.Template t;
-    Template.TemplateData d;
-    [t, d] = view()->prep_template("exec/versions.phtml");
+   object t = view->prep_template("exec/versions");
    
-     app()->set_default_data(id, d);
+   app->set_default_data(id, t);
 
 
-   d->add("object", obj_o);
-   array a = model()->find("object_version", (["object": obj_o]), 
+   t->add("object", obj_o);
+   array a = model->find("object_version", (["object": obj_o]), 
                                       Fins.Model.Criteria("ORDER BY VERSION DESC"));
-   d->add("versions", a);
+   t->add("versions", a);
    
-   response->set_template(t, d);
+   response->set_view(t);
 }
 
 public void display_trackbacks(Request id, Response response, mixed ... args)
 {
 
-    object obj_o = model()->get_fbobject(args, id);
+    object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
       response->set_data(trackback_error("Unable to find object " + args*"/" + "."));
       return;
     } 
 
-	 Template.Template t;
-    Template.TemplateData d;
-    [t, d] = view()->prep_template("exec/display_trackbacks.phtml");
+    object t = view->get_view("exec/display_trackbacks");
    
-     app()->set_default_data(id, d);
-	  d->add("object", obj_o);
-   d->add("trackbacks", obj_o["md"]["trackbacks"]);
+    app->set_default_data(id, t);
+	t->add("object", obj_o);
+    t->add("trackbacks", obj_o["md"]["trackbacks"]);
 
-   response->set_template(t, d);
+    response->set_view(t);
 
 }
 
@@ -1045,7 +1017,7 @@ public void trackback(Request id, Response response, mixed ... args)
       return;
     }
 
-    object obj_o = model()->get_fbobject(args, id);
+    object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
       response->set_data(trackback_error("Unable to find object " + args*"/" + "."));
@@ -1074,7 +1046,7 @@ public void trackback(Request id, Response response, mixed ... args)
       // ok, we don't already have a trackback for this url, let's try to add one.
 
       // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
-      object lookingfor = Standards.URI("/space/" + args*"/", app()->config->get_value("site", "url"));
+      object lookingfor = Standards.URI("/space/" + args*"/", config->get_value("site", "url"));
       werror("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
       if(search(contents, (string)lookingfor)==-1)
       {

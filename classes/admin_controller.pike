@@ -1,6 +1,6 @@
 //<locale-token project="FinScribe">LOCALE</locale-token>
 
-#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
+#define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
 
 import Fins;
@@ -8,96 +8,86 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
 
-	Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("admin/adminindex.phtml");
+    object t = view->get_view("admin/adminindex");
 
-        app()->set_default_data(id, d);
+    app->set_default_data(id, t);
 
-	response->set_template(t, d);
+	response->set_view(t);
 }
 
 public void shutdown(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
-	
-		Template.Template t;
-	        Template.TemplateData d;
-	
-		if(!id->variables->really_shutdown)
-	        [t, d] = view()->prep_template("admin/confirmshutdown.phtml");
-		else
-		{
-		    [t, d] = view()->prep_template("admin/shutdown.phtml");
+	object t;
+		
+	if(!id->variables->really_shutdown)
+	  t = view->get_view("admin/confirmshutdown");
+	else
+	{	 
+		t = view->get_view("admin/shutdown");
 			// this is bad, we should have a better way of doing this...
 			call_out(exit, 5, 0);
 		}
-	        app()->set_default_data(id, d);
+	        app->set_default_data(id, t);
 	
-		response->set_template(t,d);
+		response->set_view(t);
 	
 }
 
 public void listusers(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
 
-	Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("admin/listusers.phtml");
+     object t = view->get_view("admin/listusers");
 
-        app()->set_default_data(id, d);
+     app->set_default_data(id, t);
 
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = model()->find("user",([]));
+		ul = model->find("user",([]));
 	
-	d->add("users", ul);
+	t->add("users", ul);
 	
-	response->set_template(t, d);
+	response->set_view(t);
 }
 
 public void listgroups(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
 
-	Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("admin/listgroups.phtml");
+    object t = view->get_view("admin/listgroups");
 
-        app()->set_default_data(id, d);
+    app->set_default_data(id, t);
 
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = model()->find("group",([]));
+		ul = model->find("group",([]));
 	
-	d->add("groups", ul);
+	t->add("groups", ul);
 	
-	response->set_template(t, d);
+	response->set_view(t);
 }
 
 public void editgroup(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
-
-	Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("admin/editgroup.phtml");
+   
+    object t = view->get_view("admin/editgroup");
 	
-        app()->set_default_data(id, d);
+    app->set_default_data(id, t);
 
         
-        object g = model()->find_by_id("group", (int)id->variables->groupid);
-	d->add("group", g);
+        object g = model->find_by_id("group", (int)id->variables->groupid);
+	   t->add("group", g);
 
         if(id->variables->action)
         {
@@ -118,23 +108,21 @@ public void editgroup(Request id, Response response, mixed ... args)
           }
         }
 
-  	response->set_template(t, d);
+  	response->set_view(t);
 }
 
 public void edituser(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
 
-	Template.Template t;
-        Template.TemplateData d;
-        [t, d] = view()->prep_template("admin/edituser.phtml");
+      object t = view->get_view("admin/edituser");
 	
-        app()->set_default_data(id, d);
-  	response->set_template(t, d);
+    app->set_default_data(id, t);
+  	response->set_view(t);
 
-        object u = model()->find_by_id("user", (int)id->variables->userid);
-	d->add("user", u);
+    object u = model->find_by_id("user", (int)id->variables->userid);
+	t->add("user", u);
 
         if(id->variables->action)
         {
@@ -174,7 +162,7 @@ public void edituser(Request id, Response response, mixed ... args)
 
 public void deleteuser(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
 
   object u;
@@ -183,7 +171,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
@@ -199,7 +187,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
 public void toggle_useractive(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
   object u;
 
@@ -207,7 +195,7 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
@@ -225,7 +213,7 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
 
 public void toggle_useradmin(Request id, Response response, mixed ... args)
 {
-	if(!app()->is_admin_user(id, response))
+	if(!app->is_admin_user(id, response))
           return;
   object u;
 
@@ -233,7 +221,7 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model()->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
