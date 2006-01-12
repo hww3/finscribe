@@ -1,3 +1,4 @@
+import Tools.Logging;
 import Public.Web.Wiki;
 import Fins;
 inherit Macros.Macro;
@@ -80,7 +81,7 @@ mixed rss_fetch(string rssurl, int timeout)
   string rss;
   object r;
 
-  werror("rss-reader: getting " + rssurl + "\n");
+  Log.debug("rss-reader getting " + rssurl + "\n");
 
   if(has_prefix(rssurl, "file://"))
     rss = Stdio.read_file(rssurl[7..]);
