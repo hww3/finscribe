@@ -23,14 +23,12 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-
      object t = view->get_view("exec/objectnotfound");
 
      app->set_default_data(id, t);
 
      t->add("obj", args*"/");
      response->set_view(t);
-
 }
 
 public void editcategory(Request id, Response response, mixed ... args)
@@ -170,8 +168,6 @@ public void deletecomment(Request id, Response response, mixed ... args)
    }
 
      response->flash("msg", "How'd we get here?.");
- 
-
 }
 
 public void createaccount(Request id, Response response, mixed ... args)
@@ -251,7 +247,6 @@ public void createaccount(Request id, Response response, mixed ... args)
 		{
 			response->flash("msg", "Unknown action " + id->variables->action);
 		}
-
 	}
 
    t->add("Name", Name);
@@ -490,7 +485,6 @@ public void comments(Request id, Response response, mixed ... args)
    t->add("obj", obj);
    
    response->set_view(t);
-   
 }
 
 public void toggle_lock(Request id, Response response, mixed ... args)
@@ -575,7 +569,6 @@ public void edit(Request id, Response response, mixed ... args)
       response->redirect(id->referrer);		
 		return;
    }
-
 
    if(id->variables->action)
    {
@@ -839,7 +832,6 @@ public void post(Request id, Response response, mixed ... args)
    response->set_view(t);
 }
 
-
 public void diff(Request id, Response response, mixed ... args)
 {
    object obj_o;
@@ -851,7 +843,7 @@ public void diff(Request id, Response response, mixed ... args)
      return;
    } 
 
-    object t = view->prep_template("exec/diff");
+    object t = view->get_view("exec/diff");
    
     app->set_default_data(id, t);
 
@@ -952,7 +944,6 @@ resultStr +="</td>";
    t->add("object", obj_o);
    t->add("diff", resultStr);
    response->set_view(t);
-
 }
 
 public void versions(Request id, Response response, mixed ... args)
@@ -966,7 +957,7 @@ public void versions(Request id, Response response, mixed ... args)
      return;
    } 
 
-   object t = view->prep_template("exec/versions");
+   object t = view->get_view("exec/versions");
    
    app->set_default_data(id, t);
 
@@ -981,7 +972,6 @@ public void versions(Request id, Response response, mixed ... args)
 
 public void display_trackbacks(Request id, Response response, mixed ... args)
 {
-
     object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
@@ -996,7 +986,6 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
     t->add("trackbacks", obj_o["md"]["trackbacks"]);
 
     response->set_view(t);
-
 }
 
 public void trackback(Request id, Response response, mixed ... args)
@@ -1073,7 +1062,6 @@ public void trackback(Request id, Response response, mixed ... args)
     response->set_data("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>0</error>\n</response>\n");
   }
 }
-
 
 private string trackback_error(string e)
 {

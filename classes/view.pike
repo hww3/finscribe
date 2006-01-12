@@ -56,7 +56,7 @@ string get_page_breadcrumbs(string page)
   return (s * " &gt; ");
 }
 
-string macro_snip(Template.TemplateData data, mapping|void args)
+string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
    if(!mappingp(args)) return "";
    if(!args->snip) return "";

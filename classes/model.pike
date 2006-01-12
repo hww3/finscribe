@@ -38,13 +38,13 @@ mixed get_datatypes()
 {
   mixed res;
 
-  res = cache()->get("DATATYPES_");
+  res = cache->get("DATATYPES_");
   
   if(res) return res;
 
   res = FinScribe.Repo.find("datatype", ([]));
 
-  cache()->set("DATATYPES_", res, 600);
+  cache->set("DATATYPES_", res, 600);
 
   return res;
 }
@@ -66,13 +66,13 @@ mixed get_categories()
 {
   mixed res;
 
-  res = cache()->get("CATEGORIES_");
+  res = cache->get("CATEGORIES_");
   
   if(res) return res;
 
   res = FinScribe.Repo.find("category", ([]));
 
-  cache()->set("CATEGORIES_", res, 600);
+  cache->set("CATEGORIES_", res, 600);
 
   return res;
 }
@@ -82,7 +82,7 @@ public object get_fbobject(array args, Request|void id)
    array r;
    string a = args*"/";
 
-   r=cache()->get("PATHOBJECTCACHE_" + a);
+   r=cache->get("PATHOBJECTCACHE_" + a);
 
    if(r && sizeof(r)) return r[0];
 
@@ -90,7 +90,7 @@ public object get_fbobject(array args, Request|void id)
 
    if(sizeof(r))
    {
-     cache()->set("PATHOBJECTCACHE_" + a, r, 600);
+     cache->set("PATHOBJECTCACHE_" + a, r, 600);
      return r[0];
    }
    else return 0;

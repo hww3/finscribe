@@ -17,7 +17,15 @@ Subject: <input type="text" name="subject" size="40" value="<%$subject%>"/>
 <br/>
 TrackBack URLs (click preview to detect <a href="http://en.wikipedia.org/wiki/Trackback">TrackBack</a> URLs):<br/>
 <textarea rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
-<br>
+<br/>
+<script type="text/javascript">
+	function toggleCreated()
+	{
+		document.forms[0].address.disabled = !document.forms[0].address.disabled;
+	}
+</script>
+Publish Date: <input type="text" size="15" name="created"/ > <input type="checkbox" name="created_toggle" onclick="toggleCreated()"/>
+<br/>
 <input type="submit" name="action" value="Preview"/>
 <input type="submit" name="action" value="Cancel"/>
 <input type="submit" name="action" value="Save"/>

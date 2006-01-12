@@ -47,19 +47,19 @@ array evaluate(Macros.MacroParameters params)
 
   foreach(o; int i; object entry)
   {
-    object t, d;
-    [t, d] = params->engine->wiki->view->prep_template("space/weblogentry.phtml");
+    object t;
+    t = params->engine->wiki->view->get_view("space/weblogentry");
 
 
-    d->add("entry", entry);
+    t->add("entry", entry);
     string s = entry["current_version"]["subject"];
     if(!s || !strlen(s)) s = "No Subject";
-    d->add("subject", s);
+    t->add("subject", s);
 
-    d->add("contents", params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
+    t->add("contents", params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
 
   
-    res += ({t->render(d)});
+    res += ({t->render()});
   }
 
   if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
