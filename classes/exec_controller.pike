@@ -1,6 +1,6 @@
 //<locale-token project="FinScribe">LOCALE</locale-token>
 
-#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
+#define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
 import Fins;
 import Fins.Model;   
@@ -64,11 +64,11 @@ public void editcategory(Request id, Response response, mixed ... args)
   }
   string path = args*"/";
 
-  array o = model()->find("object", (["path": path]));
-  array c = model()->find("category", (["category": category]));
+  array o = model->find("object", (["path": path]));
+  array c = model->find("category", (["category": category]));
   array x;
   if(sizeof(c))
-    x = model()->find("object", (["path": path, "categories": c[0]]));
+    x = model->find("object", (["path": path, "categories": c[0]]));
 
   if(!sizeof(o))
   {
@@ -108,7 +108,7 @@ public void category(Request id, Response response, mixed ... args)
 
    app->set_default_data(id, t);
 
-   array c = model()->find("category", (["category": args[0]]));
+   array c = model->find("category", (["category": args[0]]));
   
    if(!c || !sizeof(c))
    {
@@ -268,7 +268,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 		if(id->variables->UserName)
 		{
 			t->add("UserName", id->variables->UserName);
-			array a = model()->find("user", (["UserName": id->variables->UserName]));
+			array a = model->find("user", (["UserName": id->variables->UserName]));
 
 			if(!sizeof(a))
 			{
@@ -346,7 +346,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
-               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o->save();
@@ -365,7 +365,7 @@ public void upload(Request id, Response response, mixed ... args)
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             response->flash("msg", "Succesfully Saved.");
@@ -669,7 +669,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-   string contents, subject, obj, trackbacks, created;
+   string contents, subject, obj, trackbacks, createddate;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -685,7 +685,7 @@ public void post(Request id, Response response, mixed ... args)
    subject = "";
    contents = "";
    trackbacks = "";
-   created = "";
+   createddate = "";
 
    object t = view->get_view("exec/post");
 
@@ -707,16 +707,17 @@ public void post(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-			if(id->variables->created)
+			if(id->variables->createddate)
 			{
 				catch 
 				{
-					object c = Calendar.Gregorian.dwim_day(id->variables->created);
-					created = c->format_time();
+					object c = Calendar.Gregorian.dwim_day(id->variables->createddate);
+					createddate = c->format_ymd();
 					t->add("showcreated", "");
   				    t->add("createchecked", "checked=\"1\"");
 				};
 			}
+
             t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
@@ -733,6 +734,7 @@ public void post(Request id, Response response, mixed ... args)
 
             break;
          case "Save":
+               object c;
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
             {
@@ -747,11 +749,10 @@ public void post(Request id, Response response, mixed ... args)
                string path = "";
                array r = obj_o->get_blog_entries();
                int seq = 1;
-               object c;
-               if(id->variables->created && sizeof(id->variables->created))
-                 c = Calendar.Gregorian.dwim_day(id->variables->created);
+               if(id->variables->createddate && sizeof(id->variables->createddate))
+                 c = Calendar.Gregorian.dwim_day(id->variables->createddate)->second();
  			   else 
-                 c = Calendar.now();
+                 c = Calendar.ISO.Second();
                string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
                if(sizeof(r))
                {
@@ -774,7 +775,7 @@ public void post(Request id, Response response, mixed ... args)
                object dto = dtos[0];
                obj_o = FinScribe.Repo.new("object");
                obj_o["datatype"] = dto;
-               obj_o["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o["parent"] = p;
@@ -786,7 +787,7 @@ public void post(Request id, Response response, mixed ... args)
             object obj_n = FinScribe.Repo.new("object_version");
             obj_n["contents"] = contents;
             obj_n["subject"] = subject;
-
+            obj_n["created"] = c;
             int v;
             object cv;
 
@@ -800,21 +801,21 @@ public void post(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;            
             if(id->variables->subject)
               obj_n["subject"] = id->variables->subject;            
-            obj_n["author"] = model()->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
             obj_n->save();
 
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
 				if(sizeof(trackbacks))
 				{
-					object u = Standards.URI(app()->config->get_value("site", "url"));
+					object u = Standards.URI(config->get_value("site", "url"));
 					u->path = combine_path(u->path, "/space");
 
 					foreach((trackbacks/"\n")-({""});; string url)
 						FinScribe.Blog.trackback_ping(obj_o, u, url);
 				}
 
-				if((int)config->get_value("blog", "weblog_ping"))
+				if((config["blog"] && (int)config["blog"]["weblog_ping"]))
 				{
 					FinScribe.Blog.weblogs_ping(obj_o["title"], 
 							(string)Standards.URI("/space/" + obj_o["path"], config->get_value("site", "url")));
@@ -844,7 +845,7 @@ public void post(Request id, Response response, mixed ... args)
    }
 
    t->add("contents", contents);
-   t->add("created", created);
+   t->add("createddate", createddate);
    t->add("trackbacks", trackbacks);
    t->add("subject", subject);
    t->add("obj", obj);

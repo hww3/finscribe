@@ -16,7 +16,7 @@
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
 Login: 
 </td><td>
-<input type="string" name="UserName" value="<%$UserName%>"/><br/>
+<input type="string" id="UserName" name="UserName" value="<%$UserName%>"/><br/>
 </td>
 </tr>
 <tr>
@@ -24,6 +24,11 @@ Login:
 Password:</td><td>
  <input type="password" name="Password"/></td></tr>
 <tr><td colspan="2">
+<script type="text/javascript">
+var f = document.getElementById("UserName");
+f.focus();
+</script>
+
 <p/>
 <input type="submit" name="action" value="Login"/>
 <input type="submit" name="action" value="Cancel"/>
