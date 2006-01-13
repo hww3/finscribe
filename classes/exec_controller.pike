@@ -8,13 +8,6 @@ inherit Fins.FinsController;
 
 int i=0;
 
-public void foo(Request id, Response response, mixed ... args)
-{
-  i++;
-  sleep(3);
-  response->set_data( "This is request " + i +".");
-}
-
 public void index(Request id, Response response, mixed ... args)
 {
   response->set_data(LOCALE(2, "hello from exec, perhaps you'd like to choose a function?\n"));
@@ -30,6 +23,49 @@ public void notfound(Request id, Response response, mixed ... args)
      t->add("obj", args*"/");
      response->set_view(t);
 }
+
+
+public void actions(Request id, Response response, mixed ... args)
+{
+
+  object obj = model->get_fbobject(args, id);
+  object t = view->get_view("exec/actions");
+
+  app->set_default_data(id, t);
+
+  int numattachments;
+
+
+  array o = model->find("object", ([ "is_attachment": 1, "parent": obj ]));
+  object v;
+  if(id->variables->show_version)
+  {
+    v = model->find("object_version", (["object": obj, "version": 
+(int)id->variables->show_version]))[0];
+    response->flash("msg", LOCALE(1, "Showing archived version"));
+  }
+  else
+  {
+    v = obj["current_version"];
+  }
+
+  string contents = v["contents"];
+  array datatypes = model->get_datatypes();
+  array categories = model->get_categories();
+  numattachments = sizeof(o);
+
+  t->add("metadata", obj->get_metadata());
+
+  t->add("object", obj);
+  t->add("islocked", obj["md"]["locked"]);
+  t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
+  t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
+
+  response->set_view(t);
+
+}
+
+
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
