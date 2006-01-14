@@ -1,3 +1,6 @@
+dojo.require("dojo.html");
+dojo.require("dojo.fx.*");
+
 /*************************************************************************
 
   dw_viewport.js
@@ -62,20 +65,40 @@ var viewport = {
 var menuLayers = {
   timer: null,
   activeMenuID: null,
+  item: null,
   offX: 4,   // horizontal offset 
   offY: 6,   // vertical offset 
   clientX: null,
   clientY: null,
   pageX: null,
   pageY: null,
-  show: function(id, o, e) {
+  show: function(id, o, e, item) {
     this.clientX = e.clientX;
     this.clientY = e.clientY;
     this.pageX = e.pageX;
     this.pageY = e.pageY;
     this.activeMenuID = id;
+    this.item = item;
 
-    new Ajax.Updater(id + "_contents", '/exec/actions/' + o, {update: id + "_contents",  url: '/exec/actions/' + o, onComplete: this.low_show});
+var bindArgs = {
+    url:        "/exec/actions/" + o,
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById(id + "_contents");
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+	menuLayers.low_show();
+    }
+};
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+
   },
 
   low_show: function() {
@@ -93,8 +116,10 @@ alert("no div!\n");
   hide: function() {
     this.clearTimer();
     if (menuLayers.activeMenuID && document.getElementById) 
+      this.timer = setTimeout("dojo.fx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
 //      this.timer = setTimeout("document.getElementById('"+menuLayers.activeMenuID+"').style.visibility = 'hidden'", 200);
-      this.timer = setTimeout("Effect.Fade('"+menuLayers.activeMenuID+"')", 200);
+//      this.timer = setTimeout("Effect.Fade('"+menuLayers.activeMenuID+"')", 200);
+//      this.timer = setTimeout("dojo.graphics.htmlEffects.fadeOut(document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
   },
   
   position: function(mnu) {
@@ -109,8 +134,9 @@ alert("no div!\n");
     else y = y + this.offY;
     
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
-    this.timer = setTimeout("document.getElementById('" + menuLayers.activeMenuID + "').style.visibility = 'visible'", 200);
-    this.timer = setTimeout("Effect.Appear('" + menuLayers.activeMenuID + "')", 200);
+      this.timer = setTimeout("dojo.fx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
+//    this.timer = setTimeout("document.getElementById('" + menuLayers.activeMenuID + "').style.visibility = 'visible'", 200);
+//    this.timer = setTimeout("Effect.Appear('" + menuLayers.activeMenuID + "')", 200);
   },
   
   mouseoutCheck: function(e) {

@@ -46,7 +46,7 @@ div.menu  {
 
 <% if data["user"]  %>
 <div class="snip-buttons">
-[ <a href="javascript:;" onmouseover="menuLayers.show('actions', '<%$obj%>', event)" 
+[ <a href="javascript:;" onmouseover="menuLayers.show('actions', '<%$obj%>', event, this)" 
 onmouseout="menuLayers.hide()">actions</a> ]
 <div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()">Close</a></div>
 <div id="actions_contents" class="action_contents"></div>
