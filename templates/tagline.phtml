@@ -1,3 +1,4 @@
+
 <!-- this is tagline.phtml -->
   <div id="page-logo">
     <img src="<%$config.site.logo%>" alt="<%$config.site.name%>" border="0"/>   
@@ -21,13 +22,17 @@
 <% if data["user"] %>
 | logged in as <%$UserName%> | <a href="/exec/logout">logout</a>
 <% if data["object_is_weblog"] %>
-      |  <a href="/exec/post/<%$obj%>">post blog</a>
+      |  <a onclick="postBlog('postblog', '<%$obj%>')">post blog</a>
+<!--      |  <a href="/exec/post/<%$obj%>">post blog</a> -->
   <% endif %>
   <% if data["is_admin"]==1 %> 
       | <a href="/admin/">admin</a>
    <% endif %>
    <% else %>
+<!--
 | <a href="/exec/login">login</a> 
+-->
+| <a onclick="showLogin('actions', '/exec/login', event, this)">login</a>
 <% endif %>
 
 ]

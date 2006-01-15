@@ -46,19 +46,21 @@ div.menu  {
 
 <% if data["user"]  %>
 <div class="snip-buttons">
-[ <a href="javascript:;" onmouseover="menuLayers.show('actions', '<%$obj%>', event, this)" 
+[ <a href="javascript:;" onmouseover="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)" 
 onmouseout="menuLayers.hide()">actions</a> ]
+</div>
+<% endif %> 
 <div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()">Close</a></div>
 <div id="actions_contents" class="action_contents"></div>
 </div>
-</div>
-<% endif %> 
 
 <div class="flash-message"><% flash var="msg" %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
    <%@ include file="space/attachmentform.phtml" %>
    <%@ include file="space/categoryform.phtml" %>
+<div id="postblog" style="visibility:hidden;">
+</div>
          <%$content%>
 <p/>
 <% if data["object_is_weblog"] %>
@@ -79,23 +81,6 @@ onmouseout="menuLayers.hide()">actions</a> ]
          <div id="page-portlet-1-wrapper">
           <div id="page-portlet-1">
          <% snip snip="themes/default/portlet-1" %>
-
-<div id="zagnut">zagnut!</div>
-<script type="text/javascript">
-function hide()
-{
-  Effect.BlindUp('zagnut');
-}
-function show()
-{
-  Effect.BlindDown('zagnut');
-}
-</script>
-<% remote_form url="'/exec/foo'" update="'zagnut'" onComplete="show" onLoading="hide"%>
-
-  <input type="submit" name="submit" value="do foo!">
-
-</form>
          </div>
          </div>
          

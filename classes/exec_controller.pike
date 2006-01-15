@@ -413,7 +413,15 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void login(Request id, Response response, mixed ... args)
 {
-     object t = view->get_view("exec/login");
+     object t;
+
+   if(id->variables->ajax)
+   {
+     t = view->get_view("exec/_login");
+     t->add("ajax", 1);
+   }
+   else t = view->get_view("exec/login");
+
 
      app->set_default_data(id, t);
 
@@ -614,7 +622,7 @@ public void edit(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
 	 case "Cancel":
-            response->flash("msg", "Blog Posting cancelled.");
+            response->flash("msg", "Edit cancelled.");
 	    response->redirect("/space/" + obj);
 	    return;
             break;
@@ -707,7 +715,9 @@ public void post(Request id, Response response, mixed ... args)
 {
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
-   
+
+   werror("post: %O\n", id->variables);   
+
    if(!id->misc->session_variables->userid)
    {
       response->flash("msg", "You must login to post.");
@@ -723,8 +733,15 @@ public void post(Request id, Response response, mixed ... args)
    trackbacks = "";
    createddate = "";
 
-   object t = view->get_view("exec/post");
+   object t;
+   if(id->variables->ajax)
+   {
+     t = view->get_view("exec/_post");
+     t->add("ajax", 1);
+   }
+   else t = view->get_view("exec/post");
 
+   t->add("object", obj_o);
    t->add("showcreated", "disabled=\"1\"");
    t->add("createchecked", "selected=\0\"");
    
@@ -738,8 +755,15 @@ public void post(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
 	 case "Cancel":
-            response->flash("msg", "Blog Posting cancelled.");
-	    response->redirect("/space/" + obj);
+            if(id->variables->ajax)
+            {
+              response->set_data("Blog posting cancelled.");
+            }
+            else
+            {
+              response->flash("msg", "Blog Posting cancelled.");
+  	      response->redirect("/space/" + obj);
+            }
 	    return;
             break;
          case "Preview":

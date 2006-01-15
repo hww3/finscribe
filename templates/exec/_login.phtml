@@ -1,0 +1,38 @@
+<form action="/exec/login" id="loginform" method="post">
+<table>
+<tr>
+<td>
+<input type="hidden" name="return_to" value="<%$return_to%>"/>
+Login: 
+</td><td>
+<input type="string" id="UserName" name="UserName" value="<%$UserName%>"/><br/>
+</td>
+</tr>
+<tr>
+<td>
+Password:</td><td>
+ <input type="password" name="Password"/></td></tr>
+<tr><td colspan="2">
+<script type="text/javascript">
+var f = document.getElementById("UserName");
+f.focus();
+</script>
+
+<p/>
+<input type="submit" name="action" value="Login"/>
+<% if !data->ajax %>
+<input type="submit" name="action" value="Cancel"/>
+<% else %>
+<input type="submit" name="action" onclick="return hideLogin('actions')" value="Cancel"/>
+<% endif %>
+</td>
+</tr>
+</table>
+</form>
+<p/>
+<a href="/exec/forgotpassword">Forgot password?</a>
+<% if data->autocreate %>
+|
+<a href="/exec/createaccount">Create an account</a>
+<%endif%>
+
