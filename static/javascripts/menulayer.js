@@ -230,7 +230,7 @@ block.style.top = offsets[1] + 15 + 'px';
 block.style.left = offsets[0] + 'px';
 body.appendChild(block);
 
-picker = dojo.widget.fromScript("DatePicker",
+picker = dojo.widget.createWidget("DatePicker",
 {widgetId: "datePickerPicker"}, block, "last");
 dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
 once:true});
