@@ -70,7 +70,7 @@ array res = ({});
     res+=({"\n"});
   }
 
-  res+=({"</div>}"});
+  res+=({"</div>"});
 
   return res;
 }
