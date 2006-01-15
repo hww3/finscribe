@@ -61,7 +61,7 @@ array res = ({});
 
   foreach(r->items, item)
   {
-    res+=({"<li/>\n"});
+    res+=({"<li class=\"rssreader\"/>\n"});
     res+=({"<a href=\""});
     res+=({item->data->link});
     res+=({"\">"});
