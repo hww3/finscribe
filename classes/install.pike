@@ -40,14 +40,14 @@ int run()
   u->save();
  
   // then, we create the datatypes
-  cd(combine_path(app()->config->app_dir,"theme"));
+  cd(combine_path(app->config->app_dir,"theme"));
   write("Loading datatypes...\n");
   foreach(Stdio.read_file("datatypes.conf")/"\n", string dt)
   {
     object d;
     dt = String.trim_whites(dt);
     if(dt=="") continue;
-    d = model()->find("datatype", (["mimetype": dt]));
+    d = model->find("datatype", (["mimetype": dt]));
     if(d && sizeof(d))
        continue;
     else
@@ -59,11 +59,11 @@ int run()
   write("Loading predefined wiki objects...\n");
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
-    model()->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
+    model->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
               Stdio.read_file(fn), "text/wiki");
   }
 
-  array a = model()->find("object", (["path": Fins.Model.LikeCriteria("%-index")]));
+  array a = model->find("object", (["path": Fins.Model.LikeCriteria("%-index")]));
  
   // move all "*-index" objects up to the root.
   foreach(a;; object i)
@@ -72,19 +72,19 @@ int run()
   write("Loading stylesheets...\n");
   foreach(glob("*.css", get_dir(".")), string fn)
   {
-    model()->new_from_string(combine_path("themes/default/", fn), 
+    model->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "text/css", 1);
   }
 
   foreach(glob("*.js", get_dir(".")), string fn)
   {
-    model()->new_from_string(combine_path("themes/default/", fn), 
+    model->new_from_string(combine_path("themes/default/", fn), 
               Stdio.read_file(fn), "application/javascript", 1);
   }
 
   // then we load up the start object.
 
   write("Loading initial objects...\n");
-  model()->new_from_string("start", "1 Welcome to FinScribe.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
+  model->new_from_string("start", "1 Welcome to FinScribe.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
 
 }

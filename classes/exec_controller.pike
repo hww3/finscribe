@@ -2,6 +2,7 @@
 
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
+import Tools.Logging;
 import Fins;
 import Fins.Model;   
 inherit Fins.FinsController;
@@ -455,6 +456,7 @@ public void login(Request id, Response response, mixed ... args)
                                         "is_active": 1]));
       if(r && sizeof(r))
       {
+         Log.info("Login Successful for " + r[0]["UserName"]);
          // success!
          id->misc->session_variables["userid"] = r[0]["id"];
          response->redirect(id->variables->return_to);
@@ -462,6 +464,7 @@ public void login(Request id, Response response, mixed ... args)
       }
       else
       {
+         Log.info("Login Failure for " + r[0]["UserName"]);
          response->flash("msg", "Login Incorrect.");
          t->add("UserName", id->variables->UserName);
          t->add("return_to", id->variables->return_to);
