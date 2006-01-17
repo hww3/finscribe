@@ -1,0 +1,18 @@
+<% if data["user"]  %>
+<b>Page options</b>
+<ul>
+  <% if data["iseditable"] %> <li> <a href="/exec/edit/<%$object.path%>">edit</a><% else %> edit <% 
+endif %> page content
+  <% if data["islockable"] %>
+	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> 
+        <% else %> 
+             <li> <a href="/exec/toggle_lock/<%$object.path%>">lock</a> this page
+        <% endif %> 
+  <% endif %>
+<li> <a href="/exec/new">new</a> page
+<li> <a href="/exec/versions/<%$object.path %>">versions</a> of this page
+</ul>
+<% else %>
+You are not logged in. 
+<% endif %>
+
