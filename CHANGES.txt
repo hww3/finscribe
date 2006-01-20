@@ -23,6 +23,7 @@ Version 0.3
 - added "nohilight" option to code macro
 - added some ui refinements thanks to Dojo
 - blog posting allows publication date to be selected
+- beginning of a plugin architecture (doesn't really do much, yet)
 
 Version 0.2
 
