@@ -10,6 +10,16 @@ void create(Fins.Application _app)
 	app = _app;
 }
 
+int installed()
+{
+	return 0;
+}
+
+int enabled()
+{
+	return 0;
+}
+
 void start()
 {
 	

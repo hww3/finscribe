@@ -8,7 +8,7 @@ void create(Fins.Application application)
 	app = application;
 }
 
-void install()
+void install(Filesystem.Base filesystem)
 {
 	
 }
