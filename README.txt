@@ -22,17 +22,19 @@ to install support for, as you can use Monger.
       corresponding library _after_ you compiled/installed Pike.)
       - _Regexp_PCRE
       - Mysql
+      - Postgresql module
    c. Third party Pike modules, installable using the following command: 
          pike -x monger modulename
       - Sql.Provider.SQLite (if using SQLite as your database)
       - Public.Parser.XML2
       - Public.Web.RSS
       - Public.Web.Wiki
+      - Public.Tools.ConfigFiles
       - Public.Web.FCGI (if deploying using FastCGI)
 1. Prepare the database:
    Mysql:
    a. Create a mysql database for the blog.
-     maysqladmin [connection parameters] create mydbname
+     mysqladmin [connection parameters] create mydbname
    b. Populate the new database with the config/schema.mysql script.
      mysql [connection parameters] mydbname < config/schema.mysql
 
@@ -40,12 +42,21 @@ to install support for, as you can use Monger.
    a. Create and populate the database:
      sqlite dbfilename < config/schema.sqlite
 
-3. Create a configuration file for your blog, by copying config/dev.cfg 
-     and editing as necessary.
+   PostgreSQL:
+   a. Create database for the blog:
+     createdb mydbname
+   b. Populate the new database with the config/schema.postgres script.
+     psql [connection parameters] mydbname < config/schema.postgres
+
+3. Create a configuration file for your blog in the config/ direcotry, by 
+     copying config/dev.cfg and editing as necessary.
+
+    cp config/dev.cfg.sample config/myconfigname.cfg
+
 4. Install the objects in the model:
 
      [from the Fins directory]
-     ./fin_serve hilfe FinScribe yourconfigname
+     ./fin_serve.pike hilfe FinScribe yourconfigname
 
      when you get the > prompt, enter:
 
@@ -59,7 +70,7 @@ to install support for, as you can use Monger.
 
 7. Start the blog application:
 
-    ./fin_serve portnumber . yourconfigname
+    ./fin_serve.pike -p portnumber . yourconfigname
  
    or
 
