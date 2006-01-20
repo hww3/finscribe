@@ -17,6 +17,8 @@ static void create(Fins.Configuration _config)
   app::create(_config);
 
   Locale.register_project(config->app_name, combine_path(config->app_dir, "locale/%L/finscribe.xml"));
+
+  load_plugins();
 }
 
 void load_cache()
@@ -31,39 +33,43 @@ void load_wiki()
 
 void load_plugins()
 {
-	array p = get_dir("plugins");
-	
+	string plugindir = Stdio.append_path(config->app_dir, "plugins");
+	array p = get_dir(plugindir);
+//	Log.info("current directory is " + getcwd());
 	foreach(p;;string f)
 	{
+		if(f == "CVS") continue;
+		
 		Log.info("Considering plugin " + f);
-		Stdio.Stat stat = file_stat(combine_path("plugins", f));
-		if(stat->isdir)
+		Stdio.Stat stat = file_stat(Stdio.append_path(plugindir, f));
+//        Log.info("STAT: %O %O", Stdio.append_path(plugindir, f), stat);
+		if(stat && stat->isdir)
 		{
-			Log.info("  is a directory based plugin.");
+//			Log.info("  is a directory based plugin.");
 
             object installer;
             object module;
-
-			foreach(glob("*.pike", get_dir(combine_path("plugins", "f")));; string file)
+			string pd = combine_path(plugindir, f);
+			
+			foreach(glob("*.pike", get_dir(pd));; string file)
 			{
-				program p = (program)file;
+				program p = (program)combine_path(pd, file);
+//				Log.info("File: %O", p);
 				if(Program.implements(p, FinScribe.PluginInstaller))
 				  installer = p(this);
 				else if(Program.implements(p, FinScribe.PluginInstaller))
-				  module = p(this);
-				
+				  module = p(this);	
 			}
 			
-			if(module && module->name =="")
+			if(!module || module->name =="")
 			{
-				Log.error("Module %s has no name, not loading.", file);
+				Log.error("Module %s has no name, not loading.", f);
 				continue;
 			}
 			
 			if(installer && functionp(installer->install))
 			    installer->install();
 			plugins[module->name] = module;
-
 		}
 	}
 }
