@@ -62,7 +62,7 @@ void load_plugins()
 			
 			if(installer && functionp(installer->install))
 			    installer->install();
-			
+			plugins[module->name] = module;
 
 		}
 	}
