@@ -56,7 +56,7 @@ easier of the three to install support for, as you can use Monger.
 4. Install the objects in the model:
 
      [from the Fins directory]
-     ./fin_serve.pike hilfe FinScribe yourconfigname
+     ./fin_serve.pike --hilfe . yourconfigname
 
      when you get the > prompt, enter:
 
@@ -68,9 +68,9 @@ easier of the three to install support for, as you can use Monger.
      your application database will be populated with an initial user and 
      some starting content.
 
-7. Start the blog application:
+5. Start the blog application:
 
-    ./fin_serve.pike [-p portnumber] . yourconfigname
+    ./fin_serve.pike -p portnumber . yourconfigname
 
-8. Access your application by pointing your browser to the proper 
-  portnumber.
+6. Access your application by pointing your browser to the proper 
+   port number supplied when you start fin serve.
