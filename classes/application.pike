@@ -80,7 +80,7 @@ void load_plugins()
 
 void start_plugins()
 {
-	Log.Debug("Starting plugins.");
+	Log.debug("Starting plugins.");
 	
 	foreach(plugins;string name; object plugin)
 	{
