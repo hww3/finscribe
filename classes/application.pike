@@ -70,7 +70,7 @@ void load_plugins()
 			}
 			
 			if(installer && functionp(installer->install) && module->installed())
-			    installer->install(System.Filesystem(pd));
+			    installer->install(Filesystem.System(pd));
 			plugins[module->name] = module;
 		}
 	}

@@ -4,12 +4,12 @@ FinScribe runs under Pike versions 7.6.50 or newer. Additionally, there
 are a number of additional modules which provided necessary functionality. 
 Item 0 below describes these prerequisites.
 
-FinScribe supports storing its data either using mySQL or SQLite. Depending 
-on which you choose to use, you'll need to have the appropriate libraries 
-installed before building and installing Pike. If you already have Pike 
-installed, and later choose to add support for one of these database 
-engines, you can easily do that. SQLite is probably the easier of the two 
-to install support for, as you can use Monger.
+FinScribe supports storing its data either using mySQL, PostgreSQL or 
+SQLite. Depending on which you choose to use, you'll need to have the 
+appropriate libraries installed before building and installing Pike. If 
+you already have Pike installed, and later choose to add support for one 
+of these database engines, you can easily do that. SQLite is probably the 
+easier of the three to install support for, as you can use Monger.
 
 0. Make sure you have installed any prerequisite software:
    a. Third party libraries:
@@ -70,11 +70,7 @@ to install support for, as you can use Monger.
 
 7. Start the blog application:
 
-    ./fin_serve.pike -p portnumber . yourconfigname
- 
-   or
-
-   ./start.sh
+    ./fin_serve.pike [-p portnumber] . yourconfigname
 
 8. Access your application by pointing your browser to the proper 
   portnumber.
