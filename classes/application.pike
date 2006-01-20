@@ -55,10 +55,12 @@ void load_plugins()
 			{
 				program p = (program)combine_path(pd, file);
 //				Log.info("File: %O", p);
-				if(Program.implements(p, FinScribe.PluginInstaller))
+				if(Program.implements(p, FinScribe.PluginInstaller) && !installer)
 				  installer = p(this);
-				else if(Program.implements(p, FinScribe.PluginInstaller))
+				if(Program.implements(p, FinScribe.Plugin) && !module)
 				  module = p(this);	
+
+               
 			}
 			
 			if(!module || module->name =="")
@@ -71,6 +73,19 @@ void load_plugins()
 			    installer->install();
 			plugins[module->name] = module;
 		}
+	}
+	
+	start_plugins();
+}
+
+void start_plugins()
+{
+	Log.Debug("Starting plugins.");
+	
+	foreach(plugins;string name; object plugin)
+	{
+		if(plugin->start && functionp(plugin->start))
+		  plugin->start();
 	}
 }
 
