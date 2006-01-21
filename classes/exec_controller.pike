@@ -70,6 +70,7 @@ public void actions(Request id, Response response, mixed ... args)
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
+werror("ARGS: %O\n", id->variables);
    if(!args || !sizeof(args))
    {
      response->set_data(LOCALE(3, "You must provide an object to modify categories for.\n"));
@@ -456,7 +457,6 @@ public void login(Request id, Response response, mixed ... args)
                                         "is_active": 1]));
       if(r && sizeof(r))
       {
-         Log.info("Login Successful for " + r[0]["UserName"]);
          // success!
          id->misc->session_variables["userid"] = r[0]["id"];
          response->redirect(id->variables->return_to);
@@ -464,7 +464,6 @@ public void login(Request id, Response response, mixed ... args)
       }
       else
       {
-         Log.info("Login Failure for " + r[0]["UserName"]);
          response->flash("msg", "Login Incorrect.");
          t->add("UserName", id->variables->UserName);
          t->add("return_to", id->variables->return_to);
@@ -869,28 +868,39 @@ public void post(Request id, Response response, mixed ... args)
 
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
-				if(sizeof(trackbacks))
-				{
-					object u = Standards.URI(config->get_value("site", "url"));
-					u->path = combine_path(u->path, "/space");
+	    if(sizeof(trackbacks))
+	    {
+		object u = Standards.URI(config->get_value("site", "url"));
+		u->path = combine_path(u->path, "/space");
 
-					foreach((trackbacks/"\n")-({""});; string url)
-						FinScribe.Blog.trackback_ping(obj_o, u, url);
-				}
+		foreach((trackbacks/"\n")-({""});; string url)
+			FinScribe.Blog.trackback_ping(obj_o, u, url);
+	   }
 
-				if((config["blog"] && (int)config["blog"]["weblog_ping"]))
-				{
-					FinScribe.Blog.weblogs_ping(obj_o["title"], 
-							(string)Standards.URI("/space/" + obj_o["path"], config->get_value("site", "url")));
+	   if((config["blog"] && (int)config["blog"]["weblog_ping"]))
+	   {
+		FinScribe.Blog.weblogs_ping(obj_o["title"], 
+			(string)Standards.URI("/space/" + obj_o["path"], config->get_value("site", "url")));
 					
-				}
+	   }
 
             cache->clear(app->engine->make_key(obj_o["parent"]->get_object_contents(), 
                                                      obj_o["parent"]["path"]));
 
+         if(id->variables->ajax)
+         {
+            response->set_data("Succesfully Saved.");
+//            response->redirect("/space/" + obj);
+            return;
+         }
+         else
+         {
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
+            return;
+         }
             break;
+
          default:
             response->set_data("Unknown post action %s", id->variables->action);
             return;
