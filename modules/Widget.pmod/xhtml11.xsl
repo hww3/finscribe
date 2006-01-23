@@ -110,7 +110,42 @@
   </xsl:template>
 
   <xsl:template match="widget:text[@editable='true']">
-    <textarea xmlns="http://www.w3.org/1999/xhtml"><xsl:value-of select="." /></textarea>
+    <xsl:choose>
+      <xsl:when test="@rows = '1'">
+	<input xmlns="http://www.w3.org/1999/xhtml">
+	  <xsl:attribute name="type">
+	    <xsl:choose>
+	      <xsl:when test="@obscure = 'true'">
+		<xsl:text>password</xsl:text>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:text>text</xsl:text>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	  <xsl:if test="@cols">
+	    <xsl:attribute name="size">
+	      <xsl:value-of select="@cols" />
+	    </xsl:attribute>
+	  </xsl:if>
+	</input>
+      </xsl:when>
+      <xsl:otherwise>
+	<textarea xmlns="http://www.w3.org/1999/xhtml">
+	  <xsl:if test="@rows">
+	    <xsl:attribute name="rows">
+	      <xsl:value-of select="@rows" />
+	    </xsl:attribute>
+	  </xsl:if>
+	  <xsl:if test="@cols">
+	    <xsl:attribute name="cols">
+	      <xsl:value-of select="@cols" />
+	    </xsl:attribute>
+	  </xsl:if>
+	  <xsl:value-of select="." />
+	</textarea>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

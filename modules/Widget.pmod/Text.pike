@@ -4,7 +4,7 @@ import Public.Parser;
 multiset VALID_CHILDREN = (<>);
 
 static string _content;
-static int _editable;
+static int _editable, _rows, _cols;
 
 void create(void|string content) {
   set_name("text");
@@ -25,13 +25,39 @@ int editable() {
   return _editable;
 }
 
-int set_editable(int(0..1) editable) {
+int set_editable(int editable) {
   _editable = editable;
-  set_attribute("editable", editable()?"true":"false");
-  return editable();
+  set_attribute("editable", editable?"true":"false");
+  return editable;
+}
+
+int get_rows() {
+  return _rows;
+}
+
+int set_rows(int rows) {
+  if (rows) {
+    _rows = rows;
+    set_attribute("rows", (string)rows);
+  }
+  return rows;
+}
+
+int get_cols() {
+  return _cols;
+}
+
+int set_cols(int cols) {
+  if (cols) {
+    _cols = cols;
+    set_attribute("cols", (string)cols);
+  }
+  return cols;
 }
 
 XML2.Node render(XML2.Node parent) {
+  if (editable() && !get_rows())
+    set_rows(sizeof((get_content()||"") / "\n"));
   object me = ::render(parent);
   me->set_content(get_content());
   return me;
