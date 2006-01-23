@@ -12,17 +12,15 @@
     encoding="iso-8859-1" />
 
     <!--
-  <xsl:comment>
     This XSL stylesheet translates widgets into XHTML/1.1 for sending to a client.
     Yippie :)
-  </xsl:comment>
   -->
 
   <xsl:template match="/widget:page">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
       <head>
 	<xsl:if test="widget:profile">
-	  <xsl:attribute name="widget:profile">
+	  <xsl:attribute name="profile">
 	    <xsl:value-of select="widget:profile/@uri" />
 	  </xsl:attribute>
 	</xsl:if>
@@ -109,6 +107,10 @@
 
   <xsl:template match="widget:text">
     <xsl:value-of select="." />
+  </xsl:template>
+
+  <xsl:template match="widget:text[@editable='true']">
+    <textarea xmlns="http://www.w3.org/1999/xhtml"><xsl:value-of select="." /></textarea>
   </xsl:template>
 
 </xsl:stylesheet>
