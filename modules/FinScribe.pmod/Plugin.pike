@@ -30,24 +30,28 @@ void stop()
 	
 }
 
-array query_event_callers()
+mapping query_event_callers()
 {
-	return ({});
+	return ([]);
 }
 
-array query_macro_callers()
+
+//!
+//! @returns a mapping of macroname : Public.Web.Wiki.Macros.Macro objects.
+//!
+mapping(string:Public.Web.Wiki.Macros.Macro) query_macro_callers()
 {
-	return ({});
+	return ([]);
 }
 
-array query_type_callers()
+mapping  query_type_callers()
 {
-	return ({});
+	return ([]);
 }
 
-array query_path_callers()
+mapping query_path_callers()
 {
-	return ({});
+	return ([]);
 }
 
 array query_preferences()
