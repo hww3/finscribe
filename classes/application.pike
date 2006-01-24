@@ -81,11 +81,25 @@ void load_plugins()
 void start_plugins()
 {
 	Log.debug("Starting plugins.");
+
 	
 	foreach(plugins;string name; object plugin)
 	{
 		if(plugin->start && functionp(plugin->start))
 		  plugin->start();
+
+                if(plugin->query_macro_callers && 
+                        functionp(plugin->query_macro_callers))
+                {
+                  mapping a = plugin->query_macro_callers();
+
+                  if(a)
+                    foreach(a; string m; Public.Web.Wiki.Macros.Macro code)
+                    {
+   	               Log.debug("adding macro " + m + ".");
+                       engine->add_macro(m, code);
+                    }
+                }
 	}
 }
 
