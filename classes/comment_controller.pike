@@ -47,7 +47,7 @@ private void handle_wiki(object obj, Request id, Response response)
   t->add("content", app->engine->render(contents, (["request": id, "obj": obj])));
   t->add("author", obj["author"]["Name"]);
   t->add("author_username", obj["author"]["UserName"]);
-  t->add("when", model()->get_when(obj["current_version"]["created"]));
+  t->add("when", model->get_when(obj["current_version"]["created"]));
   t->add("editor", obj["current_version"]["author"]["Name"]);
   t->add("editor_username", obj["current_version"]["author"]["UserName"]);
   t->add("version", (string)obj["current_version"]["version"]);
