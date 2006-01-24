@@ -1,6 +1,19 @@
 import Tools.Logging;
 import Public.Web.Wiki;
 import Fins;
+
+inherit FinScribe.Plugin;
+
+constant name="RSS Reader Macro";
+
+mapping query_macro_callers()
+{
+  return ([ "rss-reader": rssreader_macro() ]);
+}
+
+class rssreader_macro
+{
+
 inherit Macros.Macro;
 
 string describe()
@@ -98,3 +111,4 @@ mixed rss_fetch(string rssurl, int timeout)
   return r;
 }
 
+}
