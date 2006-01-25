@@ -23,7 +23,11 @@ Version 0.3
 - added "nohilight" option to code macro
 - added some ui refinements thanks to Dojo
 - blog posting allows publication date to be selected
-- beginning of a plugin architecture (doesn't really do much, yet)
+- beginning of a plugin architecture (a lot of support infrastructure, 
+  such as preferences and the ability to disable plugins, does not exist 
+  just yet.) 
+- renderer macros (not template macros) are pluggable now.
+- renderers (such as for the wiki markup) are pluggable now.
 
 Version 0.2
 
