@@ -768,6 +768,7 @@ public void post(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
+werror("Preview\n");
 			if(id->variables->createddate)
 			{
 				catch 
@@ -778,8 +779,9 @@ public void post(Request id, Response response, mixed ... args)
   				    t->add("createchecked", "checked=\"1\"");
 				};
 			}
-
-            t->add("preview", app->render(contents, obj, id));
+werror("Rendering preview.\n");
+            t->add("preview", app->render(contents, obj_o, id));
+werror("Rendered preview.\n");
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
 				{
@@ -793,6 +795,7 @@ public void post(Request id, Response response, mixed ... args)
 				}
 				trackbacks = Array.uniq(bu)*"\n";
 
+werror("Preview finished\n");
             break;
          case "Save":
                object c;
@@ -924,6 +927,7 @@ public void post(Request id, Response response, mixed ... args)
    t->add("trackbacks", trackbacks);
    t->add("subject", subject);
    t->add("obj", obj);
+werror("Preview got to end.\n");
    
    response->set_view(t);
 }
