@@ -14,7 +14,7 @@ import Fins.Model;
       add_field(StringField("contents", 1024, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("nice_created", "created", format_created));
-      add_field(TransformField("wiki_contents", "contents", c->app->engine->render));
+      add_field(TransformField("wiki_contents", "contents", c->app->render));
       set_primary_key("id");
    }
    

@@ -495,16 +495,15 @@ public void comments(Request id, Response response, mixed ... args)
 
    app->set_default_data(id, t);
 
-   t->add("object", app->engine->render(obj_o["current_version"]["contents"], 
-                                                          (["request": id, "obj": obj])));
-   
+   t->add("object", app->render(obj_o["current_version"]["contents"], 
+                                                        obj, id));
    if(id->variables->action)
    {
       contents = id->variables->contents;
       switch(id->variables->action)
       {
          case "Preview":
-            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->render(contents, obj, id));
             break;
          case "Save":
             object obj_n = FinScribe.Repo.new("comment");
@@ -629,7 +628,7 @@ public void edit(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->render(contents, obj, id));
             break;
          case "Save":
             if(!obj_o)
@@ -780,7 +779,7 @@ public void post(Request id, Response response, mixed ... args)
 				};
 			}
 
-            t->add("preview", app->engine->render(contents, (["request": id, "obj": obj])));
+            t->add("preview", app->render(contents, obj, id));
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
 				{
@@ -884,7 +883,7 @@ public void post(Request id, Response response, mixed ... args)
 					
 	   }
 
-            cache->clear(app->engine->make_key(obj_o["parent"]->get_object_contents(), 
+           cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
                                                      obj_o["parent"]["path"]));
 
          if(id->variables->ajax)

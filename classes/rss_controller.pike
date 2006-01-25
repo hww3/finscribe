@@ -136,7 +136,7 @@ private Node generate_weblog_rss(object root, array entries, object id)
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
-      item->new_child("description", app->engine->render(row["current_version"]["contents"], (["request": id, "obj": row])));
+      item->new_child("description", app->render(row["current_version"]["contents"], row, id));
     }
   return n;
 }
@@ -166,7 +166,7 @@ private Node generate_category_rss(object root, array|object entries, object id)
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
-      item->new_child("description", app->engine->render(row["current_version"]["contents"], (["request": id, "obj": row])));
+      item->new_child("description", app->render(row["current_version"]["contents"], row, id));
     }
   return n;
 }
@@ -181,7 +181,7 @@ private Node generate_comments_rss(object root, array entries, object id)
   c = n->new_child("channel", "");
   c->new_child("title", root["title"]);
   c->new_child("link", ({ config->get_value("site", "url"), "space",  root["path"] }) * "/" );
-  c->new_child("description", app->engine->render(root["current_version"]["contents"], (["request": id, "obj": root])));
+  c->new_child("description", app->render(root["current_version"]["contents"], root, id));
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
 
@@ -200,7 +200,7 @@ private Node generate_comments_rss(object root, array entries, object id)
 
       item->new_child("title", row["author"]["UserName"] + ": " + row["object"]["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
-      item->new_child("description", app->engine->render(row["contents"], (["request": id, "obj": row])));
+      item->new_child("description", app->render(row["contents"], row, id));
     }
   return n;
 }
@@ -236,7 +236,7 @@ private Node generate_history_rss(object root, array entries, object id)
 
       item->new_child("title", "Version " + row["version"] + ": " + row["object"]["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
-      item->new_child("description", FinScribe.Blog.make_excerpt(app->engine->render(row["contents"], (["request": id, "obj": row]))));
+      item->new_child("description", FinScribe.Blog.make_excerpt(app->render(row["contents"], row, id)));
     }
   return n;
 }

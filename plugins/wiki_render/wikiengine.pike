@@ -1,6 +1,21 @@
-inherit Public.Web.Wiki.RenderEngine;
+import Tools.Logging;
+import Public.Web.Wiki;
 import Fins;
 import Fins.Model;
+
+inherit FinScribe.Plugin;
+
+constant name="RSS Reader Macro";
+
+mapping query_type_callers()
+{
+  return ([ "text/wiki": wikiengine(app) ]);
+}
+
+class wikiengine
+{
+
+inherit Public.Web.Wiki.RenderEngine;
 
 object wiki;
 
@@ -118,3 +133,4 @@ catch{
   return ret;
 }
 
+}

@@ -5,14 +5,13 @@ import Fins.Model;
 import Tools.Logging;
 
 mapping plugins = ([]);
-
-Public.Web.Wiki.RenderEngine engine;
+mapping engines = ([]);
+mapping render_methods = ([]);
+mapping render_macros = ([]);
 
 static void create(Fins.Configuration _config)
 {
   config = _config;
-
-  load_wiki();
 
   app::create(_config);
 
@@ -24,11 +23,6 @@ static void create(Fins.Configuration _config)
 void load_cache()
 {
   cache = FinScribe.Cache;
-}
-
-void load_wiki()
-{
-   engine = ((program)"wikiengine")(this);
 }
 
 void load_plugins()
@@ -97,16 +91,58 @@ void start_plugins()
                     foreach(a; string m; Public.Web.Wiki.Macros.Macro code)
                     {
    	               Log.debug("adding macro " + m + ".");
-                       engine->add_macro(m, code);
+                       render_macros[m] = code;
+                    }
+                }
+
+                if(plugin->query_type_callers && 
+                        functionp(plugin->query_type_callers))
+                {
+                  mapping a = plugin->query_type_callers();
+
+                  if(a)
+                    foreach(a; string m; Public.Web.Wiki.RenderEngine code)
+                    {
+   	               Log.debug("adding handler for " + m + ".");
+                       engines[m] = code;
                     }
                 }
 	}
+
+  foreach(engines;;object e)
+  {
+    foreach(render_macros; string m; object c)
+     e->add_macro(m, c);
+  }
 }
 
 int install()
 {
   object i = ((program)"install")(this);
   return i->run();
+}
+
+public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id)
+{
+  string t = obj["datatype"]["mimetype"];
+  function f;
+  f = render_methods[t];
+
+  if(!f)
+  {
+    object n = get_renderer_for_type(obj["datatype"]["mimetype"]);
+    if(n && n->render) render_methods[t] = f = n->render;
+  }
+
+  if(f)
+    return f(contents, (["request": id, "obj": obj]));
+  else return contents;
+}
+
+public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)
+{
+  if(engines[type])
+    return engines[type];
 }
 
 public void set_default_data(Fins.Request id, object t)
