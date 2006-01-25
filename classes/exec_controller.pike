@@ -70,7 +70,6 @@ public void actions(Request id, Response response, mixed ... args)
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
-werror("ARGS: %O\n", id->variables);
    if(!args || !sizeof(args))
    {
      response->set_data(LOCALE(3, "You must provide an object to modify categories for.\n"));
@@ -496,14 +495,14 @@ public void comments(Request id, Response response, mixed ... args)
    app->set_default_data(id, t);
 
    t->add("object", app->render(obj_o["current_version"]["contents"], 
-                                                        obj, id));
+                                                        obj_o, id));
    if(id->variables->action)
    {
       contents = id->variables->contents;
       switch(id->variables->action)
       {
          case "Preview":
-            t->add("preview", app->render(contents, obj, id));
+            t->add("preview", app->render(contents, obj_o, id));
             break;
          case "Save":
             object obj_n = FinScribe.Repo.new("comment");
@@ -628,7 +627,7 @@ public void edit(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-            t->add("preview", app->render(contents, obj, id));
+            t->add("preview", app->render(contents, obj_o, id));
             break;
          case "Save":
             if(!obj_o)
@@ -717,8 +716,6 @@ public void post(Request id, Response response, mixed ... args)
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
 
-   werror("post: %O\n", id->variables);   
-
    if(!id->misc->session_variables->userid)
    {
       response->flash("msg", "You must login to post.");
@@ -768,7 +765,6 @@ public void post(Request id, Response response, mixed ... args)
 	    return;
             break;
          case "Preview":
-werror("Preview\n");
 			if(id->variables->createddate)
 			{
 				catch 
@@ -779,9 +775,7 @@ werror("Preview\n");
   				    t->add("createchecked", "checked=\"1\"");
 				};
 			}
-werror("Rendering preview.\n");
             t->add("preview", app->render(contents, obj_o, id));
-werror("Rendered preview.\n");
 				array bu = (replace(trackbacks, "\r", "")/"\n" - ({""}));
 				if(id->misc->permalinks)
 				{
@@ -795,7 +789,6 @@ werror("Rendered preview.\n");
 				}
 				trackbacks = Array.uniq(bu)*"\n";
 
-werror("Preview finished\n");
             break;
          case "Save":
                object c;
@@ -927,7 +920,6 @@ werror("Preview finished\n");
    t->add("trackbacks", trackbacks);
    t->add("subject", subject);
    t->add("obj", obj);
-werror("Preview got to end.\n");
    
    response->set_view(t);
 }
@@ -1136,7 +1128,7 @@ public void trackback(Request id, Response response, mixed ... args)
 
       // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
       object lookingfor = Standards.URI("/space/" + args*"/", config->get_value("site", "url"));
-      werror("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
+      Log.info("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
       if(search(contents, (string)lookingfor)==-1)
       {
         response->set_data(trackback_error("You didn't link to us, no TrackBack for you!"));
@@ -1157,15 +1149,13 @@ public void trackback(Request id, Response response, mixed ... args)
       else md->trackbacks += ({ tb });
    }
 
-    werror("ADDED TRACKBACK!\n");
-
     response->set_data("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>0</error>\n</response>\n");
   }
 }
 
 private string trackback_error(string e)
 {
-werror("TRACKBACK ERROR: %O\n", e);
+  Log.warn("TRACKBACK ERROR: %O\n", e);
   return ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>1</error>\n<message>" + e + "</message>\n</response>\n");
 
 }
