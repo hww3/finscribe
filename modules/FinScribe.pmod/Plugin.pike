@@ -54,6 +54,11 @@ mapping query_path_callers()
 	return ([]);
 }
 
+mapping query_ipath_callers()
+{
+	return ([]);
+}
+
 array query_preferences()
 {
 	return ({});

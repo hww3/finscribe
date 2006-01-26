@@ -9,6 +9,7 @@ mapping engines = ([]);
 mapping render_methods = ([]);
 mapping render_macros = ([]);
 mapping event_handlers = ([]);
+mapping internal_path_handlers = ([]);
 
 static void create(Fins.Configuration _config)
 {
@@ -121,6 +122,19 @@ void start_plugins()
                        if(!event_handlers[m])
                           event_handlers[m] = ({});
                        event_handlers[m] += ({ event });
+                    }
+                }
+
+                if(plugin->query_ipath_callers && 
+                        functionp(plugin->query_ipath_callers))
+                {
+                  mapping a = plugin->query_ipath_callers();
+
+                  if(a)
+                    foreach(a; string m; mixed f)
+                    {
+   	               Log.debug("adding internal path handler for " + m + ".");
+                       internal_path_handlers[m] = f;
                     }
                 }
 
