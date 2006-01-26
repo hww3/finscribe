@@ -676,7 +676,9 @@ public void edit(Request id, Response response, mixed ... args)
 
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
+            app->trigger_event("postSave", id, obj_o);
             break;
+
          default:
             response->set_data("Unknown edit action %s", id->variables->action);
             return;

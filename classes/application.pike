@@ -8,6 +8,7 @@ mapping plugins = ([]);
 mapping engines = ([]);
 mapping render_methods = ([]);
 mapping render_macros = ([]);
+mapping event_handlers = ([]);
 
 static void create(Fins.Configuration _config)
 {
@@ -107,6 +108,22 @@ void start_plugins()
                        engines[m] = code;
                     }
                 }
+
+                if(plugin->query_event_callers && 
+                        functionp(plugin->query_event_callers))
+                {
+                  mapping a = plugin->query_event_callers();
+
+                  if(a)
+                    foreach(a; string m; function event)
+                    {
+   	               Log.debug("adding handler for " + m + ".");
+                       if(!event_handlers[m])
+                          event_handlers[m] = ({});
+                       event_handlers[m] += ({ event });
+                    }
+                }
+
 	}
 
   foreach(engines;;object e)
@@ -114,6 +131,25 @@ void start_plugins()
     foreach(render_macros; string m; object c)
      e->add_macro(m, c);
   }
+}
+
+int trigger_event(string event, mixed ... args)
+{
+  int retval;
+  Log.debug("Calling event " + event);
+  if(event_handlers[event])
+  {
+    foreach(event_handlers[event];; function h)
+    {
+      int res = h(event, @args);
+
+      retval|=res; 
+ 
+      if(res & FinScribe.abort)
+         break;
+    }
+  }
+  return retval;
 }
 
 int install()
