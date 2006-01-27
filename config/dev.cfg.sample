@@ -27,3 +27,6 @@ url=http://hww3.riverweb.com
 
 [blog]
 weblog_ping=1
+
+[fulltext]
+indexserver=http://somehost:9001

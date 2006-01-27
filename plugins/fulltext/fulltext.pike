@@ -31,7 +31,7 @@ void ftSearch(object id, object response, mixed ... args)
 
   else
   {
-    object c = Protocols.XMLRPC.Client("http://buoy.riverweb.com:9001/search/?PSESSIONID=123");
+    object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/search/?PSESSIONID=123");
     array r = c["search"](app->config["site"]["url"], id->variables->q, "contents");
 
     if(r[0] && sizeof(r[0]))
@@ -57,7 +57,7 @@ int updateIndex(string event, object id, object obj)
 {
   Log.info("saved " + obj["path"]);  
 
-  object c = Protocols.XMLRPC.Client("http://buoy.riverweb.com:9001/update/?PSESSIONID=123");
+  object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/update/?PSESSIONID=123");
 
   werror("calling textify()\n");
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
@@ -139,7 +139,8 @@ array doSearchMacro(Macros.MacroParameters params)
   if(!params->extras->request->variables->q)
     return ({"No query specified."});
 
-  object c = Protocols.XMLRPC.Client("http://buoy.riverweb.com:9001/search/?PSESSIONID=123");
+  object c = 
+Protocols.XMLRPC.Client(params->extras->request->fins_app->config["fulltext"]["indexserver"]+ "/search/?PSESSIONID=123");
   mixed r =
 c["search"](params->extras->request->fins_app->config["site"]["url"],
 params->extras->request->variables->q, "contents");
@@ -153,9 +154,10 @@ params->extras->request->variables->q, "contents");
 
   else
   {
+    res += ({ "<b>Search results:</b><p>" });
     foreach(r[0];; mapping entry)
       res += ({ "<a href=\"/space/" + entry->handle + "\">" + entry->title + 
-              "</a><br><dd>\n" + entry->excerpt + "</dd><p>\n"});
+              "</a><dd>\n" + entry->excerpt + "</dd><p>\n"});
   }
   res+=({"</div>\n"});
 
