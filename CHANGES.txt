@@ -28,6 +28,8 @@ Version 0.3
   just yet.) 
 - renderer macros (not template macros) are pluggable now.
 - renderers (such as for the wiki markup) are pluggable now.
+- added beginnings of a fulltext search
+- smoothed out some issues with dynamic weblog content and caching
 
 Version 0.2
 
