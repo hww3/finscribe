@@ -81,14 +81,15 @@ void start_plugins()
 	
 	foreach(plugins;string name; object plugin)
 	{
+           Log.debug("Processing " + name);
 		if(plugin->start && functionp(plugin->start))
 		  plugin->start();
 
                 if(plugin->query_macro_callers && 
                         functionp(plugin->query_macro_callers))
                 {
+                  Log.debug(name + " has a macro caller.");
                   mapping a = plugin->query_macro_callers();
-
                   if(a)
                     foreach(a; string m; Public.Web.Wiki.Macros.Macro code)
                     {

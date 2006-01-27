@@ -1,6 +1,6 @@
 //<locale-token project="FinScribe">LOCALE</locale-token>
 
-#define LOCALE(X,Y) Locale.translate(app()->config->app_name, id->get_lang(), X, Y)
+#define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
 import Fins;
 import Fins.Model;
