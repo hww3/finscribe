@@ -1,0 +1,1 @@
+constant abort = 1;
