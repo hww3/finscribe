@@ -1,27 +1,26 @@
 import Tools.Logging;
-import Public.Web.Wiki;
 import Fins;
 
 inherit FinScribe.Plugin;
 
 constant name="RSS Reader Macro";
 
-mapping query_macro_callers()
+mapping(string:object) query_macro_callers()
 {
-  return ([ "rss-reader": rssreader_macro() ]);
+  return ([ "rss-reader": rss_macro() ]);
 }
 
-class rssreader_macro
+class rss_macro
 {
 
-inherit Macros.Macro;
+inherit Public.Web.Wiki.Macros.Macro;
 
 string describe()
 {
    return "Consumes an RSS Feed";
 }
 
-array evaluate(Macros.MacroParameters params)
+array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
 {
   string doc;
   int limit;
