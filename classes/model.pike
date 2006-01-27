@@ -6,6 +6,8 @@ object repository = FinScribe.Repo;
 
 public void load_model()
 {
+  if(!config["app"] || !config["app"]["installed"]) return;
+
   ::load_model();
 
    FinScribe.Repo.add_object_type(FinScribe.Model.Object_object(context), FinScribe.Model.Object);
