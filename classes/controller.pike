@@ -8,6 +8,7 @@ Fins.FinsController admin;
 Fins.FinsController xmlrpc;
 Fins.FinsController rss;
 Fins.FinsController _internal;
+Fins.FinsController install;
 
 static void create(Fins.Application a)
 {
@@ -19,12 +20,16 @@ static void create(Fins.Application a)
   xmlrpc = ((program)"xmlrpc_controller")(a);
   rss = ((program)"rss_controller")(a);
   _internal = ((program)"internal_controller")(a);
+
+  if(!config["app"] || !config["app"]["installed"])
+    install = ((program)"install_controller")(a);
 }
 
 public void index(Request id, Response response, mixed ... args)
 {
-werror("ARGS: %O\n", args);
-  if(!sizeof(args))
+  if(!config["app"] || !config["app"]["installed"])
+    response->redirect("install");
+  else if(!sizeof(args))
      response->redirect("space");
   else if(object_program(id) == Fins.FCGIRequest)
      response->not_found("/" + args*"/");
