@@ -65,6 +65,7 @@ string simple_macro_snip(Template.TemplateData data, mapping|void args)
    if(!obj) return "";
 
    string contents = obj->get_object_contents();
+
    return app->render(contents, obj);
 }
 

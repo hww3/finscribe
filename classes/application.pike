@@ -186,7 +186,7 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
   }
 
   if(f)
-    return f(contents, (["request": id, "obj": obj]));
+    return f(contents, (["request": id, "obj": obj]), ((id&&id->variables->weblog)?1:0));
   else return contents;
 }
 
