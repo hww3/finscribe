@@ -55,7 +55,7 @@ array evaluate(Macros.MacroParameters params)
       res+=({"<a href=\"/space/"});
       res+=({item["path"]});
       res+=({"\">"});
-      res+=({item->get_object_title()});
+      res+=({item["title"]});
       res+=({"</a>"});
       res+=({"\n"});
       ci++;
