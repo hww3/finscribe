@@ -155,9 +155,9 @@ params->extras->request->variables->q, "contents");
   else
   {
     res += ({ "<b>Search results:</b><p>" });
-    foreach(r[0];; mapping entry)
-      res += ({ "<a href=\"/space/" + entry->handle + "\">" + entry->title + 
-              "</a><dd>\n" + entry->excerpt + "</dd><p>\n"});
+    foreach(r[0];int i; mapping entry)
+      res += ({ (i+1)+ ". <a href=\"/space/" + entry->handle + "\">" + entry->title + 
+              "</a> (" + entry->date + ")<dd>\n" + entry->excerpt + "</dd><p>\n"});
   }
   res+=({"</div>\n"});
 
