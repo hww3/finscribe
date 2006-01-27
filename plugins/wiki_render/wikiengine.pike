@@ -5,7 +5,7 @@ import Fins.Model;
 
 inherit FinScribe.Plugin;
 
-constant name="RSS Reader Macro";
+constant name="Wiki Markup Renderer";
 
 mapping query_type_callers()
 {
@@ -50,7 +50,7 @@ int showCreate()
   return 1;
 }
 
-string render(string s, mixed|void extras)
+string render(string s, mixed|void extras, int|void force)
 {
   array a;
 
@@ -60,7 +60,7 @@ string render(string s, mixed|void extras)
     else if (extras && stringp(extras->obj))
       fn = extras->obj;
 
-  if(fn)
+  if(fn && !force)
   {
     a = wiki->cache->get(make_key(s, fn));
   }
