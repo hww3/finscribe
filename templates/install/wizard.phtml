@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>FinScribe Installer</title>
+<script type="text/javascript" src="/static/javascripts/dojo.js"></script>
+<script type="text/javascript">
+	dojo.require("dojo.widget.Wizard");
+	dojo.hostenv.writeIncludes();
+
+    function cancel() {
+        alert("Wizard Cancelled!");
+    }
+
+    function done() {
+        alert("Wizard Done!");
+    }
+</script>
+
+<style type="text/css">
+body {
+	font-family : sans-serif;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="wizard" dojoType="wizard" style="width:100%; height:350px;">
+<div dojoType="WizardPane" label="Welcome!">
+<h1>Welcome to FinScribe</h1>
+
+We're glad you've chosen to install FinScribe. 
+<p>
+The first step in getting 
+FinScribe up and running is to configure the database and install the 
+FinScribe objects. You'll also answer a few question about how you'd like 
+the application to work. 
+<p>
+When you're finished with this wizard, your FinScribe install will be 
+complete!
+
+</div>
+
+<div dojoType="WizardPane" label="Database Configuration (1)" 
+passFunction="verifyandcreate">
+<h1>Select a database</h1>
+FinScribe supports several database types for the storage of data. Please 
+choose a database storage type from the list of available drivers below.
+<p>
+<script type="text/javascript">
+function updatedburl(url)
+{
+  var requestObj;
+  var v = document.getElementById("db");
+  var url = "/install/makedburl/";
+
+    var bindArgs = {
+    url:         null,
+    sync: true,
+    formNode: document.getElementById("dbconfiguratorform"),      
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var e = document.getElementById("dburl");
+        if(!(e))
+          return;
+        else  
+        {
+          e.value = data.toString();
+        }
+    }
+  };
+
+    bindArgs.url = url + v.value;
+    requestObj = dojo.io.bind(bindArgs);
+}
+
+function selectdb()
+{
+  var requestObj;
+  var v = document.getElementById("db");
+  var url = "/install/getdburlconfigurator/";
+
+    var bindArgs = {
+    url:         null,
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById("dburlconfigurator");
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+    }
+  };
+
+    bindArgs.url = url + v.value;
+    requestObj = dojo.io.bind(bindArgs);
+}
+
+</script>
+<script type="text/javascript">
+function verifyandcreate()
+{
+  updatedburl();
+
+  var requestObj;
+  var v = document.getElementById("db");
+  var url = "/install/verifyandcreate/";
+  var result = false;
+
+    var bindArgs = {
+    url:         url,
+    sync: true,
+    formNode: document.getElementById("dbconfiguratorform"),
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        if(data.toString() != "true")
+           result = data.toString();
+    }
+  };
+
+    bindArgs.url = url + v.value;
+    requestObj = dojo.io.bind(bindArgs);
+
+    if(result) return "We failed to connect to the database.\n"
+                     + result;
+}
+
+
+</script>
+
+<form action="#" id="dbconfiguratorform">
+<b>Database type:</b> <select name="db" id="db" onChange="selectdb()">
+<option>Select a DB
+<% foreach var="dbs" val="db" %>
+<option><%$db%>
+<% end %>
+</select>
+
+<input type="hidden" name="dburl" id="dburl" value=""/>
+
+<div id="dburlconfigurator">
+</div>
+</form>
+
+Please verify this information before continuing. The database you've 
+specified 
+must already exist (in the case of SQLite, that means that the path must 
+be writable). 
+<p>
+When you click "next", we will attempt to connect to the database you've 
+specified and create the FinScribe objects. If the attempt fails, you can 
+return to the previous page to correct your information. 
+</div>
+
+<div dojoType="WizardPane" label="Database Configuration (3)" 
+canGoBack="false">
+<h1>Objects Created!</h1>
+</div>
+
+</div>
+
+
+</html>

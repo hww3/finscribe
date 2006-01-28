@@ -1,0 +1,21 @@
+Host: <input type="text" value="localhost" id="postgreshost"  
+name="postgreshost"/><br/>
+User: <input type="text" value="finscribe" id="postgresuser" 
+name="postgresuser"/><br/>    
+Password: <input type="password" value="finscribe" id="postgrespassword" 
+name="postgrespassword"/><br/>
+Database: <input type="text" value="finscribe" 
+id="postgresdatabase" name="postgresdatabase"/><br/>
+
+function makedburl()
+{
+  var url = "postgres://" + document.getElementById("postgresuser");
+  url += ":";
+  url += document.getElementById("postgrespassword");
+  url += "@";
+  url +=  document.getElementById("postgreshost");
+  url += "/";
+  url +=  document.getElementById("postgresdatabase");
+  updatedburl(url);
+}
+</script>

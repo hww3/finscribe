@@ -1,0 +1,10 @@
+Database File Path: <input type="text" value="/var/finscribe/finscribe.db" 
+id="sqlitepath"  name="sqlitepath"/><br/>
+
+<script type="text/javascript">
+function makedburl()
+{
+  var url = "SQLite://" + document.getElementById("sqlitepath");
+  updatedburl(url);
+}
+</script>
