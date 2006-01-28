@@ -14,6 +14,15 @@ CREATE TABLE categories (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
+
+CREATE TABLE preferences (
+  id int(11) NOT NULL auto_increment,
+  name char(64) NOT NULL default '',
+  type int(1) NOT NULL default 0,
+  value char(64) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
 #
 # Table structure for table 'comments'
 #

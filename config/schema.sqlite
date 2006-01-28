@@ -6,6 +6,16 @@ CREATE TABLE categories (
 
 \g
 
+CREATE TABLE preferences (
+  id integer primary key, 
+  name char(64) NOT NULL default '',
+  type integer NOT NULL default 0,    
+  value char(64) NOT NULL default ''
+) ;
+  
+
+\g
+
 CREATE TABLE comments (
   id integer primary key,
   object_id int(11) NOT NULL default '0',

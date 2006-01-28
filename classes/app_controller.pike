@@ -24,7 +24,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
-  if((int)config["site"]["track_views"])
+  if((int)(app->get_sys_pref("site.track_views")["Value"]))
     obj["md"]["views"] ++;
 
   string datatype = obj["datatype"]["mimetype"];
@@ -45,8 +45,7 @@ public void index(Request id, Response response, mixed ... args)
   return;
 }
 
-private void handle_wiki(object obj, Request id, Response response)
-{
+private void handle_wiki(object obj, Request id, Response response){
   string title = obj["title"];  
 
   object t = view->get_view("space/wikiobject");

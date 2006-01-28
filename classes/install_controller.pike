@@ -15,6 +15,24 @@ public void index(Request id, Response response, mixed ... args)
 
 }
 
+public void populateprefs(Request id, Response response, mixed ... args)
+{
+  mixed e = catch {
+  foreach(glob("pref.*", indices(id->variables));; string p)
+  {
+    app->new_string_pref(p[5..], id->variables[p]);
+  }
+  };
+
+  if(e)
+  {
+werror(describe_backtrace(e));
+    response->set_data(((array)e)[0]);  
+  }
+  else
+    response->set_data("true");
+}
+
 public void verifyandcreate(Request id, Response response, mixed ... args)
 {
   string dbtype;
@@ -52,6 +70,14 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
       return;  
     }
   }
+
+  // now, we restart the model.
+  config->set_value("app", "installed", 1);
+  config->set_value("model", "datasource", id->variables->dburl);
+
+werror("doing load_model()\n");
+  app->kick_model();
+
   response->set_data("true");
 
 }

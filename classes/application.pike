@@ -22,6 +22,11 @@ static void create(Fins.Configuration _config)
   load_plugins();
 }
 
+void kick_model()
+{
+  load_model();
+}
+
 void load_cache()
 {
   cache = FinScribe.Cache;
@@ -234,4 +239,33 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     response->redirect("/exec/login");
     return 0;
   }
+}
+
+mixed get_sys_pref(string pref)
+{
+  FinScribe.Model.Preference p;
+  array x = model->find("preference", (["Name": pref]));
+
+  if(x && sizeof(x))
+    return x[0];
+
+  else return 0;
+  
+}
+
+object new_string_pref(string pref, string value)
+{
+  object p = get_sys_pref(pref);
+  if(p) return p;
+  else 
+  { 
+
+     p = FinScribe.Repo.new("preference");
+     p["Name"] = pref;
+     p["Type"] = FinScribe.STRING;
+     p["Value"] = value;
+     p->save();
+     return p;
+  }
+
 }

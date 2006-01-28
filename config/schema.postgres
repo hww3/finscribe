@@ -7,6 +7,16 @@ CREATE TABLE categories (
 
 \g
 
+CREATE TABLE preferences (
+  id serial NOT NULL, 
+  name char(64) NOT NULL default '',
+  type smallint NOT NULL default 0,    
+  value varchar(64) NOT NULL default '',
+  PRIMARY KEY  (id)
+) 
+  
+
+\g
 
 CREATE TABLE comments (
   id SERIAL not null,

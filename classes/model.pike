@@ -6,7 +6,15 @@ object repository = FinScribe.Repo;
 
 public void load_model()
 {
-//  if(!config["app"] || !config["app"]["installed"]) return;
+  if(!config["app"] || !config["app"]["installed"]) 
+  {
+    werror("Not starting model.\n");
+    return;
+  }
+  else
+  {
+    werror("Starting model.\n");
+  }
 
   ::load_model();
 
@@ -19,6 +27,7 @@ public void load_model()
    FinScribe.Repo.add_object_type(FinScribe.Model.Group_object(context), FinScribe.Model.Group);
    FinScribe.Repo.add_object_type(FinScribe.Model.ACL_object(context), FinScribe.Model.ACL);
    FinScribe.Repo.add_object_type(FinScribe.Model.ACLRule_object(context), FinScribe.Model.ACLRule);
+   FinScribe.Repo.add_object_type(FinScribe.Model.Preference_object(context), FinScribe.Model.Preference);
 }
 
 Model.DataObjectInstance find_by_id(string|object ot, int id)
@@ -37,7 +46,7 @@ string get_object_name(string n)
 }
 
 mixed get_datatypes()
-{
+	{
   mixed res;
 
   res = cache->get("DATATYPES_");
@@ -60,8 +69,7 @@ mixed get_metadata(object obj)
 }
 
 void set_metadata(object obj, mixed metadata)
-{
-  obj["metadata"] = encode_value(metadata);
+{  obj["metadata"] = encode_value(metadata);
 }
 
 mixed get_categories()

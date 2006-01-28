@@ -135,6 +135,38 @@ function verifyandcreate()
 
 
 </script>
+<script type="text/javascript">
+function populateprefs()
+{
+  updatedburl();
+
+  var requestObj;
+  var v = document.getElementById("db");
+  var url = "/install/populateprefs/";
+  var result = false;
+
+    var bindArgs = {
+    url:         url,
+    sync: true,
+    formNode: document.getElementById("preferenceform"),
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        if(data.toString() != "true")
+           result = data.toString();
+    }
+  };
+
+    bindArgs.url = url + v.value;
+    requestObj = dojo.io.bind(bindArgs);
+
+    if(result) return "We failed to set the application preferences.\n"
+                     + result;
+}
+
+</script>
 
 <form action="#" id="dbconfiguratorform">
 <b>Database type:</b> <select name="db" id="db" onChange="selectdb()">
@@ -162,9 +194,38 @@ return to the previous page to correct your information.
 
 <div dojoType="WizardPane" label="Database Configuration (3)" 
 canGoBack="false">
-<h1>Objects Created!</h1>
+<h1>Database Objects Created</h1>
+We will now proceed to configure your copy of FinScribe.
+<p>
+On the next few pages are a few questions that we will use to personalize your application.
+</div>
+<div dojoType="WizardPane" label="Application Configuration" 
+canGoBack="false">
+<h1>Site Basics</h1>
+<form action="#" id="preferenceform">
+Site URL: <input type="text" name="pref.site.url" value=""><br/>
+Site Name: <input type="text" name="pref.site.name" value=""><br/>
+Site Logo File: <input type="text" name="pref.site.logo" value=""><br/>
+Site Tagline: <input type="text" name="pref.site.tagline" value=""><br/>
+Track Views: <input type="radio" name="pref.site.track_views" value="1" checked="1" /> Yes
+<input type="radio" name="pref.site.track_views" value="0" /> No<br/>
+</div>
+<div dojoType="WizardPane" label="Application Configuration" passFunction="populateprefs">
+<h1>Administration</h1>
+Mail Host: <input type="text" name="pref.mail.host" value="" /><br/>
+Mail Return Address: <input type="text" name="pref.mail.return_address" value="" /><br/>
+Account Autocreate: <input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> Yes 
+<input type="radio" name="pref.administration.autocreate" value="0" /> No
+<br/>
+Weblog.com PING: <input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> Yes
+<input type="radio" name="pref.blog.weblog_ping" value="0" /> No<br/>
+</form>
 </div>
 
+<div dojoType="WizardPane" label="Application Configuration" doneFunction="done">
+<h1>Setup Complete!</h1>
+Congratulations! Your FinScribe installation is complete and ready to use.
+</div>
 </div>
 
 

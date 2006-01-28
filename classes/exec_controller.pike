@@ -322,9 +322,9 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 				
 				string mailmsg = tp->render();
 				
-				Protocols.SMTP.Client(config->get_value("mail", "host"))->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(app->get_sys_pref("mail.host"))->simple_mail(a[0]["Email"], 
 																											"Your FinScribe password", 
-																											config->get_value("mail", "return_address"), 
+										app->get_sys_pref("mail.return_address"), 
 																											mailmsg);
 				
 				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
@@ -433,8 +433,8 @@ public void login(Request id, Response response, mixed ... args)
       t->add("UserName", "");
    }
 
-   if(config->get_value("administration", "autocreate") && 
-         config->get_value("administration", "autocreate") == "1")
+   if(app->get_sys_pref("site.autocreate") && 
+         app->get_sys_pref("site.autocreate") == "1")
 	{
 		t->add("autocreate", 1);
 	}
@@ -867,17 +867,17 @@ public void post(Request id, Response response, mixed ... args)
 
 	    if(sizeof(trackbacks))
 	    {
-		object u = Standards.URI(config->get_value("site", "url"));
+		object u = Standards.URI(app->get_sys_pref("site.url"));
 		u->path = combine_path(u->path, "/space");
 
 		foreach((trackbacks/"\n")-({""});; string url)
 			FinScribe.Blog.trackback_ping(obj_o, u, url);
 	   }
 
-	   if((config["blog"] && (int)config["blog"]["weblog_ping"]))
+	   if(app->get_sys_pref("blog.weblog_ping"))
 	   {
 		FinScribe.Blog.weblogs_ping(obj_o["title"], 
-			(string)Standards.URI("/space/" + obj_o["path"], config->get_value("site", "url")));
+			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")));
 					
 	   }
 
@@ -1129,7 +1129,7 @@ public void trackback(Request id, Response response, mixed ... args)
       // ok, we don't already have a trackback for this url, let's try to add one.
 
       // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
-      object lookingfor = Standards.URI("/space/" + args*"/", config->get_value("site", "url"));
+      object lookingfor = Standards.URI("/space/" + args*"/", app->get_sys_pref("site.url"));
       Log.info("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
       if(search(contents, (string)lookingfor)==-1)
       {
