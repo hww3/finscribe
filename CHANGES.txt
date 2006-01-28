@@ -30,6 +30,8 @@ Version 0.3
 - renderers (such as for the wiki markup) are pluggable now.
 - added beginnings of a fulltext search
 - smoothed out some issues with dynamic weblog content and caching
+- added beginnings of a preferences system
+- added web based installer gui
 
 Version 0.2
 

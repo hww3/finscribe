@@ -31,46 +31,25 @@ easier of the three to install support for, as you can use Monger.
       - Public.Web.Wiki
       - Public.Tools.ConfigFiles
       - Public.Web.FCGI (if deploying using FastCGI)
+
 1. Prepare the database:
    Mysql:
    a. Create a mysql database for the blog.
      mysqladmin [connection parameters] create mydbname
-   b. Populate the new database with the config/schema.mysql script.
-     mysql [connection parameters] mydbname < config/schema.mysql
 
    SQLite:
-   a. Create and populate the database:
-     sqlite dbfilename < config/schema.sqlite
+   a. No action required, though the location where your database file 
+      will reside must be writable by the FinScribe user.
 
    PostgreSQL:
    a. Create database for the blog:
      createdb mydbname
-   b. Populate the new database with the config/schema.postgres script.
-     psql [connection parameters] mydbname < config/schema.postgres
 
-3. Create a configuration file for your blog in the config/ direcotry, by 
-     copying config/dev.cfg and editing as necessary.
-
-    cp config/dev.cfg.sample config/myconfigname.cfg
-
-4. Install the objects in the model:
-
-     [from the Fins directory]
-     ./fin_serve.pike --hilfe . yourconfigname
-
-     when you get the > prompt, enter:
-
-     application->install(); 
-     quit
-
-     answer the questions when prompted.
-
-     your application database will be populated with an initial user and 
-     some starting content.
-
-5. Start the blog application:
+2. Start the blog application:
 
     ./fin_serve.pike -p portnumber . yourconfigname
 
-6. Access your application by pointing your browser to the proper 
-   port number supplied when you start fin serve.
+3. Access your application by pointing your browser to the proper 
+   port number supplied when you start fin serve. On first access, you'll
+   be presented with the installation wizard. Simply follow the steps
+   to install and configure your FinScribe instance.
