@@ -2,6 +2,8 @@ import Public.Parser.XML2;
 import Fins;
 inherit Fins.FinsController;
 
+constant __uses_session = 0;
+
 public void index(Request id, Response response, mixed ... args)
 {
   string r;

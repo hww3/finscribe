@@ -6,7 +6,7 @@ object repository = FinScribe.Repo;
 
 public void load_model()
 {
-  if(!config["app"] || !config["app"]["installed"]) return;
+//  if(!config["app"] || !config["app"]["installed"]) return;
 
   ::load_model();
 
