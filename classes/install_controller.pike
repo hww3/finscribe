@@ -17,10 +17,43 @@ public void index(Request id, Response response, mixed ... args)
 
 public void verifyandcreate(Request id, Response response, mixed ... args)
 {
-  mixed e = (catch(Sql.Sql(id->variables->dburl)));
+  string dbtype;
+  object sql;
+  mixed e = (catch(sql=Sql.Sql(id->variables->dburl)));
   if(e) 
+  {
     response->set_data(((array)e)[0]);
-  else response->set_data("true");
+    return;
+  }
+  switch(id->variables->dburl[0..1])
+  {
+    case "SQ":
+      dbtype="sqlite";
+      break;
+    case "my":
+      dbtype="mysql";
+      break;
+    case "po":
+      dbtype="postgres";
+      break;
+    default:
+      response->set_data("Unknown database type.");
+      return;
+  }
+
+  // now, we can populate the schema.
+  string s = Stdio.read_file(app->config->app_dir + "/config/schema." + dbtype);
+  foreach(s/"\\g\n";;string command)
+  {
+    e = catch(sql->query(command));
+    if(e)
+    {
+      response->set_data(((array)e)[0]);
+      return;  
+    }
+  }
+  response->set_data("true");
+
 }
 
 public void makedburl(Request id, Response response, mixed ... args)

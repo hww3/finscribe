@@ -2,7 +2,7 @@
 CREATE TABLE categories (
   id integer primary key,
   category char(64) NOT NULL default ''
-);
+)
 
 \g
 
@@ -12,14 +12,14 @@ CREATE TABLE comments (
   author_id int(11) NOT NULL default '0',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   contents blob
-);
+)
 
 \g
 
 CREATE TABLE datatypes (
   id integer primary key,
   mimetype char(32) default NULL
-) ;
+) 
 
 \g
 
@@ -31,7 +31,7 @@ CREATE TABLE object_versions (
   subject varchar(128) default NULL,
   contents blob NOT NULL,
   version int(11) NOT NULL default '0'
-) ;
+) 
 
 \g
 
@@ -44,14 +44,14 @@ CREATE TABLE objects (
   datatype_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
   metadata blob
-);
+)
 
 \g
 
 CREATE TABLE objects_categories (
   object_id int(11) NOT NULL default '0',
   category_id int(11) NOT NULL default '0'
-);
+)
 
 \g
 
@@ -63,27 +63,27 @@ CREATE TABLE users (
   is_active int(1) default NULL,
   name char(36) NOT NULL default '',
   email char(64) NOT NULL default ''
-);
+)
 
 \g
 
 CREATE TABLE groups (
   id integer primary key,
   name char(36) NOT NULL default ''
-);
+)
 
 \g
 
 CREATE TABLE users_groups (
   user_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0'
-);
+)
 
 \g
 
 CREATE TABLE groups_groups (
   member_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0'
-);
+)
 
 
