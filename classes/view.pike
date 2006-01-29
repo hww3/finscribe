@@ -1,6 +1,19 @@
 import Fins;
 inherit Fins.FinsView;
 
+string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void arguments)
+{
+  if(arguments->var)
+  {
+    object p = app->get_sys_pref(arguments->var);
+
+    if(!p) return "";
+
+    if(!arguments->val)
+      return p["Value"];
+  }
+}
+
 string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)
 {
   String.Buffer b = String.Buffer();
