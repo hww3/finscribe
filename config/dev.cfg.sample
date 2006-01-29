@@ -11,22 +11,5 @@ class=controller
 [view]
 class=view
 
-[mail]
-host=buoy.riverweb.com
-return_address=hww3@riverweb.com
-
-[administration]
-autocreate=1
-
-[site]
-name=electronic alchemy
-logo=/static/images/logo.gif
-tagline=where the past meets the future
-url=http://hww3.riverweb.com
-#track_views=1
-
-[blog]
-weblog_ping=1
-
 [fulltext]
 indexserver=http://somehost:9001
