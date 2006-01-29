@@ -1,7 +1,7 @@
 <html>
 <head>
   <%@include file="header.phtml" %>
-   <title><%$config.site.name%> :: Trackbacks for <%$object.title%></title>
+   <title><%syspref var="site.name" %> :: Trackbacks for <%$object.title%></title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 
 The trackback URL for this article is: 
 <a 
-href="<%$config.site.url%>/exec/trackback/<%$object.path%>"><%$config.site.url%>/exec/trackback/<%$object.path%></a>.
+href="<%syspref var="site.url"%>/exec/trackback/<%$object.path%>"><%syspref var="site.url"%>/exec/trackback/<%$object.path%></a>.
 
 <%foreach var="trackbacks" val="trackback" %>
 <a href="<%$trackback.url%>"><%$trackback.url%></a><br/>
