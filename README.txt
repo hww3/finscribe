@@ -1,6 +1,7 @@
 Setting up FinScribe
 
-FinScribe runs under Pike versions 7.6.50 or newer. Additionally, there 
+FinScribe runs under Pike versions 7.6.24, 7.6.66 or newer (non-listed 
+versions have issues with their built-in HTTP servers. Additionally, there 
 are a number of additional modules which provided necessary functionality. 
 Item 0 below describes these prerequisites.
 
@@ -27,9 +28,9 @@ easier of the three to install support for, as you can use Monger.
          pike -x monger modulename
       - Sql.Provider.SQLite (if using SQLite as your database)
       - Public.Parser.XML2
-      - Public.Web.RSS
-      - Public.Web.Wiki
-      - Public.Tools.ConfigFiles
+      - Public.Web.RSS (any public version will do)
+      - Public.Web.Wiki (v1.5 or newer)
+      - Public.Tools.ConfigFiles (any pubic version will do)
       - Public.Web.FCGI (if deploying using FastCGI)
 
 1. Prepare the database:

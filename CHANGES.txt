@@ -21,7 +21,7 @@ Version 0.3
 - added acls to data model
 - added publish date to blog post screen
 - added "nohilight" option to code macro
-- added some ui refinements thanks to Dojo
+- added some ui refinements thanks to Dojo (www.dojotoolkit.org)
 - blog posting allows publication date to be selected
 - beginning of a plugin architecture (a lot of support infrastructure, 
   such as preferences and the ability to disable plugins, does not exist 
