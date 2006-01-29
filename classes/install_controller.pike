@@ -39,7 +39,6 @@ public void populateprefs(Request id, Response response, mixed ... args)
 
   if(e)
   {
-werror(describe_backtrace(e));
     response->set_data(((array)e)[0]);  
   }
   else
@@ -49,7 +48,6 @@ werror(describe_backtrace(e));
 public void createadminuser(Request id, Response response, mixed ... args)
 {
   mixed e = catch {
-    werror("%O\n", id->variables);
     object u = FinScribe.Model.User();
     u["UserName"] = id->variables->adminuser;
     u["Name"] = id->variables->adminuser;
@@ -57,7 +55,6 @@ public void createadminuser(Request id, Response response, mixed ... args)
     u["Email"] = id->variables->adminemail;
     u["is_admin"] = 1;
     u["is_active"] = 1;
-werror("values: %O\n", values(u));
     u->save();
 
     // now, we populate the starter objects.
@@ -69,11 +66,13 @@ werror("values: %O\n", values(u));
 
   if(e)
   {
-    werror(describe_backtrace(e));
     response->set_data(((array)e)[0]);  
   }
   else
+  {
     response->set_data("true");
+    app->controller->install = 0;
+  }
 }
 
 public void verifyandcreate(Request id, Response response, mixed ... args)
@@ -118,7 +117,6 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   config->set_value("app", "installed", 1);
   config->set_value("model", "datasource", id->variables->dburl);
 
-werror("doing load_model()\n");
   app->kick_model();
 
   response->set_data("true");
