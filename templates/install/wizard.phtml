@@ -13,41 +13,7 @@
     function done() {
 	window.location="/";
     }
-</script>
 
-<style type="text/css">
-body {
-	font-family : sans-serif;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="wizard" dojoType="wizard" style="width:100%; height:350px;">
-<div dojoType="WizardPane" label="Welcome!">
-<h1>Welcome to FinScribe</h1>
-
-We're glad you've chosen to install FinScribe. 
-<p>
-The first step in getting 
-FinScribe up and running is to configure the database and install the 
-FinScribe objects. You'll also answer a few question about how you'd like 
-the application to work. 
-<p>
-When you're finished with this wizard, your FinScribe install will be 
-complete!
-
-</div>
-
-<div dojoType="WizardPane" label="Database Configuration (1)" 
-passFunction="verifyandcreate">
-<h1>Select a database</h1>
-FinScribe supports several database types for the storage of data. Please 
-choose a database storage type from the list of available drivers below.
-<p>
-<script type="text/javascript">
 function updatedburl(url)
 {
   var requestObj;
@@ -101,8 +67,6 @@ function selectdb()
     requestObj = dojo.io.bind(bindArgs);
 }
 
-</script>
-<script type="text/javascript">
 function verifyandcreate()
 {
   updatedburl();
@@ -134,8 +98,6 @@ function verifyandcreate()
 }
 
 
-</script>
-<script type="text/javascript">
 function populateprefs()
 {
   updatedburl();
@@ -178,7 +140,56 @@ function populateprefs()
 
 }
 
+function checkadmin()
+{
+  var v = document.getElementById("adminuser");
+  if(v.value == null || v.value == "")
+    alert("You must provide an administrative username.");
+  v = document.getElementById("confirmadminpassword");
+  var v1 = document.getElementById("adminpassword");
+  if(v.value.length < 4)
+  {
+    alert("You must provide an administrative password that is at least 4 characters long.");
+  }
+  else if(v.value != v1.value)
+  {
+    alert("Your administrative password and its confirmation do not match.");
+  }
+}
 </script>
+
+<style type="text/css">
+body {
+	font-family : sans-serif;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="wizard" dojoType="wizard" style="width:100%; height:350px;">
+<div dojoType="WizardPane" label="Welcome!">
+<h1>Welcome to FinScribe</h1>
+
+We're glad you've chosen to install FinScribe. 
+<p>
+The first step in getting 
+FinScribe up and running is to configure the database and install the 
+FinScribe objects. You'll also answer a few question about how you'd like 
+the application to work. 
+<p>
+When you're finished with this wizard, your FinScribe install will be 
+complete!
+
+</div>
+
+<div dojoType="WizardPane" label="Database Configuration (1)" 
+passFunction="verifyandcreate">
+<h1>Select a database</h1>
+FinScribe supports several database types for the storage of data. Please 
+choose a database storage type from the list of available drivers below.
+<p>
 
 <form action="#" id="dbconfiguratorform">
 <b>Database type:</b> <select name="db" id="db" onChange="selectdb()">
@@ -215,53 +226,124 @@ On the next few pages are a few questions that we will use to personalize your a
 canGoBack="false">
 <form action="#" id="preferenceform1">
 <h1>Site Basics</h1>
-Site URL: <input type="text" name="pref.site.url" value=""><br/>
+<table>
+<tr><td>
+<b>Site URL:</b>
+</td>
+<td>
+<input type="text" name="pref.site.url" value=""><br/>
 <input type="hidden" name="type.site.url" value="string">
-Site Name: <input type="text" name="pref.site.name" value=""><br/>
+</td></tr>
+<tr>
+<td colspan="2">
+This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).
+</td>
+</tr>
+
+<tr>
+</td></tr>
+<tr>
+<td>
+<b>Site Name:</b>
+</td>
+<td>
+<input type="text" name="pref.site.name" value=""><br/>
 <input type="hidden" name="type.site.name" value="string">
-Site Logo File: <input type="text" name="pref.site.logo" value=""><br/>
+</td></tr>
+<tr>
+<td colspan="2">
+This is the name for your website. It is used in the default templates. An example might be: "Joe's Weblog".
+</td>
+</tr>
+<tr>
+<td>
+<b>Site Logo File:</b>
+</td><td>
+ <input type="text" name="pref.site.logo" value=""><br/>
 <input type="hidden" name="type.site.logo" value="string">
-Site Tagline: <input type="text" name="pref.site.tagline" value=""><br/>
+</td></tr>
+<tr>
+<td colspan="2">
+You may specify the URL of an image that will be displayed in the default page layout template.
+</td>
+</tr>
+<tr>
+<td>
+<b>Site Tagline:</b>
+</td><td>
+<input type="text" name="pref.site.tagline" value=""><br/>
 <input type="hidden" name="type.site.tagline" value="string">
-Track Views: <input type="radio" name="pref.site.track_views" value="1" checked="1" /> Yes
+</td></tr>
+<tr><td colspan="2">
+A short phrase describing your website. Displayed in the default page layout template. Example: "all the news that interests me".
+</td></tr>
+<tr>
+<td>
+<b>Track Views:</b>
+</td><td> 
+<input type="radio" name="pref.site.track_views" value="1" checked="1" /> Yes
 <input type="radio" name="pref.site.track_views" value="0" /> No<br/>
 <input type="hidden" name="type.site.track_views" value="boolean">
+</td>
+</tr>
+<tr><td colspan="2">
+Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.
+</td></tr>
+</table>
 </form>
 </div>
 <div dojoType="WizardPane" label="Application Configuration">
 <form action="#" id="preferenceform2">
 <h1>Administration</h1>
-Mail Host: <input type="text" name="pref.mail.host" value="" /><br/>
+<table>
+<tr>
+<td><b>
+Mail Host:
+</b></tr><td> 
+<input type="text" name="pref.mail.host" value="" /><br/>
 <input type="hidden" name="type.mail.host" value="string">
-Mail Return Address: <input type="text" name="pref.mail.return_address" value="" /><br/>
+</td></tr>
+<tr><td colspan="2">
+FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.
+</td></tr>
+<tr>
+<td><b>
+Mail Return Address:
+</b></tr><td> 
+<input type="text" name="pref.mail.return_address" value="" /><br/>
 <input type="hidden" name="type.mail.return_address" value="string">
-Account Autocreate: <input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> Yes 
+</td></tr>
+<tr><td colspan="2">
+Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, 
+etc).
+</td></tr>
+<tr>
+<td><b>
+Account Autocreate:
+</b></tr><td> 
+<input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> Yes 
 <input type="radio" name="pref.administration.autocreate" value="0" /> No
 <input type="hidden" name="type.administration.autocreate" value="boolean">
 <br/>
-Weblog.com PING: <input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> Yes
+</td></tr>
+<tr><td colspan="2">
+Enabling Autocreate will allow users to self register.
+</td></tr>
+<tr>
+<td><b>
+Weblog.com PING:
+</b></tr><td> 
+<input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> Yes
 <input type="radio" name="pref.blog.weblog_ping" value="0" /> No<br/>
 <input type="hidden" name="type.blog.weblog_ping" value="boolean">
+</td></tr>
+<tr>
+<td colspan="2">
+Should FinScribe "ping" Weblogs.com when you post a new entry to a weblog?
+</td></tr>
+</table>
 </form>
 </div>
-<script type="text/javascript">
-function checkadmin()
-{
-  var v = document.getElementById("adminuser");
-  if(v.value == null || v.value == "")
-    alert("You must provide an administrative username.");
-  v = document.getElementById("confirmadminpassword");
-  var v1 = document.getElementById("adminpassword");
-  if(v.value.length < 4)
-  {
-    alert("You must provide an administrative password that is at least 4 characters long.");
-  }
-  else if(v.value != v1.value)
-  {
-    alert("Your administrative password and its confirmation do not match.");
-  }
-}
-</script>
 <div dojoType="WizardPane" label="Administrative User" passFunction="checkadmin">
 <h1>Administrative User Setup</h1>
 <form action="#" id="adminuserform1">
@@ -271,10 +353,40 @@ set up additional users (regular and administrative) once you complete this wiza
 <p>
 In the mean time, you'll use this account to log in and configure your site further.
 <p>
-Username: <input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
-Password: <input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
-Password: <input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
-Email: <input type="text" size="64" name="adminemail"/> 
+<table>
+<tr>
+<td><b>
+Username:
+</b></tr><td> 
+<input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+Password:
+</b></tr><td> 
+<input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+Confirm Password:
+</b></tr><td> 
+<input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+Email:
+</b></tr><td> 
+<input type="text" size="64" name="adminemail"/> 
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+</table>
 </form>
 </div>
 <div dojoType="WizardPane" label="Application Configuration" passFunction="populateprefs">
