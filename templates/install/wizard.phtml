@@ -11,7 +11,7 @@
     }
 
     function done() {
-        alert("Wizard Done!");
+	window.location="/";
     }
 </script>
 
@@ -141,14 +141,13 @@ function populateprefs()
   updatedburl();
 
   var requestObj;
-  var v = document.getElementById("db");
   var url = "/install/populateprefs/";
   var result = false;
 
     var bindArgs = {
     url:         url,
     sync: true,
-    formNode: document.getElementById("preferenceform"),
+    formNode: null,
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
@@ -159,11 +158,24 @@ function populateprefs()
     }
   };
 
-    bindArgs.url = url + v.value;
+    bindArgs.url = url;
+    bindArgs.formNode = document.getElementById("preferenceform1"),
     requestObj = dojo.io.bind(bindArgs);
-
     if(result) return "We failed to set the application preferences.\n"
                      + result;
+
+    bindArgs.formNode = document.getElementById("preferenceform2"),
+    requestObj = dojo.io.bind(bindArgs);
+    if(result) return "We failed to set the application preferences.\n"
+                     + result;
+
+    bindArgs.formNode = document.getElementById("adminuserform1"),
+    bindArgs.url = "/install/createadminuser/";
+    requestObj = dojo.io.bind(bindArgs);
+
+    if(result) return "We failed to create the administrative account.\n"
+                     + result;
+
 }
 
 </script>
@@ -201,30 +213,83 @@ On the next few pages are a few questions that we will use to personalize your a
 </div>
 <div dojoType="WizardPane" label="Application Configuration" 
 canGoBack="false">
+<form action="#" id="preferenceform1">
 <h1>Site Basics</h1>
-<form action="#" id="preferenceform">
 Site URL: <input type="text" name="pref.site.url" value=""><br/>
+<input type="hidden" name="type.site.url" value="string">
 Site Name: <input type="text" name="pref.site.name" value=""><br/>
+<input type="hidden" name="type.site.name" value="string">
 Site Logo File: <input type="text" name="pref.site.logo" value=""><br/>
+<input type="hidden" name="type.site.logo" value="string">
 Site Tagline: <input type="text" name="pref.site.tagline" value=""><br/>
+<input type="hidden" name="type.site.tagline" value="string">
 Track Views: <input type="radio" name="pref.site.track_views" value="1" checked="1" /> Yes
 <input type="radio" name="pref.site.track_views" value="0" /> No<br/>
+<input type="hidden" name="type.site.track_views" value="boolean">
+</form>
 </div>
-<div dojoType="WizardPane" label="Application Configuration" passFunction="populateprefs">
+<div dojoType="WizardPane" label="Application Configuration">
+<form action="#" id="preferenceform2">
 <h1>Administration</h1>
 Mail Host: <input type="text" name="pref.mail.host" value="" /><br/>
+<input type="hidden" name="type.mail.host" value="string">
 Mail Return Address: <input type="text" name="pref.mail.return_address" value="" /><br/>
+<input type="hidden" name="type.mail.return_address" value="string">
 Account Autocreate: <input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> Yes 
 <input type="radio" name="pref.administration.autocreate" value="0" /> No
+<input type="hidden" name="type.administration.autocreate" value="boolean">
 <br/>
 Weblog.com PING: <input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> Yes
 <input type="radio" name="pref.blog.weblog_ping" value="0" /> No<br/>
+<input type="hidden" name="type.blog.weblog_ping" value="boolean">
 </form>
 </div>
-
+<script type="text/javascript">
+function checkadmin()
+{
+  var v = document.getElementById("adminuser");
+  if(v.value == null || v.value == "")
+    alert("You must provide an administrative username.");
+  v = document.getElementById("confirmadminpassword");
+  var v1 = document.getElementById("adminpassword");
+  if(v.value.length < 4)
+  {
+    alert("You must provide an administrative password that is at least 4 characters long.");
+  }
+  else if(v.value != v1.value)
+  {
+    alert("Your administrative password and its confirmation do not match.");
+  }
+}
+</script>
+<div dojoType="WizardPane" label="Administrative User" passFunction="checkadmin">
+<h1>Administrative User Setup</h1>
+<form action="#" id="adminuserform1">
+Please specify the username, password and email address for this FinScribe's administrative user. An 
+administrative user has full permission to change settings and content in on your FinScribe site. You can 
+set up additional users (regular and administrative) once you complete this wizard. 
+<p>
+In the mean time, you'll use this account to log in and configure your site further.
+<p>
+Username: <input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
+Password: <input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
+Password: <input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
+Email: <input type="text" size="64" name="adminemail"/> 
+</form>
+</div>
+<div dojoType="WizardPane" label="Application Configuration" passFunction="populateprefs">
+<h1>Preparing to configure</h1>
+We're now ready to configure your FinScribe installation. At this time, you may wish to go back and 
+confirm the information you've provided on the previous pages. 
+<p>
+When you click "next", we will configure FinScribe using the information you've provided. We will also 
+set up a few starter objects so that you'll be able to get started adding content right away.
+</div>
 <div dojoType="WizardPane" label="Application Configuration" doneFunction="done">
 <h1>Setup Complete!</h1>
 Congratulations! Your FinScribe installation is complete and ready to use.
+<p>
+Click "done" below to visit your FinScribe site.
 </div>
 </div>
 
