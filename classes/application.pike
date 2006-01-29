@@ -87,6 +87,11 @@ void start_plugins()
 	foreach(plugins;string name; object plugin)
 	{
            Log.debug("Processing " + name);
+
+           // we don't start up plugins that explicitly tell us not to.
+           if(plugin->enabled && !plugin->enabled())
+             continue;
+
 		if(plugin->start && functionp(plugin->start))
 		  plugin->start();
 
