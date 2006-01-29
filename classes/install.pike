@@ -39,6 +39,11 @@ int run()
   u["is_admin"] = 1;
   u->save();
  
+  populate();  
+}
+
+void populate()
+{
   // then, we create the datatypes
   cd(combine_path(app->config->app_dir,"theme"));
   write("Loading datatypes...\n");

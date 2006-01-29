@@ -269,3 +269,21 @@ object new_string_pref(string pref, string value)
   }
 
 }
+
+object new_pref(string pref, string value, int type)
+{
+  object p = get_sys_pref(pref);
+  if(p) return p;
+  else 
+  { 
+
+     p = FinScribe.Repo.new("preference");
+     p["Name"] = pref;
+     p["Type"] = type;
+     p["Value"] = value;
+     p->save();
+     return p;
+  }
+
+}
+

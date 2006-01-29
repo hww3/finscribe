@@ -20,13 +20,56 @@ public void populateprefs(Request id, Response response, mixed ... args)
   mixed e = catch {
   foreach(glob("pref.*", indices(id->variables));; string p)
   {
-    app->new_string_pref(p[5..], id->variables[p]);
+    int pt;
+    switch(id->variables["type." + p[5..]])
+    {
+       case "string":
+         pt = FinScribe.STRING;
+         break;
+       case "integer":
+         pt = FinScribe.INTEGER;
+         break;
+       case "boolean":
+         pt = FinScribe.BOOLEAN;
+         break;
+    }
+    app->new_pref(p[5..], id->variables[p], pt);
   }
   };
 
   if(e)
   {
 werror(describe_backtrace(e));
+    response->set_data(((array)e)[0]);  
+  }
+  else
+    response->set_data("true");
+}
+
+public void createadminuser(Request id, Response response, mixed ... args)
+{
+  mixed e = catch {
+    werror("%O\n", id->variables);
+    object u = FinScribe.Model.User();
+    u["UserName"] = id->variables->adminuser;
+    u["Name"] = id->variables->adminuser;
+    u["Password"] = id->variables->adminpassword;
+    u["Email"] = id->variables->adminemail;
+    u["is_admin"] = 1;
+    u["is_active"] = 1;
+werror("values: %O\n", values(u));
+    u->save();
+
+    // now, we populate the starter objects.
+    object o = ((program)"install")(app);
+    o->populate();
+  };
+
+
+
+  if(e)
+  {
+    werror(describe_backtrace(e));
     response->set_data(((array)e)[0]);  
   }
   else
