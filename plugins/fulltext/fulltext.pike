@@ -32,7 +32,7 @@ void ftSearch(object id, object response, mixed ... args)
   else
   {
     object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/search/?PSESSIONID=123");
-    array r = c["search"](app->config["site"]["url"], id->variables->q, "contents");
+    array r = c["search"](app->get_syspref("site.url")["Value"], id->variables->q, "contents");
 
     if(r[0] && sizeof(r[0]))
     {
@@ -64,8 +64,8 @@ int updateIndex(string event, object id, object obj)
   werror("textify() returned " + t + "\n");
   if(obj["path"] && strlen(obj["path"]))
   werror("deleteions: %O\n", 
-c["delete_by_handle"](app->config["site"]["url"], obj["path"]));  
-  c["add"](app->config["site"]["url"], obj["title"], 
+c["delete_by_handle"](app->get_syspref("site.url")["Value"], obj["path"]));  
+  c["add"](app->get_syspref("site.url")["Value"], obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
       obj["title"] + " " + t, obj["path"], 
       FinScribe.Blog.make_excerpt(t));
@@ -142,7 +142,7 @@ array doSearchMacro(Macros.MacroParameters params)
   object c = 
 Protocols.XMLRPC.Client(params->extras->request->fins_app->config["fulltext"]["indexserver"]+ "/search/?PSESSIONID=123");
   mixed r =
-c["search"](params->extras->request->fins_app->config["site"]["url"],
+c["search"](params->extras->request->fins_app->get_syspref("site.url")["Value"],
 params->extras->request->variables->q, "contents");
   res+=({"<div class=\"search-results\">\n"});
 
