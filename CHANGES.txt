@@ -1,3 +1,8 @@
+Version 0.4
+- We now assume that the datatype of a new object that's not been saved 
+  (such as an initial preview) is of type "text/wiki", unless it's 
+  otherwise supplied in the datatype form variable.
+
 Version 0.3
 - made view tracking optional, via a configuration setting.
 - added lock to templates (not sure why it was missing)
