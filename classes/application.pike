@@ -187,6 +187,16 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
 {
   string t = obj["datatype"]["mimetype"];
   function f;
+
+ if(!t && !(id && id->variables->datatype))
+  {
+    t = "text/wiki";
+  }
+  else
+  {
+    t = id->variables->datatype;
+  }
+
   f = render_methods[t];
 
   if(!f)
