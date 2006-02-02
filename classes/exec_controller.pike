@@ -25,7 +25,6 @@ public void notfound(Request id, Response response, mixed ... args)
      response->set_view(t);
 }
 
-
 public void actions(Request id, Response response, mixed ... args)
 {
 
@@ -575,7 +574,7 @@ public void new(Request id, Response response, mixed ... args)
 
    if(id->variables->title)
    {
-     response->redirect("/exec/edit/" + id->variables->title);
+     response->redirect("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
      return;
    }   
 
@@ -587,7 +586,7 @@ public void new(Request id, Response response, mixed ... args)
 
 public void edit(Request id, Response response, mixed ... args)
 {
-   string contents, title, obj, subject;
+   string contents, title, obj, subject, datatype;
    object obj_o;
    
    if(!id->misc->session_variables->userid)
@@ -613,6 +612,12 @@ public void edit(Request id, Response response, mixed ... args)
       response->redirect(id->referrer);		
 		return;
    }
+
+  
+   datatype = id->variables->datatype;
+   if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
+   else if(!datatype)
+     datatype = "text/wiki";
 
    if(id->variables->action)
    {
@@ -700,8 +705,9 @@ public void edit(Request id, Response response, mixed ... args)
       }
    }
 
-   t->add("contents", contents);
+   t->add("contentswidget", app->get_widget_for_type(datatype, contents));
    t->add("subject", subject);
+   t->add("datatype", datatype);
    t->add("title", title);
    t->add("obj", obj);
    

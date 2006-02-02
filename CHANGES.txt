@@ -2,6 +2,10 @@ Version 0.4
 - We now assume that the datatype of a new object that's not been saved 
   (such as an initial preview) is of type "text/wiki", unless it's 
   otherwise supplied in the datatype form variable.
+- added ability to choose type for a new object, with type-specific editing
+  widgets (dynamically selected based on datatype). currently the type
+  selection dropdown is hardcoded, but everything else is dynamic.
+  html content gets a wysiwyg editor.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.

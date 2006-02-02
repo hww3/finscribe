@@ -185,21 +185,23 @@ int install()
 
 public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id)
 {
-  string t = obj["datatype"]["mimetype"];
+  string t;
+  if(obj)
+    t = obj["datatype"]["mimetype"];
   function f;
 
- if(!t && !(id && id->variables->datatype))
-  {
-    t = "text/wiki";
-  }
-  else
+ if(!t && (id && id->variables->datatype))
   {
     t = id->variables->datatype;
+  }
+  else if(!t)
+  {
+    t = "text/wiki";
   }
 
   f = render_methods[t];
 
-  if(!f)
+  if(!f && obj)
   {
     object n = get_renderer_for_type(obj["datatype"]["mimetype"]);
     if(n && n->render) render_methods[t] = f = n->render;
@@ -208,6 +210,19 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
   if(f)
     return f(contents, (["request": id, "obj": obj]), ((id&&id->variables->weblog)?1:0));
   else return contents;
+}
+
+public string get_widget_for_type(string type, string contents)
+{
+  object t = get_renderer_for_type(type);
+
+  if(!t || !t->get_widget)
+  {
+    return "<textarea id=\"contents\" name=\"contents\" rows=\"10\" cols=\"600\">" + 
+                  contents + "</textarea>";
+  }
+
+  else return t->get_widget(contents);
 }
 
 public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)
