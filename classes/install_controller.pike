@@ -57,6 +57,15 @@ public void createadminuser(Request id, Response response, mixed ... args)
     u["is_active"] = 1;
     u->save();
 
+    object u = FinScribe.Model.User();
+    u["UserName"] = "anonymous";
+    u["Name"] = "Anonymous";
+    u["Password"] = "*LCK*";
+    u["Email"] = "";
+    u["is_admin"] = 0;
+    u["is_active"] = 0;
+    u->save();
+
     // now, we populate the starter objects.
     object o = ((program)"install")(app);
     o->populate();

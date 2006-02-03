@@ -9,7 +9,6 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
-
   if(!args || !sizeof(args))
   {
      response->redirect("start");

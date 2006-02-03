@@ -33,6 +33,7 @@ CREATE TABLE comments (
   author_id int(11) NOT NULL default '0',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   contents blob,
+  metadata blob,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

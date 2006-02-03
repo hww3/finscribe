@@ -60,6 +60,7 @@ public void actions(Request id, Response response, mixed ... args)
   t->add("islocked", obj["md"]["locked"]);
   t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
   t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
+  t->add("comments_closed", obj["md"]["comments_closed"]);
 
   response->set_view(t);
 
@@ -477,16 +478,32 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-   if(!id->misc->session_variables->userid)
+   int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
+ 
+   if(!id->misc->session_variables->userid && 
+             !anonymous)
    {
       response->flash("msg", "You must login to comment.");
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
    }
+   else if(!id->misc->session_variables->userid && anonymous)
+   {
+     anonymous = 1;
+   }
+   else anonymous = 0;
 
    obj_o = model->get_fbobject(args, id);
-   title = obj_o["title"];
+
+   if(obj_o["md"]["comments_closed"] == 1)
+   {
+     response->flash("msg", "Comments for this article have been closed.");
+     response->redirect("/comments/" + obj_o["path"]);
+     return;
+   }
+ 
+  title = obj_o["title"];
    obj = args*"/";
     
    object t = view->get_view("exec/comment");
@@ -495,6 +512,8 @@ public void comments(Request id, Response response, mixed ... args)
 
    t->add("object", app->render(obj_o["current_version"]["contents"], 
                                                         obj_o, id));
+   response->set_view(t);
+
    if(id->variables->action)
    {
       contents = id->variables->contents;
@@ -504,11 +523,43 @@ public void comments(Request id, Response response, mixed ... args)
             t->add("preview", app->render(contents, obj_o, id));
             break;
          case "Save":
-            object obj_n = FinScribe.Repo.new("comment");
+          if(anonymous && id->variables->check_value != 
+                     id->misc->session_variables[id->variables->check])
+          {
+             response->flash("msg", "Incorrect check image value.");
+             break;
+          }
+          if(anonymous && ! (id->variables->email && id->variables->name))
+          {
+             response->flash("msg", "Name and Email are required for posting without logging in.");
+             break;
+          }
+
+          if(anonymous && (!sizeof(id->variables->email) || !sizeof(id->variables->name)))
+          {
+             response->flash("msg", "Name and Email are required for posting without logging in.");
+             break;
+          }
+          object obj_n = FinScribe.Repo.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
-            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+            if(anonymous)
+            {
+              obj_n["author"] = model->find("user", (["UserName": "anonymous"]))[0];
+            }
+            else
+              obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+
             obj_n->save();
+            if(anonymous)
+            {
+              obj_n["md"]["name"] = id->variables->name;
+             
+              if(id->variables->website)
+                obj_n["md"]["website"] = id->variables->website;
+  
+              obj_n["md"]["email"] = id->variables->email;
+            }
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
           break;
@@ -523,11 +574,58 @@ public void comments(Request id, Response response, mixed ... args)
      contents = "";
    }
 
+   if(anonymous)
+   {
+     t->add("website", id->variables->website || "");
+     t->add("email", id->variables->email || "");
+     t->add("name", id->variables->name || "");
+     if(!id->variables->check)
+     {
+       id->variables->check = get_checkid();
+       id->misc->session_variables[id->variables->check] = make_checkval();
+     }
+     t->add("check", id->variables->check);
+   }
+
+   string check_value = id->variables->check_value || "";
+
+   t->add("check_value", check_value);
+   t->add("anonymous", anonymous);
    t->add("contents", contents);
    t->add("title", title);
-   t->add("obj", obj);
-   
-   response->set_view(t);
+   t->add("obj", obj);   
+}
+
+public void check_image(object id, object response, mixed ... args)
+{
+  string v;
+
+  if(!args[0])
+    v = "INVALID REQUEST";
+
+  if(!id->misc->session_variables[args[0]])
+    v = "INVALID REQUEST";
+
+  else 
+    v = id->misc->session_variables[args[0]];
+
+  object img = Image.Fonts.open_font("goo", 48,0, 1)
+                    ->write(v);
+
+  string i = Image.GIF.encode(img->phaseh());
+
+  response->set_data(i);
+  response->set_type("image/gif");
+}
+
+private string get_checkid()
+{
+  return lower_case(MIME.encode_base64(Crypto.Random.random_string(8))[0..5]);
+}
+
+private string make_checkval()
+{
+   return lower_case(MIME.encode_base64(Crypto.Random.random_string(8))[0..5]);
 }
 
 public void toggle_lock(Request id, Response response, mixed ... args)
@@ -559,6 +657,38 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 	obj_o["md"]["locked"] = !obj_o["md"]["locked"];
 
    response->flash("msg", "Object successfully " + (obj_o["md"]["locked"]?"":"un") + "locked.");
+   response->redirect(id->referrer);
+}
+
+public void toggle_comments(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to toggle comments.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+  object obj_o = model->get_fbobject(args, id);
+
+	if(!obj_o)
+	{
+		response->flash("msg", "Object " + args*"/" + " does not exist.");
+      response->redirect(id->referrer);		
+		return;
+	}
+
+   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
+	{
+		response->flash("msg", "Comments on an object can only be toggled by its owner or an administrator.");
+      response->redirect(id->referrer);		
+		return;
+	}
+	
+	obj_o["md"]["comments_closed"] = !obj_o["md"]["comments_closed"];
+
+   response->flash("msg", "Comments successfully " + (obj_o["md"]["comments_closed"]?"dis":"en") + "abled.");
    response->redirect(id->referrer);
 }
 
@@ -1167,3 +1297,22 @@ private string trackback_error(string e)
   return ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>1</error>\n<message>" + e + "</message>\n</response>\n");
 
 }
+
+public void json_userlist(Request id, Response response, mixed ... args)
+{ 
+  array userlist;
+  if(id->variables->startswith)
+    userlist = model->find("user", (["Name" : Fins.Model.LikeCriteria(id->variables->startswith + "%")]));
+  else
+    userlist = model->find("user", ([]));
+   
+  array list = allocate(sizeof(userlist));   
+  foreach(userlist;int i;object u)
+  {
+    list[i] = (["name": u["Name"], "username": u["UserName"]]);
+  }
+
+  string json = Tools.JSON.serialize((["users": list]));
+   
+  response->set_data(json);
+}   

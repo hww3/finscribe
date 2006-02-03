@@ -236,3 +236,4 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
   }
   response->redirect("listusers");
 }
+

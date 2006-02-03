@@ -183,6 +183,16 @@ int install()
   return i->run();
 }
 
+public string render_wiki(string contents)
+{
+  function f = render_methods["text/wiki"];
+
+  if(f)
+    return f(contents, ([]), ([]));
+  else return contents;
+
+}
+
 public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id)
 {
   string t;

@@ -8,7 +8,13 @@ endif %> page content
         <% else %> 
              <li> <a href="/exec/toggle_lock/<%$object.path%>">lock</a> this page
         <% endif %> 
+      <% if data["comments_closed"] %>
+       <li> <a href="/exec/toggle_comments/<%$object.path%>">enable</a> comments
+     <% else %>
+       <li> <a href="/exec/toggle_comments/<%$object.path%>">disable</a> comments
+     <% endif %>
   <% endif %>
+
 <li> <a href="/exec/new">new</a> page
 <li> <a href="/exec/versions/<%$object.path %>">versions</a> of this page
 </ul>
