@@ -6,6 +6,10 @@ Version 0.4
   widgets (dynamically selected based on datatype). currently the type
   selection dropdown is hardcoded, but everything else is dynamic.
   html content gets a wysiwyg editor.
+- added anonymous posting, with some rudimentary spam control using a
+  "type the text in the image" technique.
+- added the ability for a document owner to disable (or re-enable) commenting
+  on that document.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
