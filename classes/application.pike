@@ -37,7 +37,7 @@ void load_plugins()
 	string plugindir = Stdio.append_path(config->app_dir, "plugins");
 	array p = get_dir(plugindir);
 //	Log.info("current directory is " + getcwd());
-	foreach(p;;string f)
+	foreach(p||({});;string f)
 	{
 		if(f == "CVS") continue;
 		
