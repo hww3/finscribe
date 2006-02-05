@@ -66,7 +66,20 @@ public void actions(Request id, Response response, mixed ... args)
 
 }
 
+public void getcomments(Request id, Response response, mixed ... args)
+{
 
+  object obj = model->get_fbobject(args, id);
+
+  mapping data = ([]);
+
+  data->obj = obj["path"];
+
+  string r = view->render_partial("exec/_comments", data, "comment", obj["comments"]);
+     
+  response->set_data(r);
+
+}
 
 public void editcategory(Request id, Response response, mixed ... args)
 {

@@ -19,7 +19,7 @@
 
 <% if data["user"]  %>
 <div class="snip-buttons">
-[ <a href="javascript:;" onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)" 
+[ <a href="#" onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)" 
 xonmouseout="menuLayers.hide()">actions</a> ]
 </div>
 <% endif %> 
@@ -32,20 +32,47 @@ xonmouseout="menuLayers.hide()">actions</a> ]
       <div class="snip-content">
    <%@ include file="space/attachmentform.phtml" %>
    <%@ include file="space/categoryform.phtml" %>
-<div id="postblog" style="visibility:hidden;">
+<div id="postblog" style="overflow: hidden; height: 0px;">
 </div>
          <%$content%>
 <p/>
 <% if data["object_is_weblog"] %>
 <% else %>
+<script type="text/javascript">
+var comments_displayed = 0;
+
+function showcomments(href, div, path)
+{
+  if(comments_displayed != 0) return false;
+
+    var bindArgs = {
+    url:         "/exec/getcomments/" + path,
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+      document.getElementById(div).innerHTML = data.toString();
+      dojo.fx.html.wipeIn(document.getElementById(div), 100);
+    }
+  };
+    
+    requestObj = dojo.io.bind(bindArgs);
+    comments_displayed = 1;
+  
+  return false;
+}
+</script>
          <b><% if data["numcomments"] %>
-                 <a href="/comments/<%$obj%>"><%$numcomments %> comments</a></b>
+                 <a href="#" onclick="javascript:showcomments(this, 
+'wiper', '<%$obj%>')"><%$numcomments %> comments</a></b>
             <% else %>
                  No comments 
             <% endif %>
  | <a href="/exec/comments/<%$obj%>">Post a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
   <% if data["metadata"]["trackbacks"] %> | <%$metadata.trackbacks%> TrackBacks <% endif %>
          <p/>
+<div id="wiper" style="display:none;"></div>
 <% endif %>
          </div>
       </div>
