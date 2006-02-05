@@ -731,6 +731,73 @@ public void new(Request id, Response response, mixed ... args)
      response->set_view(t);
 }
 
+public void move(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to move content.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+   object obj_o; 
+   object t;
+   string newpath;
+   string movesub;
+
+   t = view->get_view("exec/move");
+   obj_o = model->get_fbobject(args, id);
+
+   app->set_default_data(id, t);
+
+   if(!obj_o)
+   {
+      response->flash("msg", "This is a non-existent object: " + args*"/");
+      response->redirect(id->referrer);		
+      return;
+   }
+
+   if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", "You do not have permission to move this object");
+      response->redirect(id->referrer);		
+      return;
+   }
+
+   if(id->variables->newpath)
+   {
+     newpath = id->variables->newpath;
+   }   
+   else
+   {
+     newpath = obj_o["path"];
+   }
+
+   if(id->variables->action == "Move")
+   {
+     if(newpath == obj_o["path"])
+     {
+       response->flash("msg", "You must specify a location to move to.");
+     }
+     else 
+     {       
+       t->add("getconfirm", 1);
+       t->add("movesub", id->variables->movesub);
+     }
+   }
+
+   if(id->variables->action == "Really Move")
+   {
+
+   }
+
+   t->add("object", obj_o);
+   t->add("newpath", newpath);
+ 
+   response->set_view(t);
+}
+
 public void edit(Request id, Response response, mixed ... args)
 {
    string contents, title, obj, subject, datatype;
@@ -777,7 +844,7 @@ public void edit(Request id, Response response, mixed ... args)
             response->flash("msg", "Edit cancelled.");
 	    response->redirect("/space/" + obj);
 	    return;
-            break;
+	            break;
          case "Preview":
             t->add("preview", app->render(contents, obj_o, id));
             break;
@@ -823,8 +890,7 @@ public void edit(Request id, Response response, mixed ... args)
             string dtp = obj_o["datatype"]["mimetype"];
             if(dtp == "text/template")
             {
-               view->flush_template(args[2..]*"/");
-            }
+               view->flush_template(args[2..]*"/");            }
 
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
