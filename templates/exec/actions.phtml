@@ -3,6 +3,11 @@
 <ul>
   <% if data["iseditable"] %> <li> <a href="/exec/edit/<%$object.path%>">edit</a><% else %> edit <% 
 endif %> page content
+
+  <% if data["iseditable"] %> <li> <a href="/exec/move/<%$object.path%>">move</a><% else %> move 
+<% 
+endif %> page content
+
   <% if data["islockable"] %>
 	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> 
         <% else %> 
