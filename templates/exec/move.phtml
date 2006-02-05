@@ -1,0 +1,34 @@
+<html>
+<head>
+   <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
+<title><%syspref var="site.name" %> :: moving object</title>
+</head>
+<body>
+<%@include file="tagline.phtml" %>
+
+<%@include file="pagebegin.phtml" %>
+   <h3>Move an existing object</h3>
+
+<form action="" method="post">
+Current location: <%$object.path%><br/>
+
+<% if data["getconfirm"] %>
+
+New Object path: <%$newpath%> 
+<input type="hidden" size="40" name="newpath" value="<%$newpath%>"/><br>
+<input type="hidden" size="40" name="movesub" value="<%$movesub%>"/><p>
+<input type="submit" name="action" value="Really Move">
+
+<% else %>
+<input type="text" size="40" name="newpath" value="<%$newpath%>"/><br>
+<br>
+Move all documents under  this location as well? 
+<input type="checkbox" name="movesub" checked="1"/>
+<p/>
+<input type="submit" name="action" value="Move">
+
+<% endif %>
+
+</form>
+
+<%@include file="footer.phtml" %>
