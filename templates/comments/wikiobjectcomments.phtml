@@ -29,29 +29,7 @@ Version #<%$version%>.
          | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
 
          <p/>
-         <% foreach var="comments" val="comment"%>
-<a name="<%$comment.id%>"></a>
-<img src="/static/images/Icon-Comment.png" width="15" height="11" 
-border="0"></a>
-
-
-Posted by 
-<% if data->comment["author"]["UserName"] == "anonymous" %><%$comment.md.name%> (anonymous)
-<% else %>
-<%$comment.author.UserName%>
-<% endif %>, <%$comment.nice_created%>.
-<a href="/comments/<%$obj%>#<%$comment.id%>"><img 
-src="/static/images/Icon-Permalink.png" width="8" height="9" 
-alt="permalink" border="0"/></a>
-
-<% if data->is_admin||(data->UserName && data->UserName==data->comment["author"]["UserName"]) %>
-<a href="/exec/deletecomment?id=<%$comment.id%>">Delete</a>
-<% endif %>
-
-<p/>
-         <%$comment.wiki_contents%>
-         <p/>
-         <% end %>
+<%$comments%>
          </div>
       </div>
       </div>

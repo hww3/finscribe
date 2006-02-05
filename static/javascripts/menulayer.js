@@ -193,7 +193,7 @@ var bindArgs = {
         if(!d)
           return;
         d.innerHTML = data.toString();
-        d.style.visibility='visible';
+      dojo.fx.html.wipeIn(d, 1000);
     }
 
 };
