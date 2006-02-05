@@ -21,8 +21,8 @@ mapping query_type_callers()
 string get_widget(string contents)
 {
      return "<script type=\"text/javascript\">dojo.require(\"dojo.widget.Editor\"); </script> "
-                        "<div style=\"border: 1px dashed #999999;\"><textarea rows=\"10\" cols=\"60\" name=\"contents\" dojoType=\"Editor\">" + 
-                        contents + "</textarea></div>";
+                        "<div style=\"height: 300px; width: 100%; border-width: 1px; border-style: dashed; border-color: #999999; overflow: auto\"><textarea name=\"contents\" items=\"textGroup;|;listGroup;|;linkGroup;|;colorGroup;|;indentGroup;\" dojoType=\"Editor\">" + 
+                        (contents||"Edit your document contents here.") + "</textarea></div>";
 
 }
 
