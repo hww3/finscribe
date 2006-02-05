@@ -529,6 +529,10 @@ public void comments(Request id, Response response, mixed ... args)
              response->flash("msg", "Incorrect check image value.");
              break;
           }
+          else
+          {
+              m_delete(id->misc->session_variables, id->variables->check);
+          }
           if(anonymous && ! (id->variables->email && id->variables->name))
           {
              response->flash("msg", "Name and Email are required for posting without logging in.");
