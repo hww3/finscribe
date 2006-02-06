@@ -22,7 +22,7 @@
 <% if data["user"] %>
 | logged in as <%$UserName%> | <a href="/exec/logout">logout</a>
 <% if data["object_is_weblog"] %>
-      |  <a onclick="postBlog('postblog', '<%$obj%>')">post blog</a>
+      |  <a href="#" onclick="postBlog('postblog', '<%$obj%>')">post blog</a>
 <!--      |  <a href="/exec/post/<%$obj%>">post blog</a> -->
   <% endif %>
   <% if data["is_admin"]==1 %> 
@@ -32,7 +32,8 @@
 <!--
 | <a href="/exec/login">login</a> 
 -->
-| <a onclick="showLogin('actions', '/exec/login', event, this)">login</a>
+| <a href="#" onclick="showLogin('actions', '/exec/login', event, 
+this)">login</a>
 <% endif %>
 
 ]
