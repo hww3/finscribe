@@ -20,7 +20,7 @@ import Fins.Model;
       add_field(TransformField("title", "path", get_title));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", c));
-      add_field(StringField("metadata", 1024, 0, ""));
+      add_field(BinaryStringField("metadata", 1024, 0, ""));
       add_field(TransformField("md", "metadata", get_md));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));

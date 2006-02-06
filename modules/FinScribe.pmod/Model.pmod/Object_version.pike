@@ -14,7 +14,7 @@ import Fins.Model;
       add_field(IntField("version", 0, 1));
       add_field(StringField("subject", 128, 1));
       add_field(TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
-      add_field(StringField("contents", 102400, 0));
+      add_field(BinaryStringField("contents", 102400, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));

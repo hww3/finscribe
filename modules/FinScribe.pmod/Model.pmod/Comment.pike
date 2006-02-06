@@ -15,7 +15,7 @@ import Fins.Model;
       add_field(KeyReference("author", "author_id", "user"));
       add_field(StringField("contents", 1024, 0));
       add_field(DateTimeField("created", 0, created));
-      add_field(StringField("metadata", 1024, 0, "")); 
+      add_field(BinaryStringField("metadata", 1024, 0, "")); 
       add_field(TransformField("md", "metadata", get_md));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(TransformField("wiki_contents", "contents", c->app->render_wiki));

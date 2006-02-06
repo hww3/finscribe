@@ -24,7 +24,7 @@ CREATE TABLE comments (
   author_id integer NOT NULL default '0',
   created timestamp NOT NULL default '1970-01-01 00:00:00+00',
   contents varchar(65000),
-  metadata text,
+  metadata bytea,
   PRIMARY KEY  (id)
 )
 
@@ -46,7 +46,7 @@ CREATE TABLE object_versions (
   author_id integer NOT NULL default '0',
   created timestamp NOT NULL default '1970-01-01 00:00:00+00',
   subject varchar(128) default NULL,
-  contents text NOT NULL,
+  contents bytea NOT NULL,
   version integer NOT NULL default '0',
   PRIMARY KEY  (id)
 )
@@ -61,7 +61,7 @@ CREATE TABLE objects (
   parent_id integer NULL default '0',
   datatype_id integer NOT NULL default '0',
   is_attachment integer default NULL,
-  metadata text,
+  metadata bytea,
   PRIMARY KEY  (id)
 )
 
