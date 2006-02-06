@@ -1,0 +1,43 @@
+<html>
+<head>
+  <%@include file="header.phtml"%>
+   <title><%syspref var="site.name" %> :: admin :: pluginlist</title>
+</head>
+<body>
+<%@include file="tagline.phtml"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>Plugin List</h3>
+        
+        <table>
+            <tr><td>Plugin Name</td><td>Enabled</td></tr>
+          <% foreach var="plugins" val="plugin"%>
+        <tr>
+            <td><%$plugin.name%></td>
+            <td><%boolean var="plugin.enabled"%></td>
+        </tr>
+        <tr>
+            <td colspan="2"><i><%$plugin.description%></i></td>
+        </tr>
+          <% end %>
+        </table>
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+
