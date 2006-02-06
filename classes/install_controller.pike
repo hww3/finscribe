@@ -47,8 +47,9 @@ public void populateprefs(Request id, Response response, mixed ... args)
 
 public void createadminuser(Request id, Response response, mixed ... args)
 {
+    object u;
   mixed e = catch {
-    object u = FinScribe.Model.User();
+    u = FinScribe.Model.User();
     u["UserName"] = id->variables->adminuser;
     u["Name"] = id->variables->adminuser;
     u["Password"] = id->variables->adminpassword;
@@ -57,7 +58,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
     u["is_active"] = 1;
     u->save();
 
-    object u = FinScribe.Model.User();
+    u = FinScribe.Model.User();
     u["UserName"] = "anonymous";
     u["Name"] = "Anonymous";
     u["Password"] = "*LCK*";
@@ -127,6 +128,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   config->set_value("model", "datasource", id->variables->dburl);
 
   app->kick_model();
+  app->load_plugins();
 
   response->set_data("true");
 

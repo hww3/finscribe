@@ -5,7 +5,7 @@ inherit FinScribe.Plugin;
 
 constant name="Full Text indexing";
 
-int _enabled = 1;
+int _enabled = 0;
 
 mapping query_event_callers()
 {
@@ -59,15 +59,14 @@ int updateIndex(string event, object id, object obj)
 {
   Log.info("saved " + obj["path"]);  
 
-  object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/update/?PSESSIONID=123");
+  object c = Protocols.XMLRPC.Client(app->get_sys_pref("plugin.fulltext.indexserver")->get_value());
 
-  werror("calling textify()\n");
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
   werror("textify() returned " + t + "\n");
   if(obj["path"] && strlen(obj["path"]))
   werror("deleteions: %O\n", 
-c["delete_by_handle"](app->get_syspref("site.url")["Value"], obj["path"]));  
-  c["add"](app->get_syspref("site.url")["Value"], obj["title"], 
+c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]));  
+  c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
       obj["title"] + " " + t, obj["path"], 
       FinScribe.Blog.make_excerpt(t));
