@@ -91,6 +91,7 @@ void start_plugins()
            // we don't start up plugins that explicitly tell us not to.
            if(plugin->enabled && !plugin->enabled())
              continue;
+           Log.debug("Starting " + name);
 
 		if(plugin->start && functionp(plugin->start))
 		  plugin->start();
