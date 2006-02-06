@@ -12,7 +12,11 @@ void create(Fins.Application _app)
 
 int installed();
 
-int enabled();
+int enabled()
+{
+  return 1;
+}
+
 
 void start();
 
