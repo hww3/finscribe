@@ -2,6 +2,8 @@ inherit FinScribe.Plugin;
 
 constant name = "HTML content type support";
 
+int _enabled = 1;
+
 void start()
 {
 	werror("starting html");

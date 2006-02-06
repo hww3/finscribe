@@ -7,6 +7,8 @@ inherit FinScribe.Plugin;
 
 constant name="Wiki Markup Renderer";
 
+int _enabled = 1;
+
 mapping query_type_callers()
 {
   return ([ "text/wiki": wikiengine(app) ]);

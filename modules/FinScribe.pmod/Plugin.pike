@@ -5,6 +5,8 @@ Fins.Application app;
 constant name = "";
 constant description = "";
 
+int _enabled = 0;
+
 void create(Fins.Application _app)
 {
 	app = _app;
@@ -14,7 +16,10 @@ int installed();
 
 int enabled()
 {
-  return 1;
+  mixed m;
+
+  m = app->new_pref("plugin." + name + ".enabled", _enabled, FinScribe.BOOLEAN);
+  return m->get_value();
 }
 
 

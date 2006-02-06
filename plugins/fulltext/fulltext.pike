@@ -5,6 +5,8 @@ inherit FinScribe.Plugin;
 
 constant name="Full Text indexing";
 
+int _enabled = 1;
+
 mapping query_event_callers()
 {
   return (["postSave": updateIndex ]);

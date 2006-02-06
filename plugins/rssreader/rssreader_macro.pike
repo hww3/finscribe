@@ -5,6 +5,8 @@ inherit FinScribe.Plugin;
 
 constant name="RSS Reader Macro";
 
+int _enabled = 1;
+
 mapping(string:object) query_macro_callers()
 {
   return ([ "rss-reader": rss_macro() ]);
