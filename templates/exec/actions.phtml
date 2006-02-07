@@ -6,7 +6,12 @@ endif %> page content
 
   <% if data["iseditable"] %> <li> <a href="/exec/move/<%$object.path%>">move</a><% else %> move 
 <% 
-endif %> page content
+endif %> page
+
+  <% if data["isdeleteable"] %> <li> <a 
+href="/exec/delete/<%$object.path%>">delete</a><% else %> delete 
+<% 
+endif %> page
 
   <% if data["islockable"] %>
 	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> 
@@ -20,8 +25,9 @@ endif %> page content
      <% endif %>
   <% endif %>
 
-<li> <a href="/exec/new">new</a> page
 <li> <a href="/exec/versions/<%$object.path %>">versions</a> of this page
+<p>
+<li> <a href="/exec/new">new</a> page
 </ul>
 <% else %>
 You are not logged in. 

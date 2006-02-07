@@ -66,6 +66,7 @@ public void actions(Request id, Response response, mixed ... args)
   t->add("object", obj);
   t->add("islocked", obj["md"]["locked"]);
   t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
+  t->add("isdeleteable", obj->is_deleteable(t->get_data()["user_object"]));
   t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
   t->add("comments_closed", obj["md"]["comments_closed"]);
 
@@ -765,7 +766,7 @@ public void move(Request id, Response response, mixed ... args)
       return;
    }
 
-   if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
+   if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
       response->flash("msg", "You do not have permission to move this object");
       response->redirect(id->referrer);		
@@ -818,9 +819,9 @@ public void move(Request id, Response response, mixed ... args)
          // is it really as simple as just renaming the path?
          string pth = p["path"];
          pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
-Log.debug("Checking to see if %s has an overlap at %s...", p["path"], 
-pth);
-         if(sizeof(FinScribe.Repo.find("object", ([ "path": pth]))))
+Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
+         if(!p->is_deleteable(t->get_data()["user_object"]) || 
+                   sizeof(FinScribe.Repo.find("object", ([ "path": pth]))))
          {
            overlaps += ({pth});
          }
@@ -828,7 +829,7 @@ pth);
 
        if(sizeof(overlaps))
        {
-         response->flash("msg", "One or more objects already exist in the location you're moving to: <p/>" + (overlaps*"<br>") );
+         response->flash("msg", "One or more objects already exist in the location you're moving to or cannot be moved because of permissions: <p/>" + (overlaps*"<br>") );
        }
        else 
        {       
@@ -911,7 +912,7 @@ public void delete(Request id, Response response, mixed ... args)
       return;
    }
 
-   if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
+   if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
       response->flash("msg", "You do not have permission to delete this object");
       response->redirect(id->referrer);		
@@ -940,7 +941,7 @@ public void delete(Request id, Response response, mixed ... args)
        foreach(a;;mixed p)
        {
 Log.debug("Checking to see if %s is deleteable...", p["path"]);
-         if(!p->is_editable(t->get_data()["user_object"]))
+         if(!p->is_deleteable(t->get_data()["user_object"]))
          {
            overlaps += ({p["path"]});
          }
@@ -960,7 +961,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
        }
    }
 
-   if(id->variables->action == "Really Move")
+   if(id->variables->action == "Really Delete")
    {
      // ok, first, let's get a list of objects to move.
      array a;
@@ -982,15 +983,17 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      {
        string pth = p["path"];
 
-Log.debug("deleting %s.", p["path"]);
-
+       Log.debug("deleting %s.", p["path"]);
+       int pid = p->get_id();
+       foreach(p["comments"];; object c)
+          c->delete(1);
        p->delete(1);
  
-       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
+       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", pid));
        n++;
      }
 
-     t->add("msg", n + " objects moved.");
+     t->add("msg", n + " objects deleted.");
      response->redirect("/space/" + newpath);
      return;
    }
