@@ -30,6 +30,10 @@ Move all documents under  this location as well?
 <input type="checkbox" name="movesub" value="1" <%if data["movesub"] %>checked="1" <% endif %>/>
 <p/>
 <input type="submit" name="action" value="Move">
+<p>
+<i>Note:</i> moving established document locations is not recommended, as 
+existing links may be broken. Be sure to update any existing documents 
+that link to the objects being moved.
 
 <% endif %>
 

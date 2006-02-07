@@ -21,6 +21,13 @@ public void notfound(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
+/*
+
+     array f = FinScribe.model.find("object", (["path": Fins.Model.LikeCriteria((args*"/")+ "/%")]) );
+
+     if(f & sizeof(f))
+       t->add("dir", f);
+*/
      t->add("obj", args*"/");
      response->set_view(t);
 }
