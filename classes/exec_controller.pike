@@ -781,6 +781,8 @@ public void move(Request id, Response response, mixed ... args)
      newpath = obj_o["path"];
    }
 
+   array a = ({});
+
    if(id->variables->action == "Move")
    {
      if(newpath == obj_o["path"])
@@ -789,17 +791,19 @@ public void move(Request id, Response response, mixed ... args)
      }
      else
      {
-       array a = ({});
        string oldpath = obj_o["path"];
- 
+
        if(id->variables->movesub)
          a = FinScribe.Repo.find("object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
-                "type": Fins.Model.Criteria("type != 2")])) 
+                "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
        a += FinScribe.Repo.find("object", ([ "path": oldpath, 
-                 "type": Fins.Model.Criteria("type = 2") ]));
+                 "type": Fins.Model.Criteria("is_attachment = 2") ]));
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+
        array overlaps = ({});
 
        foreach(a;;mixed p)
@@ -821,6 +825,8 @@ pth);
        }
        else 
        {       
+         if(a && sizeof(a))
+           t->add("affected", a);
          t->add("getconfirm", 1);
          if(id->variables->movesub)
            t->add("movesub", id->variables->movesub);
@@ -831,13 +837,16 @@ pth);
    if(id->variables->action == "Really Move")
    {
      // ok, first, let's get a list of objects to move.
-     array a;
      string oldpath = obj_o["path"];
  
-     if(id->variables->movesub)
-       a = FinScribe.Repo.find("object", 
-             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%")])) 
+       if(id->variables->movesub)
+         a = FinScribe.Repo.find("object",
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
+                "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath, 
+                 "type": Fins.Model.Criteria("is_attachment = 2") ]));
 
      a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
 
@@ -851,6 +860,125 @@ pth);
 Log.debug("moving %s to %s.", p["path"], pth);
  
        p["path"] = pth;
+       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
+       n++;
+     }
+
+     t->add("msg", n + " objects moved.");
+     response->redirect("/space/" + newpath);
+     return;
+   }
+
+   
+
+   t->add("object", obj_o);
+   t->add("newpath", newpath);
+ 
+   response->set_view(t);
+}
+
+public void delete(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to delete content.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+
+   object obj_o; 
+   object t;
+   string newpath;
+   string movesub;
+
+   t = view->get_view("exec/delete");
+   obj_o = model->get_fbobject(args, id);
+
+   app->set_default_data(id, t);
+
+   if(!obj_o)
+   {
+      response->flash("msg", "This is a non-existent object: " + args*"/");
+      response->redirect(id->referrer);	
+      return;
+   }
+
+   if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", "You do not have permission to delete this object");
+      response->redirect(id->referrer);		
+      return;
+   }
+
+   array a = ({});
+
+   if(id->variables->action == "Delete")
+   {
+       string oldpath = obj_o["path"];
+
+     if(id->variables->movesub)
+         a = FinScribe.Repo.find("object",
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
+                "type": Fins.Model.Criteria("is_attachment != 2")])) 
+           || ({});     
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath + "/%", 
+                 "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath ])) || ({});
+
+       array overlaps = ({});
+
+       foreach(a;;mixed p)
+       {
+Log.debug("Checking to see if %s is deleteable...", p["path"]);
+         if(!p->is_editable(t->get_data()["user_object"]))
+         {
+           overlaps += ({p["path"]});
+         }
+       }
+
+       if(sizeof(overlaps))
+       {
+         response->flash("msg", "You do not have permission to delete one or more objects: <p/>" + (overlaps*"<br>") );
+       }
+       else 
+       {       
+         t->add("getconfirm", 1);
+         if(a)
+           t->add("affected", a);
+         if(id->variables->movesub)
+           t->add("movesub", id->variables->movesub);
+       }
+   }
+
+   if(id->variables->action == "Really Move")
+   {
+     // ok, first, let's get a list of objects to move.
+     array a;
+     string oldpath = obj_o["path"];
+ 
+     if(id->variables->movesub)
+         a = FinScribe.Repo.find("object",
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
+                "type": Fins.Model.Criteria("is_attachment != 2")])) 
+           || ({});     
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath + "/%", 
+                 "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
+
+     a += FinScribe.Repo.find("object", ([ "path": oldpath ])) || ({});
+
+     int n;
+     foreach(a;; object p)
+     {
+       string pth = p["path"];
+
+Log.debug("deleting %s.", p["path"]);
+
+       p->delete(1);
+ 
        cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
        n++;
      }
