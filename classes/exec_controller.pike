@@ -783,6 +783,13 @@ public void move(Request id, Response response, mixed ... args)
 
    array a = ({});
 
+   if(id->variables->action == "Cancel")
+   {
+     response->flash("msg", "Move operation cancelled.");
+     response->redirect("/space/" + (args*"/"));
+     return;
+   }
+
    if(id->variables->action == "Move")
    {
      if(newpath == obj_o["path"])

@@ -31,6 +31,7 @@ New Object path: <%$newpath%>
 <p>
 <% endif %>
 
+<input type="submit" name="action" value="Cancel">
 <input type="submit" name="action" value="Really Move">
 
 <% else %>
@@ -39,6 +40,7 @@ New Object path: <%$newpath%>
 Move all documents under  this location as well? 
 <input type="checkbox" name="movesub" value="1" <%if data["movesub"] %>checked="1" <% endif %>/>
 <p/>
+<input type="submit" name="action" value="Cancel">
 <input type="submit" name="action" value="Move">
 <p>
 <i>Note:</i> moving established document locations is not recommended, as 
