@@ -794,10 +794,12 @@ public void move(Request id, Response response, mixed ... args)
  
        if(id->variables->movesub)
          a = FinScribe.Repo.find("object",
-             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%")])) 
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
+                "type": Fins.Model.Criteria("type != 2")])) 
            || ({});     
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+       a += FinScribe.Repo.find("object", ([ "path": oldpath, 
+                 "type": Fins.Model.Criteria("type = 2") ]));
        array overlaps = ({});
 
        foreach(a;;mixed p)
