@@ -59,10 +59,12 @@ int updateIndex(string event, object id, object obj)
 {
   Log.info("saved " + obj["path"]);  
 
-  object c = Protocols.XMLRPC.Client(app->get_sys_pref("plugin.fulltext.indexserver")->get_value());
+  object p = app->get_sys_pref("plugin.fulltext.indexserver");
+  if(!p) return 0;
+
+  object c = Protocols.XMLRPC.Client(p->get_value());
 
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
-  werror("textify() returned " + t + "\n");
   if(obj["path"] && strlen(obj["path"]))
   werror("deleteions: %O\n", 
 c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]));  
