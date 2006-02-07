@@ -17,14 +17,15 @@
           <h3>Plugin List</h3>
         
         <table>
-            <tr><td>Plugin Name</td><td>Enabled</td></tr>
+            <tr><td><b>Plugin Name</b></td><td><b>Enabled</b></td><td> &nbsp; </td></tr>
           <% foreach var="plugins" val="plugin"%>
         <tr>
             <td><%$plugin.name%></td>
-            <td><%boolean var="plugin.enabled"%></td>
+            <td><a href="toggle_enabled?plugin=<%$plugin.name%>"><%boolean var="plugin.enabled"%></a></td>
+			<td><a href="edit_prefs?plugin=<%$plugin.name%>">Prefs &gt;&gt;</a></td>
         </tr>
         <tr>
-            <td colspan="2"><i><%$plugin.description%></i></td>
+            <td colspan="3"><i><%$plugin.description%></i> &nbsp; </td>
         </tr>
           <% end %>
         </table>

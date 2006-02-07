@@ -15,6 +15,10 @@ Current location: <%$object.path%><br/>
 <% if data["getconfirm"] %>
 
 New Object path: <%$newpath%> 
+  <% if data["movesub"] %>
+  <br/>
+  Moving all subcontent as well.
+  <% endif %>
 <input type="hidden" size="40" name="newpath" value="<%$newpath%>"/><br>
 <input type="hidden" size="40" name="movesub" value="<%$movesub%>"/><p>
 <input type="submit" name="action" value="Really Move">
@@ -23,7 +27,7 @@ New Object path: <%$newpath%>
 <input type="text" size="40" name="newpath" value="<%$newpath%>"/><br>
 <br>
 Move all documents under  this location as well? 
-<input type="checkbox" name="movesub" checked="1"/>
+<input type="checkbox" name="movesub" value="1" <%if data["movesub"] %>checked="1" <% endif %>/>
 <p/>
 <input type="submit" name="action" value="Move">
 

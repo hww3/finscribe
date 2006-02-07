@@ -780,17 +780,49 @@ public void move(Request id, Response response, mixed ... args)
      {
        response->flash("msg", "You must specify a location to move to.");
      }
+     else if(sizeof(FinScribe.Repo.find("object", (["path": newpath]))))
+     {
+       response->flash("msg", "An object already exists at " + newpath + ".");
+     }
      else 
      {       
        t->add("getconfirm", 1);
-       t->add("movesub", id->variables->movesub);
+       if(id->variables->movesub)
+         t->add("movesub", id->variables->movesub);
      }
    }
 
    if(id->variables->action == "Really Move")
    {
+     // ok, first, let's get a list of objects to move.
+     array a;
+     string oldpath = obj_o["path"];
+ 
+     if(id->variables->movesub)
+       a = FinScribe.Repo.find("object", 
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%")])) 
+           || ({});     
 
+     a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+
+     int n;
+     foreach(a;; object p)
+     {
+       // is it really as simple as just renaming the path?
+       string pth = p["path"];
+       pth = replace(pth, oldpath, newpath);
+ 
+       p["path"] = pth;
+       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
+       n++;
+     }
+
+     t->add("msg", n + " objects moved.");
+     response->redirect("/space/" + newpath);
+     return;
    }
+
+   
 
    t->add("object", obj_o);
    t->add("newpath", newpath);
