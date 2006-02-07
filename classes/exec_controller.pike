@@ -780,15 +780,42 @@ public void move(Request id, Response response, mixed ... args)
      {
        response->flash("msg", "You must specify a location to move to.");
      }
-     else if(sizeof(FinScribe.Repo.find("object", (["path": newpath]))))
+     else
      {
-       response->flash("msg", "An object already exists at " + newpath + ".");
-     }
-     else 
-     {       
-       t->add("getconfirm", 1);
+       array a = ({});
+       string oldpath = obj_o["path"];
+ 
        if(id->variables->movesub)
-         t->add("movesub", id->variables->movesub);
+         a = FinScribe.Repo.find("object",
+             ([ "path": Fins.Model.LikeCriteria(oldpath + "/%")])) 
+           || ({});     
+
+       a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+       array overlaps = ({});
+
+       foreach(a;;mixed p)
+       {
+         // is it really as simple as just renaming the path?
+         string pth = p["path"];
+         pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
+Log.debug("Checking to see if %s has an overlap at %s...", p["path"], 
+pth);
+         if(sizeof(FinScribe.Repo.find("object", ([ "path": pth]))))
+         {
+           overlaps += ({pth});
+         }
+       }
+
+       if(sizeof(overlaps))
+       {
+         response->flash("msg", "One or more objects already exist in the location you're moving to: <p/>" + (overlaps*"<br>") );
+       }
+       else 
+       {       
+         t->add("getconfirm", 1);
+         if(id->variables->movesub)
+           t->add("movesub", id->variables->movesub);
+       }
      }
    }
 
@@ -810,7 +837,9 @@ public void move(Request id, Response response, mixed ... args)
      {
        // is it really as simple as just renaming the path?
        string pth = p["path"];
-       pth = replace(pth, oldpath, newpath);
+       pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
+
+Log.debug("moving %s to %s.", p["path"], pth);
  
        p["path"] = pth;
        cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
