@@ -104,8 +104,6 @@ var bindArgs = {
 
 // dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
-
-
   },
 
   low_show: function() {
@@ -171,7 +169,6 @@ function showLogin(id, o, e, item)
            if(elem.id =="UserName"){ elem.focus(); }
      }
   );
-
 }
 
 function hideLogin(id)
@@ -179,7 +176,7 @@ function hideLogin(id)
   return menuLayers.hide();
 }
 
-function postBlog(id, obj, formid)
+function postBlog(id, obj, formid, noanim)
 {
 var bindArgs = { 
     url:        "/exec/post/" + obj,  
@@ -193,10 +190,11 @@ var bindArgs = {
         if(!d)
           return;
         d.innerHTML = data.toString();
-      dojo.fx.html.wipeIn(d, 1000);
+     if(!noanim)
+       dojo.fx.html.wipeIn(d, 500);
     }
 
-};
+  };
 
   if(formid)
   {
@@ -209,6 +207,24 @@ var bindArgs = {
     var requestObj = dojo.io.bind(bindArgs);
    
   
+}
+
+function saveBlog(id, obj)
+{
+	hideBlog(id, obj);
+	window.location = window.location + "?refresh=1";
+    
+}
+
+function hideBlog(id, obj)
+{
+//         d.innerHTML = data.toString();
+   var d = document.getElementById(id);
+   if(d)
+   {
+	  dojo.fx.html.wipeOut(d, 500);
+   }
+   return false;
 }
 
 function showDatePicker() {

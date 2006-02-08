@@ -195,7 +195,7 @@ public string render_wiki(string contents)
 
 }
 
-public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id)
+public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id, int|void force)
 {
   string t;
   if(obj)
@@ -220,7 +220,7 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
   }
 
   if(f)
-    return f(contents, (["request": id, "obj": obj]), ((id&&id->variables->weblog)?1:0));
+    return f(contents, (["request": id, "obj": obj]), ((force||(id&&id->variables->weblog))?1:0));
   else return contents;
 }
 

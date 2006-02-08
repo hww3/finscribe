@@ -72,7 +72,7 @@ private void handle_wiki(object obj, Request id, Response response){
 
   t->add("obj", obj["path"]);
   t->add("title", title);
-  t->add("content", app->render(contents, obj, id));
+  t->add("content", app->render(contents, obj, id, id->variables->refresh));
   t->add("author", obj["author"]["Name"]);
   t->add("author_username", obj["author"]["UserName"]);
   t->add("when", model->get_when(v["created"]));
