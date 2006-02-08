@@ -526,8 +526,15 @@ public void comments(Request id, Response response, mixed ... args)
  
   title = obj_o["title"];
    obj = args*"/";
-    
-   object t = view->get_view("exec/comment");
+  
+  object t;
+
+   if(id->variables->ajax)
+   {
+     t = view->get_view("exec/_comment");
+     t->add("ajax", 1);
+   }
+   else t = view->get_view("exec/comment");
 
    app->set_default_data(id, t);
 
@@ -585,8 +592,16 @@ public void comments(Request id, Response response, mixed ... args)
   
               obj_n["md"]["email"] = id->variables->email;
             }
-            response->flash("msg", "Succesfully Saved.");
-            response->redirect("/space/" + obj);
+            if(!id->variables->ajax)
+			{
+	      	  response->flash("msg", "Succesfully Saved.");
+              response->redirect("/space/" + obj);
+			}
+			else
+			{
+				response->set_data("Successfully added comment.");
+				return;
+			}
           break;
        default:
           response->set_data("Unknown comment action %s", id->variables->action);

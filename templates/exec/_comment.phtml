@@ -1,0 +1,43 @@
+
+   <h3>Commenting: <%$obj%></h3>
+
+   <p>
+
+
+   <%$object%>
+
+<p/>
+
+<form action="" id="postcomments" method="post">
+
+<% if data["anonymous"] %>
+
+<b>Name:</b> <input type="text" size="35" name="name" value="<%$name%>"><br/>
+<b>Email:</b> <input type="text" size="35" name="email" value="<%$email%>"><br/>
+<b>Website:</b> <input type="text" size="35" name="website" value="<%$website%>">
+<p>
+<img src="/exec/check_image/<%$check %>">
+<br/>
+Type the text displayed in the image above: <input type="text" size="15" 
+name="check_value"/>
+<input type="hidden" value="<%$check %>" name="check"/>
+<p>
+<% endif %>
+
+<textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
+<br>
+<% if data["ajax"] %>
+<input type="hidden" id="postaction" name="action">
+<input type="button" onclick="document.getElementById('postaction').value='Preview'; postComments('commentsbox', '<%$obj%>', 'postcomments', 1); return false;" value="Preview">
+<input type="button" onclick="hideComments('commentsbox'); return false;" value="Cancel">
+<input type="button" onclick="document.getElementById('postaction').value='Save'; saveComments('commentsbox', '<%$obj%>', 'postcomments', 1);" value="Save">
+<% else %>
+<input type="submit" name="action" value="Preview">
+<input type="submit" name="action" value="Save">
+<% endif %>
+</form>
+
+<% if data->preview %>
+Preview:<p>
+<%$preview%>
+<% endif %>

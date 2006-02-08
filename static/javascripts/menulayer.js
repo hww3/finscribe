@@ -227,6 +227,141 @@ function hideBlog(id, obj)
    return false;
 }
 
+function hideComments(id)
+{
+	var d = document.getElementById(id);
+	   if(d)
+	   {
+		  dojo.fx.html.fadeOut(d, 500);
+          d.innerHTML = "";
+	   }
+	   return false;	
+}
+
+function saveComments(id, obj, formid, noanim)
+{
+var bindArgs = { 
+    url:        "/exec/comments/" + obj,  
+    content: {ajax: "1"},
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById(id);
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+
+      hideComments('commentsbox');
+      displayComments('wiper', obj);
+    }
+
+  };
+
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
+  }
+    
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+  
+}
+
+
+function postComments(id, obj, formid, noanim)
+{
+var bindArgs = { 
+    url:        "/exec/comments/" + obj,  
+    content: {ajax: "1"},
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById(id);
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+     if(!noanim)
+       dojo.fx.html.wipeIn(d, 500);
+    }
+
+  };
+
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
+  }
+    
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+  
+}
+
+function showComments(id, obj, formid, noanim)
+{
+var bindArgs = { 
+    url:        "/exec/comments/" + obj,  
+    content: {ajax: "1"},
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById(id);
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+        d.style.padding = "10px";
+     if(!noanim)
+       dojo.fx.html.fadeIn(d, 500);
+    }
+
+  };
+
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
+  }
+    
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+  
+}
+
+dojo.provide("dojo.widget.YellowFade")
+dojo.provide("dojo.widget.HtmlYellowFade")
+dojo.require("dojo.widget.*");
+dojo.require("dojo.graphics.*");
+dojo.widget.HtmlYellowFade = function() {
+    dojo.widget.HtmlWidget.call(this);
+    this.widgetType = "YellowFade";
+    this.delay    = 0;
+    this.duration = 4000;
+    this.initColor = "#FFFFC0";
+    this.buildRendering = function(args, frag) {
+        var o = frag["dojo:yellowfade"]["nodeRef"];
+        dojo.graphics.htmlEffects.colorFadeIn(o, 
+dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay);
+    }
+}
+dj_inherits(dojo.widget.HtmlYellowFade, dojo.widget.HtmlWidget);
+dojo.widget.tags.addParseTreeHandler("dojo:yellowfade");
+
+
+
+
 function showDatePicker() {
 var block = document.getElementById("datePicker");
 var picker;

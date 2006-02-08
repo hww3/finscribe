@@ -41,9 +41,12 @@ xonmouseout="menuLayers.hide()">actions</a> ]
 <script type="text/javascript">
 var comments_displayed = 0;
 
-function showcomments(href, div, path)
+function displayComments(div, path, force)
 {
-  if(comments_displayed != 0) return false;
+  //if(comments_displayed != 0) return false;
+
+  if(comments_displayed !=0)
+    dojo.fx.html.wipeOut(document.getElementById(div), 100);
 
     var bindArgs = {
     url:         "/exec/getcomments/" + path,
@@ -64,15 +67,18 @@ function showcomments(href, div, path)
 }
 </script>
          <b><% if data["numcomments"] %>
-                 <a href="#" onclick="javascript:showcomments(this, 
-'wiper', '<%$obj%>')"><%$numcomments %> comments</a></b>
+                 <a href="#" onclick="displayComments('wiper', '<%$obj%>')"><%$numcomments %> comments</a></b>
             <% else %>
                  No comments 
             <% endif %>
- | <a href="/exec/comments/<%$obj%>">Post a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
+ | <a href="#" onclick="showComments('commentsbox', '<%$obj%>'); return false;">Post a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
   <% if data["metadata"]["trackbacks"] %> | <%$metadata.trackbacks%> TrackBacks <% endif %>
          <p/>
 <div id="wiper" style="display:none;"></div>
+
+<div id="commentsbox" style="background-color: #f5f5f5; opacity: .3;
+filter: alpha(opacity=30); display: hidden; position: absolute; top: 100px; left: 50px; z-index: 10;"></div>
+
 <% endif %>
          </div>
       </div>

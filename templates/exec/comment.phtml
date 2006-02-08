@@ -6,41 +6,7 @@
 <body>
 <%@include file="tagline.phtml"%>
 <%@include file="pagebegin.phtml"%>
-   <h3>Commenting: <%$obj%></h3>
-
-   <p>
-
-
-   <%$object%>
-
-<p/>
-
-<form action="" method="post">
-
-<% if data["anonymous"] %>
-
-<b>Name:</b> <input type="text" size="35" name="name" value="<%$name%>"><br/>
-<b>Email:</b> <input type="text" size="35" name="email" value="<%$email%>"><br/>
-<b>Website:</b> <input type="text" size="35" name="website" value="<%$website%>">
-<p>
-<img src="/exec/check_image/<%$check %>">
-<br/>
-Type the text displayed in the image above: <input type="text" size="15" 
-name="check_value"/>
-<input type="hidden" value="<%$check %>" name="check"/>
-<p>
-<% endif %>
-
-<textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
-<br>
-<input type="submit" name="action" value="Preview">
-<input type="submit" name="action" value="Save">
-</form>
-
-<% if data->preview %>
-Preview:<p>
-<%$preview%>
-<% endif %>
-
+ 
+<%@include file="exec/_comment.phtml"%>
 <%@include file="footer.phtml"%>
 
