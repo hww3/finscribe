@@ -87,6 +87,7 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("object", obj);
   t->add("metadata", obj->get_metadata());
 
+
 /*
   t->add("islocked", obj["md"]["locked"]);
   t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
@@ -99,6 +100,9 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("categories", (obj["categories"]));
   t->add("metadata", obj["md"]); 
   t->add("numtrackbacks", sizeof(obj["md"]["trackbacks"] || ([])));
+
+  t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data()));
+
   response->set_view(t);
 
 }

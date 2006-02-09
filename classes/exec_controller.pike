@@ -94,67 +94,75 @@ Log.debug("INFO: %O", data);
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
+werror("%O\n", mkmapping(indices(id), values(id)));
    if(!args || !sizeof(args))
    {
-     response->set_data(LOCALE(3, "You must provide an object to modify categories for.\n"));
+     response->set_data("You must provide an object to modify categories for.\n");
+     return;
    }
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", LOCALE(4, "You must login to edit a category."));
-      response->flash("from", id->not_query);
-      response->redirect("/exec/login");
-      return;
+     response->set_data("You must login to edit a category.");
+     return;
    }
 
-  if((!id->variables["existing-category"] || 
+  string path = args*"/";
+  array o = model->find("object", (["path": path]));
+  mapping dta = (["flash":""]);
+
+
+  if(!((!id->variables["existing-category"] || 
      !sizeof(id->variables["existing-category"])) && 
      (!id->variables["new-category"] ||
-     !sizeof(id->variables["new-category"]))) 
+     !sizeof(id->variables["new-category"]))))
   {
-    response->flash("msg", "No category specified.\n");
-    response->redirect(id->referrer || "/space/");
-    return;
-  }
   string category = id->variables["existing-category"];
+  array c = model->find("category", (["category": category]));
   if(!category || !sizeof(category))
   { 
-    category = id->variables["new-category"];
+    string category = id->variables["new-category"];
     object nc = FinScribe.Repo.new("category");
     nc["category"] = category;
     nc->save();
   }
-  string path = args*"/";
 
-  array o = model->find("object", (["path": path]));
-  array c = model->find("category", (["category": category]));
   array x;
   if(sizeof(c))
     x = model->find("object", (["path": path, "categories": c[0]]));
 
   if(!sizeof(o))
   {
-    response->flash("msg", LOCALE(5, "Unknown object ") + path + ".");
+    dta->flash = LOCALE(5, "Unknown object ") + path + ".";
   }
   else if(!sizeof(c))
   {
-    response->flash("msg", LOCALE(6, "Unknown category ") + category + ".");
+    dta->flash = LOCALE(6, "Unknown category ") + category + ".";
   }
-  else if(sizeof(x))
+  else if(sizeof(x) && id->variables->action == LOCALE(9, "Include"))
   {
-    response->flash("msg", LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item."));
+    dta->flash = LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item.");
   }
   else if(id->variables->action == LOCALE(9, "Include"))
   {
     o[0]["categories"]+=c[0];
-    response->flash("msg", LOCALE(10, "Added to ") + category + ".");
+    dta->flash = LOCALE(10, "Added to ") + category + ".";
   }
 
   else if(id->variables->action == LOCALE(11, "Remove"))
   {
     o[0]["categories"]-=c[0];
-    response->flash("msg", LOCALE(12, "Removed from ") + category + ".");
+    dta->flash = LOCALE(12, "Removed from ") + category + ".";
   }
-  response->redirect(id->referrer || "/space/");
+
+  }
+
+  app->set_default_data(id, dta);
+  dta->obj = o[0]["path"];
+  dta->object = o[0];
+  dta["existing-categories"] = model->get_categories();
+
+  response->set_data(view->render_partial("space/_categoryform", dta));
+
 
 }
 
@@ -448,14 +456,18 @@ public void login(Request id, Response response, mixed ... args)
    else t = view->get_view("exec/login");
 
 
-     app->set_default_data(id, t);
+   app->set_default_data(id, t);
 
    if(!id->variables->return_to)
    {
-      t->add("return_to", (id->misc->flash && id->misc->flash->from) || 
-                               id->referrer || "/space/");
-      t->add("UserName", "");
+      id->variables->return_to = ((id->misc->flash && id->misc->flash->from) || 
+                               id->variables->referrer || id->referrer || 
+                               "/space/");
    }
+
+   if(!id->variables->UserName)
+      t->add("UserName", "");
+
 
    if(app->get_sys_pref("site.autocreate") && 
          app->get_sys_pref("site.autocreate") == "1")
@@ -489,11 +501,11 @@ public void login(Request id, Response response, mixed ... args)
       {
          response->flash("msg", "Login Incorrect.");
          t->add("UserName", id->variables->UserName);
-         t->add("return_to", id->variables->return_to);
          
       }
    }
    
+         t->add("return_to", id->variables->return_to);
    response->set_view(t);
 }
 
@@ -597,15 +609,12 @@ public void comments(Request id, Response response, mixed ... args)
             }
             if(!id->variables->ajax)
 			{
-Log.debug("Post comment success.");
 	      	  response->flash("msg", "Succesfully Saved.");
               response->redirect("/space/" + obj);
 			}
 			else
 			{
-Log.debug("Post comment (AJAX) success.");
 				response->set_data("OK");
-Log.debug("%O", response->get_response());
 				return;
 			}
           break;
@@ -690,7 +699,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 	{
 		response->flash("msg", "Object " + args*"/" + " does not exist.");
       response->redirect(id->referrer);		
-		return;
+ 		return;
 	}
 
    if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model->find_by_id("user", id->misc->session_variables->userid)["is_admin"])

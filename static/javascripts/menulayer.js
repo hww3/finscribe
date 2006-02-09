@@ -83,7 +83,7 @@ var menuLayers = {
     this.onLoad = onLoad;
 
 var bindArgs = {
-    url:         o + "?ajax=1",
+    url:         o + "?ajax=1&return_to=" + window.location,
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
@@ -243,7 +243,6 @@ var bindArgs = {
           return;
         else
         {
-          alert(data.toString());
           if(data.toString() != "OK")
             d.innerHTML = data.toString();
           else
@@ -379,9 +378,110 @@ var bindArgs = {
    
 }
 
+
+function showEditCategory(obj) {
+viewport.getAll();
+var block = document.getElementById("editCategory");
+if (!block) {
+var body = dojo.html.body();
+block = document.createElement("div");
+block.setAttribute("id", "editCategory");
+block.className = "rounded";
+block.style.display = "none";
+block.style.position = "absolute";
+block.style.width = "60%";
+//block.style.padding;
+block.style.zIndex = "400";
+block.style.background = "Window";
+block.style.backgroundColor = "white";
+block.style.border = "1px solid #efefef";
+block.style.opacity = ".9";
+block.style.filter = "alpha(opacity=90)";
+
+//var offsets = cumulativeOffset(inputField);
+block.style.top = viewport.scrollY + 15;
+block.style.left = viewport.scrollX + 15;;
+body.appendChild(block);
+
+}
+
+var block2 = document.getElementById("editCategory_contents");
+
+if(!block2)
+{
+  block2 = document.createElement("div");
+  block2.style.padding="20px";
+  block2.setAttribute("id", "editCategory_contents");
+  block.appendChild(block2);
+}
+
+var bindArgs = { 
+    url:        "/exec/editcategory/" + obj,  
+    content: {ajax: "1"},
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+     block2.innerHTML = data.toString();
+     make_corners();
+     dojo.fx.html.fadeShow(block, 200);
+    }
+
+  };
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+}
+
+function editCategory(obj, formid, a) {
+
+var block2 = document.getElementById("editCategory_contents");
+
+var bindArgs = { 
+    url:        "/exec/editcategory/" + obj,  
+    content: {ajax: "1"},
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+     block2.innerHTML = data.toString();
+    }
+
+  };
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
+
+    if(a && form)
+    {
+      document.getElementById("action").value=a;
+    }
+  }
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+}
+
 function hidePostComment()
 {
   var d = document.getElementById("postComment");
+  if(d)
+  {
+    dojo.fx.html.fadeHide(d, 200);
+    d.parentNode.removeChild(d);
+  }
+  return false;	
+}
+
+function hideEditCategory()
+{
+  var d = document.getElementById("editCategory");
   if(d)
   {
     dojo.fx.html.fadeHide(d, 200);
