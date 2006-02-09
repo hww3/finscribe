@@ -57,7 +57,12 @@ private void handle_wiki(object obj, Request id, Response response)
   
   array comments = obj["comments"];
 
-  t->add("comments", view->render_partial("exec/_comments", (["obj": obj["path"]]), "comment", comments));
+  mapping dta = (["obj": obj["path"]]);
+
+  app->set_default_data(id, dta);
+  
+
+  t->add("comments", view->render_partial("exec/_comments", dta, "comment", comments));
   t->add("numcomments", sizeof(comments) || "No");
   
   response->set_view(t);

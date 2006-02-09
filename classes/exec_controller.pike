@@ -83,6 +83,9 @@ public void getcomments(Request id, Response response, mixed ... args)
 
   data->obj = obj["path"];
 
+  app->set_default_data(id, data);
+
+Log.debug("INFO: %O", data);
   string r = view->render_partial("exec/_comments", data, "comment", obj["comments"]);
      
   response->set_data(r);
@@ -594,12 +597,15 @@ public void comments(Request id, Response response, mixed ... args)
             }
             if(!id->variables->ajax)
 			{
+Log.debug("Post comment success.");
 	      	  response->flash("msg", "Succesfully Saved.");
               response->redirect("/space/" + obj);
 			}
 			else
 			{
-				response->set_data("Successfully added comment.");
+Log.debug("Post comment (AJAX) success.");
+				response->set_data("OK");
+Log.debug("%O", response->get_response());
 				return;
 			}
           break;

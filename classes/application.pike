@@ -243,15 +243,25 @@ public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)
     return engines[type];
 }
 
-public void set_default_data(Fins.Request id, object t)
+public void set_default_data(Fins.Request id, object|mapping t)
 {
   if(id->misc->session_variables->userid)
   {
      object user = model->find_by_id("user", id->misc->session_variables->userid);
-     t->add("user_object", user);
-     t->add("UserName", user["UserName"]);
-     t->add("is_admin", user["is_admin"]);
-     t->add("user", user["Name"]);
+     if(mappingp(t))
+     {
+       t["user_object"] = user;
+       t["UserName"] = user["UserName"];
+       t["is_admin"] = user["is_admin"];
+       t["user"] = user["Name"];
+     }
+     else
+     {
+       t->add("user_object", user);
+       t->add("UserName", user["UserName"]);
+       t->add("is_admin", user["is_admin"]);
+       t->add("user", user["Name"]);
+     }
   }
 }
 
