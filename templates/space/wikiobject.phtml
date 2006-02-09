@@ -3,6 +3,7 @@
   <%@ include file="header.phtml" %>
    <title><%syspref var="site.name" %> :: <%$title %></title>
 <script src="/static/javascripts/menulayer.js" type="text/javascript"></script>
+<script src="/static/javascripts/rounded-corners.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -71,7 +72,8 @@ function displayComments(div, path, force)
             <% else %>
                  No comments 
             <% endif %>
- | <a href="#" onclick="showComments('commentsbox', '<%$obj%>'); return false;">Post a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
+ | <a href="#" onclick="showPostComment('<%$obj%>', this); return false;">Post 
+a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
   <% if data["metadata"]["trackbacks"] %> | <%$metadata.trackbacks%> TrackBacks <% endif %>
          <p/>
 <div id="wiper" style="display:none;"></div>

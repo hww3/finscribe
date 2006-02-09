@@ -28,9 +28,9 @@ name="check_value"/>
 <br>
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
-<input type="button" onclick="document.getElementById('postaction').value='Preview'; postComments('commentsbox', '<%$obj%>', 'postcomments', 1); return false;" value="Preview">
-<input type="button" onclick="hideComments('commentsbox'); return false;" value="Cancel">
-<input type="button" onclick="document.getElementById('postaction').value='Save'; saveComments('commentsbox', '<%$obj%>', 'postcomments', 1);" value="Save">
+<input type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return false;" value="Preview">
+<input type="button" onclick="hidePostComment(); return false;" value="Cancel">
+<input type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" value="Save">
 <% else %>
 <input type="submit" name="action" value="Preview">
 <input type="submit" name="action" value="Save">
