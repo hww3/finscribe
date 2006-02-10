@@ -25,7 +25,7 @@ endif %> page
      <% endif %>
   <% endif %>
 
- <% if data["iseditable"] %> <li> <a href="#" onclick="showEditCategory('<%$object.path%>');return false;">edit</a> categories
+ <% if data["iseditable"] %> <li> <a href="#" onclick="openPopup('/exec/editcategory/<%$object.path%>', '60%');return false;">edit</a> categories
  <% endif %>
 
 <li> <a href="/exec/versions/<%$object.path %>">versions</a> of this page

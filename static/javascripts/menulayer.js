@@ -237,7 +237,7 @@ var bindArgs = {
     },
     load:      function(type, data, evt){
         // handle successful response here
-        var d = document.getElementById("postComment_contents");
+        var d = document.getElementById("popup_contents");
         
         if(!d)
           return;
@@ -247,7 +247,7 @@ var bindArgs = {
             d.innerHTML = data.toString();
           else
           {
-            hidePostComment();
+            closePopup();
             displayComments('wiper', obj);
           }
         }
@@ -279,7 +279,7 @@ function postComment(obj, formid, noanim)
     },
     load:      function(type, data, evt){
         // handle successful response here
-        var d = document.getElementById("postComment_contents");
+        var d = document.getElementById("popup_contents");
         if(!d)
           return;
         else
@@ -321,45 +321,44 @@ dojo.widget.tags.addParseTreeHandler("dojo:yellowfade");
 
 
 
-function showPostComment(obj, elem) {
+function openPopup(url, width, formid, action) {
+closePopup();
 viewport.getAll()
-var block = document.getElementById("postComment");
+var block = document.getElementById("popup");
 if (!block) {
 var body = dojo.html.body();
 block = document.createElement("div");
-block.setAttribute("id", "postComment");
+block.setAttribute("id", "popup");
 block.className = "rounded";
 block.style.display = "none";
 block.style.position = "absolute";
-block.style.width = "80%";
+block.style.width = width;
 //block.style.padding;
 block.style.zIndex = "400";
 block.style.background = "Window";
-block.style.backgroundColor = "white";
-block.style.border = "1px solid #efefef";
+block.style.backgroundColor = "yellow";
+block.style.border = "2px solid #efefef";
 block.style.opacity = ".9";
 block.style.filter = "alpha(opacity=90)";
 
-var inputField = elem;
-//var offsets = cumulativeOffset(inputField);
 block.style.top = viewport.scrollY + 15;
 block.style.left = viewport.scrollX + 15;;
 body.appendChild(block);
 
 }
 
-var block2 = document.getElementById("postComment_contents");
+var block2 = document.getElementById("popup_contents");
 
 if(!block2)
 {
   block2 = document.createElement("div");
   block2.style.padding="20px";
-  block2.setAttribute("id", "postComment_contents");
+  block2.setAttribute("id", "popup_contents");
   block.appendChild(block2);
 }
 
 var bindArgs = { 
-    url:        "/exec/comments/" + obj,  
+    url:        url,  
     content: {ajax: "1"},
     mimetype:   "text/plain",
     error:      function(type, errObj){
@@ -373,62 +372,17 @@ var bindArgs = {
 
   };
 
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-   
-}
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
 
-
-function showEditCategory(obj) {
-viewport.getAll();
-var block = document.getElementById("editCategory");
-if (!block) {
-var body = dojo.html.body();
-block = document.createElement("div");
-block.setAttribute("id", "editCategory");
-block.className = "rounded";
-block.style.display = "none";
-block.style.position = "absolute";
-block.style.width = "60%";
-//block.style.padding;
-block.style.zIndex = "400";
-block.style.background = "Window";
-block.style.backgroundColor = "white";
-block.style.border = "1px solid #efefef";
-block.style.opacity = ".9";
-block.style.filter = "alpha(opacity=90)";
-
-//var offsets = cumulativeOffset(inputField);
-block.style.top = viewport.scrollY + 15;
-block.style.left = viewport.scrollX + 15;;
-body.appendChild(block);
-
-}
-
-var block2 = document.getElementById("editCategory_contents");
-
-if(!block2)
-{
-  block2 = document.createElement("div");
-  block2.style.padding="20px";
-  block2.setAttribute("id", "editCategory_contents");
-  block.appendChild(block2);
-}
-
-var bindArgs = { 
-    url:        "/exec/editcategory/" + obj,  
-    content: {ajax: "1"},
-    mimetype:   "text/plain",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-     block2.innerHTML = data.toString();
-     make_corners();
-     dojo.fx.html.fadeShow(block, 200);
+    if(action && form)
+    {
+      document.getElementById("action").value=action;
     }
-
-  };
+  }
 
 // dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
@@ -468,9 +422,9 @@ var bindArgs = {
    
 }
 
-function hidePostComment()
+function closePopup()
 {
-  var d = document.getElementById("postComment");
+  var d = document.getElementById("popup");
   if(d)
   {
     dojo.fx.html.fadeHide(d, 200);
@@ -478,18 +432,6 @@ function hidePostComment()
   }
   return false;	
 }
-
-function hideEditCategory()
-{
-  var d = document.getElementById("editCategory");
-  if(d)
-  {
-    dojo.fx.html.fadeHide(d, 200);
-    d.parentNode.removeChild(d);
-  }
-  return false;	
-}
-
 
 function showDatePicker() {
 var block = document.getElementById("datePicker");

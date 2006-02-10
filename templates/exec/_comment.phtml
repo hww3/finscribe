@@ -29,7 +29,7 @@ name="check_value"/>
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
 <input type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return false;" value="Preview">
-<input type="button" onclick="hidePostComment(); return false;" value="Cancel">
+<input type="button" onclick="closePopup(); return false;" value="Cancel">
 <input type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" value="Save">
 <% else %>
 <input type="submit" name="action" value="Preview">

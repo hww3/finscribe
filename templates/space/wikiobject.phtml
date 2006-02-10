@@ -77,7 +77,7 @@ function displayComments(div, path, force)
             <% else %>
                  No comments 
             <% endif %>
- | <a href="#" onclick="showPostComment('<%$obj%>', this); return false;">Post 
+ | <a href="#" onclick="openPopup('/exec/comments/<%$obj%>', '80%'); return false;">Post 
 a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
   <% if data["metadata"]["trackbacks"] %> | <%$metadata.trackbacks%> TrackBacks <% endif %>
          <p/>
