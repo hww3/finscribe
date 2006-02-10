@@ -52,7 +52,7 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
     float f = ((float)count/(float)total);
     count = (int)(f*5);
     srt+=({row->category});
-    res+=({"<font size=\"" + count + "\">" + row->category + "</font> (" + row->cnt + ") &nbsp; "});
+    res+=({"<font size=\"" + count + "\">" + row->category + "</font>&nbsp;(" + row->cnt + ") &nbsp; "});
     
   }
 
