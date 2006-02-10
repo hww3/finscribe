@@ -309,7 +309,7 @@ dojo.widget.HtmlYellowFade = function() {
     this.widgetType = "YellowFade";
     this.delay    = 0;
     this.duration = 4000;
-    this.initColor = "#FFFFC0";
+    this.initColor = "#FFE066";
     this.buildRendering = function(args, frag) {
         var o = frag["dojo:yellowfade"]["nodeRef"];
         dojo.graphics.htmlEffects.colorFadeIn(o, 
@@ -320,31 +320,143 @@ dj_inherits(dojo.widget.HtmlYellowFade, dojo.widget.HtmlWidget);
 dojo.widget.tags.addParseTreeHandler("dojo:yellowfade");
 
 
+//
+// getPageScroll()
+// Returns array with x,y page scroll values.
+// Core code from - quirksmode.org
+//
+function getPageScroll(){
+
+	var yScroll;
+
+	if (self.pageYOffset) {
+		yScroll = self.pageYOffset;
+	} else if (document.documentElement && document.documentElement.scrollTop){	 // Explorer 6 Strict
+		yScroll = document.documentElement.scrollTop;
+	} else if (document.body) {// all other Explorers
+		yScroll = document.body.scrollTop;
+	}
+
+	arrayPageScroll = new Array('',yScroll) 
+	return arrayPageScroll;
+}
+
+
+
+//
+// getPageSize()
+// Returns array with page width, height and window width, height
+// Core code from - quirksmode.org
+// Edit for Firefox by pHaez
+//
+function getPageSize(){
+	
+	var xScroll, yScroll;
+	
+	if (window.innerHeight && window.scrollMaxY) {	
+		xScroll = document.body.scrollWidth;
+		yScroll = window.innerHeight + window.scrollMaxY;
+	} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
+		xScroll = document.body.scrollWidth;
+		yScroll = document.body.scrollHeight;
+	} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
+		xScroll = document.body.offsetWidth;
+		yScroll = document.body.offsetHeight;
+	}
+	
+	var windowWidth, windowHeight;
+	if (self.innerHeight) {	// all except Explorer
+		windowWidth = self.innerWidth;
+		windowHeight = self.innerHeight;
+	} else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
+		windowWidth = document.documentElement.clientWidth;
+		windowHeight = document.documentElement.clientHeight;
+	} else if (document.body) { // other Explorers
+		windowWidth = document.body.clientWidth;
+		windowHeight = document.body.clientHeight;
+	}	
+	
+	// for small pages with total height less then height of the viewport
+	if(yScroll < windowHeight){
+		pageHeight = windowHeight;
+	} else { 
+		pageHeight = yScroll;
+	}
+
+	// for small pages with total width less then width of the viewport
+	if(xScroll < windowWidth){	
+		pageWidth = windowWidth;
+	} else {
+		pageWidth = xScroll;
+	}
+
+
+	arrayPageSize = new 
+Array(pageWidth,pageHeight,windowWidth,windowHeight) 
+	return arrayPageSize;
+}
+
 
 function openPopup(url, width, formid, action) {
 closePopup();
-viewport.getAll()
+// viewport.getAll()
+
+  var objOverlay = document.getElementById("overlay");
+
+  if(!objOverlay)
+  {
+
+	var objBody = document.getElementsByTagName("body").item(0);
+
+	objOverlay = document.createElement("div");
+	objOverlay.setAttribute('id','overlay');
+	objOverlay.onclick = function () {closePopup(); return false;}
+	objOverlay.style.display = 'none';
+	objOverlay.style.position = 'absolute';
+	objOverlay.style.top = '0';
+	objOverlay.style.left = '0';
+	objOverlay.style.zIndex = '90';
+ 	objOverlay.style.width = '100%';
+	objBody.insertBefore(objOverlay, objBody.firstChild);
+  }
+
+	var arrayPageSize = getPageSize();
+	var arrayPageScroll = getPageScroll();
+
+	// set height of Overlay to take up whole page and show
+	objOverlay.style.height = (arrayPageSize[1] + 'px');
+	objOverlay.style.display = 'block';
+
 var block = document.getElementById("popup");
 if (!block) {
 var body = dojo.html.body();
 block = document.createElement("div");
 block.setAttribute("id", "popup");
-block.className = "rounded";
+block.className = "rounded rc-parentcolor-404040";
 block.style.display = "none";
 block.style.position = "absolute";
 block.style.width = width;
 //block.style.padding;
 block.style.zIndex = "400";
 block.style.background = "Window";
-block.style.backgroundColor = "yellow";
-block.style.border = "2px solid #efefef";
-block.style.opacity = ".9";
-block.style.filter = "alpha(opacity=90)";
+block.style.backgroundColor = "#FFEB99";
 
-block.style.top = viewport.scrollY + 15;
-block.style.left = viewport.scrollX + 15;;
+//block.style.top = viewport.scrollY + 15;
+//block.style.left = viewport.scrollX + 15;;
 body.appendChild(block);
 
+}
+
+var block1 = document.getElementById("popup_close");
+if(!block1)
+{
+  block1 = document.createElement("div");
+  block1.style.padding="0px";
+  block1.style.textAlign = "right";
+  block1.style.width="100%";
+  block1.setAttribute("id", "popup_close");
+  block1.innerHTML="<a href=\"#\" onclick=\"closePopup(); return false;\"><img border=\"0\" src=\"/static/images/close.gif\"></a> &nbsp;";
+  block.appendChild(block1);
 }
 
 var block2 = document.getElementById("popup_contents");
@@ -352,7 +464,7 @@ var block2 = document.getElementById("popup_contents");
 if(!block2)
 {
   block2 = document.createElement("div");
-  block2.style.padding="20px";
+  block2.style.padding="0px 20px 20px 20px";
   block2.setAttribute("id", "popup_contents");
   block.appendChild(block2);
 }
@@ -366,8 +478,26 @@ var bindArgs = {
     load:      function(type, data, evt){
         // handle successful response here
      block2.innerHTML = data.toString();
+
+		var arrayPageSize = getPageSize();
+		var arrayPageScroll = getPageScroll();
+var blockTop = arrayPageScroll[1] + ((arrayPageSize[3] - 35 - block.height) / 2);
+		var blockLeft = ((arrayPageSize[0] - 20 - block.width) / 2);
+		
+		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
+		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
+
      make_corners();
-     dojo.fx.html.fadeShow(block, 200);
+
+     dojo.fx.html.fadeShow(block, 200, function(){		
+		arrayPageSize = getPageSize();
+		objOverlay.style.height = (arrayPageSize[1] + 'px');
+}
+);
+	// After image is loaded, update the overlay height as the new image might have
+	// increased the overall page height.
+
+
     }
 
   };
@@ -391,7 +521,7 @@ var bindArgs = {
 
 function editCategory(obj, formid, a) {
 
-var block2 = document.getElementById("editCategory_contents");
+var block2 = document.getElementById("popup_contents");
 
 var bindArgs = { 
     url:        "/exec/editcategory/" + obj,  
@@ -428,6 +558,8 @@ function closePopup()
   if(d)
   {
     dojo.fx.html.fadeHide(d, 200);
+    var objOverlay = document.getElementById("overlay");
+    objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
   }
   return false;	
