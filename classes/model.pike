@@ -87,6 +87,11 @@ mixed get_categories()
   return res;
 }
 
+void clear_categories()
+{
+  cache->clear("CATEGORIES_");
+}
+
 public object get_fbobject(array args, Request|void id)
 {
    array r;

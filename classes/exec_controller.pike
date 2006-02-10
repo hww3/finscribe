@@ -116,15 +116,21 @@ werror("%O\n", mkmapping(indices(id), values(id)));
      (!id->variables["new-category"] ||
      !sizeof(id->variables["new-category"]))))
   {
-  string category = id->variables["existing-category"];
-  array c = model->find("category", (["category": category]));
-  if(!category || !sizeof(category))
-  { 
-    string category = id->variables["new-category"];
-    object nc = FinScribe.Repo.new("category");
-    nc["category"] = category;
-    nc->save();
-  }
+    string category = id->variables["existing-category"];
+    array c;
+
+    if(!category || !sizeof(category))
+    { 
+      category = id->variables["new-category"];
+      object nc = FinScribe.Repo.new("category");
+      nc["category"] = category;
+      nc->save();
+      c=({nc});
+    }
+    else
+    {
+       c = model->find("category", (["category": category]));
+    }
 
   array x;
   if(sizeof(c))
@@ -145,12 +151,14 @@ werror("%O\n", mkmapping(indices(id), values(id)));
   else if(id->variables->action == LOCALE(9, "Include"))
   {
     o[0]["categories"]+=c[0];
+    model->clear_categories();
     dta->flash = LOCALE(10, "Added to ") + category + ".";
   }
 
   else if(id->variables->action == LOCALE(11, "Remove"))
   {
     o[0]["categories"]-=c[0];
+    model->clear_categories();
     dta->flash = LOCALE(12, "Removed from ") + category + ".";
   }
 
