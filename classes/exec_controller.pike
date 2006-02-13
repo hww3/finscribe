@@ -40,29 +40,6 @@ public void actions(Request id, Response response, mixed ... args)
 
   app->set_default_data(id, t);
 
-  int numattachments;
-
-
-  array o = model->find("object", ([ "is_attachment": 1, "parent": obj ]));
-  object v;
-  if(id->variables->show_version)
-  {
-    v = model->find("object_version", (["object": obj, "version": 
-(int)id->variables->show_version]))[0];
-    response->flash("msg", LOCALE(1, "Showing archived version"));
-  }
-  else
-  {
-    v = obj["current_version"];
-  }
-
-  string contents = v["contents"];
-  array datatypes = model->get_datatypes();
-  array categories = model->get_categories();
-  numattachments = sizeof(o);
-
-  t->add("metadata", obj->get_metadata());
-
   t->add("object", obj);
   t->add("islocked", obj["md"]["locked"]);
   t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
@@ -94,7 +71,6 @@ Log.debug("INFO: %O", data);
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
-werror("%O\n", mkmapping(indices(id), values(id)));
    if(!args || !sizeof(args))
    {
      response->set_data("You must provide an object to modify categories for.\n");
@@ -452,6 +428,106 @@ public void upload(Request id, Response response, mixed ... args)
             response->redirect("/space/" + obj);
 }
 
+public void editattachments(Request id, Response response, mixed ... args)
+{
+werror("%O\n", mkmapping(indices(id), values(id)));
+
+  int viaframe = 0;
+
+  if(!args || !sizeof(args)) 
+  {
+    response->set_data("No attachment location specified.\n");
+    return;
+  }
+  
+   if(!id->misc->session_variables->userid)
+   {
+      response->set_data("You must login to upload.");
+      return;
+   } 
+
+
+  object t = view->get_view("exec/_editattachments");
+  t->add("flash", "");
+
+    string obj=args*"/";
+    array a = model->find("object", (["path": obj ]));
+    object p;
+    if(sizeof(a)) p = a[0];
+    else 
+    {
+      response->set_data("Unable to find root object to attach this document to.\n");
+      return;
+    }
+
+  if(id->variables->action == "Add") 
+  {
+    viaframe = 1;
+    string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
+    object obj_o;
+  
+    werror("adding attachment... %O\n", id->variables["mime-type"] );
+    array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
+    if(!sizeof(dtos))
+    {
+werror("no mime type " + id->variables["mime-type"] + "\n");
+       t->add("flash", "Mime type " + id->variables["mime-type"] + " not valid.");
+    }
+    else
+    {       
+werror("gonna add this attachment.\n");       
+      object dto = dtos[0];
+      obj_o = FinScribe.Repo.new("object");
+      obj_o["datatype"] = dto;
+      obj_o["is_attachment"] = 1;
+      obj_o["parent"] = p;
+      obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_o["datatype"] = dto;
+      obj_o["path"] = path;
+      obj_o->save();
+
+      object obj_n = FinScribe.Repo.new("object_version");
+      obj_n["contents"] = id->variables["upload-file"];
+
+      int v;
+      object cv;
+
+      obj_o->refresh();
+
+      if(cv = obj_o["current_version"])
+      { 
+        v = cv["version"];
+      }
+      obj_n["version"] = (v+1);
+      obj_n["object"] = obj_o;
+      obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_n->save();
+      cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+
+      t->add("flash", "Attachment added.");
+     werror("saved.\n");
+    }
+
+  }
+  werror("got to end of attachment code\n");   
+
+  array o = model->find("object", ([ "is_attachment": 1, "parent": p ]));
+  array datatypes = model->get_datatypes();  
+  t->add("object", p);
+  t->add("numattachments", sizeof(o));
+  t->add("attachments", o);
+  t->add("datatypes", datatypes);
+
+   if(viaframe)
+   {
+     string s = "<html><head></head><body><textarea>" + t->render() + "</textarea></body></html>";
+     response->set_data(s);
+     werror("frame: " + s  + "\n");
+   }
+   else
+     response->set_view(t);
+}
+
 public void login(Request id, Response response, mixed ... args)
 {
      object t;
@@ -470,7 +546,7 @@ public void login(Request id, Response response, mixed ... args)
    {
       id->variables->return_to = ((id->misc->flash && id->misc->flash->from) || 
                                id->variables->referrer || id->referrer || 
-                               "/space/");
+	                               "/space/");
    }
 
    if(!id->variables->UserName)

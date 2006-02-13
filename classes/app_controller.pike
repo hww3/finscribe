@@ -66,8 +66,6 @@ private void handle_wiki(object obj, Request id, Response response){
   }
 
   string contents = v["contents"];
-  array datatypes = model->get_datatypes();
-  array categories = model->get_categories();
   numattachments = sizeof(o);
 
   t->add("obj", obj["path"]);
@@ -81,8 +79,6 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("version", (string)v["version"]);
   t->add("numattachments", numattachments);  
   t->add("attachments", o);  
-  t->add("datatypes", datatypes);
-  t->add("existing-categories", categories);
   t->add("object_is_weblog", id->misc->object_is_weblog);
   t->add("object", obj);
   t->add("metadata", obj->get_metadata());

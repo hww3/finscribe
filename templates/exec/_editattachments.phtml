@@ -1,0 +1,34 @@
+<h2>Editing Categories</h2>
+<p>
+<%$flash%>
+<p>
+
+<% if data->object_is_weblog %>
+  You can't directly add attachments to a weblog page.
+<% else %>
+  <%$numattachments %> Attachments</a><br/>
+  <table>
+  <% foreach var="attachments" val="attachment" %>
+  <tr><td><a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
+  <td><%$attachment.datatype.mimetype%></td>
+  <td><%$attachment.current_version.content_length%></td></tr>
+  <%end %>
+  </table>
+
+  <form action="" method="post" enctype="multipart/form-data" id="attachmentform">
+  Attachment name: <input type="text" name="save-as-filename" size="35"/><br>
+  File: <input name="upload-file" type="file"/>
+  <br/>
+  MimeType: <select name="mime-type">
+
+  <% foreach var="datatypes" val="dt" %><option><%$dt.mimetype%>
+  <% end %>
+  </select>
+  <br/>
+  <input type="hidden" name="action" id="action"/>
+  <input type="button" onclick="document.getElementById('action').value='Add'; saveAttachment('<%$object.path%>', 
+'attachmentform'); return false;" value="Add"/>
+  </form>
+
+<% endif %>
+

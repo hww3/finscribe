@@ -1,6 +1,8 @@
 dojo.require("dojo.html");
 dojo.require("dojo.fx.*");
 dojo.require("dojo.widget.html.DatePicker");
+dojo.require("dojo.io.IframeIO");
+
 /*************************************************************************
 
   dw_viewport.js
@@ -268,6 +270,40 @@ var bindArgs = {
   
 }
 
+
+function saveAttachment(obj, formid, noanim)
+{
+var bindArgs = { 
+    url:        "/exec/editattachments/" + obj,  
+    content: {ajax: "1"},
+    method: "POST",
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById("popup_contents");
+        alert(data);
+        if(!d)
+          return;
+        else
+            d.innerHTML = data.toString();
+    }
+    
+  };
+
+  if(formid)
+  {
+    var form = document.getElementById(formid);
+    if(form)
+      bindArgs.formNode = form;
+  }
+    
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+  
+}
 
 function postComment(obj, formid, noanim)
 {
