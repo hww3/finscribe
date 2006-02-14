@@ -277,13 +277,12 @@ var bindArgs = {
     url:        "/exec/editattachments/" + obj,  
     content: {ajax: "1"},
     method: "POST",
-    mimetype:   "text/plain",
+    mimetype:   "text/html",
     error:      function(type, errObj){
     },
     load:      function(type, data, evt){
         // handle successful response here
         var d = document.getElementById("popup_contents");
-        alert(data);
         if(!d)
           return;
         else

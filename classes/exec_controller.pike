@@ -430,7 +430,6 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void editattachments(Request id, Response response, mixed ... args)
 {
-werror("%O\n", mkmapping(indices(id), values(id)));
 
   int viaframe = 0;
 
@@ -460,22 +459,40 @@ werror("%O\n", mkmapping(indices(id), values(id)));
       return;
     }
 
+  if(id->variables->action == "Delete") 
+  {
+    viaframe = 1;
+    if(!id->variables["save-as-filename"])
+    {
+      t->add("flash", "No filename specified to delete.");
+    }
+    else
+    {
+      array o = model->find("object", (["path": id->variables["save-as-filename"]]));
+      if(!sizeof(o))
+      {
+        t->add("flash", "Cannot find file " + id->variables["save-as-filename"]);
+      }
+      else
+      {
+        o[0]->delete(1);
+        t->add("flash", "Sucessfully deleted " + id->variables["save-as-filename"]);
+      }
+    }
+  }
   if(id->variables->action == "Add") 
   {
     viaframe = 1;
     string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
     object obj_o;
   
-    werror("adding attachment... %O\n", id->variables["mime-type"] );
     array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
     if(!sizeof(dtos))
     {
-werror("no mime type " + id->variables["mime-type"] + "\n");
        t->add("flash", "Mime type " + id->variables["mime-type"] + " not valid.");
     }
     else
     {       
-werror("gonna add this attachment.\n");       
       object dto = dtos[0];
       obj_o = FinScribe.Repo.new("object");
       obj_o["datatype"] = dto;
@@ -505,11 +522,9 @@ werror("gonna add this attachment.\n");
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
       t->add("flash", "Attachment added.");
-     werror("saved.\n");
     }
 
   }
-  werror("got to end of attachment code\n");   
 
   array o = model->find("object", ([ "is_attachment": 1, "parent": p ]));
   array datatypes = model->get_datatypes();  
@@ -522,10 +537,11 @@ werror("gonna add this attachment.\n");
    {
      string s = "<html><head></head><body><textarea>" + t->render() + "</textarea></body></html>";
      response->set_data(s);
-     werror("frame: " + s  + "\n");
+     response->set_type("text/html");
    }
    else
      response->set_view(t);
+
 }
 
 public void login(Request id, Response response, mixed ... args)
