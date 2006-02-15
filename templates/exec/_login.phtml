@@ -24,7 +24,7 @@ f.focus();
 <% if !data->ajax %>
 <input type="submit" name="action" value="Cancel"/>
 <% else %>
-<input type="submit" name="action" onclick="return hideLogin('actions')" value="Cancel"/>
+<input type="submit" name="action" onclick="return closePopup()" value="Cancel"/>
 <% endif %>
 </td>
 </tr>

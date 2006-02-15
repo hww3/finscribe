@@ -163,20 +163,6 @@ var bindArgs = {
   
 }
 
-function showLogin(id, o, e, item)
-{
-  menuLayers.show(id, o, e, item, 
-     function(){
-        window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 500);
-     }
-  );
-}
-
-function hideLogin(id)
-{
-  return menuLayers.hide();
-}
-
 function postBlog(id, obj, formid, noanim)
 {
 var bindArgs = { 
@@ -430,8 +416,17 @@ Array(pageWidth,pageHeight,windowWidth,windowHeight)
 	return arrayPageSize;
 }
 
+function openLogin()
+{
+  openPopup("/exec/login", '300px', null, null, null, setinsert);
+}
 
-function openPopup(url, width, formid, action) {
+function setinsert()
+{
+ window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 500);
+}
+
+function openPopup(url, width, height, formid, action, loadfunc) {
 closePopup();
 // viewport.getAll()
 
@@ -470,6 +465,8 @@ block.className = "rounded rc-parentcolor-404040";
 block.style.display = "none";
 block.style.position = "absolute";
 block.style.width = width;
+if(height)
+  block.style.height= height;
 //block.style.padding;
 block.style.zIndex = "400";
 block.style.background = "Window";
@@ -515,14 +512,14 @@ var bindArgs = {
 
      objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
-               block.currentStyle.height || block.height;
+               (block.currentStyle && block.currentStyle.height) || block.height;
 
      if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
        else h = 20;
      var blockTop = dojo.html.getScrollTop() + h;
    
      h = block.offsetWidth || block.style.pixelWidth ||
-               block.currentStyle.width || block.width;
+               (block.currentStyle && block.currentStyle.width) || block.width;
 
      if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
        else h = 20;
@@ -537,6 +534,8 @@ var bindArgs = {
 		arrayPageSize = getPageSize();
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
+
+     if(loadfunc) loadfunc();
 }
 );
 	// After image is loaded, update the overlay height as the new image might have
