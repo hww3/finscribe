@@ -13,11 +13,12 @@ Login:
 Password:</td><td>
  <input type="password" name="Password"/></td></tr>
 <tr><td colspan="2">
+<%if !data->ajax %>
 <script type="text/javascript">
 var f = document.getElementById("UserName");
 f.focus();
 </script>
-
+<% endif %>
 <p/>
 <input type="submit" name="action" value="Login"/>
 <% if !data->ajax %>

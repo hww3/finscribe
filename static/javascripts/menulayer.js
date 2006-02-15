@@ -167,8 +167,7 @@ function showLogin(id, o, e, item)
 {
   menuLayers.show(id, o, e, item, 
      function(){
-        var elem = document.getElementById("UserName");
-           if(elem.id =="UserName"){ elem.focus(); }
+        window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 500);
      }
   );
 }
@@ -451,7 +450,7 @@ closePopup();
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = '100%';
+ 	objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
 	objBody.insertBefore(objOverlay, objBody.firstChild);
   }
 
@@ -514,18 +513,29 @@ var bindArgs = {
         // handle successful response here
      block2.innerHTML = data.toString();
 
-		var arrayPageSize = getPageSize();
-		var arrayPageScroll = getPageScroll();
-var blockTop = arrayPageScroll[1] + ((arrayPageSize[3] - 35 - block.height) / 2);
-		var blockLeft = ((arrayPageSize[0] - 20 - block.width) / 2);
-		
+     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
+     var h = block.offsetHeight || block.style.pixelHeight || 
+               block.currentStyle.height || block.height;
+
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
+       else h = 20;
+     var blockTop = dojo.html.getScrollTop() + h;
+   
+     h = block.offsetWidth || block.style.pixelWidth ||
+               block.currentStyle.width || block.width;
+
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
+       else h = 20;
+
+     var blockLeft = dojo.html.getScrollLeft() + h;
+
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 
      make_corners();
-
      dojo.fx.html.fadeShow(block, 200, function(){		
 		arrayPageSize = getPageSize();
+		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
 }
 );
@@ -598,6 +608,25 @@ function closePopup()
     d.parentNode.removeChild(d);
   }
   return false;	
+}
+
+function updateFilename(elem)
+{
+
+  var str = elem.value;
+
+  var re = /\\/gi;
+
+  str.replace(re, '/'); 
+
+  var ch = str.lastIndexOf('/');
+
+  var e = document.getElementById('filename');
+
+  if(e)
+    e.value = str.substring(ch+1);
+
+
 }
 
 function showDatePicker() {
