@@ -10,7 +10,20 @@
    <h3>Create new object</h3>
 
 <form action="" method="post">
-Object path: <input type="text" size="40" name="title" value=""/><br>
+<table>
+<tr>
+<td>
+<b>Object path:</b>
+</td>
+<td>
+<input type="text" size="40" name="title" value=""/><br>
+</td>
+</tr>
+<tr>
+<td>
+<b>Object type:</b>
+</td>
+<td>
 <select  id="datatype" name="datatype">
 <% foreach var="datatypes" val="dt" %>
 <option value="<%$dt.mimetype %>"><%$dt.name %>
@@ -23,7 +36,14 @@ Object path: <input type="text" size="40" name="title" value=""/><br>
 </script>
 
 <br>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <input type="submit" name="action" value="Create">
+</td>
+</tr>
+</table>
 </form>
 
 <%@include file="footer.phtml" %>
