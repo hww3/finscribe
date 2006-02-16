@@ -18,22 +18,46 @@ document.getElementById('filename').value='<%$attachment.path%>'; saveAttachment
   </tr>
   <%end %>
   </table>
-
-  <form action="" method="post" enctype="multipart/form-data" id="attachmentform">
-  Attachment name: <div id="filename-div"></div> <input type="hidden" id="filename" 
-name="save-as-filename" size="35"/><br>
-  File: <input name="upload-file" type="file" onchange="updateFilename(this)"/>
-  <br/>
-  MimeType: <select name="mime-type">
+  <form action="" method="post" enctype="multipart/form-data" id="attachmentform"> 
+<table>
+<tr>
+<td>
+<b> Attachment name: </b>
+</td>
+<td id="filename-div">
+</td>
+</tr>
+<tr>
+<td>
+<b>  File: </b>
+</td>
+<td>
+<input name="upload-file" type="file" onchange="updateFilename(this)"/>
+</td>
+</tr>
+<tr>
+<td>
+<b>  MimeType: </b>
+</td><td>
+<select name="mime-type">
 
   <% foreach var="datatypes" val="dt" %><option><%$dt.mimetype%>
   <% end %>
   </select>
   <br/>
+</td>
+</tr>
+<tr>
+<td colspan="2">
   <input type="hidden" name="action" id="action"/>
   <input type="button" onclick="document.getElementById('action').value='Add'; saveAttachment('<%$object.path%>', 
 'attachmentform'); return false;" value="Add"/>
-  </form>
 
+<input type="hidden" id="filename" name="save-as-filename" size="35"/>
+
+</td>
+</tr>
+</table>
+  </form>
 <% endif %>
 
