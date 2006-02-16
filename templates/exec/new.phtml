@@ -11,10 +11,17 @@
 
 <form action="" method="post">
 Object path: <input type="text" size="40" name="title" value=""/><br>
-<select name="datatype">
-<option value="text/wiki">Wiki
-<option value="text/html">HTML
+<select  id="datatype" name="datatype">
+<% foreach var="datatypes" val="dt" %>
+<option value="<%$dt.mimetype %>"><%$dt.name %>
+<% end %>
 </select>
+
+<script type="text/javascript">
+  var d = document.getElementById('datatype');
+  if(d) d.value = '<%$datatype%>';
+</script>
+
 <br>
 <input type="submit" name="action" value="Create">
 </form>

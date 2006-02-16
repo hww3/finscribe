@@ -1,6 +1,7 @@
 inherit FinScribe.Plugin;
 
 constant name = "HTML content type support";
+constant typename = "HTML";
 
 int _enabled = 1;
 

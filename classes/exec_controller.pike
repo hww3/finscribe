@@ -866,6 +866,22 @@ public void new(Request id, Response response, mixed ... args)
       object t = view->get_view("exec/new");
 
      app->set_default_data(id, t);
+
+     mixed p = app->new_string_pref(t->get_data()["UserName"] + ".new.default_mimetype", "text/wiki");
+
+     array mimetypes = ({});
+
+     foreach(app->engines; string ty; mixed e)
+     { 
+       mapping t = ([]);
+       t->mimetype = ty;
+       if(e->typename) t->name = e->typename;
+
+       mimetypes+= ({t});
+     }
+
+     t->add("datatypes", mimetypes);
+     t->add("datatype", p->get_value());
      response->set_view(t);
 }
 

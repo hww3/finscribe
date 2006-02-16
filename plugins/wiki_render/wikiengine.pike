@@ -19,6 +19,8 @@ class wikiengine
 
 inherit Public.Web.Wiki.RenderEngine;
 
+constant typename = "Wiki";
+
 object wiki;
 
 int exists_queries;
