@@ -550,11 +550,12 @@ function updateFilename(elem)
 
   var str = elem.value;
 
-  var re = /\\/gi;
+  var ch = 0;
 
-  str.replace(re, '/'); 
-
-  var ch = str.lastIndexOf('/');
+  ch = str.lastIndexOf('/');
+ 
+  if(ch == -1)
+    ch = str.lastIndexOf('\\');
 
   var e = document.getElementById('filename');
 
