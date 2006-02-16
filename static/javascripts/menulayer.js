@@ -3,67 +3,6 @@ dojo.require("dojo.fx.*");
 dojo.require("dojo.widget.html.DatePicker");
 dojo.require("dojo.io.IframeIO");
 
-/*************************************************************************
-
-  dw_viewport.js
-  version date Nov 2003
-  
-  This code is from Dynamic Web Coding 
-  at http://www.dyn-web.com/
-  Copyright 2003 by Sharon Paine 
-  See Terms of Use at http://www.dyn-web.com/bus/terms.html
-  Permission granted to use this code 
-  as long as this entire notice is included.
-
-*************************************************************************/  
-  
-var viewport = {
-  getWinWidth: function () {
-    this.width = 0;
-    if (window.innerWidth) this.width = window.innerWidth - 18;
-    else if (document.documentElement && document.documentElement.clientWidth) 
-  		this.width = document.documentElement.clientWidth;
-    else if (document.body && document.body.clientWidth) 
-  		this.width = document.body.clientWidth;
-  },
-  
-  getWinHeight: function () {
-    this.height = 0;
-    if (window.innerHeight) this.height = window.innerHeight - 18;
-  	else if (document.documentElement && document.documentElement.clientHeight) 
-  		this.height = document.documentElement.clientHeight;
-  	else if (document.body && document.body.clientHeight) 
-  		this.height = document.body.clientHeight;
-  },
-  
-  getScrollX: function () {
-    this.scrollX = 0;
-  	if (typeof window.pageXOffset == "number") this.scrollX = window.pageXOffset;
-  	else if (document.documentElement && document.documentElement.scrollLeft)
-  		this.scrollX = document.documentElement.scrollLeft;
-  	else if (document.body && document.body.scrollLeft) 
-  		this.scrollX = document.body.scrollLeft; 
-  	else if (window.scrollX) this.scrollX = window.scrollX;
-  },
-  
-  getScrollY: function () {
-    this.scrollY = 0;    
-    if (typeof window.pageYOffset == "number") this.scrollY = window.pageYOffset;
-    else if (document.documentElement && document.documentElement.scrollTop)
-  		this.scrollY = document.documentElement.scrollTop;
-  	else if (document.body && document.body.scrollTop) 
-  		this.scrollY = document.body.scrollTop; 
-  	else if (window.scrollY) this.scrollY = window.scrollY;
-  },
-  
-  getAll: function () {
-    this.getWinWidth(); this.getWinHeight();
-    this.getScrollX();  this.getScrollY();
-  }
-  
-}
-
-
 var menuLayers = {
   timer: null,
   activeMenuID: null,
@@ -115,7 +54,6 @@ var bindArgs = {
     }
     if ( mnu.onmouseout == null ) mnu.onmouseout = menuLayers.mouseoutCheck;
     if ( mnu.onmouseover == null ) mnu.onmouseover = menuLayers.clearTimer;
-    viewport.getAll();
     menuLayers.position(mnu);
   },
   
@@ -127,14 +65,15 @@ var bindArgs = {
   },
   
   position: function(mnu) {
-    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + viewport.scrollX;
-    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + viewport.scrollY;
-    if ( x + mnu.offsetWidth + this.offX > viewport.width + viewport.scrollX )
+    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScrollLeft();
+    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScrollTop();
+    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScrollLeft())
       x = x - mnu.offsetWidth - this.offX;
     else x = x + this.offX;
   
-    if ( y + mnu.offsetHeight + this.offY > viewport.height + viewport.scrollY )
-      y = ( y - mnu.offsetHeight - this.offY > viewport.scrollY )? y - mnu.offsetHeight - this.offY : viewport.height + viewport.scrollY - mnu.offsetHeight;
+    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScrollTop() )
+      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScrollTop() )? y - mnu.offsetHeight - 
+this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
     else y = y + this.offY;
     
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
@@ -423,12 +362,11 @@ function openLogin()
 
 function setinsert()
 {
- window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 500);
+ window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 300);
 }
 
 function openPopup(url, width, height, formid, action, loadfunc) {
-closePopup();
-// viewport.getAll()
+  closePopup();
 
   var objOverlay = document.getElementById("overlay");
 
@@ -472,8 +410,6 @@ block.style.zIndex = "400";
 block.style.background = "Window";
 block.style.backgroundColor = "#FFEB99";
 
-//block.style.top = viewport.scrollY + 15;
-//block.style.left = viewport.scrollX + 15;;
 body.appendChild(block);
 
 }
@@ -505,6 +441,7 @@ var bindArgs = {
     content: {ajax: "1"},
     mimetype:   "text/plain",
     error:      function(type, errObj){
+      alert("error");
     },
     load:      function(type, data, evt){
         // handle successful response here
@@ -545,7 +482,6 @@ var bindArgs = {
     }
 
   };
-
   if(formid)
   {
     var form = document.getElementById(formid);
@@ -623,8 +559,11 @@ function updateFilename(elem)
   var e = document.getElementById('filename');
 
   if(e)
-    e.value = str.substring(ch+1);
+    e.value = str.substring(ch + 1);
 
+  var d = document.getElementById('filename-div');
+  if(d)
+    d.innerHTML = str.substring(ch + 1);
 
 }
 
