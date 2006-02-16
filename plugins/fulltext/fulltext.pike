@@ -34,7 +34,7 @@ void ftSearch(object id, object response, mixed ... args)
   else
   {
     object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/search/?PSESSIONID=123");
-    array r = c["search"](app->get_syspref("site.url")["Value"], id->variables->q, "contents");
+    array r = c["search"](app->get_sys_pref("site.url")["Value"], id->variables->q, "contents");
 
     if(r[0] && sizeof(r[0]))
     {
@@ -145,7 +145,7 @@ array doSearchMacro(Macros.MacroParameters params)
   object c = 
 Protocols.XMLRPC.Client(params->extras->request->fins_app->config["fulltext"]["indexserver"]+ "/search/?PSESSIONID=123");
   mixed r =
-c["search"](params->extras->request->fins_app->get_syspref("site.url")["Value"],
+c["search"](params->extras->request->fins_app->get_sys_pref("site.url")["Value"],
 params->extras->request->variables->q, "contents");
   res+=({"<div class=\"search-results\">\n"});
 
