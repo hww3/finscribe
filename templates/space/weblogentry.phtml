@@ -1,13 +1,11 @@
 <%$entry.nice_created%><br/>
 <b><%$subject%> <a href="/space/<%$entry.path%>"><img src="/static/images/Icon-Permalink.png" width="8" 
-height="9" alt="permalink" border="0"/></a></b><% if sizeof(data->entry["categories"]) %><br>
-<% foreach var="entry.categories" val="category" %>&gt; <a 
-href="/exec/category/<%$category.category%>"><%$category.category%></a> 
-<% end %>
-<% endif %>
+height="9" alt="permalink" border="0"/></a></b>
 <p/>
 <%$contents%>
-<p/><% sizeof var="entry.comments"%> Comments | <a href="/exec/comments/<%$entry.path%>">Post 
+<p/><% if sizeof(data->entry["categories"]) %>
+Posted in <% implode var="entry.category_links" final=" and " %> |
+<% endif %><% sizeof var="entry.comments"%> Comments | <a href="/exec/comments/<%$entry.path%>">Post 
 Comment</a> | <a href="/rss/<%$entry.path%>?type=comments">RSS Feed</a> | <a 
 href="/exec/display_trackbacks/<%$entry.path%>"><% sizeof var="entry.md.trackbacks"%> TrackBacks</a> | <%$entry.md.views%> reads <a 
 href="/space/<%$entry.path%>">&gt;&gt;</a><p/>
