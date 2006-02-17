@@ -18,6 +18,7 @@ import Fins.Model;
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("title", "path", get_title));
+      add_field(TransformField("category_links", "categories", get_cat_links));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", c));
       add_field(BinaryStringField("metadata", 1024, 0, ""));
@@ -49,6 +50,11 @@ import Fins.Model;
      string a = i["current_version"]["subject"];
      if(a && sizeof(a)) return a;
      else return (n/"/")[-1];
+   }
+
+   string get_cat_links(mixed n, object i)
+   {
+     return map(i["categories"]["category"], lambda(string a){return "<a href=\"/exec/category/" + a + "\">"+ a + "</a>";});
    }
 
    string format_created(object c, object i)
