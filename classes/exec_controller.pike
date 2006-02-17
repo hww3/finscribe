@@ -296,6 +296,11 @@ public void createaccount(Request id, Response response, mixed ... args)
 				uv->save();
 			}
 		}
+                else if(id->variables->action == "Cancel")
+                {
+                    response->redirect("/space/");
+                    return;
+                }
 		else
 		{
 			response->flash("msg", "Unknown action " + id->variables->action);
@@ -569,13 +574,16 @@ public void login(Request id, Response response, mixed ... args)
       t->add("UserName", "");
 
 
-   if(app->get_sys_pref("site.autocreate") && 
-         app->get_sys_pref("site.autocreate") == "1")
+   if(app->get_sys_pref("admin.autocreate") && 
+         app->get_sys_pref("admin.autocreate")->get_value())
 	{
+
+werror("AUTOCREATE");
 		t->add("autocreate", 1);
 	}
 	else
 	{
+werror("NO AUTOCREATE");
 		t->add("autocreate", 0);
 	}
 	
@@ -619,6 +627,11 @@ public void comments(Request id, Response response, mixed ... args)
    if(!id->misc->session_variables->userid && 
              !anonymous)
    {
+     if(id->variables->ajax)
+     {
+       response->set_data("You must login to comment.");
+       return;
+     }
       response->flash("msg", "You must login to comment.");
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
@@ -634,6 +647,11 @@ public void comments(Request id, Response response, mixed ... args)
 
    if(obj_o["md"]["comments_closed"] == 1)
    {
+     if(id->variables->ajax)
+     {
+       response->set_data("Comments for this article have been closed.");
+       return;
+     }
      response->flash("msg", "Comments for this article have been closed.");
      response->redirect("/comments/" + obj_o["path"]);
      return;
