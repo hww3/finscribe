@@ -102,7 +102,12 @@ this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offse
   
 }
 
-function postBlog(id, obj, formid, noanim)
+function openPostBlog(obj)
+{
+  openPopup("/exec/post/" + obj, '80%', null, null, null, setinsert);
+}
+
+function postBlog(id, obj, formid)
 {
 var bindArgs = { 
     url:        "/exec/post/" + obj,  
@@ -116,8 +121,6 @@ var bindArgs = {
         if(!d)
           return;
         d.innerHTML = data.toString();
-     if(!noanim)
-       dojo.fx.html.wipeIn(d, 500);
     }
 
   };
@@ -131,26 +134,13 @@ var bindArgs = {
     
 // dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
-   
-  
+    
 }
 
 function saveBlog(id, obj)
 {
-	hideBlog(id, obj);
-	window.location = window.location + "?refresh=1";
-    
-}
-
-function hideBlog(id, obj)
-{
-//         d.innerHTML = data.toString();
-   var d = document.getElementById(id);
-   if(d)
-   {
-	  dojo.fx.html.wipeOut(d, 500);
-   }
-   return false;
+	closePopup();
+	window.location = window.location + "?refresh=1";    
 }
 
 function saveComment(obj, formid, noanim)

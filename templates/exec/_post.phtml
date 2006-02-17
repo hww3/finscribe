@@ -1,32 +1,65 @@
+<h3>Posting: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
-Subject: <input type="text" name="subject" size="40" value="<%$subject%>"/>
+<table>
+<tr>
+<td>
+<b>Subject:</b> 
+</td>
+<td>
+<input type="text" name="subject" size="40" value="<%$subject%>"/>
 <br/>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
 <textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br/>
-TrackBack URLs (click preview to detect <a href="http://en.wikipedia.org/wiki/Trackback">TrackBack</a> URLs):<br/>
+</td>
+</tr>
+<tr>
+<td>
+<b>TrackBack URLs: </b>
+<br>(click preview to detect <a 
+href="http://en.wikipedia.org/wiki/Trackback">TrackBack</a> URLs)
+<br/>
+</td>
+<td>
 <textarea rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
 <br/>
-Publish Date: <input type="text" size="15" <%$showcreated%> id="createdDate" name="createddate" value="<%$createddate%>"/ >
+</td>
+</tr>
+<tr>
+<td>
+<b>Publish Date: </b>
+</td>
+<td>
+<input type="text" size="15" <%$showcreated%> id="createdDate" name="createddate" 
+value="<%$createddate%>"/ >
 <input type="checkbox" name="created_toggle" <%$createchecked%> onclick="toggleCreated()"/>
 <br/>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <% if data->ajax %>
 <input type="hidden" name="ajax" value="1"/>
 <input type="hidden" id="postformajaxaction" name="action" value="" />
 
-<input type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('postblog', 
-'<%$object.path%>', 'postblogform', 1); return false;" name="action" value="Preview"/>
+<input type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"/>
 
-<input type="button" onclick="hideBlog('postblog'); return false;" name="action" value="Cancel"/>
+<input type="button" onclick="closePopup(); return false;" name="action" value="Cancel"/>
 
-<input type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('postblog', 
-'<%$object.path%>', 'postblogform', 1); saveBlog('postblog'); return false;" name="action" value="Save"/>
+<input type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); saveBlog('popup_contents'); return false;" name="action" value="Save"/>
 <% else %>
 <input type="hidden" name="ajax" value="1"/>
 <input type="submit" name="action" value="Preview"/>
 <input type="submit" name="action" value="Cancel"/>
 <input type="submit" name="action" value="Save"/>
 <% endif %>
-
+</td>
+</tr>
+</table>
 </form>
 
 <%if data->preview %>
