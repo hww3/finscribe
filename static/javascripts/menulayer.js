@@ -102,14 +102,10 @@ this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offse
   
 }
 
-var comments_displayed = 0;
-
 function displayComments(div, path, force)
 {
-  //if(comments_displayed != 0) return false;
-
-  if(comments_displayed !=0)
-    dojo.fx.html.wipeOut(document.getElementById(div), 100);
+//  if(comments_displayed !=0)
+//    dojo.fx.html.wipeOut(document.getElementById(div), 100);
 
     var bindArgs = {
     url:         "/exec/getcomments/" + path,
@@ -124,7 +120,6 @@ function displayComments(div, path, force)
   };
 
     requestObj = dojo.io.bind(bindArgs);
-    comments_displayed = 1;
 
   return false;
 }

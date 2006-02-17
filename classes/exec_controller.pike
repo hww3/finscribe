@@ -62,7 +62,6 @@ public void getcomments(Request id, Response response, mixed ... args)
 
   app->set_default_data(id, data);
 
-Log.debug("INFO: %O", data);
   string r = view->render_partial("exec/_comments", data, "comment", obj["comments"]);
      
   response->set_data(r);
@@ -577,13 +576,10 @@ public void login(Request id, Response response, mixed ... args)
    if(app->get_sys_pref("admin.autocreate") && 
          app->get_sys_pref("admin.autocreate")->get_value())
 	{
-
-werror("AUTOCREATE");
 		t->add("autocreate", 1);
 	}
 	else
 	{
-werror("NO AUTOCREATE");
 		t->add("autocreate", 0);
 	}
 	
