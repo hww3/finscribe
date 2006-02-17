@@ -10,15 +10,55 @@
 
    <p>
 <form action="" method="post">
-<input type="hidden" name="return_to" value="<%$return_to%>"/>
-Your name: <input type="string" name="Name" value="<%$Name%>"/><br/>
-Username: <input type="string" name="UserName" value="<%$UserName%>"/><br/>
-Email: <input type="string" name="Email" value="<%$Email%>"><br/>
-Password: <input type="password" name="Password" value="<%$Password%>"/><br/>
-Re-type Password: <input type="password" name="Password2"/>
+<table>
+<tr>
+<td>
+<b>Your name:</b>
+</td>
+<td>
+ <input type="string" name="Name" value="<%$Name%>"/><br/>
+</td>
+</tr>
+<tr>
+<td>
+<b>Username:</b>
+</td>
+<td>
+ <input type="string" name="UserName" value="<%$UserName%>"/><br/>
+</td>
+</tr>
+<tr>
+<td>
+<b>Email:</b>
+</td>
+<td>
+ <input type="string" name="Email" value="<%$Email%>"><br/>
+</td>
+</tr>
+<tr>
+<td><b>Password:</b>
+</td>
+<td>
+ <input type="password" name="Password" value="<%$Password%>"/><br/>
+</td>
+</tr>
+<tr>
+<td>
+
+<b>Re-type Password:</b> </td><td> <input type="password" name="Password2"/>
+
 <p/>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <input type="submit" name="action" value="Create"/>
 <input type="submit" name="action" value="Cancel"/>
+<input type="hidden" name="return_to" value="<%$return_to%>"/>
+</td>
+</tr>
+</table>
+
 </form>
 <p/>
 <%@include file="footer.phtml"%>
