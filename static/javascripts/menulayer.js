@@ -102,6 +102,34 @@ this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offse
   
 }
 
+var comments_displayed = 0;
+
+function displayComments(div, path, force)
+{
+  //if(comments_displayed != 0) return false;
+
+  if(comments_displayed !=0)
+    dojo.fx.html.wipeOut(document.getElementById(div), 100);
+
+    var bindArgs = {
+    url:         "/exec/getcomments/" + path,
+    mimetype:   "text/plain",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+      document.getElementById(div).innerHTML = data.toString();
+      dojo.fx.html.wipeIn(document.getElementById(div), 100);
+    }
+  };
+
+    requestObj = dojo.io.bind(bindArgs);
+    comments_displayed = 1;
+
+  return false;
+}
+
+
 function openPostBlog(obj)
 {
   openPopup("/exec/post/" + obj, '80%', null, null, null, setinsert);
@@ -113,6 +141,7 @@ var bindArgs = {
     url:        "/exec/post/" + obj,  
     content: {ajax: "1"},
     mimetype:   "text/plain",
+    method: "POST",
     error:      function(type, errObj){
     },
     load:      function(type, data, evt){
@@ -429,6 +458,7 @@ if(!block2)
 var bindArgs = { 
     url:        url,  
     content: {ajax: "1"},
+    method: "POST",
     mimetype:   "text/plain",
     error:      function(type, errObj){
       alert("error");

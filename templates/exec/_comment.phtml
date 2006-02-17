@@ -3,18 +3,40 @@
 
    <p>
 
-
+<div id="articlecontents" style="height: 200px; overflow: auto">
    <%$object%>
-
+</div>
 <p/>
 
 <form action="" id="postcomments" method="post">
-
+<table>
 <% if data["anonymous"] %>
-
-<b>Name:</b> <input type="text" size="35" name="name" value="<%$name%>"><br/>
-<b>Email:</b> <input type="text" size="35" name="email" value="<%$email%>"><br/>
-<b>Website:</b> <input type="text" size="35" name="website" value="<%$website%>">
+<tr>
+<td>
+<b>Name:</b>
+</td>
+<td>
+ <input type="text" size="35" name="name" value="<%$name%>"><br/>
+</td>
+</tr>
+<tr>
+<td>
+<b>Email:</b> 
+</td>
+<td>
+<input type="text" size="35" name="email" value="<%$email%>"><br/>
+</td>
+</tr>
+<tr>
+<td>
+<b>Website:</b> 
+</td>
+<td>
+<input type="text" size="35" name="website" value="<%$website%>">
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <p>
 <img src="/exec/check_image/<%$check %>">
 <br/>
@@ -22,10 +44,19 @@ Type the text displayed in the image above: <input type="text" size="15"
 name="check_value"/>
 <input type="hidden" value="<%$check %>" name="check"/>
 <p>
+</td>
+</tr>
 <% endif %>
-
+<tr>
+<td>
+</td>
+<td>
 <textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
 <input type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return false;" value="Preview">
@@ -35,6 +66,9 @@ name="check_value"/>
 <input type="submit" name="action" value="Preview">
 <input type="submit" name="action" value="Save">
 <% endif %>
+</td>
+</tr>
+</table>
 </form>
 
 <% if data->preview %>

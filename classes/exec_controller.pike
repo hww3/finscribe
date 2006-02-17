@@ -776,11 +776,11 @@ public void check_image(object id, object response, mixed ... args)
   if(!args[0])
     v = "INVALID REQUEST";
 
-  if(!id->misc->session_variables[args[0]])
+  if(!id->misc->session_variables[args *"/"])
     v = "INVALID REQUEST";
 
   else 
-    v = id->misc->session_variables[args[0]];
+    v = id->misc->session_variables[args *"/"];
 
   object img = Image.Fonts.open_font("goo", 48,0, 1)
                     ->write(v);
@@ -1334,7 +1334,7 @@ public void post(Request id, Response response, mixed ... args)
 
    t->add("object", obj_o);
    t->add("showcreated", "disabled=\"1\"");
-   t->add("createchecked", "selected=\0\"");
+   t->add("createchecked", "selected=\"0\"");
    
    app->set_default_data(id, t);
 
