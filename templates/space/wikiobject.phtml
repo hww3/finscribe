@@ -33,9 +33,7 @@ xonmouseout="menuLayers.hide()">actions</a> ]
       <div class="snip-content">
    <%@ include file="space/attachmentform.phtml" %>
 <% if data["numcategories"] %>
-Categories: <%foreach var="object.categories" val="cat" %>
-<a href="/exec/category/<%$cat.category%>"><%$cat.category%></a> 
-<% end %>
+ Posted in <% implode var="category_links" final=" and " %>.
 <p/>
 <% endif %>
 <div id="postblog" style="display: none; width: 100%;">

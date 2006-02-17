@@ -94,6 +94,7 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("numcomments", sizeof(obj["comments"]));
   t->add("numcategories", sizeof(obj["categories"]));
   t->add("categories", (obj["categories"]));
+  t->add("category_links", (lambda(){array a = ({}); foreach(obj["categories"];;mixed c) a+=({"<a href=\"/exec/category/" + c["category"] + "\">" + c["category"] + "</a>"}); return a;})());
   t->add("metadata", obj["md"]); 
   t->add("numtrackbacks", sizeof(obj["md"]["trackbacks"] || ([])));
 
