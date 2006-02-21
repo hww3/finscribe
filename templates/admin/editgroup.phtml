@@ -1,6 +1,8 @@
 <html>
 <head>
   <%@include file="header.phtml"%>
+ <script src="/static/javascripts/menulayer.js"></script>
+<
    <title><%syspref var="site.name"%> :: admin :: edit group</title>
 </head>
 <body>
@@ -19,8 +21,11 @@
 	<form action="" method="post">
         <b>Group Name:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
         <p/>
-        <b>User Members</b><br/>
 
+		<div dojoType="ComboPicker"></div>
+
+<!--
+        <b>User Members</b><br/>
         <% foreach var="group.users" val="member" %>
         <%$member.Name%><br />
         <% end %>
@@ -31,7 +36,7 @@
         <% foreach var="group.groups" val="member" %>
         <%$member.Name%><br />
         <% end %>
-
+-->
         <p/>
         <input type="submit" name="action" value="Cancel" />
         <input type="submit" name="action" value="Save" />
