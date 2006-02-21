@@ -1,7 +1,7 @@
 dojo.require("dojo.html");
 dojo.require("dojo.fx.*");
 dojo.require("dojo.widget.html.DatePicker");
-dojo.require("dojo.widget.ComboPicker")
+dojo.require("fins.widget.ComboPicker")
 dojo.require("dojo.io.IframeIO");
 
 var menuLayers = {

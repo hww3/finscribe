@@ -1,0 +1,56 @@
+.ComboPickerTable {
+	height: 100%;
+	width: 100%;
+}
+
+.ComboPickerContainer {
+	background: #EEEEEE;
+	border: #798EC5 1px solid;
+	padding: 10px;
+        height: 250px;
+}
+
+.PickerButtonHolder {
+	padding: 10px;
+        vertical-align: middle;
+}
+
+.FromPicker {
+	width: 100%;
+        height: 100%;
+}
+
+.ToPicker {
+    width: 100%;
+    height: 100%;
+}
+
+.PickerFromHolder
+{
+	width: 230px;
+	top: 0px;
+	height: 100%;
+}
+
+.PickerToHolder
+{
+    width: 230px;
+	top: 0px;
+	height: 100%;
+}
+
+.PickerButton {
+	color: #ffffff;
+	background: #798EC5;
+	font-size: xx-small;
+	font-family: verdana, arial, helvetica, sans-serif;
+	border-right: #000000 1px solid;
+	border-bottom: #000000 1px solid;
+	border-left: #666666 1px solid;
+	border-top: #666666 1px solid;
+	padding-right: 4px;
+	padding-left: 4px;
+	text-decoration: none; height: 18px;
+}
+
+

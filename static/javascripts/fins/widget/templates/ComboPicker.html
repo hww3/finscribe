@@ -1,0 +1,23 @@
+<div class="ComboPickerContainer" dojoAttachPoint="pickerNode">
+<table class="ComboPickerTable">
+  <tr>
+  <td>
+    <div class="PickerFromHolder" dojoAttachPoint="pickerFromContainerNode">
+    <select class="FromPicker" multiple="1" dojoAttachPoint="fromList" dojoAttachEvent="onChange: fromChanged"/>
+    </div>
+  </td>
+  <td>
+    <div class="PickerButtonHolder" dojoAttachPoint="pickerControlContainerNode">
+        <input class="PickerButton" type="button"  value="--&gt;" dojoAttachPoint="addButton" dojoAttachEvent="onClick: addItem;"/><br/>&nbsp;<br/>
+        <input class="PickerButton" type="button" value="&lt;--" dojoAttachPoint="removeButton" dojoAttachEvent="onClick: removeItem;"/>
+<p/>
+    </div>
+  </td>
+  <td>
+    <div class="PickerToHolder" dojoAttachPoint="pickerToContainerNode">
+	    <select class="ToPicker" multiple="1" dojoAttachPoint="toList" dojoAttachEvent="onChange: toChanged"/>
+    </div>
+  </td>
+</tr>
+</table>
+</div>
