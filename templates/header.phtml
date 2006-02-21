@@ -2,13 +2,23 @@
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css"/>
    <link rel="STYLESHEET" type="text/css" href="/static/lightbox.css"/>
    <!-- IE doesn't like XHTML markup for an empty script container :/ -->
+   <script src="/space/themes/default/functions.js"></script>
+
 <script type='text/javascript'>
   djConfig = {
     isDebug : true
   };
+
 </script>
-   <script src="/space/themes/default/functions.js"></script>
   <script src="/static/javascripts/dojo.js"></script>
+<script type='text/javascript'>
+
+dojo.hostenv.setModulePrefix("fins.widgets",
+                                "../fins/widgets"
+);
+dojo.require("fins.widget.*");
+</script>
+
 <!--
 <xscript type='text/javascript'
     src='http://o.aolcdn.com/iamalpha/.resource/jssdk/dojo-0.2.2/dojo.js'></xscript>

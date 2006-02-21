@@ -21,8 +21,60 @@
 	<form action="" method="post">
         <b>Group Name:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
         <p/>
+        <input type="hidden" name="added" id="added"/>
+        <input type="hidden" name="removed" id="removed"/>
 
-		<div dojoType="ComboPicker"></div>
+<script type="text/javascript">
+function getMembers()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getusers_json/" +  "<%$group.id%>" ,
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
+};
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+}
+
+function getAvailable()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getusers_json/",
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
+};
+
+    // dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+};
+</script>
+
+		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
 
 <!--
         <b>User Members</b><br/>

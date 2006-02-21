@@ -46,6 +46,56 @@ public void shutdown(Request id, Response response, mixed ... args)
 	
 }
 
+public void getusers_json(Request id, Response response, mixed ... args)
+{
+  string json;
+  array j = ({});
+  array x;
+
+  if(!app->is_admin_user(id, response))
+    return;
+
+  if(!sizeof(args))
+   x = model->find("user", ([]));
+  else
+  {
+    object g = model->find_by_id("group", (int)args[0]);
+    
+    x = g["users"];
+  }
+
+  foreach((array)x;;mixed g)
+  {
+    j += ({([ "name": g["Name"] + " [" + g["UserName"] + "]", "value": g["id"] ])});
+  } 
+
+  json = Tools.JSON.serialize((["data": j]));
+
+  response->set_data(json);
+  response->set_type("text/javascript");
+}
+
+public void getgroups_json(Request id, Response response, mixed ... args)
+{
+
+  if(!app->is_admin_user(id, response))
+    return;
+
+  string json;
+  array j = ({});
+  array x = model->find("group", ([]));
+
+  foreach(x;;mixed g)
+  {
+    j += ({([ "name": g["Name"], "value": g["id"] ])});
+  } 
+
+  json = Tools.JSON.serialize((["data": j]));
+
+  response->set_data(json);
+  response->set_type("text/javascript");
+}
+
 public void listusers(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))
@@ -107,8 +157,30 @@ public void editgroup(Request id, Response response, mixed ... args)
 
           else if(id->variables->action == LOCALE(0, "Save"))
           {
+
+werror("DATA: %O\n", id->variables);
             if(id->variables->Name != g["Name"])
                g["Name"] = id->variables->Name;
+
+            if(id->variables->added != "")
+            {
+              array a = id->variables->added / ",";
+              foreach(a;;string toadd)
+              {
+                 object x = model->find_by_id("user", (int)toadd);
+                 g["users"] += x;
+              }
+            }
+
+            if(id->variables->removed != "")
+            {
+              array a = id->variables->removed / ",";
+              foreach(a;;string toremove)
+              {
+                 object x = model->find_by_id("user", (int)toremove);
+                 g["users"] -= x;
+              }
+            }
 
             response->flash("msg", "Group was updated successfully.");
             response->redirect("/admin/listgroups");
