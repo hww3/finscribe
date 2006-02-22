@@ -1380,6 +1380,7 @@ public void post(Request id, Response response, mixed ... args)
 
             break;
          case "Save":
+werror("SAVE!\n");
                object c;
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
