@@ -230,7 +230,7 @@ public string get_widget_for_type(string type, string contents)
 
   if(!t || !t->get_widget)
   {
-    return "<textarea id=\"contents\" name=\"contents\" rows=\"10\" cols=\"600\">" + 
+    return "<textarea dojoType=\"resizabletextarea\" id=\"contents\" name=\"contents\" rows=\"10\" cols=\"600\">" + 
                   contents + "</textarea>";
   }
 

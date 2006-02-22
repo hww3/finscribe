@@ -1,6 +1,8 @@
 dojo.require("dojo.html");
 dojo.require("dojo.fx.*");
+dojo.require("dojo.widget.*");
 dojo.require("dojo.widget.html.DatePicker");
+dojo.require("dojo.widget.ResizableTextarea");
 dojo.require("dojo.io.IframeIO");
 
 var menuLayers = {
