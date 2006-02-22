@@ -19,18 +19,28 @@ dojo.require("fins.widget.ComboPicker");
    <div class="snip-wrapper">
       <div class="snip-content">
 
+<% if data["newgroup"] %>
+          <h3>New Group</h3>
+<% else %>
           <h3>Edit Group</h3>
-
+<% endif %>
 	<form action="" method="post">
         <b>Group Name:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
         <p/>
         <input type="hidden" name="added" id="added"/>
         <input type="hidden" name="removed" id="removed"/>
+<% if data["newgroup"] %>
+        <input type="hidden" name="newgroup" value="1"/>
+<% endif %>
 
 <script type="text/javascript">
 function getMembers()
 {
   var res = null;
+
+<% if data["newgroup"] %>
+    return [];
+<% endif %>
 
   var bindArgs = {
     url:         "/admin/getusers_json/" +  "<%$group.id%>" ,
@@ -57,7 +67,7 @@ function getAvailable()
   var res = null;
 
   var bindArgs = {
-    url:         "/admin/getusers_json/",
+    url:         "/admin/getusers_json",
     mimetype:   "text/plain",
     sync: true,
     error:      function(type, errObj){
@@ -80,11 +90,6 @@ function getAvailable()
 		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
 
 <!--
-        <b>User Members</b><br/>
-        <% foreach var="group.users" val="member" %>
-        <%$member.Name%><br />
-        <% end %>
-
         <p/>
         <b>Group Members</b><br/>
 

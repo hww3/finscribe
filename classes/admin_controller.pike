@@ -136,31 +136,44 @@ public void listgroups(Request id, Response response, mixed ... args)
 
 public void editgroup(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
+    if(!app->is_admin_user(id, response))
+      return;
    
     object t = view->get_view("admin/editgroup");
 	
     app->set_default_data(id, t);
 
-        
-        object g = model->find_by_id("group", (int)id->variables->groupid);
+    object g;
+
+        if(id->variables->groupid)
+        {
+           g = model->find_by_id("group", (int)id->variables->groupid);
 	   t->add("group", g);
+        }
+        else
+        {
+           t->add("newgroup", 1);
+        }
 
         if(id->variables->action)
         {
           if(id->variables->action == LOCALE(0, "Cancel"))
           {
-            response->redirect("/admin");
+            response->redirect("listgroups");
             return;
           }
 
           else if(id->variables->action == LOCALE(0, "Save"))
           {
 
-werror("DATA: %O\n", id->variables);
+            if(id->variables->newgroup)
+              g = FinScribe.Repo.new("group");
+
             if(id->variables->Name != g["Name"])
                g["Name"] = id->variables->Name;
+
+            if(id->variables->newgroup)
+              g->save();
 
             if(id->variables->added != "")
             {
@@ -183,7 +196,7 @@ werror("DATA: %O\n", id->variables);
             }
 
             response->flash("msg", "Group was updated successfully.");
-            response->redirect("/admin/listgroups");
+            response->redirect("listgroups");
             return;
           }
         }
@@ -233,7 +246,7 @@ public void edituser(Request id, Response response, mixed ... args)
             }
 
             response->flash("msg", "User was updated successfully.");
-            response->redirect("/admin/listusers");
+            response->redirect("listusers");
             return;
           }
         }
@@ -262,6 +275,31 @@ public void deleteuser(Request id, Response response, mixed ... args)
     response->flash("msg", "User " + n + " deleted.");
   }
   response->redirect("listusers");
+
+}
+
+public void deletegroup(Request id, Response response, mixed ... args)
+{
+	if(!app->is_admin_user(id, response))
+          return;
+
+  object u;
+
+  if(!id->variables->groupid)
+  {
+    response->flash("msg", "No group provided.");
+  }
+  if(!(u = model->find_by_id("group", (int)id->variables->groupid)))
+  {
+    response->flash("msg", "Group id " + id->variables->groupid + " does not exist.");
+  }
+  else
+  {
+    string n = u["Name"];
+    u->delete();
+    response->flash("msg", "Group " + n + " deleted.");
+  }
+  response->redirect("listgroups");
 
 }
 
