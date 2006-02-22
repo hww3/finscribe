@@ -3,8 +3,7 @@ Version 0.4
   (such as an initial preview) is of type "text/wiki", unless it's 
   otherwise supplied in the datatype form variable.
 - added ability to choose type for a new object, with type-specific editing
-  widgets (dynamically selected based on datatype). currently the type
-  selection dropdown is hardcoded, but everything else is dynamic.
+  widgets (dynamically selected based on datatype). 
   html content gets a wysiwyg editor.
 - added anonymous posting, with some rudimentary spam control using a
   "type the text in the image" technique.
@@ -14,6 +13,8 @@ Version 0.4
   Tested on SQLite, not tested on Postgresql.
 - added move functionality. does not check for orphaned content.
 - added plugin list and plugin enable "toggler".
+- added ability to modify the user membership of a group.
+- added a per user preference for default content type (ie wiki vs html)
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
