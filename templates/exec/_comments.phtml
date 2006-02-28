@@ -12,7 +12,7 @@ Posted by
 src="/static/images/Icon-Permalink.png" width="8" height="9"
 alt="permalink" border="0"/></a>
 
-<% if data->is_admin||(data->UserName && data->UserName==data->comment["author"]["UserName"]) %>
+<% if data->is_admin||(data->user_object["UserName"] && data->user_object["UserName"]==data->comment["author"]["UserName"]) %>
 <a href="/exec/deletecomment?id=<%$comment.id%>">Delete</a>
 <% endif %>
 

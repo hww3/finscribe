@@ -48,9 +48,9 @@ string get_page_breadcrumbs(string page)
 
   // in this application, if we're at the root, 
   // we don't have any place left to go.
-  if(sizeof(p) == 1 && p[0]=="start") return "";
+  if(sizeof(p) == 1 && (p[0]=="start" || p[0] == "admin")) return "";
 
-  if(p[0] != "start")
+  if(p[0] != "start" && p[0] != "admin")
     p = ({"start"}) + p;
 
   foreach(p; int i; string component)

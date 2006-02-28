@@ -204,6 +204,112 @@ public void editgroup(Request id, Response response, mixed ... args)
   	response->set_view(t);
 }
 
+public void newuser(Request id, Response response, mixed ... args)
+{
+    if(!app->is_admin_user(id, response))
+     return;
+
+    object t = view->get_view("admin/newuser");
+	
+    app->set_default_data(id, t);
+  	response->set_view(t);
+
+   string Name, UserName, Email, Password, Password2;
+   int is_active, is_admin;
+
+        Name = "";
+        UserName = "";
+        Email = "";
+        Password = "";
+
+        if(id->variables->action)
+        {
+                Name = id->variables->Name;
+                UserName = id->variables->UserName;
+                Email = id->variables->Email;
+                Password = id->variables->Password;
+                Password2 = id->variables->Password2;
+                is_active = (int)id->variables->is_active;
+                is_admin = (int)id->variables->is_admin;
+
+
+                if(id->variables->action == "Create")
+                {
+                        // check the username
+                        if(sizeof(Name)< 2)
+                        {
+                                response->flash("msg", "You must provide a username with at least 2 characters.\n");
+                                UserName = "";
+                        }
+                        else if(sizeof(model->find("user", (["UserName": UserName]))) != 0)
+                        {
+                                response->flash("msg", "The username you have chosen is already in use by another user.\n");
+                                UserName = "";
+                        }
+                        else if(!sizeof(Name) || !sizeof(Email))
+                        {
+                                response->flash("msg", "You must provide a Real name and e-mail address.\n");
+
+                                Name = "";
+                                Email = "";
+                       }
+                        else if(sizeof(Password)<4 || (Password != Password2))
+                        {
+                                response->flash("msg", "Your password must be typed identically in both fields, and must be at least 4 characters long.\n");
+                                Password = Password2 = "";
+                        }
+                        else
+                        {
+                                // if we got here, everything should be good to go.
+                                object u = FinScribe.Repo.new("user");
+                                u["UserName"] = UserName;
+                                u["Name"] = Name;
+                                u["Email"] = Email;
+                                u["Password"] = Password;
+                                u["is_active"] = is_active;
+                                u["is_admin"] = is_admin;
+                                u->save();
+                                response->flash("msg", "User " + UserName + " created successfully.\n");
+                                response->redirect("listusers");
+
+                                object p = FinScribe.Repo.find("object", (["path": "themes/default/newuser"]))[0];
+
+                                object up = FinScribe.Repo.new("object");
+                                up["path"] = u["UserName"];
+                                up["author"] = u;
+                                up["datatype"] = p["datatype"];
+                                up["is_attachment"] = 0;
+
+                                up->save();
+                                up["md"]["locked"] = 1;
+
+                                object uv = FinScribe.Repo.new("object_version");
+                                uv["author"] = u;
+                                uv["object"] = up;
+                                uv["contents"] = p["current_version"]["contents"];
+                                uv->save();
+                        }
+                }
+                else if(id->variables->action == "Cancel")
+                {
+                    response->redirect("listusers");
+                    return;
+                }
+                else
+                {
+                        response->flash("msg", "Unknown action " + id->variables->action);
+                }
+
+        }
+
+          t->add("Name", Name);
+          t->add("UserName", UserName);
+          t->add("Email", Email);
+          t->add("Password", Password);
+          t->add("Password2", "");          
+
+}
+
 public void edituser(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))
@@ -221,16 +327,22 @@ public void edituser(Request id, Response response, mixed ... args)
         {
           if(id->variables->action == LOCALE(0, "Cancel"))
           {
-            response->redirect("/admin");
+            response->redirect("listusers");
             return;
           }
 
           else if(id->variables->action == LOCALE(0, "Save"))
           {
+            if((int)id->variables->is_admin != u["is_admin"])
+               u["is_admin"] = (int)id->variables->is_admin;
+
+            if((int)id->variables->is_active != u["is_active"])
+               u["is_active"] = (int)id->variables->is_active;
+
             if(id->variables->Name != u["Name"])
                u["Name"] = id->variables->Name;
 
-            if(id->variables->Name != u["Email"])
+            if(id->variables->Email != u["Email"])
                u["Email"] = id->variables->Email;
 
 

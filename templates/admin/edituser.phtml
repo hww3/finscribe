@@ -2,6 +2,27 @@
 <head>
   <%@include file="header.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: edit user</title>
+
+   <script type="text/javascript">
+        dojo.require("dojo.widget.Button2");
+	dojo.require("dojo.widget.html.Button2");
+
+   function enable_chpass()
+   {
+     var w = dojo.widget.manager.byId('chpass');
+
+     if(w)
+     {
+       w.hide();
+     }
+
+     var p = dojo.widget.manager.byId('passwordpane');
+     
+     if(p)
+       p.show();     
+   }
+
+   </script>
 </head>
 <body>
 <%@include file="tagline.phtml"%>
@@ -17,20 +38,111 @@
           <h3>Edit User</h3>
 
 	<form action="" method="post">
-        <b>Username:</b> <%$user.UserName%>
-        <br />
-        <b>Real Name:</b> <input type="text" size="32" name="Name" value="<%$user.Name%>" />
-        <br />
-        <b>Email:</b> <input type="text" size="32" name="Email" value="<%$user.Email%>" />
-        <p/>
 
-        <b>Password:</b> <input type="password" size="32" name="Password" value="" />
+
+<table width="75%"> 
+<tr>
+<td>
+        <b>Username:</b> 
+</td>
+<td>
+<%$user.UserName%>
         <br />
-        <b>Confirm Password:</b> <input type="password" size="32" name="ConfirmPassword" value="" />
-        
+</td>
+</tr>
+<tr>
+<td>
+        <b>Real Name:</b>
+</td>
+<td>
+ <input type="text" size="32" name="Name" value="<%$user.Name%>" />
+        <br />
+</td>
+</tr>
+<tr>
+<td>
+        <b>Email:</b>
+</td>
+<td>
+ <input type="text" size="32" name="Email" value="<%$user.Email%>" />
         <p/>
-        <input type="submit" name="action" value="Cancel" />
-        <input type="submit" name="action" value="Save" />
+</td>
+</tr>
+
+<tr>
+<td>
+        <b>Is Active?</b>
+</td>
+<td>
+ <input type="radio" name="is_active" value="0"
+ <% if !data["user"]["is_active"] %>
+   checked="1"
+ <% endif %>
+/> No
+ <input type="radio" name="is_active" value="1"
+ <% if data["user"]["is_active"] %>
+   checked="1"
+ <% endif %>
+/> Yes
+        <p/>
+</td>
+</tr>
+
+<tr>
+<td>
+        <b>Is Admin?</b>
+</td>
+<td>
+ <input type="radio" name="is_admin" value="0"
+ <% if !data["user"]["is_admin"] %>
+   checked="1"
+ <% endif %>
+/> No
+ <input type="radio" name="is_admin" value="1"
+ <% if data["user"]["is_admin"] %>
+   checked="1"
+ <% endif %>
+/> Yes
+        <p/>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<button dojoType="button2" widgetId="chpass" onclick="enable_chpass();">
+  Change Password...
+</button>
+<div dojoType="Container" id="passwordpane" style="display:none;">
+<table>
+<tr>
+<td>
+        <b>Password:</b> 
+</td>
+<td>
+<input type="password" size="32" name="Password" value="" />
+        <br />
+</td>
+</tr>
+<tr>
+<td>
+        <b>Confirm Password:</b>
+</td>
+<td>
+ <input type="password" size="32" name="ConfirmPassword" value="" />
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+        <p/>
+        <button name="action" value="Cancel">Cancel</button>
+        <button name="action" value="Save">Save</button>
+</td>
+</tr>
+</table>
         </form>
         
           

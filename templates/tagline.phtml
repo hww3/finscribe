@@ -19,8 +19,8 @@
 <% endif %>
 
 
-<% if data["user"] %>
-| logged in as <%$UserName%> | <a href="/exec/logout">logout</a>
+<% if data["user_object"] %>
+| logged in as <%$user_object.UserName%> | <a href="/exec/logout">logout</a>
 <% if data["object_is_weblog"] %>
       |  <a href="#" onclick="openPostBlog('<%$obj%>'); return false;">post blog</a>
 <!--      |  <a href="/exec/post/<%$obj%>">post blog</a> -->
@@ -37,6 +37,10 @@
 
 ]
 <p/>
+<% if !data["in_admin"] %>
   <% breadcrumbs var="obj" %>
+<% else %>
+  <a href="/admin">admin</a>
+<% endif %>
  </div>
 </div>
