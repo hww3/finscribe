@@ -23,6 +23,8 @@ public void index(Request id, Response response, mixed ... args)
 
     app->set_default_data(id, t);
 
+    t->add("in_admin", 1);
+
 	response->set_view(t);
 }
 
@@ -41,6 +43,7 @@ public void shutdown(Request id, Response response, mixed ... args)
 			call_out(exit, 5, 0);
 		}
 	        app->set_default_data(id, t);
+    t->add("in_admin", 1);
 	
 		response->set_view(t);
 	
@@ -111,6 +114,7 @@ public void listusers(Request id, Response response, mixed ... args)
 		ul = model->find("user",([]));
 	
 	t->add("users", ul);
+    t->add("in_admin", 1);
 	
 	response->set_view(t);
 }
@@ -130,6 +134,7 @@ public void listgroups(Request id, Response response, mixed ... args)
 		ul = model->find("group",([]));
 	
 	t->add("groups", ul);
+    t->add("in_admin", 1);
 	
 	response->set_view(t);
 }
@@ -142,6 +147,7 @@ public void editgroup(Request id, Response response, mixed ... args)
     object t = view->get_view("admin/editgroup");
 	
     app->set_default_data(id, t);
+    t->add("in_admin", 1);
 
     object g;
 
@@ -213,6 +219,7 @@ public void newuser(Request id, Response response, mixed ... args)
 	
     app->set_default_data(id, t);
   	response->set_view(t);
+    t->add("in_admin", 1);
 
    string Name, UserName, Email, Password, Password2;
    int is_active, is_admin;
@@ -319,6 +326,7 @@ public void edituser(Request id, Response response, mixed ... args)
 	
     app->set_default_data(id, t);
   	response->set_view(t);
+    t->add("in_admin", 1);
 
     object u = model->find_by_id("user", (int)id->variables->userid);
 	t->add("user", u);
