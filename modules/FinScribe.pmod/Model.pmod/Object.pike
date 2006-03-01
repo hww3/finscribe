@@ -24,6 +24,7 @@ import Fins.Model;
       add_field(BinaryStringField("metadata", 1024, 0, ""));
       add_field(TransformField("md", "metadata", get_md));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
+      add_field(InverseForeignKeyReference("versions", "object_version", "object"));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
       add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
