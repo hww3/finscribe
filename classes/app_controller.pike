@@ -33,6 +33,9 @@ public void index(Request id, Response response, mixed ... args)
     case "text/wiki":
       handle_wiki(obj, id, response);
       break;
+    case "text/html":
+      handle_wiki(obj, id, response);
+      break;
     case "text/template":
       handle_text(obj, id, response);
       break;

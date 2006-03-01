@@ -539,7 +539,7 @@ public void editattachments(Request id, Response response, mixed ... args)
 
    if(viaframe)
    {
-     string s = "<html><head></head><body><textarea>" + t->render() + "</textarea></body></html>";
+     string s = "<html><head></head><body><div>" + t->render() + "</div></body></html>";
      response->set_data(s);
      response->set_type("text/html");
    }

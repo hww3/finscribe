@@ -227,6 +227,7 @@ var bindArgs = {
           return;
         else
             d.innerHTML = data.toString();
+
     }
     
   };
