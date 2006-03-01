@@ -86,7 +86,16 @@ public void getgroups_json(Request id, Response response, mixed ... args)
 
   string json;
   array j = ({});
-  array x = model->find("group", ([]));
+  array x = ({});
+
+  if(!sizeof(args))
+    x = model->find("group", ([]));
+  else
+  {
+    object u = model->find_by_id("user", (int)args[0]);
+    if(u)
+       x = model->find("group", (["users": u]));
+  }
 
   foreach(x;;mixed g)
   {
@@ -276,9 +285,21 @@ public void newuser(Request id, Response response, mixed ... args)
                                 u["is_active"] = is_active;
                                 u["is_admin"] = is_admin;
                                 u->save();
+
+                               if(id->variables->added != "")
+                               {
+                                 array a = id->variables->added / ",";
+                                 foreach(a;;string toadd)
+                                 {
+                                    object x = model->find_by_id("group", (int)toadd);
+                                    x["users"] += u;
+                                  }
+                                }
+
                                 response->flash("msg", "User " + UserName + " created successfully.\n");
                                 response->redirect("listusers");
 
+// now, let's set up a page for the new user.
                                 object p = FinScribe.Repo.find("object", (["path": "themes/default/newuser"]))[0];
 
                                 object up = FinScribe.Repo.new("object");
@@ -365,6 +386,28 @@ public void edituser(Request id, Response response, mixed ... args)
                u["Password"] = id->variables->Password;
             }
 
+            if(id->variables->added != "")
+            {
+              array a = id->variables->added / ",";
+              foreach(a;;string toadd)
+              {
+                 object x = model->find_by_id("group", (int)toadd);
+                 x["users"] += u;
+              }
+            }
+
+            if(id->variables->removed != "")
+            {
+              array a = id->variables->removed / ",";
+              foreach(a;;string toremove)
+              {
+                 object x = model->find_by_id("group", (int)toremove);
+                 x["users"] -= u;
+              }
+            }
+
+
+
             response->flash("msg", "User was updated successfully.");
             response->redirect("listusers");
             return;
@@ -388,14 +431,38 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
-  else
+  else if(id->variables->action == "Really Delete")
   {
+
+    // first, we should reassign the documents.
+    object nu = model->find_by_id("user", (int)id->variables->reassign_to);
+
+    foreach(u["objects"];; object x)
+      x["author"] = nu;
+    foreach(u["object_versions"];; object x)
+      x["author"] = nu;
+
     string n = u["Name"];
     u->delete();
     response->flash("msg", "User " + n + " deleted.");
+    response->redirect("listusers");
   }
-  response->redirect("listusers");
+  else if(id->variables->action == "Cancel")
+  {
+    response->flash("msg", "User Delete Cancelled");
+    response->redirect("listusers");
+  }
+  else
+  {
+    object t = view->get_view("admin/confirmdeleteuser");
 
+    app->set_default_data(id, t);
+
+    t->add("in_admin", 1);
+    t->add("user", u);
+    t->add("all_users", model->find("user", ([])));
+    response->set_view(t);
+  }
 }
 
 public void deletegroup(Request id, Response response, mixed ... args)
