@@ -2,6 +2,45 @@
 <head>
     <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
 <title>Create Account</title>
+<%@include file="header.phtml"%>
+
+<script type="text/javascript">
+dojo.require("fins.widget.ComboPicker");
+</script>
+
+<script type="text/javascript">
+function getMembers()
+{
+  var res = null;
+
+    return [];
+}
+
+function getAvailable()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json",
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
+};
+
+    // dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+};
+</script>
+
 </head>
 <body>
 <%@include file="tagline.phtml"%>
@@ -73,9 +112,18 @@
 </td>
 </tr>
 
+<tr>
+<td colspan="2">
+		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+</td>
+</tr>
+
+
 
 <tr>
 <td colspan="2">
+        <input type="hidden" name="added" id="added"/>
+        <input type="hidden" name="removed" id="removed"/>
 <input type="submit" name="action" value="Create"/>
 <input type="submit" name="action" value="Cancel"/>
 </td>

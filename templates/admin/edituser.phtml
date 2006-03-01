@@ -3,7 +3,65 @@
   <%@include file="header.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: edit user</title>
 
-   <script type="text/javascript">
+<script type="text/javascript">
+dojo.require("fins.widget.ComboPicker");
+</script>
+
+<script type="text/javascript">
+function getMembers()
+{
+  var res = null;
+
+<% if data["newgroup"] %>
+    return [];
+<% endif %>
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json/" +  "<%$user.id%>" ,
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
+};
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+}
+
+function getAvailable()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json",
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
+};
+
+    // dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+};
+</script>
+
+<script type="text/javascript">
         dojo.require("dojo.widget.Button2");
 	dojo.require("dojo.widget.html.Button2");
 
@@ -135,9 +193,21 @@
 </div>
 </td>
 </tr>
+
+<tr>
+<td colspan="2">
+		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+</td>
+</tr>
+
 <tr>
 <td colspan="2">
         <p/>
+
+        <input type="hidden" name="added" id="added"/>
+        <input type="hidden" name="removed" id="removed"/>
+
+
         <button name="action" value="Cancel">Cancel</button>
         <button name="action" value="Save">Save</button>
 </td>
@@ -157,4 +227,5 @@
 Welliver</div>
 </body>
 </html>
+
 

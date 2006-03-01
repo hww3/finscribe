@@ -1,0 +1,67 @@
+<html>
+<head>
+  <%@include file="header.phtml"%>
+   <title><%syspref var="site.name" %> :: admin :: delete user</title>
+</head>
+<body>
+<%@include file="tagline.phtml"%>
+   <div id="page-wrapper">
+    <div id="page-content">
+ 
+<div class="snip-buttons"> </div> 
+
+<div class="flash-message"><%flash var="msg"%></div>
+   <div class="snip-wrapper">
+      <div class="snip-content">
+
+          <h3>Edit User</h3>
+
+	<form action="" method="post">
+        
+The user <%$user.Name%> owns the the following objects, or versions of the 
+following 
+documents:
+<p>
+<% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["object_versions"]) %>
+<div style="height:200px; overflow:auto;">
+  <% foreach var="user.objects" val="objs" %>
+    <li> <%$objs.path%>
+  <% end %>
+</div>
+<p>
+Please choose the user to which these objects will be reassigned:
+<p>
+<select size="10" name="reassign_to">
+<%foreach var="all_users" val="u" %>
+<option value="<%$u.id%>"><%$u.Name%> [<%$u.UserName%>]
+<% end %>
+</select>
+
+<% else %>
+   No objects.
+<% endif %>
+<p>
+<!--
+  <input type="hidden" name="userid" value="<%$user.id%>"/>
+-->
+        <button name="action" value="Cancel">Cancel</button>
+        <button name="action" value="Really Delete">Really Delete</button>
+</td>
+</tr>
+</table>
+        </form>
+        
+          
+     </div>
+      </div>
+      </div>
+      </div>
+         
+</div>
+
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
+Welliver</div>
+</body>
+</html>
+
+
