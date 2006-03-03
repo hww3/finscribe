@@ -108,6 +108,26 @@ public void getgroups_json(Request id, Response response, mixed ... args)
   response->set_type("text/javascript");
 }
 
+public void listacls(Request id, Response response, mixed ... args)
+{
+	if(!app->is_admin_user(id, response))
+          return;
+
+     object t = view->get_view("admin/listacls");
+
+     app->set_default_data(id, t);
+
+	mixed ul;
+
+	if(!id->variables->limit)
+		ul = model->find("acl",([]));
+	
+	t->add("acls", ul);
+    t->add("in_admin", 1);
+	
+	response->set_view(t);
+}
+
 public void listusers(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))
