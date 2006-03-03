@@ -32,7 +32,7 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
                  "objects_categories, categories where objects_categories.category_id = categories.id "
                  "group by categories.category order by cnt desc";
 
-  string query2 = "select count(*) as cnt FROM objects_categories";
+  string query2 = "select count(*) as cnt from objects_categories group by category_id order by cnt desc limit 1";
 
   // we should get a limit for the number of entries to display.
 
@@ -43,7 +43,7 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
   if(!c || !sizeof(c))
     return ({""});
 
-  int total = (int)(c[0]->cnt);
+  int total = (int)(params->engine->wiki->model->context->sql->query(query2)[0]->cnt);
 
   foreach(c;;mapping row)
   {
@@ -52,7 +52,9 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
     float f = ((float)count/(float)total);
     count = (int)(f*5);
     srt+=({row->category});
-    res+=({"<font size=\"" + count + "\">" + row->category + "</font>&nbsp;(" + row->cnt + ") &nbsp; "});
+    res+=({"<font size=\"" + count + "\">"
+           "<a href=\"/exec/category/" + row->category + "\">" + row->category 
+           + "</a></font>&nbsp;(" + row->cnt + ") &nbsp; "});
     
   }
 
