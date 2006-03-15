@@ -128,6 +128,57 @@ public void listacls(Request id, Response response, mixed ... args)
 	response->set_view(t);
 }
 
+public void editacl(Request id, Response response, mixed ... args)
+{
+    if(!app->is_admin_user(id, response))
+      return;
+   
+    object t = view->get_view("admin/editacl");
+	
+    app->set_default_data(id, t);
+    t->add("in_admin", 1);
+
+    object g;
+
+        if(id->variables->aclid)
+        {
+           g = model->find_by_id("acl", (int)id->variables->aclid);
+	   t->add("acl", g);
+        }
+        else
+        {
+           t->add("newacl", 1);
+        }
+
+        if(id->variables->action)
+        {
+          if(id->variables->action == LOCALE(0, "Cancel"))
+          {
+            response->redirect("listacls");
+            return;
+          }
+
+          else if(id->variables->action == LOCALE(0, "Save"))
+          {
+
+            if(id->variables->newacl)
+              g = FinScribe.Repo.new("acl");
+
+            if(id->variables->Name != g["Name"])
+               g["Name"] = id->variables->Name;
+
+            if(id->variables->newacl)
+              g->save();
+
+            response->flash("msg", "ACL was updated successfully.");
+            response->redirect("listacls");
+            return;
+          }
+        }
+
+  	response->set_view(t);
+}
+
 public void listusers(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))

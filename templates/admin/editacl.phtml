@@ -3,10 +3,10 @@
   <%@include file="header.phtml"%>
  <script src="/static/javascripts/menulayer.js"></script>
 <
-   <title><%syspref var="site.name"%> :: admin :: edit group</title>
+   <title><%syspref var="site.name"%> :: admin :: edit acl</title>
 <script type="text/javascript">
 dojo.require("fins.widget.*");
-dojo.require("fins.widget.ComboPicker");
+dojo.require("fins.widget.ACLBuilder");
 </script>
 </head>
 <body>
@@ -21,17 +21,17 @@ dojo.require("fins.widget.ComboPicker");
       <div class="snip-content">
 
 <% if data["newgroup"] %>
-          <h3>New Group</h3>
+          <h3>New ACL</h3>
 <% else %>
-          <h3>Edit Group</h3>
+          <h3>Edit ACL</h3>
 <% endif %>
 	<form action="" method="post">
-        <b>Group Name:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
+        <b>ACL Name:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
         <p/>
         <input type="hidden" name="added" id="added"/>
         <input type="hidden" name="removed" id="removed"/>
 <% if data["newgroup"] %>
-        <input type="hidden" name="newgroup" value="1"/>
+        <input type="hidden" name="newacl" value="1"/>
 <% endif %>
 
 <script type="text/javascript">
@@ -88,16 +88,8 @@ function getAvailable()
 };
 </script>
 
-		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+		<div dojoType="ACLBuilder" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
 
-<!--
-        <p/>
-        <b>Group Members</b><br/>
-
-        <% foreach var="group.groups" val="member" %>
-        <%$member.Name%><br />
-        <% end %>
--->
         <p/>
         <input type="submit" name="action" value="Cancel" />
         <input type="submit" name="action" value="Save" />

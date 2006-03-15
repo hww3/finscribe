@@ -1,0 +1,56 @@
+.ACLBuilderTable {
+	height: 100%;
+	width: 100%;
+}
+
+.ACLBuilderContainer {
+	background: #EEEEEE;
+	border: #798EC5 1px solid;
+	padding: 10px;
+        height: 250px;
+}
+
+.BuilderButtonHolder {
+	padding: 10px;
+        vertical-align: middle;
+}
+
+.FromPicker {
+	width: 100%;
+        height: 100%;
+}
+
+.ToPicker {
+    width: 100%;
+    height: 100%;
+}
+
+.BuilderFromHolder
+{
+	width: 230px;
+	top: 0px;
+	height: 100%;
+}
+
+.BuilderToHolder
+{
+    width: 230px;
+	top: 0px;
+	height: 100%;
+}
+
+.BuilderButton {
+	color: #ffffff;
+	background: #798EC5;
+	font-size: xx-small;
+	font-family: verdana, arial, helvetica, sans-serif;
+	border-right: #000000 1px solid;
+	border-bottom: #000000 1px solid;
+	border-left: #666666 1px solid;
+	border-top: #666666 1px solid;
+	padding-right: 4px;
+	padding-left: 4px;
+	text-decoration: none; height: 18px;
+}
+
+

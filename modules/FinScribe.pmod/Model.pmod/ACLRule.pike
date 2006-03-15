@@ -10,11 +10,8 @@ import Fins.Model;
       set_instance_name("aclrule");
       add_field(PrimaryKeyField("id"));
 
-      add_field(IntField("x_read", 1, 1));
-      add_field(IntField("x_annotate", 1, 1));
-      add_field(IntField("x_write", 1, 1));
-      add_field(IntField("x_delete", 1, 1));
-      add_field(IntField("x_exec", 1, 1));
+      add_field(IntField("xmit", 8, 0, 0));
+      add_field(StringField("custom_name", 8, 1, 0));
 
       add_field(MultiKeyReference(this, "user",
           "aclrules_users", "aclrule_id", "user_id", "user", "id"));

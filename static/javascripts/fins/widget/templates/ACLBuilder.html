@@ -1,0 +1,48 @@
+<div class="ACLBuilderContainer" dojoAttachPoint="builderNode">
+<table class="ACLBuilderTable">
+  <tr>
+  <td>
+    <div class="BuilderFromHolder" dojoAttachPoint="builderFromContainerNode">
+    <select class="FromPicker" multiple="1" dojoAttachPoint="fromList" dojoAttachEvent="onChange: fromChanged"/>
+    </div>
+  </td>
+  <td>
+    <div class="BuilderButtonHolder" dojoAttachPoint="builderControlContainerNode">
+        <input class="BuilderButton" type="button"  value="--&gt;" dojoAttachPoint="addButton" dojoAttachEvent="onClick: addItem;"/><br/>&nbsp;<br/>
+        <input class="BuilderButton" type="button" value="&lt;--" dojoAttachPoint="removeButton" dojoAttachEvent="onClick: removeItem;"/>
+<p/>
+    </div>
+  </td>
+  <td>
+    <div class="BuilderToHolder" dojoAttachPoint="builderToContainerNode">
+<table>
+         <tr>
+<td>
+            Groups<br/>
+	    <select class="ToGroupPicker" multiple="1" dojoAttachPoint="toGroupList" dojoAttachEvent="onChange: toGroupChanged"/>
+</td>
+</tr>
+<tr>
+<td>
+            Users<br/>
+	    <select class="ToUserPicker" multiple="1" dojoAttachPoint="toUserList" dojoAttachEvent="onChange: toUserChanged"/>
+</td>
+</tr>
+<tr>
+<td>
+            Permissions<br/>
+	    <!-- we could probably do this dynamically, huh? -->
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_read" /> Read
+            <br>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_write" /> Write
+            <br>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_delete" /> Delete
+            <br>
+</td>
+</tr>
+</table>
+</div>
+  </td>
+</tr>
+</table>
+</div>

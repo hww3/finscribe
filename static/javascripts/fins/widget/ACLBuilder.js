@@ -1,12 +1,12 @@
 
-dojo.provide("fins.widget.ComboPicker");
+dojo.provide("fins.widget.ACLBuilder");
 
 dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
 dojo.require("dojo.style");
 
-fins.widget.ComboPicker = function(){
+fins.widget.ACLBuilder = function(){
 
     dojo.widget.HtmlWidget.call(this);
 
@@ -16,13 +16,19 @@ fins.widget.ComboPicker = function(){
     this.original = [];
 
     this.fromList = null;
-    this.toList = null;
-    this.pickerNode = null;
-    this.pickerFromContainerNode = null;
-    this.pickerControlContainerNode = null;
+    this.builderNode = null;
+    this.builderFromContainerNode = null;
+    this.builderControlContainerNode = null;
     this.addButton = null;
     this.removeButton = null;
-    this.pickerToContainerNode = null;
+    this.builderToContainerNode = null;
+
+    this.toGroupList = null;
+    this.toUserList = null;
+
+    this.rule_xmit_read = null;
+    this.rule_xmit_write = null;
+    this.rule_xmit_delete = null;
 
     this.loadAvailableFunction = "";
     this.loadMembersFunction = "";
@@ -50,7 +56,7 @@ fins.widget.ComboPicker = function(){
         var res = this.loadMembersFunction();
         for(var i = 0; i < res.length; i++)
         {
-          this.toList.options[this.toList.length] = new Option(res[i].name, res[i].value);
+          this.toUserList.options[this.toUserList.length] = new Option(res[i].name, res[i].value);
           this.original[this.original.length] = res[i].value;
         }
       }
@@ -62,9 +68,9 @@ fins.widget.ComboPicker = function(){
         {
           var l = 0;
 
-          for(var z = 0; z < this.toList.options.length; z++)
+          for(var z = 0; z < this.toUserList.options.length; z++)
           {
-            if(this.toList.options[z].value == res[i].value)
+            if(this.toUserList.options[z].value == res[i].value)
                l = 1;
           }
 
@@ -132,14 +138,14 @@ fins.widget.ComboPicker = function(){
 		    var n = 0;
                     var v = this.fromList.options[i].value;
 
-                for(var y = 0; y < this.toList.options.length; y++)
+                for(var y = 0; y < this.toUserList.options.length; y++)
                 {
-                   if(this.toList.options[y].value == v)
+                   if(this.toUserList.options[y].value == v)
                       n = 1; // already on the list
                 }
      
                 if(n==0)
-  	          this.toList.options[this.toList.length] = new Option(this.fromList.options[i].text, v);
+  	          this.toUserList.options[this.toUserList.length] = new Option(this.fromList.options[i].text, v);
 
                 n = 1;
 
@@ -161,7 +167,7 @@ fins.widget.ComboPicker = function(){
           }
        }
 
-       sortSelect(this.toList);
+       sortSelect(this.toUserList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
 		  this.fromList.options[toRemove[j]] = null;
@@ -201,12 +207,12 @@ fins.widget.ComboPicker = function(){
 	   
 	   var toRemove = new Array();
 	
-	   for (var i = 0; i < this.toList.length; i++) {
+	   for (var i = 0; i < this.toUserList.length; i++) {
 
-	      if(this.toList.options[i].selected)
+	      if(this.toUserList.options[i].selected)
 	      {
                 var n = 0;
-                var v = this.toList.options[i].value;
+                var v = this.toUserList.options[i].value;
 
                 for(var y = 0; y < this.fromList.options.length; y++)
                 {
@@ -215,7 +221,7 @@ fins.widget.ComboPicker = function(){
                 }
      
                 if(n==0)
-  	          this.fromList.options[this.fromList.length] = new Option(this.toList.options[i].text, v);
+  	          this.fromList.options[this.fromList.length] = new Option(this.toUserList.options[i].text, v);
 
                 n = 0;
 
@@ -240,7 +246,7 @@ fins.widget.ComboPicker = function(){
        sortSelect(this.fromList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.toList.options[toRemove[j]] = null;
+		  this.toUserList.options[toRemove[j]] = null;
 
 
 	};
@@ -269,9 +275,9 @@ fins.widget.ComboPicker = function(){
 		
        var selectedItems = new Array();
 
-       for (var i = 0; i < this.toList.length; i++) {
-         if (this.toList.options[i].selected)
-            selectedItems[selectedItems.length] = this.toList.options[i].value;
+       for (var i = 0; i < this.toUserList.length; i++) {
+         if (this.toUserList.options[i].selected)
+            selectedItems[selectedItems.length] = this.toUserList.options[i].value;
        }
        if(selectedItems.length == 0)
        {
@@ -285,18 +291,18 @@ fins.widget.ComboPicker = function(){
      };
 
 
-	this.widgetType = "ComboPicker";
+	this.widgetType = "ACLBuilder";
 
 	this.labelPosition = "top";
 
-	this.templatePath =  dojo.uri.dojoUri("fins/widget/templates/ComboPicker.html");
-	this.templateCssPath = dojo.uri.dojoUri("fins/widget/templates/ComboPicker.css");
+	this.templatePath =  dojo.uri.dojoUri("fins/widget/templates/ACLBuilder.html");
+	this.templateCssPath = dojo.uri.dojoUri("fins/widget/templates/ACLBuilder.css");
 
 };
 
 
 
-dojo.inherits(fins.widget.ComboPicker, dojo.widget.HtmlWidget);
+dojo.inherits(fins.widget.ACLBuilder, dojo.widget.HtmlWidget);
 
-dojo.widget.tags.addParseTreeHandler("dojo:combopicker");
+dojo.widget.tags.addParseTreeHandler("dojo:aclbuilder");
 
