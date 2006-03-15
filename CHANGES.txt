@@ -15,6 +15,7 @@ Version 0.4
 - added plugin list and plugin enable "toggler".
 - added ability to modify the user membership of a group.
 - added a per user preference for default content type (ie wiki vs html)
+- added the ability to page through a set of weblog entries
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
