@@ -11,6 +11,7 @@ array evaluate(Macros.MacroParameters params)
 {
   object root;
   int limit;
+  int start = 1;
   array res = ({});
 // werror("EVALUATE: %O\n", params->extras->obj);
 
@@ -40,10 +41,12 @@ array evaluate(Macros.MacroParameters params)
 
   array o;
 
-  if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
-    o = root->get_blog_entries();
-  else
-    o = root->get_blog_entries(limit);
+  // if we're starting somewhere in the middle, we should note that.
+  if(params->extras && params->extras->request && 
+           params->extras->request->variables->start)
+    start = (int)(params->extras->request->variables->start);
+
+  o = root->get_blog_entries(limit, start);
 
   foreach(o; int i; object entry)
   {
@@ -62,14 +65,37 @@ array evaluate(Macros.MacroParameters params)
     res += ({t->render()});
   }
 
-  if(params->extras && params->extras->request && params->extras->request->variables->weblog =="full")
-    res+=({"<a href=\"?weblog=recent\">Recent Entries...</a> | "});
+
+  if(start && start > 1)
+  {
+    int nstart = start;
+    if((start - limit)< 1) nstart = 1;
+      else nstart = start-limit;
+    res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Newer Entries</a> | "});
+  }
   else
-    res+=({"<a href=\"?weblog=full\">More Entries...</a> | "});
+  {
+    res += ({"Newer Entries | "});
+  }
+
+  int end = root->get_blog_count();
+
+  if(start > end || start+limit > end)
+  {
+    res += ({"Older Entries | "});
+  }
+  else
+  {
+    int nstart = start + limit;
+    res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Older Entries</a> | "});
+  }
+
+
   res+=({"<a href=\"/rss/"});
   res+=({root["path"]});
   res+=({"\">RSS Feed</a>"});
   res+=({WeblogReplacerObject()});
+
 
   return res;
 }
