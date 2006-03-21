@@ -47,6 +47,33 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 	return 0;
 }
 
+public int pingback_ping(object obj, Standards.URI my_baseurl, string url, string pbsurl)
+{
+	my_baseurl->path = Stdio.append_path(my_baseurl->path, obj["path"]);
+	
+        int count = 0;
+
+        object x = Protocols.XMLRPC.Client(pbsurl);
+
+        mixed res = x["pingback.ping"]((string)my_baseurl, url);
+
+	werror("PINGBACK PING RESULT: %O\n", res);
+
+	if(!res)
+        {
+           werror("result from pingback ping returned empty!\n");
+           return 1;
+        }
+
+        if(res && objectp(res))
+        {
+           werror("received error from pingback: code " + res->fault_code + "\n");
+           return 1;
+        }
+
+        else return 0;
+}
+
 string make_excerpt(string c)
 {
 	if(sizeof(c)<500)
@@ -64,6 +91,47 @@ string make_excerpt(string c)
 	}
 	
 	return c;
+}
+
+string detect_pingback_url(string url)
+{
+        object q = get_url(url);
+
+        if(!q) return 0;
+
+        if(q->headers && q->headers["x-pingback"])
+        {
+          // a pingback url provided in the http header is always 
+          // authoritative, per the spec.
+
+          mixed u = q->headers["x-pingback"];
+          if(stringp(u)) return u;
+          if(arrayp(u)) return u[0];
+        }
+
+        string s = q->data();
+        
+        if(!s || !sizeof(s)) return 0;
+
+	werror("PINGBACK: got data: %O\n", s);
+	
+	object n = Public.Parser.XML2.parse_html(s);
+	foreach(Public.Parser.XML2.select_xpath_nodes("//link", n) || ({});; object link)
+	{
+		object r;
+		array c;
+		
+		werror("Looking at a link...\n");
+                mapping a = link->get_attributes();
+
+                if(a->rel && a->rel == "pingback" && a->href)
+                {
+                   return a->href;
+                }
+	}
+	
+	return 0;
+	
 }
 
 //
@@ -119,6 +187,13 @@ array limit(array a, int|void limit)
 
 string get_url_data(string url)
 {
+  object q = get_url(url);
+  if(q) return q->data();
+  else return 0;
+}
+
+object get_url(string url)
+{
 	
 	int count = 0;
 	
@@ -134,7 +209,7 @@ string get_url_data(string url)
         }
         while(q->status == 302 && q->headers["location"] && (url = q->headers["location"]) && count < 10);
 
-  return q->data();
+  return q;
    
 }
 
