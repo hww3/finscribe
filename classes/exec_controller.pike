@@ -1380,7 +1380,6 @@ public void post(Request id, Response response, mixed ... args)
 
             break;
          case "Save":
-werror("SAVE!\n");
                object c;
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
@@ -1452,6 +1451,10 @@ werror("SAVE!\n");
             obj_n->save();
 
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+	
+            // we use this object for both trackback and pingback processing.
+            object u = Standards.URI(app->get_sys_pref("site.url"));
+	    u->path = combine_path(u->path, "/space");
 
 	    if(sizeof(trackbacks))
 	    {
@@ -1461,6 +1464,32 @@ werror("SAVE!\n");
 		foreach((trackbacks/"\n")-({""});; string url)
 			FinScribe.Blog.trackback_ping(obj_o, u, url);
 	   }
+
+           if(app->get_sys_pref("blog.pingback_send"))
+           {
+
+              Log.debug("Checking for pingbacks...");
+
+              bu = ({});
+
+              app->render(contents, obj_o, id);
+	      if(id->misc->permalinks)
+	      {
+	        foreach(id->misc->permalinks, string url)
+	        {
+		  string l;
+		  l = FinScribe.Blog.detect_pingback_url(url);
+	          if(l)
+		    bu += ({({l, url})});
+		}
+	     }
+             foreach(bu;; array pingback_url)
+             {
+               Log.debug("sending pingback ping for %s", pingback_url[1]); 
+               FinScribe.Blog.pingback_ping(obj_o, u, pingback_url[1], 
+                                                      pingback_url[0]);
+             }
+           } 
 
 	   if(app->get_sys_pref("blog.weblog_ping"))
 	   {
