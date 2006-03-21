@@ -17,6 +17,7 @@ Version 0.4
 - added a per user preference for default content type (ie wiki vs html)
 - added the ability to page through a set of weblog entries
 - added pingback sending for for new and updated objects.
+- added pingback receiving.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.

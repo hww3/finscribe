@@ -357,9 +357,16 @@ Enable PingBack sending:
 <input type="hidden" name="type.blog.pingback_send" value="boolean">
 </td></tr>
 <tr>
+<td><b>
+Enable PingBack recieving (recording):
+</b></td><td> 
+<input type="radio" name="pref.blog.pingback_receive" value="1" checked="1" /> Yes
+<input type="radio" name="pref.blog.pingback_receive" value="0" /> No<br/>
+<input type="hidden" name="type.blog.pingback_receive" value="boolean">
+</td></tr>
+<tr>
 <td colspan="2">
-Should FinScribe send "pingbacks" for links to objects on servers that 
-support it?
+Should FinScribe receive "pingbacks" for links made to objects we create?
 </td></tr>
 </table>
 </form>

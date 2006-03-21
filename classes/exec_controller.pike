@@ -342,9 +342,9 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 				
 				string mailmsg = tp->render();
 				
-				Protocols.SMTP.Client(app->get_sys_pref("mail.host"))->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(a[0]["Email"], 
 																											"Your FinScribe password", 
-										app->get_sys_pref("mail.return_address"), 
+										app->get_sys_pref("mail.return_address")->get_value(), 
 																											mailmsg);
 				
 				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
@@ -1262,6 +1262,37 @@ public void edit(Request id, Response response, mixed ... args)
 
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
+
+            // we use this object for both trackback and pingback processing.
+            object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
+	    u->path = combine_path(u->path, "/space");
+
+           if(app->get_sys_pref("blog.pingback_send")->get_value())
+           {
+
+              Log.debug("Checking for pingbacks...");
+
+              array bu = ({});
+
+              app->render(contents, obj_o, id);
+              if(id->misc->permalinks)
+              {
+                foreach(id->misc->permalinks, string url)
+                {
+                  string l;
+                  l = FinScribe.Blog.detect_pingback_url(url);
+                  if(l)
+                    bu += ({({l, url})});
+                }
+             }
+             foreach(bu;; array pingback_url)
+             {
+               Log.debug("sending pingback ping for %s", pingback_url[1]);
+               FinScribe.Blog.pingback_ping(obj_o, u, pingback_url[1],
+                                                      pingback_url[0]);
+             }
+           }
+
             app->trigger_event("postSave", id, obj_o);
             break;
 
@@ -1453,19 +1484,16 @@ public void post(Request id, Response response, mixed ... args)
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 	
             // we use this object for both trackback and pingback processing.
-            object u = Standards.URI(app->get_sys_pref("site.url"));
+            object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
 	    u->path = combine_path(u->path, "/space");
 
 	    if(sizeof(trackbacks))
 	    {
-		object u = Standards.URI(app->get_sys_pref("site.url"));
-		u->path = combine_path(u->path, "/space");
-
 		foreach((trackbacks/"\n")-({""});; string url)
 			FinScribe.Blog.trackback_ping(obj_o, u, url);
 	   }
 
-           if(app->get_sys_pref("blog.pingback_send"))
+           if(app->get_sys_pref("blog.pingback_send")->get_value())
            {
 
               Log.debug("Checking for pingbacks...");
@@ -1491,10 +1519,10 @@ public void post(Request id, Response response, mixed ... args)
              }
            } 
 
-	   if(app->get_sys_pref("blog.weblog_ping"))
+	   if(app->get_sys_pref("blog.weblog_ping")->get_value())
 	   {
 		FinScribe.Blog.weblogs_ping(obj_o["title"], 
-			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")));
+			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")->get_value()));
 					
 	   }
 
@@ -1699,6 +1727,99 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
     response->set_view(t);
 }
 
+public void pingback(Request id, Response response, mixed ... args)
+{
+        mapping m;
+        int off = search(id->raw, "\r\n\r\n");
+
+        if(off<=0) error("invalid request format.\n");
+
+        object X;
+
+        if(catch(X=Protocols.XMLRPC.decode_call(id->raw[(off+4) ..])))
+        {
+                error("Error decoding the XMLRPC Call. Are you not speaking XMLRPC?\n");
+        }
+        mixed resp;
+
+        mixed err = catch {
+          if(X->method_name != "pingback.ping")
+            throw(Error.Generic("Invalid method request: not a valid method name.\n"));
+          resp = register_pingback(id, response, @X->params);
+        };
+
+  if(err)
+  {
+    response->set_data(Protocols.XMLRPC.encode_response_fault(1, err[0]));
+  }
+  else
+  {
+    if(stringp(resp))
+      response->set_data(Protocols.XMLRPC.encode_response(({resp})));
+    else if(arrayp(resp))
+      response->set_data(Protocols.XMLRPC.encode_response_fault(@resp));
+  }
+   response->set_type("text/xml");
+
+   return;
+}
+
+private string|array register_pingback(object id, object response, string sourceurl, string targeturl)
+{
+  // are we pingback enabled?
+  if(!app->get_sys_pref("blog.pingback_receive")->get_value())
+  { 
+    return ({0, "we are not pingback enabled. go away!"});
+  }
+
+  // first, is the target ours?
+  object oururl = Standards.URI("/space/", app->get_sys_pref("site.url")->get_value());
+
+  if(!has_prefix(targeturl, (string)oururl))
+  {
+    // it's not a valid url, so it can't possibly exist.
+    return ({32, "specified target url doesn't exist, or isn't ours."});
+  }
+
+  string obj = targeturl[sizeof((string)oururl)..];
+
+  object obj_o;
+  array a = model->find("object", obj);
+
+  if(!sizeof(a)) return ({32, "specified target url doesn't exist."});
+
+  obj_o = a[0];
+
+  // second, is the source valid?
+
+  string cnt = FinScribe.Blog.get_url_data(sourceurl);
+  
+  if(!cnt) return ({16, "source uri does not exist, or has no contents."});
+
+  // third, does the source contain our target url?
+  
+
+  Log.info("PINGBACK: looking for %O\n in %O\n", targeturl, cnt);
+  if(search(cnt, targeturl)==-1)
+  {
+    return ({17, "You didn't link to us, no PingBack for you!"});
+  }  
+
+  // do we already have a pingback for this?
+
+  a = obj_o["md"]["pingbacks"];
+
+  if(!a) obj_o["md"]["pingbacks"] = (< sourceurl >);
+  else if(obj_o["md"]["pingbacks"][sourceurl])
+  {
+    return ({48, "the source url provided has already been registered for this target."});
+  }
+  else
+    obj_o["md"]["pingbacks"][sourceurl] = 1;
+
+    return "thanks!";
+}
+
 public void trackback(Request id, Response response, mixed ... args)
 {
   response->set_type("text/xml");
@@ -1746,7 +1867,7 @@ public void trackback(Request id, Response response, mixed ... args)
       // ok, we don't already have a trackback for this url, let's try to add one.
 
       // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
-      object lookingfor = Standards.URI("/space/" + args*"/", app->get_sys_pref("site.url"));
+      object lookingfor = Standards.URI("/space/" + args*"/", app->get_sys_pref("site.url")->get_value());
       Log.info("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
       if(search(contents, (string)lookingfor)==-1)
       {

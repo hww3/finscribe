@@ -289,7 +289,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   }
 }
 
-mixed get_sys_pref(string pref)
+object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
   array x = model->find("preference", (["Name": pref]));

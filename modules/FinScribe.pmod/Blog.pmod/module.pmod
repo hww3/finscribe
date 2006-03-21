@@ -55,7 +55,8 @@ public int pingback_ping(object obj, Standards.URI my_baseurl, string url, strin
 
         object x = Protocols.XMLRPC.Client(pbsurl);
 
-        mixed res = x["pingback.ping"]((string)my_baseurl, url);
+        mixed res;
+        catch(res = x["pingback.ping"]((string)my_baseurl, url));
 
 	werror("PINGBACK PING RESULT: %O\n", res);
 
