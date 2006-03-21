@@ -1740,7 +1740,7 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
    
     app->set_default_data(id, t);
 	t->add("object", obj_o);
-    t->add("pingbacks", obj_o["md"]["pingbacks"]);
+    t->add("pingbacks", (array)obj_o["md"]["pingbacks"]);
 
     response->set_view(t);
 }
@@ -1760,11 +1760,20 @@ public void pingback(Request id, Response response, mixed ... args)
         }
         mixed resp;
 
+werror("PINGBACK REQUEST: %O\n", id->raw[(off+4) ..]);
+
         mixed err = catch {
           if(X->method_name != "pingback.ping")
             throw(Error.Generic("Invalid method request: not a valid method name.\n"));
           resp = register_pingback(id, response, @X->params);
         };
+
+  if(err)
+{ 
+  werror("PINGBACK ERR: %O\n", err);
+  werror("err: %O\n", err->backtrace());
+  }
+  werror("PINGBACK: %O\n", resp);
 
   if(err)
   {
@@ -1802,9 +1811,11 @@ private string|array register_pingback(object id, object response, string source
   string obj = targeturl[sizeof((string)oururl)..];
 
   object obj_o;
-  array a = model->find("object", obj);
+  array a = model->find("object", (["path": obj]));
 
   if(!sizeof(a)) return ({32, "specified target url doesn't exist."});
+
+werror("A: %O\n", a);
 
   obj_o = a[0];
 
