@@ -23,6 +23,11 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
+  if(app->get_sys_pref("blog.pingback_receive")->get_value())
+  {
+    response->set_header("X-Pingback", app->get_sys_pref("site.url")->get_value() + "/exec/pingback");
+  }
+
   if((int)(app->get_sys_pref("site.track_views")["Value"]))
     obj["md"]["views"] ++;
 
