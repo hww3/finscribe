@@ -1714,7 +1714,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
     object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
-      response->set_data(trackback_error("Unable to find object " + args*"/" + "."));
+      response->set_data("Unable to find object " + args*"/" + ".");
       return;
     } 
 
@@ -1723,6 +1723,24 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
     app->set_default_data(id, t);
 	t->add("object", obj_o);
     t->add("trackbacks", obj_o["md"]["trackbacks"]);
+
+    response->set_view(t);
+}
+
+public void display_pingbacks(Request id, Response response, mixed ... args)
+{
+    object obj_o = model->get_fbobject(args, id);
+    if(!obj_o)
+    {
+      response->set_data("Unable to find object " + args*"/" + ".");
+      return;
+    } 
+
+    object t = view->get_view("exec/display_pingbacks");
+   
+    app->set_default_data(id, t);
+	t->add("object", obj_o);
+    t->add("pingbacks", obj_o["md"]["pingbacks"]);
 
     response->set_view(t);
 }

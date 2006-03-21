@@ -51,7 +51,11 @@ xonmouseout="menuLayers.hide()">actions</a> ]
             <% endif %>
  | <a href="#" onclick="openPopup('/exec/comments/<%$obj%>', '80%'); return false;">Post 
 a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
-  <% if data["metadata"]["trackbacks"] %> | <%$metadata.trackbacks%> TrackBacks <% endif %>
+  <% if data["metadata"]["trackbacks"] %> | <a href="#" 
+onclick="openPopup('/exec/display_trackbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.trackbacks"%> TrackBacks</a> <% endif %>
+  <% if data["metadata"]["pingbacks"] %> | <a href="#" 
+onclick="openPopup('/exec/display_pingbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.pingbacks"%> 
+PingBacks</a> <% endif %>
          <p/>
 <div id="wiper" style="display:none;"></div>
 <% endif %>
