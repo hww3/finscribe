@@ -245,7 +245,7 @@ public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)
 
 public void set_default_data(Fins.Request id, object|mapping t)
 {
-  if(id->misc->session_variables->userid)
+  if(id->misc->session_variables && id->misc->session_variables->userid)
   {
      object user = model->find_by_id("user", id->misc->session_variables->userid);
      if(mappingp(t))
