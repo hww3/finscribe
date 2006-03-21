@@ -5,8 +5,7 @@ height="9" alt="permalink" border="0"/></a></b>
 <%$contents%>
 <p/><% if sizeof(data->entry["categories"]) %> Posted in <% implode var="entry.category_links" final=" and " %> |
 <% endif %> <a onclick="displayComments('wiper<%$entry.id%>', '<%$entry.path%>'); return false;"><% sizeof 
-var="entry.comments"%> comments</a></b> | <a href="/exec/comments/<%$entry.path%>">Post Comment</a> | <a href="/rss/<%$entry.path%>?type=comments">RSS Feed</a> | <a 
-href="/exec/display_trackbacks/<%$entry.path%>"><% sizeof var="entry.md.trackbacks"%> TrackBacks</a> | <%$entry.md.views%> reads <a 
-href="/space/<%$entry.path%>">&gt;&gt;</a><p/>
+var="entry.comments"%> comments</a></b> | <a href="/exec/comments/<%$entry.path%>">Post Comment</a> | <a href="/rss/<%$entry.path%>?type=comments">RSS Feed</a> | 
+<a href="/exec/display_trackbacks/<%$entry.path%>"><% sizeof var="entry.md.trackbacks"%> TrackBacks</a> | <a href="/exec/display_pingbacks/<%$entry.path%>"><% sizeof var="entry.md.pingbacks"%> PingBacks</a> | <%$entry.md.views%> reads <a href="/space/<%$entry.path%>">&gt;&gt;</a><p/>
 <div id="wiper<%$entry.id%>" style="display:none; padding-left:20px;"></div>
 <p/>
