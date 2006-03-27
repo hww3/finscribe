@@ -1739,8 +1739,8 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
     object t = view->get_view("exec/display_pingbacks");
    
     app->set_default_data(id, t);
-	t->add("object", obj_o);
-    t->add("pingbacks", (array)obj_o["md"]["pingbacks"]);
+    t->add("object", obj_o);
+    t->add("pingbacks", (array)(obj_o["md"]["pingbacks"] || ({})));
 
     response->set_view(t);
 }
