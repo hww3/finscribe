@@ -11,14 +11,39 @@
 
 <form action="" method="post">
 <table>
+<%if data["currentpage"] %>
+<tr>
+<td colspan="2">
+<input type="hidden" name="currentpage" value="<%$currentpage%>"/>
+Create a new page:
+<p/>
+<input type="radio" name="pageloc" value="subpage" checked="1"/> as a subpage of <b><%$object.path %></b>. <br/>
+  <%if data["parentobject"] %>
+<input type="radio" name="pageloc" value="parentpage" /> as a subpage of <b><%$parentobject.path %></b>. <br/>
+  <% endif %>
+<input type="radio" name="pageloc" value="manual" /> by specifying the path manually. <br/>
+</td>
+</tr>
 <tr>
 <td>
-<b>Object path:</b>
+<b>Object name or path</b>:
 </td>
 <td>
 <input type="text" size="40" name="title" value=""/><br>
+(no leading or trailing slashes, please)
 </td>
 </tr>
+<% else %>
+<tr>
+<td>
+<b>Full Object path</b>:
+</td>
+<td>
+<input type="text" size="40" name="title" value=""/><br>
+(no leading or trailing slashes, please)
+</td>
+</tr>
+<% endif %>
 <tr>
 <td>
 <b>Object type:</b>
