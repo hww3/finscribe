@@ -79,6 +79,18 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("obj", obj["path"]);
   t->add("title", title);
   t->add("content", app->render(contents, obj, id, id->variables->refresh));
+
+  if(id->misc->object_is_weblog)
+  {
+    t->add("heads", "<link rel=\"alternate\" type=\"application/rss+xml\" "
+                    "title=\"All Entries\" href=\"" +  app->get_sys_pref("site.url")->get_value() 
+                    + "/rss/" + obj["path"] + "\"/>");
+  }
+  else 
+  {
+    t->add("heads", "");
+  }
+
   t->add("author", obj["author"]["Name"]);
   t->add("author_username", obj["author"]["UserName"]);
   t->add("when", model->get_when(v["created"]));
