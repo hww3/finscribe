@@ -138,6 +138,10 @@ private Node generate_weblog_rss(object root, array entries, object id)
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
+
+      foreach(row["categories"];; object cat)
+        item->new_child("category", cat["category"]);
+
       item->new_child("description", app->render(row["current_version"]["contents"], row, id));
     }
   return n;
