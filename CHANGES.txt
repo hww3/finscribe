@@ -14,10 +14,13 @@ Version 0.4
 - added move functionality. does not check for orphaned content.
 - added plugin list and plugin enable "toggler".
 - added ability to modify the user membership of a group.
-- added a per user preference for default content type (ie wiki vs html)
+- added a per user preference for default content type (ie wiki vs html),
+  "[username].new.default_mimetype".
 - added the ability to page through a set of weblog entries
 - added pingback sending for for new and updated objects.
 - added pingback receiving.
+- added configuration option "blog.weblog_ping_urls" that can be used to 
+  specify a list of weblog ping urls, such as Technorati.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
