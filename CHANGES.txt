@@ -21,6 +21,9 @@ Version 0.4
 - added pingback receiving.
 - added configuration option "blog.weblog_ping_urls" that can be used to 
   specify a list of weblog ping urls, such as Technorati.
+- added link element to rss feed for weblog pages.
+- added category element to items in weblog rss feed, and category
+  to channel rss feed for page history and page comments.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
