@@ -25,6 +25,7 @@ Version 0.4
 - added category element to items in weblog rss feed, and category
   to channel rss feed for page history and page comments.
 - added options to allow easier location of newly created documents.
+- added subpage-output macro.
 
 Version 0.3
 - made view tracking optional, via a configuration setting.
