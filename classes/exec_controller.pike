@@ -1521,8 +1521,18 @@ public void post(Request id, Response response, mixed ... args)
 
 	   if(app->get_sys_pref("blog.weblog_ping")->get_value())
 	   {
-		FinScribe.Blog.weblogs_ping(obj_o["title"], 
-			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")->get_value()));
+   	        object p = app->get_sys_pref("blog.weblog_ping_urls");
+                string urls;
+                if(p && urls==p->get_value()); // do nothing
+                else urls = "http://rpc.weblogs.com/RPC2";
+                {
+                  foreach(urls / ",";; string u)
+                  {
+  		    FinScribe.Blog.weblogs_ping(obj_o["title"], 
+  			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")->get_value()),
+                        String.trim_whites(u));
+                  }
+                }
 					
 	   }
 

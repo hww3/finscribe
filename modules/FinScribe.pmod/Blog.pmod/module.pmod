@@ -235,13 +235,15 @@ string post_url_data(string url, mapping r)
 }
 
 
-int weblogs_ping(string site, string url)
+int weblogs_ping(string site, string url, string|void rpcurl)
 {
 	string endpoint = "http://rpc.weblogs.com/RPC2";
 	string method = "weblogUpdates.ping";
 	object c;
 	mapping x;
-	
+
+        if(rpcurl) endpoint = rpcurl;	
+
 	catch{
 	  c = Protocols.XMLRPC.Client(endpoint);
 	  x = c[method](site, url)[0];
