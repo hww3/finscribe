@@ -74,11 +74,12 @@ string simple_macro_snip(Template.TemplateData data, mapping|void args)
    if(!mappingp(args)) return "";
    if(!args->snip) return "";
    object obj = model->get_fbobject((args->snip)/"/");
+   object id = data->get_request();
 
    if(!obj) return "";
 
    string contents = obj->get_object_contents();
 
-   return app->render(contents, obj);
+   return app->render(contents, obj, id);
 }
 

@@ -28,6 +28,8 @@ public void index(Request id, Response response, mixed ... args)
     response->set_header("X-Pingback", app->get_sys_pref("site.url")->get_value() + "/exec/pingback");
   }
 
+  id->misc->current_page = obj["path"];
+
   if((int)(app->get_sys_pref("site.track_views")["Value"]))
     obj["md"]["views"] ++;
 

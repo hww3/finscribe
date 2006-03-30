@@ -873,11 +873,30 @@ public void new(Request id, Response response, mixed ... args)
 
    if(id->variables->title)
    {
+     if(id->variables->currentpage && id->variables->pageloc)
+     {
+       switch(id->variables->pageloc)
+       {
+         case "subpage":
+Log.debug("Currentpage: %O", id->variables->currentpage);
+           if(arrayp(id->variables->currentpage)) id->variables->currentpage = id->variables->currentpage[0];
+
+           id->variables->title = combine_path(id->variables->currentpage, id->variables->title);
+           break;
+         case "parentpage":
+           id->variables->title = combine_path(id->variables->currentpage, "..", id->variables->title);
+           break;
+         case "manual":
+         default:
+           break;
+       }
+     }
+
      response->redirect("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
      return;
    }   
 
-      object t = view->get_view("exec/new");
+     object t = view->get_view("exec/new");
 
      app->set_default_data(id, t);
 
@@ -894,6 +913,19 @@ public void new(Request id, Response response, mixed ... args)
        mimetypes+= ({t});
      }
 
+    if(id->variables->currentpage)
+    {
+      object obj_o;
+
+      obj_o = model->get_fbobject(id->variables->currentpage/"/", id);
+      t->add("object", obj_o);
+
+Log.debug("FINDING OBJECT: " + combine_path(id->variables->currentpage, ".."));
+      obj_o =  model->get_fbobject(combine_path(id->variables->currentpage, "..") /"/", id);
+      t->add("parentobject", obj_o);
+    }
+
+     t->add("currentpage", id->variables->currentpage);
      t->add("datatypes", mimetypes);
      t->add("datatype", p->get_value());
      response->set_view(t);

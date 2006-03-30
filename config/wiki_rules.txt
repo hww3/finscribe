@@ -55,4 +55,5 @@ macro.category-index.class=wiki/categoryindex_macro
 #macro.rss-reader.class=wiki/rssreader_macro
 macro.category-reader.class=wiki/categoryreader_macro
 macro.category-output.class=wiki/categoryoutput_macro
+macro.subpage-output.class=wiki/subpageoutput_macro
 
