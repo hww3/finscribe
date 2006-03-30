@@ -191,6 +191,9 @@ private Node generate_comments_rss(object root, array entries, object id)
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
 
+  foreach(root["categories"];; object cat)
+    c->new_child("category", cat["category"]);
+
   // we should put the entries in newest first order.
     foreach(FinScribe.Blog.limit(reverse((array)entries), 10); int i; object row)
 //    foreach(entries; int i; object row)
@@ -226,6 +229,9 @@ private Node generate_history_rss(object root, array entries, object id)
 // app()->engine->render(root["current_version"]["contents"], (["request": id, "obj": root])));
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
+  
+  foreach(root["categories"];; object cat)
+    c->new_child("category", cat["category"]);
 
   // we should put the entries in newest first order.
     foreach(FinScribe.Blog.limit(reverse((array)entries), 10); int i; object row)
