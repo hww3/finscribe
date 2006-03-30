@@ -25,6 +25,15 @@
     height: 100%;
 }
 
+.ToGroupPicker {
+    width: 100%;
+}
+
+.ToUserPicker {
+    width: 100%;
+}
+
+
 .BuilderFromHolder
 {
 	width: 230px;
