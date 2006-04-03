@@ -1227,8 +1227,11 @@ public void edit(Request id, Response response, mixed ... args)
 		return;
    }
 
-  
    datatype = id->variables->datatype;
+   if(arrayp(id->variables->datatype)) datatype = id->variables->datatype[0];  
+   else
+   datatype = id->variables->datatype;
+
    if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
    else if(!datatype)
      datatype = "text/wiki";
@@ -1251,7 +1254,8 @@ public void edit(Request id, Response response, mixed ... args)
          case "Save":
             if(!obj_o)
             {
-               array dtos = model->find("datatype", (["mimetype": id->variables->mimetype || "text/wiki"]));
+               Log.debug("Looking for " + datatype );
+               array dtos = model->find("datatype", (["mimetype": datatype]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");

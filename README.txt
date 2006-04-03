@@ -50,6 +50,9 @@ easier of the three to install support for, as you can use Monger.
 
     ./fin_serve.pike -p portnumber . yourconfigname
 
+   where yourconfigname is the name of a configuration file, which is 
+normally located in the config directory. 
+
 3. Access your application by pointing your browser to the proper 
    port number supplied when you start fin serve. On first access, you'll
    be presented with the installation wizard. Simply follow the steps
