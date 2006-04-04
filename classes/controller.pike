@@ -7,6 +7,7 @@ Fins.FinsController comments;
 Fins.FinsController admin;
 Fins.FinsController xmlrpc;
 Fins.FinsController rss;
+Fins.FinsController theme;
 Fins.FinsController _internal;
 Fins.FinsController install;
 
@@ -19,6 +20,7 @@ static void create(Fins.Application a)
   admin = ((program)"admin_controller")(a);
   xmlrpc = ((program)"xmlrpc_controller")(a);
   rss = ((program)"rss_controller")(a);
+  theme = ((program)"theme_controller")(a);
   _internal = ((program)"internal_controller")(a);
 
   if(!config["app"] || !config["app"]["installed"])

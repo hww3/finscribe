@@ -97,3 +97,14 @@ string simple_macro_snip(Template.TemplateData data, mapping|void args)
    return app->render(contents, obj, id);
 }
 
+
+string simple_macro_theme(Template.TemplateData data, mapping|void args)
+{
+   if(!mappingp(args) || !args->show) return "";
+   if(args->show == "path") return "/theme/" + 
+             app->get_theme(data->get_request()) + "/";
+
+   return "";
+}
+
+
