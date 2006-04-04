@@ -57,7 +57,7 @@ public void index(Request id, Response response, mixed ... args)
 private void handle_wiki(object obj, Request id, Response response){
   string title = obj["title"];  
 
-  object t = view->get_view("space/wikiobject");
+  object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);
  
@@ -130,7 +130,7 @@ private void handle_text(object obj, Request id, Response response)
 {
   string title = obj["title"];  
 
-  object t = view->get_view("space/wikiobject");
+  object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);
  

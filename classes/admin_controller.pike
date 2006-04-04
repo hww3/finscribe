@@ -19,7 +19,7 @@ public void index(Request id, Response response, mixed ... args)
 	if(!app->is_admin_user(id, response))
           return;
 
-    object t = view->get_view("admin/adminindex");
+    object t = view->get_idview("admin/adminindex");
 
     app->set_default_data(id, t);
 
@@ -35,10 +35,10 @@ public void shutdown(Request id, Response response, mixed ... args)
 	object t;
 		
 	if(!id->variables->really_shutdown)
-	  t = view->get_view("admin/confirmshutdown");
+	  t = view->get_idview("admin/confirmshutdown");
 	else
 	{	 
-		t = view->get_view("admin/shutdown");
+		t = view->get_idview("admin/shutdown");
 			// this is bad, we should have a better way of doing this...
 			call_out(exit, 5, 0);
 		}
@@ -113,7 +113,7 @@ public void listacls(Request id, Response response, mixed ... args)
 	if(!app->is_admin_user(id, response))
           return;
 
-     object t = view->get_view("admin/listacls");
+     object t = view->get_idview("admin/listacls");
 
      app->set_default_data(id, t);
 
@@ -133,7 +133,7 @@ public void editacl(Request id, Response response, mixed ... args)
     if(!app->is_admin_user(id, response))
       return;
    
-    object t = view->get_view("admin/editacl");
+    object t = view->get_idview("admin/editacl");
 	
     app->set_default_data(id, t);
     t->add("in_admin", 1);
@@ -184,7 +184,7 @@ public void listusers(Request id, Response response, mixed ... args)
 	if(!app->is_admin_user(id, response))
           return;
 
-     object t = view->get_view("admin/listusers");
+     object t = view->get_idview("admin/listusers");
 
      app->set_default_data(id, t);
 
@@ -204,7 +204,7 @@ public void listgroups(Request id, Response response, mixed ... args)
 	if(!app->is_admin_user(id, response))
           return;
 
-    object t = view->get_view("admin/listgroups");
+    object t = view->get_idview("admin/listgroups");
 
     app->set_default_data(id, t);
 
@@ -224,7 +224,7 @@ public void editgroup(Request id, Response response, mixed ... args)
     if(!app->is_admin_user(id, response))
       return;
    
-    object t = view->get_view("admin/editgroup");
+    object t = view->get_idview("admin/editgroup");
 	
     app->set_default_data(id, t);
     t->add("in_admin", 1);
@@ -295,7 +295,7 @@ public void newuser(Request id, Response response, mixed ... args)
     if(!app->is_admin_user(id, response))
      return;
 
-    object t = view->get_view("admin/newuser");
+    object t = view->get_idview("admin/newuser");
 	
     app->set_default_data(id, t);
   	response->set_view(t);
@@ -414,7 +414,7 @@ public void edituser(Request id, Response response, mixed ... args)
 	if(!app->is_admin_user(id, response))
           return;
 
-      object t = view->get_view("admin/edituser");
+      object t = view->get_idview("admin/edituser");
 	
     app->set_default_data(id, t);
   	response->set_view(t);
@@ -525,7 +525,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   }
   else
   {
-    object t = view->get_view("admin/confirmdeleteuser");
+    object t = view->get_idview("admin/confirmdeleteuser");
 
     app->set_default_data(id, t);
 

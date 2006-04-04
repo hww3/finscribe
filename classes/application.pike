@@ -185,6 +185,11 @@ int install()
   return i->run();
 }
 
+string get_theme(object id)
+{
+  return new_string_pref("site.theme", "default")->get_value();
+}
+
 public string render_wiki(string contents)
 {
   function f = render_methods["text/wiki"];

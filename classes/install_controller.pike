@@ -8,7 +8,7 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
-  object v = view->get_view("install/wizard");
+  object v = view->get_idview("install/wizard");
 
   v->add("dbs", available_dbs());
   response->set_view(v);
@@ -173,7 +173,7 @@ args)
   }
   else
   {
-    object v = view->get_view("install/" + args[0]);
+    object v = view->get_idview("install/" + args[0]);
     response->set_view(v);
   }
 }

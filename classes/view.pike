@@ -1,6 +1,20 @@
 import Fins;
 inherit Fins.FinsView;
 
+program default_template = (program)"themed_template";
+program default_data = (program)"themed_templatedata";
+
+public Template.View get_idview(string tn, object id)
+{
+  object t;
+
+  t = get_view(tn);
+
+  t->get_data()->id = id;
+
+  return t;  
+}
+
 string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void arguments)
 {
   if(arguments->var)

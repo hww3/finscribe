@@ -17,7 +17,7 @@ public void index(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     object t = view->get_view("exec/objectnotfound");
+     object t = view->get_idview("exec/objectnotfound");
 
      app->set_default_data(id, t);
 
@@ -36,7 +36,7 @@ public void actions(Request id, Response response, mixed ... args)
 {
 
   object obj = model->get_fbobject(args, id);
-  object t = view->get_view("exec/actions");
+  object t = view->get_idview("exec/actions");
 
   app->set_default_data(id, t);
 
@@ -156,7 +156,7 @@ public void category(Request id, Response response, mixed ... args)
      response->set_data(LOCALE(13, "You must provide a category to view.\n"));
    }
 
-    object t = view->get_view("exec/category");
+    object t = view->get_idview("exec/category");
 
    app->set_default_data(id, t);
 
@@ -224,7 +224,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-   object t = view->get_view("exec/createaccount");
+   object t = view->get_idview("exec/createaccount");
 
    app->set_default_data(id, t);
 
@@ -316,7 +316,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-    object t = view->get_view("exec/forgotpassword");
+    object t = view->get_idview("exec/forgotpassword");
 
      app->set_default_data(id, t);
 
@@ -335,7 +335,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			else
 			{
 
-                object tp = view->get_view("exec/sendpassword");
+                object tp = view->get_idview("exec/sendpassword");
 
 				
 				tp->add("password", a[0]["Password"]);
@@ -450,7 +450,7 @@ public void editattachments(Request id, Response response, mixed ... args)
    } 
 
 
-  object t = view->get_view("exec/_editattachments");
+  object t = view->get_idview("exec/_editattachments");
   t->add("flash", "");
 
     string obj=args*"/";
@@ -554,10 +554,10 @@ public void login(Request id, Response response, mixed ... args)
 
    if(id->variables->ajax)
    {
-     t = view->get_view("exec/_login");
+     t = view->get_idview("exec/_login");
      t->add("ajax", 1);
    }
-   else t = view->get_view("exec/login");
+   else t = view->get_idview("exec/login");
 
 
    app->set_default_data(id, t);
@@ -660,10 +660,10 @@ public void comments(Request id, Response response, mixed ... args)
 
    if(id->variables->ajax)
    {
-     t = view->get_view("exec/_comment");
+     t = view->get_idview("exec/_comment");
      t->add("ajax", 1);
    }
-   else t = view->get_view("exec/comment");
+   else t = view->get_idview("exec/comment");
 
    app->set_default_data(id, t);
 
@@ -896,7 +896,7 @@ Log.debug("Currentpage: %O", id->variables->currentpage);
      return;
    }   
 
-     object t = view->get_view("exec/new");
+     object t = view->get_idview("exec/new");
 
      app->set_default_data(id, t);
 
@@ -946,7 +946,7 @@ public void move(Request id, Response response, mixed ... args)
    string newpath;
    string movesub;
 
-   t = view->get_view("exec/move");
+   t = view->get_idview("exec/move");
    obj_o = model->get_fbobject(args, id);
 
    app->set_default_data(id, t);
@@ -1092,7 +1092,7 @@ public void delete(Request id, Response response, mixed ... args)
    string newpath;
    string movesub;
 
-   t = view->get_view("exec/delete");
+   t = view->get_idview("exec/delete");
    obj_o = model->get_fbobject(args, id);
 
    app->set_default_data(id, t);
@@ -1215,7 +1215,7 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
 
-   object t = view->get_view("exec/edit");
+   object t = view->get_idview("exec/edit");
 
    app->set_default_data(id, t);
 
@@ -1390,10 +1390,10 @@ public void post(Request id, Response response, mixed ... args)
    object t;
    if(id->variables->ajax)
    {
-     t = view->get_view("exec/_post");
+     t = view->get_idview("exec/_post");
      t->add("ajax", 1);
    }
-   else t = view->get_view("exec/post");
+   else t = view->get_idview("exec/post");
 
    t->add("object", obj_o);
    t->add("showcreated", "disabled=\"1\"");
@@ -1628,7 +1628,7 @@ public void diff(Request id, Response response, mixed ... args)
      return;
    } 
 
-    object t = view->get_view("exec/diff");
+    object t = view->get_idview("exec/diff");
    
     app->set_default_data(id, t);
 
@@ -1742,7 +1742,7 @@ public void versions(Request id, Response response, mixed ... args)
      return;
    } 
 
-   object t = view->get_view("exec/versions");
+   object t = view->get_idview("exec/versions");
    
    app->set_default_data(id, t);
 
@@ -1764,7 +1764,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
       return;
     } 
 
-    object t = view->get_view("exec/display_trackbacks");
+    object t = view->get_idview("exec/display_trackbacks");
    
     app->set_default_data(id, t);
 	t->add("object", obj_o);
@@ -1782,7 +1782,7 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
       return;
     } 
 
-    object t = view->get_view("exec/display_pingbacks");
+    object t = view->get_idview("exec/display_pingbacks");
    
     app->set_default_data(id, t);
     t->add("object", obj_o);

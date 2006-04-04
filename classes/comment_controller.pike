@@ -38,7 +38,7 @@ private void handle_wiki(object obj, Request id, Response response)
   string title = obj["title"];  
   string contents = obj->get_object_contents(id);
 
-  object t = view->get_view("comments/wikiobjectcomments");
+  object t = view->get_idview("comments/wikiobjectcomments");
 
   app->set_default_data(id, t);
 
