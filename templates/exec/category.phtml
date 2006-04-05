@@ -1,12 +1,8 @@
-<html>
-<head>
-  <%@include file="header.phtml" %>
+  <%@include file="top.phtml" %>
    <title><%syspref var="site.name" %> :: Category <%$category.category%></title>
-</head>
-<body>
-<%@ include file="tagline.phtml" %>
-   <div id="page-wrapper">
-    <div id="page-content">
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
+
    <h3><%$category.category%></h3>
 <div class="flash-message"><%flash var="msg" %></div>
    <div class="snip-wrapper">
@@ -32,6 +28,6 @@ Items in this category:
          </div>
          
 </div>
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill Welliver</div>
-</body>
-</html>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
+

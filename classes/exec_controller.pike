@@ -56,13 +56,13 @@ public void getcomments(Request id, Response response, mixed ... args)
 
   object obj = model->get_fbobject(args, id);
 
-  mapping data = ([]);
+  object data = view->default_data();
 
-  data->obj = obj["path"];
+  data->add("obj", obj["path"]);
 
   app->set_default_data(id, data);
 
-  string r = view->render_partial("exec/_comments", data, "comment", obj["comments"]);
+  string r = view->render_partial("exec/_comments", data->get_data(), "comment", obj["comments"]);
      
   response->set_data(r);
 
@@ -83,8 +83,8 @@ public void editcategory(Request id, Response response, mixed ... args)
 
   string path = args*"/";
   array o = model->find("object", (["path": path]));
-  mapping dta = (["flash":""]);
-
+  object dta = view->default_data();
+  dta->add("flash", "");
 
   if(!((!id->variables["existing-category"] || 
      !sizeof(id->variables["existing-category"])) && 
@@ -113,38 +113,38 @@ public void editcategory(Request id, Response response, mixed ... args)
 
   if(!sizeof(o))
   {
-    dta->flash = LOCALE(5, "Unknown object ") + path + ".";
+    dta->add("flash", LOCALE(5, "Unknown object ") + path + ".");
   }
   else if(!sizeof(c))
   {
-    dta->flash = LOCALE(6, "Unknown category ") + category + ".";
+    dta->add("flash", LOCALE(6, "Unknown category ") + category + ".");
   }
   else if(sizeof(x) && id->variables->action == LOCALE(9, "Include"))
   {
-    dta->flash = LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item.");
+    dta->add("flash", LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item."));
   }
   else if(id->variables->action == LOCALE(9, "Include"))
   {
     o[0]["categories"]+=c[0];
     model->clear_categories();
-    dta->flash = LOCALE(10, "Added to ") + category + ".";
+    dta->add("flash", LOCALE(10, "Added to ") + category + ".");
   }
 
   else if(id->variables->action == LOCALE(11, "Remove"))
   {
     o[0]["categories"]-=c[0];
     model->clear_categories();
-    dta->flash = LOCALE(12, "Removed from ") + category + ".";
+    dta->add("flash", LOCALE(12, "Removed from ") + category + ".");
   }
 
   }
 
   app->set_default_data(id, dta);
-  dta->obj = o[0]["path"];
-  dta->object = o[0];
-  dta["existing-categories"] = model->get_categories();
+  dta->add("obj", o[0]["path"]);
+  dta->add("object", o[0]);
+  dta->add("existing-categories",  model->get_categories());
 
-  response->set_data(view->render_partial("space/_categoryform", dta));
+  response->set_data(view->render_partial("space/_categoryform", dta->get_data()));
 
 
 }
