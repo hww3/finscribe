@@ -77,7 +77,6 @@ var bindArgs = {
       y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScrollTop() )? y - mnu.offsetHeight - 
 this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
     else y = y + this.offY;
-    
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
       this.timer = setTimeout("dojo.fx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
   },
