@@ -1,14 +1,8 @@
-<html>
-<head>
+  <%@ include file="top.phtml" %>
   <%@ include file="header.phtml" %>
    <title><%syspref var="site.name" %> :: <%$title %></title>
    <%$heads %>
-</head>
-<body>
-<%@ include file="tagline.phtml" %>
-
-<div id="page-wrapper">
-<div id="page-content">
+<%@include file="pagebegin.phtml"%>
 
       <% if data["object_is_weblog"] %>
       <% else %>
@@ -69,10 +63,8 @@ PingBacks</a> <% endif %>
          </div>
          </div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill Welliver</div>
+  <%@ include file="footer.phtml" %>
 
 </div>
+  <%@ include file="bottom.phtml" %>
 
-
-</body>
-</html>
