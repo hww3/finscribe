@@ -1,10 +1,6 @@
-<html>
-<head>
-   <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
+<%@include file="top.phtml"%>
 <title>Not Found: <%$obj%></title>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
+<%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml"%>
 
 <h1>Whoops!</h1>
@@ -15,3 +11,5 @@ The page you requested, <i><%$obj%></i>, could not be found.
 Click <a href="/exec/edit/<%$obj%>">here</a> to create it.
 
 <%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>
+

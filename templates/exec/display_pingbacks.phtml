@@ -1,12 +1,7 @@
-<html>
-<head>
-  <%@include file="header.phtml" %>
+  <%@include file="top.phtml" %>
    <title><%syspref var="site.name" %> :: Pingbacks for <%$object.title%></title>
-</head>
-<body>
-
-   <div class="snip-wrapper">
-      <div class="snip-content">
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
 <h3>Pingbacks for <%$object.title%></h3>
 <ol>
 <%foreach var="pingbacks" val="pingback" %>
@@ -14,10 +9,6 @@
 <% end %>
 </ol>
 <hr/>
-
-      </div>
-         
-</div>
-</body>
-</html>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
 

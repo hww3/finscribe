@@ -1,11 +1,6 @@
-<html>
-<head>
-   <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
+<%@include file="top.phtml"%>
 <title>Versions: {object.title}</title>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-
+<%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml"%>
    <h3>Versions: <%$object.title%></h3>
 <form action="/exec/diff/<%$object.path%>" method="post">
@@ -34,4 +29,5 @@
 </form>
 
 <%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>
 

@@ -1,12 +1,7 @@
-<html>
-<head>
-  <%@include file="header.phtml" %>
+  <%@include file="top.phtml" %>
    <title><%syspref var="site.name" %> :: Trackbacks for <%$object.title%></title>
-</head>
-<body>
-
-   <div class="snip-wrapper">
-      <div class="snip-content">
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
 <h3>Trackbacks for <%$object.title%></h3>
 
 The trackback URL for this article is: 
@@ -17,10 +12,6 @@ href="<%syspref var="site.url"%>/exec/trackback/<%$object.path%>"><%syspref var=
 <%$trackback.excerpt%>
 <hr/>
 <% end %>
-
-      </div>
-         
-</div>
-</body>
-</html>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
 
