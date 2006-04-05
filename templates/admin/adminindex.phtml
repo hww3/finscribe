@@ -1,18 +1,9 @@
-<html>
-<head>
-  <%@include file="header.phtml" %>
+  <%@include file="top.phtml" %>
    <title><%syspref var="site.name" %> :: admin</title>
-</head>
-<body>
-<%@include file="tagline.phtml" %>
-   <div id="page-wrapper">
-    <div id="page-content">
-<div class="snip-buttons">  </div> 
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash var="msg"%></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
-
           <h3>Admin</h3>
         
 	<ul>
@@ -28,14 +19,6 @@
 	</ul>
 			
           
-     </div>
-      </div>
-      </div>
-      </div>
-         
-</div>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
-Welliver</div>
-</body>
-</html>
