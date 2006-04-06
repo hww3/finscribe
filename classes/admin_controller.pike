@@ -3,12 +3,14 @@
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
 Fins.FinsController plugin;
+Fins.FinsController prefs;
 
 static void create(object app)
 {
   ::create(app);
 
   plugin = ((program)"admin/plugin_controller")(app);
+  prefs = ((program)"admin/preference_controller")(app);
 }
 
 import Fins;

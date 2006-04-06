@@ -1,0 +1,26 @@
+  <%@include file="top.phtml"%>
+   <title><%syspref var="site.name" %> :: admin :: preferencelist</title>
+  <%@include file="header.phtml"%>
+<%@include file="pagebegin.phtml"%>
+<div class="flash-message"><%flash var="msg"%></div>
+          <h3>Preference List</h3>
+
+        <form action="" method="post">
+          Starts with: <input type="text" size="10" name="startswith"/> <input type="submit" 
+name="search" value="Show"/>
+        </form>
+        
+        <table>
+            <tr><td><b>Preference Name</b></td><td><b>Enabled</b></td><td> &nbsp; </td></tr>
+          <% foreach var="preferences" val="preference"%>
+        <tr>
+            <td><%$preference.Name%></td>
+            <td><%$preference.Value%></td>
+        </tr>
+          <% end %>
+        </table>
+          
+
+  <%@include file="footer.phtml"%>
+  <%@include file="bottom.phtml"%>
+
