@@ -20,7 +20,7 @@ href="/exec/delete/<%$object.path%>">delete</a><% else %> delete
 endif %> page
 
   <% if data["islockable"] %>
-	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> 
+	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> this page
         <% else %> 
              <li> <a href="/exec/toggle_lock/<%$object.path%>">lock</a> this page
         <% endif %> 

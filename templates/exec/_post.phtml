@@ -49,7 +49,7 @@ value="<%$createddate%>"/ >
 
 <input type="button" onclick="closePopup(); return false;" name="action" value="Cancel"/>
 
-<input type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); saveBlog('popup_contents'); return false;" name="action" value="Save"/>
+<input type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"/>
 <% else %>
 <input type="hidden" name="ajax" value="1"/>
 <input type="submit" name="action" value="Preview"/>
