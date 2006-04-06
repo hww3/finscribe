@@ -884,6 +884,8 @@ Log.debug("Currentpage: %O", id->variables->currentpage);
            id->variables->title = combine_path(id->variables->currentpage, id->variables->title);
            break;
          case "parentpage":
+           if(arrayp(id->variables->currentpage))
+             id->variables->currentpage = id->variables->currentpage[0];
            id->variables->title = combine_path(id->variables->currentpage, "..", id->variables->title);
            break;
          case "manual":
@@ -1112,6 +1114,8 @@ public void delete(Request id, Response response, mixed ... args)
    }
 
    array a = ({});
+
+   newpath = "/space/" + combine_path(args*"/", "..");
 
    if(id->variables->action == "Delete")
    {
@@ -1369,6 +1373,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
+   Log.debug("POST: %O -> %O\n", id, id->variables);
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
 
