@@ -146,6 +146,11 @@ var bindArgs = {
         if(!d)
           return;
         d.innerHTML = data.toString();
+        d = document.getElementById("result");
+         alert("d: " + d);
+         alert("d: " + d.innerHTML);
+        if(d && d.innerHTML == "Success")
+          saveBlog();
     }
 
   };

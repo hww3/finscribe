@@ -1582,7 +1582,7 @@ public void post(Request id, Response response, mixed ... args)
 
          if(id->variables->ajax)
          {
-            response->set_data("Succesfully Saved.");
+            response->set_data("Succesfully Saved.<div style=\"display:none;\" id=\"result\">Success</div>");
 //            response->redirect("/space/" + obj);
             return;
          }
