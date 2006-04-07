@@ -1,3 +1,12 @@
+Version 0.5
+- Added theme support
+- Reorganized templates in preparation for theme support
+- Added preference list to admin interface
+- Fixed bug that prevented proper saving of mime type of new objects
+- Fixed bug that subpages from being created properly
+- Deleting objects will return you to a more reasonable page
+- Commenting and posting should be more reliable
+
 Version 0.4
 - We now assume that the datatype of a new object that's not been saved 
   (such as an initial preview) is of type "text/wiki", unless it's 
