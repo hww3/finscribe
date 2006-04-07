@@ -1303,36 +1303,6 @@ public void edit(Request id, Response response, mixed ... args)
             response->flash("msg", "Succesfully Saved.");
             response->redirect("/space/" + obj);
 
-            // we use this object for both trackback and pingback processing.
-            object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
-	    u->path = combine_path(u->path, "/space");
-
-           if(app->get_sys_pref("blog.pingback_send")->get_value())
-           {
-
-              Log.debug("Checking for pingbacks...");
-
-              array bu = ({});
-
-              app->render(contents, obj_o, id);
-              if(id->misc->permalinks)
-              {
-                foreach(id->misc->permalinks, string url)
-                {
-                  string l;
-                  l = FinScribe.Blog.detect_pingback_url(url);
-                  if(l)
-                    bu += ({({l, url})});
-                }
-             }
-             foreach(bu;; array pingback_url)
-             {
-               Log.debug("sending pingback ping for %s", pingback_url[1]);
-               FinScribe.Blog.pingback_ping(obj_o, u, pingback_url[1],
-                                                      pingback_url[0]);
-             }
-           }
-
             app->trigger_event("postSave", id, obj_o);
             break;
 
@@ -1410,7 +1380,7 @@ public void post(Request id, Response response, mixed ... args)
    {
       contents = id->variables->contents;
       subject = id->variables->subject;
-		trackbacks = id->variables->trackbacks;
+      trackbacks = id->variables->trackbacks;
       switch(id->variables->action)
       {
 	 case "Cancel":
@@ -1534,32 +1504,6 @@ public void post(Request id, Response response, mixed ... args)
 			FinScribe.Blog.trackback_ping(obj_o, u, url);
 	   }
 
-           if(app->get_sys_pref("blog.pingback_send")->get_value())
-           {
-
-              Log.debug("Checking for pingbacks...");
-
-              bu = ({});
-
-              app->render(contents, obj_o, id);
-	      if(id->misc->permalinks)
-	      {
-	        foreach(id->misc->permalinks, string url)
-	        {
-		  string l;
-		  l = FinScribe.Blog.detect_pingback_url(url);
-	          if(l)
-		    bu += ({({l, url})});
-		}
-	     }
-             foreach(bu;; array pingback_url)
-             {
-               Log.debug("sending pingback ping for %s", pingback_url[1]); 
-               FinScribe.Blog.pingback_ping(obj_o, u, pingback_url[1], 
-                                                      pingback_url[0]);
-             }
-           } 
-
 	   if(app->get_sys_pref("blog.weblog_ping")->get_value())
 	   {
    	        object p = app->get_sys_pref("blog.weblog_ping_urls");
@@ -1573,12 +1517,14 @@ public void post(Request id, Response response, mixed ... args)
   			(string)Standards.URI("/space/" + obj_o["path"], app->get_sys_pref("site.url")->get_value()),
                         String.trim_whites(u));
                   }
-                }
-					
+                }					
 	   }
 
-           cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
+         cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
                                                      obj_o["parent"]["path"]));
+
+         app->trigger_event("postSave", id, obj_o);
+
 
          if(id->variables->ajax)
          {
@@ -1857,8 +1803,6 @@ private string|array register_pingback(object id, object response, string source
 
   if(!sizeof(a)) return ({32, "specified target url doesn't exist."});
 
-werror("A: %O\n", a);
-
   obj_o = a[0];
 
   // second, is the source valid?
@@ -1989,3 +1933,4 @@ public void json_userlist(Request id, Response response, mixed ... args)
    
   response->set_data(json);
 }   
+
