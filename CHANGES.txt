@@ -2,10 +2,13 @@ Version 0.5
 - Added theme support
 - Reorganized templates in preparation for theme support
 - Added preference list to admin interface
+- Moved pingback to a plugin; runs asyncronously new to cut posting time
 - Fixed bug that prevented proper saving of mime type of new objects
 - Fixed bug that subpages from being created properly
 - Deleting objects will return you to a more reasonable page
 - Commenting and posting should be more reliable
+- Fixed bug that didn't generate subsequent post ids for posts made during 
+  the same day.
 
 Version 0.4
 - We now assume that the datatype of a new object that's not been saved 
