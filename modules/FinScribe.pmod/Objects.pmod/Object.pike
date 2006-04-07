@@ -56,6 +56,22 @@ public array get_blog_entries(int|void max, int|void start)
   return o;
 }
 
+public array get_attachments(int|void max, int|void start)
+{
+  Log.debug("Getting attachments for " + this["path"]);
+  array crit = ({});
+
+  crit += ({Fins.Model.Criteria("ORDER BY path DESC")});
+
+  if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
+
+  array o = FinScribe.Repo.find("object", ([ "is_attachment": 1, "parent": this]),
+                        Fins.Model.CompoundCriteria( crit )
+            );
+
+  return o;
+}
+
 public string get_object_contents(Fins.Request|void id)
 {
 
