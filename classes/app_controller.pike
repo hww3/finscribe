@@ -124,6 +124,10 @@ private void handle_wiki(object obj, Request id, Response response){
 
   response->set_view(t);
 
+  response->set_header("Cache-Control", "max-age=1200");
+  response->set_header("Expires", (Calendar.Second() + 1200)->format_http());
+
+
 }
 
 private void handle_text(object obj, Request id, Response response)
@@ -150,14 +154,15 @@ private void handle_text(object obj, Request id, Response response)
 
   if(id->request_headers["if-modified-since"] &&
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
-        > v["created"]->unix_time())
+        >= v["created"]->unix_time())
   {
     response->not_modified();
     return;
   }
-  
+
   response->set_header("Cache-Control", "max-age=3600");
   response->set_header("Last-Modified", v["created"]->format_http());
+  response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
 
   string contents = v["contents"];
 
@@ -203,7 +208,7 @@ private void handle_data(object obj, Request id, Response response)
 
   if(id->request_headers["if-modified-since"] &&
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
-        > v["created"]->unix_time())
+        >= v["created"]->unix_time())
   {
     response->not_modified();
     return;
@@ -211,6 +216,7 @@ private void handle_data(object obj, Request id, Response response)
   
   response->set_header("Cache-Control", "max-age=3600");
   response->set_header("Last-Modified", v["created"]->format_http());
+  response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
 
   string contents = v["contents"];
 
