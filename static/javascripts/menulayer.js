@@ -148,7 +148,7 @@ var bindArgs = {
         d.innerHTML = data.toString();
         d = document.getElementById("result");
         if(d && d.innerHTML == "Success")
-          saveBlog();
+          window.setTimeout('saveBlog();', 2000);
     }
 
   };

@@ -1343,7 +1343,7 @@ public void edit(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-   Log.debug("POST: %O -> %O\n", id, id->variables);
+//   Log.debug("POST: %O -> %O\n", id, id->variables);
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
 
@@ -1436,6 +1436,8 @@ public void post(Request id, Response response, mixed ... args)
 	       // let's get the next blog path name...              
                string path = "";
                array r = obj_o->get_blog_entries();
+//werror("LOOKING FOR BLOG ENTRIES FOR " + obj_o["path"] + "\n");
+//werror("GOT " + sizeof(r) + " entries.\n");
                int seq = 1;
                if(id->variables->createddate && sizeof(id->variables->createddate))
                  c = Calendar.Gregorian.dwim_day(id->variables->createddate)->second();
@@ -1446,7 +1448,7 @@ public void post(Request id, Response response, mixed ... args)
                {
                  foreach(r;;object entry) 
                  {
-//		   write("LOOKING AT " + entry["path"]);
+//		   write("LOOKING AT " + entry["path"] + "; does it match " + obj + "/" + date + "/ ?\n");
                    // we assume that everything in here will be organized chronologically, and that no out of 
                    // date order pathnames will show up in the list.
                    if(has_prefix(entry["path"], obj + "/" + date + "/"))

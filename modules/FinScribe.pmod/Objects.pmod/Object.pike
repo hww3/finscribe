@@ -43,11 +43,14 @@ public int get_blog_count()
 public array get_blog_entries(int|void max, int|void start)
 {
   Log.debug("Getting blog entries for " + this["path"]);
+  array crit = ({});
+
+  crit += ({Fins.Model.Criteria("ORDER BY path DESC")});
+
+  if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
+
   array o = FinScribe.Repo.find("object", ([ "is_attachment": 2, "parent": this]),
-                        Fins.Model.CompoundCriteria( ({
-                          Fins.Model.Criteria("ORDER BY path DESC"),
-                          Fins.Model.LimitCriteria(max, start)
-                        }) )
+                        Fins.Model.CompoundCriteria( crit )
             );
 
   return o;
