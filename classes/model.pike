@@ -114,8 +114,15 @@ public object get_fbobject(array args, Request|void id)
 public string get_when(object c)
 {
    string howlongago;
+   int future;
 
-   c = c->distance(Calendar.now());
+   if (c < Calendar.now()) {
+     c = c->distance(Calendar.now());
+   }
+   else {
+     c = Calendar.now()->distance(c);
+     future++;
+   }
 
    if(c->number_of_minutes() < 3)
    {
@@ -134,7 +141,10 @@ public string get_when(object c)
       howlongago = c->number_of_days() + " days ago";
    }
 
-   return howlongago;
+   if (future)
+     return replace(howlongago, "ago", "in the future");
+   else
+     return howlongago;
 }
 
 int new_from_string(string path, string contents, string type, int|void att, int|void skip_if_exists)
