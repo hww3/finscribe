@@ -24,7 +24,10 @@ static void create(Fins.Application a)
   _internal = ((program)"internal_controller")(a);
 
   if(!config["app"] || !config["app"]["installed"])
+  {
     install = ((program)"install_controller")(a);
+    view->default_template = Fins.Template.Simple;
+  }
 }
 
 public void index(Request id, Response response, mixed ... args)

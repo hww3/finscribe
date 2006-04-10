@@ -127,6 +127,8 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   config->set_value("app", "installed", 1);
   config->set_value("model", "datasource", id->variables->dburl);
 
+  view->default_template = (program)"themed_template";
+
   app->kick_model();
   app->load_plugins();
 

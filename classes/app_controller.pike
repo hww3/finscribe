@@ -29,6 +29,7 @@ public void index(Request id, Response response, mixed ... args)
   }
 
   id->misc->current_page = obj["path"];
+  id->misc->current_page_object = obj;
 
   if((int)(app->get_sys_pref("site.track_views")["Value"]))
     obj["md"]["views"] ++;
