@@ -7,6 +7,11 @@ constant name="Album";
 
 int _enabled = 1;
 
+mapping(string:mixed) query_ipath_callers()
+{
+  return([ "getthumb": ((program)"thumbnail_controller")(app) ]);
+}
+
 mapping(string:object) query_macro_callers()
 {
   return ([ "album": album_macro() ]);
@@ -47,24 +52,36 @@ werror("rendering for " + o["path"] + "\n");
 
     if(has_prefix(o["datatype"]["mimetype"], "image/"))
       is_image = 1;
+    
     res += ({
-//"<div class=\"album-display-item\">"
 "<div class='block-cell'><div class='fullslide' style='width: 160px;'>"
+
 "<div class='outer' style='width: 140px; height: 140px;'>"
 "<span></span>"
 "<a" + (is_image?(" rel=\"lightbox\" title=\"" + 
                  o["title"]+ "\""):"") + " href=\"" + 
-                 (string)u + "\">"+ o["title"] + "</a>"
+                 (string)u + "\">"+ make_thumb(o, is_image) + "</a>"
 "</div>"
+
 "<div>" + o["title"] + "</div>"
 "</div>"
-"</div>"
-// "</div>"
 });
   }
-  return ({"<div class=\"album-display\">"}) + res + ({"</div>"
+  return ({"<p><div class=\"album-display\">"}) + res + ({"</div><p>"
            "<script type=\"text/javascript\" src=\"/static/javascripts/lightbox.js\"></script>"});
 
+}
+
+string make_thumb(object o, int is_image)
+{
+  if(!is_image)
+    return o["title"];
+
+  string retval="";
+
+  retval="<img src=\"/_internal/getthumb/" + o["path"] + "\">";
+
+  return retval;
 }
 
 
