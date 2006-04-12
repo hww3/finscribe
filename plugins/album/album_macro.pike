@@ -22,6 +22,11 @@ class album_macro
 
 inherit Public.Web.Wiki.Macros.Macro;
 
+int is_cacheable()
+{
+  return 0;
+}
+
 string describe()
 {
    return "Displays all attachments of a page as an album";
