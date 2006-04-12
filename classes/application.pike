@@ -61,7 +61,7 @@ void load_plugins()
 				  installer = p(this);
 				if(Program.implements(p, FinScribe.Plugin) && !module)
 				  module = p(this);	
-
+                                module->module_dir = pd;
                
 			}
 			

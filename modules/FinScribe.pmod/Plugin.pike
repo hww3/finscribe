@@ -4,6 +4,7 @@ Fins.Application app;
 
 constant name = "";
 constant description = "";
+string module_dir = "";
 
 int _enabled = 0;
 
