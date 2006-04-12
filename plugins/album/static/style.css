@@ -1,0 +1,143 @@
+/* $Id: style.css,v 1.1 2006-04-12 18:28:31 hww3 Exp $ */
+
+table.acidfree {
+    margin: auto;
+    border-collapse: separate;
+}
+
+#acidfree-main {
+    margin: 0px;
+    border-collapse: separate;
+}
+
+tr.acidfree {
+    background-color: #c0c0c0;
+}
+
+tr.none {
+    background-color: transparent;
+    text-align: left;
+    vertical-align: top;
+}
+
+div.nowrap {
+    padding: 20px;
+    display: table-row;
+    width: 100%;
+}
+
+div.folder {
+    display: table-cell;
+    margin: auto;
+    width: 120px;
+    height: 90px;
+    border: none;
+    vertical-align: bottom;
+    text-align: center;
+    background: url(art/album.gif) center no-repeat;
+    cursor: pointer;
+}
+
+div.fullslide {
+    margin: auto;
+    padding: 0px;
+/*    border: 1px dashed #eaa; */
+    vertical-align: top;
+    text-align: center;
+}
+
+div.outer {
+    display: table-cell;
+    margin: auto;
+    padding: 0px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #ccd #778 #778 #ccd;
+    background: #c0c0c0;
+    vertical-align: middle;
+}
+div.video {
+    background-image: url(art/filmstrip.png);
+}
+
+div.outer span {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 1px;
+}
+
+div.folder span {
+    display: inline-block;
+    height: 65px;
+    width: 1px;
+}
+
+img.acidfree {
+    margin: auto;
+    vertical-align: middle;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #778 #ccd #ccd #778;
+    background: #c0c0c0;
+}
+
+img.acidfree-plain {
+    margin: 0px;
+    border: none;
+    padding: 5px;
+}
+
+img.album-thumb {
+    margin-bottom: 9px;
+    vertical-align: middle;
+    border: 1px outset;
+    height: 55px;
+}
+
+div.album-thumb {
+   display: inline-block;
+}
+
+div.block-cell {
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+    clear: none;
+    background: transparent;
+    padding: 5px 0px 10px 0px;
+}
+.block-bottom {
+    font-size: 1px;
+    height: 0px;
+    clear: both;
+}
+.block-acidfree {
+    width: 180px;
+}
+
+div.floating-box {
+    float: left;
+    clear: none;
+    max-width: 150px;
+}
+
+/*
+for fast tables, use...
+<table style="table-layout:fixed;" width="600px">
+
+<col width="100px">
+<col width="300px">
+<col width="200px">
+
+<tr height="20px">
+<td>...<td>
+<td>...<td>
+<td>...<td>
+<tr>
+:
+<table>
+
+*/
+
+
