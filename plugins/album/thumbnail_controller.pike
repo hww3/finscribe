@@ -1,14 +1,28 @@
+import Tools.Logging;
 inherit Fins.FinsController;
 
 void index(object id, object response, mixed ... args)
 {
+
   object o = model->get_fbobject(args);
   if(!o)
   {
     response->not_found();
     return;
   }
-  
+
+   if(id->request_headers["if-modified-since"] &&
+      Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])
+        >= o["current_version"]["created"]->unix_time())
+  {
+    response->not_modified();
+    return;
+  }
+
+  response->set_header("Cache-Control", "max-age=3600");
+  response->set_header("Last-Modified", o["current_version"]["created"]->format_http());
+  response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
+
   string dta, type;
 
   [dta, type] = _makethumb(o);
@@ -21,6 +35,12 @@ mixed _makethumb(object file) {
 
   thumbx=120;
   thumby=120;
+
+  mixed i = cache->get("THUMBNAIL-" + file["id"]);
+
+  if(i) return i;
+
+  Log.debug("rendering thumbnail for " + file["path"]);
 
   string data = file["current_version"]["contents"];
 
@@ -55,6 +75,7 @@ mixed _makethumb(object file) {
 	  outdata = Image.GIF.encode(img);
 	break;
     }
+    cache->set("THUMBNAIL-" + file["id"], ({outdata, outtype}), 600);
     return ({outdata, outtype});
   }
 }

@@ -41,33 +41,45 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
 
   if(!obj) return ({});
 
-
+  array r2 = ({});
 
   foreach(obj->get_attachments();;object o)
   {
      object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
             u->path = combine_path(u->path, "/space/", o["path"]);
-werror("rendering for " + o["path"] + "\n");
     int is_image = 0;
 
     if(has_prefix(o["datatype"]["mimetype"], "image/"))
       is_image = 1;
     
-    res += ({
-"<div class='block-cell'><div class='fullslide' style='width: 160px;'>"
-
+    r2 += ({
+"<div class='fullslide' style='width: 160px;'>"
 "<div class='outer' style='width: 140px; height: 140px;'>"
-"<span></span>"
 "<a" + (is_image?(" rel=\"lightbox\" title=\"" + 
                  o["title"]+ "\""):"") + " href=\"" + 
                  (string)u + "\">"+ make_thumb(o, is_image) + "</a>"
-"</div>"
-
 "<div>" + o["title"] + "</div>"
 "</div>"
+"</div>\n\n"
 });
+
   }
-  return ({"<p><div class=\"album-display\">"}) + res + ({"</div><p>"
+
+  foreach(r2/5.0;;array x)
+  {
+    string z = "";
+    z+= "<tr>";
+
+    foreach(x;;string y)
+     z+= "<td>" + y + "</td>";
+
+    z+= "</tr>";
+    
+
+    res += ({ z });
+  }
+
+  return ({"<p><div class=\"album-display\"><table>"}) + res + ({"</table></div><p>"
            "<script type=\"text/javascript\" src=\"/static/javascripts/lightbox.js\"></script>"});
 
 }
@@ -79,7 +91,7 @@ string make_thumb(object o, int is_image)
 
   string retval="";
 
-  retval="<img src=\"/_internal/getthumb/" + o["path"] + "\">";
+  retval="<img alt=\"" + o["title"] + "\" src=\"/_internal/getthumb/" + o["path"] + "\">";
 
   return retval;
 }
