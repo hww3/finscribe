@@ -1,7 +1,7 @@
 /**
  * General Stylesheet definitions.
  * @author Matthias L. Jugel
- * @version $Id: general.css,v 1.2 2006-04-05 19:18:41 hww3 Exp $
+ * @version $Id: general.css,v 1.3 2006-04-12 19:03:33 hww3 Exp $
  */
 
 /* error messages and error positions should be marked red */
@@ -93,3 +93,15 @@ div.menu  {
   filter: alpha(opacity=90);
   border: 2px solid;    border-color: #f7faff;
 }
+
+#dialogoverlay img{ border: none; }
+
+#dialogoverlay{ background-image: url(/static/images/overlay.png); }
+
+* html #dialogoverlay{
+        background-color: #333;
+        back\ground-color: transparent;
+        background-image: url(/static/images/blank.gif);
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/static/images/overlay.png", sizingMethod="scale");
+        }
+

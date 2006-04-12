@@ -387,7 +387,7 @@ function setinsert()
 function openPopup(url, width, height, formid, action, loadfunc) {
   closePopup();
 
-  var objOverlay = document.getElementById("overlay");
+  var objOverlay = document.getElementById("dialogoverlay");
 
   if(!objOverlay)
   {
@@ -395,7 +395,7 @@ function openPopup(url, width, height, formid, action, loadfunc) {
 	var objBody = document.getElementsByTagName("body").item(0);
 
 	objOverlay = document.createElement("div");
-	objOverlay.setAttribute('id','overlay');
+	objOverlay.setAttribute('id','dialogoverlay');
 	objOverlay.onclick = function () {closePopup(); return false;}
 	objOverlay.style.display = 'none';
 	objOverlay.style.position = 'absolute';
@@ -403,7 +403,7 @@ function openPopup(url, width, height, formid, action, loadfunc) {
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
  	objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
-	objBody.insertBefore(objOverlay, objBody.firstChild);
+	objBody.insertBefore(objOverlay, null);
   }
 
 	var arrayPageSize = getPageSize();
@@ -558,7 +558,7 @@ function closePopup()
   if(d)
   {
     dojo.fx.html.fadeHide(d, 200);
-    var objOverlay = document.getElementById("overlay");
+    var objOverlay = document.getElementById("dialogoverlay");
     objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
   }

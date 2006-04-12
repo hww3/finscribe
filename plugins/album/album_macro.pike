@@ -79,7 +79,9 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
     res += ({ z });
   }
 
-  return ({"<link rel=\"STYLESHEET\" type=\"text/css\" href=\"/_internal/static/Album/style.css\"/><p><div class=\"album-display\"><table>"}) + res + 
+  return ({"<link rel=\"STYLESHEET\" type=\"text/css\" href=\"/_internal/static/Album/style.css\"/>"
+  "<link rel=\"STYLESHEET\" type=\"text/css\" href=\"/_internal/static/Album/lightbox.css\"/>"
+  "<p><div class=\"album-display\"><table>"}) + res + 
 ({"</table></div><p>"
            "<script type=\"text/javascript\" src=\"/_internal/static/Album/lightbox.js\"></script>"});
 
