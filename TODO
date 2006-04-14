@@ -1,6 +1,6 @@
 - reassign user ownership of objects when a user is deleted.
-- proper group editing interface
 - full localization
 - acl editing
 - fulltext update when content is moved/deleted
 - check for duplicate content paths when moving a subtree
+- return error message when editing object attachments
