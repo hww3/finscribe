@@ -48,7 +48,10 @@ import Fins.Model;
 
    string get_title(mixed n, object i)
    {
-     string a = i["current_version"]["subject"];
+     string a;
+     catch {
+        a = i["current_version"]["subject"];
+     };
      if(a && sizeof(a)) return a;
      else return (n/"/")[-1];
    }

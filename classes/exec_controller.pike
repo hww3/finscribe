@@ -486,10 +486,12 @@ public void editattachments(Request id, Response response, mixed ... args)
   }
   if(id->variables->action == "Add") 
   {
+werror("adding...\n");
     viaframe = 1;
     string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
     object obj_o;
   
+    werror("getting datatypes.\n");
     array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
     if(!sizeof(dtos))
     {
@@ -497,6 +499,7 @@ public void editattachments(Request id, Response response, mixed ... args)
     }
     else
     {       
+mixed e = catch {
       object dto = dtos[0];
       obj_o = FinScribe.Repo.new("object");
       obj_o["datatype"] = dto;
@@ -507,17 +510,23 @@ public void editattachments(Request id, Response response, mixed ... args)
       obj_o["path"] = path;
       obj_o->save();
 
+};
+if(e) werror("error occurred!\n %O\n", e);
+
       object obj_n = FinScribe.Repo.new("object_version");
       obj_n["contents"] = id->variables["upload-file"];
 
       int v;
       object cv;
-
       obj_o->refresh();
 
       if(cv = obj_o["current_version"])
       { 
         v = cv["version"];
+      }
+      else
+      {
+        werror("no existing version.\n");         
       }
       obj_n["version"] = (v+1);
       obj_n["object"] = obj_o;
@@ -540,12 +549,16 @@ public void editattachments(Request id, Response response, mixed ... args)
    if(viaframe)
    {
      string s = "<html><head></head><body><div>" + t->render() + "</div></body></html>";
+werror("s: %O\n", s);
      response->set_data(s);
      response->set_type("text/html");
    }
    else
+   {
+     werror("s: %O\n", t->render());
      response->set_view(t);
 
+   }
 }
 
 public void login(Request id, Response response, mixed ... args)

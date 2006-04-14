@@ -376,7 +376,7 @@ Array(pageWidth,pageHeight,windowWidth,windowHeight)
 
 function openLogin()
 {
-  openPopup("/exec/login", '300px', null, null, null, setinsert);
+  openPopup("/exec/login?return_to="  + window.location, '300px', null, null, null, setinsert);
 }
 
 function setinsert()

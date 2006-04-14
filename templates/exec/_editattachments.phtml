@@ -6,8 +6,9 @@
 <% if data->object_is_weblog %>
   You can't directly add attachments to a weblog page.
 <% else %>
-  <%$numattachments %> Attachments</a><br/>
+  This page (<%$object.path%>) contains <%$numattachments %> Attachments</a><br/>
   <table>
+  <tr><th>Name</th><th>Type</th><th>Size</th><th></th></tr>
   <% foreach var="attachments" val="attachment" %>
   <tr><td><a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
