@@ -891,10 +891,10 @@ public void new(Request id, Response response, mixed ... args)
        switch(id->variables->pageloc)
        {
          case "subpage":
-Log.debug("Currentpage: %O", id->variables->currentpage);
            if(arrayp(id->variables->currentpage)) id->variables->currentpage = id->variables->currentpage[0];
 
            id->variables->title = combine_path(id->variables->currentpage, id->variables->title);
+
            break;
          case "parentpage":
            if(arrayp(id->variables->currentpage))
@@ -915,7 +915,7 @@ Log.debug("Currentpage: %O", id->variables->currentpage);
 
      app->set_default_data(id, t);
 
-     mixed p = app->new_string_pref(t->get_data()["UserName"] + ".new.default_mimetype", "text/wiki");
+     mixed p = app->new_string_pref(t->get_data()["user_object"]["UserName"] + ".new.default_mimetype", "text/wiki");
 
      array mimetypes = ({});
 
@@ -1251,7 +1251,11 @@ public void edit(Request id, Response response, mixed ... args)
 
    if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
    else if(!datatype)
-     datatype = "text/wiki";
+   {
+     werror("fetched datatype from pref.\n");
+     datatype = app->new_string_pref(t->get_data()["user_object"]["UserName"] + ".new.default_mimetype", "text/wiki")->get_value();
+     werror("fetched datatype from pref: %O\n", datatype);
+   }
 
    if(id->variables->action)
    {
