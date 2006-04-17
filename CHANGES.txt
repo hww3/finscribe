@@ -1,5 +1,7 @@
 Version 0.5
 - Added theme support
+- Added album macro that will display thumbnail images of any attachments, 
+  and displays them in a "lightbox".
 - Reorganized templates in preparation for theme support
 - Added preference list to admin interface
 - Moved pingback to a plugin; runs asyncronously new to cut posting time
@@ -9,6 +11,15 @@ Version 0.5
 - Commenting and posting should be more reliable
 - Fixed bug that didn't generate subsequent post ids for posts made during 
   the same day.
+- Increased content size to 1MB, which should reduce the occurrence of clipped
+  off attachments.
+- A user's preferred content type will be used to create new objects, if one
+  is not otherwise specified. The default type is text/wiki.
+- Fixed login bounce-back page when using ajax login. You should get bounced
+  back to the page you were at when you clicked "login".
+- Content should be more cachable (looking for feedback on this).
+- Plugins can have static content now (see album plugin for example).
+- Other minor fixes to date displays, warnings and the installer.
 
 Version 0.4
 - We now assume that the datatype of a new object that's not been saved 
