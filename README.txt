@@ -59,3 +59,29 @@ easier of the three to install support for, as you can use Monger.
    port number supplied when you start fin serve. On first access, you'll
    be presented with the installation wizard. Simply follow the steps
    to install and configure your FinScribe instance.
+
+
+THEMES
+
+As of release 0.5, FinScribe is completely Themeable. In addition to the default (ugly and boring) 
+theme, we've got a few, much nicer themes that we've ported from other applications such as 
+WordPress. We'll make them available here, so that you can make your FinScribe installation a little 
+prettier.
+
+To install a new theme, simply download the theme file and untar it into your FinScribe/themes 
+directory. Once you've done that, you'll need to set the site.theme preference to the name of the 
+theme you'd like to use. To do that, do the following:
+
+./fin_serve --hilfe PathToFinScribe yourconfigname
+
+at the prompt, run the following command:
+
+  application->get_sys_pref("site.theme")["Value"] = "yournewthemename";
+  quit
+
+And that's it! To switch back to the default theme, simply follow the above commands, and use the 
+theme name "default".
+
+Also, it's worth noting that you can customize the sidebar that's included with FinScribe, and used 
+by all of the themes. The sidebar's content is stored in a document called theme/default/portlet-1, 
+and you can access it by going to your site's index page. It will be listed under "P" for "portlet-1. 
