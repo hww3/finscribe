@@ -56,7 +56,7 @@ import Fins.Model;
      else return (n/"/")[-1];
    }
 
-   string get_cat_links(mixed n, object i)
+   array get_cat_links(mixed n, object i)
    {
      return map(i["categories"]["category"], lambda(string a){return "<a href=\"/exec/category/" + a + "\">"+ a + "</a>";});
    }
