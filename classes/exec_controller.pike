@@ -549,13 +549,11 @@ if(e) werror("error occurred!\n %O\n", e);
    if(viaframe)
    {
      string s = "<html><head></head><body><div>" + t->render() + "</div></body></html>";
-werror("s: %O\n", s);
      response->set_data(s);
      response->set_type("text/html");
    }
    else
    {
-     werror("s: %O\n", t->render());
      response->set_view(t);
 
    }
@@ -906,6 +904,7 @@ public void new(Request id, Response response, mixed ... args)
            break;
        }
      }
+
 
      response->redirect("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
      return;
