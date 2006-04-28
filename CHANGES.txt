@@ -1,3 +1,10 @@
+Version 0.6
+- Fixed a template bug that could cause the main portlet to appear twice.
+- Fixed some minor bugs that were messing up path determination on the 
+  "new object" page
+- Fixed a bug that prevented objects from being saved because of a 
+  concatenation of the datatype for the object.
+
 Version 0.5
 - Added theme support
 - Added album macro that will display thumbnail images of any attachments, 
