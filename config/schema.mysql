@@ -150,6 +150,7 @@ CREATE TABLE aclrules (
   user_id int(11) NOT NULL,
   group_id int(11) NOT NULL,
   xmit int(1) default '0',  
+  class int(1) default '0',  
   custom_name char(36),
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

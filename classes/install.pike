@@ -80,3 +80,54 @@ void populate()
   model->new_from_string("start", "1 Welcome to FinScribe.\n\nTo get started, log in and click the edit button.\n\n{weblog}", "text/wiki", 0, 1);
 
 }
+
+
+// set up the default groups.
+void create_groups()
+{
+  object g;
+
+  g = FinScribe.Model.Group();
+  g["Name"] = "Editors";
+  g->save();
+}
+
+// set up the default acls.
+void create_acls()
+{
+  object a;
+  object r;
+
+  a = FinScribe.Model.ACL();
+  a["Name"] = "Default ACL";
+  a->save();
+
+  r = FinScribe.Model.ACLRule();
+  r["class"] = 4; // guests have browse, read, comment
+  r["xmit"] = 35;
+
+  r->save();
+  a["rules"] += r;
+
+  r = FinScribe.Model.ACLRule();
+  r["class"] = 2; // users have browse, read, version, create, comment.
+  r["xmit"] = 47;
+  r->save();
+  a["rules"] += r;
+
+  r = FinScribe.Model.ACLRule();
+  r["class"] = 1; // owners have browse, read, version, create, comment, post and lock.
+  r["xmit"] = 239;
+  r->save();
+  a["rules"] += r;
+
+  r = FinScribe.Model.ACLRule();
+  r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
+  r["xmit"] = 255;
+  r->save();
+  object e = model->find("group", (["Name": "Editors"]))[0];
+    if(!e) werror("no editors!\n");
+  else 
+    r["group"] += e;
+  a["rules"] += r;
+}
