@@ -1235,7 +1235,6 @@ public void edit(Request id, Response response, mixed ... args)
 
    app->set_default_data(id, t);
 
-
    if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
    {
 	response->flash("msg", "You do not have permission to edit this object");

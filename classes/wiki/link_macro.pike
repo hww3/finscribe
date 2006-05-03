@@ -60,7 +60,9 @@ array evaluate(Macros.MacroParameters params)
   	if(params->extras->request)
   	{
 		if(!params->extras->request->misc->permalinks) params->extras->request->misc->permalinks = ({});
-		params->extras->request->misc->permalinks += ({ link });
+                if(search(link, "://") != -1)
+		    params->extras->request->misc->permalinks += ({ link 
+});
 	}
 
   res+=({"\">"});
