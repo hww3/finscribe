@@ -49,7 +49,7 @@ a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
 onclick="openPopup('/exec/display_trackbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.trackbacks"%> TrackBacks</a> <% endif %>
   <% if data["metadata"]["pingbacks"] %> | <a href="#" 
 onclick="openPopup('/exec/display_pingbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.pingbacks"%> 
-PingBacks</a> <% endif %>
+PingBacks</a> <% endif %> | <a href="/exec/backlinks/<%$obj%>">BackLinks</a>
          <p/>
 <div id="wiper" style="display:none;"></div>
 <% endif %>
