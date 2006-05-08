@@ -12,6 +12,9 @@ array evaluate(Macros.MacroParameters params)
 {
 //werror("%O\n", mkmapping(indices(params), values(params)));
 
+  if(params->extras && params->extras->request)
+    params->extras->request->misc->object_is_index = 1;
+
   array o = params->engine->wiki->model->find("object", (["is_attachment": 0]));
   array res = ({});
   array e = ({});

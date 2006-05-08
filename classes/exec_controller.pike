@@ -174,6 +174,37 @@ public void category(Request id, Response response, mixed ... args)
    response->set_view(t);
 }
 
+public void backlinks(Request id, Response response, mixed ... args)
+{
+   if(!args || !sizeof(args))
+   {
+     response->set_data(LOCALE(13, "You must provide an object to view the backlinks for.\n"));
+   }
+
+   object obj_o;
+
+   object t = view->get_idview("exec/backlinks");
+
+   app->set_default_data(id, t);
+
+   obj_o = model->get_fbobject(args, id);
+
+   if(!obj_o)
+   {
+     response->set_data("Object " + (args * "/") + " does not exist.");
+     return;
+   }
+
+   t->add("object", obj_o);
+
+   mixed bl = obj_o["md"]["backlinks"];
+ 
+   if(!bl) bl = ({});
+   t->add("backlinks", bl);
+
+   response->set_view(t);
+}
+
 public void deletecomment(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)

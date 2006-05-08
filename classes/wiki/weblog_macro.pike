@@ -24,7 +24,8 @@ array evaluate(Macros.MacroParameters params)
       root = o[0];
   }
 
-  params->extras->request->misc->object_is_weblog = 1;
+  if(params->extras->request)
+    params->extras->request->misc->object_is_weblog = 1;
 
   // we should get a limit for the number of entries to display.
 
@@ -105,16 +106,17 @@ array evaluate(Macros.MacroParameters params)
 
 
   class WeblogReplacerObject()
-                                                {
+  {
 
-                                                        array render(object engine, mixed extras)
-                                                        {
-								extras->request->misc->object_is_weblog = 1;
-                                                                return ({""});
-                                                        }
+    array render(object engine, mixed extras)
+    {
+      if(extras->request)
+        extras->request->misc->object_is_weblog = 1;
+      return ({""});
+    }
 
-                                                        string _sprintf(mixed t)
-                                                        {
-                                                                return "WeblogReplacer()";
-                                                        }
-                                                }
+    string _sprintf(mixed t)
+    {
+      return "WeblogReplacer()";
+    }
+  }

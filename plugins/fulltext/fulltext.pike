@@ -139,7 +139,7 @@ array doSearchMacro(Macros.MacroParameters params)
   string target_url;
 
 
-  if(!params->extras->request->variables->q)
+  if(!params || !params->extras->request || !params->extras->request->variables->q)
     return ({"No query specified."});
 
   object c = 
