@@ -3,29 +3,8 @@
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
 
-   <h3>Backlinks for <%$object.title%></h3>
-<div class="flash-message"><%flash var="msg" %></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
-Pages that link to this page:
-<ul>
-<% foreach var="backlinks" val="o" %>
-  <li> <a href="/space/<%$o%>"><%$o%></a>
-<% end %>
-</ul>
-<p/>
+  <%@include file="exec/_backlinks.phtml" %>
 
-         </div>
-      </div>
-      </div>
-      </div>
-         <div id="page-portlet-1-wrapper">
-          <div id="page-portlet-1">
-         <% snip snip="themes/default/portlet-1" %>
-         </div>
-         </div>
-         
-</div>
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
 

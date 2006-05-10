@@ -183,7 +183,11 @@ public void backlinks(Request id, Response response, mixed ... args)
 
    object obj_o;
 
-   object t = view->get_idview("exec/backlinks");
+   object t;
+   if(id->variables->ajax)
+     t = view->get_idview("exec/_backlinks");
+   else
+     t = view->get_idview("exec/backlinks");
 
    app->set_default_data(id, t);
 
