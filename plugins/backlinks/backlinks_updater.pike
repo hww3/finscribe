@@ -45,15 +45,12 @@ void update_backlinks()
 
     foreach(objs;; object o)
     {
-      Log.debug("extracting backlinks from " + o["path"]);
-
       mapping r = (["misc": ([]), "variables": ([]) ]);
 
       string html = app->render(o["current_version"]["contents"], o, r);
 
       if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
       {
-        Log.debug("skipping an index or weblog.");
         continue;
       }
       // now, let's parse the html for hrefs.
@@ -69,8 +66,6 @@ void update_backlinks()
     cid = cid + 100;
 
   } while(cid < maxid);
-
-  Log.info("backlinks: %O\n", backlink_mods);
 
   foreach(backlink_mods; string page; array backlinks)
   {
