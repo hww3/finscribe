@@ -14,14 +14,12 @@
 
 <% if data["user_object"]  %>
 <div class="snip-buttons">
-[ <a href="#" onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)" 
-xonmouseout="menuLayers.hide()">actions</a> ]
+[ <a href="/exec/actions/<%$obj%>">actions</a> ]
 </div>
 <% endif %> 
 <div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()">Close</a></div>
 <div id="actions_contents" class="action_contents"></div>
 </div>
-
 
 <div id="snip-wrapper">
 
@@ -43,13 +41,12 @@ xonmouseout="menuLayers.hide()">actions</a> ]
             <% else %>
                  No comments 
             <% endif %>
- | <a href="#" onclick="openPopup('/exec/comments/<%$obj%>', '80%'); return false;">Post 
+ |  <a id="PostComment" href="/exec/comments/<%$obj%>">Post 
 a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
-  <% if data["metadata"]["trackbacks"] %> | <a href="#" 
-onclick="openPopup('/exec/display_trackbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.trackbacks"%> TrackBacks</a> <% endif %>
-  <% if data["metadata"]["pingbacks"] %> | <a href="#" 
-onclick="openPopup('/exec/display_pingbacks/<%$obj%>', '80%'); return false;"><%sizeof var="metadata.pingbacks"%> 
-PingBacks</a> <% endif %> | <a href="/exec/backlinks/<%$obj%>">BackLinks</a>
+  <% if data["metadata"]["trackbacks"] %> | <a href="/exec/display_trackbacks/<%$obj%>" id="TrackBacks"><%sizeof var="metadata.trackbacks"%> 
+TrackBacks</a> <% endif %>
+  <% if data["metadata"]["pingbacks"] %> | <a href="/exec/display_pingbacks/<%$obj%>"><%sizeof var="metadata.pingbacks"%> 
+PingBacks</a> <% endif %> | <a href="/exec/backlinks/<%$obj%>" id="BackLinks">BackLinks</a>
          <p/>
 <div id="wiper" style="display:none;"></div>
 <% endif %>

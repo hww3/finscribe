@@ -16,14 +16,13 @@ var menuLayers = {
   clientY: null,
   pageX: null,
   pageY: null,
-  show: function(id, o, e, item, onLoad) {
+  show: function(id, o, e, item) {
     this.clientX = e.clientX;
     this.clientY = e.clientY;
     this.pageX = e.pageX;
     this.pageY = e.pageY;
     this.activeMenuID = id;
     this.item = item;
-    this.onLoad = onLoad;
 
 var bindArgs = {
     url:         o + "?ajax=1&return_to=" + window.location,
@@ -37,11 +36,6 @@ var bindArgs = {
           return;
         d.innerHTML = data.toString();
 	menuLayers.low_show();
-        if(menuLayers.onLoad)
-        {
-           menuLayers.onLoad();
-           menuLayers.onLoad = null;
-        }
     }
 };
 
@@ -126,8 +120,29 @@ function displayComments(div, path, force)
 }
 
 
-function openPostBlog(obj)
+function openActions(item, event)
 {
+  // onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)"
+  var obj;
+  var d;
+
+  d = document.getElementById("object");
+  if(!d) return;
+  else obj = d.innerHTML;
+
+  menuLayers.show('actions', '/exec/actions/' + obj, event, item)
+
+}
+
+function openPostBlog(item)
+{
+  var obj;
+  var d;
+
+  d = document.getElementById("object");
+  if(!d) return;
+  else obj = d.innerHTML;
+
   openPopup("/exec/post/" + obj, '80%', null, null, null, setinsert);
 }
 
