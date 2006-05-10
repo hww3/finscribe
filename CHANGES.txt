@@ -1,4 +1,7 @@
 Version 0.6
+- Added code to auto AJAXify the application. To disable AJAX effects, simply
+    comment out the dojo.js script from header.phtml.
+- Added BackLinks with automatic backlink index generator
 - Fixed a template bug that could cause the main portlet to appear twice.
 - Fixed some minor bugs that were messing up path determination on the 
   "new object" page

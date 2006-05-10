@@ -1,4 +1,4 @@
-- reassign user ownership of objects when a user is deleted.
+- auto ajaxification needs to be extended to the display comments feature on weblog entries.
 - full localization
 - acl editing
 - fulltext update when content is moved/deleted
