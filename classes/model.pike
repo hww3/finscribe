@@ -178,7 +178,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
                  obj_o["is_attachment"] = 1;
                else 
                  obj_o["is_attachment"] = 0;
-               obj_o["author"] = FinScribe.Repo.find("user", (["UserName": "admin"]))[0];
+               obj_o["author"] = FinScribe.Repo.find_by_id("user", 1);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
            if(isnew)
