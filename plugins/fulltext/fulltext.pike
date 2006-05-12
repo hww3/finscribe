@@ -57,23 +57,29 @@ string textify(string html)
 
 int updateIndex(string event, object id, object obj)
 {
+  call_out(Thread.Thread, 0, doUpdateIndex, event, id, obj);
+
+  return 0;
+}
+
+void doUpdateIndex(string event, object id, object obj)
+{
+
   Log.info("saved " + obj["path"]);  
 
-  object p = app->get_sys_pref("plugin.fulltext.indexserver");
+  object p = app->get_sys_pref("plugin." + name + ".indexserver");
   if(!p) return 0;
 
-  object c = Protocols.XMLRPC.Client(p->get_value());
+  object c = Protocols.XMLRPC.Client(p->get_value() + "/update/");
 
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
   if(obj["path"] && strlen(obj["path"]))
   werror("deleteions: %O\n", 
-c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]));  
+  c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]));  
   c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
       obj["title"] + " " + t, obj["path"], 
       FinScribe.Blog.make_excerpt(t));
-
-  return 0;
 }
 
 class searchdialog_macro
