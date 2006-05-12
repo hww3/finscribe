@@ -67,8 +67,7 @@ array res = ({});
 
   if(!hidetitle)
   {
-    res+=({r->data->title});
-    res+=({"<hr/>\n"});
+    res+=({"<h3>" + r->data->title + "</h3>"});
   }
 
   foreach(r->items, item)
