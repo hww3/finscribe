@@ -28,24 +28,13 @@ int updateList(string event, object id, object obj)
 
   f = p->get_value()/"\n";
 
-  array keys, values;
+  f = ({(string)(obj["id"])}) + f;
+  f = Array.uniq(f);
 
-  keys = Array.everynth(f, 2);
-  values = Array.everynth(f, 2, 1);
-
-  keys = ({obj["path"]}) + keys;
-  values = ({obj["title"]}) + values;
-
-  keys = Array.uniq(keys)
-  values = Array.uniq(values);
-
-  if(sizeof(keys) > 10)
+  if(sizeof(f) > 5)
   {
-    keys = keys[0..9];
-    values = values[0..9];
+    f = f[0..4];
   }
-
-  f = Array.splice(key, values);
 
   p["Value"] = f*"\n";
 
@@ -70,17 +59,11 @@ array evaluate(Macros.MacroParameters params)
 
   array f = params->engine->wiki->new_string_pref("plugin.recentchanges.list", "")->get_value()/"\n";
 
-  array keys, values;
-
-  keys = Array.everynth(f, 2);
-  values = Array.everynth(f, 2, 1);
-
-  if(sizeof(keys) != sizeof(values)) return ({});
-
-  foreach(keys; int i; string v)
+  foreach(f;;string k)
   {
-    if(values[i])
-      res += ({"<li><a href=\"/space/" + v + "\">" + values[i] + "</a>\n"});
+      object ent = params->engine->wiki->model->find_by_id("object", (int)k);
+      if(!ent) continue;
+      res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a>\n"});
   }
 
   return res;
