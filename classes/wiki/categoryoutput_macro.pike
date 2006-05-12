@@ -45,30 +45,16 @@ array evaluate(Macros.MacroParameters params)
   {
     object item;
 
-    res+=({"<div class=\"category-feed\">"});
-    
-    res+=({cat["category"]});
-    res+=({"<hr/>\n"});
+    res+=({"<h3><a href=\"/exec/category/" + cat["category"] + "\">" + cat["category"] + "</a></h3>"});
     ci=0; 
     foreach(cat["objects"];; item)
     {
-      res+=({ replace(params->contents, ({"%C", "%L", "%I"}), 
-              ({cat["category"], "/space/" + item["path"], 
-                item["title"] }) ) 
+      res+=({ "<li><a href=\"/space/" + item["path"] + "\">" + item["title"] + "</a>" });
            });
       ci++;
       if(ci==limit) break;
     }
-    res+=({"<a href=\"/exec/category/"});
-    res+=({cat["category"]});
-    res+=({"\">View all in "});
-    res+=({cat["category"]});
-    res+=({"...</a>"});
-    res+=({"<p/>\n"});
-   
    }
-
-    res+=({"</div>"});
 
   return res;
 }
@@ -77,9 +63,6 @@ array evaluate(Macros.MacroParameters params)
 mixed category_fetch(string category, object params)
 {
   array r;
-
-  werror("category-reader: getting " + category + "\n");
-
 
   if(!category)
     r = params->engine->wiki->model->get_categories();

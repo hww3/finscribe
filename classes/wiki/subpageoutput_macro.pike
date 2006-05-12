@@ -33,21 +33,11 @@ werror("SUBPAGE: " + subpage + "\n");
 
   int ci=0;
 
-  res+=({"<div class=\"subpage-feed\">"});
-
   foreach(r;; mixed page)
   {
-    object item;
+    res+=({ "<li><a href=\"/space/" + page["path"] + "\">" + page["title"] + "</a>\n" }); 
+  }
 
-    
-    res+=({ replace(params->contents, ({"%L", "%I"}), 
-             ({ "/space/" + page["path"], 
-                page["title"] }) ) 
-           });
-   
-   }
-
-  res+=({"</div>"});
 //  res+=({ WeblogReplacerObject() });
 
   return res;
