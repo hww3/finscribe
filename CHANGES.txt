@@ -1,4 +1,10 @@
 Version 0.6
+- Made some changes to provide a default stylesheet, plus a stylesheet for
+    theme specific styles.
+- Fixed a bug that prevented installation when specifying an admin user whose
+    name wasn't "admin".
+- Made full text indexing occur within a separate thread to keep saves from 
+    failing or taking too long.
 - Added code to auto AJAXify the application. To disable AJAX effects, simply
     comment out the dojo.js script from header.phtml.
 - Added BackLinks with automatic backlink index generator
