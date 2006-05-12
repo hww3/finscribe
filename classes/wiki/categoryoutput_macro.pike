@@ -50,7 +50,6 @@ array evaluate(Macros.MacroParameters params)
     foreach(cat["objects"];; item)
     {
       res+=({ "<li><a href=\"/space/" + item["path"] + "\">" + item["title"] + "</a>" });
-           });
       ci++;
       if(ci==limit) break;
     }

@@ -44,16 +44,13 @@ macro.code.class=wiki/code_macro
 macro.boggle.class=Public.Web.Wiki.Macros.Boggle
 macro.api.class=Public.Web.Wiki.Macros.Api
 macro.macro-list.class=Public.Web.Wiki.Macros.MacroList
-macro.recent-changes.class=Public.Web.Wiki.Macros.RecentChanges
 macro.table.class=Public.Web.Wiki.Macros.Table
 macro.image.class=wiki/image_macro
 macro.weblog.class=wiki/weblog_macro
-macro.recentchanges.class=wiki/recentchanges_macro
 macro.object-index.class=wiki/objectindex_macro
 macro.attachment-index.class=wiki/attachmentindex_macro
 macro.category-index.class=wiki/categoryindex_macro
 #macro.rss-reader.class=wiki/rssreader_macro
-macro.category-reader.class=wiki/categoryreader_macro
 macro.category-output.class=wiki/categoryoutput_macro
 macro.subpage-output.class=wiki/subpageoutput_macro
 
