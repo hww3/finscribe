@@ -10,6 +10,7 @@ inherit Fins.FinsController;
 
 static void start()
 {
+  after_filter(Fins.Helpers.Filters.Compress());
   /*
     after_filter(lambda(object id, object response, mixed ... args) {  
                 if(response->get_data())
