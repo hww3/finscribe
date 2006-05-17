@@ -521,12 +521,10 @@ public void editattachments(Request id, Response response, mixed ... args)
   }
   if(id->variables->action == "Add") 
   {
-werror("adding...\n");
     viaframe = 1;
     string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
     object obj_o;
   
-    werror("getting datatypes.\n");
     array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
     if(!sizeof(dtos))
     {
@@ -546,7 +544,6 @@ mixed e = catch {
       obj_o->save();
 
 };
-if(e) werror("error occurred!\n %O\n", e);
 
       object obj_n = FinScribe.Repo.new("object_version");
       obj_n["contents"] = id->variables["upload-file"];
@@ -1285,9 +1282,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
    else if(!datatype)
    {
-     werror("fetched datatype from pref.\n");
      datatype = app->new_string_pref(t->get_data()["user_object"]["UserName"] + ".new.default_mimetype", "text/wiki")->get_value();
-     werror("fetched datatype from pref: %O\n", datatype);
    }
 
    if(id->variables->action)
@@ -1486,8 +1481,6 @@ public void post(Request id, Response response, mixed ... args)
 	       // let's get the next blog path name...              
                string path = "";
                array r = obj_o->get_blog_entries();
-//werror("LOOKING FOR BLOG ENTRIES FOR " + obj_o["path"] + "\n");
-//werror("GOT " + sizeof(r) + " entries.\n");
                int seq = 1;
                if(id->variables->createddate && sizeof(id->variables->createddate))
                  c = Calendar.Gregorian.dwim_day(id->variables->createddate)->second();
@@ -1552,9 +1545,8 @@ public void post(Request id, Response response, mixed ... args)
 
 	    if(sizeof(trackbacks))
 	    {
-		foreach((trackbacks/"\n")-({""});; string url)
-			FinScribe.Blog.trackback_ping(obj_o, u, url);
-	   }
+                Thread.Thread(do_trackback_ping, (trackbacks/"\n")-({""}), obj_o, u);
+  	    }
 
 	   if(app->get_sys_pref("blog.weblog_ping")->get_value())
 	   {
@@ -1618,6 +1610,13 @@ public void post(Request id, Response response, mixed ... args)
    t->add("obj", obj);
    
    response->set_view(t);
+}
+
+private void do_trackback_ping(array trackbacks, object obj_o, object u)
+{
+  foreach(trackbacks;; string url)
+    Thread.Thread(FinScribe.Blog.trackback_ping, obj_o, u, url);
+
 }
 
 public void diff(Request id, Response response, mixed ... args)

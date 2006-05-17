@@ -2,10 +2,21 @@
 
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
+import Tools.Logging;
+
 import Fins;
 import Fins.Model;
 inherit Fins.FinsController;
 
+static void start()
+{
+  /*
+    after_filter(lambda(object id, object response, mixed ... args) {  
+                if(response->get_data())
+                  response->set_data(replace(response->get_data(), ({"<!", "!"}), ({"<!", ", bork bork bork!"}))); return 1;
+              } );
+  */
+}
 
 public void index(Request id, Response response, mixed ... args)
 {
