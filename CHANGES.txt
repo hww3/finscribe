@@ -13,6 +13,10 @@ Version 0.6
   "new object" page
 - Fixed a bug that prevented objects from being saved because of a 
   concatenation of the datatype for the object.
+- rewrote recent changes macro to avoid database dependencies
+- removed explicit formatting from many of the output macros
+- trackback pinging occurs in a separate thread, which should eliminate hangs
+    when pinging our own server.
 
 Version 0.5
 - Added theme support
