@@ -88,6 +88,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
 public void verifyandcreate(Request id, Response response, mixed ... args)
 {
   string dbtype;
+  string splitter;
   object sql;
   mixed e = (catch(sql=Sql.Sql(id->variables->dburl)));
   if(e) 
@@ -99,12 +100,15 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   {
     case "SQ":
       dbtype="sqlite";
+      splitter = "\\g\n";
       break;
     case "my":
       dbtype="mysql";
+      splitter = ";";
       break;
     case "po":
       dbtype="postgres";
+      splitter = "\\g\n";
       break;
     default:
       response->set_data("Unknown database type.");
@@ -112,14 +116,35 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   }
 
   // now, we can populate the schema.
-  string s = Stdio.read_file(app->config->app_dir + "/config/schema." + dbtype);
-  foreach(s/"\\g\n";;string command)
-  {
+  string s = Stdio.read_file(Stdio.append_path(app->config->app_dir, "/config/schema." + dbtype));
+  mapping tables = ([]);
+  
+  // Remove the #'s, if they're there.
+  string _s = "";
+  foreach(s / "\n", string line) {
+    if (line[0] == '#')
+      continue;
+    else
+      _s += line + "\n";
+  }
+  s = _s;
+
+  // Split it into statements;
+  foreach(s / splitter, string command) {
+    string table_name;
+    if (sscanf(command, "CREATE TABLE %s %*s", table_name))
+      tables[table_name] = command;
+  }
+
+  // Create tables
+  multiset extant_tables = (multiset)sql->list_tables();
+  foreach(indices(tables), string name) {
+    if (extant_tables[name])
+      continue;
     e = catch(sql->query(command));
-    if(e)
-    {
+    if (e) {
       response->set_data(((array)e)[0]);
-      return;  
+      return;
     }
   }
 
