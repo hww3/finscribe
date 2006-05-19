@@ -27,6 +27,7 @@ public void index(Request id, Response response, mixed ... args)
      return;
   }
 
+
   object obj = model->get_fbobject(args, id);
 
   if(!obj)
@@ -63,6 +64,8 @@ public void index(Request id, Response response, mixed ... args)
       handle_data(obj, id, response);
       break;
   }
+
+  breakpoint("test", id, response);
   
   return;
 }

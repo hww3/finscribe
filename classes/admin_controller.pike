@@ -5,12 +5,10 @@
 Fins.FinsController plugin;
 Fins.FinsController prefs;
 
-static void create(object app)
+void start()
 {
-  ::create(app);
-
-  plugin = ((program)"admin/plugin_controller")(app);
-  prefs = ((program)"admin/preference_controller")(app);
+  plugin = load_controller("admin/plugin_controller");
+  prefs = load_controller("admin/preference_controller");
 }
 
 import Fins;

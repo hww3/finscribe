@@ -10,22 +10,23 @@ Fins.FinsController rss;
 Fins.FinsController theme;
 Fins.FinsController _internal;
 Fins.FinsController install;
+Fins.FinsController whee;
 
-static void create(Fins.Application a)
+void start()
 {
-  ::create(a);
-  exec = ((program)"exec_controller")(a);
-  space = ((program)"app_controller")(a);
-  comments = ((program)"comment_controller")(a);
-  admin = ((program)"admin_controller")(a);
-  xmlrpc = ((program)"xmlrpc_controller")(a);
-  rss = ((program)"rss_controller")(a);
-  theme = ((program)"theme_controller")(a);
-  _internal = ((program)"internal_controller")(a);
+  whee = load_controller("whee_controller");
+  exec = load_controller("exec_controller");
+  space = load_controller("app_controller");
+  comments = load_controller("comment_controller");
+  admin = load_controller("admin_controller");
+  xmlrpc = load_controller("xmlrpc_controller");
+  rss = load_controller("rss_controller");
+  theme = load_controller("theme_controller");
+  _internal = load_controller("internal_controller");
 
   if(!config["app"] || !config["app"]["installed"])
   {
-    install = ((program)"install_controller")(a);
+    install = load_controller("install_controller");
     view->default_template = Fins.Template.Simple;
   }
 }
