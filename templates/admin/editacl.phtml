@@ -1,25 +1,14 @@
-<html>
-<head>
-  <%@include file="header.phtml"%>
- <script src="/static/javascripts/menulayer.js"></script>
-<
-   <title><%syspref var="site.name"%> :: admin :: edit acl</title>
+  <%@include file="top.phtml" %>
+   <title><%syspref var="site.name" %> :: admin</title>
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
+
 <script type="text/javascript">
 dojo.require("fins.widget.*");
 dojo.require("fins.widget.ACLBuilder");
 </script>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-   <div id="page-wrapper">
-    <div id="page-content">
- 
-<div class="snip-buttons"> </div> 
 
 <div class="flash-message"><%flash var="msg"%></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
-
 <% if data["newgroup"] %>
           <h3>New ACL</h3>
 <% else %>
@@ -35,16 +24,16 @@ dojo.require("fins.widget.ACLBuilder");
 <% endif %>
 
 <script type="text/javascript">
-function getMembers()
+function getUsers()
 {
   var res = null;
 
-<% if data["newgroup"] %>
+<% if data["newacl"] %>
     return [];
 <% endif %>
 
   var bindArgs = {
-    url:         "/admin/getusers_json/" +  "<%$group.id%>" ,
+    url:         "/admin/getusers_json/",
     mimetype:   "text/plain",
     sync: true,
     error:      function(type, errObj){
@@ -63,12 +52,16 @@ function getMembers()
     return res;
 }
 
-function getAvailable()
+function getRules()
 {
   var res = null;
 
+<% if data["newacl"] %>
+    return [];
+<% endif %>
+
   var bindArgs = {
-    url:         "/admin/getusers_json",
+    url:         "/admin/getrules_json/<%$acl.id %>",
     mimetype:   "text/plain",
     sync: true,
     error:      function(type, errObj){
@@ -81,30 +74,51 @@ function getAvailable()
     }
 };
 
-    // dispatch the request
+// dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
 
     return res;
+}
+
+function getGroups()
+{
+  var res = null;
+
+<% if data["newacl"] %>
+    return [];
+<% endif %>
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json/",
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJSON(data.toString());
+        res = res.data;
+    }
 };
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+}
 </script>
 
-		<div dojoType="ACLBuilder" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+		<div dojoType="ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
+                        loadAvailableGroupsFunction="getGroups" addsId="added" removesID="removed"></div>
 
         <p/>
         <input type="submit" name="action" value="Cancel" />
         <input type="submit" name="action" value="Save" />
         </form>
         
-          
-     </div>
-      </div>
-      </div>
-      </div>
-         
-</div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
-Welliver</div>
-</body>
-</html>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
+
 

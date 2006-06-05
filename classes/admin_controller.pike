@@ -78,6 +78,34 @@ public void getusers_json(Request id, Response response, mixed ... args)
   response->set_type("text/javascript");
 }
 
+public void getrules_json(Request id, Response response, mixed ... args)
+{
+  string json;
+  array j = ({});
+  array x;
+  object a;
+
+  if(!app->is_admin_user(id, response))
+    return;
+
+  if(!sizeof(args)) return;
+
+  else
+  {
+    a = model->find_by_id("acl", (int)args[0]);
+  }
+
+  foreach(a["rules"];;mixed r)
+  {
+    j += ({([ "name": r->format_nice(), "value": r->format_data() ])});
+  } 
+
+  json = Tools.JSON.serialize((["data": j]));
+
+  response->set_data(json);
+  response->set_type("text/javascript");
+}
+
 public void getgroups_json(Request id, Response response, mixed ... args)
 {
 

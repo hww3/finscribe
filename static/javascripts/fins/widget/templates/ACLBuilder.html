@@ -1,47 +1,86 @@
-	<div class="ACLBuilderContainer" dojoAttachPoint="builderNode">
+<div class="ACLBuilderContainer" dojoAttachPoint="builderNode">
 <table class="ACLBuilderTable">
   <tr>
-  <td>
+  <td width="50%" valign="top">
     <div class="BuilderFromHolder" dojoAttachPoint="builderFromContainerNode">
-    <select class="FromPicker" multiple="1" dojoAttachPoint="fromList" dojoAttachEvent="onChange: fromChanged"/>
+    Rules<br/>
+    <select class="FromPicker" multiple="0" size="10" dojoAttachPoint="fromRulesList" dojoAttachEvent="onChange: fromChanged"/>
+    <p>
+    &nbsp;
+    </p>
+    <p>
+    <input class="BuilderButton" type="button"  value="Edit Rule" dojoAttachPoint="editButton" dojoAttachEvent="onClick: editRule;">
+    <input class="BuilderButton" type="button"  value="New Rule" dojoAttachPoint="newButton" dojoAttachEvent="onClick: newRule;">
+    <input class="BuilderButton" type="button"  value="Delete Rule" dojoAttachPoint="deleteButton" dojoAttachEvent="onClick: deleteRule;">
+    </p>
     </div>
   </td>
-  <td>
-    <div class="BuilderButtonHolder" dojoAttachPoint="builderControlContainerNode">
-        <input class="BuilderButton" type="button"  value="--&gt;" dojoAttachPoint="addButton" dojoAttachEvent="onClick: addItem;"/><br/>&nbsp;<br/>
-        <input class="BuilderButton" type="button" value="&lt;--" dojoAttachPoint="removeButton" dojoAttachEvent="onClick: removeItem;"/>
-<p/>
-    </div>
-  </td>
-  <td>
+
+  <td width="50%" valign="top">
     <div class="BuilderToHolder" dojoAttachPoint="builderToContainerNode">
-<table>
+       <table width="100%">
          <tr>
-<td>
+           <td>
             Groups<br/>
-	    <select class="ToGroupPicker" multiple="1" dojoAttachPoint="toGroupList" dojoAttachEvent="onChange: toGroupChanged"/>
-</td>
-</tr>
-<tr>
-<td>
+            <table width="100%">
+            <tr><td>
+              <input type="radio" dojoAttachPoint="rule_radio_group" name="rule_radio_usergroup" value="group" dojoAttachEvent="onClick: ruleEnableGroup"/>
+            </td>
+            <td width="*">
+	      <select class="ToGroupPicker" multiple="0" size="5" dojoAttachPoint="toGroupList" dojoAttachEvent="onChange: toGroupChanged"/>
+            </td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
             Users<br/>
-	    <select class="ToUserPicker" multiple="1" dojoAttachPoint="toUserList" dojoAttachEvent="onChange: toUserChanged"/>
-</td>
-</tr>
-<tr>
-<td>
+            <table width="100%">
+            <tr><td>
+            <input type="radio" dojoAttachPoint="rule_radio_user" name="rule_radio_usergroup" value="user" dojoAttachEvent="onClick: ruleEnableUser"/>
+            </td><td width="*">
+	    <select class="ToUserPicker" multiple="0" size="5" dojoAttachPoint="toUserList" dojoAttachEvent="onChange: toUserChanged"/>
+            </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
             Permissions<br/>
+            <table>
+            <tr>
+            <td>
 	    <!-- we could probably do this dynamically, huh? -->
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_browse" /> Browse
+            <br/>
             <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_read" /> Read
-            <br>
+            <br/>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_version" /> Version
+            <br/>
             <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_write" /> Write
-            <br>
+            </td>
+            <td>    
             <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_delete" /> Delete
-            <br>
-</td>
-</tr>
-</table>
-</div>
+            <br/>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_comment" /> Comment
+            <br/>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_post" /> Post
+            <br/>
+            <input type="checkbox" value="1" dojoAttachPoint="rule_xmit_lock" /> Lock
+
+            <div dojoAttachPoint="current_rule_storage"></div>
+            </td>
+           </tr>
+           </table>
+    <p>
+    <input class="BuilderButton" type="button"  enabled="0" value="Save Rule" dojoAttachPoint="saveButton" dojoAttachEvent="onClick: saveRule;">
+    </p>
+
+    </td>
+  </tr>
+  </table>
+  </div>
   </td>
 </tr>
 </table>

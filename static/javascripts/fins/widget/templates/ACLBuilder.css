@@ -7,12 +7,8 @@
 	background: #EEEEEE;
 	border: #798EC5 1px solid;
 	padding: 10px;
-        height: 250px;
-}
-
-.BuilderButtonHolder {
-	padding: 10px;
-        vertical-align: middle;
+        width: 500px;
+        height: 360px;
 }
 
 .FromPicker {
@@ -33,17 +29,16 @@
     width: 100%;
 }
 
-
 .BuilderFromHolder
 {
-	width: 230px;
+	width: 200px;
 	top: 0px;
 	height: 100%;
 }
 
 .BuilderToHolder
 {
-    width: 230px;
+    width: 200px;
 	top: 0px;
 	height: 100%;
 }

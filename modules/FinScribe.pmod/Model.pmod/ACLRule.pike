@@ -37,6 +37,10 @@ import Fins.Model;
       //     bit 3: anonymous
       add_field(IntField("class", 8, 0, 0));
 
+      add_field(TransformField("owner", "xmit", get_owner));
+      add_field(TransformField("all_users", "xmit", get_all_users));
+      add_field(TransformField("anonymous", "xmit", get_anonymous));
+
       add_field(StringField("custom_name", 8, 1, 0));
 
       add_field(MultiKeyReference(this, "user",
@@ -47,6 +51,21 @@ import Fins.Model;
       set_primary_key("id");
    }
 
+
+   int(0..1) get_owner(mixed n, object i)
+   {
+     return ((n&1)?1:0);
+   }
+
+   int(0..1) get_all_users(mixed n, object i)
+   {
+     return ((n&2)?1:0);
+   }
+
+   int(0..1) get_anonymous(mixed n, object i)
+   {
+     return ((n&4)?1:0);
+   }
 
    int(0..1) get_browse(mixed n, object i)
    {

@@ -15,45 +15,88 @@ fins.widget.ACLBuilder = function(){
 
     this.original = [];
 
-    this.fromList = null;
     this.builderNode = null;
     this.builderFromContainerNode = null;
     this.builderControlContainerNode = null;
-    this.addButton = null;
-    this.removeButton = null;
     this.builderToContainerNode = null;
 
+    this.newButton = null;
+    this.editButton = null;
+    this.deleteButton = null;
+    this.saveButton = null;
+
+    this.fromRulesList = null;
     this.toGroupList = null;
     this.toUserList = null;
 
+    this.rule_xmit_browse = null;
     this.rule_xmit_read = null;
+    this.rule_xmit_version = null;
     this.rule_xmit_write = null;
     this.rule_xmit_delete = null;
+    this.rule_xmit_comment = null;
+    this.rule_xmit_post = null;
+    this.rule_xmit_lock = null;
 
-    this.loadAvailableFunction = "";
-    this.loadMembersFunction = "";
+    // this is a div containing the current rule as built.
+    this.current_rule_storage = null;
+
+    // functions that return an array of valid users and groupss
+    this.loadAvailableUsersFunction = "";
+    this.loadAvailableGroupsFunction = "";
+    this.loadAvailableRulesFunction = "";
+
     this.addsId = "";
     this.removesId = "";
 
     this.addsElement = null;
     this.removesElement = null;
 
+    this.ruleEnableUser = function()
+    {
+      this.toGroupList.selectedIndex = -1;
+      this.toUserList.disabled = 0;
+      this.toGroupList.disabled = 1;
+    }
+
+    this.ruleEnableGroup = function()
+    {
+      this.toUserList.selectedIndex = -1;
+      this.toGroupList.disabled = 0;
+      this.toUserList.disabled = 1;
+    }
+
+    this.ruleDisable = function()
+    {
+      this.builderToContainerNode.disabled = 1;
+      
+    }
+
+    this.ruleEnable = function()
+    {
+      this.builderToContainerNode.disabled = 0;
+      
+    }
 
      this.fillInTemplate = function() {
-                if (this.loadAvailableFunction) {
-                        this.loadAvailableFunction = dj_global[this.loadAvailableFunction];
+                if (this.loadAvailableGroupsFunction) {
+                        this.loadAvailableGroupsFunction = dj_global[this.loadAvailableGroupsFunction];
                 }
-                if (this.loadMembersFunction) {
-                        this.loadMembersFunction = dj_global[this.loadMembersFunction];
+                if (this.loadAvailableUsersFunction) {
+                        this.loadAvailableUsersFunction = dj_global[this.loadAvailableUsersFunction];
                 }
+                if (this.loadAvailableRulesFunction) {
+                        this.loadAvailableRulesFunction = dj_global[this.loadAvailableRulesFunction];
+                }
+
         }
 
 
     this.initialize = function()
     {
-      if(this.loadMembersFunction &&  dojo.lang.isFunction(this.loadMembersFunction))
+      if(this.loadAvailableUsersFunction &&  dojo.lang.isFunction(this.loadAvailableUsersFunction))
       {
-        var res = this.loadMembersFunction();
+        var res = this.loadAvailableUsersFunction();
         for(var i = 0; i < res.length; i++)
         {
           this.toUserList.options[this.toUserList.length] = new Option(res[i].name, res[i].value);
@@ -61,6 +104,29 @@ fins.widget.ACLBuilder = function(){
         }
       }
 
+      if(this.loadAvailableGroupsFunction &&  dojo.lang.isFunction(this.loadAvailableGroupsFunction))
+      {
+        var res = this.loadAvailableGroupsFunction();
+        for(var i = 0; i < res.length; i++)
+        {
+          this.toGroupList.options[this.toGroupList.length] = new Option(res[i].name, res[i].value);
+          this.original[this.original.length] = res[i].value;
+        }
+      }
+
+      if(this.loadAvailableRulesFunction &&  dojo.lang.isFunction(this.loadAvailableRulesFunction))
+      {
+        var res = this.loadAvailableRulesFunction();
+        for(var i = 0; i < res.length; i++)
+        {
+          this.fromRulesList.options[this.fromRulesList.length] = new Option(res[i].name, dojo.json.serialize(res[i].value));
+          this.original[this.original.length] = dojo.json.serialize(res[i].value);
+        }
+      }
+
+      this.ruleDisable();
+
+/*
       if(this.loadAvailableFunction &&  dojo.lang.isFunction(this.loadAvailableFunction))
       {
         var res = this.loadAvailableFunction();
@@ -97,7 +163,7 @@ fins.widget.ACLBuilder = function(){
                                 );
                         }
 
-
+*/
 
     }
 
