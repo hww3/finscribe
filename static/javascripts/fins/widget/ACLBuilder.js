@@ -29,6 +29,9 @@ fins.widget.ACLBuilder = function(){
     this.toGroupList = null;
     this.toUserList = null;
 
+    this.rule_radio_user = null;
+    this.rule_radio_group = null;
+
     this.rule_xmit_browse = null;
     this.rule_xmit_read = null;
     this.rule_xmit_version = null;
@@ -52,8 +55,14 @@ fins.widget.ACLBuilder = function(){
     this.addsElement = null;
     this.removesElement = null;
 
+    this.editRule = function()
+    {
+      alert("edit rule!");
+    }
+
     this.ruleEnableUser = function()
     {
+      this.rule_radio_user.checked = true
       this.toGroupList.selectedIndex = -1;
       this.toUserList.disabled = 0;
       this.toGroupList.disabled = 1;
@@ -61,6 +70,7 @@ fins.widget.ACLBuilder = function(){
 
     this.ruleEnableGroup = function()
     {
+      this.rule_radio_group.checked = true
       this.toUserList.selectedIndex = -1;
       this.toGroupList.disabled = 0;
       this.toUserList.disabled = 1;
@@ -78,18 +88,24 @@ fins.widget.ACLBuilder = function(){
       
     }
 
-     this.fillInTemplate = function() {
-                if (this.loadAvailableGroupsFunction) {
-                        this.loadAvailableGroupsFunction = dj_global[this.loadAvailableGroupsFunction];
-                }
-                if (this.loadAvailableUsersFunction) {
-                        this.loadAvailableUsersFunction = dj_global[this.loadAvailableUsersFunction];
-                }
-                if (this.loadAvailableRulesFunction) {
-                        this.loadAvailableRulesFunction = dj_global[this.loadAvailableRulesFunction];
-                }
+    this.fillInTemplate = function() {
+      if (this.loadAvailableGroupsFunction) {
+        this.loadAvailableGroupsFunction = dj_global[this.loadAvailableGroupsFunction];
+      }
+      if (this.loadAvailableUsersFunction) {
+        this.loadAvailableUsersFunction = dj_global[this.loadAvailableUsersFunction];
+      }
+      if (this.loadAvailableRulesFunction) {
+        this.loadAvailableRulesFunction = dj_global[this.loadAvailableRulesFunction];
+      }
 
-        }
+
+
+       this.ruleEnableGroup();
+       this.editButton.disabled = 1;
+       this.deleteButton.disabled = 1;
+       this.saveButton.disabled = 1;
+    }
 
 
     this.initialize = function()
@@ -126,45 +142,6 @@ fins.widget.ACLBuilder = function(){
 
       this.ruleDisable();
 
-/*
-      if(this.loadAvailableFunction &&  dojo.lang.isFunction(this.loadAvailableFunction))
-      {
-        var res = this.loadAvailableFunction();
-        for(var i = 0; i < res.length; i++)
-        {
-          var l = 0;
-
-          for(var z = 0; z < this.toUserList.options.length; z++)
-          {
-            if(this.toUserList.options[z].value == res[i].value)
-               l = 1;
-          }
-
-          if(!l)
-            this.fromList.options[this.fromList.length] = new Option(res[i].name, res[i].value);
-        }
-      }
-
-      if(this.addsId)
-        this.addsElement = document.getElementById(this.addsId);
-      if(this.removesId)
-        this.removesElement = document.getElementById(this.removesId);
-
-      dojo.debug("removes element: " + this.removesId);
-      dojo.debug("removes element: " + this.removesElement);
-                        if((this.addsElement && this.addsElement.form) || 
-                                  (this.removesElement && this.removesElement.form)){
-				dojo.debug("hooking into the form.");
-                                dojo.event.connect(this.addsElement.form, "onsubmit",
-                                        dojo.lang.hitch(this, function(){
-                                                this.addsElement.value = this.getAdded();
-                                                this.removesElement.value = this.getRemoved();
-                                        })
-                                );
-                        }
-
-*/
-
     }
 
 	function hasOptions(obj) {
@@ -198,11 +175,11 @@ fins.widget.ACLBuilder = function(){
 
        var toRemove = new Array();
 
-       for (var i = 0; i < this.fromList.length; i++) {
-	      if(this.fromList.options[i].selected)
+       for (var i = 0; i < this.fromRulesList.length; i++) {
+	      if(this.fromRulesList.options[i].selected)
 	      {
 		    var n = 0;
-                    var v = this.fromList.options[i].value;
+                    var v = this.fromRulesList.options[i].value;
 
                 for(var y = 0; y < this.toUserList.options.length; y++)
                 {
@@ -211,7 +188,7 @@ fins.widget.ACLBuilder = function(){
                 }
      
                 if(n==0)
-  	          this.toUserList.options[this.toUserList.length] = new Option(this.fromList.options[i].text, v);
+  	          this.toUserList.options[this.toUserList.length] = new Option(this.fromRulesList.options[i].text, v);
 
                 n = 1;
 
@@ -236,7 +213,7 @@ fins.widget.ACLBuilder = function(){
        sortSelect(this.toUserList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.fromList.options[toRemove[j]] = null;
+		  this.fromRulesList.options[toRemove[j]] = null;
     };
 
     this.getAdded = function(){
@@ -280,14 +257,14 @@ fins.widget.ACLBuilder = function(){
                 var n = 0;
                 var v = this.toUserList.options[i].value;
 
-                for(var y = 0; y < this.fromList.options.length; y++)
+                for(var y = 0; y < this.fromRulesList.options.length; y++)
                 {
-                   if(this.fromList.options[y].value == v)
+                   if(this.fromRulesList.options[y].value == v)
                       n = 1; // already on the list
                 }
      
                 if(n==0)
-  	          this.fromList.options[this.fromList.length] = new Option(this.toUserList.options[i].text, v);
+  	          this.fromRulesList.options[this.fromRulesList.length] = new Option(this.toUserList.options[i].text, v);
 
                 n = 0;
 
@@ -309,7 +286,7 @@ fins.widget.ACLBuilder = function(){
 		  }
        }
 	
-       sortSelect(this.fromList);
+       sortSelect(this.fromRulesList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
 		  this.toUserList.options[toRemove[j]] = null;
@@ -317,25 +294,24 @@ fins.widget.ACLBuilder = function(){
 
 	};
 	
-	this.fromChanged = function() {
-		
-		
-       var selectedItems = new Array();
+	this.fromChanged = function() {	
+          var selectedItems = new Array();
 
-       for (var i = 0; i < this.fromList.length; i++) {
-         if (this.fromList.options[i].selected)
-            selectedItems[selectedItems.length] = this.fromList.options[i].value;
-       }
-       if(selectedItems.length == 0)
-       {
-	       this.addButton.disabled = true;
-       }
-       else
-       {
-	       this.addButton.disabled = false;
-       }
-
-     };
+          for (var i = 0; i < this.fromRulesList.length; i++) {
+            if (this.fromRulesList.options[i].selected)
+              selectedItems[selectedItems.length] = this.fromRulesList.options[i].value;
+          }
+          if(selectedItems.length == 0)
+          {
+	    this.deleteButton.disabled = 1;
+	    this.editButton.disabled = 1;
+          }
+          else
+  	  {
+	    this.deleteButton.disabled = 0;
+	    this.editButton.disabled = 0;
+          }
+       };
 	
 	this.toChanged = function() {
 		
