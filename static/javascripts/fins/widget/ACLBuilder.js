@@ -15,22 +15,33 @@ fins.widget.ACLBuilder = function(){
 
     this.original = [];
 
+
     this.builderNode = null;
     this.builderFromContainerNode = null;
     this.builderControlContainerNode = null;
     this.builderToContainerNode = null;
 
+    this.ruleAppliesList = null;
+    this.fullRule = null;
+
     this.newButton = null;
     this.editButton = null;
     this.deleteButton = null;
     this.saveButton = null;
+    this.cancelButton = null;
 
     this.fromRulesList = null;
     this.toGroupList = null;
     this.toUserList = null;
 
+    this.rule_groups_div = null;
+    this.rule_users_div = null;
+
     this.rule_radio_user = null;
     this.rule_radio_group = null;
+    this.rule_radio_allusers = null;
+    this.rule_radio_owner = null;
+    this.rule_radio_anonymous = null;
 
     this.rule_xmit_browse = null;
     this.rule_xmit_read = null;
@@ -57,35 +68,213 @@ fins.widget.ACLBuilder = function(){
 
     this.editRule = function()
     {
-      alert("edit rule!");
+
+      var sel = this.fromRulesList.selectedIndex;
+
+      if(sel == -1)
+      {
+        alert("error: no item selected!");
+        return;
+      }
+      
+      var rulejson = this.original[sel];
+      if(!rulejson || rulejson == "")
+      {
+        alert("invalid rule json!");
+        return;
+      }
+
+      var rule = dojo.json.evalJSON(rulejson);
+
+
+      this.fromRulesList.disabled = 1;
+      this.enableRule();
+      this.populateRule(rule);
+
+    }
+
+    this.populateRule = function(rule)
+    {
+      this.updateRuleApplies(rule);
+      this.updateRulePermissions(rule);
+     
+      this.saveButton.disabled = 0;
+      this.editButton.disabled = 1;
+      this.deleteButton.disabled = 1;
+      this.newButton.disabled = 1;
+
+    }
+
+    this.updateRulePermissions = function(rule)
+    {
+      if(rule["browse"])
+        this.rule_xmit_browse.checked = 1;
+      if(rule["read"])
+        this.rule_xmit_read.checked = 1;
+      if(rule["version"])
+        this.rule_xmit_version.checked = 1;
+      if(rule["write"])
+        this.rule_xmit_write.checked = 1;
+      if(rule["delete"])
+        this.rule_xmit_delete.checked = 1;
+      if(rule["comment"])
+        this.rule_xmit_comment.checked = 1;
+      if(rule["post"])
+        this.rule_xmit_post.checked = 1;
+      if(rule["lock"])
+        this.rule_xmit_lock.checked = 1;
+    }
+
+    this.updateRuleApplies = function(rule)
+    {
+      var i;
+      var c = rule.class;
+      for(i=0; i<this.ruleAppliesList.length; i++)
+      {
+        if(this.ruleAppliesList.options[i].value == c)
+        {
+          this.ruleAppliesList.selectedIndex = i;
+          this.ruleAppliesChanged();
+          break;
+        }
+      }
+
+      if(c == "group")
+      {
+        var g;
+        for(g = 0; g < this.toGroupList.options.length; g++)
+        {
+          if(this.toGroupList.options[g].value == rule.group)
+          {
+             this.toGroupList.selectedIndex = g;
+             break;
+          }
+        }
+      }
+      else if(c == "user")
+      {
+        var u;
+        for(u = 0; u < this.toUserList.options.length; u++)
+        {
+          if(this.toUserList.options[u].value == rule.user)
+          {
+             this.toUserList.selectedIndex = u;
+             break;
+          }
+        }
+      }
+    }
+
+    this.saveRule = function()
+    {
+      this.saveButton.disabled = 1;
+      this.editButton.disabled = 0;
+      this.deleteButton.disabled = 0;
+      this.newButton.disabled = 0;
+      this.fromRulesList.disabled = 0;
+    }
+
+    this.cancelRule = function()
+    {
+      this.saveButton.disabled = 1;
+      this.editButton.disabled = 0;
+      this.deleteButton.disabled = 0;
+      this.newButton.disabled = 0;
+      this.fromRulesList.disabled = 0;
+      this.resetRule();
+    }
+
+    this.resetRule = function()
+    {
+      this.ruleEnableOwner();
+
+      this.ruleAppliesList.disabled = 1;
+
+      this.rule_xmit_browse.checked = 0;
+      this.rule_xmit_read.checked = 0;
+      this.rule_xmit_version.checked = 0;
+      this.rule_xmit_write.checked = 0;
+      this.rule_xmit_delete.checked = 0;
+      this.rule_xmit_comment.checked = 0;
+      this.rule_xmit_post.checked = 0;
+      this.rule_xmit_lock.checked = 0;
+
+      this.rule_xmit_browse.disabled = 1;
+      this.rule_xmit_read.disabled = 1;
+      this.rule_xmit_version.disabled = 1;
+      this.rule_xmit_write.disabled = 1;
+      this.rule_xmit_delete.disabled = 1;
+      this.rule_xmit_comment.disabled = 1;
+      this.rule_xmit_post.disabled = 1;
+      this.rule_xmit_lock.disabled = 1;
+    }
+
+    this.enableRule = function()
+    {
+      this.ruleEnableOwner();
+
+      this.ruleAppliesList.disabled = 0;
+
+      this.rule_xmit_browse.checked = 0;
+      this.rule_xmit_read.checked = 0;
+      this.rule_xmit_version.checked = 0;
+      this.rule_xmit_write.checked = 0;
+      this.rule_xmit_delete.checked = 0;
+      this.rule_xmit_comment.checked = 0;
+      this.rule_xmit_post.checked = 0;
+      this.rule_xmit_lock.checked = 0;
+
+      this.rule_xmit_browse.disabled = 0;
+      this.rule_xmit_read.disabled = 0;
+      this.rule_xmit_version.disabled = 0;
+      this.rule_xmit_write.disabled = 0;
+      this.rule_xmit_delete.disabled = 0;
+      this.rule_xmit_comment.disabled = 0;
+      this.rule_xmit_post.disabled = 0;
+      this.rule_xmit_lock.disabled = 0;
     }
 
     this.ruleEnableUser = function()
     {
-      this.rule_radio_user.checked = true
+      this.rule_groups_div.style.display = 'none';
+      this.rule_users_div.style.display = '';
       this.toGroupList.selectedIndex = -1;
       this.toUserList.disabled = 0;
       this.toGroupList.disabled = 1;
     }
 
+    this.ruleEnableOwner = function()
+    {
+      this.ruleEnableOther();
+    }
+
+    this.ruleEnableAllUsers = function()
+    {
+      this.ruleEnableOther();
+    }
+
+    this.ruleEnableAnonymous = function()
+    {
+      this.ruleEnableOther();
+    }
+
     this.ruleEnableGroup = function()
     {
-      this.rule_radio_group.checked = true
+      this.rule_users_div.style.display = 'none';
+      this.rule_groups_div.style.display = '';
       this.toUserList.selectedIndex = -1;
       this.toGroupList.disabled = 0;
       this.toUserList.disabled = 1;
     }
 
-    this.ruleDisable = function()
+    this.ruleEnableOther = function()
     {
-      this.builderToContainerNode.disabled = 1;
-      
-    }
-
-    this.ruleEnable = function()
-    {
-      this.builderToContainerNode.disabled = 0;
-      
+      this.rule_users_div.style.display = 'none';
+      this.rule_groups_div.style.display = 'none';
+      this.toUserList.selectedIndex = -1;
+      this.toGroupList.selectedIndex = -1;
+      this.toGroupList.disabled = 1;
+      this.toUserList.disabled = 1;
     }
 
     this.fillInTemplate = function() {
@@ -99,24 +288,24 @@ fins.widget.ACLBuilder = function(){
         this.loadAvailableRulesFunction = dj_global[this.loadAvailableRulesFunction];
       }
 
-
-
-       this.ruleEnableGroup();
        this.editButton.disabled = 1;
        this.deleteButton.disabled = 1;
        this.saveButton.disabled = 1;
+
     }
 
 
     this.initialize = function()
     {
+       this.resetRule();
+
       if(this.loadAvailableUsersFunction &&  dojo.lang.isFunction(this.loadAvailableUsersFunction))
       {
         var res = this.loadAvailableUsersFunction();
         for(var i = 0; i < res.length; i++)
         {
           this.toUserList.options[this.toUserList.length] = new Option(res[i].name, res[i].value);
-          this.original[this.original.length] = res[i].value;
+//          this.original[this.original.length] = res[i].value;
         }
       }
 
@@ -126,7 +315,7 @@ fins.widget.ACLBuilder = function(){
         for(var i = 0; i < res.length; i++)
         {
           this.toGroupList.options[this.toGroupList.length] = new Option(res[i].name, res[i].value);
-          this.original[this.original.length] = res[i].value;
+//          this.original[this.original.length] = res[i].value;
         }
       }
 
@@ -139,8 +328,6 @@ fins.widget.ACLBuilder = function(){
           this.original[this.original.length] = dojo.json.serialize(res[i].value);
         }
       }
-
-      this.ruleDisable();
 
     }
 
@@ -294,8 +481,23 @@ fins.widget.ACLBuilder = function(){
 
 	};
 	
+        this.ruleAppliesChanged = function()
+        {
+          var t = this.ruleAppliesList.options[this.ruleAppliesList.selectedIndex];
+
+          var v = t.value;
+
+          if(v=="group") this.ruleEnableGroup();
+          else if(v=="user") this.ruleEnableUser();
+          else if(v=="anonymous") this.ruleEnableAnonymous();
+          else if(v=="all_users") this.ruleEnableAllUsers();
+          else if(v=="owner") this.ruleEnableOwner();
+
+        }
+
 	this.fromChanged = function() {	
           var selectedItems = new Array();
+
 
           for (var i = 0; i < this.fromRulesList.length; i++) {
             if (this.fromRulesList.options[i].selected)
@@ -303,11 +505,15 @@ fins.widget.ACLBuilder = function(){
           }
           if(selectedItems.length == 0)
           {
+            this.fullRule.innerHTML = "";
 	    this.deleteButton.disabled = 1;
 	    this.editButton.disabled = 1;
           }
           else
   	  {
+            this.fullRule.innerHTML = this.fromRulesList.options[this.fromRulesList.selectedIndex].text;
+            
+dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
 	    this.deleteButton.disabled = 0;
 	    this.editButton.disabled = 0;
           }

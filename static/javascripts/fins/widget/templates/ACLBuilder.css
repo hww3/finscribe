@@ -29,6 +29,10 @@
     width: 100%;
 }
 
+.fullRule {
+    width: 200px;
+}
+
 .BuilderFromHolder
 {
 	width: 200px;
