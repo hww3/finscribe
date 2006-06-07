@@ -47,7 +47,7 @@ string format_nice()
     if(this[e]) privs += ({ upper_case(e) });
   }
 
-  desc += privs * ",";
+  desc += privs * ", ";
 
 
   return desc;
@@ -63,23 +63,25 @@ mapping format_data()
   if(this["class"])
   {
     if(this["all_users"])
-      data["all_users"] = 1;
+      data->class="all_users";
     else if(this["owner"])
-      data["owner"] = 1;
+      data->class="owner";
     else if(this["anonymous"])
-      data["anonymous"] = 1;
+      data->class="anonymous";
     
   }
   else if(sizeof(a))
   {
-    data["user"] = a[0]["UserName"];
+    data->class="user";
+    data["user"] = a[0]["id"];
   }
   else
   {
+    data->class="group";
     a = this["group"];
     if(sizeof(a))
     {
-      data["group"] = a[0]["Name"] + " ";
+      data["group"] = a[0]["id"];
     }
     else
     {
