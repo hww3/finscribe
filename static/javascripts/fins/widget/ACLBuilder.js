@@ -13,8 +13,9 @@ fins.widget.ACLBuilder = function(){
     this.added = new Array();
     this.removed = new Array();
 
-    this.original = [];
-
+    this.originalRules = new dojo.collections.ArrayList();
+    this.deletedRules = new dojo.collections.ArrayList();
+    this.newRules = new dojo.collections.ArrayList();
 
     this.builderNode = null;
     this.builderFromContainerNode = null;
@@ -77,7 +78,7 @@ fins.widget.ACLBuilder = function(){
         return;
       }
       
-      var rulejson = this.original[sel];
+      var rulejson = this.originalRules.item(sel);
       if(!rulejson || rulejson == "")
       {
         alert("invalid rule json!");
@@ -163,6 +164,20 @@ fins.widget.ACLBuilder = function(){
           }
         }
       }
+    }
+
+    this.deleteRule = function()
+    {
+      var s = this.fromRulesList.selectedIndex;
+
+
+      this.deletedRules.add(this.originalRules.item(s));      
+      this.originalRules.removeAt(s);
+      this.fromRulesList.options[s] = null;
+      this.fromRulesList.selectedIndex = -1;
+      this.editButton.disabled = 1;   
+      this.deleteButton.disabled = 1;   
+      this.fullRule.innerHTML = "ACL Rule Deleted.";
     }
 
     this.saveRule = function()
@@ -325,7 +340,7 @@ fins.widget.ACLBuilder = function(){
         for(var i = 0; i < res.length; i++)
         {
           this.fromRulesList.options[this.fromRulesList.length] = new Option(res[i].name, dojo.json.serialize(res[i].value));
-          this.original[this.original.length] = dojo.json.serialize(res[i].value);
+          this.originalRules.add(dojo.json.serialize(res[i].value));
         }
       }
 
@@ -379,9 +394,9 @@ fins.widget.ACLBuilder = function(){
 
                 n = 1;
 
-                    for(var q = 0; q < this.original.length; q++)
+                    for(var q = 0; q < this.originalRules.count; q++)
                     {
-               	       if(this.original[q] == v) // already had it in our list
+               	       if(this.originalRules.item(q) == v) // already had it in our list
                        n = 0;
                     }
 
@@ -455,9 +470,9 @@ fins.widget.ACLBuilder = function(){
 
                 n = 0;
 
-                for(var q = 0; q < this.original.length; q++)
+                for(var q = 0; q < this.originalRules.count; q++)
                 {
-                   if(this.original[q] == v) // already had it in our list
+                   if(this.originalRules.item(q) == v) // already had it in our list
                    n = 1;
                 }
 
