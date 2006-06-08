@@ -53,6 +53,7 @@ CREATE TABLE objects (
   created datetime default NULL,
   parent_id int(11) NULL default '0',
   datatype_id int(11) NOT NULL default '0',
+  acl_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
   metadata blob
 )

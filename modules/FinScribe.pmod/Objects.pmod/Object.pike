@@ -10,6 +10,11 @@ object repository = FinScribe.Repo;
      return 1;
    }
 
+   int has_xmit(object user)
+   {
+     
+   }
+
    int is_deleteable(object user)
    {
      if(!user) return 0;

@@ -60,6 +60,7 @@ CREATE TABLE objects (
   created timestamp default NULL,
   parent_id integer NULL default '0',
   datatype_id integer NOT NULL default '0',
+  acl_id integer NOT NULL default '0',
   is_attachment integer default NULL,
   metadata bytea,
   PRIMARY KEY  (id)
