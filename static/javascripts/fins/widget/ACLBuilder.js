@@ -24,6 +24,7 @@ fins.widget.ACLBuilder = function(){
 
     this.ruleChangedFlag = false;
     this.newRuleFlag = false;
+    this.currentRuleId = null;
 
     this.ruleAppliesList = null;
     this.fullRule = null;
@@ -70,6 +71,13 @@ fins.widget.ACLBuilder = function(){
     this.addsElement = null;
     this.removesElement = null;
 
+    this.xmitChanged = function(evt)
+    {
+//      var xmit = evt.target.name;    
+//      dojo.debug(xmit);
+      this.ruleChanged();
+    }
+
     this.newRule = function()
     {
       this.fromRulesList.disabled = 1;
@@ -108,7 +116,9 @@ fins.widget.ACLBuilder = function(){
     {
       this.updateRuleApplies(rule);
       this.updateRulePermissions(rule);
-     
+
+      this.currentRuleId = rule.id;     
+
       this.saveButton.disabled = 1;
       this.editButton.disabled = 1;
       this.deleteButton.disabled = 1;
@@ -204,10 +214,35 @@ fins.widget.ACLBuilder = function(){
 
     this.saveRuleChanges = function()
     {
+      var r = {};
+
+      var json = "";
+      r.class = this.ruleAppliesList.options[this.ruleAppliesList.selectedIndex].value;
+
+      r.hasBrowse = this.rule_xmit_browse.checked;
+      r.hasRead = this.rule_xmit_read.checked;
+      r.hasVersion = this.rule_xmit_version.checked;
+      r.hasWrite = this.rule_xmit_write.checked;
+      r.hasDelete = this.rule_xmit_delete.checked;
+      r.hasPost = this.rule_xmit_post.checked;
+      r.hasComment = this.rule_xmit_comment.checked;
+      r.hasLock = this.rule_xmit_lock.checked;
+
       if(this.newRuleFlag)
+      {
+        r.isNew = 1;
+        json = dojo.json.serialize(r);
         this.fullRule.innerHTML = "New ACL Rule Saved.";
+      }
       else
+      {
+        r.isChanged = 1;
+        r.id = this.currentRuleId;
+        json = dojo.json.serialize(r);
         this.fullRule.innerHTML = "ACL Rule Saved.";
+      }
+
+      alert(json);
     }
 
     this.cancelRule = function()
@@ -223,6 +258,8 @@ fins.widget.ACLBuilder = function(){
     this.resetRule = function()
     {
       this.ruleEnableOwner();
+
+      this.currentRuleId = null;
 
       this.ruleAppliesList.disabled = 1;
       this.newRuleFlag = false;
@@ -362,7 +399,7 @@ fins.widget.ACLBuilder = function(){
         var res = this.loadAvailableRulesFunction();
         for(var i = 0; i < res.length; i++)
         {
-          this.fromRulesList.options[this.fromRulesList.length] = new Option(res[i].name, dojo.json.serialize(res[i].value));
+          this.fromRulesList.options[this.fromRulesList.length] = new Option(res[i].name, res[i].value.id);
           this.originalRules.add(dojo.json.serialize(res[i].value));
         }
       }
