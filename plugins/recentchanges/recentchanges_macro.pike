@@ -38,7 +38,7 @@ int updateList(string event, object id, object obj)
 
   p["Value"] = f*"\n";
 
-  werror("value: " + p["Value"] + ".\n");
+//  werror("value: " + p["Value"] + ".\n");
 
   return 0;
 
@@ -62,7 +62,9 @@ array evaluate(Macros.MacroParameters params)
   foreach(f;;string k)
   {
     if(!(int)k) continue;
-      object ent = params->engine->wiki->model->find_by_id("object", (int)k);
+  
+    object ent;
+    catch(ent = params->engine->wiki->model->find_by_id("object", (int)k));
       if(!ent) continue;
       res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a>\n"});
   }
