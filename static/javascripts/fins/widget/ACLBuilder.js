@@ -25,6 +25,8 @@ fins.widget.ACLBuilder = function(){
     this.ruleChangedFlag = false;
     this.newRuleFlag = false;
     this.currentRuleId = null;
+    this.currentRule = null;
+    this.currentRuleIndex = null;
 
     this.ruleAppliesList = null;
     this.fullRule = null;
@@ -96,15 +98,14 @@ fins.widget.ACLBuilder = function(){
         return;
       }
       
-      var rulejson = this.originalRules.item(sel);
-      if(!rulejson || rulejson == "")
+      var rule = this.originalRules.item(sel);
+      this.currentRuleIndex = sel;
+
+      if(!rule)
       {
-        alert("invalid rule json!");
+        alert("invalid rule!");
         return;
       }
-
-      var rule = dojo.json.evalJSON(rulejson);
-
 
       this.fromRulesList.disabled = 1;
       this.enableRule();
@@ -118,6 +119,7 @@ fins.widget.ACLBuilder = function(){
       this.updateRulePermissions(rule);
 
       this.currentRuleId = rule.id;     
+      this.currentRule = rule;
 
       this.saveButton.disabled = 1;
       this.editButton.disabled = 1;
@@ -214,35 +216,37 @@ fins.widget.ACLBuilder = function(){
 
     this.saveRuleChanges = function()
     {
-      var r = {};
+      var r = this.currentRule;
 
-      var json = "";
+      if(this.newRuleFlag)
+        r = {};
+
       r.class = this.ruleAppliesList.options[this.ruleAppliesList.selectedIndex].value;
 
-      r.hasBrowse = this.rule_xmit_browse.checked;
-      r.hasRead = this.rule_xmit_read.checked;
-      r.hasVersion = this.rule_xmit_version.checked;
-      r.hasWrite = this.rule_xmit_write.checked;
-      r.hasDelete = this.rule_xmit_delete.checked;
-      r.hasPost = this.rule_xmit_post.checked;
-      r.hasComment = this.rule_xmit_comment.checked;
-      r.hasLock = this.rule_xmit_lock.checked;
+      r["browse"] = this.rule_xmit_browse.checked;
+      r["read"] = this.rule_xmit_read.checked;
+      r["version"] = this.rule_xmit_version.checked;
+      r["write"] = this.rule_xmit_write.checked;
+      r["delete"] = this.rule_xmit_delete.checked;
+      r["post"] = this.rule_xmit_post.checked;
+      r["comment"] = this.rule_xmit_comment.checked;
+      r["lock"] = this.rule_xmit_lock.checked;
 
       if(this.newRuleFlag)
       {
         r.isNew = 1;
-        json = dojo.json.serialize(r);
+        this.fromRulesList.options[this.fromRulesList.length] = new Option(this.describeRule(r), "0");
+        this.originalRules.add(r);
         this.fullRule.innerHTML = "New ACL Rule Saved.";
       }
       else
       {
         r.isChanged = 1;
         r.id = this.currentRuleId;
-        json = dojo.json.serialize(r);
+        this.fromRulesList.options[this.currentRuleIndex].text = this.describeRule(r);
         this.fullRule.innerHTML = "ACL Rule Saved.";
       }
 
-      alert(json);
     }
 
     this.cancelRule = function()
@@ -255,11 +259,52 @@ fins.widget.ACLBuilder = function(){
       this.resetRule();
     }
 
+    this.describeRule = function(rule)
+    {
+      var res = "";
+      var s = new String(rule.class);
+      s = s.replace("_", " ");
+      res += dojo.string.capitalize(s);
+
+      if(rule.class == "user")
+      {
+
+      }
+      else if(rule.class == "group")
+      {
+      }
+
+      res += ": ";
+
+      var a = new dojo.collections.ArrayList();;
+
+      if(rule["browse"])
+         a.add("BROWSE");
+      if(rule["read"])
+         a.add("READ");
+      if(rule["version"])
+         a.add("VERSION");
+      if(rule["write"])
+         a.add("WRITE");
+      if(rule["delete"])
+         a.add("DELETE");
+      if(rule["comment"])
+         a.add("COMMENT");
+      if(rule["post"])
+         a.add("POST");
+      if(rule["lock"])
+         a.add("LOCK");
+
+      return res + a.toArray().join(", ");
+    }
+
     this.resetRule = function()
     {
       this.ruleEnableOwner();
 
       this.currentRuleId = null;
+      this.currentRuleIndex = null;
+      this.currentRule = null;
 
       this.ruleAppliesList.disabled = 1;
       this.newRuleFlag = false;
@@ -399,8 +444,8 @@ fins.widget.ACLBuilder = function(){
         var res = this.loadAvailableRulesFunction();
         for(var i = 0; i < res.length; i++)
         {
-          this.fromRulesList.options[this.fromRulesList.length] = new Option(res[i].name, res[i].value.id);
-          this.originalRules.add(dojo.json.serialize(res[i].value));
+          this.fromRulesList.options[this.fromRulesList.length] = new Option(this.describeRule(res[i].value), res[i].value.id);
+          this.originalRules.add(res[i].value);
         }
       }
 
@@ -433,51 +478,6 @@ fins.widget.ACLBuilder = function(){
 		}
 
 
-    this.addItem = function() {
-
-       var toRemove = new Array();
-
-       for (var i = 0; i < this.fromRulesList.length; i++) {
-	      if(this.fromRulesList.options[i].selected)
-	      {
-		    var n = 0;
-                    var v = this.fromRulesList.options[i].value;
-
-                for(var y = 0; y < this.toUserList.options.length; y++)
-                {
-                   if(this.toUserList.options[y].value == v)
-                      n = 1; // already on the list
-                }
-     
-                if(n==0)
-  	          this.toUserList.options[this.toUserList.length] = new Option(this.fromRulesList.options[i].text, v);
-
-                n = 1;
-
-                    for(var q = 0; q < this.originalRules.count; q++)
-                    {
-               	       if(this.originalRules.item(q) == v) // already had it in our list
-                       n = 0;
-                    }
-
-                    if(n)
-                      this.added[this.added.length] =  v;
-  
-                    // we also need to remove any entry for this element from the "removed" column.
-                    for(var z = this.removed.length; z >= 0; z--)
-                    {
-			if(this.removed[z] == v) this.removed[z] = null;
-                    }
-		    toRemove[toRemove.length] = i;
-          }
-       }
-
-       sortSelect(this.toUserList);
-
-		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.fromRulesList.options[toRemove[j]] = null;
-    };
-
     this.getAdded = function(){
       var a = new Array();
 
@@ -507,54 +507,6 @@ fins.widget.ACLBuilder = function(){
          alert(str);
 
     };
-
-    this.removeItem = function() { 
-	   
-	   var toRemove = new Array();
-	
-	   for (var i = 0; i < this.toUserList.length; i++) {
-
-	      if(this.toUserList.options[i].selected)
-	      {
-                var n = 0;
-                var v = this.toUserList.options[i].value;
-
-                for(var y = 0; y < this.fromRulesList.options.length; y++)
-                {
-                   if(this.fromRulesList.options[y].value == v)
-                      n = 1; // already on the list
-                }
-     
-                if(n==0)
-  	          this.fromRulesList.options[this.fromRulesList.length] = new Option(this.toUserList.options[i].text, v);
-
-                n = 0;
-
-                for(var q = 0; q < this.originalRules.count; q++)
-                {
-                   if(this.originalRules.item(q) == v) // already had it in our list
-                   n = 1;
-                }
-
-            if(n)
-              this.removed[this.removed.length] = v;
-  
-          for(var z = this.added.length; z >= 0; z--)
-            {
-				if(this.added[z] == v) this.added[z] = null;
-            }
-
-          	toRemove[toRemove.length] = i;
-		  }
-       }
-	
-       sortSelect(this.fromRulesList);
-
-		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.toUserList.options[toRemove[j]] = null;
-
-
-	};
 
         this.ruleChanged = function()
         {
