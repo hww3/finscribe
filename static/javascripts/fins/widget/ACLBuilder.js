@@ -15,8 +15,8 @@ fins.widget.ACLBuilder = function(){
 
     this.originalRules = new dojo.collections.ArrayList();
     this.deletedRules = new dojo.collections.ArrayList();
-    this.newRules = new dojo.collections.ArrayList();
 
+    this.formNode = null;
     this.builderNode = null;
     this.builderFromContainerNode = null;
     this.builderControlContainerNode = null;
@@ -192,8 +192,12 @@ fins.widget.ACLBuilder = function(){
     {
       var s = this.fromRulesList.selectedIndex;
 
+      var r = this.originalRules.item(s);
 
-      this.deletedRules.add(this.originalRules.item(s));      
+      // if we're a new rule, we won't be on the server yet, so we can just forget the rule.
+      if(!r.isNew)
+        this.deletedRules.add(this.originalRules.item(s));      
+
       this.originalRules.removeAt(s);
       this.fromRulesList.options[s] = null;
       this.fromRulesList.selectedIndex = -1;
@@ -232,6 +236,18 @@ fins.widget.ACLBuilder = function(){
       r["comment"] = this.rule_xmit_comment.checked;
       r["lock"] = this.rule_xmit_lock.checked;
 
+      if(r.class == "user")
+      {
+        r.user = this.toUserList.options[this.toUserList.selectedIndex].value;
+        if(r.group) r.group = null;
+      }
+
+      else if(r.class == "group")
+      {
+        r.group = this.toGroupList.options[this.toGroupList.selectedIndex].value;
+        if(r.user) r.user = null;
+      }
+
       if(this.newRuleFlag)
       {
         r.isNew = 1;
@@ -241,7 +257,9 @@ fins.widget.ACLBuilder = function(){
       }
       else
       {
-        r.isChanged = 1;
+        // we can be editing a new, uncommitted rule. if so, it's still just a new rule.
+        if(!r.isNew)
+          r.isChanged = 1;
         r.id = this.currentRuleId;
         this.fromRulesList.options[this.currentRuleIndex].text = this.describeRule(r);
         this.fullRule.innerHTML = "ACL Rule Saved.";
@@ -268,10 +286,27 @@ fins.widget.ACLBuilder = function(){
 
       if(rule.class == "user")
       {
-
+        var u;
+        for(u = 0; u < this.toUserList.options.length; u++)
+        {
+          if(this.toUserList.options[u].value == rule.user)
+          {
+             res = res + " " +  this.toUserList.options[u].text;
+             break;
+          }
+        }
       }
       else if(rule.class == "group")
       {
+        var g;
+        for(g = 0; g < this.toGroupList.options.length; g++)
+        {
+          if((this.toGroupList.options[g].value) == rule.group)
+          {
+             res = res + " " + this.toGroupList.options[g].text;
+             break;
+          }
+        }
       }
 
       res += ": ";
@@ -301,6 +336,8 @@ fins.widget.ACLBuilder = function(){
     this.resetRule = function()
     {
       this.ruleEnableOwner();
+
+      this.ruleAppliesList.selectedIndex = -1;
 
       this.currentRuleId = null;
       this.currentRuleIndex = null;
@@ -415,10 +452,9 @@ fins.widget.ACLBuilder = function(){
     }
 
 
-    this.initialize = function()
+    this.initialize = function(args, fragment)
     {
        this.resetRule();
-
       if(this.loadAvailableUsersFunction &&  dojo.lang.isFunction(this.loadAvailableUsersFunction))
       {
         var res = this.loadAvailableUsersFunction();
@@ -447,8 +483,22 @@ fins.widget.ACLBuilder = function(){
           this.fromRulesList.options[this.fromRulesList.length] = new Option(this.describeRule(res[i].value), res[i].value.id);
           this.originalRules.add(res[i].value);
         }
+
       }
 
+      var f = this.getFragNodeRef(fragment);
+      if(f.form)
+      {
+              dojo.debug("hooking into the form.");
+       	this.formNode = f;
+                                dojo.event.connect(f.form, "onsubmit",
+                                        dojo.lang.hitch(this, function(){
+                                dojo.dom.insertAfter(this.formNode, this.domNode, 1); 
+					  this.formNode.value=dojo.json.serialize({rules: this.originalRules.toArray(), deleted: this.deletedRules.toArray() });
+                                        })
+                                );
+
+      }
     }
 
 	function hasOptions(obj) {
@@ -496,16 +546,6 @@ fins.widget.ACLBuilder = function(){
           a[a.length] = this.removed[i];          
 
       return a;
-    };
-
-    this.Q = function() {
-	  	var str = "";
-	    str = str + "added: " + this.getAdded();
-
-	    str = str + "removed: " + this.getRemoved();
-
-         alert(str);
-
     };
 
         this.ruleChanged = function()
