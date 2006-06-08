@@ -199,9 +199,11 @@ public void editacl(Request id, Response response, mixed ... args)
             }
 
             if(id->variables->newacl)
+            {
               g = FinScribe.Repo.new("acl");
-
-            if(id->variables->Name != g["Name"])
+              Log.info("creating a new acl.");
+            }
+            if((id->variables->Name != g["Name"]) || id->variables->newacl)
                g["Name"] = id->variables->Name;
 
             if(id->variables->newacl)

@@ -65,7 +65,7 @@ public void index(Request id, Response response, mixed ... args)
       break;
   }
 
-  breakpoint("test", id, response);
+//  breakpoint("test", id, response);
   
   return;
 }
@@ -76,6 +76,12 @@ private void handle_wiki(object obj, Request id, Response response){
   object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);
+
+  if(!obj->is_readable(t->get_data()["user_object"])) 
+  {
+     response->redirect("/exec/notreadable/" + obj["path"]); 
+     return;
+  }
  
   int numattachments; 
 
@@ -153,6 +159,12 @@ private void handle_text(object obj, Request id, Response response)
   object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);
+
+  if(!obj->is_readable(t->get_data()["user_object"])) 
+  {
+     response->redirect("/exec/notreadable/" + obj["path"]); 
+     return;
+  }
  
   int numattachments; 
 
@@ -212,6 +224,12 @@ private void handle_text(object obj, Request id, Response response)
 private void handle_data(object obj, Request id, Response response)
 {
   object v;
+
+  if(!obj->is_readable(id->get_current_user(id))) 
+  {
+     response->redirect("/exec/notreadable/" + obj["path"]); 
+     return;
+  }
 
   if(id->variables->show_version)
   {

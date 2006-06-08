@@ -1270,7 +1270,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
    {
 	response->flash("msg", "You do not have permission to edit this object");
-      response->redirect(id->referrer);		
+        response->redirect(id->referrer);		
 		return;
    }
 

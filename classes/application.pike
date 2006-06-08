@@ -255,9 +255,9 @@ public void set_default_data(Fins.Request id, object|mapping t)
   else if(t->set_request)
     t->set_request(id);
 
-  if(id->misc->session_variables && id->misc->session_variables->userid)
-  {
-     object user = model->find_by_id("user", id->misc->session_variables->userid);
+  object user = get_current_user(id);
+  if(!user) return;
+
      if(mappingp(t))
      {
        t["user_object"] = user;
@@ -268,7 +268,19 @@ public void set_default_data(Fins.Request id, object|mapping t)
        t->add("user_object", user);
        t->add("is_admin", user["is_admin"]);
      }
+
+}
+
+object get_current_user(object id)
+{
+  object user;
+
+  if(id->misc->session_variables && id->misc->session_variables->userid)
+  {
+     user = model->find_by_id("user", id->misc->session_variables->userid);
   }
+
+  return user;
 }
 
 public int is_admin_user(Fins.Request id, Fins.Response response)
