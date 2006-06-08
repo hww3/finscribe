@@ -1,4 +1,9 @@
 Version 0.6
+- Added ACL editing and creation capability
+- Changed permissions system to use ACLs instead: we currently respect the 
+    following permissions: read, version, delete and lock. More on the way.
+- Added ability to attach an ACL to an object at the data model level
+   (currently only the default ACL will be attached at object creation).
 - Made some changes to provide a default stylesheet, plus a stylesheet for
     theme specific styles.
 - Fixed a bug that prevented installation when specifying an admin user whose
@@ -17,6 +22,13 @@ Version 0.6
 - removed explicit formatting from many of the output macros
 - trackback pinging occurs in a separate thread, which should eliminate hangs
     when pinging our own server.
+- rewrote recent changes macro.
+- fixed recent changes macro to not fail when a recently changed object is 
+    deleted or otherwise unavailable.
+- added content compression for clients that support it
+- miscellaneous installer fixes
+- most all view (theme) and controller (action) code can be reloaded upon change
+    for speedier development. this can be turned off in the configuration file.
 
 Version 0.5
 - Added theme support
