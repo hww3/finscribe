@@ -22,6 +22,9 @@ fins.widget.ACLBuilder = function(){
     this.builderControlContainerNode = null;
     this.builderToContainerNode = null;
 
+    this.ruleChangedFlag = false;
+    this.newRuleFlag = false;
+
     this.ruleAppliesList = null;
     this.fullRule = null;
 
@@ -67,6 +70,13 @@ fins.widget.ACLBuilder = function(){
     this.addsElement = null;
     this.removesElement = null;
 
+    this.newRule = function()
+    {
+      this.fromRulesList.disabled = 1;
+      this.newRuleFlag = true;
+      this.enableRule();
+    }
+
     this.editRule = function()
     {
 
@@ -99,7 +109,7 @@ fins.widget.ACLBuilder = function(){
       this.updateRuleApplies(rule);
       this.updateRulePermissions(rule);
      
-      this.saveButton.disabled = 0;
+      this.saveButton.disabled = 1;
       this.editButton.disabled = 1;
       this.deleteButton.disabled = 1;
       this.newButton.disabled = 1;
@@ -135,7 +145,7 @@ fins.widget.ACLBuilder = function(){
         if(this.ruleAppliesList.options[i].value == c)
         {
           this.ruleAppliesList.selectedIndex = i;
-          this.ruleAppliesChanged();
+          this.ruleAppliesChangedInternal();
           break;
         }
       }
@@ -187,6 +197,17 @@ fins.widget.ACLBuilder = function(){
       this.deleteButton.disabled = 0;
       this.newButton.disabled = 0;
       this.fromRulesList.disabled = 0;
+     
+      this.saveRuleChanges();
+      this.resetRule();
+    }
+
+    this.saveRuleChanges = function()
+    {
+      if(this.newRuleFlag)
+        this.fullRule.innerHTML = "New ACL Rule Saved.";
+      else
+        this.fullRule.innerHTML = "ACL Rule Saved.";
     }
 
     this.cancelRule = function()
@@ -204,7 +225,7 @@ fins.widget.ACLBuilder = function(){
       this.ruleEnableOwner();
 
       this.ruleAppliesList.disabled = 1;
-
+      this.newRuleFlag = false;
       this.rule_xmit_browse.checked = 0;
       this.rule_xmit_read.checked = 0;
       this.rule_xmit_version.checked = 0;
@@ -222,6 +243,8 @@ fins.widget.ACLBuilder = function(){
       this.rule_xmit_comment.disabled = 1;
       this.rule_xmit_post.disabled = 1;
       this.rule_xmit_lock.disabled = 1;
+
+      this.ruleChangedFlag = false;
     }
 
     this.enableRule = function()
@@ -495,8 +518,20 @@ fins.widget.ACLBuilder = function(){
 
 
 	};
+
+        this.ruleChanged = function()
+        {
+          this.ruleChangedFlag = true;
+          this.saveButton.disabled = 0;
+        }
 	
         this.ruleAppliesChanged = function()
+        {
+          this.ruleAppliesChangedInternal();
+          this.ruleChanged();
+        }
+
+        this.ruleAppliesChangedInternal = function()
         {
           var t = this.ruleAppliesList.options[this.ruleAppliesList.selectedIndex];
 
