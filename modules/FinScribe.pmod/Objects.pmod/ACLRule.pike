@@ -88,9 +88,9 @@ mapping format_data()
       data["error"] = "Invalid rule.";
       return data;
     }
-
   }
 
+  data["id"] = this["id"];
   array privs = ({});
 
   foreach((<"browse", "read", "version", "write", "delete", "comment", "post", "lock">);string e;)
