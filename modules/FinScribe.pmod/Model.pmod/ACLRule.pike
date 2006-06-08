@@ -37,9 +37,9 @@ import Fins.Model;
       //     bit 3: anonymous
       add_field(IntField("class", 8, 0, 0));
 
-      add_field(TransformField("owner", "xmit", get_owner));
-      add_field(TransformField("all_users", "xmit", get_all_users));
-      add_field(TransformField("anonymous", "xmit", get_anonymous));
+      add_field(TransformField("owner", "class", get_owner));
+      add_field(TransformField("all_users", "class", get_all_users));
+      add_field(TransformField("anonymous", "class", get_anonymous));
 
       add_field(StringField("custom_name", 8, 1, 0));
 
@@ -47,6 +47,10 @@ import Fins.Model;
           "aclrules_users", "aclrule_id", "user_id", "user", "id"));
       add_field(MultiKeyReference(this, "group",
           "aclrules_groups", "aclrule_id", "group_id", "group", "id"));
+
+      add_field(MultiKeyReference(this, "acls",
+          "acls_rules", "rule_id", "acl_id", "acl", "id"));
+
 
       set_primary_key("id");
    }

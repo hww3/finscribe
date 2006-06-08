@@ -3,6 +3,43 @@ inherit Fins.Model.DirectAccessInstance;
 string type_name = "aclrule";
 object repository = FinScribe.Repo;
 
+constant xmits = ([
+   "browse": 1,
+   "read": 2,
+   "version": 4,
+   "write": 8,
+   "delete": 16,
+   "comment": 32,
+   "post": 64,
+   "lock": 128
+]);
+
+array get_available_xmits()
+{
+      // permit bits are follows:
+      //    bit 1: browse
+      //    bit 2: read
+      //    bit 3: version
+      //    bit 4: write (create)
+      //    bit 5: delete
+      //    bit 6: comment/annotate
+      //    bit 7: post
+      //    bit 8: lock
+
+  return indices(xmits);
+
+}
+
+void add_xmit(string xmit)
+{
+  this["xmit"] = this["xmit"] | xmits[xmit];
+}
+
+void revoke_xmit(string xmit)
+{
+  this["xmit"] = this["xmit"] & ~ xmits[xmit];
+}
+
 
 string format_nice()
 {
