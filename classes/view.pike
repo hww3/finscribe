@@ -1,5 +1,6 @@
 import Fins;
 inherit Fins.FinsView;
+import Tools.Logging;
 
 program default_template = (program)"themed_template";
 program default_data = (program)"themed_templatedata";
@@ -85,6 +86,7 @@ string get_page_breadcrumbs(string page)
 
 string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
+
    if(!mappingp(args)) return "";
    if(!args->snip) return "";
    object obj = model->get_fbobject((args->snip)/"/");
@@ -95,6 +97,7 @@ string simple_macro_snip(Template.TemplateData data, mapping|void args)
    string contents = obj->get_object_contents();
 
    return app->render(contents, obj, id);
+ 
 }
 
 

@@ -7,33 +7,32 @@ object repository = FinScribe.Repo;
 
    int is_readable(object user)
    {
-     return 1;
+     return has_xmit(user, "read", user && (user["id"] == this["author"]["id"]));
    }
 
-   int has_xmit(object user)
+   int has_xmit(object user, string xmit, int|void is_owner)
    {
-     
+     foreach(this["acl"]["rules"];; object rule)
+       if(rule->has_xmit(user, xmit, is_owner))
+         return 1;
+     return 0;	
    }
 
    int is_deleteable(object user)
    {
-     if(!user) return 0;
-     if(user["id"] == this["author"]["id"] || user["is_admin"]) return 1;
-     else return 0;
+     return has_xmit(user, "delete", user && (user["id"] == this["author"]["id"]));
+
    }
 
    int is_editable(object user)
    {
-     if(!user) return 0;
-     if(this["md"]["locked"] && user["id"] != this["author"]["id"]) return 0;
-     else return 1;
+     if(user && this["md"]["locked"] && user["id"] != this["author"]["id"]) return 0;
+     else return has_xmit(user, "version", user["id"] == this["author"]["id"]);
    }
 
    int is_lockable(object user)
    {
-     if(!user) return 0;
-     if(user["id"] == this["author"]["id"] || user["is_admin"]) return 1;
-     else return 0;
+     return has_xmit(user, "lock", user["id"] == this["author"]["id"]);
    }
 
 

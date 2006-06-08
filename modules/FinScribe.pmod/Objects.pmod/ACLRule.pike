@@ -30,6 +30,38 @@ array get_available_xmits()
 
 }
 
+int has_xmit(object user, string xmit, int|void is_owner)
+{
+  // we can short circuit a no answer.
+  if(!this[xmit])
+    return 0;
+  int cls = this["class"];
+
+  if(cls & 4) return 1; // anonymous
+  else if(user && (cls & 2)) return 1; // any user
+  else if(is_owner && (cls & 1)) return 1; // owner
+  else
+  {
+    object l;
+    // first, we check groups, as that's more likely to be a source of permission.
+    l = this["group"];
+    if(sizeof(l)) 
+    {
+      if(l[0]->is_member(user)) return 1;
+    }
+
+    // lastly, we check users
+    l = this["user"];
+    if(sizeof(l))
+    {
+       if(l[0] == user) return 1;
+    }
+
+  }
+
+  return 0;
+}
+
 void add_xmit(string xmit)
 {
   this["xmit"] = this["xmit"] | xmits[xmit];
