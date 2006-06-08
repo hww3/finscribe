@@ -2,6 +2,8 @@
 
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
+import Tools.Logging;
+
 Fins.FinsController plugin;
 Fins.FinsController prefs;
 
@@ -189,6 +191,13 @@ public void editacl(Request id, Response response, mixed ... args)
           else if(id->variables->action == LOCALE(0, "Save"))
           {
 
+            if(!id->variables->rules)
+            {
+              response->flash("msg", "ACL was not updated successfully. Rules were missing.");
+              response->redirect("listacls");
+              return;
+            }
+
             if(id->variables->newacl)
               g = FinScribe.Repo.new("acl");
 
@@ -197,6 +206,106 @@ public void editacl(Request id, Response response, mixed ... args)
 
             if(id->variables->newacl)
               g->save();
+
+            mapping rules = Tools.JSON.deserialize(id->variables->rules);
+            Log.debug("Rules: %O\n", rules);
+
+            foreach(rules->deleted;;mapping r)
+            {
+              object r = model->find_by_id("aclrule", (int)(r->id));
+              if(!r)
+                Log.error("Non existent ACL Rule %d.", (int)r->id);
+              else
+              {
+                Log.info("Deleting ACL Rule %d", (int)r->id);
+                r->delete();
+              }
+            }
+
+            foreach(rules->rules;; mapping r)
+            {
+              if(r->isNew)
+              {
+                Log.debug("adding a rule");
+                object newrule = FinScribe.Repo.new("aclrule");
+                int cls = 0;
+                if(r->class == "anonymous")
+                  cls = 4;
+                else if(r->class == "all_users")
+                  cls = 2;
+                else if(r->class == "owner")
+                  cls = 1;
+
+                newrule["class"] = cls;
+
+                int xmit;
+
+                foreach(newrule->get_available_xmits();;string xm)
+                {
+                  if(r[xm]) newrule->add_xmit(xm);
+                  else newrule->revoke_xmit(xm);
+                }
+
+                newrule->save();
+
+                if(r->class == "user")
+                {
+                  object u = model->find_by_id("user", (int)r->user);
+                  newrule["user"] += u;
+                }
+                else if(r->class == "group")
+                {
+                  object g = model->find_by_id("group", (int)r->group);
+                  newrule["group"] += g;
+                }
+
+                // add the acl rule to the acl.
+                g["rules"] += newrule;
+
+
+              }
+              else if(r->isChanged)
+              {
+                Log.debug("changing a rule");
+
+                object oldrule = model->find_by_id("aclrule", (int)r->id);
+                int cls = 0;
+ 
+                if(r->class == "anonymous")
+                  cls = 4;
+                else if(r->class == "all_users")
+                  cls = 2;
+                else if(r->class == "owner")
+                  cls = 1;
+
+                oldrule["class"] = cls;
+
+                int xmit;
+
+                foreach(oldrule->get_available_xmits();;string xm)
+                {
+                  if(r[xm]) oldrule->add_xmit(xm);
+                  else oldrule->revoke_xmit(xm);
+                }
+
+                foreach(oldrule["user"];; object u)
+                  oldrule["user"] -= u;
+
+                foreach(oldrule["group"];; object g)
+                  oldrule["group"] -= g;
+
+                if(r->class == "user")
+                {
+                  object u = model->find_by_id("user", (int)r->user);
+                  oldrule["user"] += u;
+                }
+                else if(r->class == "group")
+                {
+                  object g = model->find_by_id("group", (int)r->group);
+                  oldrule["group"] += g;
+                }
+              }
+            }
 
             response->flash("msg", "ACL was updated successfully.");
             response->redirect("listacls");

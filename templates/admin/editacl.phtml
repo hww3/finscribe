@@ -17,8 +17,6 @@ dojo.require("fins.widget.ACLBuilder");
 	<form action="" method="post">
         <b>ACL Name:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
         <p/>
-        <input type="hidden" name="added" id="added"/>
-        <input type="hidden" name="removed" id="removed"/>
 <% if data["newgroup"] %>
         <input type="hidden" name="newacl" value="1"/>
 <% endif %>
@@ -109,8 +107,9 @@ function getGroups()
 }
 </script>
 
-		<div dojoType="ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
-                        loadAvailableGroupsFunction="getGroups" addsId="added" removesID="removed"></div>
+		<input type="hidden" name="rules" dojoType="ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
+                        loadAvailableGroupsFunction="getGroups"/>
+		<input type="hidden" name="rules2"/>
 
         <p/>
         <input type="submit" name="action" value="Cancel" />
