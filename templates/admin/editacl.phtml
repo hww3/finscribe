@@ -9,7 +9,7 @@ dojo.require("fins.widget.ACLBuilder");
 </script>
 
 <div class="flash-message"><%flash var="msg"%></div>
-<% if data["newgroup"] %>
+<% if data["newacl"] %>
           <h3>New ACL</h3>
 <% else %>
           <h3>Edit ACL</h3>
@@ -17,7 +17,7 @@ dojo.require("fins.widget.ACLBuilder");
 	<form action="" method="post">
         <b>ACL Name:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
         <p/>
-<% if data["newgroup"] %>
+<% if data["newacl"] %>
         <input type="hidden" name="newacl" value="1"/>
 <% endif %>
 
