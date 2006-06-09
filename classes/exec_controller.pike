@@ -1271,7 +1271,17 @@ public void edit(Request id, Response response, mixed ... args)
    {
 	response->flash("msg", "You do not have permission to edit this object");
         response->redirect(id->referrer);		
-		return;
+	return;
+   }
+   else if(!obj_o)
+   {
+     object np = application->model->find_nearest_parent(args*"/");
+     if(np && !np->is_writeable(t->get_data()["user_object"])))
+     {
+	response->flash("msg", "You do not have permission to create this object");
+        response->redirect(id->referrer);		
+	return;
+     }
    }
 
    datatype = id->variables->datatype;

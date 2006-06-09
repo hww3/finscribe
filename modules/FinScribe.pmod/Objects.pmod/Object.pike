@@ -4,7 +4,6 @@ inherit Fins.Model.DirectAccessInstance;
 string type_name = "object";
 object repository = FinScribe.Repo;
 
-
    int is_readable(object user)
    {
      return has_xmit(user, "read", user && (user["id"] == this["author"]["id"]));
@@ -28,6 +27,11 @@ object repository = FinScribe.Repo;
    {
      if(user && this["md"]["locked"] && user["id"] != this["author"]["id"]) return 0;
      else return has_xmit(user, "version", user["id"] == this["author"]["id"]);
+   }
+
+   int is_writeable(object user)
+   {
+     return has_xmit(user, "write", user["id"] == this["author"]["id"]);
    }
 
    int is_lockable(object user)

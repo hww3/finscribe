@@ -35,6 +35,21 @@ void register_types()
    repository->add_object_type(FinScribe.Model.Preference_object(context), FinScribe.Model.Preference);
 }
 
+//!
+Model.DataObjectInstance find_nearest_parent(string path)
+{
+  array a = path/"/";
+
+  for(int i = sizeof(a); i != 0; i--)
+  {
+    string p = (a[0..(i-1)] * "/");
+    mixed o = find("object", (["path": p]));
+    if(sizeof(o)) return o[0];
+  }
+
+  return 0;
+}
+
 Model.DataObjectInstance find_by_id(string|object ot, int id)
 {
   return FinScribe.Repo.find_by_id(ot, id);
