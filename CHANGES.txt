@@ -1,7 +1,8 @@
 Version 0.6
 - Added ACL editing and creation capability
 - Changed permissions system to use ACLs instead: we currently respect the 
-    following permissions: read, version, delete and lock. More on the way.
+    following permissions: read, version, write(create) delete and lock. 
+    More on the way.
 - Added ability to attach an ACL to an object at the data model level
    (currently only the default ACL will be attached at object creation).
 - Made some changes to provide a default stylesheet, plus a stylesheet for
