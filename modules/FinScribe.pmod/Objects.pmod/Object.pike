@@ -9,6 +9,11 @@ object repository = FinScribe.Repo;
      return has_xmit(user, "read", user && (user["id"] == this["author"]["id"]));
    }
 
+   int is_postable(object user)
+   {
+     return has_xmit(user, "post", user && (user["id"] == this["author"]["id"]));
+   }
+
    int has_xmit(object user, string xmit, int|void is_owner)
    {
      foreach(this["acl"]["rules"];; object rule)

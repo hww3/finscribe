@@ -1275,8 +1275,8 @@ public void edit(Request id, Response response, mixed ... args)
    }
    else if(!obj_o)
    {
-     object np = application->model->find_nearest_parent(args*"/");
-     if(np && !np->is_writeable(t->get_data()["user_object"])))
+     object np = model->find_nearest_parent(args*"/");
+     if(np && !np->is_writeable(t->get_data()["user_object"]))
      {
 	response->flash("msg", "You do not have permission to create this object");
         response->redirect(id->referrer);		
@@ -1411,6 +1411,7 @@ public void post(Request id, Response response, mixed ... args)
    }
    
    obj_o = model->get_fbobject(args, id);
+
    obj = args*"/";
    subject = "";
    contents = "";
@@ -1430,6 +1431,20 @@ public void post(Request id, Response response, mixed ... args)
    t->add("createchecked", "selected=\"0\"");
    
    app->set_default_data(id, t);
+
+   if(!obj_o->is_postable(t->get_data()["user_object"]))
+   {
+     if(id->variables->ajax)
+     {
+       response->set_data("You are not authorized to post to this weblog.");
+     }
+     else
+     {
+       response->flash("msg", "You are not authorized to post to this weblog.");
+       response->redirect(id->referrer || "/space/");
+     }
+     return;     
+   }
 
    if(id->variables->action)
    {
