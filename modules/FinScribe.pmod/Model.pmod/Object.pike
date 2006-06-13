@@ -33,7 +33,7 @@ import Fins.Model;
       add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
 
-      add_default_value_object("acl", "acl", (["id": 1]), 1);
+      add_default_value_object("acl", "acl", (["Name": "Default ACL"]), 1);
    }
 
    static object created()
