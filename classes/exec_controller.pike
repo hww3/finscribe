@@ -527,10 +527,11 @@ public void editattachments(Request id, Response response, mixed ... args)
     string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
     object obj_o;
   
-    array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
+    array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
     if(!sizeof(dtos))
     {
-       t->add("flash", "Mime type " + id->variables["mime-type"] + " not valid.");
+       t->add("flash", "Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]) + 
+       " for file " + id->variables["save-as-filename"] + " is not valid.");
     }
     else
     {       
