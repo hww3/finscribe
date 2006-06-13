@@ -10,7 +10,7 @@
   <table>
   <tr><th>Name</th><th>Type</th><th>Size</th><th></th></tr>
   <% foreach var="attachments" val="attachment" %>
-  <tr><td><a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
+  <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.content_length%></td>
   <td><a onclick="document.getElementById('action').value='Delete'; 
@@ -34,18 +34,6 @@ document.getElementById('filename').value='<%$attachment.path%>'; saveAttachment
 </td>
 <td>
 <input name="upload-file" type="file" onchange="updateFilename(this)"/>
-</td>
-</tr>
-<tr>
-<td>
-<b>  MimeType: </b>
-</td><td>
-<select name="mime-type">
-
-  <% foreach var="datatypes" val="dt" %><option><%$dt.mimetype%>
-  <% end %>
-  </select>
-  <br/>
 </td>
 </tr>
 <tr>

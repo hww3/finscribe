@@ -19,6 +19,7 @@ import Fins.Model;
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("title", "path", get_title));
+      add_field(TransformField("icon", "datatype", get_icon));
       add_field(TransformField("category_links", "categories", get_cat_links));
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", c));
@@ -47,6 +48,37 @@ import Fins.Model;
        return md;
      }
      else return metadata[i->get_id()][1];
+   }
+
+   static string get_icon(mixed n, object i)
+   {
+     string mt = n["mimetype"];
+
+     switch(mt)
+     {
+       case "text/xml":
+         return "xml.gif";
+       case "text/html":
+         return "html.gif";
+       case "application/pdf":
+         return "pdf.gif";
+       case "application/msword":
+         return "word.gif";
+       case "application/vnd.ms-powerpoint":
+         return "powerpoint.gif";
+       case "application/vnd.ms-excel":
+         return "excel.gif";
+     }
+
+     switch((mt/"/")[0])
+     {
+       case "text":
+        return "text.gif";
+       case "image":
+        return "image.gif";
+     }
+
+     return "file.gif";
    }
 
    string get_title(mixed n, object i)

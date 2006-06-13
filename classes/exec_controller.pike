@@ -427,10 +427,12 @@ public void upload(Request id, Response response, mixed ... args)
     throw(Error.Generic("Unable to find root object to attach this document to.\n"));
   }
   
-               array dtos = model->find("datatype", (["mimetype": id->variables["mime-type"]]));
+               array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
                if(!sizeof(dtos))
                {
-                  response->flash("msg", "Mime type " + id->variables["mime-type"] + " not valid.");
+                  response->flash("msg", "Mime type " + 
+                     Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]) + " for file " +
+                     id->variables["save-as-filename"] + " is not valid.");
                }
                else{              
                object dto = dtos[0];

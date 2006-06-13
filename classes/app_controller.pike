@@ -225,7 +225,7 @@ private void handle_data(object obj, Request id, Response response)
 {
   object v;
 
-  if(!obj->is_readable(id->get_current_user(id))) 
+  if(!obj->is_readable(app->get_current_user(id))) 
   {
      response->redirect("/exec/notreadable/" + obj["path"]); 
      return;
