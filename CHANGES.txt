@@ -1,4 +1,7 @@
 Version 0.6
+- Added attachment list with icons to the default display page
+- Added some more common datatypes
+- Attachments no longer require the mimetype to be provided when adding.
 - Added ACL editing and creation capability
 - Changed permissions system to use ACLs instead: we currently respect the 
     following permissions: read, version, write(create) delete, post and lock. 
