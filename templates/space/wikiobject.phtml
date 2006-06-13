@@ -34,6 +34,16 @@
 <% endif %>
          <%$content%>
 <p/>
+
+
+<%if data["object_is_weblog"] %>
+<% else if sizeof(data["object"]["attachments"])%>
+<h3>Attachments</h3>
+<%@ include file="space/_displayattachments.phtml"%>
+<p/>
+<%endif %>
+
+
 <% if data["object_is_weblog"] %>
 <% else %>
          <b><% if data["numcomments"] %>

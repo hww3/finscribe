@@ -14,6 +14,7 @@ import Fins.Model;
       add_field(IntField("version", 0, 1));
       add_field(StringField("subject", 128, 1));
       add_field(TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
+      add_field(TransformField("nice_content_length", "contents", lambda(mixed n, object i){int z = sizeof(n); if(z < 1024) return z + " bytes"; else if (z < 1024000) return (z / 1024) + " kb"; else return (z / 1024000) + " mb";}));
       add_field(BinaryStringField("contents", 1024000, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));

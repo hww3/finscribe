@@ -28,6 +28,8 @@ import Fins.Model;
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("versions", "object_version", "object"));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
+      add_field(InverseForeignKeyReference("children", "object", "parent"));
+      add_field(TransformField("attachments", "id", get_attachments));
       add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
 
@@ -48,6 +50,11 @@ import Fins.Model;
        return md;
      }
      else return metadata[i->get_id()][1];
+   }
+
+   static mixed get_attachments(mixed n, object i)
+   {
+     return find((["parent": n, "is_attachment": 1]), UNDEFINED, i);
    }
 
    static string get_icon(mixed n, object i)
