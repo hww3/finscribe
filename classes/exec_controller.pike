@@ -1268,6 +1268,7 @@ public void edit(Request id, Response response, mixed ... args)
    obj = args*"/";
 
    object t = view->get_idview("exec/edit");
+   object np;
 
    app->set_default_data(id, t);
 
@@ -1279,7 +1280,7 @@ public void edit(Request id, Response response, mixed ... args)
    }
    else if(!obj_o)
    {
-     object np = model->find_nearest_parent(args*"/");
+     np = model->find_nearest_parent(args*"/");
      if(np && !np->is_writeable(t->get_data()["user_object"]))
      {
 	response->flash("msg", "You do not have permission to create this object");
@@ -1332,6 +1333,11 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
+
+               // we make the acl of this object the same as our nearest 
+               // parent. we can change this later.
+               if(np) obj_o["acl"] = np["acl"];
+
                obj_o->save();
             }
 
