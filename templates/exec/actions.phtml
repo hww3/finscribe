@@ -36,7 +36,12 @@ endif %> page
 <p>
 <li> <a href="/exec/new?currentpage=<%$object.path%>">new</a> page
 <p>
-Current ACL: <%$object.acl.Name%>
+Current ACL: 
+<%if data["isdeleteable"] %>
+<a href="/exec/changeacl/<%$object.path%><%$object.acl.Name%></a>
+<% else %>
+<%$object.acl.Name%>
+<% endif %>
 </ul>
 <% else %>
 You are not logged in. 
