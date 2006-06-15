@@ -38,7 +38,7 @@ endif %> page
 <p>
 Current ACL: 
 <%if data["isdeleteable"] %>
-<a href="/exec/changeacl/<%$object.path%><%$object.acl.Name%></a>
+<a href="/exec/changeacl/<%$object.path%>"><%$object.acl.Name%></a>
 <% else %>
 <%$object.acl.Name%>
 <% endif %>

@@ -1,4 +1,6 @@
 Version 0.6
+- A user with delete permission on an object can change the ACL of that 
+    object.
 - New objects get the ACL of the nearest parent object
 - Added attachment list with icons to the default display page
 - Added some more common datatypes

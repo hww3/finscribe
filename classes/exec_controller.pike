@@ -51,6 +51,45 @@ public void actions(Request id, Response response, mixed ... args)
 
 }
 
+public void changeacl(Request id, Response response, mixed ... args)
+{
+  object obj = model->get_fbobject(args, id);
+
+   object t = view->get_idview("exec/changeacl");
+
+   if(!id->variables->return_to)
+   {
+     t->add("return_to", id->referrer || "/space/start");
+   }
+   else
+     t->add("return_to", id->variables->return_to);
+
+   app->set_default_data(id, t);
+
+   if(!obj) 
+   {
+     response->flash("msg", "Unable to find the request object " + args*"/");
+     response->redirect(id->referrer);
+     return;
+   }
+
+   t->add("obj", obj["path"]);
+   t->add("acls", model->find("acl", ([]) ));
+   t->add("currentacl", obj["acl"]);
+
+   if(id->variables->newacl)
+   {
+     object a = model->find_by_id("acl", (int)id->variables->newacl);
+
+     obj["acl"] = a;
+
+     response->flash("msg", "ACL changed successfully.");
+     response->redirect(id->variables->return_to);
+   }
+
+   response->set_view(t);
+}
+
 public void getcomments(Request id, Response response, mixed ... args)
 {
 
