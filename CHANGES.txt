@@ -1,4 +1,5 @@
 Version 0.6
+- New objects get the ACL of the nearest parent object
 - Added attachment list with icons to the default display page
 - Added some more common datatypes
 - Attachments no longer require the mimetype to be provided when adding.
