@@ -129,8 +129,10 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   }
   s = _s;
 
+  string command;
+
   // Split it into statements;
-  foreach(s / splitter, string command) {
+  foreach(s / splitter, command) {
     string table_name;
     if (sscanf(command, "CREATE TABLE %s %*s", table_name))
       tables[table_name] = command;
