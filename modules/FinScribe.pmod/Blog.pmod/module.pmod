@@ -1,3 +1,5 @@
+import Tools.Logging;
+
 public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 {
 	mapping r = ([]);
@@ -237,6 +239,7 @@ string post_url_data(string url, mapping r)
 
 int weblogs_ping(string site, string url, string|void rpcurl)
 {
+
 	string endpoint = "http://rpc.weblogs.com/RPC2";
 	string method = "weblogUpdates.ping";
 	object c;
@@ -244,10 +247,16 @@ int weblogs_ping(string site, string url, string|void rpcurl)
 
         if(rpcurl) endpoint = rpcurl;	
 
-	catch{
+    Log.info("Pinging weblog url " + rpcurl);
+
+
+	mixed e = catch{
 	  c = Protocols.XMLRPC.Client(endpoint);
 	  x = c[method](site, url)[0];
    };
+
+   if(e)
+     Log.exception("An error occurred while pinging weblog.", e);
 
   if(x && x->message)
   {
