@@ -4,6 +4,7 @@
 
 
 import Fins;
+import Tools.Logging;
 inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
@@ -90,12 +91,15 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   string dbtype;
   string splitter;
   object sql;
+  Log.debug("creating connection to database " + id->variables->dburl);
   mixed e = (catch(sql=Sql.Sql(id->variables->dburl)));
   if(e) 
   {
+    Log.exception("An error occurred while connecting to the database "+ id->variables->dburl + ".", e);
     response->set_data(((array)e)[0]);
     return;
   }
+  Log.debug("connection to database " + id->variables->dburl + " successful.");
   switch(id->variables->dburl[0..1])
   {
     case "SQ":
@@ -111,6 +115,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
       splitter = "\\g\n";
       break;
     default:
+      Log.error("Unknown database type: %s", id->variables->dburl);
       response->set_data("Unknown database type.");
       return;
   }
@@ -119,10 +124,13 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   string s = Stdio.read_file(Stdio.append_path(app->config->app_dir, "/config/schema." + dbtype));
   mapping tables = ([]);
   
+  Log.debug("loaded schema for " + dbtype + ".");
+
   // Remove the #'s, if they're there.
   string _s = "";
-  foreach(s / "\n", string line) {
-    if (line[0] == '#')
+  foreach(s / "\n"; int lnum; string line) {
+    Log.debug("looking at line %d.", lnum);
+    if (!sizeof(line) || line[0] == '#')
       continue;
     else
       _s += line + "\n";
@@ -130,25 +138,40 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   s = _s;
 
   string command;
+ 
+  Log.debug("parsing schema.");
 
   // Split it into statements;
   foreach(s / splitter, command) {
     string table_name;
     if (sscanf(command, "CREATE TABLE %s %*s", table_name))
+    {
+      Log.debug("found definition for %s.", table_name);
       tables[table_name] = command;
+    }
   }
 
   // Create tables
+
+  Log.debug("getting tables in database.");
+
   multiset extant_tables = (multiset)sql->list_tables();
+
   foreach(indices(tables), string name) {
+    Log.debug("command: %s", tables[name]);
     if (extant_tables[name])
       continue;
-    e = catch(sql->query(command));
+   else
+     Log.debug("executing.");
+    e = catch(sql->query(tables[name]));
     if (e) {
+      Log.exception("An error occurred while running a command: " + tables[name] + ".", e);
       response->set_data(((array)e)[0]);
       return;
     }
   }
+
+  Log.debug("starting model.");
 
   // now, we restart the model.
   config->set_value("app", "installed", 1);
