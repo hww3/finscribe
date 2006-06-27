@@ -1,4 +1,5 @@
 Version 0.6
+- added initial attempt at a "gravatar" macro (see gravatar.com)
 - A user with delete permission on an object can change the ACL of that 
     object.
 - New objects get the ACL of the nearest parent object
@@ -33,7 +34,7 @@ Version 0.6
 - fixed recent changes macro to not fail when a recently changed object is 
     deleted or otherwise unavailable.
 - added content compression for clients that support it
-- miscellaneous installer fixes
+- many miscellaneous installer fixes
 - most all view (theme) and controller (action) code can be reloaded upon change
     for speedier development. this can be turned off in the configuration file.
 
