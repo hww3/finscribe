@@ -5,7 +5,7 @@ __Recent Changes__\\
 {recent-changes}\\
  \\
 
-{image:img=rss-small|link=$RSS|alt=RSS Feed}
+{image:img=rss-small|link=/rss/start|alt=RSS Feed}
 {image:img=get-firefox-blue|link=http://getfirefox.com|alt=Get Firefox}
 
 Powered by Fins
