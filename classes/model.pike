@@ -213,7 +213,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = FinScribe.Repo.find("user", (["UserName": "admin"]))[0];
+            obj_n["author"] = FinScribe.Repo.find_by_id("user", 1);
             obj_n->save();
             return 1;
 

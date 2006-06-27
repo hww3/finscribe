@@ -247,13 +247,15 @@ int weblogs_ping(string site, string url, string|void rpcurl)
 
         if(rpcurl) endpoint = rpcurl;	
 
-    Log.info("Pinging weblog url " + rpcurl);
+    Log.info("Pinging weblog url " + endpoint);
 
 
 	mixed e = catch{
 	  c = Protocols.XMLRPC.Client(endpoint);
 	  x = c[method](site, url)[0];
    };
+
+   Log.debug("E: %O", e);
 
    if(e)
      Log.exception("An error occurred while pinging weblog.", e);

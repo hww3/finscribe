@@ -98,4 +98,44 @@ CREATE TABLE groups_groups (
   group_id int(11) NOT NULL default '0'
 )
 
+\g
+
+CREATE TABLE acls (
+  id integer NOT NULL primary key,
+  name char(36) NOT NULL default ''
+)
+
+\g
+
+CREATE TABLE acls_rules (
+  acl_id int(11) NOT NULL,
+  rule_id int(11) NOT NULL
+)
+
+\g
+
+CREATE TABLE aclrules (
+  id integer NOT NULL primary key,
+  user_id int(11) default '0',
+  group_id int(11) default '0',
+  xmit int(1) default '0',
+  class int(1) default '0',
+  custom_name char(36)
+)
+
+\g
+
+CREATE TABLE aclrules_users (
+  aclrule_id int(11) NOT NULL,
+  user_id int(11) NOT NULL
+)
+
+\g
+
+CREATE TABLE aclrules_groups (
+  aclrule_id int(11) NOT NULL,
+  group_id int(11) NOT NULL
+)
+
+\g
 

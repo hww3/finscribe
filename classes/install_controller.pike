@@ -40,6 +40,7 @@ public void populateprefs(Request id, Response response, mixed ... args)
 
   if(e)
   {
+    Log.exception("Error occurred while populating database.", e);
     response->set_data(((array)e)[0]);  
   }
   else
@@ -77,6 +78,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
 
   if(e)
   {
+    Log.exception("Error while creating admin user.", e);
     response->set_data(((array)e)[0]);  
   }
   else

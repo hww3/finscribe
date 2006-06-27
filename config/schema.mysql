@@ -148,8 +148,8 @@ CREATE TABLE acls_rules (
 
 CREATE TABLE aclrules (
   id int(11) NOT NULL auto_increment,
-  user_id int(11) NOT NULL,
-  group_id int(11) NOT NULL,
+  user_id int(11) default '0',
+  group_id int(11) default '0',
   xmit int(1) default '0',  
   class int(1) default '0',  
   custom_name char(36),

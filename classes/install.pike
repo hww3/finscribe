@@ -1,3 +1,4 @@
+import Tools.Logging;
 inherit Fins.FinsBase;
 
 int run()
@@ -46,7 +47,7 @@ void populate()
 {
   // then, we create the datatypes
   cd(combine_path(app->config->app_dir,"theme"));
-  write("Loading datatypes...\n");
+  Log.info("Loading datatypes.");
   foreach(Stdio.read_file("datatypes.conf")/"\n", string dt)
   {
     object d;
@@ -61,7 +62,13 @@ void populate()
     d->save();
   }
 
-  write("Loading predefined wiki objects...\n");
+  Log.info("Creating users and ACLs.");
+  create_groups();
+  create_acls();
+
+
+
+  Log.info("Loading predefined wiki objects.");
   foreach(glob("*.wiki", get_dir(".")), string fn)
   {
     model->new_from_string(combine_path("themes/default/", fn[..sizeof(fn)-6]), 
@@ -72,8 +79,10 @@ void populate()
  
   // move all "*-index" objects up to the root.
   foreach(a;; object i)
+  {
+    Log.debug("moving %s to the root.", i["path"]);
     i["path"] = (i["path"]/"/")[-1];
-
+  }
   // then we load up the start object.
 
   write("Loading initial objects...\n");
