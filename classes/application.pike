@@ -59,8 +59,9 @@ void load_plugins()
 //				Log.info("File: %O", p);
 				if(Program.implements(p, FinScribe.PluginInstaller) && !installer)
 				  installer = p(this);
-				if(Program.implements(p, FinScribe.Plugin) && !module)
+				else if(Program.implements(p, FinScribe.Plugin) && !module)
 				  module = p(this);	
+                                else continue;
                                 module->module_dir = pd;
                
 			}
