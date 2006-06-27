@@ -37,7 +37,7 @@
 
 
 <%if data["object_is_weblog"] %>
-<% else if sizeof(data["object"]["attachments"])%>
+<% elseif sizeof(data["object"]["attachments"])%>
 <h3>Attachments</h3>
 <%@ include file="space/_displayattachments.phtml"%>
 <p/>
