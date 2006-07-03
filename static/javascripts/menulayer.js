@@ -56,7 +56,7 @@ var bindArgs = {
   hide: function() {
     this.clearTimer();
     if (menuLayers.activeMenuID && document.getElementById) 
-      this.timer = setTimeout("dojo.fx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
       return false;
   },
   
@@ -72,7 +72,7 @@ var bindArgs = {
 this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
-      this.timer = setTimeout("dojo.fx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
   },
   
   mouseoutCheck: function(e) {
@@ -100,7 +100,7 @@ this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offse
 function displayComments(div, path, force)
 {
 //  if(comments_displayed !=0)
-//    dojo.fx.html.wipeOut(document.getElementById(div), 100);
+//    dojo.lfx.html.wipeOut(document.getElementById(div), 100);
 
     var bindArgs = {
     url:         "/exec/getcomments/" + path,
@@ -110,7 +110,7 @@ function displayComments(div, path, force)
     load:      function(type, data, evt){
         // handle successful response here
       document.getElementById(div).innerHTML = data.toString();
-      dojo.fx.html.wipeIn(document.getElementById(div), 100);
+      dojo.lfx.html.wipeIn(document.getElementById(div), 100);
     }
   };
 
@@ -293,6 +293,7 @@ function postComment(obj, formid, noanim)
     var requestObj = dojo.io.bind(bindArgs);
 }
 
+/*
 dojo.provide("dojo.widget.YellowFade")
 dojo.provide("dojo.widget.HtmlYellowFade")
 dojo.require("dojo.widget.*");
@@ -305,14 +306,14 @@ dojo.widget.HtmlYellowFade = function() {
     this.initColor = "#FFE066";
     this.buildRendering = function(args, frag) {
         var o = frag["dojo:yellowfade"]["nodeRef"];
-        dojo.graphics.htmlEffects.colorFadeIn(o, 
+        dojo.lfx.htmlEffects.colorFadeIn(o, 
 dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay);
     }
 }
 dj_inherits(dojo.widget.HtmlYellowFade, dojo.widget.HtmlWidget);
 dojo.widget.tags.addParseTreeHandler("dojo:yellowfade");
 
-
+*/
 //
 // getPageScroll()
 // Returns array with x,y page scroll values.
@@ -502,7 +503,7 @@ var bindArgs = {
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 
      make_corners();
-     dojo.fx.html.fadeShow(block, 200, function(){		
+     dojo.lfx.html.fadeShow(block, 200, function(){		
 		arrayPageSize = getPageSize();
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
@@ -572,7 +573,7 @@ function closePopup()
   var d = document.getElementById("popup");
   if(d)
   {
-    dojo.fx.html.fadeHide(d, 200);
+    dojo.lfx.html.fadeHide(d, 200);
     var objOverlay = document.getElementById("dialogoverlay");
     objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
@@ -627,7 +628,7 @@ picker = dojo.widget.createWidget("DatePicker",
 dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
 once:true});
 }
-dojo.fx.html.fadeShow(block, 200);
+dojo.lfx.html.fadeShow(block, 200);
 }
 
 function cumulativeOffset(element) {
