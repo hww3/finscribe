@@ -4,7 +4,7 @@ dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
 dojo.require("dojo.style");
-dojo.require("dojo.fx");
+dojo.require("dojo.lfx");
 dojo.require("dojo.animation");
 
 /* Call <div dojoType="Comments" refreshUrl="/exec/json/comments?id=34" connectorId="button-34" /> */
@@ -44,7 +44,7 @@ fins.widget.Comments = function() {
 
   this.click = function() {
     if (!this.onDisplay) {
-      dojo.fx.wipeIn(this.myDiv, 1000);
+      dojo.lfx.wipeIn(this.myDiv, 1000);
     }
   }
 
