@@ -1,6 +1,6 @@
 dojo.provide("fins.widget.RTEditor");
 dojo.require("dojo.widget.*");
-dojo.require("dojo.widget.Editor2");
+dojo.require("dojo.widget.Editor");
 dojo.require("dojo.widget.TabContainer");
 dojo.require("dojo.widget.ContentPane");
 //dojo.require("dojo.widget.LayoutContainer");
@@ -25,7 +25,7 @@ fins.widget.RTEditor = function() {
 
   this.htmlDiv = null;
   this.sourceDiv = null;
-
+  this.newTextarea = null;
   this.sourceTab = null;
   this.htmlTab = null;
   this.editorDiv = null;
@@ -48,6 +48,10 @@ fins.widget.RTEditor = function() {
     this.tabContainer.addChild(this.sourceTab);
     this.tabContainer.selectTab(this.htmlTab);
 
+    this.newTextarea = document.createElement("textarea");
+    this.newTextarea.style.height="100%";
+    this.newTextarea.style.width="100%";
+
     var self = this;
 
     dojo.event.connect(this.htmlTab, "show", this, "updateHtml");
@@ -58,8 +62,6 @@ fins.widget.RTEditor = function() {
     if(te.nodeName.toLowerCase() == "textarea")
     {
       dojo.debug("hooking textarea.");
-      te.style.height="100%";
-      te.style.width="100%";
       this.textarea = te;
 
       if(this.textarea.form){
@@ -67,10 +69,8 @@ fins.widget.RTEditor = function() {
         dojo.lang.hitch(this, function(){
           this.textarea.value = this.getMostUpdatedContent();
           })
-                                        );
-                                }
-
-
+                                        ) 
+                               }
 
     }    
   }
@@ -81,20 +81,24 @@ fins.widget.RTEditor = function() {
     if(this.HtmlTab.selected)
       return this.editor.getEditorContent();
     else
-      return this.textarea.value;
+      return this.newTextarea.value;
   }
 
   this.updateSource = function(self)
   {
-     this.sourceTab.setContent(this.textarea);
-     this.textarea.value = this.editor.getEditorContent();
+     this.sourceTab.setContent(this.newTextarea);
+     this.newTextarea.value = this.editor.getEditorContent();
   }
 
   this.updateHtml = function()
   {
-     this.editor.replaceEditorContent(this.textarea.value);
+     this.replaceEditorContent(this.newTextarea.value);
   }
 
+  this.replaceEditorContent = function(html)
+  {
+    this.editor._richText.editNode.innerHTML = html;
+  }
 
   this.initEditor = function(e)
   {
@@ -105,7 +109,7 @@ fins.widget.RTEditor = function() {
     if(this.textarea)
       dojo.byId("editorPane").innerHTML = (this.textarea.value);
 
-    var editor = dojo.widget.createWidget("Editor2", eargs, dojo.byId("editorPane"));
+    var editor = dojo.widget.createWidget("Editor", eargs, dojo.byId("editorPane"));
     this.editor = editor;
     this.editorBuilt = true;
   }
