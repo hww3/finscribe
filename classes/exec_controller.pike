@@ -684,6 +684,10 @@ public void login(Request id, Response response, mixed ... args)
       {
          // success!
          id->misc->session_variables["userid"] = r[0]["id"];
+         if(search(id->variables->return_to, "?") < -1)
+           id->variables->return_to = id->variables->return_to + "&" + time();
+         else
+           id->variables->return_to = id->variables->return_to + "?" + time();
          response->redirect(id->variables->return_to);
          return;
       }
