@@ -1,3 +1,11 @@
+Version 0.7
+
+- we return a unique url from login, so that we don't have to worry about 
+    getting cached page from before the login.
+- new tabbed html editing widget that allows you to modify the source 
+    directly by clicking on the "source" tab.
+- updated to Dojo 0.3.1. some things are still a little hinky.
+
 Version 0.6
 - added initial attempt at a "gravatar" macro (see gravatar.com)
 - A user with delete permission on an object can change the ACL of that 
