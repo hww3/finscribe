@@ -40,3 +40,9 @@ public void index(Request id, Response response, mixed ... args)
   else if(object_program(id) == Fins.FCGIRequest)
      response->not_found("/" + args*"/");
 }
+
+public void rtedit(object request, object response, mixed ... args)
+{
+  object t= view->get_view("rtedit");
+  response->set_view(t);
+}
