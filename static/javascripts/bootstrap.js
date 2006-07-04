@@ -4,6 +4,7 @@ function setupAjaxLinks()
 {
   if(!(typeof fs_global["dojo"] == "undefined"))
   {
+    dojo.debug("dojo is here.");
     doSetupAjaxLinks();
   }
 }
@@ -28,6 +29,9 @@ function convertToAjax(id, func)
   var a = document.getElementById(id);
 
   if(!a) return;
+ 
+  dojo.debug("ajaxifying " + id);
+
   a.onclick = function(event){ if(!event) event = window.event; func(a, event); return false; };
 
   a.href="#";

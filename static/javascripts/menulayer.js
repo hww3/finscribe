@@ -56,7 +56,7 @@ var bindArgs = {
   hide: function() {
     this.clearTimer();
     if (menuLayers.activeMenuID && document.getElementById) 
-      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
+      this.timer = setTimeout("dojo.fx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
       return false;
   },
   
@@ -72,7 +72,7 @@ var bindArgs = {
 this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
-      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
+      this.timer = setTimeout("dojo.fx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
   },
   
   mouseoutCheck: function(e) {
@@ -110,7 +110,7 @@ function displayComments(div, path, force)
     load:      function(type, data, evt){
         // handle successful response here
       document.getElementById(div).innerHTML = data.toString();
-      dojo.lfx.html.wipeIn(document.getElementById(div), 100);
+      dojo.fx.html.wipeIn(document.getElementById(div), 100);
     }
   };
 
@@ -306,7 +306,7 @@ dojo.widget.HtmlYellowFade = function() {
     this.initColor = "#FFE066";
     this.buildRendering = function(args, frag) {
         var o = frag["dojo:yellowfade"]["nodeRef"];
-        dojo.lfx.htmlEffects.colorFadeIn(o, 
+        dojo.fx.html.colorFadeIn(o, 
 dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay);
     }
 }
@@ -418,7 +418,7 @@ function openPopup(url, width, height, formid, action, loadfunc) {
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
+ 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10) || 2000) + "px";
 	objBody.insertBefore(objOverlay, null);
   }
 
@@ -427,6 +427,8 @@ function openPopup(url, width, height, formid, action, loadfunc) {
 
 	// set height of Overlay to take up whole page and show
 	objOverlay.style.height = (arrayPageSize[1] + 'px');
+        dojo.debug("page height: " + arrayPageSize[1]);
+        dojo.debug("page width: " + objOverlay.style.width);
 	objOverlay.style.display = 'block';
 
 var block = document.getElementById("popup");
@@ -503,11 +505,12 @@ var bindArgs = {
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 
      make_corners();
-     dojo.lfx.html.fadeShow(block, 200, function(){		
+dojo.debug("made corners.");
+     dojo.fx.html.fadeShow(block, 200, function(){		
 		arrayPageSize = getPageSize();
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
-
+dojo.debug("showing item.");
      if(loadfunc) loadfunc();
 }
 );
@@ -573,7 +576,7 @@ function closePopup()
   var d = document.getElementById("popup");
   if(d)
   {
-    dojo.lfx.html.fadeHide(d, 200);
+    dojo.fx.html.fadeHide(d, 200);
     var objOverlay = document.getElementById("dialogoverlay");
     objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
@@ -628,7 +631,7 @@ picker = dojo.widget.createWidget("DatePicker",
 dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
 once:true});
 }
-dojo.lfx.html.fadeShow(block, 200);
+dojo.fx.html.fadeShow(block, 200);
 }
 
 function cumulativeOffset(element) {

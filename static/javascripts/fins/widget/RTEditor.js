@@ -22,7 +22,7 @@ fins.widget.RTEditor = function() {
   this.tabContainer = null;
 
   this.textarea = null;
-
+  this.taform = null;
   this.htmlDiv = null;
   this.sourceDiv = null;
   this.newTextarea = null;
@@ -36,12 +36,54 @@ fins.widget.RTEditor = function() {
 
   this.fillInTemplate = function(args, frag)
   {
+    var te = this.getFragNodeRef(frag);
+    var html = null;
+
+    if(te.nodeName.toLowerCase() == "textarea")
+    {
+      dojo.debug("hooking textarea.");
+      this.textarea = te;
+
+      html = dojo.string.trim(this.textarea.value);
+      if(html == ""){ html = "&nbsp;"; }
+
+      with(this.textarea.style){
+        display = "block";
+        position = "absolute";
+        width = "1px";
+        height = "1px";
+        order = margin = padding = "0px";       
+        visiblity = "hidden";
+        if(dojo.render.html.ie){
+          overflow = "hidden";
+        }
+      }
+
+      if(this.textarea.form){
+        dojo.debug("hooking form.");
+        dojo.debug("form: " + this.textarea.form);
+        this.taform = this.textarea.form;
+        dojo.event.connect(this.textarea.form, "onsubmit",
+        dojo.lang.hitch(this, function(){
+          this.textarea.value = this.getMostUpdatedContent();
+          // NOTE: this will break down if we do a submit without actually following through.
+          if(!this.textarea.form)
+            this.taform.appendChild(this.textarea);
+          })
+        ) 
+       }
+
+    }
+
     this.tabContainer = dojo.widget.createWidget("TabContainer", {id: "tabContainer"}, this.myDiv);
 
     this.tabContainer.useVisibility = false;
 
+    dojo.debug("whee!");
+
     this.htmlTab = dojo.widget.createWidget("ContentPane", {id: "htmlTab", label:"HTML"});
-    this.htmlTab.setContent("<div id=\"editorPane\" style=\"height:200px; border:2px;\"></div>");
+    this.htmlTab.setContent("<div id=\"editorPane\" style=\"height:200px; border:2px;\">" + html + "</div>");
+  dojo.debug("whoo!");
     this.tabContainer.addChild(this.htmlTab);
 
     this.sourceTab = dojo.widget.createWidget("ContentPane", {id: "sourceTab", label:"Source"});
@@ -57,28 +99,12 @@ fins.widget.RTEditor = function() {
     dojo.event.connect(this.htmlTab, "show", this, "updateHtml");
     dojo.event.connect(this.sourceTab, "show", this, "updateSource");
 
-    var te = this.getFragNodeRef(frag);
-
-    if(te.nodeName.toLowerCase() == "textarea")
-    {
-      dojo.debug("hooking textarea.");
-      this.textarea = te;
-
-      if(this.textarea.form){
-        dojo.event.connect(this.textarea.form, "onsubmit",
-        dojo.lang.hitch(this, function(){
-          this.textarea.value = this.getMostUpdatedContent();
-          })
-                                        ) 
-                               }
-
-    }    
   }
 
   this.getMostUpdatedContent = function()
   {
     // if the editor page is showing, then that's the most up to date.
-    if(this.HtmlTab.selected)
+    if(this.htmlTab.selected)
       return this.editor.getEditorContent();
     else
       return this.newTextarea.value;
@@ -117,7 +143,6 @@ fins.widget.RTEditor = function() {
 
   this.initialize = function() {
     dojo.debug("Hello from RTEditor");
-//    dojo.event.connect(this.htmlTab, "onshow", function(e){this.initEditor(e);}); 
   }
 
   this.postInitialize = function(args, fragment, parentComp)
