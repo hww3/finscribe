@@ -1,0 +1,199 @@
+% Dear Emacs, this is -*-latex-*-
+%
+\documentclass[titlepage,english,a4paper,twoside,dvips]{article}
+\usepackage{graphicx}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,a4paper}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{babel}
+\usepackage[colorlinks,backref,bookmarks,bookmarksnumbered]{hyperref}
+
+\hypersetup{
+    linkcolor=blue
+}
+
+\begin{document}
+
+\sffamily
+
+\title{Emergent Social Networking using Atom}
+\author{James Tyson}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+\listoffigures
+\clearpage
+
+\section{About this document}
+
+\subsection{Copyright}
+
+This document is copyright 2006 James Tyson and licensed under the terms of the Creative Commons Attribution license.
+
+The authoritive source of this document can be located at \href{http://helicopter.geek.nz/xesn}{helicopter.geek.nz/xesn}
+
+\clearpage
+
+\section{Emergent Social Networking Overview}
+
+XML Emergent Social Networking (XESN) is a method for providing ``friends list'' for without using a centralised webservice such as \href{http://www.myspace.com/}{MySpace}, \href{http://www.facebook.com/}{Facebook}, \href{http://www.orkut.com/}{Orkut}, etc.
+
+XESN uses features latent within the \href{http://www.atomenabled.org/}{Atom} standard of XML based web content syndication to allow for content management systems implementing ``blogging'' systems to easily implement social networking features in an emergent\footnote{emergent in this context is taken to mean using a combination of automatic discovery and optional user configuration.} fashion.
+
+While it is not the authors intention for XESN to explicitly compete with microformats such as \href{http://gmpg.org/xfn/}{XFN}\footnote{XHTML Friends Network} there is bound to be some overlap in capabilities.  XESN takes advantage of XFN where present as an additional strategy for automatic discovery of peers.
+
+The main properties of XESN are as follows:
+
+\begin{itemize}
+
+\item[Atom] is used as the main format for syndication, however \href{http://blogs.law.harvard.edu/tech/rss}{RSS} can be accomodated with a reduced featureset.
+
+\item[Peers] are people or sites to which you are related in some way.
+
+\item[Friends] are first-order peers whom you are aspecially related.
+
+\item[Emergence] meaning that discovery of Peers is primarily automatic, although implementations should allow users to perform functions such as add, remove and block Peers.
+
+\item[Implementation agnostic] XESN is an open specification and non-reference implementations are encouraged.
+
+\end{itemize}
+
+\clearpage
+
+\section{XESN and Atom}
+
+XESN primarily exists as an extension to the Atom format, specifically as additional <link /> elements within Atom's <feed /> element.
+
+\subsection{Link Elements}
+
+XESN uses Atom's ability to extend the Link element by providing a ``rel'' attribute containing a unique URI (in XESN's case ``http://helicopter.geek.nz/xesn'').  The link must point to another Atom or RSS feed, meaning that the ``href'' attribute should provide the absolute URI to the Peer's feed and the ``type'' attribute should contain either ``application/atom+xml'' or ``application/rss+xml''.
+
+XESN also uses several extra attributes named ``class'' and ``discovery'' in the ``xesn'' XML namespace.  ``discovery'' must contain one of the following values:
+
+\begin{itemize}
+
+\item[configured] This Peer relationship was manually configured by a user.
+
+\item[automatic] This Peer relationship was automatically discovered.
+
+\end{itemize}
+
+
+The ``class'' attribute must contain one of the following values.
+
+\begin{itemize}
+
+\item[friend] The person or site related to by this link is a Friend (as specified by the user).  In order for a Peer relationship to become a Frend relationship a user must confirm it.
+
+\item[peer] The person or site related to by this link is a Peer, ie the local site is directly related in some manner to the referenced site.
+
+\end{itemize}
+
+Implementations should ignore a Link element does not contain valid ``class'' and ``discovery'' attributes.
+
+\subsubsection{Example Atom Feed}
+
+\begin{verbatim}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+  xmlns:xesn="http://helicopter.geek.nz/xesn">
+
+  <title>Example Feed</title>
+  <link href="http://example.org/"/>
+  <link 
+    rel="self" 
+    href="http://example.org/feed" 
+    type="application/atom+xml" />
+  <!-- begin XESN extensions -->
+  <link 
+    rel="http://helicopter.geek.nz/xesn" 
+    href="http://first.peer.org/feed" 
+    type="application/atom+xml"
+    xesn:class="friend"
+    xesn:discovery="configured" />
+  <link 
+    rel="http://helicopter.geek.nz/xesn" 
+    href="http://second.peer.org/feed" 
+    type="application/atom+xml"
+    xesn:class="peer"
+    xesn:discovery="discovery" />
+  <!-- end XESN extensions -->
+  <updated>2003-12-13T18:30:02Z</updated>
+  <author>
+    <name>John Doe</name>
+  </author>
+  <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+  <entry>
+    <title>Atom-Powered Robots Run Amok</title>
+    <link href="http://example.org/2003/12/13/atom03"/>
+    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+    <updated>2003-12-13T18:30:02Z</updated>
+    <summary>Some text.</summary>
+  </entry>
+
+</feed>
+\end{verbatim}
+
+\clearpage
+
+\section{Implementation}
+
+\subsection{Reference Implementation}
+
+The XESN reference implementation will be added to the open-source bliki application \href{http://hww3.riverweb.com/space/pike/FinScribe}{FinScribe}.
+
+\subsection{XESN Participation}
+
+In order to participate in an XESN cloud the minimum any implementation must provide is a mechanism for users to provide ``configured'' Friends and Peers which are published in the sites ATOM feed.  However whenever was implementing the minimum requirement any fun?
+
+What makes XESN different to other standards is it's ability to automatically discover peers using existing technologies.  Suggested methods include:
+
+\begin{itemize}
+
+\item{HTML Anchors} Parsing content at publish time looking for links to remote sites.
+
+\item{HTTP Referrers} Checking referring sites.
+
+\item{TrackBacks} Checking TrackBack (and Pingback) URIs.
+
+\end{itemize}
+
+Each of these methods is documented in the \emph{Discovery} section of this document. 
+
+\subsection{Discovery}
+
+This section describes how automatic discovery of Peers takes place in XESN.  One of the problems with autmatic systems such as XESN that allow remote users to essentially post content to a site is the potential for abuse.  One need only look at ones TrackBack logs to highlight this.  This document will suggest techniques for minimising potential problems caused by abuse of the XESN system.
+
+\subsubsection{HTML Anchors}
+
+XESN suggests a method similar to the following to locate Peers in locally published content:
+
+\begin{enumerate}
+
+\item Parse out all XHTML link and anchor elements from content at posting time.  This can be achieved several ways, but the simples of which is to use an XPath query such as ``\verb+//a|link+''.
+
+\item Send an HTTP HEAD request for the linked URI.
+
+\item It the request is successful and the remote MIME type is ``text/html'', ``application/xml+xhtml'', ``application/xml+atom'' or ``application/xml+rss'' then request the URI's contents.
+
+\item If the MIME type is ``text/html'' or ``application/xml+xhtml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/xml+atom' or @type='applcation/xml+rss')]|'').  If so send a new request for the Atom or RSS feed.
+
+\item Add the URI for the Atom or RSS feed to the list of Peers.  If the original link contains the XFN ``rel'' attribute ``friend'' then automatically promote the Peer to Friend status.
+
+\end{enumerate}
+
+
+\subsubsection{HTTP Referrers}
+
+\subsubsection{TrackBacks}
+
+\subsection{Using XESN}
+
+\end{document}

@@ -36,7 +36,7 @@ mapping query_event_callers();
 //!
 mapping(string:Public.Web.Wiki.Macros.Macro) query_macro_callers();
 
-mapping  query_type_callers();
+mapping query_type_callers();
 
 mapping query_path_callers();
 
