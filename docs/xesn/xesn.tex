@@ -50,19 +50,19 @@ While it is not the authors intention for XESN to explicitly compete with microf
 
 The main properties of XESN are as follows:
 
-\begin{itemize}
+\begin{description}
 
 \item[Atom] is used as the main format for syndication, however \href{http://blogs.law.harvard.edu/tech/rss}{RSS} can be accomodated with a reduced featureset.
 
 \item[Peers] are people or sites to which you are related in some way.
 
-\item[Friends] are first-order peers whom you are aspecially related.
+\item[Friends] are first-order peers whom you are especially related.
 
 \item[Emergence] meaning that discovery of Peers is primarily automatic, although implementations should allow users to perform functions such as add, remove and block Peers.
 
 \item[Implementation agnostic] XESN is an open specification and non-reference implementations are encouraged.
 
-\end{itemize}
+\end{description}
 
 \clearpage
 
@@ -79,7 +79,7 @@ All additional XESN elements are placed within Atom's author element, which can 
 
 XESN defines the following elements:
 
-\begin{itemize}
+\begin{description}
 
 \item[link] A link to a Peer's Atom or RSS feed or a link to the Author's avatar (personal icon).
 
@@ -87,7 +87,7 @@ XESN defines the following elements:
 
 \item[description] A sentence or two about the Author.
 
-\end{itemize}
+\end{description}
 
 
 \subsection{Link Element}
@@ -106,7 +106,7 @@ XESN recognises two types of Link elements, both modelled on XHTML's Link elemen
 
 As you can see from the example above a Peer link uses several attributes:
 
-\begin{itemize}
+\begin{description}
 
 \item[rel] The must contain at least ``peer'', but also can provide any of the rel values present in XFN (such as; ``friend'', ``met'', ``neighbor'' or ``muse'').  Only ``peer'' and ``friend'' have any special significance for XESN, however implementations may make use of this additional information.
 
@@ -116,7 +116,7 @@ As you can see from the example above a Peer link uses several attributes:
 
 \item[type] The MIME type of the Peer's feed.  Currently only ``application/xml+atom'' and ``application/xml+rss'' are sensible.
 
-\end{itemize}
+\end{description}
 
 An Atom author element can contain as many Peer links as required and order is not important.
 
@@ -129,7 +129,7 @@ An Atom author element can contain as many Peer links as required and order is n
   type="image/gif" />
 \end{verbatim}
 
-As the example above displays linking to an avatar image is done in much the same way as linking to a Peer's feed, except that the ``rel'' attribute must be set to ``avatar'', ``href'' should point to the location of a valid image in GIF, JPEG or PNG format and ``type'' should be the corresponding MIME type.
+As the example above displays linking to an avatar image is done in much the same way as linking to a Peer's feed, except that the ``rel'' attribute must be set to ``avatar'', ``href'' should point to the location of a valid image in GIF, JPEG, PNG or SVG format and ``type'' should be the corresponding MIME type.
 
 An Atom author element should only contain a single Avatar link.  Implementations are encouraged to download and resize Avatar images in order to match local style rules, therefore images should be licensed appropriately.
 
@@ -139,8 +139,7 @@ An Atom author element should only contain a single Avatar link.  Implementation
 <xesn:alias>jamesotron</xesn:alias>
 \end{verbatim}
 
-XESN's alias element should contain a short nickname for the author.  Any number of alias elements may be provided, however implementations should only choose one at random to display.
-
+XESN's alias element should contain a short nickname for the author.  Any number of alias elements may be provided, however implementations should only choose one to display.
 
 \subsubsection{Mottos and descriptions}
 
@@ -148,7 +147,7 @@ XESN's alias element should contain a short nickname for the author.  Any number
 <xesn:description>I don't eat humble pie... it's not vegan.</xesn:description>
 \end{verbatim}
 
-The description element should provide a short description or motto about the Author.  Any number of description elements may be provided, however implementations should only choose one at random to display.
+The description element should provide a short description or motto about the Author.  Any number of description elements may be provided, however implementations should probably only choose one to display.
 
 \subsection{Example Atom Feed}
 
@@ -218,15 +217,15 @@ In order to participate in an XESN cloud the minimum any implementation must pro
 
 What makes XESN different to other standards is it's ability to automatically discover peers using existing technologies.  Suggested methods include:
 
-\begin{itemize}
+\begin{description}
 
-\item{HTML Anchors} Parsing content at publish time looking for links to remote sites.
+\item[HTML Anchors] Parsing content at publish time looking for links to remote sites.
 
-\item{HTTP Referrers} Checking referring sites.
+\item[HTTP Referrers] Checking referring sites.
 
-\item{TrackBacks} Checking TrackBack (and Pingback) URIs.
+\item[TrackBacks] Checking TrackBack (and Pingback) URIs.
 
-\end{itemize}
+\end{description}
 
 Each of these methods is documented in the \emph{Discovery} section of this document. 
 
