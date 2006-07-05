@@ -68,74 +68,137 @@ The main properties of XESN are as follows:
 
 \section{XESN and Atom}
 
-XESN primarily exists as an extension to the Atom format, specifically as additional <link /> elements within Atom's <feed /> element.
+XESN co-mingles with Atom as several additional tags in the XESN namespace (``http://helicopter.geek.nz/xesn'').  So the first sign that an Atom feed contains additional XESN information is the addition of an xmlns declaration for XESN in the root element, like so:
 
-\subsection{Link Elements}
+\begin{verbatim}
+<feed xmlns="http://www.w3.org/2005/Atom" 
+  xmlns:xesn="http://helicopter.geek.nz/xesn">
+\end{verbatim}
 
-XESN uses Atom's ability to extend the Link element by providing a ``rel'' attribute containing a unique URI (in XESN's case ``http://helicopter.geek.nz/xesn'').  The link must point to another Atom or RSS feed, meaning that the ``href'' attribute should provide the absolute URI to the Peer's feed and the ``type'' attribute should contain either ``application/atom+xml'' or ``application/rss+xml''.
+All additional XESN elements are placed within Atom's author element, which can be set per feed, per item, per source, etc.  It is worth noting that if an author has a large number of friends it might be wise to make sure that the XESN information is not repeated in every author element.
 
-XESN also uses several extra attributes named ``class'' and ``discovery'' in the ``xesn'' XML namespace.  ``discovery'' must contain one of the following values:
+XESN defines the following elements:
 
 \begin{itemize}
 
-\item[configured] This Peer relationship was manually configured by a user.
+\item[link] A link to a Peer's Atom or RSS feed or a link to the Author's avatar (personal icon).
 
-\item[automatic] This Peer relationship was automatically discovered.
+\item[alias] A short nick-name to be used instead of the Author's name in friends lists.
+
+\item[description] A sentence or two about the Author.
 
 \end{itemize}
 
 
-The ``class'' attribute must contain one of the following values.
+\subsection{Link Element}
+
+XESN recognises two types of Link elements, both modelled on XHTML's Link element.  The first is a link to a Peer's Atom or RSS feed.
+
+\subsubsection{Linking a Peer relationship}
+
+\begin{verbatim}
+<xesn:link 
+  rel="peer friend" 
+  discovery="configured" 
+  href="http://first.peer.org/feed" 
+  type="application/xml+atom" />
+\end{verbatim}
+
+As you can see from the example above a Peer link uses several attributes:
 
 \begin{itemize}
 
-\item[friend] The person or site related to by this link is a Friend (as specified by the user).  In order for a Peer relationship to become a Frend relationship a user must confirm it.
+\item[rel] The must contain at least ``peer'', but also can provide any of the rel values present in XFN (such as; ``friend'', ``met'', ``neighbor'' or ``muse'').  Only ``peer'' and ``friend'' have any special significance for XESN, however implementations may make use of this additional information.
 
-\item[peer] The person or site related to by this link is a Peer, ie the local site is directly related in some manner to the referenced site.
+\item[discovery] How this Peer relationship was realised, either ``configured'' if the relationship was manually entered by the Author, or ``automatic'' if the Peer was discovered using one of XESN's automatic discovery methods. 
+
+\item[href] The URI of the Peer's feed.
+
+\item[type] The MIME type of the Peer's feed.  Currently only ``application/xml+atom'' and ``application/xml+rss'' are sensible.
 
 \end{itemize}
 
-Implementations should ignore a Link element does not contain valid ``class'' and ``discovery'' attributes.
+An Atom author element can contain as many Peer links as required and order is not important.
 
-\subsubsection{Example Atom Feed}
+\subsubsection{Linking an avatar icon}
+
+\begin{verbatim}
+<xesn:link 
+  rel="avatar"
+  href="http://helicopter.geek.nz/files/movieunix.gif"
+  type="image/gif" />
+\end{verbatim}
+
+As the example above displays linking to an avatar image is done in much the same way as linking to a Peer's feed, except that the ``rel'' attribute must be set to ``avatar'', ``href'' should point to the location of a valid image in GIF, JPEG or PNG format and ``type'' should be the corresponding MIME type.
+
+An Atom author element should only contain a single Avatar link.  Implementations are encouraged to download and resize Avatar images in order to match local style rules, therefore images should be licensed appropriately.
+
+\subsubsection{User Aliases}
+
+\begin{verbatim}
+<xesn:alias>jamesotron</xesn:alias>
+\end{verbatim}
+
+XESN's alias element should contain a short nickname for the author.  Any number of alias elements may be provided, however implementations should only choose one at random to display.
+
+
+\subsubsection{Mottos and descriptions}
+
+\begin{verbatim}
+<xesn:description>I don't eat humble pie... it's not vegan.</xesn:description>
+\end{verbatim}
+
+The description element should provide a short description or motto about the Author.  Any number of description elements may be provided, however implementations should only choose one at random to display.
+
+\subsection{Example Atom Feed}
 
 \begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" 
-  xmlns:xesn="http://helicopter.geek.nz/xesn">
+  xmlns:xesn="http://helicopter.geek.nz/xesn"
+  xmlns:html="http://www.w3.org/1999/xhtml">
 
-  <title>Example Feed</title>
-  <link href="http://example.org/"/>
+  <title>helicopter.geek.nz</title>
+  <link href="http://helicopter.geek.nz/"/>
   <link 
     rel="self" 
-    href="http://example.org/feed" 
+    href="http://helicopter.geek.nz/feed" 
     type="application/atom+xml" />
-  <!-- begin XESN extensions -->
-  <link 
-    rel="http://helicopter.geek.nz/xesn" 
-    href="http://first.peer.org/feed" 
-    type="application/atom+xml"
-    xesn:class="friend"
-    xesn:discovery="configured" />
-  <link 
-    rel="http://helicopter.geek.nz/xesn" 
-    href="http://second.peer.org/feed" 
-    type="application/atom+xml"
-    xesn:class="peer"
-    xesn:discovery="discovery" />
-  <!-- end XESN extensions -->
   <updated>2003-12-13T18:30:02Z</updated>
   <author>
-    <name>John Doe</name>
+    <name>James Tyson</name>
+    <!-- begin XESN extensions -->
+    <xesn:alias>jamesotron</xesn:alias>
+    <xesn:alias>jnt</xesn:alias>
+    <xesn:description>I don't eat humble pie... it's not vegan.</xesn:description>
+    <xesn:link
+      rel="avatar"
+      href="http://helcopter.geek.nz/files/movieunix.gif"
+      type="image/gif" />
+    <xesn:link 
+      rel="peer friend"
+      discovery="configured"
+      href="http://first.peer.org/feed" 
+      type="application/atom+xml" />
+    <xesn:link 
+      rel="peer"
+      discovery="automatic"
+      href="http://second.peer.org/feed" 
+      type="application/atom+xml" />
+    <!-- end XESN extensions -->
   </author>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
 
   <entry>
-    <title>Atom-Powered Robots Run Amok</title>
-    <link href="http://example.org/2003/12/13/atom03"/>
-    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+    <title>Atomic powered social networking!</title>
+    <link href="http://helicopter.geek.nz/xesn" />
+    <id>http://helicopter.geek.nz/xesn</id>
     <updated>2003-12-13T18:30:02Z</updated>
-    <summary>Some text.</summary>
+    <summary type="html">
+      <html:div>
+	XESN is <html:em>amazing</html:em>!
+      </html:div>
+    </summary>
   </entry>
 
 </feed>
@@ -151,7 +214,7 @@ The XESN reference implementation will be added to the open-source bliki applica
 
 \subsection{XESN Participation}
 
-In order to participate in an XESN cloud the minimum any implementation must provide is a mechanism for users to provide ``configured'' Friends and Peers which are published in the sites ATOM feed.  However whenever was implementing the minimum requirement any fun?
+In order to participate in an XESN cloud the minimum any implementation must provide is a mechanism for users to provide ``configured'' Friends and Peers which are published in ther ATOM feeds.  However whenever was implementing the minimum requirement any fun?
 
 What makes XESN different to other standards is it's ability to automatically discover peers using existing technologies.  Suggested methods include:
 
