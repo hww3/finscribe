@@ -75,7 +75,7 @@ XESN co-mingles with Atom as several additional tags in the XESN namespace (``ht
   xmlns:xesn="http://helicopter.geek.nz/xesn">
 \end{verbatim}
 
-All additional XESN elements are placed within Atom's author element, which can be set per feed, per item, per source, etc.  It is worth noting that if an author has a large number of friends it might be wise to make sure that the XESN information is not repeated in every author element.
+All additional XESN elements are placed within Atom's author and contributor elements, which can be set per feed or per entry.  It is worth noting that if an author or contributor has a large number of friends it might be wise to make sure that the XESN information is not repeated in every author or contributor element.
 
 XESN defines the following elements:
 
@@ -108,7 +108,7 @@ As you can see from the example above a Peer link uses several attributes:
 
 \begin{description}
 
-\item[rel] The must contain at least ``peer'', but also can provide any of the rel values present in XFN (such as; ``friend'', ``met'', ``neighbor'' or ``muse'').  Only ``peer'' and ``friend'' have any special significance for XESN, however implementations may make use of this additional information.
+\item[rel] The must contain at least ``peer'', but also can provide any of the rel values present in XFN (such as; ``friend'', ``met'', ``neighbor'' or ``muse'').  Only ``peer'', ``friend'' and ``me'' have any special significance for XESN, however implementations may make use of this additional information.
 
 \item[discovery] How this Peer relationship was realised, either ``configured'' if the relationship was manually entered by the Author, or ``automatic'' if the Peer was discovered using one of XESN's automatic discovery methods. 
 
@@ -162,7 +162,7 @@ The description element should provide a short description or motto about the Au
   <link 
     rel="self" 
     href="http://helicopter.geek.nz/feed" 
-    type="application/atom+xml" />
+    type="application/xml+atom" />
   <updated>2003-12-13T18:30:02Z</updated>
   <author>
     <name>James Tyson</name>
@@ -175,15 +175,27 @@ The description element should provide a short description or motto about the Au
       href="http://helcopter.geek.nz/files/movieunix.gif"
       type="image/gif" />
     <xesn:link 
-      rel="peer friend"
+      rel="peer friend met colleague"
       discovery="configured"
-      href="http://first.peer.org/feed" 
-      type="application/atom+xml" />
+      href="http://hww3.riverweb.com/space/start/feed"
+      type="application/xml+rss" />
     <xesn:link 
       rel="peer"
       discovery="automatic"
       href="http://second.peer.org/feed" 
-      type="application/atom+xml" />
+      type="application/xml+atom" />
+    <!-- end XESN extensions -->
+  </author>
+  <contributor>
+    <name>Bill Welliver</name>
+    <!-- begin XESN extensions -->
+    <xesn:alias>hww3</xesn:alias>
+    <xesn:description>electronic.alchemy</xesn:description>
+    <xesn:link 
+      rel="peer me"
+      discovery="configured"
+      href="http://hww3.riverweb.com/space/start/feed"
+      type="application/xml+rss" />
     <!-- end XESN extensions -->
   </author>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
