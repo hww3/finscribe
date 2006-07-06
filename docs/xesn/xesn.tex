@@ -101,7 +101,7 @@ XESN recognises two types of Link elements, both modelled on XHTML's Link elemen
   rel="peer friend" 
   discovery="configured" 
   href="http://first.peer.org/feed" 
-  type="application/xml+atom" />
+  type="application/atom+xml" />
 \end{verbatim}
 
 As you can see from the example above a Peer link uses several attributes:
@@ -114,7 +114,7 @@ As you can see from the example above a Peer link uses several attributes:
 
 \item[href] The URI of the Peer's feed.
 
-\item[type] The MIME type of the Peer's feed.  Currently only ``application/xml+atom'' and ``application/xml+rss'' are sensible.
+\item[type] The MIME type of the Peer's feed.  Currently only ``application/atom+xml'' and ``application/rss+xml'' are sensible.
 
 \end{description}
 
@@ -162,7 +162,7 @@ The description element should provide a short description or motto about the Au
   <link 
     rel="self" 
     href="http://helicopter.geek.nz/feed" 
-    type="application/xml+atom" />
+    type="application/atom+xml" />
   <updated>2003-12-13T18:30:02Z</updated>
   <author>
     <name>James Tyson</name>
@@ -178,12 +178,12 @@ The description element should provide a short description or motto about the Au
       rel="peer friend met colleague"
       discovery="configured"
       href="http://hww3.riverweb.com/space/start/feed"
-      type="application/xml+rss" />
+      type="application/rss+xml" />
     <xesn:link 
       rel="peer"
       discovery="automatic"
       href="http://second.peer.org/feed" 
-      type="application/xml+atom" />
+      type="application/atom+xml" />
     <!-- end XESN extensions -->
   </author>
   <contributor>
@@ -195,7 +195,7 @@ The description element should provide a short description or motto about the Au
       rel="peer me"
       discovery="configured"
       href="http://hww3.riverweb.com/space/start/feed"
-      type="application/xml+rss" />
+      type="application/rss+xml" />
     <!-- end XESN extensions -->
   </contributor>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
@@ -255,9 +255,9 @@ XESN suggests a method similar to the following to locate Peers in locally publi
 
 \item Send an HTTP HEAD request for the linked URI.
 
-\item It the request is successful and the remote MIME type is ``text/html'', ``application/xml+xhtml'', ``application/xml+atom'' or ``application/xml+rss'' then request the URI's contents.
+\item It the request is successful and the remote MIME type is ``text/html'', ``application/xml+xhtml'', ``application/atom+xml'' or ``application/rss+xml'' then request the URI's contents.
 
-\item If the MIME type is ``text/html'' or ``application/xml+xhtml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/xml+atom' or @type='applcation/xml+rss')]|'').  If so send a new request for the Atom or RSS feed.
+\item If the MIME type is ``text/html'' or ``application/xml+xhtml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/atom+xml' or @type='applcation/rss+xml')]|'').  If so send a new request for the Atom or RSS feed.
 
 \item Add the URI for the Atom or RSS feed to the list of Peers.  If the original link contains the XFN ``rel'' attribute ``friend'' then automatically promote the Peer to Friend status.
 
