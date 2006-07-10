@@ -3,9 +3,8 @@ import Fins.Model;
 
    inherit Model.DataObject;
 
-   static void create(DataModelContext c)
+   static void define()
    {  
-      ::create(c);
       set_table_name("aclrules");
       set_instance_name("aclrule");
       add_field(PrimaryKeyField("id"));
