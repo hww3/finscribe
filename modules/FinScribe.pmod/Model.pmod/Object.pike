@@ -5,9 +5,8 @@ import Fins.Model;
 
    static mapping metadata = ([]);
 
-   static void create(DataModelContext c)
+   static void define()
    {  
-      ::create(c);
       set_table_name("objects");
       set_instance_name("object");
       add_field(PrimaryKeyField("id"));
@@ -16,13 +15,14 @@ import Fins.Model;
       add_field(KeyReference("acl", "acl_id", "acl"));
       add_field(KeyReference("parent", "parent_id", "object", UNDEFINED, 1));
       add_field(StringField("path", 128, 0));
+      alternate_key = fields->path;
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("title", "path", get_title));
       add_field(TransformField("icon", "datatype", get_icon));
       add_field(TransformField("category_links", "categories", get_cat_links));
       add_field(TransformField("nice_created", "created", format_created));
-      add_field(CacheField("current_version", "current_version_uncached", c));
+      add_field(CacheField("current_version", "current_version_uncached", context));
       add_field(BinaryStringField("metadata", 1024, 0, ""));
       add_field(TransformField("md", "metadata", get_md));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));

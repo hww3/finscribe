@@ -5,9 +5,8 @@ import Fins.Model;
 
    static mapping metadata = ([]);
 
-   static void create(DataModelContext c)
+   static void define()
    {  
-      ::create(c);
       set_table_name("comments");
       set_instance_name("comment");
       add_field(PrimaryKeyField("id"));
@@ -18,7 +17,7 @@ import Fins.Model;
       add_field(BinaryStringField("metadata", 1024, 0, "")); 
       add_field(TransformField("md", "metadata", get_md));
       add_field(TransformField("nice_created", "created", format_created));
-      add_field(TransformField("wiki_contents", "contents", c->app->render_wiki));
+      add_field(TransformField("wiki_contents", "contents", context->app->render_wiki));
       set_primary_key("id");
    }
    

@@ -3,9 +3,8 @@ import Fins.Model;
 
    inherit Model.DataObject;
 
-   static void create(DataModelContext c)
+   static void define()
    {  
-      ::create(c);
       set_table_name("object_versions");
       set_instance_name("object_version");
       add_field(PrimaryKeyField("id"));
