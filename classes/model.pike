@@ -23,16 +23,19 @@ public void load_model()
 void register_types()
 {
 
-   repository->add_object_type(FinScribe.Model.Object_object(context), FinScribe.Model.Object);
-   repository->add_object_type(FinScribe.Model.Object_version_object(context), FinScribe.Model.Object_version);
-   repository->add_object_type(FinScribe.Model.Datatype_object(context), FinScribe.Model.Datatype);   
-   repository->add_object_type(FinScribe.Model.Category_object(context), FinScribe.Model.Category);
-   repository->add_object_type(FinScribe.Model.Comment_object(context), FinScribe.Model.Comment);
-   repository->add_object_type(FinScribe.Model.User_object(context), FinScribe.Model.User);
-   repository->add_object_type(FinScribe.Model.Group_object(context), FinScribe.Model.Group);
-   repository->add_object_type(FinScribe.Model.ACL_object(context), FinScribe.Model.ACL);
-   repository->add_object_type(FinScribe.Model.ACLRule_object(context), FinScribe.Model.ACLRule);
-   repository->add_object_type(FinScribe.Model.Preference_object(context), FinScribe.Model.Preference);
+   repository->add_object_type(FinScribe.Model.Object(context), FinScribe.Objects.Object);
+   repository->add_object_type(FinScribe.Model.Object_version(context), FinScribe.Objects.Object_version);
+   repository->add_object_type(FinScribe.Model.Datatype(context), FinScribe.Objects.Datatype);   
+   repository->add_object_type(FinScribe.Model.Category(context), FinScribe.Objects.Category);
+   repository->add_object_type(FinScribe.Model.Comment(context), FinScribe.Objects.Comment);
+   repository->add_object_type(FinScribe.Model.User(context), FinScribe.Objects.User);
+   repository->add_object_type(FinScribe.Model.Group(context), FinScribe.Objects.Group);
+   repository->add_object_type(FinScribe.Model.ACL(context), FinScribe.Objects.ACL);
+   repository->add_object_type(FinScribe.Model.ACLRule(context), FinScribe.Objects.ACLRule);
+   repository->add_object_type(FinScribe.Model.Preference(context), FinScribe.Objects.Preference);
+/*
+   repository->add_object_type(FinScribe.Model.Whee(context), FinScribe.Objects.Whee);
+*/
 }
 
 //!
