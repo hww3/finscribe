@@ -2,6 +2,9 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsModel;
 
+object datatype_instance_module = FinScribe.Objects;
+object datatype_definition_module = FinScribe.Model;
+
 object repository = FinScribe.Repo;
 
 public void load_model()
@@ -20,6 +23,7 @@ public void load_model()
 
 }
 
+/*
 void register_types()
 {
 
@@ -33,10 +37,9 @@ void register_types()
    repository->add_object_type(FinScribe.Model.ACL(context), FinScribe.Objects.ACL);
    repository->add_object_type(FinScribe.Model.ACLRule(context), FinScribe.Objects.ACLRule);
    repository->add_object_type(FinScribe.Model.Preference(context), FinScribe.Objects.Preference);
-/*
    repository->add_object_type(FinScribe.Model.Whee(context), FinScribe.Objects.Whee);
-*/
 }
+*/
 
 //!
 Model.DataObjectInstance find_nearest_parent(string path)
