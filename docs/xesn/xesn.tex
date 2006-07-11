@@ -120,6 +120,8 @@ As you can see from the example above a Peer link uses several attributes:
 
 An Atom author element can contain as many Peer links as required and order is not important.
 
+Note that by specifying ``peer me'' you can link to an external XESN feed, eliminating redundant elements.
+
 \subsubsection{Linking an avatar icon}
 
 \begin{verbatim}
@@ -255,18 +257,45 @@ XESN suggests a method similar to the following to locate Peers in locally publi
 
 \item Send an HTTP HEAD request for the linked URI.
 
-\item It the request is successful and the remote MIME type is ``text/html'', ``application/xml+xhtml'', ``application/atom+xml'' or ``application/rss+xml'' then request the URI's contents.
+\item If the request is successful and the remote MIME type is ``text/html'', ``application/xhtml+xml'', ``application/atom+xml'' or ``application/rss+xml'' then request the URI's contents.
 
-\item If the MIME type is ``text/html'' or ``application/xml+xhtml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/atom+xml' or @type='applcation/rss+xml')]|'').  If so send a new request for the Atom or RSS feed.
+\item If the MIME type is ``text/html'' or ``application/xhtml+xml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/atom+xml' or @type='applcation/rss+xml')]|'').  If so send a new request for the Atom or RSS feed.
 
 \item Add the URI for the Atom or RSS feed to the list of Peers.  If the original link contains the XFN ``rel'' attribute ``friend'' then automatically promote the Peer to Friend status.
 
 \end{enumerate}
 
-
 \subsubsection{HTTP Referrers}
 
+XESN suggests a method similar to the following to discover Peers via HTTP referrer log entries.
+
+\begin{enumerate}
+
+\item Send an HTTP HEAD request for the referrer URI.
+
+\item If the request is successful and the remote MIME type is ``text/html'', ``application/xhtml+xml'', ``application/atom+xml'' or ``application/rss+xml'' then request the URI's contents.
+
+\item Parse all links (either Atom/RSS links or XHTML anchors) to make sure that at least one of them links back to our own site (helps prevent spam).
+
+\item If the MIME type is ``text/html'' or ``application/xhtml+xml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/atom+xml' or @type='applcation/rss+xml')]|'').  If so send a new request for the Atom or RSS feed.
+
+\end{enumerate}
+
 \subsubsection{TrackBacks}
+
+XESN suggests a method similar to the following to discover Peers via TrackBacks.
+
+\begin{enumerate}
+
+\item Send an HTTP HEAD request for the TrackBack URI.
+
+\item If the request is successful and the remote MIME type is ``text/html'', ``application/xhtml+xml'', ``application/atom+xml'' or ``application/rss+xml'' then request the URI's contents.
+
+\item Parse all links (either Atom/RSS links or XHTML anchors) to make sure that at least one of them links back to our own site (helps prevent spam).
+
+\item If the MIME type is ``text/html'' or ``application/xhtml+xml'' (ie an XHTML document) then parse out any link elements in the XHTML head which link to an Atom or RSS feed for the site (XPath: ``\verb|/html/head/link[@rel='alternate' and (@type='application/atom+xml' or @type='applcation/rss+xml')]|'').  If so send a new request for the Atom or RSS feed.
+
+\end{enumerate}
 
 \subsection{Using XESN}
 
