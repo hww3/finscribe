@@ -51,7 +51,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
 {
     object u;
   mixed e = catch {
-    u = FinScribe.Model.User();
+    u = FinScribe.Objects.User();
     u["UserName"] = id->variables->adminuser;
     u["Name"] = id->variables->adminuser;
     u["Password"] = id->variables->adminpassword;
@@ -60,7 +60,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
     u["is_active"] = 1;
     u->save();
 
-    u = FinScribe.Model.User();
+    u = FinScribe.Objects.User();
     u["UserName"] = "anonymous";
     u["Name"] = "Anonymous";
     u["Password"] = "*LCK*";
