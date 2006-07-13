@@ -402,7 +402,7 @@ function setinsert()
 
 function openPopup(url, width, height, formid, action, loadfunc) {
   closePopup();
-
+dojo.debug("closed popup.");
   var objOverlay = document.getElementById("dialogoverlay");
 
   if(!objOverlay)
@@ -473,6 +473,8 @@ if(!block2)
   block.appendChild(block2);
 }
 
+dojo.debug("got everything set up.");
+
 var bindArgs = { 
     url:        url,  
     content: {ajax: "1"},
@@ -483,6 +485,7 @@ var bindArgs = {
     },
     load:      function(type, data, evt){
         // handle successful response here
+dojo.debug("successfully load of popup.");
      block2.innerHTML = data.toString();
 
      objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
@@ -503,7 +506,7 @@ var bindArgs = {
 
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
-
+dojo.debug("making corners.");
      make_corners();
 dojo.debug("made corners.");
      dojo.fx.html.fadeShow(block, 200, function(){		

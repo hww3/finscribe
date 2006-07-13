@@ -163,6 +163,7 @@ function rounded_corners($element)
 
 function find_class($element,$classnames,$result,$first)
   {
+  if($element == null) return null;
   if(!$first)$first=$element;
   if(!$result)$result=new Array();
   if ($element.nodeType==1)
