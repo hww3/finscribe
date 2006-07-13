@@ -110,7 +110,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
       break;
     case "my":
       dbtype="mysql";
-      splitter = ";";
+      splitter = ";\n";
       break;
     case "po":
       dbtype="postgres";
@@ -144,7 +144,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   Log.debug("parsing schema.");
 
   // Split it into statements;
-  foreach(s / splitter, command) {
+  foreach((s / splitter) - ({ "\n" }), command) {
     string table_name;
     if (sscanf(command, "CREATE TABLE %s %*s", table_name))
     {
