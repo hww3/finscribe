@@ -29,6 +29,9 @@ void update_backlinks()
 
   array a = app->model->find("object", ([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
 
+  if (!(a && arrayp(a) && sizeof(a)))
+    return;
+
   int maxid = a[0]["id"];
   int cid = 0;
 
