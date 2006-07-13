@@ -5,7 +5,9 @@ inherit FinScribe.Plugin;
 
 constant name="RSS Reader Macro";
 
+#if constant(Public.Web.RSS)
 int _enabled = 1;
+
 
 mapping(string:object) query_macro_callers()
 {
@@ -210,3 +212,4 @@ mixed rss_fetch(string rssurl, int timeout)
 }
 
 }
+#endif /* Public.Web.RSS */

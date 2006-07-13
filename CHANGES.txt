@@ -5,6 +5,8 @@ Version 0.7
 - new tabbed html editing widget that allows you to modify the source 
     directly by clicking on the "source" tab.
 - updated to Dojo 0.3.1. some things are still a little hinky.
+- make finscribe more friendly when we don't have some of the optional
+    modules (Public.Parser.XML2 and Public.Web.RSS) installed.
 
 Version 0.6
 - added initial attempt at a "gravatar" macro (see gravatar.com)

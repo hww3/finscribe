@@ -1,9 +1,13 @@
+#if constant(Public.Parser.XML2)
 import Public.Parser.XML2;
+#endif /* Public.Parser.XML2 */
+
 import Fins;
 inherit Fins.FinsController;
 
 constant __uses_session = 0;
 
+#if constant Public.Parser.XML2 
 public void index(Request id, Response response, mixed ... args)
 {
   string r;
@@ -254,3 +258,9 @@ private Node generate_history_rss(object root, array entries, object id)
 }
 
 
+#else
+public void index(Request id, Response response, mixed ... args)
+{
+  response->set_data("Public.Parser.XML2 is not installed. RSS feeds are unavailable.");
+}
+#endif /* Public.Parser.XML2 */
