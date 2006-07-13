@@ -31,7 +31,7 @@ int run()
   }
 
   write("Creating admin user...\n");
-  object u = FinScribe.Model.User(UNDEFINED);
+  object u = FinScribe.Objects.User(UNDEFINED);
   u["UserName"] = "admin";
   u["Password"] = password;
   u["Name"] = "Admin User";
@@ -57,7 +57,7 @@ void populate()
     if(d && sizeof(d))
        continue;
     else
-      d = FinScribe.Model.Datatype(UNDEFINED);
+      d = FinScribe.Objects.Datatype(UNDEFINED);
     d["mimetype"] = dt;
     d->save();
   }
@@ -96,7 +96,7 @@ void create_groups()
 {
   object g;
 
-  g = FinScribe.Model.Group();
+  g = FinScribe.Objects.Group();
   g["Name"] = "Editors";
   g->save();
 }
@@ -107,30 +107,30 @@ void create_acls()
   object a;
   object r;
 
-  a = FinScribe.Model.ACL();
+  a = FinScribe.Objects.ACL();
   a["Name"] = "Default ACL";
   a->save();
 
-  r = FinScribe.Model.ACLRule();
+  r = FinScribe.Objects.ACLRule();
   r["class"] = 4; // guests have browse, read, comment
   r["xmit"] = 35;
 
   r->save();
   a["rules"] += r;
 
-  r = FinScribe.Model.ACLRule();
+  r = FinScribe.Objects.ACLRule();
   r["class"] = 2; // users have browse, read, version, create, comment.
   r["xmit"] = 47;
   r->save();
   a["rules"] += r;
 
-  r = FinScribe.Model.ACLRule();
+  r = FinScribe.Objects.ACLRule();
   r["class"] = 1; // owners have browse, read, version, create, comment, post and lock.
   r["xmit"] = 239;
   r->save();
   a["rules"] += r;
 
-  r = FinScribe.Model.ACLRule();
+  r = FinScribe.Objects.ACLRule();
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
