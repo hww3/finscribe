@@ -31,8 +31,8 @@ import Fins.Model;
       add_field(TransformField("attachments", "id", get_attachments));
       add_field(MultiKeyReference(this, "categories", "objects_categories", "object_id", "category_id", "category", "id"));
       set_primary_key("id");
-      set_alternate_key("path");
 
+      set_alternate_key("path");
       add_default_value_object("acl", "acl", (["Name": "Default ACL"]), 1);
    }
 

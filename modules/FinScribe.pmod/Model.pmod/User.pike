@@ -19,4 +19,15 @@ import Fins.Model;
      add_field(InverseForeignKeyReference("objects", "object", "author"));
      add_field(InverseForeignKeyReference("object_versions", "object_version", "author"));
       set_primary_key("id");
+      set_alternate_key("UserName");
    }
+
+
+void validate(mapping changes, object er, object instance)
+{
+  if(changes["Email"] && !Regexp("[A-Za-z0-9_\\-]@(.*)\\.(.*)")->match(changes["Email"]))
+    er->add("Email address is invalid (" + changes["Email"] + ").\n");
+}
+
+
+
