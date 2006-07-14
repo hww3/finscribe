@@ -7,7 +7,7 @@ inherit Fins.FinsController;
 
 constant __uses_session = 0;
 
-#if constant Public.Parser.XML2 
+#if (constant Public.Parser.XML2)
 public void index(Request id, Response response, mixed ... args)
 {
   string r;
