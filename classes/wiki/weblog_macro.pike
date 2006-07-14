@@ -65,11 +65,11 @@ array evaluate(Macros.MacroParameters params)
 
     string contents = params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry]));
     t->add("contents", contents);
-    if (sizeof(contents / "<!--break-->") > 1) 
-      t->add("teaser", (contents / "<!--break-->")[0]);
-    else
-      t->add("teaser", contents);
 
+    int i = search(contents, "<!--break-->");
+
+    if (i > -1) 
+      t->add("teaser", contents[0..(i-1)]);
   
     res += ({t->render()});
   }

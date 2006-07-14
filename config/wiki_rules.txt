@@ -39,6 +39,7 @@ filter.escape.match=\\(\\\\)|\\(.)
 filter.escape.class=Public.Web.Wiki.Filters.Escape
 macros.format.match={([a-z\-_0-9]+):?(.*?)}(?:((?s).*?){\1})?
 macro.hello.class=Public.Web.Wiki.Macros.Hello
+macro.break.class=wiki/break_macro
 macro.link.class=wiki/link_macro
 macro.code.class=wiki/code_macro
 macro.boggle.class=Public.Web.Wiki.Macros.Boggle
