@@ -63,7 +63,12 @@ array evaluate(Macros.MacroParameters params)
     if(!s || !strlen(s)) s = "No Subject";
     t->add("subject", s);
 
-    t->add("contents", params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry])));
+    string contents = params->engine->render(entry["current_version"]["contents"], (["request": params->extras->request, "obj": entry]));
+    t->add("contents", contents);
+    if (sizeof(contents / "<!--break-->") > 1) 
+      t->add("teaser", (contents / "<!--break-->")[0]);
+    else
+      t->add("teaser", contents);
 
   
     res += ({t->render()});
