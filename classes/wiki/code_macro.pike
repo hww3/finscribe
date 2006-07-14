@@ -2,6 +2,8 @@ import Public.Web.Wiki;
 
 inherit Macros.Macro;
 
+constant is_container = 1;
+
 string describe()
 {
    return "Format code in an attractive manner.";
