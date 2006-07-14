@@ -1,5 +1,8 @@
 Version 0.7
 
+- added support for html documents to call macros loaded via plugin. currently
+    this support is a little rickety: no caching, and we really need to rethink
+    the way macro parameters are written, parsed and passed.
 - we return a unique url from login, so that we don't have to worry about 
     getting cached page from before the login.
 - new tabbed html editing widget that allows you to modify the source 
