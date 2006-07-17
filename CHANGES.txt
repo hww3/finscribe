@@ -1,5 +1,6 @@
 Version 0.7
 
+- added support for Atom 1.0 feeds provided that Public.Web.ATOM is installed.
 - added support for html documents to call macros loaded via plugin. currently
     this support is a little rickety: no caching, and we really need to rethink
     the way macro parameters are written, parsed and passed.

@@ -58,7 +58,7 @@ public array get_blog_entries(int|void max, int|void start)
   Log.debug("Getting blog entries for " + this["path"]);
   array crit = ({});
 
-  crit += ({Fins.Model.Criteria("ORDER BY path DESC")});
+  crit += ({Fins.Model.Criteria("ORDER BY created DESC")});
 
   if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
 

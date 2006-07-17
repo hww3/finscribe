@@ -14,7 +14,7 @@
 
 <% if data["user_object"]  %>
 <div class="snip-buttons">
-[ <a href="/exec/actions/<%$obj%>">actions</a> ]
+[ <a id="Actions" href="/exec/actions/<%$obj%>">actions</a> ]
 </div>
 <% endif %> 
 <div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()">Close</a></div>
@@ -32,7 +32,11 @@
  Posted in <% implode var="category_links" final=" and " %>.
 <p/>
 <% endif %>
-         <%$content%>
+<% if data["teaser"] %>
+  <%$teaser%>
+<% else %>
+  <%$content%>
+<% endif %>
 <p/>
 
 
