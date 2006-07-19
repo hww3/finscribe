@@ -49,11 +49,13 @@ array evaluate(Macros.MacroParameters params)
      }
   }
 
+  /*
   if(!img)
   {  
      res+=({"<img height=\"9\" width=\"8\" src=\""});
      res+=({"/static/images/Icon-Extlink.png\" alt=\"&#91;external]\"/>"});
   }
+  */
  res+=({"<a href=\""});
   res+=({link});
 
@@ -65,7 +67,10 @@ array evaluate(Macros.MacroParameters params)
 });
 	}
 
-  res+=({"\">"});
+  res+=({"\" "});
+  if (!img)
+    res += ({ "class=\"wiki_link_external\" " });
+  res += ({ ">" });
   res+=({name});
   res+=({"</a>"});
 

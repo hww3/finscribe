@@ -1,7 +1,7 @@
 /**
  * Wiki text stylesheet definitions.
  * @author Matthias L. Jugel
- * @version $Id: wiki.css,v 1.1 2006-04-04 20:55:37 hww3 Exp $
+ * @version $Id: wiki.css,v 1.2 2006-07-19 23:41:43 jnt Exp $
  */
 
 .bold { font-weight: bold; }
@@ -238,4 +238,9 @@ ol.HEBREW { list-style-type: hebrew; }
 
 .calendar .today {
   border: 3px solid #cccccc;
+}
+a.wiki_link_external:before {
+  content: url(/static/images/Icon-Extlink.png);
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
