@@ -10,6 +10,7 @@ import Fins.Model;
       add_field(PrimaryKeyField("id"));
       add_field(StringField("mimetype", 32, 0));
       set_primary_key("id");
+      set_alternate_key("mimetype");
    }
 
    static object created()

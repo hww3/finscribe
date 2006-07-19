@@ -20,6 +20,7 @@ import Fins.Model;
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
 
       set_primary_key("id");
+      set_alternate_key("version");
    }
 
    static object created()

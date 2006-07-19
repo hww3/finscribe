@@ -11,5 +11,7 @@ import Fins.Model;
       add_field(StringField("Name", 36, 0));
       add_field(MultiKeyReference(this, "rules", 
           "acls_rules", "acl_id", "rule_id", "aclrule", "id"));
+
       set_primary_key("id");
+      set_alternate_key("Name");
    }
