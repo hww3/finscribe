@@ -97,6 +97,22 @@ private void handle_wiki(object obj, Request id, Response response){
     v = obj["current_version"];
   }
 
+  if(id->request_headers["if-modified-since"] && ((
+      Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
+        >= v["created"]->unix_time()) ))
+  {
+    // we cop out on the more complex boolean expression above :)
+    if(id->misc->session_variables && id->misc->session_variables->userid);
+    else if(time() - Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"]) > 600);
+    else  
+    {
+      response->not_modified();
+      return;
+    }
+  }
+
+
+
   string contents = v["contents"];
   numattachments = sizeof(o);
 
@@ -146,8 +162,10 @@ private void handle_wiki(object obj, Request id, Response response){
 
   response->set_view(t);
 
-  response->set_header("Cache-Control", "max-age=1200");
-  response->set_header("Expires", (Calendar.Second() + 1200)->format_http());
+  response->set_header("Last-Modified", v["created"]->format_http());
+
+//  response->set_header("Cache-Control", "max-age=1200");
+//  response->set_header("Expires", (Calendar.Second() + 1200)->format_http());
 
 
 }
@@ -180,8 +198,7 @@ private void handle_text(object obj, Request id, Response response)
     v = obj["current_version"];
   }
 
-  
-if(id->request_headers["if-modified-since"] &&
+  if(id->request_headers["if-modified-since"] &&
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
         >= v["created"]->unix_time())
   {
