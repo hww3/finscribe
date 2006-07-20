@@ -180,12 +180,18 @@ private void handle_text(object obj, Request id, Response response)
     v = obj["current_version"];
   }
 
-  if(id->request_headers["if-modified-since"] &&
+  
+if(id->request_headers["if-modified-since"] &&
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
         >= v["created"]->unix_time())
   {
-    response->not_modified();
-    return;
+    // we cop out on the more complex boolean expression above :)
+    if(id->misc->session_variables && id->misc->session_variables->userid);
+    else  
+    {
+      response->not_modified();
+      return;
+    }
   }
 
   response->set_header("Cache-Control", "max-age=3600");
@@ -244,8 +250,13 @@ private void handle_data(object obj, Request id, Response response)
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
         >= v["created"]->unix_time())
   {
-    response->not_modified();
-    return;
+    // we cop out on the more complex boolean expression above :)
+    if(id->misc->session_variables && id->misc->session_variables->userid);
+    else  
+    {
+      response->not_modified();
+      return;
+    }
   }
   
   response->set_header("Cache-Control", "max-age=3600");
