@@ -97,12 +97,17 @@ private void handle_wiki(object obj, Request id, Response response){
     v = obj["current_version"];
   }
 
+  // we short circuit the short circuit after 600 seconds.   
+  if(id->misc->session_variables && ((time() - id->misc->session_variables->logout) >= 600))
+       m_delete(id->misc->session_variables, "logout");
+
   if(id->request_headers["if-modified-since"] && ((
       Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"])   
         >= v["created"]->unix_time()) ))
   {
     // we cop out on the more complex boolean expression above :)
     if(id->misc->session_variables && id->misc->session_variables->userid);
+    else if(id->misc->session_variables && (id->misc->session_variables->logout >= v["created"]->unix_time()));
     else if(time() - Protocols.HTTP.Server.http_decode_date(id->request_headers["if-modified-since"]) > 600);
     else  
     {
