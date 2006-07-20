@@ -1,5 +1,13 @@
 Version 0.7
 
+- tuned the wiki content caching strategy to provide more up-to-date content
+    without having to reload.
+- surrounded weblog paging control with a div for better stylability.
+- changed link icon to a style for better themability.
+- added some standard feed icons to the distribution.
+- added teaser support for weblog entries. requires a theme that takes advantage
+    of the teaser. added a {break} macro to signify the end of the teaser in
+     a weblog entry.
 - added support for Atom 1.0 feeds provided that Public.Web.ATOM is installed.
 - added support for html documents to call macros loaded via plugin. currently
     this support is a little rickety: no caching, and we really need to rethink
