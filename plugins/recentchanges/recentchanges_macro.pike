@@ -66,10 +66,10 @@ array evaluate(Macros.MacroParameters params)
     object ent;
     catch(ent = params->engine->wiki->model->find_by_id("object", (int)k));
       if(!ent) continue;
-      res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a>\n"});
+      res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a></li>\n"});
   }
 
-  return res;
+  return ({ "<ul>" }) + res + ({ "</ul> ");
 }
 
 }
