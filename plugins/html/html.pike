@@ -121,4 +121,3 @@ string output(array input, mixed|void extras)
 
   return buf->get();
 }
-v

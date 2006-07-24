@@ -1,0 +1,63 @@
+rss {
+  display: block;
+  font-family: verdana, sans-serif;
+  margin: 2% 2% 2% 2%;
+  color: black;
+  background-color: white;
+}
+
+title {
+  display: block;
+  font-size: 1.3em;
+  color: inherit;
+  background: inherit;
+  font-weight: bold;
+}
+
+description, link {
+  display: block;
+  font-size: 0.9em;
+}
+
+generator, docs {
+  display: none;
+}
+
+item {
+  display: block;
+  color: inherit;
+  background: inherit;
+  padding: 0px 0px 0px 0px;
+  margin: 1em 1em 1em 1em;
+}
+
+item pubDate, item author, item link, item category {
+  display: inline;
+  color: #999999;
+  padding: 0px 0px 0px 0px;
+  margin: 1em 1em 1em 1em;
+}
+
+item guid {
+  display: none;
+}
+
+item title {
+  display: block;
+  font-size: 1em;
+  font-weight: bold;
+  color: inherit;
+  background: inherit;
+  padding: 1em 1em 1em 1em;
+  margin: 0px 0px 0px 0px;
+  border-top: 1px solid #dddddd;
+}
+
+item description {
+  display: block;
+  font-size: 0.9em;
+  color: inherit;
+  background: inherit;
+  padding: 1em 1em 1em 1em;
+  line-height: 1.5em;
+}
