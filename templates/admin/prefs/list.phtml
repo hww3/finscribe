@@ -4,11 +4,14 @@
   <script type="application/x-javascript">
     dojo.require("dojo.widget.*");
     dojo.require("dojo.event.*");
+    dojo.require("fins.widget.*");
     dojo.require("dojo.widget.InlineEditBox");
+    dojo.require("fins.widget.InlineBooleanBox");
 
     function init() {
     <% foreach var="preferences" val="preference" %>
       dojo.widget.byId('<%$preference.Name%>').onSave = createCallback('<%$preference.Name%>');<% end %>
+
     }
 
     dojo.addOnLoad(init);
@@ -49,7 +52,11 @@ name="search" value="Show"/>
           <% foreach var="preferences" val="preference"%>
         <tr>
             <td><%$preference.Name%></td>
+<% if data["preference"]["Type"] == FinScribe.BOOLEAN %>
+	    <td><div id="<%$preference.Name%>" dojoType="inlineBooleanBox"><%$preference.BooleanValue%></div></td>
+<% else %>
 	    <td><div id="<%$preference.Name%>" dojoType="inlineEditBox"><%$preference.Value%></div></td>
+<% endif %>
         </tr>
           <% end %>
         </table>
