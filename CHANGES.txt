@@ -1,5 +1,7 @@
 Version 0.7
 
+- Super reloads (ie sending Pragma: no-cache) forces rendering of wiki and
+    other parsed markup.
 - fix overzealous caching of weblog entries when displaying a partial view.
 - errors (500, 404, etc) are now themeable. see templates/error directory.
 - added basic edit-in-place for preferences.
