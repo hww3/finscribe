@@ -58,6 +58,18 @@ string render(string s, mixed|void extras, int|void force)
 {
   array a;
 
+  if(extras && extras->request)
+    Log.debug("%O", mkmapping(indices(extras->request), values(extras->request)));
+
+  if(extras && extras->request &&  extras->request["request_headers"] 
+        && extras->request["request_headers"]["pragma"] == "no-cache")
+  {
+    Log.info("Pragma: No-cache included as part of request. Forcing render.");
+    force = 1;
+  }
+
+
+
     string fn, h;
     if(extras && objectp(extras->obj))
       fn = extras->obj["path"];
