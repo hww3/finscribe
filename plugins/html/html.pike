@@ -49,7 +49,8 @@ void add_macro(string n, object m)
   macros[n] = m;
 }
 
-mixed render_container(string name, object parser, mapping args, string contents, mixed extras, int force)
+mixed render_container(string name, object parser, mapping args, string 
+contents, mixed extras, int force)
 {
   object m = macros[name];
   if(!m) return 0;
