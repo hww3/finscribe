@@ -1,13 +1,3 @@
-/*
-	Copyright (c) 2004-2006, The Dojo Foundation
-	All Rights Reserved.
-
-	Licensed under the Academic Free License version 2.1 or above OR the
-	modified BSD license. For more information on Dojo licensing, see:
-
-		http://dojotoolkit.org/community/licensing.shtml
-*/
-
 dojo.provide("fins.widget.InlineBooleanBox");
 dojo.provide("fins.widget.html.InlineBooleanBox");
 
@@ -34,12 +24,10 @@ dojo.lang.extend(dojo.widget.html.InlineBooleanBox, {
 	widgetType: "InlineBooleanBox",
 
 	form: null,
-	editBox: null,
         input_true: null,
         input_false: null,
 	submitButton: null,
 	cancelButton: null,
-	mode: "text",
 
 	minWidth: 100, //px. minimum width of edit box
 	minHeight: 200, //px. minimum width of edit box, if it's a TA
@@ -73,16 +61,12 @@ dojo.lang.extend(dojo.widget.html.InlineBooleanBox, {
 	mouseover: function(e){
 		if(!this.editing){
 			dojo.html.addClass(this.editable, "editableRegion");
-			if(this.mode == "textarea"){
-				dojo.html.addClass(this.editable, "editableTextareaRegion");
-			}
 		}
 	},
 
 	mouseout: function(e){
 		if(!this.editing){
 			dojo.html.removeClass(this.editable, "editableRegion");
-			dojo.html.removeClass(this.editable, "editableTextareaRegion");
 		}
 	},
 
