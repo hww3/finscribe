@@ -126,7 +126,10 @@ private Node generate_weblog_rss(object root, array entries, object id)
   Node n = new_xml("1.0", "rss");
   n->set_attribute("version", "2.0");
 
-  Node ss = n->new_pi(sprintf("xml-stylesheet", "href=\"%s\" type=\"text/css\"", (string)Standards.URI("/static/rss.css", app->get_sys_pref("site.url")["Value"]));
+  Node ss = n->new_pi("xml-stylesheet", sprintf( 
+                     "href=\"%s\" type=\"text/css\"", 
+              (string)Standards.URI("/static/rss.css", 
+                    app->get_sys_pref("site.url")["Value"])));
   n->add_prev_sibling(ss);
 
   Node c;

@@ -1,15 +1,16 @@
-#if constant(Public.Parser.XML2)
-import Public.Parser.XML2;
-#endif /* Public.Parser.XML2 */
-
-import Fins;
 inherit Fins.FinsController;
+import Fins;
+
+#if constant(Public.Web.ATOM)
+
+// atom implies xml2.
+import Public.Parser.XML2;
+
 import Public.Web;
 import Standards;
 
 constant __uses_session = 0;
 
-#if constant(Public.Parser.XML2)
 public void index(Request id, Response response, mixed ... args) {
   mixed err = catch(__index(id, response, @args));
   if (err) {
