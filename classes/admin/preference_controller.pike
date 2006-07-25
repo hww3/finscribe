@@ -2,8 +2,8 @@
 
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
-
 import Fins;
+import Tools;
 inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
@@ -30,28 +30,23 @@ public void list(Request id, Response response, mixed ... args)
      response->set_view(t);
 }
 
-public void toggle_enabled(Request id, Response response, mixed ... args)
+public void set(Request id, Response response, mixed ... args)
 {
-  if(!app->is_admin_user(id, response))
-     return;
-  object u;
-
-  if(!id->variables->plugin)
-  {
-    response->flash("msg", "No plugin.");
+  if(!app->is_admin_user(id, response)) {
+    response->flash("msg", "Only admin user can change preferences!");
+    response->redirect("list");
   }
 
-  else if(!app->plugins[id->variables->plugin])
-  {
-	response->flash("msg", "Plugin enumeration failure.");
+  if (id->variables->key && id->variables->value) {
+    object pref = app->get_sys_pref(id->variables->key);
+    if (pref) {
+      pref["Value"] = id->variables->value;
+      response->set_data(JSON.serialize(([ set : 1 ])));
+      response->set_type("text/javascript");
+    }
   }
-
-  else
-  {
-	object p = app->get_sys_pref("plugin." + app->plugins[id->variables->plugin]->name + ".enabled");
-    p["Value"] = !p->get_value();
-    response->flash("msg", "Plugin " + id->variables->plugin + " " + (p->get_value()?"en":"dis") + "abled.");
+  else {
+    response->set_data(JSON.serialize(([ set : 0 ])));
+    response->set_type("text/javascript");
   }
-
-  response->redirect("list");
 }

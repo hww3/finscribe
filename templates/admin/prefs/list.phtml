@@ -1,6 +1,40 @@
   <%@include file="top.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: preferencelist</title>
   <%@include file="header.phtml"%>
+  <script type="application/x-javascript">
+    dojo.require("dojo.widget.*");
+    dojo.require("dojo.event.*");
+    dojo.require("dojo.widget.InlineEditBox");
+
+    function init() {
+    <% foreach var="preferences" val="preference" %>
+      dojo.widget.byId('<%$preference.Name%>').onSave = createCallback('<%$preference.Name%>');<% end %>
+    }
+
+    dojo.addOnLoad(init);
+
+    function createCallback(pref) {
+      return function(newVal, oldVal) { saveHandler(pref, newVal, oldVal); };
+    }
+
+    function saveHandler(pref, newVal, oldVal) {
+      var bindArgs = {
+	url : '/admin/prefs/set',
+	mimetype : 'text/plain',
+	sync : false,
+	method : 'POST',
+	content : {
+		    key : pref,
+		    value : newVal
+		  },
+	error : function(type, errObj) {
+		},
+	load : function(type, data, evt) {
+	       }
+      };
+      dojo.io.bind(bindArgs);
+    }
+  </script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash var="msg"%></div>
           <h3>Preference List</h3>
@@ -15,7 +49,7 @@ name="search" value="Show"/>
           <% foreach var="preferences" val="preference"%>
         <tr>
             <td><%$preference.Name%></td>
-            <td><%$preference.Value%></td>
+	    <td><div id="<%$preference.Name%>" dojoType="inlineEditBox"><%$preference.Value%></div></td>
         </tr>
           <% end %>
         </table>
