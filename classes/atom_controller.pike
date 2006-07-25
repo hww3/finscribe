@@ -417,6 +417,6 @@ static ATOM.Entry make_entry(Request id, object e) {
 #else
 public void index(Request id, Response response, mixed ... args)
 {
-  response->set_data("Public.Parser.XML2 is not installed. ATOM feeds are unavailable.");
+  response->set_data("Public.Web.ATOM is not installed. ATOM feeds are unavailable.");
 }
-#endif /* Public.Parser.XML2 */
+#endif /* Public.Web.ATOM */
