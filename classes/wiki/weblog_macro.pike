@@ -45,8 +45,10 @@ array evaluate(Macros.MacroParameters params)
   // if we're starting somewhere in the middle, we should note that.
   if(params->extras && params->extras->request && 
            params->extras->request->variables->start)
+  {
+    params->extras->request->misc->render_no_cache = 1;
     start = (int)(params->extras->request->variables->start);
-
+  }
   o = root->get_blog_entries(limit, start);
 
   //werror("LIMIT: %O, START: %O\n", limit, start);

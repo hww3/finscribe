@@ -72,7 +72,7 @@ string render(string s, mixed|void extras, int|void force)
   if(!a)
   {
     a = compile(s, extras);	
-    if(a && fn)
+    if(a && fn && !(extras->request && extras->request->misc->render_no_cache))
       wiki->cache->set(make_key(s, fn), a, 600);
   }
 

@@ -1,7 +1,8 @@
 Version 0.7
 
+- fix overzealous caching of weblog entries when displaying a partial view.
 - errors (500, 404, etc) are now themeable. see templates/error directory.
-- added basic edit-in-place for preferences. no error checking, currently.
+- added basic edit-in-place for preferences.
 - new stylesheet for rss feeds
 - tuned the wiki content caching strategy to provide more up-to-date content
     without having to reload.
