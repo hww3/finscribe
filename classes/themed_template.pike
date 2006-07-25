@@ -1,5 +1,6 @@
 import Fins;
 import Fins.Template;
+import Tools.Logging;
 
 mapping themes = ([]);
 mapping scripts = ([]);
@@ -93,6 +94,20 @@ static string load_template(string templatename, object|void compilecontext)
    string template;
 
    array paths = ({});
+  string int_templatename;
+  int is_internal = 0;
+
+  if(has_prefix(templatename, "internal:"))
+  {
+    is_internal = 1;
+    if(has_suffix(templatename, ".phtml"))
+      int_templatename = templatename[9..sizeof(templatename)-7];
+    else int_templatename = templatename[9..];
+
+    templatename = replace(templatename[9..], "_", "/");
+  }
+
+
    if(compilecontext && compilecontext->theme != "default")
      paths += ({combine_path(context->application->config->app_dir, 
          "themes/" + compilecontext->theme + "/" + templatename ) });
@@ -104,14 +119,22 @@ static string load_template(string templatename, object|void compilecontext)
 
    foreach(paths;;string tn)  
    {
+     Log.debug("attempting to load %s.", tn);
      template = Stdio.read_file(tn);
      if(template) break;
 
    }
+
+   if((!template || !sizeof(template)) && is_internal)
+   {
+
+    template = load_internal_template(int_templatename, compilecontext);
+
+   }
+
    if(!template || !sizeof(template))
    {
-     throw(Error.Generic("Template " + templatename + " is empty.\n"));
+     throw(Errors.Template("Template " + templatename + " is empty.\n"));
    }
    return template;
 }
-

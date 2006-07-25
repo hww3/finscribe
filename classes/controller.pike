@@ -1,6 +1,8 @@
 import Fins;
 inherit Fins.FinsController;
 
+Fins.FinsController objects;
+
 Fins.FinsController exec;
 Fins.FinsController space;
 Fins.FinsController comments;
@@ -15,6 +17,7 @@ Fins.FinsController whee;
 
 void start()
 {
+  objects = load_controller("objects_controller");
   whee = load_controller("whee_controller");
   exec = load_controller("exec_controller");
   space = load_controller("app_controller");

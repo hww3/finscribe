@@ -27,7 +27,7 @@ void validate(mapping changes, object er, object instance)
 {
   write("changes: %O\n", changes);
   if(changes["Email"] && sizeof(changes["Email"]) && !Regexp("[A-Za-z0-9_\\-]@(.*)\\.(.*)")->match(changes["Email"]))
-    er->add("Email address is invalid (" + changes["Email"] + ").\n");
+    er->add("Email address is invalid (" + changes["Email"] + ").");
 }
 
 

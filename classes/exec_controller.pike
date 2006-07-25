@@ -434,6 +434,7 @@ public void logout(Request id, Response response, mixed ... args)
 {
   if(id->misc->session_variables->userid)
   {
+     id->misc->session_variables->logout = time();
      m_delete(id->misc->session_variables, "userid");
   }
 
@@ -645,7 +646,6 @@ public void login(Request id, Response response, mixed ... args)
    }
    else t = view->get_idview("exec/login");
 
-
    app->set_default_data(id, t);
 
    if(!id->variables->return_to)
@@ -683,6 +683,7 @@ public void login(Request id, Response response, mixed ... args)
       if(r && sizeof(r))
       {
          // success!
+         id->misc->session_variables->logout = 0;
          id->misc->session_variables["userid"] = r[0]["id"];
          if(search(id->variables->return_to, "?") < -1)
            id->variables->return_to = id->variables->return_to + "&" + time();
