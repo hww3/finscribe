@@ -1,5 +1,8 @@
 Version 0.7
 
+- errors (500, 404, etc) are now themeable. see templates/error directory.
+- added basic edit-in-place for preferences. no error checking, currently.
+- new stylesheet for rss feeds
 - tuned the wiki content caching strategy to provide more up-to-date content
     without having to reload.
 - surrounded weblog paging control with a div for better stylability.
