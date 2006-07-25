@@ -217,6 +217,15 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
     t = "text/wiki";
   }
 
+  if(id &&  id["request_headers"]
+        && id["request_headers"]["pragma"] == "no-cache")
+  {
+    Log.info("Pragma: No-cache included as part of request. Forcing render.");
+    force = 1;
+  }
+
+
+
   f = render_methods[t];
 
   if(!f && obj)
