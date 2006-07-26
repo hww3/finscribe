@@ -16,6 +16,27 @@ public Template.View get_idview(string tn, object id)
   return t;  
 }
 
+string simple_macro_fontlock(Fins.Template.TemplateData data, mapping|void args)
+{
+  string contents = "";
+
+  if(args->var)
+    contents = get_var_value(args->var, data->get_data());
+
+  function hilite = FontLock.Pike.highlight;
+
+  if(args->type)
+  {
+    if(FontLock[String.capitalize(args->type)])
+      hilite = FontLock[String.capitalize(args->type)]["hilite"];
+  }
+
+  if(hilite)
+    return hilite(contents);
+ 
+  else return contents;
+}
+
 string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void arguments)
 {
   if(arguments->var)
