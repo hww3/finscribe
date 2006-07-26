@@ -43,7 +43,7 @@ array evaluate(Macros.MacroParameters params)
     res+=({"\">"});
     res+=({p[1]});
     res+=({"</a><br>\n"});
-    prev = p[1][0];
+    prev = e[1][0];
   }  
   return res;
 }
