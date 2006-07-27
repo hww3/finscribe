@@ -36,8 +36,12 @@ class generate_gravatar_url
   array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
   {
     string r = "<img src=\"http://www.gravatar.com/avatar.php?gravatar_id=";
-    array a = (params->parameters/"|");
-    string email = a[0];
+    if(!params->args) params->make_args();
+    
+    string email;
+
+    if(params->args->email) email = params->args->email;
+    else email = indices(params->args)[-1];
 
     email = String.trim_whites(email);
 
