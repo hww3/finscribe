@@ -9,7 +9,6 @@ string describe()
 
 array evaluate(Macros.MacroParameters params)
 {
-//werror("%O\n", mkmapping(indices(params), values(params)));
   if(!sizeof(params->parameters))
   {
     return ({"INVALID IMAGE"});
@@ -17,53 +16,32 @@ array evaluate(Macros.MacroParameters params)
 
   string link, image, alt, align;
   array res = ({});
-  array a = params->parameters/"|";
-  
-  foreach(a;int i; string elem)
-  { 
-     if(!i && search(elem, "=") == -1)
-     {
-        image = elem;
-       if(params->extras->obj && objectp(params->extras->obj))
-{
-         image = combine_path("/space/" + params->extras->obj["path"], image);
-}
-     }
-     else if(search(elem, "=")== -1)
-     {
-        return({"INVALID IMAGE PARAMETER: " + elem});
-     }
-     else
-     {
-        array b = elem/"=";
-        if(!sizeof(b)==2)
-        {
-           return ({"INVALID IMAGE PARAMETER: " + elem});
-        }
 
-        switch(b[0])
-        {
-           case "link":
-             link = b[1];
-             break;
-            case "alt":
-              alt = b[1];
-              break;
-            case "align":
-               align = b[1];
-               break;
-           case "img":
-             image = combine_path("/static/images/", b[1]+".png");
-             break;
-            default:
-            {
-               return ({"INVALID IMAGE PARAMETER: " + elem});
+  if(!params->args) params->make_args();
+ 
+  array a = indices(params->args);
 
-            }
-        }
-     }
+  if(params->args[a[0]] == "1")
+    image = a[0];
+  else if(params->args->src)
+    image = params->args->src;
+  else return ({"INVALID IMAGE SRC"});
+
+  if(params->args->link)
+    link = params->args->link;
+  if(params->args->alt)
+    alt = params->args->alt;
+  if(params->args->align)
+    align = params->args->align;
+  if(params->args->img)
+    img = combine_path("/static/images/", params->args->img +".png");
+
+
+  if(params->extras->obj && objectp(params->extras->obj))
+  {
+    image = combine_path("/space/" + params->extras->obj["path"], image);
   }
-  
+
   if(link)
   {
      res+=({"<a href=\""});
