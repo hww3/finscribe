@@ -15,11 +15,10 @@ array evaluate(Macros.MacroParameters params)
   // we should get a limit for the number of entries to display.
 
 
-  array a = params->parameters / "|";
 	array res = ({});
 
   subpage = params->extras->request ? params->extras->request->misc->current_page : 0;
-werror("SUBPAGE: " + subpage + "\n");
+
   if(!subpage) return res;
 
   mixed r = params->engine->wiki->cache->get("__SUBPAGESdata-" + subpage);
@@ -37,8 +36,6 @@ werror("SUBPAGE: " + subpage + "\n");
   {
     res+=({ "<li><a href=\"/space/" + page["path"] + "\">" + page["title"] + "</a>\n" }); 
   }
-
-//  res+=({ WeblogReplacerObject() });
 
   return res;
 }
@@ -64,20 +61,4 @@ mixed subpage_fetch(string subpage, object params)
 
   return r;
 }
-
-  class WeblogReplacerObject()
-                                                {
-
-                                                        array render(object engine, mixed extras)
-                                                        {
-                                                                extras->request->misc->object_is_weblog = 1;
-                                                                return ({""});
-                                                        }
-
-                                                        string _sprintf(mixed t)
-                                                        {
-                                                                return "WeblogReplacer()";
-                                                        }
-                                                }
-
 
