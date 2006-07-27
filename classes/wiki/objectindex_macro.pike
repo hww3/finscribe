@@ -15,8 +15,10 @@ array evaluate(Macros.MacroParameters params)
   if(params->extras && params->extras->request)
     params->extras->request->misc->object_is_index = 1;
 
+  if(!params->args) params->make_args();
+
   array o = params->engine->wiki->model->find("object", (["is_attachment": 0]));
-  if (params->parameters == "showblog")
+  if (params->args->showblog)
     o += params->engine->wiki->model->find("object", ([ "is_attachment" : 2]));
   array res = ({});
   array e = ({});
