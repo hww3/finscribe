@@ -18,13 +18,16 @@ array evaluate(Macros.MacroParameters params)
   array res = ({});
 
   if(!params->args) params->make_args();
- 
+
   array a = indices(params->args);
+
 
   if(params->args[a[0]] == "1")
     image = a[0];
   else if(params->args->src)
     image = params->args->src;
+  else if(params->args->img)
+    image = combine_path("/static/images/", params->args->img +".png");
   else return ({"INVALID IMAGE SRC"});
 
   if(params->args->link)
@@ -33,11 +36,9 @@ array evaluate(Macros.MacroParameters params)
     alt = params->args->alt;
   if(params->args->align)
     align = params->args->align;
-  if(params->args->img)
-    img = combine_path("/static/images/", params->args->img +".png");
 
 
-  if(params->extras->obj && objectp(params->extras->obj))
+  if(params->extras->obj && objectp(params->extras->obj) && !params->args->img)
   {
     image = combine_path("/space/" + params->extras->obj["path"], image);
   }
