@@ -13,7 +13,6 @@ array evaluate(Macros.MacroParameters params)
   int limit;
   int start = 1;
   array res = ({});
-// werror("EVALUATE: %O\n", params->extras->obj);
 
   if(params->extras->obj && !stringp(params->extras->obj))
     root = params->extras->obj;
@@ -29,16 +28,16 @@ array evaluate(Macros.MacroParameters params)
 
   // we should get a limit for the number of entries to display.
 
-  array a = params->parameters / "|";
-  if(sizeof(a) && a[0] && strlen(a[0]))
-    limit = (int)a[0];
+  if(!params->args) params->make_args();
+
+  if(params->args->limit)
+    limit = (int)params->args->limit;
   else limit = 10;
 
   if(!root)
   {
     return ({"Unable to render Weblog because the weblog page location could not be determined."}); 
   } 
-//werror("root: %O\n", object_program(root));
 
   array o;
 
