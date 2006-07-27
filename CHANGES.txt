@@ -1,5 +1,7 @@
 Version 0.7
 
+- Requires newest Public.Web.Wiki due to Macro compatibility and argument
+    handling changes.
 - Super reloads (ie sending Pragma: no-cache) forces rendering of wiki and
     other parsed markup.
 - fix overzealous caching of weblog entries when displaying a partial view.
