@@ -14,15 +14,24 @@ array evaluate(Macros.MacroParameters params)
 
   // we should get a limit for the number of entries to display.
 
+  if(!params->args) params->make_args();
 
-  array a = params->parameters / "|";
 	array res = ({});
-  if(!sizeof(a) || !strlen(a[0])); // nothing
-  else category = a[0];
 
-  if(sizeof(a)>1 && a[1] && strlen(a[1]))
-    limit = (int)a[1];
-  else limit = 10;
+  if(params->args->limit) limit = (int) params->args->limit;
+
+  m_delete(params->args, "limit");
+  
+  if(params->args->category) 
+  { 
+    category = params->args->category;
+    m_delete(params->args, "category");
+  }
+
+  array a = indices(params->args);
+
+  if(sizeof(a))   
+    category = a[-1];
 
   mixed r = params->engine->wiki->cache->get("__CATEGORYdata-" + category);
 
