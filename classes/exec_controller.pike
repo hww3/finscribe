@@ -1455,6 +1455,7 @@ public void post(Request id, Response response, mixed ... args)
 //   Log.debug("POST: %O -> %O\n", id, id->variables);
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
+   int just_saving = 0;
 
    if(!id->misc->session_variables->userid)
    {
@@ -1546,6 +1547,9 @@ public void post(Request id, Response response, mixed ... args)
 
             break;
          case "Save":
+             Log.info("Saving entry.");
+             just_saving = 1;
+         case "Post":
                object c;
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
@@ -1584,15 +1588,31 @@ public void post(Request id, Response response, mixed ... args)
                // this is the parent, to which the new entry is associated.
                object p = obj_o;
 
-               object dto = dtos[0];
+               object dto = dtos[0]; 
                obj_o = FinScribe.Repo.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o["parent"] = p;
+               if(just_saving)
+               {
+                 array s_a = model->find("acl", (["Name": "Work In Progress Object"]));
+                 object s_acl;
+                 if(sizeof(s_a))
+                   s_acl = s_a[0];
+                 else
+                   s_acl = p["acl"];
+
+                 obj_o["acl"] = s_acl;
+               }
+               else
+                 obj_o["acl"] = p["acl"];
                obj_o["created"] = c;
-               obj_o["is_attachment"] = 2;
+               if(just_saving)
+                 obj_o["is_attachment"] = 3;
+               else
+                 obj_o["is_attachment"] = 2;
                obj_o->save();
             }
 
@@ -1617,16 +1637,18 @@ public void post(Request id, Response response, mixed ... args)
             obj_n->save();
 
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-	
-            // we use this object for both trackback and pingback processing.
-            object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
-	    u->path = combine_path(u->path, "/space");
 
-	    if(sizeof(trackbacks))
-	    {
+            if(!just_saving)
+            {	
+              // we use this object for both trackback and pingback processing.
+              object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
+  	      u->path = combine_path(u->path, "/space");
+
+	      if(sizeof(trackbacks))
+	      {
                 Thread.Thread(do_trackback_ping, (trackbacks/"\n")-({""}), obj_o, u);
-  	    }
-
+  	      }
+            }
          cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
                                                      obj_o["parent"]["path"]));
 

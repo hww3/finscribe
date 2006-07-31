@@ -139,4 +139,25 @@ void create_acls()
   else 
     r["group"] += e;
   a["rules"] += r;
+
+
+  a = FinScribe.Objects.ACL();
+  a["Name"] = "Work In Progress Object";
+  a->save();
+
+  r = FinScribe.Objects.ACLRule();
+  r["class"] = 1; // owners have browse, read, version, create, comment, post and lock.
+  r["xmit"] = 239;
+  r->save();
+  a["rules"] += r;
+
+  r = FinScribe.Objects.ACLRule();
+  r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
+  r["xmit"] = 255;
+  r->save();
+  object e = model->find("group", (["Name": "Editors"]))[0];
+    if(!e) werror("no editors!\n");
+  else 
+    r["group"] += e;
+  a["rules"] += r;
 }
