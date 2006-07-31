@@ -64,6 +64,7 @@ int updateIndex(string event, object id, object obj)
 
 void doUpdateIndex(string event, object id, object obj)
 {
+  if(obj["is_attachment"] == 3) return;
 
   Log.info("saved " + obj["path"]);  
 

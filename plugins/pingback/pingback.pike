@@ -23,6 +23,8 @@ int sendPingback(string event, object id, object obj)
 
 void send_pingback(object id, object obj_o)
 {
+  if(obj_o["is_attachment"] == 3) return;
+
             // we use this object for both trackback and pingback processing.
             object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
             u->path = combine_path(u->path, "/space");

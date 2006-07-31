@@ -47,20 +47,14 @@ class generate_gravatar_url
 
     r += String.string2hex(Crypto.MD5.hash(email));
 
-    if(sizeof(a) > 1)
-    {
-      mapping ar = ([]);
+    m_delete(params->args, "email");
 
-      foreach(a[1..];; string arg)
+      foreach(params->args; string arg; string val)
       {
-        string argument, value;
-        if(sscanf(arg, "%s=%s", argument, value) != 2) continue;
 
-        ar[argument] = value;
-        if(argument == "default") value = Protocols.HTTP.http_encode_string(value);
-        r = r + "&" + argument + "=" + value;
+        if(arg == "default") val = Protocols.HTTP.http_encode_string(val);
+        r = r + "&" + arg + "=" + val;
       }
-    }
 
     r+="\">";
 
