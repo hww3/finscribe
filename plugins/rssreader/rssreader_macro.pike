@@ -91,7 +91,7 @@ mixed rss_fetch(string rssurl, int timeout)
   string rss;
   object r;
 
-  Log.debug("rss-reader getting " + rssurl + "\n");
+  Log.debug("rss-reader getting " + rssurl);
 
   if(has_prefix(rssurl, "file://"))
     rss = Stdio.read_file(rssurl[7..]);
@@ -194,7 +194,7 @@ mixed rss_fetch(string rssurl, int timeout)
   string rss;
   object r;
 
-  Log.debug("rss-reader getting " + rssurl + "\n");
+  Log.debug("rss-reader getting " + rssurl);
 
   if(has_prefix(rssurl, "file://"))
     rss = Stdio.read_file(rssurl[7..]);
