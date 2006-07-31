@@ -15,6 +15,10 @@ import Fins.Model;
       add_field(KeyReference("acl", "acl_id", "acl"));
       add_field(KeyReference("parent", "parent_id", "object", UNDEFINED, 1));
       add_field(StringField("path", 128, 0));
+      // 0 = not attachment
+      // 1 = is attachment
+      // 2 = blog entry
+      // 3 = wip blog entry
       add_field(IntField("is_attachment", 0, 0));
       add_field(DateTimeField("created", 0, created));
       add_field(TransformField("title", "path", get_title));

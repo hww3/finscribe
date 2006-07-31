@@ -48,7 +48,7 @@ object repository = FinScribe.Repo;
 public int get_blog_count()
 {
   array o = master_object->context->sql->query("SELECT COUNT(*) as foo FROM objects WHERE parent_id=" + 
-                     this["id"] + " AND is_attachment=2");
+                     this["id"] + " AND is_attachment=2 AND created < NOW()");
   return (int)(o[0]->foo);
 
 }
