@@ -35,6 +35,7 @@ endif %> page
 
 <p>
 <li> <a href="/exec/new?currentpage=<%$object.path%>">new</a> page
+</ul>
 <p>
 Current ACL: 
 <%if data["isdeleteable"] %>
@@ -42,7 +43,17 @@ Current ACL:
 <% else %>
 <%$object.acl.Name%>
 <% endif %>
-</ul>
+<br>
+Object Type: 
+<% if data["object"]["is_attachment"] == 3 %>
+  WIP Blog Entry <% if data["object"]->is_postable(data["user_object"]) %> <a href="/exec/publish/<%$object.path%>">Publish</a> <% endif %>
+<% elseif data["object"]["is_attachment"] == 2 %>
+  Published Blog Entry
+<% elseif data["object"]["is_attachment"] == 1 %>
+  Attachment
+<% else %>
+  Published Object
+<% endif %>
 <% else %>
 You are not logged in. 
 <% endif %>

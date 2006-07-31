@@ -46,15 +46,14 @@ value="<%$createddate%>"/ >
 <input type="hidden" id="postformajaxaction" name="action" value="" />
 
 <input type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"/>
-
 <input type="button" onclick="closePopup(); return false;" name="action" value="Cancel"/>
-
 <input type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"/>
+<input type="button" onclick="document.getElementById('postformajaxaction').value='Post'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Post"/> 
 <% else %>
-<input type="hidden" name="ajax" value="1"/>
 <input type="submit" name="action" value="Preview"/>
 <input type="submit" name="action" value="Cancel"/>
 <input type="submit" name="action" value="Save"/>
+<input type="submit" name="action" value="Post"/>
 <% endif %>
 </td>
 </tr>
