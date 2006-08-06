@@ -1,5 +1,8 @@
 Version 0.7
 
+- Added deferred posting of blog articles. Deferred posts have a special 
+    ACL. Upon publication, the article's will have the appropriate ACL 
+    set.
 - Requires newest Public.Web.Wiki due to Macro compatibility and argument
     handling changes.
 - Super reloads (ie sending Pragma: no-cache) forces rendering of wiki and
