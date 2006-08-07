@@ -23,7 +23,10 @@ int updateList(string event, object id, object obj)
   array f;
 
   werror("updating recent changes.\n");
- 
+
+  // we don't care about work in progress items.
+  if(obj["is_attachment"] > 2) return 0; 
+
   object p = id->fins_app->new_string_pref("plugin.recentchanges.list", "");
 
   f = p->get_value()/"\n";
