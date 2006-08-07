@@ -25,7 +25,7 @@ int updateList(string event, object id, object obj)
   werror("updating recent changes.\n");
 
 //  // we don't care about work in progress items.
-//  if(obj["is_attachment"] > 2) return 0; 
+  if(obj["is_attachment"] > 2) return 0; 
 
   object p = id->fins_app->new_string_pref("plugin.recentchanges.list", "");
 
@@ -68,7 +68,7 @@ array evaluate(Macros.MacroParameters params)
   
     object ent;
     catch(ent = params->engine->wiki->model->find_by_id("object", (int)k));
-      if(!ent || !ent->is_browseable()) continue;
+      if(!ent /*|| !ent->is_browseable()*/) continue;
       res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a></li>\n"});
   }
 
