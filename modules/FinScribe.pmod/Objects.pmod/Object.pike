@@ -31,17 +31,22 @@ object repository = FinScribe.Repo;
    int is_editable(object user)
    {
      if(user && this["md"]["locked"] && user["id"] != this["author"]["id"]) return 0;
-     else return has_xmit(user, "version", user["id"] == this["author"]["id"]);
+     else return has_xmit(user, "version", user && user["id"] == this["author"]["id"]);
    }
 
    int is_writeable(object user)
    {
-     return has_xmit(user, "write", user["id"] == this["author"]["id"]);
+     return has_xmit(user, "write", user && user["id"] == this["author"]["id"]);
+   }
+
+   int is_browseable(object user)
+   {
+     return has_xmit(user, "browse", user && user["id"] == this["author"]["id"]);
    }
 
    int is_lockable(object user)
    {
-     return has_xmit(user, "lock", user["id"] == this["author"]["id"]);
+     return has_xmit(user, "lock", user && user["id"] == this["author"]["id"]);
    }
 
 
