@@ -1445,6 +1445,61 @@ public void edit(Request id, Response response, mixed ... args)
    response->set_view(t);
 }
 
+public void publish(Request id, Response response, mixed ... args)
+{
+//   Log.debug("PUBLISH: %O -> %O\n", id, id->variables);
+   string contents, subject, obj, trackbacks, createddate;
+   object obj_o;
+   int just_saving = 0;
+
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", "You must login to publish.");
+      response->flash("from", id->not_query);
+      response->redirect("/exec/login");
+      return;
+   }
+   
+   obj_o = model->get_fbobject(args, id);
+   if(!obj_o || obj_o["is_attachment"] != 3)
+   {
+     response->flash("msg", "Object doesn't exist, or isn't a WIP weblog entry.");
+     response->redirect(id->referrer);
+     return;
+   }
+
+   if(!obj_o->is_postable(app->get_current_user(id)))
+   {
+     response->flash("msg", "You don't have permission to publish (post) this object.");
+     response->redirect(id->referrer);
+     return;
+   }
+
+   // ok, what are the rules for publishing?
+   // we assume that the following will happen upon publication:
+   //
+   // 1. the is_attachment flag will be set properly.
+   // 2. the acl will be set to that of the parent.
+   // 3. the parent (weblog) will be flushed.
+   //
+   // TODO:
+   //
+   // we need to revisit the whole post/save blog/save article
+   // relationship to better understand what events we should be
+   // triggering and the context of the events. for example,
+   // we probably don't want wip blog entries to be full text
+   // searchable.
+
+  obj_o["is_attachment"] = 2;
+  obj_o["acl"] = obj_o["parent"]["acl"];
+
+  cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
+                                                     obj_o["parent"]["path"]));
+
+  response->flash("msg", "Object published successfully.");
+  response->redirect(id->referrer);
+}
+
 //! we don't check to make sure that a page has a {weblog}
 //! entry, so malicious people could theoretically create post 
 //! objects to a non-existent weblog (though the page must exist
