@@ -1,19 +1,8 @@
-<html>
-<head>
-  <%@include file="header.phtml"%>
+ <%@include file="top.phtml" %>
    <title><%syspref var="site.name" %> :: admin :: pluginlist</title>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-   <div id="page-wrapper">
-    <div id="page-content">
- 
-<div class="snip-buttons"> </div> 
-
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
 <div class="flash-message"><%flash var="msg"%></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
-
           <h3>Plugin List</h3>
         
         <table>
@@ -22,23 +11,15 @@
         <tr>
             <td><%$plugin.name%></td>
             <td><a href="toggle_enabled?plugin=<%$plugin.name%>"><%boolean var="plugin.enabled"%></a></td>
-			<td><a href="edit_prefs?plugin=<%$plugin.name%>">Prefs &gt;&gt;</a></td>
+			<td><a href="/admin/prefs/list?startswith=plugin.<%$plugin.name%>">Prefs &gt;&gt;</a></td>
         </tr>
         <tr>
             <td colspan="3"><i><%$plugin.description%></i> &nbsp; </td>
         </tr>
           <% end %>
         </table>
-          
-     </div>
-      </div>
-      </div>
-      </div>
-         
-</div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
-Welliver</div>
-</body>
-</html>
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
+
 

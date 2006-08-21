@@ -158,6 +158,28 @@ public void listacls(Request id, Response response, mixed ... args)
 	response->set_view(t);
 }
 
+public void listwip(Request id, Response response, mixed ... args)
+{
+    if(!app->is_admin_user(id, response))
+      return;
+
+    object t = view->get_idview("admin/listwip");
+
+    app->set_default_data(id, t);
+
+    mixed ul;
+
+    ul = model->find("object",(["is_attachment": 3]));
+    t->add("wipblog", ul);
+
+    ul = model->find("object",(["is_attachment": 4]));
+    t->add("wipobj", ul);
+
+    t->add("in_admin", 1);
+	
+    response->set_view(t);
+}
+
 public void editacl(Request id, Response response, mixed ... args)
 {
     if(!app->is_admin_user(id, response))
