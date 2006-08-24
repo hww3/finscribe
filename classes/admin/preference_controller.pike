@@ -4,11 +4,50 @@
 
 import Fins;
 import Tools;
+import Tools.Logging;
 inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
   response->redirect("list");
+}
+
+public void tree(Request id, Response response, mixed ... args)
+{
+  if(id->variables->action && id->variables->action == "getChildren")
+  {
+    mapping d = Tools.JSON.deserialize(id->variables->data);
+    Log.debug("data: %O\n", d);
+    array prefixes = ({});
+    array nodes = ({});
+    if(d->node && d->node->widgetId)
+    {
+      array x =  model->find("preference", (["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
+      int q = sizeof(d->node->widgetId[5..] / ".");
+      foreach(x;;object p)
+      {
+        array x1 = p["Name"]/".";
+        if(sizeof(x1)>(q +1))
+          prefixes += ({ ({x1[q], (x1[..q] * ".")})});
+        else
+          nodes += ({p});
+      }
+      prefixes = Array.uniq(prefixes);
+
+      array data = ({});
+
+      foreach(prefixes;; array p)
+        data += ({ (["title":  p[0], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
+      foreach(nodes;; object pref)
+        data += ({ (["title":  pref["ShortName"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
+// "<div dojoType=\"TreeNode\" widgetId=\"treepref_" + pref["Name"] + "\" title=\"" + pref["ShortName"] + "\" isFolder=\"false\"></div>"});
+
+      response->set_data(Tools.JSON.serialize(data));
+      response->set_type("text/json");
+
+      werror("JSON: %O\n", Tools.JSON.serialize( data ));      
+    }
+  }
 }
 
 public void list(Request id, Response response, mixed ... args)

@@ -78,21 +78,16 @@
 <div class="flash-message"><%flash var="msg"%></div>
           <h3>Preference List</h3>
 
-<table>
-<tr>
-<td width="25%">
+<div dojoType="TreeRPCController" RPCUrl="/admin/prefs/tree" widgetId="treeController"></div>
+<div dojoType="TreeSelector" widgetId="treeSelector"></div>
 <div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
-toggler="fade" widgetId="prefTree" controller="treeController">
-    <div dojoType="TreeNode" widgetId="1.1" title="Can't remove me" actionsDisabled="remove">
+  toggler="fade" widgetId="prefTree" controller="treeController">
+    <div dojoType="TreeNode" widgetId="1.1" title="Preferences" actionsDisabled="remove">
 <% foreach var="prefprefixes" val="prefix" %>
-	<div dojoType="TreeNode" widgetId="<%$prefix%>" title="<%$prefix%>" isFolder="true">
+	<div dojoType="TreeNode" widgetId="tree_<%$prefix%>" title="<%$prefix%>" isFolder="true"></div>
 <% end %>
-
 	</div>
-
-
-</td>
-<td width="75%">
+</div>
 
 
         <form action="" method="post">
@@ -113,9 +108,6 @@ name="search" value="Show"/>
         </tr>
           <% end %>
         </table>
-</td>
-</tr>
-</table>          
 
   <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>
