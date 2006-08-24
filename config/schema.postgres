@@ -10,6 +10,7 @@ CREATE TABLE categories (
 CREATE TABLE preferences (
   id serial NOT NULL, 
   name char(64) NOT NULL default '',
+  description char(256) NOT NULL default '',
   type smallint NOT NULL default 0,    
   value varchar(64) NOT NULL default '',
   PRIMARY KEY  (id)

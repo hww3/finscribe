@@ -7,10 +7,46 @@
     dojo.require("fins.widget.*");
     dojo.require("dojo.widget.InlineEditBox");
     dojo.require("fins.widget.InlineBooleanBox");
+    dojo.require("dojo.widget.Tree");
+    dojo.require("dojo.widget.TreeRPCController");
+    dojo.require("dojo.widget.TreeSelector");
+    dojo.require("dojo.widget.TreeNode");
+
+
+	var reporter = function(reporter) {
+		this.name = eventName;
+		this.go = function(message) {
+			var rep = [ reporter + " -- event: "+this.name ];
+			for(i in message) rep.push(i+": "+message[i]);
+			dojo.debug(rep.join(', '));
+		}
+	}
+
 
     function init() {
     <% foreach var="preferences" val="preference" %>
       dojo.widget.byId('<%$preference.Name%>').onSave = createCallback('<%$preference.Name%>');<% end %>
+
+		var controller = dojo.widget.manager.getWidgetById('treeController');
+		for(eventName in controller.eventNames) {
+			dojo.event.topic.subscribe(
+				controller.eventNames[eventName],
+				new reporter('controller'),
+				'go'
+			);
+		}
+
+		/* Add debug print for all prefTree events */
+		var prefTree = dojo.widget.manager.getWidgetById('prefTree');
+
+
+		for(eventName in prefTree.eventNames) {
+			dojo.event.topic.subscribe(
+				prefTree.eventNames[eventName],
+				new reporter('prefTree'),
+				'go'
+			);
+		}
 
     }
 
@@ -42,6 +78,23 @@
 <div class="flash-message"><%flash var="msg"%></div>
           <h3>Preference List</h3>
 
+<table>
+<tr>
+<td width="25%">
+<div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
+toggler="fade" widgetId="prefTree" controller="treeController">
+    <div dojoType="TreeNode" widgetId="1.1" title="Can't remove me" actionsDisabled="remove">
+<% foreach var="prefprefixes" val="prefix" %>
+	<div dojoType="TreeNode" widgetId="<%$prefix%>" title="<%$prefix%>" isFolder="true">
+<% end %>
+
+	</div>
+
+
+</td>
+<td width="75%">
+
+
         <form action="" method="post">
           Starts with: <input type="text" size="10" name="startswith"/> <input type="submit" 
 name="search" value="Show"/>
@@ -60,7 +113,9 @@ name="search" value="Show"/>
         </tr>
           <% end %>
         </table>
-          
+</td>
+</tr>
+</table>          
 
   <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>

@@ -22,9 +22,20 @@ public void list(Request id, Response response, mixed ... args)
 
      mixed ul = ({});
     mapping c = ([]);
+
+    array prefixes=({});
+
+    {
+      array x =  model->find("preference", ([]));
+      foreach(x;;object p)
+        prefixes += ({ (p["Name"]/".")[0]});
+      prefixes = Array.uniq(prefixes);
+    }     
+
     if(id->variables->startswith) c->Name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
     ul = model->find("preference", c,  Fins.Model.Criteria("ORDER BY Name DESC"));
 
+     t->add("prefprefixes", prefixes);
      t->add("preferences", ul);
 	
      response->set_view(t);

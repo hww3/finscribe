@@ -9,6 +9,7 @@ CREATE TABLE categories (
 CREATE TABLE preferences (
   id integer primary key, 
   name char(64) NOT NULL default '',
+  description char(256) NOT NULL default '',
   type integer NOT NULL default 0,    
   value char(64) NOT NULL default ''
 ) ;

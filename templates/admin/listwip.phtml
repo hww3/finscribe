@@ -1,0 +1,41 @@
+  <%@include file="top.phtml" %>
+   <title><%syspref var="site.name" %> :: admin :: wip items</title>
+  <%@include file="header.phtml" %>
+  <%@include file="pagebegin.phtml" %>
+<div class="flash-message"><%flash var="msg"%></div>
+
+          <h3>WIP Blog Entries</h3>
+<p>
+        <table>
+            <tr><td>Path</td><td>Title</td><td>Author</td><td>Last Modified</td></tr>  
+          <% foreach var="wipblog" val="blog"%>
+        <tr>
+            <td><%$blog.path%></td>
+            <td><%$blog.title%></td>
+            <td><%$blog.author.Name%></td>
+            <td><%$blog.current_version.nice_created%></td>
+            <td>[ <a href="/exec/edit/<%$blog.path%>">Edit</a> | 
+                <a href="/exec/publish/<%$blog.path%>">Publish</a> ]</td>
+        </tr>
+          <% end %>
+        </table>
+
+          <h3>WIP Articles</h3>
+<p>
+        <table>
+            <tr><td>Path</td><td>Title</td><td>Author</td><td>Last Modified</td></tr>  
+          <% foreach var="wipobj" val="obj"%>
+        <tr>
+            <td><%$obj.path%></td>
+            <td><%$obj.title%></td>
+            <td><%$obj.author.Name%></td>
+            <td><%$obj.current_version.nice_created%></td>
+            <td>[ <a href="/exec/edit/<%$obj.path%>">Edit</a> | 
+                <a href="/exec/publish/<%$obj.path%>">Publish</a> ]</td>
+        </tr>
+          <% end %>
+        </table>
+          
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
+
