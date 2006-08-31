@@ -155,7 +155,7 @@ void create_acls()
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  object e = model->find("group", (["Name": "Editors"]))[0];
+  e = model->find("group", (["Name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
     r["group"] += e;

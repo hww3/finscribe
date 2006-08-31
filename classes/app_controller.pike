@@ -35,7 +35,6 @@ public void index(Request id, Response response, mixed ... args)
      response->redirect("/exec/notfound/" + (args*"/")); 
      return;
   }
-
   if(app->get_sys_pref("blog.pingback_receive")->get_value())
   {
     response->set_header("X-Pingback", app->get_sys_pref("site.url")->get_value() + "/exec/pingback");
@@ -48,7 +47,6 @@ public void index(Request id, Response response, mixed ... args)
     obj["md"]["views"] ++;
 
   string datatype = obj["datatype"]["mimetype"];
-
   switch(datatype)
   {
     case "text/wiki":

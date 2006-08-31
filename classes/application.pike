@@ -344,6 +344,7 @@ object new_string_pref(string pref, string value)
      p["Name"] = pref;
      p["Type"] = FinScribe.STRING;
      p["Value"] = value;
+     p["Description"] = "";
      p->save();
      return p;
   }
@@ -360,6 +361,7 @@ object new_pref(string pref, string value, int type)
      p = FinScribe.Repo.new("preference");
      p["Name"] = pref;
      p["Type"] = type;
+     p["Description"] = "";
      p["Value"] = value;
      p->save();
      return p;
