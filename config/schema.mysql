@@ -18,7 +18,7 @@ CREATE TABLE categories (
 CREATE TABLE preferences (
   id int(11) NOT NULL auto_increment,
   name char(64) NOT NULL default '',
-  description char(256) NOT NULL default '',
+  description char(255) NOT NULL default '',
   type int(1) NOT NULL default 0,
   value char(64) NOT NULL default '',
   PRIMARY KEY  (id)
