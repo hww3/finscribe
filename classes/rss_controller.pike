@@ -16,7 +16,6 @@ public void index(Request id, Response response, mixed ... args)
 {
   string r;
   object obj;
-
   if(id->variables->type == "category")
   {
     array a = model->find("category", (["category": args*"/"]));
@@ -37,6 +36,7 @@ public void index(Request id, Response response, mixed ... args)
   if(!obj) 
   {
     response->redirect("/exec/notfound/" + args*"/");
+    return;
   }
 
   if(id->variables->type == "history")
@@ -69,7 +69,6 @@ private void weblog_rss(Fins.Request id, Fins.Response response,
   array o = obj->get_blog_entries(10);
 
   Node n = generate_weblog_rss(obj, o, id);
-
   response->set_type("text/xml");
   response->set_data(render_xml(n));
 }
@@ -125,13 +124,14 @@ private Node generate_weblog_rss(object root, array entries, object id)
 {
   Node n = new_xml("1.0", "rss");
   n->set_attribute("version", "2.0");
-
-  Node ss = n->new_pi("xml-stylesheet", sprintf( 
+  string x = sprintf( 
                      "href=\"%s\" type=\"text/css\"", 
               (string)Standards.URI("/static/rss.css", 
-                    app->get_sys_pref("site.url")["Value"])));
-  n->add_prev_sibling(ss);
-
+                    app->get_sys_pref("site.url")["Value"]));
+  Node ss;
+  catch{ ss = n->new_pi("xml-stylesheet", x); };
+  if(ss)
+    n->add_prev_sibling(ss);
   Node c;
 
   c = n->new_child("channel", "");
