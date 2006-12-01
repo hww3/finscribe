@@ -33,7 +33,7 @@ public void notfound(Request id, Response response, mixed ... args)
 }
 
 
-public void notfound(Request id, Response response, mixed ... args)
+public void notreadable(Request id, Response response, mixed ... args)
 {
      object t = view->get_idview("exec/objectnotreadable");
 
