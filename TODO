@@ -1,11 +1,9 @@
 - auto ajaxification needs to be extended to the display comments feature on weblog entries.
 - full localization
-- acl editing COMPLETE
 - fulltext update when content is moved/deleted
 - check for duplicate content paths when moving a subtree
-- return error message when editing object attachments COMPLETE
-- notreadable error should actually do something
 - album should resize images so that they will not stretch over the size of the display
 - album should allow paging
 - album should allow uploading and viewing of files not attached to a page
 - album should show better thumbnails for non-image datatypes.
+- acl deletion
