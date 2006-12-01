@@ -697,6 +697,32 @@ public void deleteuser(Request id, Response response, mixed ... args)
   }
 }
 
+public void deleteacl(Request id, Response response, mixed ... args)
+{
+	if(!app->is_admin_user(id, response))
+          return;
+
+  object u;
+
+  if(!id->variables->aclid)
+  {
+    response->flash("msg", "No ACL provided.");
+  }
+  if(!(u = model->find_by_id("acl", (int)id->variables->aclid)))
+  {
+    response->flash("msg", "ACL id " + id->variables->aclid + " does not exist.");
+  }
+  else
+  {
+    string n = u["Name"];
+    u->delete();
+    response->flash("msg", "ACL " + n + " deleted.");
+  }
+
+  response->redirect("listacls");
+
+}
+
 public void deletegroup(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))
