@@ -1,7 +1,7 @@
 dojo.require("dojo.html");
-dojo.require("dojo.fx.*");
+dojo.require("dojo.lfx.*");
 dojo.require("dojo.widget.*");
-dojo.require("dojo.widget.html.DatePicker");
+dojo.require("dojo.widget.DatePicker");
 dojo.require("dojo.widget.ResizableTextarea");
 dojo.require("dojo.io.IframeIO");
 
@@ -56,23 +56,23 @@ var bindArgs = {
   hide: function() {
     this.clearTimer();
     if (menuLayers.activeMenuID && document.getElementById) 
-      this.timer = setTimeout("dojo.fx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
       return false;
   },
   
   position: function(mnu) {
-    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScrollLeft();
-    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScrollTop();
-    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScrollLeft())
+    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScroll().left;
+    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScroll().top;
+    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewport().width + dojo.html.getScroll().left)
       x = x - mnu.offsetWidth - this.offX;
     else x = x + this.offX;
   
-    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScrollTop() )
-      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScrollTop() )? y - mnu.offsetHeight - 
-this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
+    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewport().height + dojo.html.getScroll().top )
+      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScroll().top )? y - mnu.offsetHeight - 
+this.offY : dojo.html.getViewport().height + dojo.html.getScroll().top - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
-      this.timer = setTimeout("dojo.fx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
   },
   
   mouseoutCheck: function(e) {
@@ -110,7 +110,7 @@ function displayComments(div, path, force)
     load:      function(type, data, evt){
         // handle successful response here
       document.getElementById(div).innerHTML = data.toString();
-      dojo.fx.html.wipeIn(document.getElementById(div), 100);
+      dojo.lfx.html.wipeIn(document.getElementById(div), 100);
     }
   };
 
@@ -306,7 +306,7 @@ dojo.widget.HtmlYellowFade = function() {
     this.initColor = "#FFE066";
     this.buildRendering = function(args, frag) {
         var o = frag["dojo:yellowfade"]["nodeRef"];
-        dojo.fx.html.colorFadeIn(o, 
+        dojo.lfx.html.colorFadeIn(o, 
 dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay);
     }
 }
@@ -418,7 +418,8 @@ dojo.debug("closed popup.");
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10) || 2000) + "px";
+ 	objOverlay.style.width = ((dojo.html.getViewport().width + dojo.html.getScroll().left + 10) || 2000) + 
+"px";
 	objBody.insertBefore(objOverlay, null);
   }
 
@@ -433,7 +434,7 @@ dojo.debug("closed popup.");
 
 var block = document.getElementById("popup");
 if (!block) {
-var body = dojo.html.body();
+var body = dojo.body();
 block = document.createElement("div");
 block.setAttribute("id", "popup");
 block.className = "rounded rc-parentcolor-404040";
@@ -481,42 +482,44 @@ var bindArgs = {
     method: "POST",
     mimetype:   "text/plain",
     error:      function(type, errObj){
-      alert("error");
+      alert("error: " + errObj.toString());
     },
     load:      function(type, data, evt){
         // handle successful response here
 dojo.debug("successfully load of popup.");
      block2.innerHTML = data.toString();
 
-     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
+//     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().height) - h) / 2
        else h = 20;
-     var blockTop = dojo.html.getScrollTop() + h;
+     var blockTop = dojo.html.getScroll().top + h;
    
      h = block.offsetWidth || block.style.pixelWidth ||
                (block.currentStyle && block.currentStyle.width) || block.width;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().width) - h) / 2
        else h = 20;
 
-     var blockLeft = dojo.html.getScrollLeft() + h;
+     var blockLeft = dojo.html.getScroll().left + h;
 
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 dojo.debug("making corners.");
      make_corners();
 dojo.debug("made corners.");
-     dojo.fx.html.fadeShow(block, 200, function(){		
+     dojo.lfx.html.fadeShow(block, 200, function(){		
 		arrayPageSize = getPageSize();
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
-dojo.debug("showing item.");
-     if(loadfunc) loadfunc();
+		dojo.debug("showing item.");
+     		if(loadfunc) loadfunc();
 }
 );
+
+dogo.debug("done.");
 	// After image is loaded, update the overlay height as the new image might have
 	// increased the overall page height.
 
@@ -579,7 +582,7 @@ function closePopup()
   var d = document.getElementById("popup");
   if(d)
   {
-    dojo.fx.html.fadeHide(d, 200);
+    dojo.lfx.html.fadeHide(d, 200);
     var objOverlay = document.getElementById("dialogoverlay");
     objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
@@ -614,7 +617,7 @@ function showDatePicker() {
 var block = document.getElementById("datePicker");
 var picker;
 if (!block) {
-var body = dojo.html.body();
+var body = dojo.body();
 block = document.createElement("div");
 block.setAttribute("id", "datePicker");
 block.style.display = "none";
@@ -634,7 +637,7 @@ picker = dojo.widget.createWidget("DatePicker",
 dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
 once:true});
 }
-dojo.fx.html.fadeShow(block, 200);
+dojo.lfx.html.fadeShow(block, 200);
 }
 
 function cumulativeOffset(element) {
