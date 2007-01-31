@@ -10,7 +10,9 @@ Version 0.7
     other parsed markup.
 - fix overzealous caching of weblog entries when displaying a partial view.
 - errors (500, 404, etc) are now themeable. see templates/error directory.
-- added basic edit-in-place for preferences.
+- non-readable objects return an error page now.
+- added preliminary ACL delete functionality.
+- added basic edit-in-place for preferences, and a wip tree browser for prefs.
 - new stylesheet for rss feeds
 - tuned the wiki content caching strategy to provide more up-to-date content
     without having to reload.
@@ -31,6 +33,8 @@ Version 0.7
 - updated to Dojo 0.3.1. some things are still a little hinky.
 - make finscribe more friendly when we don't have some of the optional
     modules (Public.Parser.XML2 and Public.Web.RSS) installed.
+- make finscribe more friendly when we don't have all of the optional
+    methods in Public.Parser.XML2 (such as new_pi()).
 
 Version 0.6
 - added initial attempt at a "gravatar" macro (see gravatar.com)
