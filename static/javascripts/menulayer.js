@@ -56,7 +56,7 @@ var bindArgs = {
   hide: function() {
     this.clearTimer();
     if (menuLayers.activeMenuID && document.getElementById) 
-      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200).play()", 200);
       return false;
   },
   
@@ -72,7 +72,8 @@ var bindArgs = {
 this.offY : dojo.html.getViewport().height + dojo.html.getScroll().top - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
-      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200)", 200);
+      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200).play()", 
+200);
   },
   
   mouseoutCheck: function(e) {
@@ -110,7 +111,7 @@ function displayComments(div, path, force)
     load:      function(type, data, evt){
         // handle successful response here
       document.getElementById(div).innerHTML = data.toString();
-      dojo.lfx.html.wipeIn(document.getElementById(div), 100);
+      dojo.lfx.html.wipeIn(document.getElementById(div), 100).play();
     }
   };
 
@@ -307,7 +308,7 @@ dojo.widget.HtmlYellowFade = function() {
     this.buildRendering = function(args, frag) {
         var o = frag["dojo:yellowfade"]["nodeRef"];
         dojo.lfx.html.colorFadeIn(o, 
-dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay);
+dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay).play();
     }
 }
 dj_inherits(dojo.widget.HtmlYellowFade, dojo.widget.HtmlWidget);
@@ -482,11 +483,10 @@ var bindArgs = {
     method: "POST",
     mimetype:   "text/plain",
     error:      function(type, errObj){
-      alert("error: " + errObj.toString());
+      alert("error: " + type + "," + errObj.message + ", " + errObj.type + ", " + errObj.number );
     },
     load:      function(type, data, evt){
         // handle successful response here
-dojo.debug("successfully load of popup.");
      block2.innerHTML = data.toString();
 
 //     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
@@ -510,16 +510,17 @@ dojo.debug("successfully load of popup.");
 dojo.debug("making corners.");
      make_corners();
 dojo.debug("made corners.");
-     dojo.lfx.html.fadeShow(block, 200, function(){		
+     dojo.lfx.html.fadeShow(block, 200, 0, function(){		
+
 		arrayPageSize = getPageSize();
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
 		dojo.debug("showing item.");
      		if(loadfunc) loadfunc();
 }
-);
+).play();
+dojo.debug("done.");
 
-dogo.debug("done.");
 	// After image is loaded, update the overlay height as the new image might have
 	// increased the overall page height.
 
@@ -582,7 +583,7 @@ function closePopup()
   var d = document.getElementById("popup");
   if(d)
   {
-    dojo.lfx.html.fadeHide(d, 200);
+    dojo.lfx.html.fadeHide(d, 200).play();
     var objOverlay = document.getElementById("dialogoverlay");
     objOverlay.style.display = 'none';
     d.parentNode.removeChild(d);
@@ -637,7 +638,7 @@ picker = dojo.widget.createWidget("DatePicker",
 dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
 once:true});
 }
-dojo.lfx.html.fadeShow(block, 200);
+dojo.lfx.html.fadeShow(block, 200).play();
 }
 
 function cumulativeOffset(element) {

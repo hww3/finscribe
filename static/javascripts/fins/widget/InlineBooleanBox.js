@@ -5,10 +5,10 @@ dojo.require("dojo.widget.*");
 dojo.require("dojo.lfx.*");
 dojo.require("dojo.graphics.color");
 dojo.require("dojo.string");
-dojo.require("dojo.style");
+dojo.require("dojo.html.style");
 dojo.require("dojo.html");
 
-dojo.widget.tags.addParseTreeHandler("dojo:inlinebooleanbox");
+//dojo.widget.tags.addParseTreeHandler("dojo:inlinebooleanbox");
 
 dojo.widget.html.InlineBooleanBox = function(){
 	dojo.widget.HtmlWidget.call(this);

@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
 dojo.require("fins.widget.*");
+dojo.require("dojo.json");
 dojo.require("fins.widget.ACLBuilder");
 </script>
 
@@ -39,7 +40,7 @@ function getUsers()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };
@@ -67,7 +68,7 @@ function getRules()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };
@@ -95,7 +96,7 @@ function getGroups()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };
@@ -107,7 +108,7 @@ function getGroups()
 }
 </script>
 
-		<input type="hidden" name="rules" dojoType="ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
+		<input type="hidden" name="rules" dojoType="fins:ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
                         loadAvailableGroupsFunction="getGroups"/>
 		<input type="hidden" name="rules2"/>
 

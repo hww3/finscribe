@@ -3,7 +3,7 @@ dojo.provide("fins.widget.Comments");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
-dojo.require("dojo.style");
+dojo.require("dojo.html.style");
 dojo.require("dojo.lfx");
 dojo.require("dojo.animation");
 
@@ -70,4 +70,4 @@ fins.widget.Comments = function() {
 };
 
 dojo.inherits(dojo.widget.HtmlWidget);
-dojo.widget.tags.addParseTreeHandler("dojo:Comments");
+//dojo.widget.tags.addParseTreeHandler("dojo:Comments");

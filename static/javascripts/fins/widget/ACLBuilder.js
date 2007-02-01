@@ -4,7 +4,7 @@ dojo.provide("fins.widget.ACLBuilder");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
-dojo.require("dojo.style");
+dojo.require("dojo.html.style");
 
 fins.widget.ACLBuilder = function(){
 
@@ -631,5 +631,5 @@ dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
 
 dojo.inherits(fins.widget.ACLBuilder, dojo.widget.HtmlWidget);
 
-dojo.widget.tags.addParseTreeHandler("dojo:aclbuilder");
+//dojo.widget.tags.addParseTreeHandler("dojo:aclbuilder");
 

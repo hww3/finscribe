@@ -6,7 +6,7 @@ dojo.require("dojo.widget.ContentPane");
 //dojo.require("dojo.widget.LayoutContainer");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
-dojo.require("dojo.style");
+dojo.require("dojo.html.style");
 
 fins.widget.RTEditor = function() {
 
@@ -154,4 +154,4 @@ fins.widget.RTEditor = function() {
 };
 
 dojo.inherits(fins.widget.RTEditor, dojo.widget.HtmlWidget);
-dojo.widget.tags.addParseTreeHandler("dojo:rteditor");
+//dojo.widget.tags.addParseTreeHandler("dojo:rteditor");

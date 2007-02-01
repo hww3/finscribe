@@ -5,6 +5,7 @@
 <
    <title><%syspref var="site.name"%> :: admin :: edit group</title>
 <script type="text/javascript">
+dojo.require("dojo.json");
 dojo.require("fins.widget.*");
 dojo.require("fins.widget.ComboPicker");
 </script>
@@ -52,7 +53,7 @@ function getMembers()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };
@@ -76,7 +77,7 @@ function getAvailable()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };

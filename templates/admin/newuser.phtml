@@ -5,6 +5,7 @@
 <%@include file="header.phtml"%>
 
 <script type="text/javascript">
+dojo.require("dojo.json");
 dojo.require("fins.widget.ComboPicker");
 </script>
 
@@ -29,7 +30,7 @@ function getAvailable()
     load:      function(type, data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJSON(data.toString());
+        res = dojo.json.evalJson(data.toString());
         res = res.data;
     }
 };

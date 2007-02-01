@@ -4,7 +4,7 @@ dojo.provide("fins.widget.ComboPicker");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
-dojo.require("dojo.style");
+dojo.require("dojo.html.style");
 
 fins.widget.ComboPicker = function(){
 
@@ -298,5 +298,5 @@ fins.widget.ComboPicker = function(){
 
 dojo.inherits(fins.widget.ComboPicker, dojo.widget.HtmlWidget);
 
-dojo.widget.tags.addParseTreeHandler("dojo:combopicker");
+//dojo.widget.tags.addParseTreeHandler("dojo:combopicker");
 
