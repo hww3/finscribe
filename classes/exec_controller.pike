@@ -886,17 +886,14 @@ public void check_image(object id, object response, mixed ... args)
   else 
     v = id->misc->session_variables[args *"/"];
 
-Log.debug("in check image.");
   object img;
   mixed e;
   if(e =catch(img = Image.Fonts.open_font("goo", 48,0, 1)
                     ->write(v)))
     Log.exception("error!", e);
 
-Log.debug("wrote image, encoding.");
 
   string i = Image.GIF.encode(img->phaseh());
-Log.debug("encoded.");
 
   response->set_data(i);
   response->set_type("image/gif");
@@ -1038,7 +1035,6 @@ public void new(Request id, Response response, mixed ... args)
       obj_o = model->get_fbobject(id->variables->currentpage/"/", id);
       t->add("object", obj_o);
 
-Log.debug("FINDING OBJECT: " + combine_path(id->variables->currentpage, ".."));
       obj_o =  model->get_fbobject(combine_path(id->variables->currentpage, "..") /"/", id);
       t->add("parentobject", obj_o);
     }
