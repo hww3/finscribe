@@ -71,6 +71,8 @@ public void index(Request id, Response response, mixed ... args)
 private void handle_wiki(object obj, Request id, Response response){
   string title = obj["title"];  
 
+  Log.debug("handle_wiki: %O", obj);
+
   object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);

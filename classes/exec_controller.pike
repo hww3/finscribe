@@ -883,14 +883,20 @@ public void check_image(object id, object response, mixed ... args)
 
   if(!id->misc->session_variables[args *"/"])
     v = "INVALID REQUEST";
-
   else 
     v = id->misc->session_variables[args *"/"];
 
-  object img = Image.Fonts.open_font("goo", 48,0, 1)
-                    ->write(v);
+Log.debug("in check image.");
+  object img;
+  mixed e;
+  if(e =catch(img = Image.Fonts.open_font("goo", 48,0, 1)
+                    ->write(v)))
+    Log.exception("error!", e);
+
+Log.debug("wrote image, encoding.");
 
   string i = Image.GIF.encode(img->phaseh());
+Log.debug("encoded.");
 
   response->set_data(i);
   response->set_type("image/gif");

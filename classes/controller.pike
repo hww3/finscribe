@@ -29,7 +29,7 @@ void start()
   theme = load_controller("theme_controller");
   _internal = load_controller("internal_controller");
 
-  if(!config["app"] || !config["app"]["installed"])
+  if(!config["app"] || !(int)config["app"]["installed"])
   {
     install = load_controller("install_controller");
     view->default_template = Fins.Template.Simple;
@@ -38,7 +38,7 @@ void start()
 
 public void index(Request id, Response response, mixed ... args)
 {
-  if(!config["app"] || !config["app"]["installed"])
+  if(!config["app"] || !(int)config["app"]["installed"])
     response->redirect("install");
   else if(!sizeof(args))
      response->redirect("space");

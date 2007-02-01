@@ -19,7 +19,7 @@ static void create(Fins.Configuration _config)
 
   Locale.register_project(config->app_name, combine_path(config->app_dir, "locale/%L/finscribe.xml"));
 
-  if(config["app"] && config["app"]["installed"])
+  if(config["app"] && (int)config["app"]["installed"])
     load_plugins();
 }
 

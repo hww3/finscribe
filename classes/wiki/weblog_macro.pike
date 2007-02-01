@@ -50,7 +50,7 @@ array evaluate(Macros.MacroParameters params)
   }
   o = root->get_blog_entries(limit, start);
 
-  //werror("LIMIT: %O, START: %O\n", limit, start);
+  werror("LIMIT: %O, START: %O\n", limit, start);
 
   foreach(o; int i; object entry)
   {

@@ -125,8 +125,8 @@ void create_acls()
   a["rules"] += r;
 
   r = FinScribe.Objects.ACLRule();
-  r["class"] = 1; // owners have browse, read, version, create, comment, post and lock.
-  r["xmit"] = 239;
+  r["class"] = 1; // owners have browse, read, version, create, delete, comment, post and lock.
+  r["xmit"] = 255;
   r->save();
   a["rules"] += r;
 
