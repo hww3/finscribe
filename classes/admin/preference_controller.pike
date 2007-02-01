@@ -37,9 +37,9 @@ public void tree(Request id, Response response, mixed ... args)
       array data = ({});
 
       foreach(prefixes;; array p)
-        data += ({ (["title":  p[0], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
+        data += ({ (["title":  p[0], "data": p[1], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
       foreach(nodes;; object pref)
-        data += ({ (["title":  pref["ShortName"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
+        data += ({ (["title":  pref["ShortName"], "data": pref["Name"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
 // "<div dojoType=\"TreeNode\" widgetId=\"treepref_" + pref["Name"] + "\" title=\"" + pref["ShortName"] + "\" isFolder=\"false\"></div>"});
 
       response->set_data(Tools.JSON.serialize(data));
@@ -52,10 +52,15 @@ public void tree(Request id, Response response, mixed ... args)
 
 public void list(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
+    if(!app->is_admin_user(id, response))
+      return;
 
-     object t = view->get_view("admin/prefs/list");
+     object t;
+
+     if(id->variables->ajax)
+       t = view->get_view("admin/prefs/_list");
+     else
+       t = view->get_view("admin/prefs/list");
 
      app->set_default_data(id, t);
 
