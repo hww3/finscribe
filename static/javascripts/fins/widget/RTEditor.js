@@ -1,6 +1,6 @@
 dojo.provide("fins.widget.RTEditor");
 dojo.require("dojo.widget.*");
-dojo.require("dojo.widget.Editor");
+dojo.require("dojo.widget.Editor2");
 dojo.require("dojo.widget.TabContainer");
 dojo.require("dojo.widget.ContentPane");
 //dojo.require("dojo.widget.LayoutContainer");
@@ -88,7 +88,7 @@ fins.widget.RTEditor = function() {
 
     this.sourceTab = dojo.widget.createWidget("ContentPane", {id: "sourceTab", label:"Source"});
     this.tabContainer.addChild(this.sourceTab);
-    this.tabContainer.selectTab(this.htmlTab);
+    this.tabContainer.selectChild(this.htmlTab);
 
     this.newTextarea = document.createElement("textarea");
     this.newTextarea.style.height="100%";
@@ -135,7 +135,7 @@ fins.widget.RTEditor = function() {
     if(this.textarea)
       dojo.byId("editorPane").innerHTML = (this.textarea.value);
 
-    var editor = dojo.widget.createWidget("Editor", eargs, dojo.byId("editorPane"));
+    var editor = dojo.widget.createWidget("Editor2", eargs, dojo.byId("editorPane"));
     this.editor = editor;
     this.editorBuilt = true;
   }
