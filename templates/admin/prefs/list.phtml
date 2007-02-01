@@ -1,7 +1,7 @@
   <%@include file="top.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: preferencelist</title>
   <%@include file="header.phtml"%>
-  <script type="application/x-javascript">
+  <script type="text/javascript">
     dojo.require("dojo.widget.*");
     dojo.require("dojo.event.*");
     dojo.require("fins.widget.*");
@@ -11,14 +11,23 @@
     dojo.require("dojo.widget.TreeRPCController");
     dojo.require("dojo.widget.TreeSelector");
     dojo.require("dojo.widget.TreeNode");
+  </script>
 
 
+  <script type="text/javascript">
 	var reporter = function(reporter) {
 		this.name = eventName;
 		this.go = function(message) {
+/*
 			var rep = [ reporter + " -- event: "+this.name ];
 			for(i in message) rep.push(i+": "+message[i]);
 			dojo.debug(rep.join(', '));
+*/
+			if(message && message.source)
+			{
+			  dojo.debug("selected a pref! " + message.source.data);
+			  prefloadHandler(message.source.data);
+			}
 		}
 	}
 
@@ -73,11 +82,36 @@
       };
       dojo.io.bind(bindArgs);
     }
+
+    function prefloadHandler(pref) {
+
+      var bindArgs = {
+        url:        "/admin/prefs/list",
+        content: {ajax: "1", startswith: pref},
+        mimetype:   "text/plain",
+        method: "POST",
+        error:      function(type, errObj){
+      },
+      load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById("prefpane");
+        if(!d)
+          return;
+        d.innerHTML = data.toString();
+    }
+
+  };
+
+
+
   </script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash var="msg"%></div>
-          <h3>Preference List</h3>
+          <h3>Preferences</h3>
 
+<table cellpadding="10" valign="top">
+<tr>
+<td>
 <div dojoType="TreeRPCController" RPCUrl="/admin/prefs/tree" widgetId="treeController"></div>
 <div dojoType="TreeSelector" widgetId="treeSelector"></div>
 <div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
@@ -88,12 +122,15 @@
 <% end %>
 	</div>
 </div>
-
-
+</td>
+<td>
+<!--
         <form action="" method="post">
-          Starts with: <input type="text" size="10" name="startswith"/> <input type="submit" 
-name="search" value="Show"/>
+          Starts with: <input type="text" size="10" name="startswith"/> <input type="submit" name="search" value="Show"/>
         </form>
+-->
+<div id="prefpane">
+
         
         <table>
             <tr><td><b>Preference Name</b></td><td><b>Value</b></td><td> &nbsp; </td></tr>
@@ -101,14 +138,16 @@ name="search" value="Show"/>
         <tr>
             <td><%$preference.Name%></td>
 <% if data["preference"]["Type"] == FinScribe.BOOLEAN %>
-	    <td><div id="<%$preference.Name%>" dojoType="inlineBooleanBox"><%$preference.BooleanValue%></div></td>
+	    <td><div id="<%$preference.Name%>" dojoType="fins:InlineBooleanBox"><%$preference.BooleanValue%></div></td>
 <% else %>
 	    <td><div id="<%$preference.Name%>" dojoType="inlineEditBox"><%$preference.Value%></div></td>
 <% endif %>
         </tr>
           <% end %>
         </table>
-
+</div>
+</td></tr>
+</table>
   <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>
 

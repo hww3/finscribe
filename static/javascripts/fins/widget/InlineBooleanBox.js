@@ -10,15 +10,15 @@ dojo.require("dojo.html");
 
 //dojo.widget.tags.addParseTreeHandler("dojo:inlinebooleanbox");
 
-dojo.widget.html.InlineBooleanBox = function(){
+fins.widget.html.InlineBooleanBox = function(){
 	dojo.widget.HtmlWidget.call(this);
 	// mutable objects need to be in constructor to give each instance its own copy
 	this.history = [];
 }
 
-dojo.inherits(dojo.widget.html.InlineBooleanBox, dojo.widget.HtmlWidget);
+dojo.inherits(fins.widget.html.InlineBooleanBox,dojo.widget.HtmlWidget);
 
-dojo.lang.extend(dojo.widget.html.InlineBooleanBox, {
+dojo.lang.extend(fins.widget.html.InlineBooleanBox, {
 	templatePath: dojo.uri.dojoUri("fins/widget/templates/HtmlInlineBooleanBox.html"),
 	templateCssPath: dojo.uri.dojoUri("fins/widget/templates/HtmlInlineBooleanBox.css"),
 	widgetType: "InlineBooleanBox",
