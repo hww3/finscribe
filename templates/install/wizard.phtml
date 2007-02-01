@@ -1,8 +1,17 @@
 <html>
 <head>
 <title>FinScribe Installer</title>
+<script type='text/javascript'>
+var djConfig = {
+    isDebug : true,
+    debugAtAllCosts : true,
+    disableFlashStorage : true
+  };
+
+</script>
 <script type="text/javascript" src="/static/javascripts/dojo.js"></script>
 <script type="text/javascript">
+	dojo.require("dojo.widget.*");
 	dojo.require("dojo.widget.Wizard");
 	dojo.hostenv.writeIncludes();
 
@@ -168,8 +177,8 @@ body {
 
 <body>
 
-<div id="wizard" dojoType="wizard" style="width:100%; height:350px;">
-<div dojoType="WizardPane" label="Welcome!">
+<div id="wizard" dojoType="WizardContainer" style="width:100%; height:350px;">
+<div dojoType="dojo:WizardPane" label="Welcome!">
 <h1>Welcome to FinScribe</h1>
 
 We're glad you've chosen to install FinScribe. 
