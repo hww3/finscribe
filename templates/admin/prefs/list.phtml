@@ -18,11 +18,9 @@
 	var reporter = function(reporter) {
 		this.name = eventName;
 		this.go = function(message) {
-/*
 			var rep = [ reporter + " -- event: "+this.name ];
 			for(i in message) rep.push(i+": "+message[i]);
 			dojo.debug(rep.join(', '));
-*/
 			if(message && message.source)
 			{
 			  dojo.debug("selected a pref! " + message.source.data);
