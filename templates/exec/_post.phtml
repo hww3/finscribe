@@ -1,3 +1,8 @@
+<script type="text/javascript">
+ dojo.require("dojo.widget.DropdownDatePicker");
+ dojo.require("dojo.widget.ResizableTextArea");
+</script>
+
 <h3>Posting: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
 <table>
@@ -35,7 +40,7 @@ href="http://en.wikipedia.org/wiki/Trackback">TrackBack</a> URLs)
 </td>
 <td>
 <input type="text" size="15" <%$showcreated%> id="createdDate" name="createddate"
-value="<%$createddate%>"/ >
+value="<%$createddate%>" dojoType="dropdowndatepicker" />
 <input type="checkbox" name="created_toggle" <%$createchecked%> onclick="toggleCreated()"/>
 </td>
 </tr>

@@ -1,9 +1,9 @@
-dojo.require("dojo.html");
-dojo.require("dojo.lfx.*");
+//dojo.require("dojo.html");
+//dojo.require("dojo.lfx.*");
 dojo.require("dojo.widget.*");
-dojo.require("dojo.widget.DatePicker");
-dojo.require("dojo.widget.ResizableTextarea");
-dojo.require("dojo.io.IframeIO");
+//dojo.require("dojo.widget.DatePicker");
+//dojo.require("dojo.widget.ResizableTextarea");
+//dojo.require("dojo.io.IframeIO");
 
 var menuLayers = {
   timer: null,
@@ -516,6 +516,7 @@ dojo.debug("made corners.");
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
 		dojo.debug("showing item.");
+dojo.widget.createWidget(block);
      		if(loadfunc) loadfunc();
 }
 ).play();
@@ -635,7 +636,7 @@ body.appendChild(block);
 
 picker = dojo.widget.createWidget("DatePicker",
 {widgetId: "datePickerPicker"}, block, "last");
-dojo.event.kwConnect({srcObj: picker,srcFunc:"onSetDate",targetObj: this, targetFunc:"setDateField",
+dojo.event.kwConnect({srcObj: picker,srcFunc:"onValueChanged",targetObj: this, targetFunc:"setDateField",
 once:true});
 }
 dojo.lfx.html.fadeShow(block, 200).play();
@@ -657,17 +658,16 @@ return [valueL, valueT];
 
         var field = document.getElementById("createdDate");
 
-        var date = dojo.widget.manager.getWidgetById("datePickerPicker").date;
+        var date = dojo.widget.manager.getWidgetById("datePickerPicker").getDate();
 
-        field.value = dojo.date.toString(date, "#yyyy-#MM-#dd");
+        field.value = dojo.date.format(date, "#yyyy-#MM-#dd");
 
     }
 
         function toggleCreated()
         {  
 
-                var field = document.getElementById("createdDate");
-                field.disabled = !field.disabled;
-                if(!field.disabled)
-                  showDatePicker();
+                var field = dojo.widget.byId("createdDate");
+                if(field.disabled) field.enable();
+		else field.disable();
        }
