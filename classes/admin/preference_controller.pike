@@ -16,11 +16,27 @@ public void tree(Request id, Response response, mixed ... args)
 {
   if(id->variables->action && id->variables->action == "getChildren")
   {
+      array data = ({});
     mapping d = Tools.JSON.deserialize(id->variables->data);
     Log.debug("data: %O\n", d);
     array prefixes = ({});
     array nodes = ({});
-    if(d->node && d->node->widgetId)
+
+    if(d->node && d->node->widgetId && d->node->widgetId == "prefroot")
+    {
+
+      array x =  model->find("preference", ([]));
+      foreach(x;;object p)
+      {
+	array x = (p["Name"]/".");
+        prefixes += ({x[0]});
+      }
+      prefixes = Array.uniq(prefixes);
+	foreach(prefixes;;string p)
+       data += ({ (["title":  p, "data": p, "widgetId": "tree_" + p, "isFolder": 1 ]) });
+
+    }
+    else if(d->node && d->node->widgetId)
     {
       array x =  model->find("preference", (["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
       int q = sizeof(d->node->widgetId[5..] / ".");
@@ -33,20 +49,19 @@ public void tree(Request id, Response response, mixed ... args)
           nodes += ({p});
       }
       prefixes = Array.uniq(prefixes);
+    
 
-      array data = ({});
-
-      foreach(prefixes;; array p)
-        data += ({ (["title":  p[0], "data": p[1], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
-      foreach(nodes;; object pref)
-        data += ({ (["title":  pref["ShortName"], "data": pref["Name"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
-// "<div dojoType=\"TreeNode\" widgetId=\"treepref_" + pref["Name"] + "\" title=\"" + pref["ShortName"] + "\" isFolder=\"false\"></div>"});
-
+      if(sizeof(prefixes))
+        foreach(prefixes;; array p)
+          data += ({ (["title":  p[0], "data": p[1], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
+      if(sizeof(nodes))foreach(nodes;; object pref)
+          data += ({ (["title":  pref["ShortName"], "data": pref["Name"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
+      
+}
       response->set_data(Tools.JSON.serialize(data));
       response->set_type("text/json");
 
       werror("JSON: %O\n", Tools.JSON.serialize( data ));      
-    }
   }
 }
 
@@ -87,6 +102,8 @@ public void list(Request id, Response response, mixed ... args)
 
 public void set(Request id, Response response, mixed ... args)
 {
+  mixed e;
+  e=catch{
   if(!app->is_admin_user(id, response)) {
     response->flash("msg", "Only admin user can change preferences!");
     response->redirect("list");
@@ -104,12 +121,15 @@ public void set(Request id, Response response, mixed ... args)
 
       }
       pref["Value"] = id->variables->value;
-      response->set_data(JSON.serialize(([ set : 1 ])));
+      response->set_data(JSON.serialize(([ "set" : 1 ])));
       response->set_type("text/javascript");
     }
   }
   else {
-    response->set_data(JSON.serialize(([ set : 0 ])));
+    response->set_data(JSON.serialize(([ "set" : 0 ])));
     response->set_type("text/javascript");
   }
+
+  };
+  if(e) Log.exception("an error occurred while setting a variable.", e);
 }
