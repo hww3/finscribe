@@ -1,5 +1,10 @@
 Version 0.7
 
+- Updated to Dojo 0.4.1
+- fix for a sql error on SQLite; we don't use NOW() any more.
+- added a tree to the preference setting page.
+- changed the default acl on installation to grant delete priveledges to
+    a document's owner.
 - SCHEMA CHANGE: Added description field to preferences as well as ShortName.
 - Added deferred posting of blog articles. Deferred posts have a special 
     ACL. Upon publication, the article's will have the appropriate ACL 
