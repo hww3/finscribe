@@ -16,24 +16,19 @@
 
   <script type="text/javascript">
 	var reporter = function(reporter) {
-		this.name = eventName;
+		this.name = "titleClick";
 		this.go = function(message) {
-			var rep = [ reporter + " -- event: "+this.name ];
-			for(i in message) rep.push(i+": "+message[i]);
-			dojo.debug(rep.join(', '));
-			if(message && message.source)
+			if(message &&  message.source)
 			{
-			  dojo.debug("selected a pref! " + message.source.data);
-			  prefloadHandler(message.source.data);
+			  var m = message.source.data;
+			  prefloadHandler(m);
 			}
 		}
 	}
 
 
     function init() {
-    <% foreach var="preferences" val="preference" %>
-      dojo.widget.byId('<%$preference.Name%>').onSave = createCallback('<%$preference.Name%>');<% end %>
-
+/*
 		var controller = dojo.widget.manager.getWidgetById('treeController');
 		for(eventName in controller.eventNames) {
 			dojo.event.topic.subscribe(
@@ -42,20 +37,17 @@
 				'go'
 			);
 		}
-
+*/
 		/* Add debug print for all prefTree events */
 		var prefTree = dojo.widget.manager.getWidgetById('prefTree');
-
-
-		for(eventName in prefTree.eventNames) {
+//		for(eventName in prefTree.eventNames) {
 			dojo.event.topic.subscribe(
-				prefTree.eventNames[eventName],
+				prefTree.eventNames.titleClick,
 				new reporter('prefTree'),
 				'go'
 			);
-		}
-
-    }
+//		}
+    };
 
     dojo.addOnLoad(init);
 
@@ -96,12 +88,18 @@
         if(!d)
           return;
         d.innerHTML = data.toString();
+        dojo.widget.createWidget(d);
+	dojo.lang.forEach(dojo.widget.byType("InlineEditBox"), function(w) {w.onSave = 
+createCallback(w.widgetId); });
+	dojo.lang.forEach(dojo.widget.byType("InlineBooleanBox"), function(w) {w.onSave = 
+createCallback(w.widgetId); });
     }
 
-  };
+  }
 
+  dojo.io.bind(bindArgs);
 
-
+}
   </script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash var="msg"%></div>
@@ -113,39 +111,16 @@
 <div dojoType="TreeRPCController" RPCUrl="/admin/prefs/tree" widgetId="treeController"></div>
 <div dojoType="TreeSelector" widgetId="treeSelector"></div>
 <div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
-  toggler="fade" widgetId="prefTree" controller="treeController">
-    <div dojoType="TreeNode" widgetId="1.1" title="Preferences" actionsDisabled="remove">
-<% foreach var="prefprefixes" val="prefix" %>
-	<div dojoType="TreeNode" widgetId="tree_<%$prefix%>" title="<%$prefix%>" isFolder="true"></div>
-<% end %>
+  toggler="fade" widgetId="prefTree" controller="treeController" isFolder="true">
+    <div dojoType="TreeNode" widgetId="prefroot" title="Preferences" isFolder="true" actionsDisabled="remove">
 	</div>
 </div>
 </td>
 <td>
-<!--
-        <form action="" method="post">
-          Starts with: <input type="text" size="10" name="startswith"/> <input type="submit" name="search" value="Show"/>
-        </form>
--->
 <div id="prefpane">
 
-        
-        <table>
-            <tr><td><b>Preference Name</b></td><td><b>Value</b></td><td> &nbsp; </td></tr>
-          <% foreach var="preferences" val="preference"%>
-        <tr>
-            <td><%$preference.Name%></td>
-<% if data["preference"]["Type"] == FinScribe.BOOLEAN %>
-	    <td><div id="<%$preference.Name%>" dojoType="fins:InlineBooleanBox"><%$preference.BooleanValue%></div></td>
-<% else %>
-	    <td><div id="<%$preference.Name%>" dojoType="inlineEditBox"><%$preference.Value%></div></td>
-<% endif %>
-        </tr>
-          <% end %>
-        </table>
 </div>
 </td></tr>
 </table>
   <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>
-
