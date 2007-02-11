@@ -158,16 +158,27 @@ params->extras->request->variables->q, "contents");
 
   if(objectp(r))
   {
-    res += ({ "Searching failed, with the following response from the index server:<p>"  });  
+    res += ({ "<b>Searching failed, with the following response from the index server:</b><p>"  });  
     res += ({ r->fault_string });  
   }
-
+  else if(!sizeof(r[0])) 
+  {
+    res += ({ "<b>No documents found</b><p>" });
+  }  
   else
   {
+    object user = params->engine->wiki->get_current_user(params->extras->request);
     res += ({ "<b>Search results:</b><p>" });
     foreach(r[0];int i; mapping entry)
-      res += ({ (i+1)+ ". <a href=\"/space/" + entry->handle + "\">" + entry->title + 
+    {
+      array o = params->engine->wiki->model->find("object", (["path": entry->handle]));
+      if(!sizeof(o)) continue;
+      object e = o[0];
+      if(e->is_readable(user))
+        res += ({ "[" + (int)(entry->score * 100.0)+ "%] <a href=\"/space/" 
+              + entry->handle + "\">" + entry->title + 
               "</a> (" + entry->date + ")<dd>\n" + entry->excerpt + "</dd><p>\n"});
+    }
   }
   res+=({"</div>\n"});
 
