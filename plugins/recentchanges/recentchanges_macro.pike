@@ -72,7 +72,7 @@ array evaluate(Macros.MacroParameters params)
       res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a></li>\n"});
   }
 
-  return ({ "<ul>" }) + res + ({ "</ul> "});
+  return ({ "<ul class=\"recent_changes\">" }) + res + ({ "</ul> "});
 }
 
 }
