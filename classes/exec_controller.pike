@@ -722,6 +722,12 @@ public void login(Request id, Response response, mixed ... args)
    response->set_view(t);
 }
 
+public void get_content(Request id, Response response, mixed ... args)
+{
+  object obj_o = model->get_fbobject(args, id);
+  response->set_data(app->render(obj_o->get_object_contents(), obj_o, id));
+}
+
 public void comments(Request id, Response response, mixed ... args)
 {
    string contents, title, obj;
