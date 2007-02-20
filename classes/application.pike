@@ -4,6 +4,7 @@ inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 import Tools.Logging;
 
+mapping included_by = ([]);
 mapping plugins = ([]);
 mapping engines = ([]);
 mapping render_methods = ([]);
@@ -132,10 +133,7 @@ void start_plugins()
                   if(a)
                     foreach(a; string m; function event)
                     {
-   	               Log.debug("adding handler for " + m + ".");
-                       if(!event_handlers[m])
-                          event_handlers[m] = ({});
-                       event_handlers[m] += ({ event });
+			add_event_handler(m, event);
                     }
                 }
 
@@ -159,6 +157,14 @@ void start_plugins()
     foreach(render_macros; string m; object c)
      e->add_macro(m, c);
   }
+}
+
+void add_event_handler(string event, function handler)
+{
+  Log.debug("adding handler for " + event + ".");
+  if(!event_handlers[event])
+    event_handlers[event] = ({});
+  event_handlers[event] += ({ handler });
 }
 
 int trigger_event(string event, mixed ... args)
@@ -224,8 +230,6 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
     force = 1;
   }
 
-
-
   f = render_methods[t];
 
   if(!f && obj)
@@ -235,7 +239,12 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
   }
 
   if(f)
-    return f(contents, (["request": id, "obj": obj]), ((force||(id&&id->variables->weblog))?1:0));
+  {
+     if(id && id->misc && id->misc->current_page_stack) id->misc->current_page_stack->push(obj);
+     mixed rv = f(contents, (["request": id, "obj": obj]), ((force||(id&&id->variables->weblog))?1:0));
+     if(id && id->misc && id->misc->current_page_stack) id->misc->current_page_stack->pop();
+     return rv;
+  }
   else return contents;
 }
 
@@ -321,6 +330,13 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   }
 }
 
+mixed handle_request(Request request)
+{
+  request->misc->current_page_stack = ADT.Stack();
+  
+  return ::handle_request(request);
+}
+
 object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
@@ -368,4 +384,5 @@ object new_pref(string pref, string value, int type)
   }
 
 }
+
 

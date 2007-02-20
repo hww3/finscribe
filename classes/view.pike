@@ -5,6 +5,22 @@ import Tools.Logging;
 program default_template = (program)"themed_template";
 program default_data = (program)"themed_templatedata";
 
+mapping included_snips = ([]);
+
+void start()
+{
+  app->add_event_handler("postSave", snip_updated);
+}
+
+int snip_updated(string event, object id, object obj)
+{
+  if(included_snips[obj["path"]])
+  {
+    flush_templates();
+  }
+  return 0;
+}
+
 public Template.View get_idview(string tn, object id)
 {
   object t;
@@ -107,18 +123,24 @@ string get_page_breadcrumbs(string page)
 
 string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
+   int cps;
+   mixed rv;
 
    if(!mappingp(args)) return "";
    if(!args->snip) return "";
    object obj = model->get_fbobject((args->snip)/"/");
    object id = data->get_request();
 
+   
+
    if(!obj) return "";
 
+   included_snips[obj["path"]] = 1;
    string contents = obj->get_object_contents();
 
-   return app->render(contents, obj, id);
- 
+   rv = app->render(contents, obj, id);
+
+   return rv;
 }
 
 
