@@ -175,9 +175,9 @@ params->extras->request->variables->q, "contents");
       if(!sizeof(o)) continue;
       object e = o[0];
       if(e->is_readable(user))
-        res += ({ "[" + (int)(entry->score * 100.0)+ "%] <a href=\"/space/" 
+        res += ({ "<img src=\"/static/images/attachment/" + e["icon"] + "\"> <a href=\"/space/" 
               + entry->handle + "\">" + entry->title + 
-              "</a> (" + entry->date + ")<dd>\n" + entry->excerpt + "</dd><p>\n"});
+              "</a> (" + entry->date + ")  [" + (int)(entry->score * 100.0)+ "%]<dd>\n" + entry->excerpt + "</dd><p>\n"});
     }
   }
   res+=({"</div>\n"});
