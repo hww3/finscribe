@@ -25,7 +25,7 @@ array evaluate(Macros.MacroParameters params)
       params->extras->request->misc->__have_folder = 1;
       res += ({javascript_predefs});
     }
-    else
+    else if(!params->extras->request)
     {
       res += ({javascript_predefs});
     }

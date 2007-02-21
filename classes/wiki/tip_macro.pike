@@ -6,7 +6,7 @@ constant is_container = 1;
 
 string describe()
 {
-   return "Format a warning in an attractive manner.";
+   return "Format a tip in an attractive manner.";
 }
 
 array evaluate(Macros.MacroParameters params)
@@ -20,9 +20,9 @@ array evaluate(Macros.MacroParameters params)
   if(params->contents)
   {
 
-    if(params->extras->request && !params->extras->request->misc->__have_warning)
+    if(params->extras->request && !params->extras->request->misc->__have_tip)
     {
-      params->extras->request->misc->__have_warning = 1;
+      params->extras->request->misc->__have_tip = 1;
       res += ({javascript_predefs});
     }
     else if(!params->extras->request)
@@ -32,9 +32,9 @@ array evaluate(Macros.MacroParameters params)
 
 
     res += ({
-#"<table cellpadding='5' width='85%' cellspacing='8px' class='warningMacro' 
+#"<table cellpadding='5' width='85%' cellspacing='8px' class='tipMacro' 
 border=\"0\" align='center'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img 
-src=\"/static/images/forbidden.gif\" width=\"16\" height=\"16\" 
+src=\"/static/images/check.gif\" width=\"16\" height=\"16\" 
 align=\"absmiddle\" alt=\"\" border=\"0\"></td><td>",
 
 params->contents,
@@ -50,9 +50,9 @@ params->contents,
 
 string javascript_predefs = 
 #"<style type=\"text/css\">
-.warningMacro {
-background-color:#FFCCCC;
-border:1px solid #CC0000;
+.tipMacro {
+background-color:#DDFFDD;
+border:1px solid #009900;
 margin-bottom:5px;
 margin-top:5px;
 text-align:left;
