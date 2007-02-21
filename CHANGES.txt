@@ -1,3 +1,19 @@
+Version 0.8
+
+- added {deck}{card}{card}{deck} macro to provide a tabbed list for 
+  content. the {card} macro takes two possible arguments: label and snip. 
+  The snip argument causes the content for that tab to be supplied 
+  dynamically from another document.
+- added {folder}{folder} macro to provide foldable page sections.
+- the underlying Fins framework now flushes the template cache when an 
+  inserted "snippet" (such as portlet-1) is saved, providing instant 
+  updates.
+- a unique url is generated during save in order to foil over-zealous 
+  caches.
+- security during full text searching based on the currently logged
+  in user.
+- beginning to add support for non-root-mounted (/) instances.
+
 Version 0.7
 
 - Updated to Dojo 0.4.1
