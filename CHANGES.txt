@@ -1,5 +1,6 @@
 Version 0.8
 
+- added {tip}, {info}, {warning} and {note} macros.
 - added {deck}{card}{card}{deck} macro to provide a tabbed list for 
   content. the {card} macro takes two possible arguments: label and snip. 
   The snip argument causes the content for that tab to be supplied 
