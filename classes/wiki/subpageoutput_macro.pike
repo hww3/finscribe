@@ -15,7 +15,7 @@ array evaluate(Macros.MacroParameters params)
   // we should get a limit for the number of entries to display.
 
 
-	array res = ({});
+  array res = ({});
 
   subpage = params->extras->request ? params->extras->request->misc->current_page : 0;
 
@@ -32,10 +32,7 @@ array evaluate(Macros.MacroParameters params)
 
   int ci=0;
 
-  foreach(r;; mixed page)
-  {
-    res+=({ "<li><a href=\"/space/" + page["path"] + "\">" + page["title"] + "</a>\n" }); 
-  }
+  res = ({ params->engine->wiki->view->render_partial("space/_objectlist", (["objects": r])) });
 
   return res;
 }
