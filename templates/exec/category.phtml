@@ -5,29 +5,15 @@
 
    <h3><%$category.category%></h3>
 <div class="flash-message"><%flash var="msg" %></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
+
 Items in this category:
-<ul>
-<% foreach var="objects" val="o" %>
-  <li> <a href="/space/<%$o.path%>"><%$o.title%></a>
-<% end %>
-</ul>
+<p>
+<%@include file="space/_objectlist.phtml"%>
 <p/>
 
-<a href="/rss/<%$category.category %>?type=category">RSS Feed</a>
+<a href="/rss/<%$category.category %>?type=category"><img src="/static/images/feed-icon-12x12.png" width="12" height="12" alt="[RSS]" border="0"></a> <a 
+href="/rss/<%$categroy.category %>?type=category">RSS Feed</a>
 
-         </div>
-      </div>
-      </div>
-      </div>
-         <div id="page-portlet-1-wrapper">
-          <div id="page-portlet-1">
-         <% snip snip="themes/default/portlet-1" %>
-         </div>
-         </div>
-         
-</div>
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
 
