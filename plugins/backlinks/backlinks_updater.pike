@@ -70,7 +70,7 @@ void update_backlinks()
 
     if(!sizeof(a)) continue;
     else a[0]["md"]["backlinks"] = Array.uniq(backlinks);
-    Log.debug("%s: %O", a[0]["path"], a[0]["md"]["backlinks"]);
+//    Log.debug("%s: %O", a[0]["path"], a[0]["md"]["backlinks"]);
   }
 
   is_running = 0;

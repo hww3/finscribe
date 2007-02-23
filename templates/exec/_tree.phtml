@@ -1,0 +1,41 @@
+  <script type="text/javascript">
+    dojo.require("dojo.widget.*");
+    dojo.require("dojo.event.*");
+    dojo.require("fins.widget.*");
+    dojo.require("dojo.widget.Tree");
+    dojo.require("dojo.widget.TreeRPCController");
+    dojo.require("dojo.widget.TreeSelector");
+    dojo.require("dojo.widget.TreeNode");
+  </script>
+
+  <script type="text/javascript">
+	var reporter = function(reporter) {
+		this.name = "titleClick";
+		this.go = function(message) {
+			if(message &&  message.source && message.source.data != undefined)
+			{
+			  var m = message.source.data;
+			  window.location = (m);
+			}
+		}
+	}
+
+    function init() {
+		var prefTree = dojo.widget.manager.getWidgetById('pageTree');
+			dojo.event.topic.subscribe(
+				prefTree.eventNames.titleClick,
+				new reporter('pageTree'),
+				'go'
+			);
+    };
+
+    dojo.addOnLoad(init);
+
+  </script>
+<div dojoType="TreeRPCController" RPCUrl="/exec/tree" widgetId="treeController"></div>
+<div dojoType="TreeSelector" widgetId="treeSelector"></div>
+<div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
+  toggler="fade" widgetId="pageTree" controller="treeController" isFolder="true">
+    <div dojoType="TreeNode" widgetId="pageroot" title="Contents" isFolder="true" actionsDisabled="remove">
+	</div>
+</div>

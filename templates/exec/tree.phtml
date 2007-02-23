@@ -1,0 +1,10 @@
+  <%@include file="top.phtml"%>
+   <title><%syspref var="site.name" %> :: document tree</title>
+  <%@include file="header.phtml"%>
+<%@include file="pagebegin.phtml"%>
+<div class="flash-message"><%flash var="msg"%></div>
+          <h3>Site Index</h3>
+
+<%@include file="exec/_tree.phtml" %>
+  <%@include file="footer.phtml"%>
+  <%@include file="bottom.phtml"%>

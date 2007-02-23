@@ -2189,3 +2189,60 @@ public void json_userlist(Request id, Response response, mixed ... args)
   response->set_data(json);
 }   
 
+public void doctree(Request id, Response response, mixed ... args)
+{
+  object t = view->get_idview("exec/tree");
+
+  app->set_default_data(id, t);
+  response->set_view(t);
+}
+
+public void tree(Request id, Response response, mixed ... args)
+{
+  if(id->variables->action && id->variables->action == "getChildren")
+  {
+      array data = ({});
+    mapping d = Tools.JSON.deserialize(id->variables->data);
+    array prefixes = ({});
+    array nodes = ({});   
+    
+    if(d->node && d->node->widgetId && d->node->widgetId == "pageroot")
+    {
+     
+      array x =  model->find("object", (["path": NotCriteria(LikeCriteria("%/%"))]));
+       foreach(x;;object p)   
+       {
+           data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "data": p["link"], "widgetId": "tree_" + p["id"], "isFolder": sizeof(p["children"]) ]) });
+       }
+    }  
+    else if(d->node && d->node->widgetId)
+    {
+      array x =  model->find("object", (["parent": (int)d->node->widgetId[5..] ]));
+//Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(d->node->widgetId[5..] + 
+//"/%"),  Fins.Model.NotCriteria(Fins.Model.LikeCriteria(d->node->widgetId[5..] + "/%/%"))}))
+
+      int q = sizeof(d->node->widgetId[5..] / "/");
+      foreach(x;;object p)
+      {
+	if(sizeof(p["children"]))
+          prefixes += ({ p });
+        else
+          nodes += ({p});
+      }
+      prefixes = Array.uniq(prefixes);
+      
+      
+      if(sizeof(prefixes))
+        foreach(prefixes;; object p)
+          data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"] , "data": 
+p["parent"]["link"], "widgetId": "tree_" + p["id"], "isFolder": 1 ]) });
+      if(sizeof(nodes))foreach(nodes;; object p)
+          data += ({ (["title": "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "data": 
+p["link"], "widgetId": "treepage_" + p["id"], "isFolder": 0 ]) });
+          
+}         
+      response->set_data(Tools.JSON.serialize(data));
+      response->set_type("text/json");
+      
+  }
+}
