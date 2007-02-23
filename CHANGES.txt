@@ -1,5 +1,6 @@
 Version 0.8
 
+- added a plugin to maintain parent-child relationships (parentfixer).
 - added a content tree browser (/exec/doctree).
 - added tiny link support (see a page's info page).
 - added document info page
