@@ -1,5 +1,9 @@
 Version 0.8
 
+- added tiny link support (see a page's info page).
+- added document info page
+- better formatting for backlinks, and backlinks are calculated during 
+  content updates instead of just once a day.
 - added {tip}, {info}, {warning} and {note} macros.
 - added {deck}{card}{card}{deck} macro to provide a tabbed list for 
   content. the {card} macro takes two possible arguments: label and snip. 
