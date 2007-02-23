@@ -10,17 +10,26 @@ int _enabled = 1;
 int is_running = 0;
 mapping backlink_mods = ([]);
 
+mapping query_event_callers()
+{
+  return (["postSave": doUpdateBacklinks ]);
+}
+
 void start()
 {
-  Log.info("starting backlinks updater...");
+  Log.debug("starting backlinks updater...");
 
   call_out(Thread.Thread, 0, update_backlinks);
 }
 
+int doUpdateBacklinks(string event, object id, object obj)
+{
+  process_object(obj);
+}
 
 void update_backlinks()
 {
-  Log.info("backlink updater thread started.");
+  Log.info("BackLink updater thread started.");
 
   if(is_running) return;
 
@@ -48,22 +57,7 @@ void update_backlinks()
 
     foreach(objs;; object o)
     {
-      mapping r = (["misc": ([]), "variables": ([]) ]);
-
-      string html = app->render(o["current_version"]["contents"], o, r);
-
-      if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
-      {
-        continue;
-      }
-      // now, let's parse the html for hrefs.
-      object parser = Parser.HTML();
-
-      parser->add_container("a", extract_href);
-      parser->set_extra(o);
-
-      parser->finish(html);
-
+	process_object(o);
     }
 
     cid = cid + 100;
@@ -75,8 +69,8 @@ void update_backlinks()
     array a = app->model->find("object", ([ "path": page ]));
 
     if(!sizeof(a)) continue;
-
-    else a[0]["md"]["backlinks"] = backlinks;
+    else a[0]["md"]["backlinks"] = Array.uniq(backlinks);
+    Log.debug("%s: %O", a[0]["path"], a[0]["md"]["backlinks"]);
   }
 
   is_running = 0;
@@ -93,11 +87,50 @@ mixed extract_href(object parser, mapping args, string content, mixed ... extra)
       // we only extract local references.
       if(has_prefix(args->href, "/space/"))
       {
-        if(backlink_mods[(args->href)[7..]])
-         backlink_mods[(args->href)[7..]] += ({ extra[0]["path"] });
+	if(extra[1]) // immediate mode?
+        {
+          string path = (args->href)[7..];
+          array a;
+
+          catch {
+            a = app->model->find("object", ([ "path": path ]));
+            if(a[0])
+            {
+              array x = a[0]["md"]["backlinks"];
+              x = Array.uniq(x);
+              a[0]["md"]["backlinks"] = x;
+            }
+          };
+
+        }
         else
-         backlink_mods[(args->href)[7..]] = ({ extra[0]["path"] });
+        {
+          if(backlink_mods[(args->href)[7..]])
+           backlink_mods[(args->href)[7..]] += ({ extra[0]["path"] });
+          else
+           backlink_mods[(args->href)[7..]] = ({ extra[0]["path"] });
+        }
       }
     }
   }
+}
+
+void process_object(object o, int|void immediate)
+{
+  mapping r = (["misc": ([]), "variables": ([]) ]);
+
+  string html = app->render(o["current_version"]["contents"], o, r);
+
+  if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
+  {
+    return;
+  }
+
+  // now, let's parse the html for hrefs.
+  object parser = Parser.HTML();
+
+  parser->add_container("a", extract_href);
+  parser->set_extra(o, immediate);
+
+  parser->finish(html);
 }
