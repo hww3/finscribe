@@ -85,6 +85,50 @@ public void actions(Request id, Response response, mixed ... args)
 
 }
 
+public void object_properties_menu(Request id, Response response, mixed ... args)
+{
+
+  object obj = model->get_fbobject(args, id);
+
+  object cuser = app->get_current_user(id);
+
+//  app->set_default_data(id, t);
+/*
+  t->add("object", obj);
+  t->add("islocked", obj["md"]["locked"]);
+  t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
+  t->add("isdeleteable", obj->is_deleteable(t->get_data()["user_object"]));
+  t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
+  t->add("comments_closed", obj["md"]["comments_closed"]);
+*/
+  array items = ({});
+
+
+  items += ({ (["title": "Edit...", "href": combine_path(action_url(edit), args * "/"), "enabled": obj->is_writeable(cuser)]) }) ;
+  items += ({ (["title": "New Child...", "href": combine_path(action_url(new), args * "/"), "enabled": obj->is_writeable(cuser) ]) }) ;
+  items += ({ (["title": "Delete...", "href": combine_path(action_url(delete), args * "/"), "enabled": obj->is_deleteable(cuser) ]) }) ;
+
+  if(obj["md"]["locked"])
+  {
+    items += ({ (["title": "Unlock", "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
+  }
+  else
+  {
+    items += ({ (["title": "Lock", "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
+  }
+
+  int readable =  obj->is_readable(cuser);
+
+  items += ({ (["title": "Versions...", "href": combine_path(action_url(versions), args * "/"), "enabled": readable ]) }) ;
+  items += ({ (["title": "Properties...", "href": combine_path(action_url(info), args * "/"), "enabled": readable ]) }) ;
+
+  string json = Tools.JSON.serialize((["data": items]));
+   
+  response->set_data(json);
+
+
+}
+
 public void info(Request id, Response response, mixed ... args)
 {
 
@@ -2205,14 +2249,16 @@ public void tree(Request id, Response response, mixed ... args)
     mapping d = Tools.JSON.deserialize(id->variables->data);
     array prefixes = ({});
     array nodes = ({});   
-    
+    string props_url = action_url(object_properties_menu) + "/";
+
     if(d->node && d->node->widgetId && d->node->widgetId == "pageroot")
     {
      
       array x =  model->find("object", (["path": NotCriteria(LikeCriteria("%/%"))]));
        foreach(x;;object p)   
        {
-           data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "data": p["link"], "widgetId": "tree_" + p["id"], "isFolder": sizeof(p["children"]) ]) });
+           data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "object_title": p["title"], 
+                        "props_url": props_url + p["path"], "data": p["link"], "widgetId": "tree_" + p["id"], "isFolder": sizeof(p["children"]) ]) });
        }
     }  
     else if(d->node && d->node->widgetId)
@@ -2234,11 +2280,11 @@ public void tree(Request id, Response response, mixed ... args)
       
       if(sizeof(prefixes))
         foreach(prefixes;; object p)
-          data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"] , "data": 
-p["parent"]["link"], "widgetId": "tree_" + p["id"], "isFolder": 1 ]) });
+          data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"] , "object_title": p["title"], 
+"props_url": props_url + p["path"], "data": p["parent"]["link"], "widgetId": "tree_" + p["id"], "isFolder": 1 ]) });
       if(sizeof(nodes))foreach(nodes;; object p)
-          data += ({ (["title": "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "data": 
-p["link"], "widgetId": "treepage_" + p["id"], "isFolder": 0 ]) });
+          data += ({ (["title": "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "object_title": p["title"], 
+"props_url": props_url + p["path"], "data": p["link"], "widgetId": "treepage_" + p["id"], "isFolder": 0 ]) });
           
 }         
       response->set_data(Tools.JSON.serialize(data));
