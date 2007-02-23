@@ -14,6 +14,21 @@ public void index(Request id, Response response, mixed ... args)
   response->set_data(LOCALE(2, "hello from exec, perhaps you'd like to choose a function?\n"));
 }
 
+public void x(Request id, Response response, mixed ... args)
+{
+  if(!sizeof(args))
+  {
+    response->redirect(action_url(app->controller));
+  }
+  else
+  {
+    object o = model->find_by_id("object", (int)MIME.decode_base64(args[0]));
+    if(!o)
+      response->redirect(action_url(app->controller));
+    else
+      response->redirect(action_url(app->controller->space), o["path"]);
+  }
+}
 
 public void notfound(Request id, Response response, mixed ... args)
 {
@@ -50,6 +65,7 @@ public void notreadable(Request id, Response response, mixed ... args)
      response->set_view(t);
 }
 
+
 public void actions(Request id, Response response, mixed ... args)
 {
 
@@ -64,6 +80,20 @@ public void actions(Request id, Response response, mixed ... args)
   t->add("isdeleteable", obj->is_deleteable(t->get_data()["user_object"]));
   t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
   t->add("comments_closed", obj["md"]["comments_closed"]);
+
+  response->set_view(t);
+
+}
+
+public void info(Request id, Response response, mixed ... args)
+{
+
+  object obj = model->get_fbobject(args, id);
+  object t = view->get_idview("exec/info");
+
+  app->set_default_data(id, t);
+
+  t->add("object", obj);
 
   response->set_view(t);
 
@@ -261,8 +291,10 @@ public void backlinks(Request id, Response response, mixed ... args)
    mixed bl = obj_o["md"]["backlinks"];
  
    if(!bl) bl = ({});
-   t->add("backlinks", bl);
-
+   array bal;
+   bal = model->find("object", (["path": Fins.Model.InCriteria(bl)]));
+   t->add("objects", bal);
+Log.debug("%O", bl);
    response->set_view(t);
 }
 
@@ -725,7 +757,10 @@ public void login(Request id, Response response, mixed ... args)
 public void get_content(Request id, Response response, mixed ... args)
 {
   object obj_o = model->get_fbobject(args, id);
-  response->set_data(app->render(obj_o->get_object_contents(), obj_o, id));
+  if(!obj_o->is_readable(app->get_current_user(id) ))
+    response->set_data("you do not have read permission");
+  else
+    response->set_data(app->render(obj_o->get_object_contents(), obj_o, id));
 }
 
 public void comments(Request id, Response response, mixed ... args)
