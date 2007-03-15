@@ -508,7 +508,7 @@ var bindArgs = {
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 dojo.debug("making corners.");
-     make_corners();
+     rounded_corners(block);
 dojo.debug("made corners.");
      dojo.lfx.html.fadeShow(block, 200, 0, function(){		
 
