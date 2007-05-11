@@ -244,7 +244,7 @@ var bindArgs = {
         if(!d)
           return;
         else
-            d.innerHTML = data.toString();
+            d.innerHTML = data.getElementById("return").innerHTML;
 
     }
     

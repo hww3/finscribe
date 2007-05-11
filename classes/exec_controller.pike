@@ -607,6 +607,8 @@ public void upload(Request id, Response response, mixed ... args)
 public void editattachments(Request id, Response response, mixed ... args)
 {
 
+   werror("id->variables->ajax: %O\n", id->variables->ajax);
+
   int viaframe = 0;
 
   if(!args || !sizeof(args)) 
@@ -718,7 +720,8 @@ mixed e = catch {
 
    if(viaframe)
    {
-     string s = "<html><head></head><body><div>" + t->render() + "</div></body></html>";
+      werror("via-frame\n");
+     string s = "<html><head></head><body><div id=\"return\">" + t->render() + "</div></body></html>";
      response->set_data(s);
      response->set_type("text/html");
    }
