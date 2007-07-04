@@ -61,15 +61,15 @@ var bindArgs = {
   },
   
   position: function(mnu) {
-    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScroll().left;
-    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScroll().top;
-    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScroll().left)
+    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScrollLeft();
+    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScrollTop();
+    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScrollLeft())
       x = x - mnu.offsetWidth - this.offX;
     else x = x + this.offX;
   
-    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScroll().top )
-      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScroll().top )? y - mnu.offsetHeight - 
-this.offY : dojo.html.getViewportHeight() + dojo.html.getScroll().top - mnu.offsetHeight;
+    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScrollTop() )
+      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScrollTop() )? y - mnu.offsetHeight - 
+this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
       this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200).play()", 
@@ -419,7 +419,7 @@ dojo.debug("closed popup.");
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScroll().left + 10) || 2000) + 
+ 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10) || 2000) + 
 "px";
 	objBody.insertBefore(objOverlay, null);
   }
@@ -435,7 +435,7 @@ dojo.debug("closed popup.");
 
 var block = document.getElementById("popup");
 if (!block) {
-var body = dojo.body();
+var body = dojo.html.body();
 block = document.createElement("div");
 block.setAttribute("id", "popup");
 block.className = "rounded rc-parentcolor-404040";
@@ -489,13 +489,13 @@ var bindArgs = {
         // handle successful response here
      block2.innerHTML = data.toString();
 
-//     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScroll().left + 10;
+//     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
 
      if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
        else h = 20;
-     var blockTop = dojo.html.getScroll().top + h;
+     var blockTop = dojo.html.getScrollTop() + h;
    
      h = block.offsetWidth || block.style.pixelWidth ||
                (block.currentStyle && block.currentStyle.width) || block.width;
@@ -503,7 +503,7 @@ var bindArgs = {
      if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
        else h = 20;
 
-     var blockLeft = dojo.html.getScroll().left + h;
+     var blockLeft = dojo.html.getScrollLeft() + h;
 
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
@@ -619,7 +619,7 @@ function showDatePicker() {
 var block = document.getElementById("datePicker");
 var picker;
 if (!block) {
-var body = dojo.body();
+var body = dojo.html.body();
 block = document.createElement("div");
 block.setAttribute("id", "datePicker");
 block.style.display = "none";
