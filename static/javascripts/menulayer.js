@@ -63,13 +63,13 @@ var bindArgs = {
   position: function(mnu) {
     var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScroll().left;
     var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScroll().top;
-    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewport().width + dojo.html.getScroll().left)
+    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScroll().left)
       x = x - mnu.offsetWidth - this.offX;
     else x = x + this.offX;
   
-    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewport().height + dojo.html.getScroll().top )
+    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScroll().top )
       y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScroll().top )? y - mnu.offsetHeight - 
-this.offY : dojo.html.getViewport().height + dojo.html.getScroll().top - mnu.offsetHeight;
+this.offY : dojo.html.getViewportHeight() + dojo.html.getScroll().top - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
       this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200).play()", 
@@ -419,7 +419,7 @@ dojo.debug("closed popup.");
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = ((dojo.html.getViewport().width + dojo.html.getScroll().left + 10) || 2000) + 
+ 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScroll().left + 10) || 2000) + 
 "px";
 	objBody.insertBefore(objOverlay, null);
   }
@@ -489,18 +489,18 @@ var bindArgs = {
         // handle successful response here
      block2.innerHTML = data.toString();
 
-//     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
+//     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScroll().left + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().height) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
        else h = 20;
      var blockTop = dojo.html.getScroll().top + h;
    
      h = block.offsetWidth || block.style.pixelWidth ||
                (block.currentStyle && block.currentStyle.width) || block.width;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().width) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
        else h = 20;
 
      var blockLeft = dojo.html.getScroll().left + h;
