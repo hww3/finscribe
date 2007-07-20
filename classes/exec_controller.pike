@@ -656,6 +656,9 @@ public void editattachments(Request id, Response response, mixed ... args)
       }
     }
   }
+ 
+  // we shouldn't be using this code any more.
+  /*
   if(id->variables->action == "Add") 
   {
     viaframe = 1;
@@ -708,6 +711,7 @@ mixed e = catch {
     }
 
   }
+  */
 
   array o = model->find("object", ([ "is_attachment": 1, "parent": p ]));
   array datatypes = model->get_datatypes();  
@@ -727,6 +731,96 @@ mixed e = catch {
      response->set_view(t);
 
    }
+}
+
+public void addattachments(Request id, Response response, mixed ... args)
+{
+  if(!args || !sizeof(args)) 
+  {
+    response->set_data("No attachment location specified.\n");
+    response->set_error(500);
+    return;
+  }
+  
+  // workaround for flash player not passing cookies properly
+  if(!id->misc->session_id && id->variables->PSESSIONID)
+  {
+    id->misc->session_variables = id->get_session_by_id(id->variables->PSESSIONID);
+  }
+
+   if(!id->misc->session_variables->userid)
+   {
+      response->set_data("You must login to upload.");
+    response->set_error(500);
+      return;
+   } 
+
+    string obj=args*"/";
+    array a = model->find("object", (["path": obj ]));
+    object p;
+    if(sizeof(a)) p = a[0];
+    else 
+    {
+      response->set_data("Unable to find root object to attach this document to.\n");
+    response->set_error(500);
+      return;
+    }
+
+    string path = Stdio.append_path(obj, id->variables["Filename"]);
+    object obj_o;
+  
+    array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["Filename"])]));
+    if(!sizeof(dtos))
+    {
+       response->set_data("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + 
+       " for file " + id->variables["Filename"] + " is not valid.");
+       response->set_error(500);
+       return;
+    }
+
+    array x = FinScribe.Repo.find("object", (["path": path]));
+    if(sizeof(x))
+    {
+      obj_o = x[0];
+    }
+    else
+    {       
+      mixed e = catch {
+        object dto = dtos[0];
+        obj_o = FinScribe.Repo.new("object");
+        obj_o["datatype"] = dto;
+        obj_o["is_attachment"] = 1;
+        obj_o["parent"] = p;
+        obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+        obj_o["datatype"] = dto;
+        obj_o["path"] = path;
+        obj_o->save();
+      };
+    }
+
+      object obj_n = FinScribe.Repo.new("object_version");
+      obj_n["contents"] = id->variables["Filedata"];
+
+      int v;
+      object cv;
+      obj_o->refresh();
+
+      if(cv = obj_o["current_version"])
+      { 
+        v = cv["version"];
+      }
+      else
+      {
+        werror("no existing version.\n");         
+      }
+      obj_n["version"] = (v+1);
+      obj_n["object"] = obj_o;
+      obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_n->save();
+      cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+
+
+  response->set_data("ok");
 }
 
 public void login(Request id, Response response, mixed ... args)

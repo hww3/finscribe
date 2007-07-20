@@ -1,3 +1,130 @@
+	<style type="text/css">
+.clr {
+	clear: both;
+}
+
+/* SWFUpload CSS */
+
+#filesDisplay {
+	padding: 10px;
+	margin-top: 20px;
+	background: #f9f9f9;
+	border: 1px solid #f3f3f3;
+	display: none;
+}
+
+#SWFUpload {
+	margin-left: 20px;
+}
+
+#mmUploadFileListing {
+	margin: 0;
+	padding: 0;
+}
+
+
+a.SWFUploadLink {
+width: 300px;
+height: 100px;
+background: url(../images/custom_button.png) no-repeat;
+display: block;
+}
+
+a.SWFUploadLink:hover {
+background: url(../images/custom_button_over.png) no-repeat;
+}
+
+.disabled {
+	text-decoration: line-through !important;
+}
+
+.newitem {
+	background: #caff4d;
+}
+
+a.whatsnew {
+	font-size: 11px !important;
+	color: #000;
+}
+
+
+
+		
+		.swfuploadbtn {
+			display: block;
+			width: 100px;
+			padding: 0 0 0 20px;
+height: 16px;
+
+		}
+		
+		.browsebtn { background: url(/static/images/add.png) no-repeat 0 
+0px; 
+height: 16px;
+}
+		.uploadbtn { 
+			display: none;
+			background: url(/static/images/accept.png) no-repeat 0 
+0px; 
+height: 16px;
+
+		}
+		
+		.cancelbtn { 
+			display: block;
+			width: 16px;
+			height: 16px;
+			float: right;
+			background: url(/static/images/cancel.png) no-repeat; 
+		}
+		
+		#cancelqueuebtn {
+			display: block;
+			display: none;
+			background: url(/static/images/cancel.png) no-repeat 0 
+0px;
+			margin: 10px 0;
+		}
+		
+		#SWFUploadFileListingFiles ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.SWFUploadFileItem {
+
+			display: block;
+			width: 260px;
+			height: 40px;
+			float: left;
+			background: #eaefea;
+			margin: 0 10px 10px 0;
+			padding: 5px;
+
+		}
+
+		.fileUploading { background: #fee727; }
+		.uploadCompleted { background: #d2fa7c; }
+		.uploadCancelled { background: #f77c7c; }
+		
+		.uploadCompleted .cancelbtn, .uploadCancelled .cancelbtn {
+			display: none;
+		}
+		
+		span.progressBar {
+			width: 220px;
+			display: block;
+			font-size: 10px;
+			height: 10px;
+			margin-top: 6px;
+			margin-left: 6px;
+			margin-bottom: 6px;
+			background-color: #CCC;
+		}
+		
+	</style>
+
 <h2>Editing Attachments</h2>
 <p>
 <%$flash%>
@@ -19,34 +146,23 @@ document.getElementById('filename').value='<%$attachment.path%>'; saveAttachment
   </tr>
   <%end %>
   </table>
-  <form action="" method="post" enctype="multipart/form-data" id="attachmentform"> 
-<table>
-<tr>
-<td>
-<b> Attachment name: </b>
-</td>
-<td id="filename-div">
-</td>
-</tr>
-<tr>
-<td>
-<b>  File: </b>
-</td>
-<td>
-<input name="upload-file" type="file" onchange="updateFilename(this)"/>
-</td>
-</tr>
-<tr>
-<td colspan="2">
-  <input type="hidden" name="action" id="action"/>
-  <input type="button" onclick="document.getElementById('action').value='Add'; saveAttachment('<%$object.path%>', 
-'attachmentform'); return false;" value="Add"/>
 
-<input type="hidden" id="filename" name="save-as-filename" size="35"/>
+<form action="" method="post" enctype="multipart/form-data" id="attachmentform"> 
+<input type="hidden" name="action" id="action"/>
+<input type="hidden" name="save-as-filename" id="filename"/>
+</form>
 
-</td>
-</tr>
-</table>
-  </form>
+		<div id="SWFUploadTarget">
+			<form action="upload.php" method="post" enctype="multipart/form-data">
+
+				<input type="file" name="Filedata" id="Filedata" />
+				<input type="submit" value="upload test" />
+			</form>
+		</div>
+		<h4 id="queueinfo">Queue is empty</h4>
+		<div id="SWFUploadFileListingFiles"></div>
+		<br class="clr" />
+		<a class="swfuploadbtn" id="cancelqueuebtn" href="javascript:cancelQueue();">Cancel queue</a>
+
 <% endif %>
 

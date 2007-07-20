@@ -6,7 +6,8 @@ endif %> page content
 
 <p>
  <% if data["iseditable"] %> 
-<li> <a href="#" onclick="openPopup('/exec/editattachments/<%$object.path%>', '60%');return false;">edit</a> attachments
+<li> <a href="#" 
+onclick="openAttachments('<%$object.path%>', '<%sessionid%>');return false;">edit</a> attachments
 <li> <a href="#" onclick="openPopup('/exec/editcategory/<%$object.path%>', '60%');return false;">edit</a> categories
  <% endif %>
 <p>

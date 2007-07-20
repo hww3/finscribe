@@ -61,15 +61,15 @@ var bindArgs = {
   },
   
   position: function(mnu) {
-    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScrollLeft();
-    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScrollTop();
-    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewportWidth() + dojo.html.getScrollLeft())
+    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScroll().left;
+    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScroll().top;
+    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewport().width + dojo.html.getScroll().left)
       x = x - mnu.offsetWidth - this.offX;
     else x = x + this.offX;
   
-    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewportHeight() + dojo.html.getScrollTop() )
-      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScrollTop() )? y - mnu.offsetHeight - 
-this.offY : dojo.html.getViewportHeight() + dojo.html.getScrollTop() - mnu.offsetHeight;
+    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewport().height + dojo.html.getScroll().top )
+      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScroll().top )? y - mnu.offsetHeight - 
+this.offY : dojo.html.getViewport().height + dojo.html.getScroll().top - mnu.offsetHeight;
     else y = y + this.offY;
     mnu.style.left = x + "px"; mnu.style.top = y + "px";
       this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200).play()", 
@@ -244,7 +244,8 @@ var bindArgs = {
         if(!d)
           return;
         else
-            d.innerHTML = data.getElementById("return").innerHTML;
+            d.innerHTML = data.toString();
+        showSWFUpload("/exec/addattachments/" + obj + "?PSESSIONID=" + currentSessionId);
 
     }
     
@@ -391,6 +392,13 @@ Array(pageWidth,pageHeight,windowWidth,windowHeight)
 	return arrayPageSize;
 }
 
+function openAttachments(obj, sid)
+{
+  setCurrentSessionId(sid);
+  openPopup('/exec/editattachments/' + obj, '60%', null, null, null,
+       function(){ setCurrentObject(obj); showSWFUpload('/exec/addattachments/' + obj  + '?PSESSIONID=' + sid);})
+}
+
 function openLogin()
 {
   openPopup("/exec/login?return_to="  + window.location, '300px', null, null, null, setinsert);
@@ -401,8 +409,23 @@ function setinsert()
  window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 300);
 }
 
+var currentPopup;
+var currentObj;
+var currentSessionId;
+
+function setCurrentObject(co)
+{
+  currentObj = co;
+}
+
+function setCurrentSessionId(sid)
+{
+  currentSessionId = sid;
+}
+
 function openPopup(url, width, height, formid, action, loadfunc) {
   closePopup();
+  currentPopup = url;  
 dojo.debug("closed popup.");
   var objOverlay = document.getElementById("dialogoverlay");
 
@@ -419,7 +442,7 @@ dojo.debug("closed popup.");
 	objOverlay.style.top = '0';
 	objOverlay.style.left = '0';
 	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = ((dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10) || 2000) + 
+ 	objOverlay.style.width = ((dojo.html.getViewport().width + dojo.html.getScroll().left + 10) || 2000) + 
 "px";
 	objBody.insertBefore(objOverlay, null);
   }
@@ -435,7 +458,7 @@ dojo.debug("closed popup.");
 
 var block = document.getElementById("popup");
 if (!block) {
-var body = dojo.html.body();
+var body = dojo.body();
 block = document.createElement("div");
 block.setAttribute("id", "popup");
 block.className = "rounded rc-parentcolor-404040";
@@ -489,26 +512,26 @@ var bindArgs = {
         // handle successful response here
      block2.innerHTML = data.toString();
 
-//     objOverlay.style.width = dojo.html.getViewportWidth() + dojo.html.getScrollLeft() + 10;
+//     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportHeight()) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().height) - h) / 2
        else h = 20;
-     var blockTop = dojo.html.getScrollTop() + h;
+     var blockTop = dojo.html.getScroll().top + h;
    
      h = block.offsetWidth || block.style.pixelWidth ||
                (block.currentStyle && block.currentStyle.width) || block.width;
 
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewportWidth()) - h) / 2
+     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().width) - h) / 2
        else h = 20;
 
-     var blockLeft = dojo.html.getScrollLeft() + h;
+     var blockLeft = dojo.html.getScroll().left + h;
 
 		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
 		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
 dojo.debug("making corners.");
-     rounded_corners(block);
+     make_corners();
 dojo.debug("made corners.");
      dojo.lfx.html.fadeShow(block, 200, 0, function(){		
 
@@ -619,7 +642,7 @@ function showDatePicker() {
 var block = document.getElementById("datePicker");
 var picker;
 if (!block) {
-var body = dojo.html.body();
+var body = dojo.body();
 block = document.createElement("div");
 block.setAttribute("id", "datePicker");
 block.style.display = "none";
@@ -671,3 +694,129 @@ return [valueL, valueT];
                 if(field.disabled) field.enable();
 		else field.disable();
        }
+
+var swfu;
+function showSWFUpload(upload_url) {
+        
+        swfu = new SWFUpload({
+                upload_script : upload_url,
+                target : "SWFUploadTarget",
+                flash_path : "/static/javascripts/SWFUpload.swf",
+                allowed_filesize : 30720,       // 30 MB
+                allowed_filetypes : "*.*",
+                allowed_filetypes_description : "All files...",
+                browse_link_innerhtml : "Browse",
+                upload_link_innerhtml : "Upload Files",
+                browse_link_class : "swfuploadbtn browsebtn",
+                upload_link_class : "swfuploadbtn uploadbtn",
+                flash_loaded_callback : 'swfu.flashLoaded',
+                upload_file_queued_callback : "fileQueued",
+                upload_file_start_callback : 'uploadFileStart',
+                upload_progress_callback : 'uploadProgress',
+                upload_file_complete_callback : 'uploadFileComplete',
+                upload_file_cancel_callback : 'uploadFileCancelled',
+                upload_queue_complete_callback : 'uploadQueueComplete',
+                upload_error_callback : 'uploadError',
+                upload_cancel_callback : 'uploadCancel',
+                auto_upload : false
+        });
+
+};
+
+function fileQueued(file, queuelength) {
+        var listingfiles = document.getElementById("SWFUploadFileListingFiles");
+
+        if(!listingfiles.getElementsByTagName("ul")[0]) {
+                        
+                var info = document.createElement("h4");
+                info.appendChild(document.createTextNode("Upload Queue"));
+
+                listingfiles.appendChild(info);
+                 
+                var ul = document.createElement("ul")
+                listingfiles.appendChild(ul);  
+        }
+                        
+        listingfiles = listingfiles.getElementsByTagName("ul")[0];
+                 
+        var li = document.createElement("li");
+        li.id = file.id;
+        li.className = "SWFUploadFileItem";
+        li.innerHTML = "<a id='" + file.id + "deletebtn' class='cancelbtn' href='javascript:swfu.cancelFile(\"" + file.id +"\");'><!-- IE --></a>"
+		+ file.name + " <span class='progressBar' id='" + file.id + "progress'></span>";
+                        
+        listingfiles.appendChild(li);
+                        
+        var queueinfo = document.getElementById("queueinfo");
+        queueinfo.innerHTML = queuelength + " file" + ((queuelength > 1)?"s":"") + " queued";
+        document.getElementById(swfu.movieName + "UploadBtn").style.display = "block";
+        document.getElementById("cancelqueuebtn").style.display = "block";
+}
+
+function uploadFileCancelled(file, queuelength) {
+        var li = document.getElementById(file.id);
+        li.innerHTML = file.name + " - cancelled";
+        li.className = "SWFUploadFileItem uploadCancelled";
+        var queueinfo = document.getElementById("queueinfo");
+        queueinfo.innerHTML = queuelength + " files queued";
+}
+                
+function uploadFileStart(file, position, queuelength) {
+        var div = document.getElementById("queueinfo");
+        div.innerHTML = "Uploading file " + position + " of " + queuelength;
+        
+        var li = document.getElementById(file.id);
+        li.className += " fileUploading";
+}
+        
+function uploadProgress(file, bytesLoaded) {
+        
+        var progress = document.getElementById(file.id + "progress");
+        var percent = Math.ceil((bytesLoaded / file.size) * 200)
+        progress.style.background = "#f0f0f0 url(/images/progressbar.png) no-repeat -" + (200 - percent) + "px 0";
+}
+        
+function uploadError(errno) {
+        // SWFUpload.debug(errno);
+} 
+
+function uploadFileComplete(file) {
+        var li = document.getElementById(file.id);
+        li.className = "SWFUploadFileItem uploadCompleted";
+}
+        
+function cancelQueue() {
+        swfu.cancelQueue();
+        document.getElementById(swfu.movieName + "UploadBtn").style.display = "none";
+        document.getElementById("cancelqueuebtn").style.display = "none";
+}
+
+function uploadQueueComplete(file) {
+        var div = document.getElementById("queueinfo");
+        div.innerHTML = "All files uploaded..."
+        document.getElementById("cancelqueuebtn").style.display = "none";
+        
+  var bindArgs = { 
+    url:        currentPopup,  
+    content: {ajax: "1"},
+    method: "POST",
+    mimetype:   "text/html",
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+        var d = document.getElementById("popup_contents");
+        if(!d)
+          return;
+        else
+            d.innerHTML = data.toString();
+        showSWFUpload("/exec/addattachments/" + currentObj + "?PSESSIONID=" + currentSessionId);
+    }
+    
+  };
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+   
+}
+
