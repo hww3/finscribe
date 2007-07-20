@@ -1,7 +1,10 @@
 Version 0.8
 
+- SWFUpload is now used to help make attachment management easier.
+- uploading attachments will add a new version if a file already exists.
 - added a plugin to maintain parent-child relationships (parentfixer).
-- added a content tree browser (/exec/doctree).
+- added a content tree browser (/exec/doctree), and is linked to the 
+  object index..
 - added tiny link support (see a page's info page).
 - added document info page
 - better formatting for backlinks, and backlinks are calculated during 
@@ -20,6 +23,8 @@ Version 0.8
 - security during full text searching based on the currently logged
   in user.
 - beginning to add support for non-root-mounted (/) instances.
+- dojo fixes
+- css fixes
 
 Version 0.7
 
