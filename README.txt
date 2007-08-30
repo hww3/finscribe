@@ -85,3 +85,10 @@ theme name "default".
 Also, it's worth noting that you can customize the sidebar that's included with FinScribe, and used 
 by all of the themes. The sidebar's content is stored in a document called theme/default/portlet-1, 
 and you can access it by going to your site's index page. It will be listed under "P" for "portlet-1. 
+/**
+ * mmSWFUpload 1.0: Flash upload dialog - http://profandesign.se/swfupload/
+ *
+ * SWFUpload is (c) 2006 Lars Huring and Mammon Media and is released under the MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ */

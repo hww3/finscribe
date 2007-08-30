@@ -222,7 +222,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             if(id->variables->newacl)
             {
-              g = FinScribe.Repo.new("acl");
+              g = Fins.Model.new("acl");
               Log.info("creating a new acl.");
             }
             if((id->variables->Name != g["Name"]) || id->variables->newacl)
@@ -251,7 +251,7 @@ public void editacl(Request id, Response response, mixed ... args)
               if(r->isNew)
               {
                 Log.debug("adding a rule");
-                object newrule = FinScribe.Repo.new("aclrule");
+                object newrule = Fins.Model.new("aclrule");
                 int cls = 0;
                 if(r->class == "anonymous")
                   cls = 4;
@@ -414,7 +414,7 @@ public void editgroup(Request id, Response response, mixed ... args)
           {
 
             if(id->variables->newgroup)
-              g = FinScribe.Repo.new("group");
+              g = Fins.Model.new("group");
 
             if(id->variables->Name != g["Name"])
                g["Name"] = id->variables->Name;
@@ -509,7 +509,7 @@ public void newuser(Request id, Response response, mixed ... args)
                         else
                         {
                                 // if we got here, everything should be good to go.
-                                object u = FinScribe.Repo.new("user");
+                                object u = Fins.Model.new("user");
                                 u["UserName"] = UserName;
                                 u["Name"] = Name;
                                 u["Email"] = Email;
@@ -532,9 +532,9 @@ public void newuser(Request id, Response response, mixed ... args)
                                 response->redirect("listusers");
 
 // now, let's set up a page for the new user.
-                                object p = FinScribe.Repo.find("object", (["path": "themes/default/newuser"]))[0];
+                                object p = Fins.Model.find("object", (["path": "themes/default/newuser"]))[0];
 
-                                object up = FinScribe.Repo.new("object");
+                                object up = Fins.Model.new("object");
                                 up["path"] = u["UserName"];
                                 up["author"] = u;
                                 up["datatype"] = p["datatype"];
@@ -543,7 +543,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 up->save();
                                 up["md"]["locked"] = 1;
 
-                                object uv = FinScribe.Repo.new("object_version");
+                                object uv = Fins.Model.new("object_version");
                                 uv["author"] = u;
                                 uv["object"] = up;
                                 uv["contents"] = p["current_version"]["contents"];

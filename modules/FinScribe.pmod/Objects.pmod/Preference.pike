@@ -1,7 +1,7 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "preference";
-object repository = FinScribe.Repo;
+object repository = Fins.Model.module;
 
 
 mixed get_value()

@@ -1,7 +1,7 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "aclrule";
-object repository = FinScribe.Repo;
+object repository = Fins.Model.module;
 
 constant xmits = ([
    "browse": 1,

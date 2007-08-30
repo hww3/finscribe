@@ -7,6 +7,8 @@
 dojo.require("fins.widget.*");
 dojo.require("dojo.json");
 dojo.require("fins.widget.ACLBuilder");
+
+ dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
 </script>
 
 <div class="flash-message"><%flash var="msg"%></div>
@@ -15,7 +17,7 @@ dojo.require("fins.widget.ACLBuilder");
 <% else %>
           <h3>Edit ACL</h3>
 <% endif %>
-	<form action="" method="post">
+	<form id="form" action="" method="post">
         <b>ACL Name:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
         <p/>
 <% if data["newacl"] %>

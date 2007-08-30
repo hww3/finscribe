@@ -28,7 +28,7 @@ void start()
   atom = load_controller("atom_controller");
   theme = load_controller("theme_controller");
   _internal = load_controller("internal_controller");
-
+whee = load_controller("user_controller");
   if(!config["app"] || !(int)config["app"]["installed"])
   {
     install = load_controller("install_controller");

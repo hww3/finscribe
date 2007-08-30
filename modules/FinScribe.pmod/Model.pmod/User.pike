@@ -13,6 +13,7 @@ import Fins.Model;
       add_field(StringField("Email", 64, 0));
       add_field(IntField("is_admin", 1, 1));
       add_field(IntField("is_active", 1, 1));
+      add_field(DateField("created", 1));
       add_field(StringField("Password", 16, 0));
       add_field(MultiKeyReference(this, "groups",
           "users_groups", "user_id", "group_id", "group", "id"));

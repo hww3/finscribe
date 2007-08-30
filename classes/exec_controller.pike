@@ -228,7 +228,7 @@ public void editcategory(Request id, Response response, mixed ... args)
     if(!category || !sizeof(category))
     { 
       category = id->variables["new-category"];
-      object nc = FinScribe.Repo.new("category");
+      object nc = Fins.Model.new("category");
       nc["category"] = category;
       nc->save();
       c=({nc});
@@ -435,7 +435,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			else
 			{
 				// if we got here, everything should be good to go.
-				object u = FinScribe.Repo.new("user");
+				object u = Fins.Model.new("user");
 				u["UserName"] = UserName;
 				u["Name"] = Name;
 				u["Email"] = Email;
@@ -446,9 +446,9 @@ public void createaccount(Request id, Response response, mixed ... args)
 				response->flash("msg", "User created successfully.\n");
 				response->redirect("/space/start");
 				
-				object p = FinScribe.Repo.find("object", (["path": "themes/default/newuser"]))[0];
+				object p = Fins.Model.find("object", (["path": "themes/default/newuser"]))[0];
 				
-				object up = FinScribe.Repo.new("object");
+				object up = Fins.Model.new("object");
 				up["path"] = u["UserName"];
 				up["author"] = u;
 				up["datatype"] = p["datatype"];
@@ -457,7 +457,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				up->save();
 				up["md"]["locked"] = 1;
 				
-				object uv = FinScribe.Repo.new("object_version");
+				object uv = Fins.Model.new("object_version");
 				uv["author"] = u;
 				uv["object"] = up;
 				uv["contents"] = p["current_version"]["contents"];
@@ -571,7 +571,7 @@ public void upload(Request id, Response response, mixed ... args)
                }
                else{              
                object dto = dtos[0];
-               obj_o = FinScribe.Repo.new("object");
+               obj_o = Fins.Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
@@ -580,7 +580,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = FinScribe.Repo.new("object_version");
+            object obj_n = Fins.Model.new("object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -675,7 +675,7 @@ public void editattachments(Request id, Response response, mixed ... args)
     {       
 mixed e = catch {
       object dto = dtos[0];
-      obj_o = FinScribe.Repo.new("object");
+      obj_o = Fins.Model.new("object");
       obj_o["datatype"] = dto;
       obj_o["is_attachment"] = 1;
       obj_o["parent"] = p;
@@ -686,7 +686,7 @@ mixed e = catch {
 
 };
 
-      object obj_n = FinScribe.Repo.new("object_version");
+      object obj_n = Fins.Model.new("object_version");
       obj_n["contents"] = id->variables["upload-file"];
 
       int v;
@@ -737,6 +737,7 @@ public void addattachments(Request id, Response response, mixed ... args)
 {
   if(!args || !sizeof(args)) 
   {
+    Log.debug("No attachment location specified.");
     response->set_data("No attachment location specified.\n");
     response->set_error(500);
     return;
@@ -750,6 +751,7 @@ public void addattachments(Request id, Response response, mixed ... args)
 
    if(!id->misc->session_variables->userid)
    {
+    Log.debug("You must login to upload.");
       response->set_data("You must login to upload.");
     response->set_error(500);
       return;
@@ -761,6 +763,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     if(sizeof(a)) p = a[0];
     else 
     {
+    Log.debug("unable to find root object for attachment.");
       response->set_data("Unable to find root object to attach this document to.\n");
     response->set_error(500);
       return;
@@ -772,13 +775,15 @@ public void addattachments(Request id, Response response, mixed ... args)
     array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["Filename"])]));
     if(!sizeof(dtos))
     {
+
+       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + " for file " + id->variables["Filename"] + " is not valid.");
        response->set_data("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + 
        " for file " + id->variables["Filename"] + " is not valid.");
        response->set_error(500);
        return;
     }
 
-    array x = FinScribe.Repo.find("object", (["path": path]));
+    array x = Fins.Model.find("object", (["path": path]));
     if(sizeof(x))
     {
       obj_o = x[0];
@@ -787,7 +792,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     {       
       mixed e = catch {
         object dto = dtos[0];
-        obj_o = FinScribe.Repo.new("object");
+        obj_o = Fins.Model.new("object");
         obj_o["datatype"] = dto;
         obj_o["is_attachment"] = 1;
         obj_o["parent"] = p;
@@ -798,7 +803,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       };
     }
 
-      object obj_n = FinScribe.Repo.new("object_version");
+      object obj_n = Fins.Model.new("object_version");
       obj_n["contents"] = id->variables["Filedata"];
 
       int v;
@@ -989,7 +994,7 @@ public void comments(Request id, Response response, mixed ... args)
              response->flash("msg", "Name and Email are required for posting without logging in.");
              break;
           }
-          object obj_n = FinScribe.Repo.new("comment");
+          object obj_n = Fins.Model.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
             if(anonymous)
@@ -1290,15 +1295,15 @@ public void move(Request id, Response response, mixed ... args)
        string oldpath = obj_o["path"];
 
        if(id->variables->movesub)
-         a = FinScribe.Repo.find("object",
+         a = Fins.Model.find("object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath, 
+       a += Fins.Model.find("object", ([ "path": oldpath, 
                  "type": Fins.Model.Criteria("is_attachment = 2") ]));
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+       a += Fins.Model.find("object", ([ "path": oldpath ]));
 
        array overlaps = ({});
 
@@ -1309,7 +1314,7 @@ public void move(Request id, Response response, mixed ... args)
          pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
 Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
          if(!p->is_deleteable(t->get_data()["user_object"]) || 
-                   sizeof(FinScribe.Repo.find("object", ([ "path": pth]))))
+                   sizeof(Fins.Model.find("object", ([ "path": pth]))))
          {
            overlaps += ({pth});
          }
@@ -1336,15 +1341,15 @@ Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
      string oldpath = obj_o["path"];
  
        if(id->variables->movesub)
-         a = FinScribe.Repo.find("object",
+         a = Fins.Model.find("object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath, 
+       a += Fins.Model.find("object", ([ "path": oldpath, 
                  "type": Fins.Model.Criteria("is_attachment = 2") ]));
 
-     a += FinScribe.Repo.find("object", ([ "path": oldpath ]));
+     a += Fins.Model.find("object", ([ "path": oldpath ]));
 
      int n;
      foreach(a;; object p)
@@ -1416,15 +1421,15 @@ public void delete(Request id, Response response, mixed ... args)
        string oldpath = obj_o["path"];
 
      if(id->variables->movesub)
-         a = FinScribe.Repo.find("object",
+         a = Fins.Model.find("object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath + "/%", 
+       a += Fins.Model.find("object", ([ "path": oldpath + "/%", 
                  "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath ])) || ({});
+       a += Fins.Model.find("object", ([ "path": oldpath ])) || ({});
 
        array overlaps = ({});
 
@@ -1458,15 +1463,15 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      string oldpath = obj_o["path"];
  
      if(id->variables->movesub)
-         a = FinScribe.Repo.find("object",
+         a = Fins.Model.find("object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += FinScribe.Repo.find("object", ([ "path": oldpath + "/%", 
+       a += Fins.Model.find("object", ([ "path": oldpath + "/%", 
                  "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
 
-     a += FinScribe.Repo.find("object", ([ "path": oldpath ])) || ({});
+     a += Fins.Model.find("object", ([ "path": oldpath ])) || ({});
 
      int n;
      foreach(a;; object p)
@@ -1573,7 +1578,7 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                dto = dtos[0];
-               obj_o = FinScribe.Repo.new("object");
+               obj_o = Fins.Model.new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
                obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
@@ -1587,7 +1592,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = FinScribe.Repo.new("object_version");
+            object obj_n = Fins.Model.new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -1846,7 +1851,7 @@ public void post(Request id, Response response, mixed ... args)
                object p = obj_o;
 
                object dto = dtos[0]; 
-               obj_o = FinScribe.Repo.new("object");
+               obj_o = Fins.Model.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -1873,7 +1878,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = FinScribe.Repo.new("object_version");
+            object obj_n = Fins.Model.new("object_version");
             obj_n["contents"] = contents;
             obj_n["subject"] = subject;
             obj_n["created"] = c;

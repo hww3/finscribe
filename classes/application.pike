@@ -254,6 +254,7 @@ public string get_widget_for_type(string type, string contents)
 
   if(!t || !t->get_widget)
   {
+werror("using default widget.\n");
     return "<textarea dojoType=\"resizabletextarea\" id=\"contents\" name=\"contents\" rows=\"10\" cols=\"600\">" + 
                   contents + "</textarea>";
   }
@@ -296,7 +297,7 @@ object get_current_user(object id)
 
   if(id->misc->session_variables && id->misc->session_variables->userid)
   {
-     user = model->find_by_id("user", id->misc->session_variables->userid);
+     user = Fins.Model.find_by_id("user", id->misc->session_variables->userid);
   }
 
   return user;
@@ -311,7 +312,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     return 0;
   }
 
-  object user = model->find_by_id("user", id->misc->session_variables->userid);
+  object user = Fins.Model.find_by_id("user", id->misc->session_variables->userid);
   
   if(!user)
   {
@@ -340,7 +341,7 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
-  array x = model->find("preference", (["Name": pref]));
+  array x = Fins.Model.old_find("preference", (["Name": pref]));
 
   if(x && sizeof(x))
     return x[0];
@@ -356,7 +357,7 @@ object new_string_pref(string pref, string value)
   else 
   { 
 
-     p = FinScribe.Repo.new("preference");
+     p = Fins.Model.new("preference");
      p["Name"] = pref;
      p["Type"] = FinScribe.STRING;
      p["Value"] = value;
@@ -374,7 +375,7 @@ object new_pref(string pref, string value, int type)
   else 
   { 
 
-     p = FinScribe.Repo.new("preference");
+     p = Fins.Model.new("preference");
      p["Name"] = pref;
      p["Type"] = type;
      p["Description"] = "";
