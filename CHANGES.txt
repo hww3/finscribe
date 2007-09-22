@@ -1,5 +1,6 @@
 Version 0.8
 
+- added start script
 - SWFUpload is now used to help make attachment management easier.
 - uploading attachments will add a new version if a file already exists.
 - added a plugin to maintain parent-child relationships (parentfixer).
