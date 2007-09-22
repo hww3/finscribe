@@ -27,10 +27,11 @@ easier of the three to install support for, as you can use Monger.
    c. Third party Pike modules, installable using the following command: 
          pike -x monger modulename
       - Sql.Provider.SQLite (if using SQLite as your database)
-      - Public.Parser.XML2
-      - Public.Web.RSS (any public version will do)
-      - Public.Web.Wiki (v1.5 or newer)
-      - Public.Tools.ConfigFiles (any pubic version will do)
+      - Public.Parser.XML2 (optional, required for RSS/ATOM support)
+      - Public.Web.RSS (any public version will do, optional)
+      - Public.Web.ATOM (any public version will do, optional)
+      - Public.Web.Wiki (v1.5 or newer) [included with distributions of FinScribe]
+      - Public.Tools.ConfigFiles (any pubic version will do) [included with distributions of FinScribe]
       - Public.Web.FCGI (if deploying using FastCGI)
 
 1. Prepare the database:
@@ -48,7 +49,7 @@ easier of the three to install support for, as you can use Monger.
 
 2. Start the blog application:
 
-    ./fin_serve.pike -p portnumber . yourconfigname
+    bin/start.sh -p portnumber . yourconfigname
 
    where yourconfigname is the name of a configuration file, which is 
    normally located in the config directory. Release packages of FinScribe 
@@ -60,6 +61,11 @@ easier of the three to install support for, as you can use Monger.
    be presented with the installation wizard. Simply follow the steps
    to install and configure your FinScribe instance.
 
+WHAT TO DO WHEN THINGS GO WRONG
+
+Chances are, you'll run into difficulties getting things set up. We're working on making the
+experience easier, but the problems aren't all completely solved. Drop the author a line, and
+he will be more than happy to walk you through solving all of the problems.
 
 THEMES
 
@@ -85,10 +91,3 @@ theme name "default".
 Also, it's worth noting that you can customize the sidebar that's included with FinScribe, and used 
 by all of the themes. The sidebar's content is stored in a document called theme/default/portlet-1, 
 and you can access it by going to your site's index page. It will be listed under "P" for "portlet-1. 
-/**
- * mmSWFUpload 1.0: Flash upload dialog - http://profandesign.se/swfupload/
- *
- * SWFUpload is (c) 2006 Lars Huring and Mammon Media and is released under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- *
- */
