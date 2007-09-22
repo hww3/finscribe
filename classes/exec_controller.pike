@@ -22,7 +22,7 @@ public void x(Request id, Response response, mixed ... args)
   }
   else
   {
-    object o = model->find_by_id("object", (int)MIME.decode_base64(args[0]));
+    object o = Fins.Model.find.objects_by_id((int)MIME.decode_base64(args[0]));
     if(!o)
       response->redirect(action_url(app->controller));
     else
@@ -1853,13 +1853,13 @@ public void post(Request id, Response response, mixed ... args)
                object dto = dtos[0]; 
                obj_o = Fins.Model.new("object");
                obj_o["datatype"] = dto;
-               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o["parent"] = p;
                if(just_saving)
                {
-                 array s_a = model->find("acl", (["Name": "Work In Progress Object"]));
+                 array s_a = Fins.Model.old_find("acl", (["Name": "Work In Progress Object"]));
                  object s_acl;
                  if(sizeof(s_a))
                    s_acl = s_a[0];
@@ -1895,7 +1895,7 @@ public void post(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;            
             if(id->variables->subject)
               obj_n["subject"] = id->variables->subject;            
-            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
             obj_n->save();
 
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
@@ -1992,7 +1992,7 @@ public void diff(Request id, Response response, mixed ... args)
      cto = obj_o["current_version"]["contents"];
    else
    {
-     os = model->find("object_version", (["object": obj_o, "version": to]));
+     os = Fins.Model.find.object_versions((["object": obj_o, "version": to]));
      if(!sizeof(os))
      {
        response->set_data("version " + to + " does not exist.\n");
@@ -2001,7 +2001,7 @@ public void diff(Request id, Response response, mixed ... args)
      cto = os[0]["contents"];
    }
 
-   os = model->find("object_version", (["object": obj_o, "version": from]));
+   os = Fins.Model.find.object_versions((["object": obj_o, "version": from]));
    if(!sizeof(os))
    {
      response->set_data("version " + to + " does not exist.\n");
@@ -2097,7 +2097,7 @@ public void versions(Request id, Response response, mixed ... args)
 
 
    t->add("object", obj_o);
-   array a = model->find("object_version", (["object": obj_o]), 
+   array a = Fins.Model.find.object_versions((["object": obj_o]), 
                                       Fins.Model.Criteria("ORDER BY VERSION DESC"));
    t->add("versions", a);
    
@@ -2197,7 +2197,7 @@ private string|array register_pingback(object id, object response, string source
   string obj = targeturl[sizeof((string)oururl)..];
 
   object obj_o;
-  array a = model->find("object", (["path": obj]));
+  array a = Fins.Model.find.objects( (["path": obj]));
 
   if(!sizeof(a)) return ({32, "specified target url doesn't exist."});
 
@@ -2317,9 +2317,9 @@ public void json_userlist(Request id, Response response, mixed ... args)
 { 
   array userlist;
   if(id->variables->startswith)
-    userlist = model->find("user", (["Name" : Fins.Model.LikeCriteria(id->variables->startswith + "%")]));
+    userlist = Fins.Model.find.users((["Name" : Fins.Model.LikeCriteria(id->variables->startswith + "%")]));
   else
-    userlist = model->find("user", ([]));
+    userlist = Fins.Model.find.users_all();
    
   array list = allocate(sizeof(userlist));   
   foreach(userlist;int i;object u)
@@ -2353,7 +2353,7 @@ public void tree(Request id, Response response, mixed ... args)
     if(d->node && d->node->widgetId && d->node->widgetId == "pageroot")
     {
      
-      array x =  model->find("object", (["path": NotCriteria(LikeCriteria("%/%"))]));
+      array x =  Fins.Model.find.objects((["path": NotCriteria(LikeCriteria("%/%"))]));
        foreach(x;;object p)   
        {
            data += ({ (["title":  "<img src='/static/images/attachment/" + p["icon"] + "'> " + p["title"], "object_title": p["title"], 
@@ -2362,7 +2362,7 @@ public void tree(Request id, Response response, mixed ... args)
     }  
     else if(d->node && d->node->widgetId)
     {
-      array x =  model->find("object", (["parent": (int)d->node->widgetId[5..] ]));
+      array x =  Fins.Model.find.objects((["parent": (int)d->node->widgetId[5..] ]));
 //Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(d->node->widgetId[5..] + 
 //"/%"),  Fins.Model.NotCriteria(Fins.Model.LikeCriteria(d->node->widgetId[5..] + "/%/%"))}))
 

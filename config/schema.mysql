@@ -99,6 +99,7 @@ CREATE TABLE users (
   password char(16) default NULL,
   is_admin int(1) default '0',
   is_active int(1) default NULL,
+  created datetime NOT NULL default '0000-00-00 00:00:00',
   name char(36) NOT NULL default '',
   email char(64) NOT NULL default '',
   PRIMARY KEY  (id)
