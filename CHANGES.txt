@@ -1,5 +1,7 @@
 Version 0.8
 
+- made Public.Parser.XML2 completely optional, though this will result in
+    degraded pingback functionality and no trackback functionality.
 - added start script
 - SWFUpload is now used to help make attachment management easier.
 - uploading attachments will add a new version if a file already exists.

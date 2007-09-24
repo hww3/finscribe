@@ -2,6 +2,8 @@ import Tools.Logging;
 
 public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 {
+
+#if constant(Public.Parser.XML2)
 	mapping r = ([]);
 	
 	r->title = obj["title"];
@@ -47,6 +49,10 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 	}
 	
 	return 0;
+#else
+  Log.warn("Public.Parser.XML2 not found; not processing Trackback.\n");
+  return 0;
+#endif
 }
 
 public int pingback_ping(object obj, Standards.URI my_baseurl, string url, string pbsurl)
@@ -117,6 +123,7 @@ string detect_pingback_url(string url)
         if(!s || !sizeof(s)) return 0;
 
 	werror("PINGBACK: got data: %O\n", s);
+#if constant(Public.Parser.XML2)
 	
 	object n = Public.Parser.XML2.parse_html(s);
 	foreach(Public.Parser.XML2.select_xpath_nodes("//link", n) || ({});; object link)
@@ -134,7 +141,10 @@ string detect_pingback_url(string url)
 	}
 	
 	return 0;
-	
+#else
+  Log.warn("Public.Parser.XML2 not found; not processing Pingback from body.\n");
+  return 0;
+#endif	
 }
 
 //
@@ -144,6 +154,7 @@ string detect_pingback_url(string url)
 //
 string detect_trackback_url(string url)
 {
+#if constant(Public.Parser.XML2)
 	string s = get_url_data(url);
 
    if(!s || !sizeof(s)) return 0;
@@ -172,6 +183,10 @@ string detect_trackback_url(string url)
 		}
 	}
 	
+#else
+  Log.warn("Public.Parser.XML2 not found; not processing Trackback.\n");
+  return 0;
+#endif
 	return 0;
 	
 }
