@@ -1,5 +1,8 @@
 Version 0.8
 
+- postSave event is now triggered on deferred publish. this should
+    resolve problems with published items not showing up on the
+    recent changes list among other things.
 - made Public.Parser.XML2 completely optional, though this will result in
     degraded pingback functionality and no trackback functionality.
 - added start script
