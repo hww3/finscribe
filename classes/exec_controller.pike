@@ -1688,6 +1688,7 @@ public void publish(Request id, Response response, mixed ... args)
    // 1. the is_attachment flag will be set properly.
    // 2. the acl will be set to that of the parent.
    // 3. the parent (weblog) will be flushed.
+   // 4. the postSave event will be triggered.
    //
    // TODO:
    //
@@ -1702,6 +1703,8 @@ public void publish(Request id, Response response, mixed ... args)
 
   cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
                                                      obj_o["parent"]["path"]));
+
+  app->trigger_event("postSave", id, obj_o);
 
   response->flash("msg", "Object published successfully.");
   response->redirect(id->referrer);
