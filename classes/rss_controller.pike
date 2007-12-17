@@ -4,6 +4,7 @@ import Public.Parser.XML2;
 
 import Fins;
 inherit Fins.FinsController;
+import Fins.Model;
 
 constant __uses_session = 0;
 
@@ -18,7 +19,7 @@ public void index(Request id, Response response, mixed ... args)
   object obj;
   if(id->variables->type == "category")
   {
-    array a = model->find("category", (["category": args*"/"]));
+    array a = find.categories((["category": args*"/"]));
     if(!sizeof(a))
     {
       response->not_found("category " + args*"/");
@@ -114,7 +115,7 @@ private void history_rss(Fins.Request id, Fins.Response response,
  
 //  array o = obj->get_blog_entries(10);
 
-  Node n = generate_history_rss(obj, model->find("object_version", (["object": obj])), id);
+  Node n = generate_history_rss(obj, find.object_versions((["object": obj])), id);
 
   response->set_type("text/xml");
   response->set_data(render_xml(n));

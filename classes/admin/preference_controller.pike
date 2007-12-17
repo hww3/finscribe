@@ -5,6 +5,7 @@
 import Fins;
 import Tools;
 import Tools.Logging;
+import Fins.Model;
 inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
@@ -25,7 +26,7 @@ public void tree(Request id, Response response, mixed ... args)
     if(d->node && d->node->widgetId && d->node->widgetId == "prefroot")
     {
 
-      array x =  model->find("preference", ([]));
+      array x =  find.preferences_all();
       foreach(x;;object p)
       {
 	array x = (p["Name"]/".");
@@ -38,7 +39,7 @@ public void tree(Request id, Response response, mixed ... args)
     }
     else if(d->node && d->node->widgetId)
     {
-      array x =  model->find("preference", (["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
+      array x = find.preferences((["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
       int q = sizeof(d->node->widgetId[5..] / ".");
       foreach(x;;object p)
       {
@@ -85,14 +86,14 @@ public void list(Request id, Response response, mixed ... args)
     array prefixes=({});
 
     {
-      array x =  model->find("preference", ([]));
+      array x =  find.preferences_all();
       foreach(x;;object p)
         prefixes += ({ (p["Name"]/".")[0]});
       prefixes = Array.uniq(prefixes);
     }     
 
     if(id->variables->startswith) c->Name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
-    ul = model->find("preference", c,  Fins.Model.Criteria("ORDER BY Name DESC"));
+    ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
 
      t->add("prefprefixes", prefixes);
      t->add("preferences", ul);

@@ -6,6 +6,7 @@ import Fins;
 // atom implies xml2.
 import Public.Parser.XML2;
 
+import Fins.Model;
 import Public.Web;
 import Standards;
 
@@ -34,7 +35,7 @@ public void __index(Request id, Response response, mixed ... args)
 
   if(id->variables->type == "category")
   {
-    array a = model->find("category", (["category": args*"/"]));
+    array a = find.categories((["category": args*"/"]));
     if(!sizeof(a))
     {
       response->not_found("category " + args*"/");
@@ -46,7 +47,7 @@ public void __index(Request id, Response response, mixed ... args)
     return;
   }
   if ((sizeof(args) > 1) && (args[0] == "category")) {
-    array a = model->find("category", ([ "category" : args[1..]*"/"]));
+    array a = find.categories(([ "category" : args[1..]*"/"]));
     if(!sizeof(a))
     {
       response->not_found("category " + args*"/");
@@ -145,7 +146,7 @@ private void history_atom(Fins.Request id, Fins.Response response,
     return;
   }
  
-  ATOM.Feed feed = generate_history_atom(obj, model->find("object_version", (["object": obj])), id);
+  ATOM.Feed feed = generate_history_atom(obj, find.object_versions((["object": obj])), id);
 
   //FIXME should be atom+xml but nothing supports it yet!
   //response->set_type("application/atom+xml");

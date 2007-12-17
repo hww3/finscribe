@@ -83,11 +83,11 @@ private void handle_wiki(object obj, Request id, Response response){
  
   int numattachments; 
 
-  array o = model->find("object", ([ "is_attachment": 1, "parent": obj ]));
+  array o = find.objects(([ "is_attachment": 1, "parent": obj ]));
   object v;
   if(id->variables->show_version)
   {
-    v = model->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+    v = find.object_versions((["object": obj, "version": (int)id->variables->show_version]))[0];
     response->flash("msg", LOCALE(1, "Showing archived version"));
   }
   else
@@ -193,7 +193,7 @@ private void handle_text(object obj, Request id, Response response)
 
   if(id->variables->show_version)
   {
-    v = model->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+    v = find.object_versions((["object": obj, "version": (int)id->variables->show_version]))[0];
     response->flash("msg", LOCALE(1, "Showing archived version"));
   }
   else
@@ -220,7 +220,7 @@ private void handle_text(object obj, Request id, Response response)
 
   string contents = v["contents"];
 
-  array o = model->find("object", ([ "is_attachment": 1, "parent": obj ]));
+  array o = find.object_versions(([ "is_attachment": 1, "parent": obj ]));
   array datatypes = model->get_datatypes();
   numattachments = sizeof(o);
 
@@ -259,7 +259,7 @@ private void handle_data(object obj, Request id, Response response)
 
   if(id->variables->show_version)
   {
-    v = model->find("object_version", (["object": obj, "version": (int)id->variables->show_version]))[0];
+    v = find.object_versions((["object": obj, "version": (int)id->variables->show_version]))[0];
   }
   else
   {
