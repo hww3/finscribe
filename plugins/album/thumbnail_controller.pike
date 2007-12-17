@@ -60,9 +60,17 @@ mixed _makethumb(object file) {
     string outtype, outdata;
     switch(file["datatype"]["mimetype"]) {
       case "image/jpeg":
+#if constant(Image.JPEG.encode)
 	outtype = "image/jpeg";
 	outdata = Image.JPEG.encode(img);
 	break;
+#else
+	outtype = "image/gif";
+	if (objectp(alpha))
+	  outdata = Image.GIF.encode_trans(img, alpha);
+	else
+	  outdata = Image.GIF.encode(img);
+#endif
       case "image/png":
 	outtype = "image/png";
 	outdata = Image.PNG.encode(img, ([ "alpha" : alpha ]));

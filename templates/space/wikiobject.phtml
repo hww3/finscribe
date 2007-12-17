@@ -25,11 +25,11 @@
 
    <div id="snip-content">
  
-   <div class="flash-message"><% flash var="msg" %></div>
+   <div class="flash-message"><% flash var="$msg" %></div>
 
    <%@ include file="space/attachmentform.phtml" %>
 <% if data["numcategories"] %>
- Posted in <% implode var="category_links" final=" and " %>.
+ Posted in <% implode var="$category_links" final=" and " %>.
 <p/>
 <% endif %>
 <% if data["teaser"] %>
@@ -57,9 +57,9 @@
             <% endif %>
  |  <a id="PostComment" href="/exec/comments/<%$obj%>">Post 
 a Comment</a> | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
-  <% if data["metadata"]["trackbacks"] %> | <a href="/exec/display_trackbacks/<%$obj%>" id="TrackBacks"><%sizeof var="metadata.trackbacks"%> 
+  <% if data["metadata"]["trackbacks"] %> | <a href="/exec/display_trackbacks/<%$obj%>" id="TrackBacks"><%sizeof var="$metadata.trackbacks"%> 
 TrackBacks</a> <% endif %>
-  <% if data["metadata"]["pingbacks"] %> | <a href="/exec/display_pingbacks/<%$obj%>"><%sizeof var="metadata.pingbacks"%> 
+  <% if data["metadata"]["pingbacks"] %> | <a href="/exec/display_pingbacks/<%$obj%>"><%sizeof var="$metadata.pingbacks"%> 
 PingBacks</a> <% endif %> | <a href="/exec/backlinks/<%$obj%>" id="BackLinks">BackLinks</a>
          <p/>
 <div id="wiper" style="display:none;"></div>

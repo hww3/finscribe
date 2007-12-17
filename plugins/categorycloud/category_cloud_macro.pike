@@ -65,26 +65,4 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
 }
 
 
-mixed rss_fetch(string rssurl, int timeout)
-{
-  string rss;
-  object r;
-
-  Log.debug("rss-reader getting " + rssurl + "\n");
-
-  if(has_prefix(rssurl, "file://"))
-    rss = Stdio.read_file(rssurl[7..]);
-
-  else rss = Protocols.HTTP.get_url_data(rssurl);
-
-  catch
-  {
-
-  if(rss)
-    r = Public.Web.RSS.parse(rss);
-  };
-
-  return r;
-}
-
 }
