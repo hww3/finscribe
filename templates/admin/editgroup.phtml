@@ -17,7 +17,7 @@ dojo.require("fins.widget.ComboPicker");
  
 <div class="snip-buttons"> </div> 
 
-<div class="flash-message"><%flash var="msg"%></div>
+<div class="flash-message"><%flash %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
 
@@ -95,7 +95,7 @@ function getAvailable()
         <p/>
         <b>Group Members</b><br/>
 
-        <% foreach var="group.groups" val="member" %>
+        <% foreach var="$group.groups" val="member" %>
         <%$member.Name%><br />
         <% end %>
 -->
@@ -112,8 +112,8 @@ function getAvailable()
          
 </div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
-Welliver</div>
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Powered by <a 
+href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
 </body>
 </html>
 

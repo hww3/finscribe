@@ -10,7 +10,7 @@ Current ACL: <b><%$currentacl.Name%></b>
 <form>
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
 New ACL: <select name="newacl">
-<% foreach var="acls" val="acl" %>
+<% foreach var="$acls" val="acl" %>
 <option value="<%$acl.id %>"><%$acl.Name%>
 <% end %>
 </select>

@@ -3,7 +3,7 @@
       <td><strong>Size</strong></td>
       <td><strong>Last Update</strong></td>
       <td><strong>Updated By</strong></td></tr>
-  <% foreach var="objects" val="attachment" %>
+  <% foreach var="$objects" val="attachment" %>
   <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.current_version.nice_content_length%></td>
   <td><%$attachment.current_version.nice_created%></td>

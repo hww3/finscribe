@@ -2,7 +2,7 @@
    <title><%syspref var="site.name" %> :: admin :: grouplist</title>
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
-<div class="flash-message"><%flash var="msg"%></div>
+<div class="flash-message"><%flash %></div>
 
           <h3>Group List</h3>
 
@@ -11,7 +11,7 @@
         
         <table>
             <tr><td>Group Name</td></tr>  
-          <% foreach var="groups" val="group"%>
+          <% foreach var="$groups" val="group"%>
         <tr>
             <td><%$group.Name%></td>
             <td>[ <a href="editgroup?groupid=<%$group.id%>">Edit</a> | 

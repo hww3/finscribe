@@ -4,7 +4,7 @@
   <%@include file="pagebegin.phtml" %>
 <h3>Pingbacks for <%$object.title%></h3>
 <ol>
-<%foreach var="pingbacks" val="pingback" %>
+<%foreach var="$pingbacks" val="pingback" %>
 <li><a href="<%$pingback%>"><%$pingback%></a>
 <% end %>
 </ol>

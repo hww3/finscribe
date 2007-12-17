@@ -20,7 +20,7 @@ New Object path: <%$newpath%>
 <% if data["affected"] %>
   The following objects will be moved:
 
-  <% foreach var="affected" val="afo" %>
+  <% foreach var="$affected" val="afo" %>
     <li><%$afo.path%>
   <% end %>
 <p>

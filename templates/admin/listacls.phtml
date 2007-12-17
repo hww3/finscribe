@@ -3,7 +3,7 @@
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
 
-<div class="flash-message"><%flash var="msg"%></div>
+<div class="flash-message"><%flash %></div>
           <h3>ACL List</h3>
 
 <a href="editacl?newacl=1">New ACL...</a>
@@ -12,7 +12,7 @@
         <table>
             <tr><td>ACL 
 Name</td><td>Description</td><td>e-mail</td><td></td></tr>  
-          <% foreach var="acls" val="acl"%>
+          <% foreach var="$acls" val="acl"%>
         <tr>
             <td><%$acl.Name%></td>
             <td><%$acl.Description%></td>

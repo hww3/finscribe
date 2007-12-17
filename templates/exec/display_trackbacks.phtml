@@ -7,7 +7,7 @@
 The trackback URL for this article is: 
 <a 
 href="<%syspref var="site.url"%>/exec/trackback/<%$object.path%>"><%syspref var="site.url"%>/exec/trackback/<%$object.path%></a>.
-<%foreach var="trackbacks" val="trackback" %>
+<%foreach var="$trackbacks" val="trackback" %>
 <a href="<%$trackback.url%>"><%$trackback.url%></a><br/>
 <%$trackback.excerpt%>
 <hr/>

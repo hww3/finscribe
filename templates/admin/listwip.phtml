@@ -2,13 +2,13 @@
    <title><%syspref var="site.name" %> :: admin :: wip items</title>
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
-<div class="flash-message"><%flash var="msg"%></div>
+<div class="flash-message"><%flash %></div>
 
           <h3>WIP Blog Entries</h3>
 <p>
         <table>
             <tr><td>Path</td><td>Title</td><td>Author</td><td>Last Modified</td></tr>  
-          <% foreach var="wipblog" val="blog"%>
+          <% foreach var="$wipblog" val="blog"%>
         <tr>
             <td><%$blog.path%></td>
             <td><%$blog.title%></td>
@@ -24,7 +24,7 @@
 <p>
         <table>
             <tr><td>Path</td><td>Title</td><td>Author</td><td>Last Modified</td></tr>  
-          <% foreach var="wipobj" val="obj"%>
+          <% foreach var="$wipobj" val="obj"%>
         <tr>
             <td><%$obj.path%></td>
             <td><%$obj.title%></td>

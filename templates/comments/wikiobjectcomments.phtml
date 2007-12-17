@@ -1,13 +1,9 @@
-<html>
-<head>
-   <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-   <title><%syspref var="site.name" %> :: <%$obj%></title>
-</head>
-<body>
-<%@include file="tagline.phtml" %>
+  <%@ include file="top.phtml" %>
+  <%@ include file="header.phtml" %>
+   <title><%syspref var="site.name" %> :: <%$title %></title>
+   <%$heads %>
+<%@include file="pagebegin.phtml"%>
 
-   <div id="page-wrapper">
-    <div id="page-content">
 
    <h3><%$obj%></h3>
    Created by <%$author_username%>. Last updated by <%$editor_username%>, 
@@ -16,7 +12,7 @@ Version #<%$version%>.
    <br/>
    
    
-   <font color="red"><% flash var="msg" %></font>
+   <font color="red"><% flash %></font>
    <p/>
    
    <div class="snip-wrapper">
@@ -40,9 +36,9 @@ Version #<%$version%>.
          </div>
          </div>
          
-</div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill Welliver</div>
-</body>
-</html>
+<%@ include file="footer.phtml" %>
+
+</div>
+  <%@ include file="bottom.phtml" %>
 

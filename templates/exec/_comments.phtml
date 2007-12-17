@@ -6,7 +6,7 @@ border="0"></a>
 Posted by
 <% if data->comment["author"]["UserName"] == "anonymous" %><%$comment.md.name%> (anonymous)
 <% else %>
-<% gravatar var="comment.author.email"%><%$comment.author.UserName%>
+<% gravatar var="$comment.author.email"%><%$comment.author.UserName%>
 <% endif %>, <%$comment.nice_created%>.
 <a href="/comments/<%$obj%>#<%$comment.id%>"><img
 src="/static/images/Icon-Permalink.png" width="8" height="9"

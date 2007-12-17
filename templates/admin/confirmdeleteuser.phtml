@@ -10,7 +10,7 @@
  
 <div class="snip-buttons"> </div> 
 
-<div class="flash-message"><%flash var="msg"%></div>
+<div class="flash-message"><%flash %></div>
    <div class="snip-wrapper">
       <div class="snip-content">
 
@@ -24,7 +24,7 @@ documents:
 <p>
 <% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["object_versions"]) %>
 <div style="height:200px; overflow:auto;">
-  <% foreach var="user.objects" val="objs" %>
+  <% foreach var="$user.objects" val="objs" %>
     <li> <%$objs.path%>
   <% end %>
 </div>
@@ -32,7 +32,7 @@ documents:
 Please choose the user to which these objects will be reassigned:
 <p>
 <select size="10" name="reassign_to">
-<%foreach var="all_users" val="u" %>
+<%foreach var="$all_users" val="u" %>
 <option value="<%$u.id%>"><%$u.Name%> [<%$u.UserName%>]
 <% end %>
 </select>
@@ -59,8 +59,8 @@ Please choose the user to which these objects will be reassigned:
          
 </div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Copyright 1995-2005 Bill 
-Welliver</div>
+<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Powered by <a
+href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
 </body>
 </html>
 

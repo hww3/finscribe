@@ -1,11 +1,11 @@
-  This page (<%$object.path%>) contains <% sizeof var="object.attachments" %> Attachments</a><br/>
+  This page (<%$object.path%>) contains <% sizeof var="$object.attachments" %> Attachments</a><br/>
   <table>
   <tr><td><strong>Name</strong></td>
       <td><strong>Type</strong></td>
       <td><strong>Size</strong></td>
       <td><strong>Updated</strong></td>
       <td><strong>Updated By</strong></td></tr>
-  <% foreach var="object.attachments" val="attachment" %>
+  <% foreach var="$object.attachments" val="attachment" %>
   <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.nice_content_length%></td>

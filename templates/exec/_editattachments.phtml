@@ -136,7 +136,7 @@ height: 16px;
   This page (<%$object.path%>) contains <%$numattachments %> Attachments</a><br/>
   <table>
   <tr><th>Name</th><th>Type</th><th>Size</th><th></th></tr>
-  <% foreach var="attachments" val="attachment" %>
+  <% foreach var="$attachments" val="attachment" %>
   <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.content_length%></td>

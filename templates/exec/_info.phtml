@@ -4,12 +4,12 @@
 <b>Tiny Link: </b> <a href="<%$object.tinylink%>"><%$object.tinylink%></a>
 <p>
 <b>Incoming Links</b><p>
-<% foreach var="object.inlinks_links" val="link"%>
+<% foreach var="$object.inlinks_links" val="link"%>
 <%$link%><br>
 <% end %>
 <p>
 <b>Outgoing Links</b><p>
-<% foreach var="object.outlinks_links" val="link"%>
+<% foreach var="$object.outlinks_links" val="link"%>
 <%$link%><br>
 <% end %>
 
