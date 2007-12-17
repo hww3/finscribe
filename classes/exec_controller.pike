@@ -166,12 +166,12 @@ public void changeacl(Request id, Response response, mixed ... args)
    }
 
    t->add("obj", obj["path"]);
-   t->add("acls", model->find("acl", ([]) ));
+   t->add("acls", find.acls_all());
    t->add("currentacl", obj["acl"]);
 
    if(id->variables->newacl)
    {
-     object a = model->find_by_id("acl", (int)id->variables->newacl);
+     object a = find.acls_by_id((int)id->variables->newacl);
 
      obj["acl"] = a;
 
@@ -213,7 +213,7 @@ public void editcategory(Request id, Response response, mixed ... args)
    }
 
   string path = args*"/";
-  array o = model->find("object", (["path": path]));
+  array o = find.objects((["path": path]));
   object dta = view->default_data();
   dta->add("flash", "");
 
@@ -235,12 +235,12 @@ public void editcategory(Request id, Response response, mixed ... args)
     }
     else
     {
-       c = model->find("category", (["category": category]));
+       c = find.categories((["category": category]));
     }
 
   array x;
   if(sizeof(c))
-    x = model->find("object", (["path": path, "categories": c[0]]));
+    x = find.objects((["path": path, "categories": c[0]]));
 
   if(!sizeof(o))
   {
@@ -291,7 +291,7 @@ public void category(Request id, Response response, mixed ... args)
 
    app->set_default_data(id, t);
 
-   array c = model->find("category", (["category": args[0]]));
+   array c = find.categories((["category": args[0]]));
   
    if(!c || !sizeof(c))
    {
@@ -336,7 +336,7 @@ public void backlinks(Request id, Response response, mixed ... args)
  
    if(!bl) bl = ({});
    array bal;
-   bal = model->find("object", (["path": Fins.Model.InCriteria(bl)]));
+   bal = find.objects((["path": Fins.Model.InCriteria(bl)]));
    t->add("objects", bal);
 Log.debug("%O", bl);
    response->set_view(t);
@@ -359,7 +359,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
       return;
    }
 
-   object c = model->find_by_id("comment", (int)id->variables->id);
+   object c = find.comments_by_id((int)id->variables->id);
 
    if(!c)
    {
@@ -370,7 +370,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
    // we need to add a check for admin privs here.
    // user["is_admin"]
-   object us = model->find_by_id("user", (int)id->misc->session_variables->userid);
+   object us = find.users_by_id((int)id->misc->session_variables->userid);
    if(us["is_admin"] || (us["id"] == c["object"]["author"]["id"]))
    {
      // we can delete!
@@ -420,7 +420,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			{
 				response->flash("msg", "You must provide a username with at least 2 characters.\n");
 			}
-			else if(sizeof(model->find("user", (["UserName": UserName]))) != 0)
+			else if(sizeof(find.users((["UserName": UserName]))) != 0)
 			{
 				response->flash("msg", "The username you have chosen is already in use by another user.\n");
 			}
@@ -446,7 +446,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				response->flash("msg", "User created successfully.\n");
 				response->redirect("/space/start");
 				
-				object p = Fins.Model.find("object", (["path": "themes/default/newuser"]))[0];
+				object p = find.objects((["path": "themes/default/newuser"]))[0];
 				
 				object up = Fins.Model.new("object");
 				up["path"] = u["UserName"];
@@ -494,7 +494,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 		if(id->variables->UserName)
 		{
 			t->add("UserName", id->variables->UserName);
-			array a = model->find("user", (["UserName": id->variables->UserName]));
+			array a = find.users((["UserName": id->variables->UserName]));
 
 			if(!sizeof(a))
 			{
@@ -553,7 +553,7 @@ public void upload(Request id, Response response, mixed ... args)
 
   string path = Stdio.append_path(id->variables->root, id->variables["save-as-filename"]);
   string obj=id->variables->root;
-  array a = model->find("object", (["path": obj ]));
+  array a = find.objects((["path": obj ]));
   object obj_o;
   object p;
   if(sizeof(a)) p = a[0];
@@ -562,7 +562,7 @@ public void upload(Request id, Response response, mixed ... args)
     throw(Error.Generic("Unable to find root object to attach this document to.\n"));
   }
   
-               array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
+               array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Mime type " + 
@@ -575,7 +575,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
-               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = path;
                obj_o->save();
@@ -594,7 +594,7 @@ public void upload(Request id, Response response, mixed ... args)
             }
             obj_n["version"] = (v+1);
             obj_n["object"] = obj_o;
-            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
             obj_n->save();
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             response->flash("msg", "Succesfully Saved.");
@@ -626,7 +626,7 @@ public void editattachments(Request id, Response response, mixed ... args)
   t->add("flash", "");
 
     string obj=args*"/";
-    array a = model->find("object", (["path": obj ]));
+    array a = find.objects((["path": obj ]));
     object p;
     if(sizeof(a)) p = a[0];
     else 
@@ -644,7 +644,7 @@ public void editattachments(Request id, Response response, mixed ... args)
     }
     else
     {
-      array o = model->find("object", (["path": id->variables["save-as-filename"]]));
+      array o = find.objects((["path": id->variables["save-as-filename"]]));
       if(!sizeof(o))
       {
         t->add("flash", "Cannot find file " + id->variables["save-as-filename"]);
@@ -665,7 +665,7 @@ public void editattachments(Request id, Response response, mixed ... args)
     string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
     object obj_o;
   
-    array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
+    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
     if(!sizeof(dtos))
     {
        t->add("flash", "Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]) + 
@@ -679,7 +679,7 @@ mixed e = catch {
       obj_o["datatype"] = dto;
       obj_o["is_attachment"] = 1;
       obj_o["parent"] = p;
-      obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
       obj_o["datatype"] = dto;
       obj_o["path"] = path;
       obj_o->save();
@@ -703,7 +703,7 @@ mixed e = catch {
       }
       obj_n["version"] = (v+1);
       obj_n["object"] = obj_o;
-      obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
       obj_n->save();
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
@@ -713,7 +713,7 @@ mixed e = catch {
   }
   */
 
-  array o = model->find("object", ([ "is_attachment": 1, "parent": p ]));
+  array o = find.objects(([ "is_attachment": 1, "parent": p ]));
   array datatypes = model->get_datatypes();  
   t->add("object", p);
   t->add("numattachments", sizeof(o));
@@ -758,7 +758,7 @@ public void addattachments(Request id, Response response, mixed ... args)
    } 
 
     string obj=args*"/";
-    array a = model->find("object", (["path": obj ]));
+    array a = find.objects((["path": obj ]));
     object p;
     if(sizeof(a)) p = a[0];
     else 
@@ -772,7 +772,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     string path = Stdio.append_path(obj, id->variables["Filename"]);
     object obj_o;
   
-    array dtos = model->find("datatype", (["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["Filename"])]));
+    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["Filename"])]));
     if(!sizeof(dtos))
     {
 
@@ -796,7 +796,7 @@ public void addattachments(Request id, Response response, mixed ... args)
         obj_o["datatype"] = dto;
         obj_o["is_attachment"] = 1;
         obj_o["parent"] = p;
-        obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+        obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
         obj_o["datatype"] = dto;
         obj_o["path"] = path;
         obj_o->save();
@@ -820,7 +820,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       }
       obj_n["version"] = (v+1);
       obj_n["object"] = obj_o;
-      obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+      obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
       obj_n->save();
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
@@ -870,7 +870,7 @@ public void login(Request id, Response response, mixed ... args)
          return;
       }
       
-      array r = model->find("user", (["UserName": id->variables->UserName, 
+      array r = find.users((["UserName": id->variables->UserName, 
                                         "Password": id->variables->Password, 
                                         "is_active": 1]));
       if(r && sizeof(r))
@@ -999,10 +999,10 @@ public void comments(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;
             if(anonymous)
             {
-              obj_n["author"] = model->find("user", (["UserName": "anonymous"]))[0];
+              obj_n["author"] = find.users((["UserName": "anonymous"]))[0];
             }
             else
-              obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+              obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
 
             obj_n->save();
             if(anonymous)
@@ -1115,7 +1115,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
  		return;
 	}
 
-   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
+   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
 		response->flash("msg", "A locked object can only be toggled by its owner or an administrator.");
       response->redirect(id->referrer);		
@@ -1147,7 +1147,7 @@ public void toggle_comments(Request id, Response response, mixed ... args)
 		return;
 	}
 
-   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !model->find_by_id("user", id->misc->session_variables->userid)["is_admin"])
+   if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
 		response->flash("msg", "Comments on an object can only be toggled by its owner or an administrator.");
       response->redirect(id->referrer);		
@@ -1570,7 +1570,7 @@ public void edit(Request id, Response response, mixed ... args)
             if(!obj_o)
             {
                Log.debug("Looking for " + datatype );
-               array dtos = model->find("datatype", (["mimetype": datatype]));
+               array dtos = find.datatypes((["mimetype": datatype]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
@@ -1581,7 +1581,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o = Fins.Model.new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
-               obj_o["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+               obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
 
@@ -1608,7 +1608,7 @@ public void edit(Request id, Response response, mixed ... args)
             obj_n["object"] = obj_o;  
             if(subject && sizeof(subject))
               obj_n["subject"] = subject;
-            obj_n["author"] = model->find_by_id("user", id->misc->session_variables->userid);
+            obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
             obj_n->save();
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
             string dtp = obj_o["datatype"]["mimetype"];
@@ -1819,7 +1819,7 @@ public void post(Request id, Response response, mixed ... args)
             // posting should always create a new entry; afterwards it's a standard object
             // that you can edit normally by editing its object content.
             {
-               array dtos = model->find("datatype", (["mimetype": "text/wiki"]));
+               array dtos = find.datatypes((["mimetype": "text/wiki"]));
                if(!sizeof(dtos))
                {
                   response->flash("msg", "Internal Database Error, unable to save.");
