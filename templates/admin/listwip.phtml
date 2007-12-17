@@ -18,6 +18,9 @@
                 <a href="/exec/publish/<%$blog.path%>">Publish</a> ]</td>
         </tr>
           <% end %>
+   	<% if !sizeof(data->wipblog) %>
+	  <tr><td colspan="5"> No WIP Blog entries. </td></tr>
+        <% endif %>
         </table>
 
           <h3>WIP Articles</h3>
@@ -34,6 +37,9 @@
                 <a href="/exec/publish/<%$obj.path%>">Publish</a> ]</td>
         </tr>
           <% end %>
+   	<% if !sizeof(data->wipobj) %>
+	  <tr><td colspan="5"> No WIP Documents. </td></tr>
+        <% endif %>
         </table>
           
   <%@include file="footer.phtml" %>
