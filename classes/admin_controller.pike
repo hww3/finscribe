@@ -61,10 +61,10 @@ public void getusers_json(Request id, Response response, mixed ... args)
     return;
 
   if(!sizeof(args))
-   x = model->find("user", ([]));
+   x = Fins.Model.find.users_all();
   else
   {
-    object g = model->find_by_id("group", (int)args[0]);
+    object g = Fins.Model.find.groups_by_id((int)args[0]);
     
     x = g["users"];
   }
@@ -94,7 +94,7 @@ public void getrules_json(Request id, Response response, mixed ... args)
 
   else
   {
-    a = model->find_by_id("acl", (int)args[0]);
+    a = Fins.Model.find.acls_by_id((int)args[0]);
   }
 
   foreach(a["rules"];;mixed r)
@@ -119,12 +119,12 @@ public void getgroups_json(Request id, Response response, mixed ... args)
   array x = ({});
 
   if(!sizeof(args))
-    x = model->find("group", ([]));
+    x = Fins.Model.find.groups_all();
   else
   {
-    object u = model->find_by_id("user", (int)args[0]);
+    object u = Fins.Model.find.users_by_id((int)args[0]);
     if(u)
-       x = model->find("group", (["users": u]));
+       x = Fins.Model.find.group((["users": u]));
   }
 
   foreach(x;;mixed g)
@@ -150,7 +150,7 @@ public void listacls(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = model->find("acl",([]));
+		ul = Fins.Model.find.acls_all();
 	
 	t->add("acls", ul);
     t->add("in_admin", 1);
@@ -169,10 +169,10 @@ public void listwip(Request id, Response response, mixed ... args)
 
     mixed ul;
 
-    ul = model->find("object",(["is_attachment": 3]));
+    ul = Fins.Model.find.objects((["is_attachment": 3]));
     t->add("wipblog", ul);
 
-    ul = model->find("object",(["is_attachment": 4]));
+    ul = Fins.Model.find.objects((["is_attachment": 4]));
     t->add("wipobj", ul);
 
     t->add("in_admin", 1);
@@ -194,7 +194,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
         if(id->variables->aclid)
         {
-           g = model->find_by_id("acl", (int)id->variables->aclid);
+           g = Fins.Model.find.acls_by_id((int)id->variables->aclid);
 	   t->add("acl", g);
         }
         else
@@ -236,7 +236,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             foreach(rules->deleted;;mapping r)
             {
-              object r = model->find_by_id("aclrule", (int)(r->id));
+              object r = Fins.Model.find.aclrules_by_id((int)(r->id));
               if(!r)
                 Log.error("Non existent ACL Rule %d.", (int)r->id);
               else
@@ -274,12 +274,12 @@ public void editacl(Request id, Response response, mixed ... args)
 
                 if(r->class == "user")
                 {
-                  object u = model->find_by_id("user", (int)r->user);
+                  object u = Fins.Model.find.users_by_id((int)r->user);
                   newrule["user"] += u;
                 }
                 else if(r->class == "group")
                 {
-                  object g = model->find_by_id("group", (int)r->group);
+                  object g = Fins.Model.find.groups_by_id((int)r->group);
                   newrule["group"] += g;
                 }
 
@@ -292,7 +292,7 @@ public void editacl(Request id, Response response, mixed ... args)
               {
                 Log.debug("changing a rule");
 
-                object oldrule = model->find_by_id("aclrule", (int)r->id);
+                object oldrule = Fins.Model.find.aclrules_by_id((int)r->id);
                 int cls = 0;
  
                 if(r->class == "anonymous")
@@ -320,12 +320,12 @@ public void editacl(Request id, Response response, mixed ... args)
 
                 if(r->class == "user")
                 {
-                  object u = model->find_by_id("user", (int)r->user);
+                  object u = Fins.Model.find.users_by_id((int)r->user);
                   oldrule["user"] += u;
                 }
                 else if(r->class == "group")
                 {
-                  object g = model->find_by_id("group", (int)r->group);
+                  object g = Fins.Model.find.groups_by_id((int)r->group);
                   oldrule["group"] += g;
                 }
               }
@@ -352,7 +352,7 @@ public void listusers(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = model->find("user",([]));
+		ul = Fins.Model.find.users_all();
 	
 	t->add("users", ul);
     t->add("in_admin", 1);
@@ -372,7 +372,7 @@ public void listgroups(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = model->find("group",([]));
+		ul = Fins.Model.find.groups_all();
 	
 	t->add("groups", ul);
     t->add("in_admin", 1);
@@ -394,7 +394,7 @@ public void editgroup(Request id, Response response, mixed ... args)
 
         if(id->variables->groupid)
         {
-           g = model->find_by_id("group", (int)id->variables->groupid);
+           g = Fins.Model.find.groups_by_id((int)id->variables->groupid);
 	   t->add("group", g);
         }
         else
@@ -427,7 +427,7 @@ public void editgroup(Request id, Response response, mixed ... args)
               array a = id->variables->added / ",";
               foreach(a;;string toadd)
               {
-                 object x = model->find_by_id("user", (int)toadd);
+                 object x = Fins.Model.find.users_by_id((int)toadd);
                  g["users"] += x;
               }
             }
@@ -437,7 +437,7 @@ public void editgroup(Request id, Response response, mixed ... args)
               array a = id->variables->removed / ",";
               foreach(a;;string toremove)
               {
-                 object x = model->find_by_id("user", (int)toremove);
+                 object x = Fins.Model.find.users_by_id((int)toremove);
                  g["users"] -= x;
               }
             }
@@ -489,7 +489,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 response->flash("msg", "You must provide a username with at least 2 characters.\n");
                                 UserName = "";
                         }
-                        else if(sizeof(model->find("user", (["UserName": UserName]))) != 0)
+                        else if(sizeof(Fins.Model.find.users((["UserName": UserName]))) != 0)
                         {
                                 response->flash("msg", "The username you have chosen is already in use by another user.\n");
                                 UserName = "";
@@ -523,7 +523,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                  array a = id->variables->added / ",";
                                  foreach(a;;string toadd)
                                  {
-                                    object x = model->find_by_id("group", (int)toadd);
+                                    object x = Fins.Model.find.groups_by_id((int)toadd);
                                     x["users"] += u;
                                   }
                                 }
@@ -581,7 +581,7 @@ public void edituser(Request id, Response response, mixed ... args)
   	response->set_view(t);
     t->add("in_admin", 1);
 
-    object u = model->find_by_id("user", (int)id->variables->userid);
+    object u = Fins.Model.find.users_by_id((int)id->variables->userid);
 	t->add("user", u);
 
         if(id->variables->action)
@@ -623,7 +623,7 @@ public void edituser(Request id, Response response, mixed ... args)
               array a = id->variables->added / ",";
               foreach(a;;string toadd)
               {
-                 object x = model->find_by_id("group", (int)toadd);
+                 object x = Fins.Model.find.groups_by_id((int)toadd);
                  x["users"] += u;
               }
             }
@@ -633,7 +633,7 @@ public void edituser(Request id, Response response, mixed ... args)
               array a = id->variables->removed / ",";
               foreach(a;;string toremove)
               {
-                 object x = model->find_by_id("group", (int)toremove);
+                 object x = Fins.Model.find.groups_by_id((int)toremove);
                  x["users"] -= u;
               }
             }
@@ -659,7 +659,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
@@ -667,7 +667,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
 
     // first, we should reassign the documents.
-    object nu = model->find_by_id("user", (int)id->variables->reassign_to);
+    object nu = Fins.Model.find.users_by_id((int)id->variables->reassign_to);
 
     foreach(u["objects"];; object x)
       x["author"] = nu;
@@ -692,7 +692,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
     t->add("in_admin", 1);
     t->add("user", u);
-    t->add("all_users", model->find("user", ([])));
+    t->add("all_users", Fins.Model.find.user(([])));
     response->set_view(t);
   }
 }
@@ -708,7 +708,7 @@ public void deleteacl(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No ACL provided.");
   }
-  if(!(u = model->find_by_id("acl", (int)id->variables->aclid)))
+  if(!(u = Fins.Model.find.acls_by_id((int)id->variables->aclid)))
   {
     response->flash("msg", "ACL id " + id->variables->aclid + " does not exist.");
   }
@@ -734,7 +734,7 @@ public void deletegroup(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No group provided.");
   }
-  if(!(u = model->find_by_id("group", (int)id->variables->groupid)))
+  if(!(u = Fins.Model.find.groups_by_id((int)id->variables->groupid)))
   {
     response->flash("msg", "Group id " + id->variables->groupid + " does not exist.");
   }
@@ -758,7 +758,7 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
@@ -784,7 +784,7 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No user provided.");
   }
-  if(!(u = model->find_by_id("user", (int)id->variables->userid)))
+  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", "User id " + id->variables->userid + " does not exist.");
   }
