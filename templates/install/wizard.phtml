@@ -203,7 +203,7 @@ choose a database storage type from the list of available drivers below.
 <form action="#" id="dbconfiguratorform">
 <b>Database type:</b> <select name="db" id="db" onChange="selectdb()">
 <option>Select a DB
-<% foreach var="dbs" val="db" %>
+<% foreach var="$dbs" val="db" %>
 <option><%$db%>
 <% end %>
 </select>
