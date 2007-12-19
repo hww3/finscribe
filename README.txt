@@ -1,8 +1,7 @@
 Setting up FinScribe
 
-FinScribe runs under Pike versions 7.6.24, 7.6.66 or newer (non-listed 
-versions have issues with their built-in HTTP servers. Additionally, there 
-are a number of additional modules which provided necessary functionality. 
+FinScribe runs under Pike versions 7.6.112 or newer. Additionally, there 
+are a number of additional modules which provide necessary functionality. 
 Item 0 below describes these prerequisites.
 
 FinScribe supports storing its data either using mySQL, PostgreSQL or 
@@ -16,7 +15,7 @@ easier of the three to install support for, as you can use Monger.
    a. Third party libraries:
       - A supported database engine client (mysql or SQLite)
       - PCRE
-      - libxml2
+      - libxml2 (optional but recommended, required for RSS/ATOM support)
       - libfcgi (optional, only required if using FinsRunner to serve
         your application using FastCGI
    b. Modules bundled with Pike (only necessary if you installed the 
@@ -28,11 +27,14 @@ easier of the three to install support for, as you can use Monger.
          pike -x monger modulename
       - Sql.Provider.SQLite (if using SQLite as your database)
       - Public.Parser.XML2 (optional, required for RSS/ATOM support)
-      - Public.Web.RSS (any public version will do, optional)
       - Public.Web.ATOM (any public version will do, optional)
-      - Public.Web.Wiki (v1.5 or newer) [included with distributions of FinScribe]
-      - Public.Tools.ConfigFiles (any pubic version will do) [included with distributions of FinScribe]
       - Public.Web.FCGI (if deploying using FastCGI)
+      - Public.Web.Wiki (v1.5 or newer) 
+           [included with distributions of FinScribe]
+      - Public.Tools.ConfigFiles (any pubic version will do) 
+           [included with distributions of FinScribe]
+      - Public.Web.RSS (any public version will do, optional) 
+           [included with distributions of FinScribe]
 
 1. Prepare the database:
    Mysql:
@@ -49,7 +51,8 @@ easier of the three to install support for, as you can use Monger.
 
 2. Start the blog application:
 
-    bin/start.sh -p portnumber . yourconfigname
+    cd FinScribe
+    bin/start.sh -p portnumber --config yourconfigname
 
    where yourconfigname is the name of a configuration file, which is 
    normally located in the config directory. Release packages of FinScribe 
@@ -63,31 +66,36 @@ easier of the three to install support for, as you can use Monger.
 
 WHAT TO DO WHEN THINGS GO WRONG
 
-Chances are, you'll run into difficulties getting things set up. We're working on making the
-experience easier, but the problems aren't all completely solved. Drop the author a line, and
-he will be more than happy to walk you through solving all of the problems.
+Chances are, you'll run into difficulties getting things set up. We're 
+working on making the experience easier, but the problems aren't all 
+completely solved. Drop the author a line, and he will be more than happy 
+to walk you through solving all of the problems.
 
 THEMES
 
-As of release 0.5, FinScribe is completely Themeable. In addition to the default (ugly and boring) 
-theme, we've got a few, much nicer themes that we've ported from other applications such as 
-WordPress. We'll make them available here, so that you can make your FinScribe installation a little 
+As of release 0.5, FinScribe is completely Themeable. In addition to the 
+default (ugly and boring) theme, we've got a few, much nicer themes that 
+we've ported from other applications such as WordPress. We'll make them 
+available here, so that you can make your FinScribe installation a little 
 prettier.
 
-To install a new theme, simply download the theme file and untar it into your FinScribe/themes 
-directory. Once you've done that, you'll need to set the site.theme preference to the name of the 
-theme you'd like to use. To do that, do the following:
+To install a new theme, simply download the theme file and untar it into 
+your FinScribe/themes directory. Once you've done that, you'll need to 
+set the site.theme preference to the name of the theme you'd like to use. 
+To do that, do the following:
 
-./fin_serve --hilfe PathToFinScribe yourconfigname
+bin/start.sh  --hilfe --config yourconfigname
 
 at the prompt, run the following command:
 
   application->get_sys_pref("site.theme")["Value"] = "yournewthemename";
   quit
 
-And that's it! To switch back to the default theme, simply follow the above commands, and use the 
-theme name "default".
+And that's it! To switch back to the default theme, simply follow the 
+above commands, and use the theme name "default".
 
-Also, it's worth noting that you can customize the sidebar that's included with FinScribe, and used 
-by all of the themes. The sidebar's content is stored in a document called theme/default/portlet-1, 
-and you can access it by going to your site's index page. It will be listed under "P" for "portlet-1. 
+Also, it's worth noting that you can customize the sidebar that's 
+included with FinScribe, and used by all of the themes. The sidebar's 
+content is stored in a document called theme/default/portlet-1, 
+and you can access it by going to your site's index page. It will be 
+listed under "P" for "portlet-1. 
