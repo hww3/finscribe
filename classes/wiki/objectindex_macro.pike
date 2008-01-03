@@ -39,8 +39,8 @@ array evaluate(Macros.MacroParameters params)
   int prev;
   foreach(f; int i; array p)
   {
-//	 werror("current: %O\n", e[i][0]);
-    if(prev != e[i][0])
+//	 werror("current: %O\n", e);
+    if(sizeof(e[i]) && prev != e[i][0])
     {
       res+=({"<h4>"});
       res+=({upper_case(sprintf("%c", e[i][0]))});
@@ -51,7 +51,8 @@ array evaluate(Macros.MacroParameters params)
     res+=({"\">"});
     res+=({p[1]});
     res+=({"</a><br>\n"});
-    prev = e[i][0];
+    if(sizeof(e[i]))
+      prev = e[i][0];
 //	werror("prev: %O ", prev);
   }  
   return res;
