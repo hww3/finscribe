@@ -31,6 +31,7 @@ int updateList(string event, object id, object obj)
 
   f = p->get_value()/"\n";
 
+
   f = ({(string)(obj["id"])}) + f;
   f = Array.uniq(f);
 
@@ -61,13 +62,14 @@ array evaluate(Macros.MacroParameters params)
   array res = ({});
 
   array f = params->engine->wiki->new_string_pref("plugin.recentchanges.list", "")->get_value()/"\n";
+  werror("recent changes: %O\n", f);
 
   foreach(f;;string k)
   {
     if(!(int)k) continue;
   
     object ent;
-    catch(ent = params->engine->wiki->model->find_by_id("object", (int)k));
+    catch(ent = Fins.Model.find.objects_by_id((int)k));
       if(!ent /*|| !ent->is_browseable()*/) continue;
       res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a></li>\n"});
   }
