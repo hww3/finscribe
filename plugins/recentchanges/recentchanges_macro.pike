@@ -22,7 +22,7 @@ int updateList(string event, object id, object obj)
 {
   array f;
 
-  werror("updating recent changes.\n");
+  Log.info("updating recent changes list.\n");
 
 //  // we don't care about work in progress items.
   if(obj["is_attachment"] > 2) return 0; 
@@ -62,7 +62,6 @@ array evaluate(Macros.MacroParameters params)
   array res = ({});
 
   array f = params->engine->wiki->new_string_pref("plugin.recentchanges.list", "")->get_value()/"\n";
-  werror("recent changes: %O\n", f);
 
   foreach(f;;string k)
   {
