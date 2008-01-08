@@ -1,6 +1,7 @@
 import Fins;
 import Fins.Model;
 inherit Fins.FinsModel;
+import Tools.Logging;
 
 //object datatype_instance_module = FinScribe.Objects;
 //object datatype_definition_module = FinScribe.Model;
@@ -13,12 +14,12 @@ public void load_model()
 {
   if(!config["app"] || !config["app"]["installed"]) 
   {
-    werror("Not starting model.\n");
+    Log.info("Not starting model.\n");
     return;
   }
   else
   {
-    werror("Starting model.\n");
+    Log.info("Starting model.\n");
   }
 
   ::load_model();
