@@ -81,7 +81,7 @@ string render(string s, mixed|void extras, int|void force)
 
 string make_key(string s, string fn)
 {
-  string h = Crypto.md5()->hash(s);
+  string h = MIME.encode_base64(Crypto.MD5.hash(s));
 
   return "WIKICOMPILER_" + fn + "_" + h;
 }
