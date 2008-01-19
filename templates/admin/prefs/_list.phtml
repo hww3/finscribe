@@ -1,0 +1,29 @@
+Preferences:
+<b>
+<% implode var="$startswith" splice="</b> &gt; <b>" final="</b> &gt; <b>"%>
+</b>
+<p>
+<table>
+<% foreach var="$preferences" val="pref" %>
+<tr>
+<td>
+<%$pref.ShortName %>: 
+</td>
+<td>
+<% if data->pref["Type"] == FinScribe.BOOLEAN %>
+<div dojoType="fins:InlineBooleanBox" 
+id="<%$pref.Name%>" name="<%$pref.ShortName%>">
+<%$pref.BooleanValue%>
+</div>
+<%else %>
+<div dojoType="dojo:InlineEditBox" id="<%$pref.Name%>" 
+name="<%$pref.Name%>">
+<%$pref.Value%>
+</div>
+<% endif %>
+</td>
+</tr>
+<% end %>
+
+<p><i>Click on a value to edit it.</i>
+</p>

@@ -95,6 +95,7 @@ public void list(Request id, Response response, mixed ... args)
     if(id->variables->startswith) c->Name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
     ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
 
+     t->add("startswith", (id->variables->startswith||"")/".");
      t->add("prefprefixes", prefixes);
      t->add("preferences", ul);
 	
@@ -104,21 +105,23 @@ public void list(Request id, Response response, mixed ... args)
 public void set(Request id, Response response, mixed ... args)
 {
   mixed e;
+
   e=catch{
   if(!app->is_admin_user(id, response)) {
     response->flash("msg", "Only admin user can change preferences!");
     response->redirect("list");
   }
-
   if (id->variables->key && id->variables->value) {
     object pref = app->get_sys_pref(id->variables->key);
     if (pref) {
       if(pref["Type"] == FinScribe.BOOLEAN)
       {
-        if(lower_case(id->variables->value) == "false" || !(int)id->variables->value)
+        if(lower_case(id->variables->value) == "false" || id->variables->value == "0")
           pref["Value"] = 0;
         else
+        {
           pref["Value"] = 1;
+        }
 
       }
       pref["Value"] = id->variables->value;
