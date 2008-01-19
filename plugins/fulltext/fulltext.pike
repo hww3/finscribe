@@ -64,9 +64,12 @@ int updateIndex(string event, object id, object obj)
 
 void doUpdateIndex(string event, object id, object obj)
 {
-  if(obj["is_attachment"] == 3) return;
-
-  Log.info("saved " + obj["path"]);  
+  if(obj["is_attachment"] == 3)
+  {
+    Log.info("Skipping " + obj["path"]);
+     return;
+  }
+//  Log.info("saved " + obj["path"]);  
 
   object p = app->get_sys_pref("plugin." + name + ".indexserver");
   if(!p) return 0;
@@ -75,8 +78,7 @@ void doUpdateIndex(string event, object id, object obj)
 
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
   if(obj["path"] && strlen(obj["path"]))
-  werror("deleteions: %O\n", 
-  c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]));  
+  c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]);  
   c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
       obj["title"] + " " + t, obj["path"], 
