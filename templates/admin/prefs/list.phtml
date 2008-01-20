@@ -1,6 +1,6 @@
   <%@include file="top.phtml"%>
+  <%@include file="adminheader.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: preferencelist</title>
-  <%@include file="header.phtml"%>
   <script type="text/javascript">
     dojo.require("dojo.widget.*");
     dojo.require("dojo.event.*");
@@ -13,7 +13,6 @@
     dojo.require("dojo.widget.TreeNode");
   </script>
 
-
   <script type="text/javascript">
 	var reporter = function(reporter) {
 		this.name = "titleClick";
@@ -25,7 +24,6 @@
 			}
 		}
 	}
-
 
     function init() {
 /*
@@ -122,5 +120,6 @@ createCallback(w.widgetId); });
 </div>
 </td></tr>
 </table>
+
   <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>

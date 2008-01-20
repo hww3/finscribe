@@ -1,6 +1,7 @@
   <%@include file="top.phtml" %>
+  <%@include file="adminheader.phtml" %>
    <title><%syspref var="site.name" %> :: admin</title>
-  <%@include file="header.phtml" %>
+  
   <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash %></div>
@@ -17,6 +18,7 @@
         <ul>
                 <li><a href="plugin">Plugins</a>
                 <li><a href="prefs">Preferences</a>
+                <li><a href="flush_templates">Flush Theme</a>
         </ul>
 	<ul>
 		<li><a href="shutdown">Shutdown</a>

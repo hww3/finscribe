@@ -1,8 +1,7 @@
   <%@include file="top.phtml" %>
+  <%@include file="adminheader.phtml" %>
    <title><%syspref var="site.name" %> :: admin</title>
-  <%@include file="header.phtml" %>
-  <%@include file="pagebegin.phtml" %>
-
+  
 <script type="text/javascript">
 dojo.require("fins.widget.*");
 dojo.require("dojo.json");
@@ -10,6 +9,8 @@ dojo.require("fins.widget.ACLBuilder");
 
  dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
 </script>
+
+  <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash %></div>
 <% if data["newacl"] %>
@@ -119,8 +120,5 @@ function getGroups()
         <input type="submit" name="action" value="Save" />
         </form>
         
-
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
-
-

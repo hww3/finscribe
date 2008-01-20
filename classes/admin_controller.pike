@@ -30,6 +30,14 @@ public void index(Request id, Response response, mixed ... args)
 	response->set_view(t);
 }
 
+public void flush_templates(Request id, Response response, mixed ... args)
+{
+        if(!app->is_admin_user(id, response))
+          return;
+	view->flush_templates();
+        response->flash("msg", "Templates flushed.");
+        response->redirect(index, 0, ([time():""]));      
+}
 public void shutdown(Request id, Response response, mixed ... args)
 {
 	if(!app->is_admin_user(id, response))

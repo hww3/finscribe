@@ -1,3 +1,10 @@
+Version 0.9
+
+- reorganized admin templates for consistency and ease of removing 
+    dependency on dojo in non-admin pages.
+- preferences are cached rather than looked up every request. this should 
+    improve performance a certain amount.
+
 Version 0.8
 
 - postSave event is now triggered on deferred publish. this should

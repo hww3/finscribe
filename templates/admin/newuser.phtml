@@ -1,8 +1,6 @@
-<html>
-<head>
-    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
+<%@include file="top.phtml"%>
 <title>Create Account</title>
-<%@include file="header.phtml"%>
+<%@include file="adminheader.phtml"%>
 
 <script type="text/javascript">
 dojo.require("dojo.json");
@@ -41,10 +39,6 @@ function getAvailable()
     return res;
 };
 </script>
-
-</head>
-<body>
-<%@include file="tagline.phtml"%>
 <%@include file="pagebegin.phtml"%>
    <h3>New user</h3>
 
@@ -133,4 +127,6 @@ function getAvailable()
 
 </form>
 <p/>
+
 <%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>

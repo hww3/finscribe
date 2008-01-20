@@ -1,6 +1,7 @@
   <%@include file="top.phtml"%>
+  <%@include file="adminheader.phtml" %>
    <title><%syspref var="site.name" %> :: admin :: userlist</title>
-  <%@include file="header.phtml" %>
+  
   <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash %></div>
@@ -23,8 +24,7 @@ User?</td><td>Active?</td><td></td></tr>
                 <a href="deleteuser?userid=<%$user.id%>">Delete</a> ]</td>
         </tr>
           <% end %>
-        </table>
-          
+        </table>          
 
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>

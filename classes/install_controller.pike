@@ -159,6 +159,8 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
 
   multiset extant_tables = (multiset)sql->list_tables();
 
+ Log.debug("have tables.\n");
+
   foreach(indices(tables), string name) {
     Log.debug("command: %s", tables[name]);
     if (extant_tables[name])

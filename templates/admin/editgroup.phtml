@@ -1,25 +1,15 @@
-<html>
-<head>
-  <%@include file="header.phtml"%>
- <script src="/static/javascripts/menulayer.js"></script>
-<
+  <%@ include file="top.phtml" %>
+  <%@ include file="adminheader.phtml" %>
+
    <title><%syspref var="site.name"%> :: admin :: edit group</title>
+
 <script type="text/javascript">
 dojo.require("dojo.json");
 dojo.require("fins.widget.*");
 dojo.require("fins.widget.ComboPicker");
 </script>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-   <div id="page-wrapper">
-    <div id="page-content">
- 
-<div class="snip-buttons"> </div> 
-
+<%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
 
 <% if data["newgroup"] %>
           <h3>New Group</h3>
@@ -104,16 +94,6 @@ function getAvailable()
         <input type="submit" name="action" value="Save" />
         </form>
         
-          
-     </div>
-      </div>
-      </div>
-      </div>
-         
-</div>
-
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Powered by <a 
-href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
-</body>
-</html>
+<%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>
 

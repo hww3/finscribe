@@ -4,6 +4,8 @@ inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 import Tools.Logging;
 
+object preferences = Tools.Mapping.MappingCache(60);
+
 mapping included_by = ([]);
 mapping plugins = ([]);
 mapping engines = ([]);
@@ -341,13 +343,15 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
-  array x = Fins.Model.old_find("preference", (["Name": pref]));
+  if(!preferences[pref])
+  {
+    array x = Fins.Model.old_find("preference", (["Name": pref]));
 
-  if(x && sizeof(x))
-    return x[0];
-
-  else return 0;
-  
+    if(x && sizeof(x))
+      return preferences[pref] = x[0];
+    else return 0;
+  }
+  else return preferences[pref];
 }
 
 object new_string_pref(string pref, string value)
@@ -356,7 +360,6 @@ object new_string_pref(string pref, string value)
   if(p) return p;
   else 
   { 
-
      p = Fins.Model.new("preference");
      p["Name"] = pref;
      p["Type"] = FinScribe.STRING;
@@ -365,7 +368,6 @@ object new_string_pref(string pref, string value)
      p->save();
      return p;
   }
-
 }
 
 object new_pref(string pref, string value, int type)
@@ -374,7 +376,6 @@ object new_pref(string pref, string value, int type)
   if(p) return p;
   else 
   { 
-
      p = Fins.Model.new("preference");
      p["Name"] = pref;
      p["Type"] = type;
@@ -383,7 +384,6 @@ object new_pref(string pref, string value, int type)
      p->save();
      return p;
   }
-
 }
 
 

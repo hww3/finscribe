@@ -1,33 +1,16 @@
-<html>
-<head>
-  <%@include file="header.phtml"%>
+  <%@include file="top.phtml"%>
+  <%@include file="adminheader.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: shutting down</title>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-   <div id="page-wrapper">
-    <div id="page-content">
- 
-<div class="snip-buttons"> </div> 
+  
+<%@include file="pagebegin.phtml"%>
 
 <div class="flash-message"><%flash %></div>
-   <div class="snip-wrapper">
-      <div class="snip-content">
 
           <h3>Shutdown Begun</h3>
         
 		This application will shut down in 5 seconds.
-				
-          
-     </div>
-      </div>
-      </div>
-      </div>
-         
-</div>
 
-<div id="page-bottom"><a href="/space/contact+info">contact info</a> | Powered by <a 
-href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
-</body>
-</html>
+<%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>
+
 
