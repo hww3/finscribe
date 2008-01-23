@@ -101,6 +101,18 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
     response->set_data(((array)e)[0]);
     return;
   }
+
+  // SQLite will happily allow you to create a database somewhere it can't
+  // look. So, we need to try to get it to access the database before we
+  // declare success.
+  e = catch(sql->list_tables());
+  if(e) 
+  {
+    Log.exception("An error occurred while communicating with the database "+ id->variables->dburl + ".", e);
+    response->set_data(((array)e)[0]);
+    return;
+  }
+
   Log.debug("connection to database " + id->variables->dburl + " successful.");
   switch(id->variables->dburl[0..1])
   {
