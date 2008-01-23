@@ -1,5 +1,6 @@
 Version 0.9
 
+- added theme management
 - reorganized admin templates for consistency and ease of removing 
     dependency on dojo in non-admin pages.
 - preferences are cached rather than looked up every request. this should 
