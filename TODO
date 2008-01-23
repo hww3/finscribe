@@ -1,3 +1,9 @@
+- better error checking during installation; particularly schema creation
+- theme management -> refresh on upload
+- theme management -> verify incoming theme is valid
+- metadata management
+- tabbed theme (view/edit/info)
+
 - auto ajaxification needs to be extended to the display comments feature on weblog entries.
 - full localization
 - fulltext update when content is moved/deleted
