@@ -1,0 +1,43 @@
+ <%@include file="top.phtml" %>
+   <title><%syspref var="site.name" %> :: admin :: themes</title>
+  <%@include file="adminheader.phtml" %>
+
+<script type="text/javascript">
+function openUpload(sid)
+{
+  setCurrentSessionId(sid);
+  openPopup('/admin/themes/upload', '60%', null, null, null,
+       function(){ setCurrentObject('$THEME'); showSWFUpload('/admin/themes/upload'  + '?PSESSIONID=' + sid); });
+}
+
+</script>
+
+  <%@include file="pagebegin.phtml" %>
+
+
+<div class="flash-message"><%flash %></div>
+          <h3>Plugin List</h3>
+
+        <table>
+            <tr><td><b>Theme</b></td><td></td><td></td></tr>
+          <% foreach var="$themes" val="theme"%>
+        <tr>
+            <td><%$theme.name%></td>
+<% if data["theme"]["is_active"] %>
+            <td>Active</td>
+<% else %>
+            <td><a href="activate/<%$theme.name%>">Make Active</a></td>
+<% endif %>
+
+            <td><a href="get/<%$theme.name%>">Download <%$theme.name%>.zip</a></td>
+        </tr>
+          <% end %>
+        </table>
+
+  <p>
+  <a href="#" onclick="openUpload('<%sessionid%>');return false;">Upload Theme</a>
+  <p>
+
+  <%@include file="footer.phtml" %>
+  <%@include file="bottom.phtml" %>
+
