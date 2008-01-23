@@ -53,14 +53,11 @@ public void upload(Request id, Response response, mixed ... args)
     if(has_suffix(lower_case(id->variables->Filename), ".zip"))
     {
        object z;
-werror("sizeof data: %d\n", sizeof(id->variables->Filedata));
        if(catch(z = Tools.Zip(Stdio.FakeFile(id->variables->Filedata))))
          response->flash("Invalid Zip file " + id->variables->Filename + ".");      
-werror("z: %O\n", z);
 mixed e = catch(
        z->unzip(combine_path(app->config->app_dir, "themes")));
        
-if(e) werror("%O\n", e);
     }
     else
     {
