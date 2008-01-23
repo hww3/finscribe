@@ -224,44 +224,6 @@ var bindArgs = {
     
 // dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
-   
-  
-}
-
-
-function saveAttachment(obj, formid, noanim)
-{
-var bindArgs = { 
-    url:        "/exec/editattachments/" + obj,  
-    content: {ajax: "1"},
-    method: "POST",
-    mimetype:   "text/html",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById("popup_contents");
-        if(!d)
-          return;
-        else
-            d.innerHTML = data.toString();
-        showSWFUpload("/exec/addattachments/" + obj + "?PSESSIONID=" + currentSessionId);
-
-    }
-    
-  };
-
-  if(formid)
-  {
-    var form = document.getElementById(formid);
-    if(form)
-      bindArgs.formNode = form;
-  }
-    
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-   
-  
 }
 
 function postComment(obj, formid, noanim)
@@ -789,35 +751,6 @@ function cancelQueue() {
         swfu.cancelQueue();
         document.getElementById(swfu.movieName + "UploadBtn").style.display = "none";
         document.getElementById("cancelqueuebtn").style.display = "none";
-}
-
-function uploadQueueComplete(file) {
-        var div = document.getElementById("queueinfo");
-        div.innerHTML = "All files uploaded..."
-        document.getElementById("cancelqueuebtn").style.display = "none";
-        
-  var bindArgs = { 
-    url:        currentPopup,  
-    content: {ajax: "1"},
-    method: "POST",
-    mimetype:   "text/html",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById("popup_contents");
-        if(!d)
-          return;
-        else
-            d.innerHTML = data.toString();
-        showSWFUpload("/exec/addattachments/" + currentObj + "?PSESSIONID=" + currentSessionId);
-    }
-    
-  };
-
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-   
 }
 
 function SWFUpload(settings){try

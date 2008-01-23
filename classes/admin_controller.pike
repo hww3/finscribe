@@ -6,11 +6,13 @@ import Tools.Logging;
 
 Fins.FinsController plugin;
 Fins.FinsController prefs;
+Fins.FinsController themes;
 
 void start()
 {
   plugin = load_controller("admin/plugin_controller");
   prefs = load_controller("admin/preference_controller");
+  themes = load_controller("admin/theme_controller");
 }
 
 import Fins;
