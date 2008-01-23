@@ -79,7 +79,24 @@ we've ported from other applications such as WordPress. We'll make them
 available here, so that you can make your FinScribe installation a little 
 prettier.
 
-To install a new theme, simply download the theme file and untar it into 
+The easiest way to manage your themes is using the admin interface. This 
+will allow you to upload new or updated themes as well as set the active 
+theme. The admin interface also allows you to download a copy of the theme 
+so that you can make modifications more easily.
+
+Also, it's worth noting that you can customize the sidebar that's 
+included with FinScribe, and used by all of the themes. The sidebar's 
+content is stored in a document called theme/default/portlet-1, 
+and you can access it by going to your site's index page. It will be 
+listed under "P" for "portlet-1. 
+
+* Old theme management technique
+
+The following material describes the use of themes without using the admin 
+interface. Normally it won't be necessary, but it's included here for 
+completeness.
+
+To install a new theme, simply download the theme file and unzip it into 
 your FinScribe/themes directory. Once you've done that, you'll need to 
 set the site.theme preference to the name of the theme you'd like to use. 
 To do that, do the following:
@@ -93,9 +110,3 @@ at the prompt, run the following command:
 
 And that's it! To switch back to the default theme, simply follow the 
 above commands, and use the theme name "default".
-
-Also, it's worth noting that you can customize the sidebar that's 
-included with FinScribe, and used by all of the themes. The sidebar's 
-content is stored in a document called theme/default/portlet-1, 
-and you can access it by going to your site's index page. It will be 
-listed under "P" for "portlet-1. 
