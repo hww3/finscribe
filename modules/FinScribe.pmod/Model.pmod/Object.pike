@@ -4,6 +4,7 @@ import Fins.Model;
    inherit Model.DataObject;
 
    static mapping metadata = ([]);
+   static string _metadata;
 
    static void define()
    {  
@@ -53,13 +54,15 @@ import Fins.Model;
 
    object get_md(mixed md, object i)
    {
-     if(!metadata[i->get_id()] || !metadata[i->get_id()][1])
+werror("get_md(%O, %O)\n",md, i);
+     if(!metadata[i->get_id()] || !metadata[i->get_id()] || _metadata != md)
      {
-       object md = MetaData(md, i);
-       metadata[i->get_id()][1] = md;
-       return md;
+       _metadata = md;
+       object lmd = MetaData(md, i);
+       metadata[i->get_id()] = lmd;
+       return lmd;
      }
-     else return metadata[i->get_id()][1];
+     else return metadata[i->get_id()];
    }
 
    static mixed get_attachments(mixed n, object i)
@@ -281,7 +284,6 @@ MIME.encode_base64((string)n));
       return 1;
    }
 
-
    string dump()
    {
      return MIME.encode_base64(encode_value(metadata));
@@ -289,6 +291,7 @@ MIME.encode_base64((string)n));
 
  }
 
+/*
   void add_ref(Fins.Model.DataObjectInstance o)
   {
     ::add_ref(o);
@@ -301,7 +304,8 @@ MIME.encode_base64((string)n));
     metadata[o->get_id()][0]++;
 
 }
-
+*/
+/*
   void sub_ref(Fins.Model.DataObjectInstance o)
   {
     if(!o->is_initialized()) return;
@@ -318,5 +322,5 @@ MIME.encode_base64((string)n));
     ::sub_ref(o);
   }
 
-
+*/
 
