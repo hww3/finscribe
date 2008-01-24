@@ -50,7 +50,7 @@ void ftSearch(object id, object response, mixed ... args)
 string textify(string html)
 {
   object p = Parser.HTML();
-  p->_set_tag_callback(lambda(object parser, mixed val){return "";});
+  p->_set_tag_callback(lambda(object parser, mixed val){return " ";});
 
   return p->finish(html)->read();
 }
@@ -82,7 +82,7 @@ void doUpdateIndex(string event, object id, object obj)
   c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
       obj["title"] + " " + t, obj["path"], 
-      FinScribe.Blog.make_excerpt(t));
+      FinScribe.Blog.make_excerpt(t), obj["datatype"]["mimetype"]);
 }
 
 class searchdialog_macro
