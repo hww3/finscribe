@@ -4,6 +4,7 @@ import Fins.Model;
    inherit Model.DataObject;
 
    static mapping metadata = ([]);
+   static string _metadata;
 
    static void define()
    {  
@@ -54,13 +55,14 @@ import Fins.Model;
 
    object get_md(mixed md, object i)
    {
-     if(!metadata[i->get_id()] || !metadata[i->get_id()][1])
+     if(!metadata[i->get_id()] || !metadata[i->get_id()]  || _metadata != md)
      {
-       object md = MetaData(md, i);
-       metadata[i->get_id()][1] = md;
-       return md;
+       _metadata = md;
+       object lmd = MetaData(md, i);
+       metadata[i->get_id()] = lmd;
+       return lmd;
      }
-     else return metadata[i->get_id()][1];
+     else return metadata[i->get_id()];
    }
 
    class MetaData
@@ -157,6 +159,7 @@ import Fins.Model;
 
  }
 
+/*
   void add_ref(Fins.Model.DataObjectInstance o)
   {
     ::add_ref(o);
@@ -185,3 +188,4 @@ import Fins.Model;
 
     ::sub_ref(o);
   }
+*/

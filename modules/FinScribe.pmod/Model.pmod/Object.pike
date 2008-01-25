@@ -54,7 +54,6 @@ import Fins.Model;
 
    object get_md(mixed md, object i)
    {
-werror("get_md(%O, %O)\n",md, i);
      if(!metadata[i->get_id()] || !metadata[i->get_id()] || _metadata != md)
      {
        _metadata = md;
