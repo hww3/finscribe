@@ -154,7 +154,6 @@ private void handle_wiki(object obj, Request id, Response response){
   */
 
   // now, let's get the comments for this page.
-werror("*** NUMCOMMENTS\n");
   t->add("numcomments", sizeof(obj["comments"]));
   t->add("numcategories", sizeof(obj["categories"]));
   t->add("categories", (obj["categories"]));

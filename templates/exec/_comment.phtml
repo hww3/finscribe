@@ -1,4 +1,3 @@
-
    <h3>Commenting: <%$obj%></h3>
 
    <p>
@@ -38,11 +37,18 @@
 <tr>
 <td colspan="2">
 <p>
-<img src="/exec/check_image/<%$check %>">
-<br/>
-Type the text displayed in the image above: <input type="text" size="15" 
-name="check_value"/>
-<input type="hidden" value="<%$check %>" name="check"/>
+<script type="text/javascript"
+   src="http://api.recaptcha.net/challenge?k=<%syspref var="recaptcha.public_key" %>">
+</script>
+
+<noscript>
+   <iframe src="http://api.recaptcha.net/noscript?k=<%syspref var="recaptcha.public_key" %>"
+       height="300" width="500" frameborder="0"></iframe><br>
+   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+   </textarea>
+   <input type="hidden" name="recaptcha_response_field" 
+       value="manual_challenge">
+</noscript>
 <p>
 </td>
 </tr>

@@ -4,8 +4,6 @@ inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 import Tools.Logging;
 
-object preferences = Tools.Mapping.MappingCache(60);
-
 mapping included_by = ([]);
 mapping plugins = ([]);
 mapping engines = ([]);
@@ -343,15 +341,8 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
-  if(!preferences[pref])
-  {
-    array x = Fins.Model.old_find("preference", (["Name": pref]));
-
-    if(x && sizeof(x))
-      return preferences[pref] = x[0];
-    else return 0;
-  }
-  else return preferences[pref];
+  p = Fins.Model.find.preferences_by_alt(pref);
+  return p;
 }
 
 object new_string_pref(string pref, string value)

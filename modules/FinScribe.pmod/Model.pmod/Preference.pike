@@ -15,4 +15,5 @@ import Fins.Model;
       add_field(TransformField("ShortName", "Name", lambda(mixed n, object i){return (n/".")[-1];}));
       add_field(TransformField("BooleanValue", "Value", lambda(mixed n, object i){return (((int)n)?"true":"false");}));
       set_primary_key("id");
+      set_alternate_key("Name");
    }
