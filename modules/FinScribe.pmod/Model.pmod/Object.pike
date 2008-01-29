@@ -112,11 +112,15 @@ import Fins.Model;
 
    array get_outlinks(mixed n, object i)
    {
-      string c = context->app->render(i["current_version"]["contents"], i);
+      string cnt = i["current_version"]["contents"];
+      string c = context->app->render(cnt, i);
       array ol = ({});
       object p = Parser.HTML();
-      p->add_container("a", lambda(object o, mapping a, string 
-c){a->href[0]=='/'?(ol+=({a->href})):(ol = ({a->href}) + ol);});
+      p->add_container("a", lambda(object o, mapping a, string c)
+               {  if (a->href && a->href[0]=='/') ol+=({a->href});
+                  else if(a->href) ol = ({a->href}) + ol;
+               }
+      );
       p->finish(c); 
       return ol;
    }

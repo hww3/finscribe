@@ -194,7 +194,17 @@ int install()
 
 string get_theme(object id)
 {
-  return new_string_pref("site.theme", "default")->get_value();
+  object p;
+  string t;
+  p = new_string_pref("site.theme", "default");
+  t = p->get_value();
+
+  if(!stringp(t))
+  {
+    Log.warn("Got unexpected value during theme retrieval: %O in %O", t, 
+         p->get_atomic());
+  }
+  return t;
 }
 
 public string render_wiki(string contents)
@@ -351,7 +361,8 @@ object new_string_pref(string pref, string value)
   if(p) return p;
   else 
   { 
-     p = Fins.Model.new("preference");
+     Log.info("Creating new preference object '" + pref  + "'.");
+     p = FinScribe.Objects.Preference();
      p["Name"] = pref;
      p["Type"] = FinScribe.STRING;
      p["Value"] = value;
