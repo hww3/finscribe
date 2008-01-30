@@ -23,7 +23,6 @@ public void load_model()
   }
 
   ::load_model();
-
 }
 
 /*
@@ -130,41 +129,7 @@ public object get_fbobject(array args, Request|void id)
    else return 0;
 }
 
-public string get_when(object c)
-{
-   string howlongago;
-   int future;
-
-   if (c < Calendar.now()) {
-     c = c->distance(Calendar.now());
-   }
-   else {
-     c = Calendar.now()->distance(c);
-     future++;
-   }
-
-   if(c->number_of_minutes() < 3)
-   {
-      howlongago = "Just a moment ago";
-   }
-   else if(c->number_of_minutes() < 60)
-   {
-      howlongago = c->number_of_minutes() + " minutes ago";
-   }
-   else if(c->number_of_hours() < 24)
-   {
-      howlongago = c->number_of_hours() + " hours ago";
-   }
-   else
-   {
-      howlongago = c->number_of_days() + " days ago";
-   }
-
-   if (future)
-     return replace(howlongago, "ago", "in the future");
-   else
-     return howlongago;
-}
+function get_when = Tools.String.friendly_date;
 
 int new_from_string(string path, string contents, string type, int|void att, int|void skip_if_exists)
 {
@@ -217,5 +182,4 @@ int new_from_string(string path, string contents, string type, int|void att, int
             return 1;
 
             }
-  
 }

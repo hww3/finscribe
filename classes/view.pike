@@ -143,7 +143,6 @@ string simple_macro_snip(Template.TemplateData data, mapping|void args)
    return rv;
 }
 
-
 string simple_macro_theme(Template.TemplateData data, mapping|void args)
 {
    if(!mappingp(args) || !args->show) return "";
@@ -152,5 +151,3 @@ string simple_macro_theme(Template.TemplateData data, mapping|void args)
 
    return "";
 }
-
-

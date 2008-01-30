@@ -12,12 +12,8 @@ mapping render_macros = ([]);
 mapping event_handlers = ([]);
 mapping internal_path_handlers = ([]);
 
-static void create(Fins.Configuration _config)
+void start()
 {
-  config = _config;
-
-  app::create(_config);
-
   Locale.register_project(config->app_name, combine_path(config->app_dir, "locale/%L/finscribe.xml"));
 
   if(config["app"] && (int)config["app"]["installed"])
@@ -85,7 +81,6 @@ void load_plugins()
 void start_plugins()
 {
 	Log.debug("Starting plugins.");
-
 	
 	foreach(plugins;string name; object plugin)
 	{
@@ -387,5 +382,3 @@ object new_pref(string pref, string value, int type)
      return p;
   }
 }
-
-
