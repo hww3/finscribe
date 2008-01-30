@@ -190,7 +190,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   Log.debug("starting model.");
 
   // now, we restart the model.
-  config->set_value("app", "installed", 1);
+  config->set_value("application", "installed", 1);
   config->set_value("model", "datasource", id->variables->dburl);
 
   view->default_template = (program)"themed_template";

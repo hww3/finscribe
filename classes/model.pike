@@ -12,7 +12,7 @@ function find = Fins.Model.old_find;
 
 public void load_model()
 {
-  if(!config["app"] || !config["app"]["installed"]) 
+  if(!config["application"] || !config["application"]["installed"]) 
   {
     Log.info("Not starting model.\n");
     return;
