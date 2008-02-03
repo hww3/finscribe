@@ -1,0 +1,18 @@
+fins.profile.js:
+
+dependencies ={
+    layers:  [
+        {
+        name: "mydojo.js",
+        dependencies: [
+            "dojo.widget.Button",
+            "fins.widget.Comments"
+        ]
+        }
+    ],
+    prefixes: [
+        [ "fins", "/Users/hww3/Fins/FinScribe/static/javascripts/fins" ]
+    ]
+};
+
+java -jar lib/custom_rhino.jar xdgen.js xdgen profiles/fins.profile.js /tmp/foo ../src/ /Users/hww3/Fins/FinScribe/static/javascripts/fins/
