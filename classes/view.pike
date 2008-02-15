@@ -32,6 +32,34 @@ public Template.View get_idview(string tn, object id)
   return t;  
 }
 
+// args: name, val
+string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void args)
+{
+  if(args->name)
+  {
+    mixed d = data->get_data();
+    if(!d[args->name]) d[args->name] = ({});
+    d[args->name] += ({ args->val });
+  }  
+
+  return "";
+}
+
+
+//! args: var, separator (optional)
+string simple_macro_list_retrieve(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed contents;
+  if(args->var)
+    contents = get_var_value(args->var, data->get_data());
+
+  if(contents && arrayp(contents))
+  {
+    return contents * (args->separator||"\n");
+  }
+}
+
+
 string simple_macro_fontlock(Fins.Template.TemplateData data, mapping|void args)
 {
   string contents = "";

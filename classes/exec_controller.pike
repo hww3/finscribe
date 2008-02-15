@@ -1518,7 +1518,11 @@ public void edit(Request id, Response response, mixed ... args)
    title = args[-1];
    obj = args*"/";
 
-   object t = view->get_idview("exec/edit");
+   object t;
+   if(id->variables->ajax)
+     t = view->get_idview("exec/_edit");
+   else
+     t = view->get_idview("exec/edit");
    object np;
 
    app->set_default_data(id, t);
