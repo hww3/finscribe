@@ -1,6 +1,6 @@
 //dojo.require("dojo.html");
 //dojo.require("dojo.lfx.*");
-dojo.require("dojo.widget.*");
+//dojo.require("dojo.widget.*");
 //dojo.require("dojo.widget.DatePicker");
 //dojo.require("dojo.widget.ResizableTextarea");
 //dojo.require("dojo.io.IframeIO");

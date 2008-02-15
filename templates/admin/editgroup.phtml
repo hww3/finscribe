@@ -3,11 +3,6 @@
 
    <title><%syspref var="site.name"%> :: admin :: edit group</title>
 
-<script type="text/javascript">
-dojo.require("dojo.json");
-dojo.require("fins.widget.*");
-dojo.require("fins.widget.ComboPicker");
-</script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
@@ -24,6 +19,28 @@ dojo.require("fins.widget.ComboPicker");
 <% if data["newgroup"] %>
         <input type="hidden" name="newgroup" value="1"/>
 <% endif %>
+
+		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+
+<!--
+        <p/>
+        <b>Group Members</b><br/>
+
+        <% foreach var="$group.groups" val="member" %>
+        <%$member.Name%><br />
+        <% end %>
+-->
+        <p/>
+        <input type="submit" name="action" value="Cancel" />
+        <input type="submit" name="action" value="Save" />
+        </form>
+        
+<%@include file="footer.phtml"%>
+
+<script type="text/javascript">
+dojo.require("dojo.json");
+dojo.require("fins.widget.ComboPicker");
+</script>
 
 <script type="text/javascript">
 function getMembers()
@@ -79,21 +96,7 @@ function getAvailable()
 };
 </script>
 
-		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
 
-<!--
-        <p/>
-        <b>Group Members</b><br/>
 
-        <% foreach var="$group.groups" val="member" %>
-        <%$member.Name%><br />
-        <% end %>
--->
-        <p/>
-        <input type="submit" name="action" value="Cancel" />
-        <input type="submit" name="action" value="Save" />
-        </form>
-        
-<%@include file="footer.phtml"%>
 <%@include file="bottom.phtml"%>
 

@@ -2,84 +2,6 @@
   <%@include file="adminheader.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: edit user</title>
 
-<script type="text/javascript">
-dojo.require("fins.widget.ComboPicker");
-</script>
-
-<script type="text/javascript">
-function getMembers()
-{
-  var res = null;
-
-<% if data["newgroup"] %>
-    return [];
-<% endif %>
-
-  var bindArgs = {
-    url:         "/admin/getgroups_json/" +  "<%$user.id%>" ,
-    mimetype:   "text/plain",
-    sync: true,
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-
-        res = dojo.json.evalJson(data.toString());
-        res = res.data;
-    }
-};
-
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-
-    return res;
-}
-
-function getAvailable()
-{
-  var res = null;
-
-  var bindArgs = {
-    url:         "/admin/getgroups_json",
-    mimetype:   "text/plain",
-    sync: true,
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-
-        res = dojo.json.evalJson(data.toString());
-        res = res.data;
-    }
-};
-
-    // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-
-    return res;
-};
-</script>
-
-<script type="text/javascript">
-        dojo.require("dojo.widget.Button2");
-	dojo.require("dojo.widget.html.Button2");
-
-   function enable_chpass()
-   {
-     var w = dojo.widget.manager.byId('chpass');
-
-     if(w)
-     {
-       w.hide();
-     }
-
-     var p = dojo.widget.manager.byId('passwordpane');
-     
-     if(p)
-       p.show();     
-   }
-
-   </script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
@@ -205,4 +127,84 @@ function getAvailable()
 </table>
 
 <%@include file="footer.phtml"%>
+
+<script type="text/javascript">
+dojo.require("fins.widget.ComboPicker");
+</script>
+
+<script type="text/javascript">
+function getMembers()
+{
+  var res = null;
+
+<% if data["newgroup"] %>
+    return [];
+<% endif %>
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json/" +  "<%$user.id%>" ,
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJson(data.toString());
+        res = res.data;
+    }
+};
+
+// dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+}
+
+function getAvailable()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json",
+    mimetype:   "text/plain",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(type, data, evt){
+        // handle successful response here
+
+        res = dojo.json.evalJson(data.toString());
+        res = res.data;
+    }
+};
+
+    // dispatch the request
+    var requestObj = dojo.io.bind(bindArgs);
+
+    return res;
+};
+</script>
+
+<script type="text/javascript">
+        dojo.require("dojo.widget.Button2");
+	dojo.require("dojo.widget.html.Button2");
+
+   function enable_chpass()
+   {
+     var w = dojo.widget.manager.byId('chpass');
+
+     if(w)
+     {
+       w.hide();
+     }
+
+     var p = dojo.widget.manager.byId('passwordpane');
+     
+     if(p)
+       p.show();     
+   }
+
+   </script>
+
 <%@include file="bottom.phtml"%>

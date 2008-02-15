@@ -5,6 +5,7 @@
 
    <h3>Editing: <%$obj%></h3>
 
+<%list_store name="jsfooter" val=" dojo.require('dojo.widget.ResizableTextarea'); " %>
 
 <form action="/exec/edit/<%$obj%>" method="post" id="editform">
 Subject: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
