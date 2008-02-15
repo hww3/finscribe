@@ -275,7 +275,7 @@ public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)
 
 public void set_default_data(Fins.Request id, object|mapping t)
 {
-  if(t->data)
+  if(t->data && t->data->set_request)
     t->data->set_request(id);
   else if(t->set_request)
     t->set_request(id);
