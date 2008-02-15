@@ -1,0 +1,18 @@
+<script type="text/javascript">
+dojo.require('dojo.widget.ResizableTextarea');
+</script>
+<form action="/exec/edit/<%$obj%>" method="post" id="editform">
+Subject: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
+<%$contentswidget %>
+<br>
+<input type="hidden" name="datatype" value="<%$datatype %>">
+<input type="submit" name="action" value="Preview">
+<input type="submit" name="action" value="Cancel">
+<input type="submit" name="action" value="Save">
+</form>
+
+<%if data->preview%>
+Preview:<p>
+<%$preview%>
+<%endif %>
+
