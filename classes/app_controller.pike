@@ -11,30 +11,24 @@ inherit Fins.FinsController;
 static void start()
 {
   after_filter(Fins.Helpers.Filters.Compress());
-  /*
-    after_filter(lambda(object id, object response, mixed ... args) {  
-                if(response->get_data())
-                  response->set_data(replace(response->get_data(), ({"<!", "!"}), ({"<!", ", bork bork bork!"}))); return 1;
-              } );
-  */
 }
 
 public void index(Request id, Response response, mixed ... args)
 {
   if(!args || !sizeof(args))
   {
-     response->redirect("start");
+     response->redirect(start);
      return;
   }
-
 
   object obj = model->get_fbobject(args, id);
 
   if(!obj)
   {
-     response->redirect("/exec/notfound/" + (args*"/")); 
+     response->redirect(exec->notfound, args); 
      return;
   }
+
   if(app->get_sys_pref("blog.pingback_receive")->get_value())
   {
     response->set_header("X-Pingback", app->get_sys_pref("site.url")->get_value() + "/exec/pingback");
@@ -63,13 +57,10 @@ public void index(Request id, Response response, mixed ... args)
       break;
   }
 
-//  breakpoint("test", id, response);
-  
   return;
 }
 
 private void handle_wiki(object obj, Request id, Response response){
-  string title = obj["title"];  
 
   object t = view->get_idview("space/wikiobject");
 
@@ -77,7 +68,7 @@ private void handle_wiki(object obj, Request id, Response response){
 
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
-     response->redirect("/exec/notreadable/" + obj["path"]); 
+     response->redirect(exec->notreadable, obj["path"]); 
      return;
   }
  
@@ -114,13 +105,11 @@ private void handle_wiki(object obj, Request id, Response response){
     }
   }
 
-
-
   string contents = v["contents"];
   numattachments = sizeof(o);
 
   t->add("obj", obj["path"]);
-  t->add("title", title);
+  t->add("title", obj["title"]);
   t->add("content", app->render(contents, obj, id, id->variables->refresh));
 
   if(id->misc->object_is_weblog)
@@ -146,13 +135,6 @@ private void handle_wiki(object obj, Request id, Response response){
   t->add("object", obj);
   t->add("metadata", obj->get_metadata());
 
-
-/*
-  t->add("islocked", obj["md"]["locked"]);
-  t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
-  t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
-  */
-
   // now, let's get the comments for this page.
   t->add("numcomments", sizeof(obj["comments"]));
   t->add("numcategories", sizeof(obj["categories"]));
@@ -166,24 +148,17 @@ private void handle_wiki(object obj, Request id, Response response){
   response->set_view(t);
 
   response->set_header("Last-Modified", v["created"]->format_http());
-
-//  response->set_header("Cache-Control", "max-age=1200");
-//  response->set_header("Expires", (Calendar.Second() + 1200)->format_http());
-
-
 }
 
 private void handle_text(object obj, Request id, Response response)
 {
-  string title = obj["title"];  
-
   object t = view->get_idview("space/wikiobject");
 
   app->set_default_data(id, t);
 
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
-     response->redirect("/exec/notreadable/" + obj["path"]); 
+     response->redirect(exec->notreadable, obj["path"]); 
      return;
   }
  
@@ -225,7 +200,7 @@ private void handle_text(object obj, Request id, Response response)
   numattachments = sizeof(o);
 
   t->add("obj", obj["path"]);
-  t->add("title", title);
+  t->add("title", obj["title"]);
   t->add("content", contents);
   t->add("author", obj["author"]["Name"]);
   t->add("author_username", obj["author"]["UserName"]);
@@ -253,7 +228,7 @@ private void handle_data(object obj, Request id, Response response)
 
   if(!obj->is_readable(app->get_current_user(id))) 
   {
-     response->redirect("/exec/notreadable/" + obj["path"]); 
+     response->redirect(exec->notreadable, obj["path"]); 
      return;
   }
 
