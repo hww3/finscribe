@@ -296,6 +296,11 @@ public void set_default_data(Fins.Request id, object|mapping t)
 
 }
 
+int admin_user_filter(Fins.Request id, Fins.Response response, mixed ... args)
+{
+  return is_admin_user(id, response);
+}
+
 object get_current_user(object id)
 {
   object user;
