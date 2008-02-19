@@ -2,9 +2,13 @@
 
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
-
 import Fins;
 inherit Fins.FinsController;
+
+static void start()
+{
+  before_filter(app->admin_user_filter);
+}
 
 public void index(Request id, Response response, mixed ... args)
 {
@@ -13,9 +17,6 @@ public void index(Request id, Response response, mixed ... args)
 
 public void list(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
      object t = view->get_view("admin/plugin/list");
 
      app->set_default_data(id, t);
@@ -35,8 +36,6 @@ public void list(Request id, Response response, mixed ... args)
 
 public void toggle_enabled(Request id, Response response, mixed ... args)
 {
-  if(!app->is_admin_user(id, response))
-     return;
   object u;
 
   if(!id->variables->plugin)

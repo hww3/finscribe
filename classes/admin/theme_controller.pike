@@ -2,9 +2,13 @@
 
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
-
 import Fins;
 inherit Fins.FinsController;
+
+static void start()
+{
+  before_filter(app->admin_user_filter);
+} 
 
 public void index(Request id, Response response, mixed ... args)
 {
@@ -13,9 +17,6 @@ public void index(Request id, Response response, mixed ... args)
 
 public void list(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
      object t = view->get_view("admin/themes/list");
      string current_theme = app->new_string_pref("site.theme", "default")->get_value();
 
@@ -41,9 +42,6 @@ public void list(Request id, Response response, mixed ... args)
 public void upload(Request id, Response response, mixed ... args)
 {
   int viaframe = 0;
-
-  if(!app->is_admin_user(id, response))
-    return;
 
   object t = view->get_idview("admin/themes/_upload");
 
@@ -80,9 +78,6 @@ mixed e = catch(
 
 public void activate(Request id, Response response, mixed ... args)
 {
-  if(!app->is_admin_user(id, response))
-    return;
-
   if(!args || !sizeof(args) || args[0] == "")
     return;
 
@@ -103,9 +98,6 @@ public void activate(Request id, Response response, mixed ... args)
 
 public void get(Request id, Response response, mixed ... args)
 {
-  if(!app->is_admin_user(id, response))
-    return;
-
   if(!args || !sizeof(args) || args[0] == "")
     return;
 
@@ -128,8 +120,6 @@ public void get(Request id, Response response, mixed ... args)
 
 public void toggle_enabled(Request id, Response response, mixed ... args)
 {
-  if(!app->is_admin_user(id, response))
-     return;
   object u;
 
   if(!id->variables->plugin)

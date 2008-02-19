@@ -25,7 +25,7 @@ public void index(Request id, Response response, mixed ... args)
 
   if(!obj)
   {
-     response->redirect(exec->notfound, args); 
+     response->redirect(app->controller->exec->notfound, args); 
      return;
   }
 
@@ -68,7 +68,7 @@ private void handle_wiki(object obj, Request id, Response response){
 
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
-     response->redirect(exec->notreadable, obj["path"]); 
+     response->redirect(app->controller->exec->notreadable, obj["path"]); 
      return;
   }
  
@@ -158,7 +158,7 @@ private void handle_text(object obj, Request id, Response response)
 
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
-     response->redirect(exec->notreadable, obj["path"]); 
+     response->redirect(app->controller->exec->notreadable, obj["path"]); 
      return;
   }
  
@@ -228,7 +228,7 @@ private void handle_data(object obj, Request id, Response response)
 
   if(!obj->is_readable(app->get_current_user(id))) 
   {
-     response->redirect(exec->notreadable, obj["path"]); 
+     response->redirect(app->controller->exec->notreadable, obj["path"]); 
      return;
   }
 

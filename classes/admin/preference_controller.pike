@@ -8,6 +8,11 @@ import Tools.Logging;
 import Fins.Model;
 inherit Fins.FinsController;
 
+static void start()
+{
+  before_filter(app->admin_user_filter);
+} 
+
 public void index(Request id, Response response, mixed ... args)
 {
   response->redirect("list");
@@ -68,9 +73,6 @@ public void tree(Request id, Response response, mixed ... args)
 
 public void list(Request id, Response response, mixed ... args)
 {
-    if(!app->is_admin_user(id, response))
-      return;
-
      object t;
 
      if(id->variables->ajax)
@@ -106,11 +108,6 @@ public void set(Request id, Response response, mixed ... args)
 {
   mixed e;
 
-  e=catch{
-  if(!app->is_admin_user(id, response)) {
-    response->flash("msg", "Only admin user can change preferences!");
-    response->redirect("list");
-  }
   if (id->variables->key && id->variables->value) {
     object pref = app->get_sys_pref(id->variables->key);
     if (pref) {
