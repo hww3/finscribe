@@ -10,6 +10,7 @@ Fins.FinsController themes;
 
 void start()
 {
+  before_filter(app->admin_user_filter);
   plugin = load_controller("admin/plugin_controller");
   prefs = load_controller("admin/preference_controller");
   themes = load_controller("admin/theme_controller");
@@ -20,30 +21,23 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
     object t = view->get_idview("admin/adminindex");
 
     app->set_default_data(id, t);
 
     t->add("in_admin", 1);
 
-	response->set_view(t);
+  response->set_view(t);
 }
 
 public void flush_templates(Request id, Response response, mixed ... args)
 {
-        if(!app->is_admin_user(id, response))
-          return;
 	view->flush_templates();
         response->flash("msg", "Templates flushed.");
         response->redirect(index, 0, ([time():""]));      
 }
 public void shutdown(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
 	object t;
 		
 	if(!id->variables->really_shutdown)
@@ -66,9 +60,6 @@ public void getusers_json(Request id, Response response, mixed ... args)
   string json;
   array j = ({});
   array x;
-
-  if(!app->is_admin_user(id, response))
-    return;
 
   if(!sizeof(args))
    x = Fins.Model.find.users_all();
@@ -97,9 +88,6 @@ public void getrules_json(Request id, Response response, mixed ... args)
   array x;
   object a;
 
-  if(!app->is_admin_user(id, response))
-    return;
-
   if(!sizeof(args)) return;
 
   else
@@ -120,10 +108,6 @@ public void getrules_json(Request id, Response response, mixed ... args)
 
 public void getgroups_json(Request id, Response response, mixed ... args)
 {
-
-  if(!app->is_admin_user(id, response))
-    return;
-
   string json;
   array j = ({});
   array x = ({});
@@ -150,9 +134,6 @@ public void getgroups_json(Request id, Response response, mixed ... args)
 
 public void listacls(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
      object t = view->get_idview("admin/listacls");
 
      app->set_default_data(id, t);
@@ -170,9 +151,6 @@ public void listacls(Request id, Response response, mixed ... args)
 
 public void listwip(Request id, Response response, mixed ... args)
 {
-    if(!app->is_admin_user(id, response))
-      return;
-
     object t = view->get_idview("admin/listwip");
 
     app->set_default_data(id, t);
@@ -192,9 +170,6 @@ public void listwip(Request id, Response response, mixed ... args)
 
 public void editacl(Request id, Response response, mixed ... args)
 {
-    if(!app->is_admin_user(id, response))
-      return;
-   
     object t = view->get_idview("admin/editacl");
 	
     app->set_default_data(id, t);
@@ -352,9 +327,6 @@ public void editacl(Request id, Response response, mixed ... args)
 
 public void listusers(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
      object t = view->get_idview("admin/listusers");
 
      app->set_default_data(id, t);
@@ -372,9 +344,6 @@ public void listusers(Request id, Response response, mixed ... args)
 
 public void listgroups(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
     object t = view->get_idview("admin/listgroups");
 
     app->set_default_data(id, t);
@@ -392,9 +361,6 @@ public void listgroups(Request id, Response response, mixed ... args)
 
 public void editgroup(Request id, Response response, mixed ... args)
 {
-    if(!app->is_admin_user(id, response))
-      return;
-   
     object t = view->get_idview("admin/editgroup");
 	
     app->set_default_data(id, t);
@@ -463,9 +429,6 @@ public void editgroup(Request id, Response response, mixed ... args)
 
 public void newuser(Request id, Response response, mixed ... args)
 {
-    if(!app->is_admin_user(id, response))
-     return;
-
     object t = view->get_idview("admin/newuser");
 	
     app->set_default_data(id, t);
@@ -582,9 +545,6 @@ public void newuser(Request id, Response response, mixed ... args)
 
 public void edituser(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
       object t = view->get_idview("admin/edituser");
 	
     app->set_default_data(id, t);
@@ -660,9 +620,6 @@ public void edituser(Request id, Response response, mixed ... args)
 
 public void deleteuser(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
   object u;
 
   if(!id->variables->userid)
@@ -709,9 +666,6 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
 public void deleteacl(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
   object u;
 
   if(!id->variables->aclid)
@@ -735,9 +689,6 @@ public void deleteacl(Request id, Response response, mixed ... args)
 
 public void deletegroup(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
-
   object u;
 
   if(!id->variables->groupid)
@@ -760,8 +711,6 @@ public void deletegroup(Request id, Response response, mixed ... args)
 
 public void toggle_useractive(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
   object u;
 
   if(!id->variables->userid)
@@ -786,8 +735,6 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
 
 public void toggle_useradmin(Request id, Response response, mixed ... args)
 {
-	if(!app->is_admin_user(id, response))
-          return;
   object u;
 
   if(!id->variables->userid)
