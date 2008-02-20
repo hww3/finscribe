@@ -131,6 +131,5 @@ public void set(Request id, Response response, mixed ... args)
     response->set_type("text/javascript");
   }
 
-  };
   if(e) Log.exception("an error occurred while setting a variable.", e);
 }
