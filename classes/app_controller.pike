@@ -161,21 +161,16 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
 private void low_handle_text(object v, object t, object obj, Request id, Response response)
 {
   response->set_header("Cache-Control", "max-age=3600");
-  response->set_header("Last-Modified", v["created"]->format_http());
   response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
 
-  string contents = v["contents"];
-  t->add("content", contents);
+  t->add("content", v["contents"]);
 }
 
 private void low_handle_data(object v, object obj, Request id, Response response)
 {
   response->set_header("Cache-Control", "max-age=3600");
-  response->set_header("Last-Modified", v["created"]->format_http());
   response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
 
-  string contents = v["contents"];
-
-  response->set_data(contents);
+  response->set_data(v["contents"]);
   response->set_type(obj["datatype"]["mimetype"]);
 }
