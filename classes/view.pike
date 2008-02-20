@@ -32,6 +32,17 @@ public Template.View get_idview(string tn, object id)
   return t;  
 }
 
+//! args: content, object, force (optional)
+string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
+{
+  if(!args->content || !args->object) return "render macro missing content or object arguments";
+
+  string contents = get_var_value(args->content, data->get_data());
+  mixed obj = get_var_value(args->object, data->get_data());
+
+  return app->render(contents, obj, data->get_request(), (int)args->force);
+}
+
 // args: name, val
 string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void args)
 {

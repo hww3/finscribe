@@ -35,7 +35,7 @@
 <% if data["teaser"] %>
   <%$teaser%>
 <% else %>
-  <%$content%>
+  <%render content="$content" object="$object"%>
 <% endif %>
 <p/>
 

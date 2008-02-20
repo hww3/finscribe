@@ -18,8 +18,7 @@ Version #<%$version%>.
    <div class="snip-wrapper">
       <div class="snip-content">
          <div>
-         <%$content%>
-         
+	 <%render content="$content" object="$object"%>         
          <p/>
          <b><%$numcomments%> Comments</b> | <a href="/exec/comments/<%$obj%>">Post a Comment</a> 
          | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>

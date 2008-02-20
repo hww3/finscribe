@@ -152,8 +152,7 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
     t->add("heads", "");
   }
 
-  string contents = v["contents"];
-  t->add("content", app->render(contents, obj, id, id->variables->refresh));
+    t->add("content", v["contents"]);
 
   t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data()));
 }
