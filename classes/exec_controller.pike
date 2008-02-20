@@ -36,13 +36,6 @@ public void notfound(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
-/*
-
-     array f = FinScribe.model.find("object", (["path": Fins.Model.LikeCriteria((args*"/")+ "/%")]) );
-
-     if(f & sizeof(f))
-       t->add("dir", f);
-*/
      t->add("obj", args*"/");
      response->set_view(t);
 }
@@ -54,13 +47,6 @@ public void notreadable(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
-/*
-
-     array f = FinScribe.model.find("object", (["path": Fins.Model.LikeCriteria((args*"/")+ "/%")]) );
-
-     if(f & sizeof(f))
-       t->add("dir", f);
-*/
      t->add("obj", args*"/");
      response->set_view(t);
 }
@@ -68,7 +54,6 @@ public void notreadable(Request id, Response response, mixed ... args)
 
 public void actions(Request id, Response response, mixed ... args)
 {
-
   object obj = model->get_fbobject(args, id);
   object t = view->get_idview("exec/actions");
 
@@ -82,27 +67,15 @@ public void actions(Request id, Response response, mixed ... args)
   t->add("comments_closed", obj["md"]["comments_closed"]);
 
   response->set_view(t);
-
 }
 
 public void object_properties_menu(Request id, Response response, mixed ... args)
 {
-
   object obj = model->get_fbobject(args, id);
 
   object cuser = app->get_current_user(id);
 
-//  app->set_default_data(id, t);
-/*
-  t->add("object", obj);
-  t->add("islocked", obj["md"]["locked"]);
-  t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
-  t->add("isdeleteable", obj->is_deleteable(t->get_data()["user_object"]));
-  t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
-  t->add("comments_closed", obj["md"]["comments_closed"]);
-*/
   array items = ({});
-
 
   items += ({ (["title": "Edit...", "href": combine_path(action_url(edit), args * "/"), "enabled": obj->is_writeable(cuser)]) }) ;
   items += ({ (["title": "New Child...", "href": combine_path(action_url(new), args * "/"), "enabled": obj->is_writeable(cuser) ]) }) ;
@@ -125,13 +98,10 @@ public void object_properties_menu(Request id, Response response, mixed ... args
   string json = Tools.JSON.serialize((["data": items]));
    
   response->set_data(json);
-
-
 }
 
 public void info(Request id, Response response, mixed ... args)
 {
-
   object obj = model->get_fbobject(args, id);
   object t = view->get_idview("exec/info");
 
@@ -140,7 +110,6 @@ public void info(Request id, Response response, mixed ... args)
   t->add("object", obj);
 
   response->set_view(t);
-
 }
 
 public void changeacl(Request id, Response response, mixed ... args)
@@ -184,7 +153,6 @@ public void changeacl(Request id, Response response, mixed ... args)
 
 public void getcomments(Request id, Response response, mixed ... args)
 {
-
   object obj = model->get_fbobject(args, id);
 
   object data = view->default_data();
@@ -196,7 +164,6 @@ public void getcomments(Request id, Response response, mixed ... args)
   string r = view->render_partial("exec/_comments", data->get_data(), "comment", obj["comments"]);
      
   response->set_data(r);
-
 }
 
 public void editcategory(Request id, Response response, mixed ... args)
@@ -276,8 +243,6 @@ public void editcategory(Request id, Response response, mixed ... args)
   dta->add("existing-categories",  model->get_categories());
 
   response->set_data(view->render_partial("space/_categoryform", dta->get_data()));
-
-
 }
 
 public void category(Request id, Response response, mixed ... args)
@@ -338,7 +303,6 @@ public void backlinks(Request id, Response response, mixed ... args)
    array bal;
    bal = find.objects((["path": Fins.Model.InCriteria(bl)]));
    t->add("objects", bal);
-Log.debug("%O", bl);
    response->set_view(t);
 }
 
@@ -620,7 +584,6 @@ public void editattachments(Request id, Response response, mixed ... args)
       response->set_data("You must login to upload.");
       return;
    } 
-
 
   object t = view->get_idview("exec/_editattachments");
   t->add("flash", "");
