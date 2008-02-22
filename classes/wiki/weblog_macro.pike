@@ -24,8 +24,10 @@ array evaluate(Macros.MacroParameters params)
   }
 
   if(params->extras->request)
+  {
     params->extras->request->misc->object_is_weblog = 1;
-
+//    params->extras->request->misc->template_data->add("object_is_weblog", 1);
+  }
   // we should get a limit for the number of entries to display.
 
   if(!params->args) params->make_args();

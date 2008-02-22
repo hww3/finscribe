@@ -40,7 +40,11 @@ string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
   string contents = get_var_value(args->content, data->get_data());
   mixed obj = get_var_value(args->object, data->get_data());
 
-  return app->render(contents, obj, data->get_request(), (int)args->force);
+  object request = data->get_request();
+//  if(!request->misc->template_data)
+//    request->misc->template_data = data;
+
+  return app->render(contents, obj, request, (int)args->force);
 }
 
 // args: name, val
@@ -103,6 +107,11 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
     if(!arguments->val)
       return p["Value"];
   }
+}
+
+string simple_macro_friendly_date(Template.TemplateData data, mapping|void args)
+{
+  return Tools.String.friendly_date(get_var_value(args->var, data->get_data()));
 }
 
 string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)

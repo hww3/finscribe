@@ -56,7 +56,7 @@ private void handle(string datatype, object obj, Request id, Response response)
 
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
-     response->redirect(app->controller->exec->notreadable, obj["path"]); 
+     response->redirect(app->controller->exec->notreadable, ({obj["path"]})); 
      return;
   }
 
@@ -96,15 +96,14 @@ private void handle(string datatype, object obj, Request id, Response response)
   }
 
   array o = find.objects(([ "is_attachment": 1, "parent": obj ]));
-
+  t->add("request", id);
   t->add("obj", obj["path"]);
+  t->add("object_version", v);
   t->add("title", obj["title"]);
   t->add("author", obj["author"]["Name"]);
   t->add("author_username", obj["author"]["UserName"]);
-  t->add("when", model->get_when(v["created"]));
   t->add("editor", v["author"]["Name"]);
   t->add("editor_username", v["author"]["UserName"]);
-  t->add("version", (string)v["version"]);
   t->add("numattachments", sizeof(o));
   t->add("attachments", o);
   t->add("object_is_weblog", id->misc->object_is_weblog);
@@ -152,8 +151,7 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
     t->add("heads", "");
   }
 
-    t->add("content", v["contents"]);
-
+  t->add("content", app->render(v["contents"], obj, id, (int)id->variables->force));
   t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data()));
 }
 

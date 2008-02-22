@@ -8,7 +8,7 @@
       <% else %>
    <h3><%$title %></h3>
    Created by <%$author_username %>. Last updated by <%$editor_username %>, 
-<%$when%>. Version #<%$version%>.
+<%friendly_date var="$object_version.when"%>. Version #<%$object_version.version%>.
      <% endif %>
 
 
