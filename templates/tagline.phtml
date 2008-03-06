@@ -20,15 +20,15 @@
 
 
 <% if data["user_object"] %>
-| logged in as <%$user_object.UserName%> | <a href="/exec/logout">logout</a>
+| <%LOCALE id="3" string="logged in as"%> <%$user_object.UserName%> | <a href="/exec/logout"><%LOCALE id="4" string="logout"%></a>
 <% if data["object_is_weblog"] %>
-      |  <a href="/exec/post/<%$obj%>" id="PostBlog">post blog</a>
+      |  <a href="/exec/post/<%$obj%>" id="PostBlog"><%LOCALE id="5" string="post blog"%></a>
   <% endif %>
   <% if data["is_admin"]==1 %> 
       | <a href="/admin/">admin</a>
    <% endif %>
    <% else %>
-| <a href="/exec/login" id="Login">login</a> 
+| <a href="/exec/login" id="Login"><%LOCALE id="6" string="login"%></a> 
 <% endif %>
 
 ]
@@ -36,7 +36,7 @@
 <% if !data["in_admin"] %>
   <% breadcrumbs var="$obj" %>
 <% else %>
-  <a href="/admin">admin</a>
+  <a href="/admin"><%LOCALE id="7" string="admin"%></a>
 <% endif %>
  </div>
 </div>
