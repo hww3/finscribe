@@ -1,17 +1,18 @@
  <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: pluginlist</title>
+   <title><%syspref var="site.name" %> :: admin :: 
+<%LOCALE string="pluginlist"%></title>
   <%@include file="adminheader.phtml" %>
   <%@include file="pagebegin.phtml" %>
 <div class="flash-message"><%flash %></div>
-          <h3>Plugin List</h3>
+          <h3><%LOCALE string="Plugin List"%></h3>
         
         <table>
-            <tr><td><b>Plugin Name</b></td><td><b>Enabled</b></td><td> &nbsp; </td></tr>
+            <tr><td><b><%LOCALE string="Plugin Name"%></b></td><td><b><%LOCALE string="Enabled"%></b></td><td> &nbsp; </td></tr>
           <% foreach var="plugins" val="plugin"%>
         <tr>
             <td><%$plugin.name%></td>
             <td><a href="toggle_enabled?plugin=<%$plugin.name%>"><%boolean var="plugin.enabled"%></a></td>
-			<td><a href="/admin/prefs/list?startswith=plugin.<%$plugin.name%>">Prefs &gt;&gt;</a></td>
+			<td><a href="/admin/prefs/list?startswith=plugin.<%$plugin.name%>"><%LOCALE string="Prefs"%> &gt;&gt;</a></td>
         </tr>
         <tr>
             <td colspan="3"><i><%$plugin.description%></i> &nbsp; </td>

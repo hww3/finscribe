@@ -1,6 +1,6 @@
   <%@include file="top.phtml"%>
   <%@include file="adminheader.phtml"%>
-   <title><%syspref var="site.name" %> :: admin :: preferencelist</title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="preferencelist"%></title>
   <script type="text/javascript">
     dojo.require("dojo.widget.*");
     dojo.require("dojo.event.*");
@@ -101,7 +101,7 @@ createCallback(w.widgetId); });
   </script>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
-          <h3>Preferences</h3>
+          <h3><%LOCALE string="Preferences"%></h3>
 
 <table cellpadding="10" valign="top">
 <tr>

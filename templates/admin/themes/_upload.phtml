@@ -34,7 +34,7 @@ var bindArgs = {
 
 function uploadQueueComplete(file) {
         var div = document.getElementById("queueinfo");
-        div.innerHTML = "All files uploaded..."
+        div.innerHTML = "<%LOCALE string="All files uploaded..."%>"
         document.getElementById("cancelqueuebtn").style.display = "none";
 
   var bindArgs = {
@@ -184,7 +184,7 @@ height: 16px;
 
         </style>
 
-<h2>Upload Themes</h2>
+<h2><%LOCALE string="Upload Themes"%></h2>
 <p>
 <%flash%>
 <p>
