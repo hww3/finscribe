@@ -321,7 +321,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
 {
   if(!id->misc->session_variables->userid)
   {
-    response->flash(LOCALE(0,"You must be logged in as an administrator to continue."));
+    response->flash(LOCALE(331,"You must be logged in as an administrator to continue."));
     response->redirect("/exec/login");
     return 0;
   }
@@ -330,7 +330,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   
   if(!user)
   {
-    response->flash(LOCALE(0,"Unable to find a user for your userid."));
+    response->flash(LOCALE(332,"Unable to find a user for your userid."));
     response->redirect("/exec/login");
     return 0;
   }
@@ -339,7 +339,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     return 1;
   else
   {
-    response->flash(LOCALE(0,"You must be an administrator to access that resource."));
+    response->flash(LOCALE(333,"You must be an administrator to access that resource."));
     response->redirect("/exec/login");
     return 0;
   }

@@ -63,7 +63,7 @@ private void handle(string datatype, object obj, Request id, Response response)
   if(id->variables->show_version)
   {
     v = find.object_versions((["object": obj, "version": (int)id->variables->show_version]))[0];
-    response->flash("msg", LOCALE(1, "Showing archived version"));
+    response->flash("msg", LOCALE(330, "Showing archived version"));
   }
   else
   {

@@ -52,14 +52,14 @@ public void upload(Request id, Response response, mixed ... args)
     {
        object z;
        if(catch(z = Tools.Zip(Stdio.FakeFile(id->variables->Filedata))))
-         response->flash(sprintf(LOCALE(0,"Invalid Zip file %[0]s."), id->variables->Filename));      
+         response->flash(sprintf(LOCALE(303,"Invalid Zip file %[0]s."), id->variables->Filename));      
 mixed e = catch(
        z->unzip(combine_path(app->config->app_dir, "themes")));
        
     }
     else
     {
-      response->flash(sprintf(LOCALE(0,"Invalid file extension for document %[0]s."), id->variables->Filename));
+      response->flash(sprintf(LOCALE(304,"Invalid file extension for document %[0]s."), id->variables->Filename));
     }
   }
 

@@ -2,7 +2,44 @@
 <locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1204906576</dumped>
+<dumped>1204911915</dumped>
+<file>classes/admin/plugin_controller.pike</file>
+<file>classes/admin/preference_controller.pike</file>
+<file>classes/admin/theme_controller.pike</file>
+<file>classes/admin_controller.pike</file>
+<file>classes/app_controller.pike</file>
+<file>classes/application.pike</file>
+<file>classes/atom_controller.pike</file>
+<file>classes/comment_controller.pike</file>
+<file>classes/controller.pike</file>
+<file>classes/exec_controller.pike</file>
+<file>classes/install.pike</file>
+<file>classes/install_controller.pike</file>
+<file>classes/internal_controller.pike</file>
+<file>classes/model.pike</file>
+<file>classes/rss_controller.pike</file>
+<file>classes/theme_controller.pike</file>
+<file>classes/themed_template.pike</file>
+<file>classes/themed_templatedata.pike</file>
+<file>classes/view.pike</file>
+<file>classes/wiki/attachmentindex_macro.pike</file>
+<file>classes/wiki/break_macro.pike</file>
+<file>classes/wiki/card_macro.pike</file>
+<file>classes/wiki/categoryindex_macro.pike</file>
+<file>classes/wiki/categoryoutput_macro.pike</file>
+<file>classes/wiki/code_macro.pike</file>
+<file>classes/wiki/deck_macro.pike</file>
+<file>classes/wiki/folder_macro.pike</file>
+<file>classes/wiki/image_macro.pike</file>
+<file>classes/wiki/info_macro.pike</file>
+<file>classes/wiki/link_macro.pike</file>
+<file>classes/wiki/note_macro.pike</file>
+<file>classes/wiki/objectindex_macro.pike</file>
+<file>classes/wiki/subpageoutput_macro.pike</file>
+<file>classes/wiki/tip_macro.pike</file>
+<file>classes/wiki/warning_macro.pike</file>
+<file>classes/wiki/weblog_macro.pike</file>
+<file>classes/xmlrpc_controller.pike</file>
 <file>templates/admin/adminindex.phtml</file>
 <file>templates/admin/confirmdeleteuser.phtml</file>
 <file>templates/admin/confirmshutdown.phtml</file>
@@ -74,542 +111,6 @@
 <file>templates/space/wikiobject.phtml</file>
 <file>templates/tagline.phtml</file>
 <file>templates/top.phtml</file>
-
-<str id="1">
-<o>contact info</o>
-<t></t>
-</str>
-
-<str id="2">
-<o>powered by</o>
-<t></t>
-</str>
-
-<str id="3">
-<o>logged in as</o>
-<t></t>
-</str>
-
-<str id="4">
-<o>logout</o>
-<t></t>
-</str>
-
-<str id="5">
-<o>post blog</o>
-<t></t>
-</str>
-
-<str id="6">
-<o>login</o>
-<t></t>
-</str>
-
-<str id="7">
-<o>admin</o>
-<t></t>
-</str>
-
-<str id="8">
-<o>Last updated by</o>
-<t></t>
-</str>
-
-<str id="9">
-<o>Version #</o>
-<t></t>
-</str>
-
-<str id="10">
-<o>Comments</o>
-<t></t>
-</str>
-
-<str id="11">
-<o>Post a Comment</o>
-<t></t>
-</str>
-
-<str id="12">
-<o>RSS Feed</o>
-<t></t>
-</str>
-
-<str id="13">
-<o>FinScribe Error 500%</o>
-<t></t>
-</str>
-
-<str id="14">
-<o>An error occurred while processing your request</o>
-<t></t>
-</str>
-
-<str id="15">
-<o>Host</o>
-<t></t>
-</str>
-
-<str id="16">
-<o>User</o>
-<t></t>
-</str>
-
-<str id="17">
-<o>Password</o>
-<t></t>
-</str>
-
-<str id="18">
-<o>Database</o>
-<t></t>
-</str>
-
-<str id="19">
-<o>Database File Path</o>
-<t></t>
-</str>
-
-<str id="20">
-<o>FinScribe Installer</o>
-<t></t>
-</str>
-
-<str id="21">
-<o>Wizard Cancelled!</o>
-<t></t>
-</str>
-
-<str id="22">
-<o>We failed to connect to the database.</o>
-<t></t>
-</str>
-
-<str id="23">
-<o>We failed to set the application preferences.</o>
-<t></t>
-</str>
-
-<str id="24">
-<o>We failed to create the administrative account.</o>
-<t></t>
-</str>
-
-<str id="25">
-<o>You must provide an administrative username.</o>
-<t></t>
-</str>
-
-<str id="26">
-<o>Welcome to FinScribe</o>
-<t></t>
-</str>
-
-<str id="27">
-<o>We're glad you've chosen to install FinScribe.</o>
-<t></t>
-</str>
-
-<str id="28">
-<o>The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work.</o>
-<t></t>
-</str>
-
-<str id="29">
-<o>When you're finished with this wizard, your FinScribe install will be complete!</o>
-<t></t>
-</str>
-
-<str id="30">
-<o>Select a database</o>
-<t></t>
-</str>
-
-<str id="31">
-<o>FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below.</o>
-<t></t>
-</str>
-
-<str id="32">
-<o>Database type</o>
-<t></t>
-</str>
-
-<str id="33">
-<o>Select a DB</o>
-<t></t>
-</str>
-
-<str id="34">
-<o>Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable).</o>
-<t></t>
-</str>
-
-<str id="35">
-<o>When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information.</o>
-<t></t>
-</str>
-
-<str id="36">
-<o>Database Objects Created</o>
-<t></t>
-</str>
-
-<str id="37">
-<o>We will now proceed to configure your copy of FinScribe.</o>
-<t></t>
-</str>
-
-<str id="38">
-<o>On the next few pages are a few questions that we will use to personalize your application.</o>
-<t></t>
-</str>
-
-<str id="39">
-<o>Site Basics</o>
-<t></t>
-</str>
-
-<str id="40">
-<o>Site URL</o>
-<t></t>
-</str>
-
-<str id="41">
-<o>This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).</o>
-<t></t>
-</str>
-
-<str id="42">
-<o>Site Name</o>
-<t></t>
-</str>
-
-<str id="43">
-<o>This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog</o>
-<t></t>
-</str>
-
-<str id="44">
-<o>Site Logo File</o>
-<t></t>
-</str>
-
-<str id="45">
-<o>You may specify the URL of an image that will be displayed in the default page layout template.</o>
-<t></t>
-</str>
-
-<str id="46">
-<o>Site Tagline:</o>
-<t></t>
-</str>
-
-<str id="47">
-<o>A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me</o>
-<t></t>
-</str>
-
-<str id="48">
-<o>Track Views</o>
-<t></t>
-</str>
-
-<str id="49">
-<o>Yes</o>
-<t></t>
-</str>
-
-<str id="50">
-<o>No</o>
-<t></t>
-</str>
-
-<str id="51">
-<o>Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.</o>
-<t></t>
-</str>
-
-<str id="52">
-<o>Administration</o>
-<t></t>
-</str>
-
-<str id="53">
-<o>Mail Host</o>
-<t></t>
-</str>
-
-<str id="54">
-<o>FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.</o>
-<t></t>
-</str>
-
-<str id="55">
-<o>Mail Return Address</o>
-<t></t>
-</str>
-
-<str id="56">
-<o>Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc).</o>
-<t></t>
-</str>
-
-<str id="57">
-<o>Account Autocreate</o>
-<t></t>
-</str>
-
-<str id="58">
-<o>Anonymous Commenting</o>
-<t></t>
-</str>
-
-<str id="59">
-<o>Enabling this feature will allow anonymous users to comment (with spam-detection in place).</o>
-<t></t>
-</str>
-
-<str id="60">
-<o>Enable PingBack sending</o>
-<t></t>
-</str>
-
-<str id="61">
-<o>Enable PingBack recieving (recording)</o>
-<t></t>
-</str>
-
-<str id="62">
-<o>Should FinScribe receive 'pingbacks' for links made to objects we create?</o>
-<t></t>
-</str>
-
-<str id="63">
-<o>Administrative User Setup</o>
-<t></t>
-</str>
-
-<str id="64">
-<o>Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. </o>
-<t></t>
-</str>
-
-<str id="65">
-<o>In the mean time, you'll use this account to log in and configure your site further.</o>
-<t></t>
-</str>
-
-<str id="66">
-<o>Username</o>
-<t></t>
-</str>
-
-<str id="67">
-<o>Confirm Password</o>
-<t></t>
-</str>
-
-<str id="68">
-<o>Email</o>
-<t></t>
-</str>
-
-<str id="69">
-<o>Preparing to configure</o>
-<t></t>
-</str>
-
-<str id="70">
-<o>We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages.</o>
-<t></t>
-</str>
-
-<str id="71">
-<o>When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away.</o>
-<t></t>
-</str>
-
-<str id="72">
-<o>Setup Complete!</o>
-<t></t>
-</str>
-
-<str id="73">
-<o>Congratulations! Your FinScribe installation is complete and ready to use.</o>
-<t></t>
-</str>
-
-<str id="74">
-<o>Click 'done' below to visit your FinScribe site.</o>
-<t></t>
-</str>
-
-<str id="75">
-<o>Editing Categories</o>
-<t></t>
-</str>
-
-<str id="76">
-<o>Existing Category</o>
-<t></t>
-</str>
-
-<str id="77">
-<o>Select a category</o>
-<t></t>
-</str>
-
-<str id="78">
-<o>or new category</o>
-<t></t>
-</str>
-
-<str id="79">
-<o>This page</o>
-<t></t>
-</str>
-
-<str id="80">
-<o>contains</o>
-<t></t>
-</str>
-
-<str id="81">
-<o>Attachments</o>
-<t></t>
-</str>
-
-<str id="82">
-<o>Name</o>
-<t></t>
-</str>
-
-<str id="83">
-<o>Type</o>
-<t></t>
-</str>
-
-<str id="84">
-<o>Size</o>
-<t></t>
-</str>
-
-<str id="85">
-<o>Updated</o>
-<t></t>
-</str>
-
-<str id="86">
-<o>Updated By</o>
-<t></t>
-</str>
-
-<str id="87">
-<o>Last Update</o>
-<t></t>
-</str>
-
-<str id="88">
-<o>Attachments%</o>
-<t></t>
-</str>
-
-<str id="89">
-<o>Categories</o>
-<t></t>
-</str>
-
-<str id="90">
-<o>Versions</o>
-<t></t>
-</str>
-
-<str id="91">
-<o>Version</o>
-<t></t>
-</str>
-
-<str id="92">
-<o>Date Saved</o>
-<t></t>
-</str>
-
-<str id="93">
-<o>Author</o>
-<t></t>
-</str>
-
-<str id="94">
-<o>Diff from</o>
-<t></t>
-</str>
-
-<str id="95">
-<o>Diff to</o>
-<t></t>
-</str>
-
-<str id="96">
-<o>Show</o>
-<t></t>
-</str>
-
-<str id="97">
-<o>Posted 
-in</o>
-<t></t>
-</str>
-
-<str id="98">
-<o>comments</o>
-<t></t>
-</str>
-
-<str id="99">
-<o>Post Comment</o>
-<t></t>
-</str>
-
-<str id="100">
-<o>TrackBacks</o>
-<t></t>
-</str>
-
-<str id="101">
-<o>PingBacks</o>
-<t></t>
-</str>
-
-<str id="102">
-<o>reads</o>
-<t></t>
-</str>
-
-<str id="103">
-<o>Created by</o>
-<t></t>
-</str>
-
-<str id="104">
-<o>Close</o>
-<t></t>
-</str>
-
-<str id="105">
-<o>Posted in </o>
-<t></t>
-</str>
-
-<str id="106">
-<o>No comments</o>
-<t></t>
-</str>
-
-<str id="107">
-<o>BackLinks</o>
-<t></t>
-</str>
 
 <str id="108">
 <o>Work with Users</o>
@@ -741,13 +242,33 @@ in</o>
 <t></t>
 </str>
 
+<str id="66">
+<o>Username</o>
+<t></t>
+</str>
+
 <str id="134">
 <o>Real Name</o>
 <t></t>
 </str>
 
+<str id="68">
+<o>Email</o>
+<t></t>
+</str>
+
 <str id="135">
 <o>Is Active?</o>
+<t></t>
+</str>
+
+<str id="50">
+<o>No</o>
+<t></t>
+</str>
+
+<str id="49">
+<o>Yes</o>
 <t></t>
 </str>
 
@@ -758,6 +279,16 @@ in</o>
 
 <str id="137">
 <o>Change Password...</o>
+<t></t>
+</str>
+
+<str id="17">
+<o>Password</o>
+<t></t>
+</str>
+
+<str id="67">
+<o>Confirm Password</o>
 <t></t>
 </str>
 
@@ -853,6 +384,11 @@ in</o>
 
 <str id="156">
 <o>Title</o>
+<t></t>
+</str>
+
+<str id="93">
+<o>Author</o>
 <t></t>
 </str>
 
@@ -1006,6 +542,46 @@ in</o>
 <t></t>
 </str>
 
+<str id="103">
+<o>Created by</o>
+<t></t>
+</str>
+
+<str id="8">
+<o>Last updated by</o>
+<t></t>
+</str>
+
+<str id="9">
+<o>Version #</o>
+<t></t>
+</str>
+
+<str id="10">
+<o>Comments</o>
+<t></t>
+</str>
+
+<str id="11">
+<o>Post a Comment</o>
+<t></t>
+</str>
+
+<str id="12">
+<o>RSS Feed</o>
+<t></t>
+</str>
+
+<str id="13">
+<o>FinScribe Error 500%</o>
+<t></t>
+</str>
+
+<str id="14">
+<o>An error occurred while processing your request</o>
+<t></t>
+</str>
+
 <str id="187">
 <o>Backlinks for </o>
 <t></t>
@@ -1018,6 +594,11 @@ in</o>
 
 <str id="189">
 <o>Commenting</o>
+<t></t>
+</str>
+
+<str id="82">
+<o>Name</o>
 <t></t>
 </str>
 
@@ -1053,6 +634,31 @@ in</o>
 
 <str id="196">
 <o>You can't directly add attachments to a weblog page.</o>
+<t></t>
+</str>
+
+<str id="79">
+<o>This page</o>
+<t></t>
+</str>
+
+<str id="80">
+<o>contains</o>
+<t></t>
+</str>
+
+<str id="81">
+<o>Attachments</o>
+<t></t>
+</str>
+
+<str id="83">
+<o>Type</o>
+<t></t>
+</str>
+
+<str id="84">
+<o>Size</o>
 <t></t>
 </str>
 
@@ -1563,5 +1169,1052 @@ in</o>
 
 <str id="298">
 <o>Site Index</o>
+<t></t>
+</str>
+
+<str id="1">
+<o>contact info</o>
+<t></t>
+</str>
+
+<str id="2">
+<o>powered by</o>
+<t></t>
+</str>
+
+<str id="15">
+<o>Host</o>
+<t></t>
+</str>
+
+<str id="16">
+<o>User</o>
+<t></t>
+</str>
+
+<str id="18">
+<o>Database</o>
+<t></t>
+</str>
+
+<str id="19">
+<o>Database File Path</o>
+<t></t>
+</str>
+
+<str id="20">
+<o>FinScribe Installer</o>
+<t></t>
+</str>
+
+<str id="21">
+<o>Wizard Cancelled!</o>
+<t></t>
+</str>
+
+<str id="22">
+<o>We failed to connect to the database.</o>
+<t></t>
+</str>
+
+<str id="23">
+<o>We failed to set the application preferences.</o>
+<t></t>
+</str>
+
+<str id="24">
+<o>We failed to create the administrative account.</o>
+<t></t>
+</str>
+
+<str id="25">
+<o>You must provide an administrative username.</o>
+<t></t>
+</str>
+
+<str id="26">
+<o>Welcome to FinScribe</o>
+<t></t>
+</str>
+
+<str id="27">
+<o>We're glad you've chosen to install FinScribe.</o>
+<t></t>
+</str>
+
+<str id="28">
+<o>The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work.</o>
+<t></t>
+</str>
+
+<str id="29">
+<o>When you're finished with this wizard, your FinScribe install will be complete!</o>
+<t></t>
+</str>
+
+<str id="30">
+<o>Select a database</o>
+<t></t>
+</str>
+
+<str id="31">
+<o>FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below.</o>
+<t></t>
+</str>
+
+<str id="32">
+<o>Database type</o>
+<t></t>
+</str>
+
+<str id="33">
+<o>Select a DB</o>
+<t></t>
+</str>
+
+<str id="34">
+<o>Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable).</o>
+<t></t>
+</str>
+
+<str id="35">
+<o>When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information.</o>
+<t></t>
+</str>
+
+<str id="36">
+<o>Database Objects Created</o>
+<t></t>
+</str>
+
+<str id="37">
+<o>We will now proceed to configure your copy of FinScribe.</o>
+<t></t>
+</str>
+
+<str id="38">
+<o>On the next few pages are a few questions that we will use to personalize your application.</o>
+<t></t>
+</str>
+
+<str id="39">
+<o>Site Basics</o>
+<t></t>
+</str>
+
+<str id="40">
+<o>Site URL</o>
+<t></t>
+</str>
+
+<str id="41">
+<o>This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).</o>
+<t></t>
+</str>
+
+<str id="42">
+<o>Site Name</o>
+<t></t>
+</str>
+
+<str id="43">
+<o>This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog</o>
+<t></t>
+</str>
+
+<str id="44">
+<o>Site Logo File</o>
+<t></t>
+</str>
+
+<str id="45">
+<o>You may specify the URL of an image that will be displayed in the default page layout template.</o>
+<t></t>
+</str>
+
+<str id="46">
+<o>Site Tagline:</o>
+<t></t>
+</str>
+
+<str id="47">
+<o>A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me</o>
+<t></t>
+</str>
+
+<str id="48">
+<o>Track Views</o>
+<t></t>
+</str>
+
+<str id="51">
+<o>Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.</o>
+<t></t>
+</str>
+
+<str id="52">
+<o>Administration</o>
+<t></t>
+</str>
+
+<str id="53">
+<o>Mail Host</o>
+<t></t>
+</str>
+
+<str id="54">
+<o>FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.</o>
+<t></t>
+</str>
+
+<str id="55">
+<o>Mail Return Address</o>
+<t></t>
+</str>
+
+<str id="56">
+<o>Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc).</o>
+<t></t>
+</str>
+
+<str id="57">
+<o>Account Autocreate</o>
+<t></t>
+</str>
+
+<str id="58">
+<o>Anonymous Commenting</o>
+<t></t>
+</str>
+
+<str id="59">
+<o>Enabling this feature will allow anonymous users to comment (with spam-detection in place).</o>
+<t></t>
+</str>
+
+<str id="60">
+<o>Enable PingBack sending</o>
+<t></t>
+</str>
+
+<str id="61">
+<o>Enable PingBack recieving (recording)</o>
+<t></t>
+</str>
+
+<str id="62">
+<o>Should FinScribe receive 'pingbacks' for links made to objects we create?</o>
+<t></t>
+</str>
+
+<str id="63">
+<o>Administrative User Setup</o>
+<t></t>
+</str>
+
+<str id="64">
+<o>Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. </o>
+<t></t>
+</str>
+
+<str id="65">
+<o>In the mean time, you'll use this account to log in and configure your site further.</o>
+<t></t>
+</str>
+
+<str id="69">
+<o>Preparing to configure</o>
+<t></t>
+</str>
+
+<str id="70">
+<o>We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages.</o>
+<t></t>
+</str>
+
+<str id="71">
+<o>When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away.</o>
+<t></t>
+</str>
+
+<str id="72">
+<o>Setup Complete!</o>
+<t></t>
+</str>
+
+<str id="73">
+<o>Congratulations! Your FinScribe installation is complete and ready to use.</o>
+<t></t>
+</str>
+
+<str id="74">
+<o>Click 'done' below to visit your FinScribe site.</o>
+<t></t>
+</str>
+
+<str id="75">
+<o>Editing Categories</o>
+<t></t>
+</str>
+
+<str id="76">
+<o>Existing Category</o>
+<t></t>
+</str>
+
+<str id="77">
+<o>Select a category</o>
+<t></t>
+</str>
+
+<str id="78">
+<o>or new category</o>
+<t></t>
+</str>
+
+<str id="85">
+<o>Updated</o>
+<t></t>
+</str>
+
+<str id="86">
+<o>Updated By</o>
+<t></t>
+</str>
+
+<str id="87">
+<o>Last Update</o>
+<t></t>
+</str>
+
+<str id="88">
+<o>Attachments%</o>
+<t></t>
+</str>
+
+<str id="89">
+<o>Categories</o>
+<t></t>
+</str>
+
+<str id="90">
+<o>Versions</o>
+<t></t>
+</str>
+
+<str id="91">
+<o>Version</o>
+<t></t>
+</str>
+
+<str id="92">
+<o>Date Saved</o>
+<t></t>
+</str>
+
+<str id="94">
+<o>Diff from</o>
+<t></t>
+</str>
+
+<str id="95">
+<o>Diff to</o>
+<t></t>
+</str>
+
+<str id="96">
+<o>Show</o>
+<t></t>
+</str>
+
+<str id="97">
+<o>Posted 
+in</o>
+<t></t>
+</str>
+
+<str id="98">
+<o>comments</o>
+<t></t>
+</str>
+
+<str id="99">
+<o>Post Comment</o>
+<t></t>
+</str>
+
+<str id="100">
+<o>TrackBacks</o>
+<t></t>
+</str>
+
+<str id="101">
+<o>PingBacks</o>
+<t></t>
+</str>
+
+<str id="102">
+<o>reads</o>
+<t></t>
+</str>
+
+<str id="104">
+<o>Close</o>
+<t></t>
+</str>
+
+<str id="105">
+<o>Posted in </o>
+<t></t>
+</str>
+
+<str id="106">
+<o>No comments</o>
+<t></t>
+</str>
+
+<str id="107">
+<o>BackLinks</o>
+<t></t>
+</str>
+
+<str id="3">
+<o>logged in as</o>
+<t></t>
+</str>
+
+<str id="4">
+<o>logout</o>
+<t></t>
+</str>
+
+<str id="5">
+<o>post blog</o>
+<t></t>
+</str>
+
+<str id="6">
+<o>login</o>
+<t></t>
+</str>
+
+<str id="7">
+<o>admin</o>
+<t></t>
+</str>
+
+<str id="299">
+<o>No plugin.</o>
+<t></t>
+</str>
+
+<str id="300">
+<o>Plugin enumeration failure.</o>
+<t></t>
+</str>
+
+<str id="301">
+<o>Plugin %[0]s enabled.</o>
+<t></t>
+</str>
+
+<str id="302">
+<o>Plugin %[0]s disabled.</o>
+<t></t>
+</str>
+
+<str id="303">
+<o>Invalid Zip file %[0]s.</o>
+<t></t>
+</str>
+
+<str id="304">
+<o>Invalid file extension for document %[0]s.</o>
+<t></t>
+</str>
+
+<str id="305">
+<o>Templates flushed.</o>
+<t></t>
+</str>
+
+<str id="306">
+<o>ACL was not updated successfully. Rules were missing.</o>
+<t></t>
+</str>
+
+<str id="307">
+<o>ACL was updated successfully.</o>
+<t></t>
+</str>
+
+<str id="308">
+<o>Group was updated successfully.</o>
+<t></t>
+</str>
+
+<str id="309">
+<o>You must provide a username with at least 2 characters.</o>
+<t></t>
+</str>
+
+<str id="310">
+<o>The username you have chosen is already in use by another user.</o>
+<t></t>
+</str>
+
+<str id="311">
+<o>You must provide a Real name and e-mail address.</o>
+<t></t>
+</str>
+
+<str id="312">
+<o>Your password must be typed identically in both fields, and must be at least 4 characters long.</o>
+<t></t>
+</str>
+
+<str id="313">
+<o>User %[0]s created successfully.</o>
+<t></t>
+</str>
+
+<str id="314">
+<o>Unknown action %[0]s</o>
+<t></t>
+</str>
+
+<str id="315">
+<o>You entered two differing passwords.</o>
+<t></t>
+</str>
+
+<str id="316">
+<o>User was updated successfully.</o>
+<t></t>
+</str>
+
+<str id="317">
+<o>No user provided.</o>
+<t></t>
+</str>
+
+<str id="318">
+<o>User id %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="319">
+<o>User %[0]s deleted.</o>
+<t></t>
+</str>
+
+<str id="320">
+<o>User Delete Cancelled</o>
+<t></t>
+</str>
+
+<str id="321">
+<o>ACL id %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="322">
+<o>ACL %[0]s deleted.</o>
+<t></t>
+</str>
+
+<str id="323">
+<o>No group provided.</o>
+<t></t>
+</str>
+
+<str id="324">
+<o>Group id %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="325">
+<o>Group %[0]s deleted.</o>
+<t></t>
+</str>
+
+<str id="326">
+<o>User %[0]s deactivated.</o>
+<t></t>
+</str>
+
+<str id="327">
+<o>User %[0]s activated.</o>
+<t></t>
+</str>
+
+<str id="328">
+<o>User administrative rights revoked for %[0]s.</o>
+<t></t>
+</str>
+
+<str id="329">
+<o>User administrative rights granted for %[0]s.</o>
+<t></t>
+</str>
+
+<str id="330">
+<o>Showing archived version</o>
+<t></t>
+</str>
+
+<str id="331">
+<o>You must be logged in as an administrator to continue.</o>
+<t></t>
+</str>
+
+<str id="332">
+<o>Unable to find a user for your userid.</o>
+<t></t>
+</str>
+
+<str id="333">
+<o>You must be an administrator to access that resource.</o>
+<t></t>
+</str>
+
+<str id="334">
+<o>hello from exec, perhaps you'd like to choose a function?</o>
+<t></t>
+</str>
+
+<str id="335">
+<o>Edit...</o>
+<t></t>
+</str>
+
+<str id="336">
+<o>New Child...</o>
+<t></t>
+</str>
+
+<str id="337">
+<o>Delete...</o>
+<t></t>
+</str>
+
+<str id="338">
+<o>Unlock</o>
+<t></t>
+</str>
+
+<str id="339">
+<o>Lock</o>
+<t></t>
+</str>
+
+<str id="340">
+<o>Versions...</o>
+<t></t>
+</str>
+
+<str id="341">
+<o>Properties...</o>
+<t></t>
+</str>
+
+<str id="342">
+<o>Unable to find the requested object, %[0]s.</o>
+<t></t>
+</str>
+
+<str id="343">
+<o>ACL changed successfully.</o>
+<t></t>
+</str>
+
+<str id="344">
+<o>You must provide an object to modify categories for.</o>
+<t></t>
+</str>
+
+<str id="345">
+<o>You must login to edit a category.</o>
+<t></t>
+</str>
+
+<str id="346">
+<o>Unknown object %[0]s.</o>
+<t></t>
+</str>
+
+<str id="347">
+<o>Unknown category %[0]s.</o>
+<t></t>
+</str>
+
+<str id="348">
+<o>Category %[0]s is already assigned to this item.</o>
+<t></t>
+</str>
+
+<str id="349">
+<o>Added to %[0]s .</o>
+<t></t>
+</str>
+
+<str id="350">
+<o>Removed from %[0]s.</o>
+<t></t>
+</str>
+
+<str id="351">
+<o>You must provide a category to view.</o>
+<t></t>
+</str>
+
+<str id="352">
+<o>Category %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="353">
+<o>You must provide an object to view the backlinks for.</o>
+<t></t>
+</str>
+
+<str id="354">
+<o>Object %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="355">
+<o>You must login to delete comments.</o>
+<t></t>
+</str>
+
+<str id="356">
+<o>You provide a comment id to delete.</o>
+<t></t>
+</str>
+
+<str id="357">
+<o>Comment #%[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="358">
+<o>Comment deleted successfully.</o>
+<t></t>
+</str>
+
+<str id="359">
+<o>How'd we get here?</o>
+<t></t>
+</str>
+
+<str id="360">
+<o>User created successfully.</o>
+<t></t>
+</str>
+
+<str id="361">
+<o>Unknown action %[0]s.</o>
+<t></t>
+</str>
+
+<str id="362">
+<o>Unable to find a user account with that username. Please try again.</o>
+<t></t>
+</str>
+
+<str id="363">
+<o>Your password has been located and will be sent to the email address on record for your account.</o>
+<t></t>
+</str>
+
+<str id="364">
+<o>No attachment location specified.</o>
+<t></t>
+</str>
+
+<str id="365">
+<o>You must login to upload.</o>
+<t></t>
+</str>
+
+<str id="366">
+<o>Mime type %[0]s for file %[1]s is not valid.</o>
+<t></t>
+</str>
+
+<str id="367">
+<o>Succesfully Saved.</o>
+<t></t>
+</str>
+
+<str id="368">
+<o>Unable to find root object to attach this document to.</o>
+<t></t>
+</str>
+
+<str id="369">
+<o>No filename specified to delete.</o>
+<t></t>
+</str>
+
+<str id="370">
+<o>Cannot find file %[0]s</o>
+<t></t>
+</str>
+
+<str id="371">
+<o>Sucessfully deleted %[0]s</o>
+<t></t>
+</str>
+
+<str id="372">
+<o>Login Incorrect.</o>
+<t></t>
+</str>
+
+<str id="373">
+<o>You do not have read permission</o>
+<t></t>
+</str>
+
+<str id="374">
+<o>You must login to comment.</o>
+<t></t>
+</str>
+
+<str id="375">
+<o>Comments for this article have been closed.</o>
+<t></t>
+</str>
+
+<str id="376">
+<o>Incorrect check image value.</o>
+<t></t>
+</str>
+
+<str id="377">
+<o>Name and Email are required for posting without logging in.</o>
+<t></t>
+</str>
+
+<str id="378">
+<o>Unknown comment action %[0]s</o>
+<t></t>
+</str>
+
+<str id="379">
+<o>You must login to lock objects.</o>
+<t></t>
+</str>
+
+<str id="380">
+<o>A locked object can only be toggled by its owner or an administrator.</o>
+<t></t>
+</str>
+
+<str id="381">
+<o>Object successfully locked.</o>
+<t></t>
+</str>
+
+<str id="382">
+<o>Object successfully ulocked.</o>
+<t></t>
+</str>
+
+<str id="383">
+<o>You must login to toggle comments.</o>
+<t></t>
+</str>
+
+<str id="384">
+<o>Comments on an object can only be toggled by its owner or an administrator.</o>
+<t></t>
+</str>
+
+<str id="385">
+<o>Comments successfully disabled.</o>
+<t></t>
+</str>
+
+<str id="386">
+<o>Comments successfully enabled.</o>
+<t></t>
+</str>
+
+<str id="387">
+<o>You must login to edit content.</o>
+<t></t>
+</str>
+
+<str id="388">
+<o>You must login to move content.</o>
+<t></t>
+</str>
+
+<str id="389">
+<o>This is a non-existent object: %[0]s</o>
+<t></t>
+</str>
+
+<str id="390">
+<o>You do not have permission to move this object</o>
+<t></t>
+</str>
+
+<str id="391">
+<o>Move operation cancelled.</o>
+<t></t>
+</str>
+
+<str id="392">
+<o>You must specify a location to move to.</o>
+<t></t>
+</str>
+
+<str id="393">
+<o>One or more objects already exist in the location you're moving to or cannot be moved because of permissions</o>
+<t></t>
+</str>
+
+<str id="394">
+<o>%[0]s objects moved.</o>
+<t></t>
+</str>
+
+<str id="395">
+<o>You must login to delete content.</o>
+<t></t>
+</str>
+
+<str id="396">
+<o>You do not have permission to delete this object</o>
+<t></t>
+</str>
+
+<str id="397">
+<o>You do not have permission to delete one or more objects</o>
+<t></t>
+</str>
+
+<str id="398">
+<o>%[0]d objects deleted.</o>
+<t></t>
+</str>
+
+<str id="399">
+<o>You do not have permission to edit this object.</o>
+<t></t>
+</str>
+
+<str id="400">
+<o>You do not have permission to create this object.</o>
+<t></t>
+</str>
+
+<str id="401">
+<o>Edit cancelled.</o>
+<t></t>
+</str>
+
+<str id="402">
+<o>Internal Database Error, unable to save.</o>
+<t></t>
+</str>
+
+<str id="403">
+<o>Unknown edit action %[0]s</o>
+<t></t>
+</str>
+
+<str id="404">
+<o>You must login to publish.</o>
+<t></t>
+</str>
+
+<str id="405">
+<o>Object doesn't exist, or isn't a WIP weblog entry.</o>
+<t></t>
+</str>
+
+<str id="406">
+<o>You don't have permission to publish (post) this object.</o>
+<t></t>
+</str>
+
+<str id="407">
+<o>Object published successfully.</o>
+<t></t>
+</str>
+
+<str id="408">
+<o>You must login to post.</o>
+<t></t>
+</str>
+
+<str id="409">
+<o>You are not authorized to post to this weblog.</o>
+<t></t>
+</str>
+
+<str id="410">
+<o>Blog posting cancelled.</o>
+<t></t>
+</str>
+
+<str id="411">
+<o>Blog Posting cancelled.</o>
+<t></t>
+</str>
+
+<str id="412">
+<o>Success</o>
+<t></t>
+</str>
+
+<str id="413">
+<o>Unknown post action %[0]s</o>
+<t></t>
+</str>
+
+<str id="414">
+<o>You cannot post to a non-existent page.</o>
+<t></t>
+</str>
+
+<str id="415">
+<o>unable to find object %[0]s.</o>
+<t></t>
+</str>
+
+<str id="416">
+<o>version %[0]s does not exist.
+</o>
+<t></t>
+</str>
+
+<str id="417">
+<o>version %[0]s does not exist.</o>
+<t></t>
+</str>
+
+<str id="418">
+<o>Unable to find object %[0]s.</o>
+<t></t>
+</str>
+
+<str id="419">
+<o>Unknown database type.</o>
+<t></t>
+</str>
+
+<str id="420">
+<o>Unsupported database type.</o>
+<t></t>
+</str>
+
+<str id="421">
+<o>You must provide a file to retrieve.</o>
 <t></t>
 </str>

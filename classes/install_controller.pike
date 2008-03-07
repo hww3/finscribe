@@ -130,7 +130,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
       break;
     default:
       Log.error("Unknown database type: %s", id->variables->dburl);
-      response->set_data(LOCALE(0,"Unknown database type."));
+      response->set_data(LOCALE(419,"Unknown database type."));
       return;
   }
 
@@ -237,7 +237,7 @@ args)
     response->set_data("Invalid db type.");
   else if (!(<"mysql", "postgres", "SQLite">)[args[0]])
   {
-    response->set_data(LOCALE(0,"Unsupported database type."));
+    response->set_data(LOCALE(420,"Unsupported database type."));
   }
   else
   {

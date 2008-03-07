@@ -40,12 +40,12 @@ public void toggle_enabled(Request id, Response response, mixed ... args)
 
   if(!id->variables->plugin)
   {
-    response->flash("msg", LOCALE(0,"No plugin."));
+    response->flash("msg", LOCALE(299,"No plugin."));
   }
 
   else if(!app->plugins[id->variables->plugin])
   {
-	response->flash("msg", LOCALE(0,"Plugin enumeration failure."));
+	response->flash("msg", LOCALE(300,"Plugin enumeration failure."));
   }
 
   else
@@ -53,9 +53,9 @@ public void toggle_enabled(Request id, Response response, mixed ... args)
 	object p = app->get_sys_pref("plugin." + app->plugins[id->variables->plugin]->name + ".enabled");
     p["Value"] = !p->get_value();
     if(p->get_value())
-      response->flash("msg", sprintf(LOCALE(0,"Plugin %[0]s enabled."), id->variables->plugin));
+      response->flash("msg", sprintf(LOCALE(301,"Plugin %[0]s enabled."), id->variables->plugin));
     else
-      response->flash("msg", sprintf(LOCALE(0,"Plugin %[0]s disabled."), id->variables->plugin));
+      response->flash("msg", sprintf(LOCALE(302,"Plugin %[0]s disabled."), id->variables->plugin));
   }
 
   response->redirect("list");

@@ -33,7 +33,7 @@ public void index(Request id, Response response, mixed ... args)
 public void flush_templates(Request id, Response response, mixed ... args)
 {
 	view->flush_templates();
-        response->flash("msg", LOCALE(0,"Templates flushed."));
+        response->flash("msg", LOCALE(305,"Templates flushed."));
         response->redirect(index, 0, ([time():""]));      
 }
 public void shutdown(Request id, Response response, mixed ... args)
@@ -200,7 +200,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             if(!id->variables->rules)
             {
-              response->flash("msg", LOCALE(0,"ACL was not updated successfully. Rules were missing."));
+              response->flash("msg", LOCALE(306,"ACL was not updated successfully. Rules were missing."));
               response->redirect("listacls");
               return;
             }
@@ -316,7 +316,7 @@ public void editacl(Request id, Response response, mixed ... args)
               }
             }
 
-            response->flash("msg", LOCALE(0,"ACL was updated successfully."));
+            response->flash("msg", LOCALE(307,"ACL was updated successfully."));
             response->redirect("listacls");
             return;
           }
@@ -418,7 +418,7 @@ public void editgroup(Request id, Response response, mixed ... args)
               }
             }
 
-            response->flash("msg", LOCALE(0,"Group was updated successfully."));
+            response->flash("msg", LOCALE(308,"Group was updated successfully."));
             response->redirect("listgroups");
             return;
           }
@@ -459,24 +459,24 @@ public void newuser(Request id, Response response, mixed ... args)
                         // check the username
                         if(sizeof(Name)< 2)
                         {
-                                response->flash("msg", LOCALE(0,"You must provide a username with at least 2 characters."));
+                                response->flash("msg", LOCALE(309,"You must provide a username with at least 2 characters."));
                                 UserName = "";
                         }
                         else if(sizeof(Fins.Model.find.users((["UserName": UserName]))) != 0)
                         {
-                                response->flash("msg", LOCALE(0,"The username you have chosen is already in use by another user."));
+                                response->flash("msg", LOCALE(310,"The username you have chosen is already in use by another user."));
                                 UserName = "";
                         }
                         else if(!sizeof(Name) || !sizeof(Email))
                         {
-                                response->flash("msg", LOCALE(0,"You must provide a Real name and e-mail address."));
+                                response->flash("msg", LOCALE(311,"You must provide a Real name and e-mail address."));
 
                                 Name = "";
                                 Email = "";
                        }
                         else if(sizeof(Password)<4 || (Password != Password2))
                         {
-                                response->flash("msg", LOCALE(0,"Your password must be typed identically in both fields, and must be at least 4 characters long.");
+                                response->flash("msg", LOCALE(312,"Your password must be typed identically in both fields, and must be at least 4 characters long.");
                                 Password = Password2 = "";
                         }
                         else
@@ -501,7 +501,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                   }
                                 }
 
-                                response->flash("msg", sprintf(LOCALE(0,"User %[0]s created successfully."), UserName));
+                                response->flash("msg", sprintf(LOCALE(313,"User %[0]s created successfully."), UserName));
                                 response->redirect("listusers");
 
 // now, let's set up a page for the new user.
@@ -530,7 +530,7 @@ public void newuser(Request id, Response response, mixed ... args)
                 }
                 else
                 {
-                        response->flash("msg", sprintf(LOCALE(0,"Unknown action %[0]s"), id->variables->action));
+                        response->flash("msg", sprintf(LOCALE(314,"Unknown action %[0]s"), id->variables->action));
                 }
 
         }
@@ -581,7 +581,7 @@ public void edituser(Request id, Response response, mixed ... args)
             {
                if(id->variables->Password != id->variables->ConfirmPassword)
                {
-                 response->flash("msg", LOCALE(0,"You entered two differing passwords."));
+                 response->flash("msg", LOCALE(315,"You entered two differing passwords."));
                  return;
                }
 
@@ -610,7 +610,7 @@ public void edituser(Request id, Response response, mixed ... args)
 
 
 
-            response->flash("msg", LOCALE(0,"User was updated successfully."));
+            response->flash("msg", LOCALE(316,"User was updated successfully."));
             response->redirect("listusers");
             return;
           }
@@ -624,11 +624,11 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
   if(!id->variables->userid)
   {
-    response->flash("msg", LOCALE(0,"No user provided."));
+    response->flash("msg", LOCALE(317,"No user provided."));
   }
   if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
-    response->flash("msg", sprintf(LOCALE(0,"User id %[0]s does not exist."), id->variables->userid));
+    response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }
   else if(id->variables->action == "Really Delete")
   {
@@ -643,12 +643,12 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
     string n = u["Name"];
     u->delete();
-    response->flash("msg", sprintf(LOCALE(0,"User %[0]s deleted."),n));
+    response->flash("msg", sprintf(LOCALE(319,"User %[0]s deleted."),n));
     response->redirect("listusers");
   }
   else if(id->variables->action == "Cancel")
   {
-    response->flash("msg", LOCALE(0,"User Delete Cancelled"));
+    response->flash("msg", LOCALE(320,"User Delete Cancelled"));
     response->redirect("listusers");
   }
   else
@@ -674,13 +674,13 @@ public void deleteacl(Request id, Response response, mixed ... args)
   }
   if(!(u = Fins.Model.find.acls_by_id((int)id->variables->aclid)))
   {
-    response->flash("msg", sprintf(LOCALE(0,"ACL id %[0]s does not exist."), id->variables->aclid));
+    response->flash("msg", sprintf(LOCALE(321,"ACL id %[0]s does not exist."), id->variables->aclid));
   }
   else
   {
     string n = u["Name"];
     u->delete();
-    response->flash("msg", sprintf(LOCALE(0,"ACL %[0]s deleted."), n));
+    response->flash("msg", sprintf(LOCALE(322,"ACL %[0]s deleted."), n));
   }
 
   response->redirect("listacls");
@@ -693,17 +693,17 @@ public void deletegroup(Request id, Response response, mixed ... args)
 
   if(!id->variables->groupid)
   {
-    response->flash("msg", LOCALE(0,"No group provided."));
+    response->flash("msg", LOCALE(323,"No group provided."));
   }
   if(!(u = Fins.Model.find.groups_by_id((int)id->variables->groupid)))
   {
-    response->flash("msg", sprintf(LOCALE(0,"Group id %[0]s does not exist."), id->variables->groupid));
+    response->flash("msg", sprintf(LOCALE(324,"Group id %[0]s does not exist."), id->variables->groupid));
   }
   else
   {
     string n = u["Name"];
     u->delete();
-    response->flash("msg", sprintf(LOCALE(0,"Group %[0]s deleted."), n));
+    response->flash("msg", sprintf(LOCALE(325,"Group %[0]s deleted."), n));
   }
   response->redirect("listgroups");
 
@@ -715,11 +715,11 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
 
   if(!id->variables->userid)
   {
-    response->flash("msg", LOCALE(0,"No user provided."));
+    response->flash("msg", LOCALE(317,"No user provided."));
   }
   if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
-    response->flash("msg", sprintf(LOCALE(0,"User id %[0]s does not exist."), id->variables->userid));
+    response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }
   else
   {
@@ -727,9 +727,9 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
     
     string pre = "";
     if(!u["is_active"])
-      response->flash("msg", sprintf(LOCALE(0,"User %[0]s deactivated."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(326,"User %[0]s deactivated."), u["Name"]));
     else
-      response->flash("msg", sprintf(LOCALE(0,"User %[0]s activated."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(327,"User %[0]s activated."), u["Name"]));
   }
   response->redirect("listusers");
 }
@@ -741,20 +741,20 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
 
   if(!id->variables->userid)
   {
-    response->flash("msg", LOCALE(0,"No user provided."));
+    response->flash("msg", LOCALE(317,"No user provided."));
   }
   if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
   {
-    response->flash("msg", sprintf(LOCALE(0,"User id %[0]s does not exist."), id->variables->userid));
+    response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }
   else
   {
     u["is_admin"] = !u["is_admin"];
     
     if(!u["is_admin"])
-      response->flash("msg", sprintf(LOCALE(0,"User administrative rights revoked for %[0]s."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(328,"User administrative rights revoked for %[0]s."), u["Name"]));
     else
-      response->flash("msg", sprintf(LOCALE(0,"User administrative rights granted for %[0]s."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(329,"User administrative rights granted for %[0]s."), u["Name"]));
   }
   response->redirect("listusers");
 }
