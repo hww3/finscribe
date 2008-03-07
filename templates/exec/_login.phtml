@@ -3,14 +3,14 @@
 <tr>
 <td>
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
-<%LOCALE string="Login"%>: 
+<%LOCALE id="203" string="Login"%>: 
 </td><td>
 <input type="string" id="UserName" name="UserName" value="<%$UserName%>"/><br/>
 </td>
 </tr>
 <tr>
 <td>
-<%LOCALE string="Password"%>:</td><td>
+<%LOCALE id="17" string="Password"%>:</td><td>
  <input type="password" name="Password"/></td></tr>
 <tr><td colspan="2">
 <%if !data->ajax %>
@@ -20,20 +20,20 @@ f.focus();
 </script>
 <% endif %>
 <p/>
-<button type="submit" name="action" value="Login"><%LOCALE string="Login"%></button>
+<button type="submit" name="action" value="Login"><%LOCALE id="203" string="Login"%></button>
 <% if !data->ajax %>
-<button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 <% else %>
-<button type="submit" name="action" onclick="return closePopup()" value="Cancel"><%LOCALE string="Cancel"%></button>
+<button type="submit" name="action" onclick="return closePopup()" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 <% endif %>
 </td>
 </tr>
 </table>
 </form>
 <p/>
-<a href="/exec/forgotpassword"><%LOCALE string="Forgot password?"%></a>
+<a href="/exec/forgotpassword"><%LOCALE id="204" string="Forgot password?"%></a>
 <% if data->autocreate %>
 |
-<a href="/exec/createaccount"><%LOCALE string="Create an account"%></a>
+<a href="/exec/createaccount"><%LOCALE id="205" string="Create an account"%></a>
 <%endif%>
 

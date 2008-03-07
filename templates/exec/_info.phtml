@@ -1,14 +1,14 @@
-<h1><%LOCALE string="Page Info"%></h1>
+<h1><%LOCALE id="199" string="Page Info"%></h1>
 <%$object.title%> [<a href="<%$object.link%>">View</a>]
 <p>
-<b><%LOCALE string="Tiny Link"%>: </b> <a href="<%$object.tinylink%>"><%$object.tinylink%></a>
+<b><%LOCALE id="200" string="Tiny Link"%>: </b> <a href="<%$object.tinylink%>"><%$object.tinylink%></a>
 <p>
-<b><%LOCALE string="Incoming Links"%></b><p>
+<b><%LOCALE id="201" string="Incoming Links"%></b><p>
 <% foreach var="$object.inlinks_links" val="link"%>
 <%$link%><br>
 <% end %>
 <p>
-<b><%LOCALE string="Outgoing Links"%></b><p>
+<b><%LOCALE id="202" string="Outgoing Links"%></b><p>
 <% foreach var="$object.outlinks_links" val="link"%>
 <%$link%><br>
 <% end %>

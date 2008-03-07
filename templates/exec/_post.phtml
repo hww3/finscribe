@@ -3,12 +3,12 @@
  dojo.require("dojo.widget.ResizableTextArea");
 </script>
 
-<h3><%LOCALE string="Posting"%>: <%$obj%></h3>
+<h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
 <table>
 <tr>
 <td>
-<b><%LOCALE string="Subject"%>:</b> 
+<b><%LOCALE id="194" string="Subject"%>:</b> 
 </td>
 <td>
 <input type="text" name="subject" size="40" value="<%$subject%>"/>
@@ -24,9 +24,9 @@
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="TrackBack URLs"%>: </b>
-<br>(<%LOCALE string="click preview to detect"%> <a 
-href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE string="TrackBack"%></a> <%LOCALE string="URLs"%>)
+<b><%LOCALE id="207" string="TrackBack URLs"%>: </b>
+<br>(<%LOCALE id="208" string="click preview to detect"%> <a 
+href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBack"%></a> <%LOCALE id="210" string="URLs"%>)
 <br/>
 </td>
 <td>
@@ -36,7 +36,7 @@ href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE string="TrackBack"%></a> 
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="Publish Date"%>: </b>
+<b><%LOCALE id="211" string="Publish Date"%>: </b>
 </td>
 <td>
 <input type="text" size="15" <%$showcreated%> id="createdDate" name="createddate"
@@ -50,15 +50,15 @@ value="<%$createddate%>" dojoType="dropdowndatepicker" />
 <input type="hidden" name="ajax" value="1"/>
 <input type="hidden" id="postformajaxaction" name="action" value="" />
 
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"><%LOCALE string="Preview"%></button>
-<button type="button" onclick="closePopup(); return false;" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"><%LOCALE string="Save"%></button>
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Post'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Post"><%LOCALE string="Post"%></button> 
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
+<button type="button" onclick="closePopup(); return false;" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Post'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Post"><%LOCALE id="212" string="Post"%></button> 
 <% else %>
-<button type="submit" name="action" value="Preview"><%LOCALE string="Preview"%></button>
-<button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
-<button type="submit" name="action" value="Save"><%LOCALE string="Save"%></button>
-<button type="submit" name="action" value="Post"><%LOCALE string="Post"%></button>
+<button type="submit" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
+<button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
+<button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
+<button type="submit" name="action" value="Post"><%LOCALE id="212" string="Post"%></button>
 <% endif %>
 </td>
 </tr>
@@ -66,6 +66,6 @@ value="<%$createddate%>" dojoType="dropdowndatepicker" />
 </form>
 
 <%if data->preview %>
-<b><%LOCALE string="Preview"%>:</b><p/>
+<b><%LOCALE id="191" string="Preview"%>:</b><p/>
 <%$preview%>
 <% endif %>

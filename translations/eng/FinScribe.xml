@@ -2,7 +2,7 @@
 <locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1204841093</dumped>
+<dumped>1204865340</dumped>
 <file>templates/admin/adminindex.phtml</file>
 <file>templates/admin/confirmdeleteuser.phtml</file>
 <file>templates/admin/confirmshutdown.phtml</file>
@@ -107,5 +107,1171 @@
 
 <str id="7">
 <o>admin</o>
+<t></t>
+</str>
+
+<str id="8">
+<o>Last updated by</o>
+<t></t>
+</str>
+
+<str id="9">
+<o>Version #</o>
+<t></t>
+</str>
+
+<str id="10">
+<o>Comments</o>
+<t></t>
+</str>
+
+<str id="11">
+<o>Post a Comment</o>
+<t></t>
+</str>
+
+<str id="12">
+<o>RSS Feed</o>
+<t></t>
+</str>
+
+<str id="13">
+<o>FinScribe Error 500%</o>
+<t></t>
+</str>
+
+<str id="14">
+<o>An error occurred while processing your request</o>
+<t></t>
+</str>
+
+<str id="15">
+<o>Host</o>
+<t></t>
+</str>
+
+<str id="16">
+<o>User</o>
+<t></t>
+</str>
+
+<str id="17">
+<o>Password</o>
+<t></t>
+</str>
+
+<str id="18">
+<o>Database</o>
+<t></t>
+</str>
+
+<str id="19">
+<o>Database File Path</o>
+<t></t>
+</str>
+
+<str id="20">
+<o>FinScribe Installer</o>
+<t></t>
+</str>
+
+<str id="21">
+<o>Wizard Cancelled!</o>
+<t></t>
+</str>
+
+<str id="22">
+<o>We failed to connect to the database.</o>
+<t></t>
+</str>
+
+<str id="23">
+<o>We failed to set the application preferences.</o>
+<t></t>
+</str>
+
+<str id="24">
+<o>We failed to create the administrative account.</o>
+<t></t>
+</str>
+
+<str id="25">
+<o>You must provide an administrative username.</o>
+<t></t>
+</str>
+
+<str id="26">
+<o>Welcome to FinScribe</o>
+<t></t>
+</str>
+
+<str id="27">
+<o>We're glad you've chosen to install FinScribe.</o>
+<t></t>
+</str>
+
+<str id="28">
+<o>The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work.</o>
+<t></t>
+</str>
+
+<str id="29">
+<o>When you're finished with this wizard, your FinScribe install will be complete!</o>
+<t></t>
+</str>
+
+<str id="30">
+<o>Select a database</o>
+<t></t>
+</str>
+
+<str id="31">
+<o>FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below.</o>
+<t></t>
+</str>
+
+<str id="32">
+<o>Database type</o>
+<t></t>
+</str>
+
+<str id="33">
+<o>Select a DB</o>
+<t></t>
+</str>
+
+<str id="34">
+<o>Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable).</o>
+<t></t>
+</str>
+
+<str id="35">
+<o>When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information.</o>
+<t></t>
+</str>
+
+<str id="36">
+<o>Database Objects Created</o>
+<t></t>
+</str>
+
+<str id="37">
+<o>We will now proceed to configure your copy of FinScribe.</o>
+<t></t>
+</str>
+
+<str id="38">
+<o>On the next few pages are a few questions that we will use to personalize your application.</o>
+<t></t>
+</str>
+
+<str id="39">
+<o>Site Basics</o>
+<t></t>
+</str>
+
+<str id="40">
+<o>Site URL</o>
+<t></t>
+</str>
+
+<str id="41">
+<o>This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).</o>
+<t></t>
+</str>
+
+<str id="42">
+<o>Site Name</o>
+<t></t>
+</str>
+
+<str id="43">
+<o>This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog</o>
+<t></t>
+</str>
+
+<str id="44">
+<o>Site Logo File</o>
+<t></t>
+</str>
+
+<str id="45">
+<o>You may specify the URL of an image that will be displayed in the default page layout template.</o>
+<t></t>
+</str>
+
+<str id="46">
+<o>Site Tagline:</o>
+<t></t>
+</str>
+
+<str id="47">
+<o>A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me</o>
+<t></t>
+</str>
+
+<str id="48">
+<o>Track Views</o>
+<t></t>
+</str>
+
+<str id="49">
+<o>Yes</o>
+<t></t>
+</str>
+
+<str id="50">
+<o>No</o>
+<t></t>
+</str>
+
+<str id="51">
+<o>Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.</o>
+<t></t>
+</str>
+
+<str id="52">
+<o>Administration</o>
+<t></t>
+</str>
+
+<str id="53">
+<o>Mail Host</o>
+<t></t>
+</str>
+
+<str id="54">
+<o>FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.</o>
+<t></t>
+</str>
+
+<str id="55">
+<o>Mail Return Address</o>
+<t></t>
+</str>
+
+<str id="56">
+<o>Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc).</o>
+<t></t>
+</str>
+
+<str id="57">
+<o>Account Autocreate</o>
+<t></t>
+</str>
+
+<str id="58">
+<o>Anonymous Commenting</o>
+<t></t>
+</str>
+
+<str id="59">
+<o>Enabling this feature will allow anonymous users to comment (with spam-detection in place).</o>
+<t></t>
+</str>
+
+<str id="60">
+<o>Enable PingBack sending</o>
+<t></t>
+</str>
+
+<str id="61">
+<o>Enable PingBack recieving (recording)</o>
+<t></t>
+</str>
+
+<str id="62">
+<o>Should FinScribe receive 'pingbacks' for links made to objects we create?</o>
+<t></t>
+</str>
+
+<str id="63">
+<o>Administrative User Setup</o>
+<t></t>
+</str>
+
+<str id="64">
+<o>Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. </o>
+<t></t>
+</str>
+
+<str id="65">
+<o>In the mean time, you'll use this account to log in and configure your site further.</o>
+<t></t>
+</str>
+
+<str id="66">
+<o>Username</o>
+<t></t>
+</str>
+
+<str id="67">
+<o>Confirm Password</o>
+<t></t>
+</str>
+
+<str id="68">
+<o>Email</o>
+<t></t>
+</str>
+
+<str id="69">
+<o>Preparing to configure</o>
+<t></t>
+</str>
+
+<str id="70">
+<o>We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages.</o>
+<t></t>
+</str>
+
+<str id="71">
+<o>When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away.</o>
+<t></t>
+</str>
+
+<str id="72">
+<o>Setup Complete!</o>
+<t></t>
+</str>
+
+<str id="73">
+<o>Congratulations! Your FinScribe installation is complete and ready to use.</o>
+<t></t>
+</str>
+
+<str id="74">
+<o>Click 'done' below to visit your FinScribe site.</o>
+<t></t>
+</str>
+
+<str id="75">
+<o>Editing Categories</o>
+<t></t>
+</str>
+
+<str id="76">
+<o>Existing Category</o>
+<t></t>
+</str>
+
+<str id="77">
+<o>Select a category</o>
+<t></t>
+</str>
+
+<str id="78">
+<o>or new category</o>
+<t></t>
+</str>
+
+<str id="79">
+<o>This page</o>
+<t></t>
+</str>
+
+<str id="80">
+<o>contains</o>
+<t></t>
+</str>
+
+<str id="81">
+<o>Attachments</o>
+<t></t>
+</str>
+
+<str id="82">
+<o>Name</o>
+<t></t>
+</str>
+
+<str id="83">
+<o>Type</o>
+<t></t>
+</str>
+
+<str id="84">
+<o>Size</o>
+<t></t>
+</str>
+
+<str id="85">
+<o>Updated</o>
+<t></t>
+</str>
+
+<str id="86">
+<o>Updated By</o>
+<t></t>
+</str>
+
+<str id="87">
+<o>Last Update</o>
+<t></t>
+</str>
+
+<str id="88">
+<o>Attachments%</o>
+<t></t>
+</str>
+
+<str id="89">
+<o>Categories</o>
+<t></t>
+</str>
+
+<str id="90">
+<o>Versions</o>
+<t></t>
+</str>
+
+<str id="91">
+<o>Version</o>
+<t></t>
+</str>
+
+<str id="92">
+<o>Date Saved</o>
+<t></t>
+</str>
+
+<str id="93">
+<o>Author</o>
+<t></t>
+</str>
+
+<str id="94">
+<o>Diff from</o>
+<t></t>
+</str>
+
+<str id="95">
+<o>Diff to</o>
+<t></t>
+</str>
+
+<str id="96">
+<o>Show</o>
+<t></t>
+</str>
+
+<str id="97">
+<o>Posted 
+in</o>
+<t></t>
+</str>
+
+<str id="98">
+<o>comments</o>
+<t></t>
+</str>
+
+<str id="99">
+<o>Post Comment</o>
+<t></t>
+</str>
+
+<str id="100">
+<o>TrackBacks</o>
+<t></t>
+</str>
+
+<str id="101">
+<o>PingBacks</o>
+<t></t>
+</str>
+
+<str id="102">
+<o>reads</o>
+<t></t>
+</str>
+
+<str id="103">
+<o>Created by</o>
+<t></t>
+</str>
+
+<str id="104">
+<o>Close</o>
+<t></t>
+</str>
+
+<str id="105">
+<o>Posted in </o>
+<t></t>
+</str>
+
+<str id="106">
+<o>No comments</o>
+<t></t>
+</str>
+
+<str id="107">
+<o>BackLinks</o>
+<t></t>
+</str>
+
+<str id="108">
+<o>Work with Users</o>
+<t></t>
+</str>
+
+<str id="109">
+<o>Work with Groups</o>
+<t></t>
+</str>
+
+<str id="110">
+<o>Work with ACLs</o>
+<t></t>
+</str>
+
+<str id="111">
+<o>Work with WIP items</o>
+<t></t>
+</str>
+
+<str id="112">
+<o>Plugins</o>
+<t></t>
+</str>
+
+<str id="113">
+<o>Preferences</o>
+<t></t>
+</str>
+
+<str id="114">
+<o>Manage Themes</o>
+<t></t>
+</str>
+
+<str id="115">
+<o>Shutdown</o>
+<t></t>
+</str>
+
+<str id="116">
+<o>delete user</o>
+<t></t>
+</str>
+
+<str id="117">
+<o>Delete User</o>
+<t></t>
+</str>
+
+<str id="118">
+<o>The user</o>
+<t></t>
+</str>
+
+<str id="119">
+<o>owns the the following objects, or versions of the following documents</o>
+<t></t>
+</str>
+
+<str id="120">
+<o>Please choose the user to which these objects will be reassigned</o>
+<t></t>
+</str>
+
+<str id="121">
+<o>No objects.</o>
+<t></t>
+</str>
+
+<str id="122">
+<o>Cancel</o>
+<t></t>
+</str>
+
+<str id="123">
+<o>Really Delete</o>
+<t></t>
+</str>
+
+<str id="124">
+<o>New ACL</o>
+<t></t>
+</str>
+
+<str id="125">
+<o>Edit ACL</o>
+<t></t>
+</str>
+
+<str id="126">
+<o>ACL Name</o>
+<t></t>
+</str>
+
+<str id="127">
+<o>Save</o>
+<t></t>
+</str>
+
+<str id="128">
+<o>edit group</o>
+<t></t>
+</str>
+
+<str id="129">
+<o>New Group</o>
+<t></t>
+</str>
+
+<str id="130">
+<o>Edit Group</o>
+<t></t>
+</str>
+
+<str id="131">
+<o>Group Name</o>
+<t></t>
+</str>
+
+<str id="132">
+<o>edit user</o>
+<t></t>
+</str>
+
+<str id="133">
+<o>Edit User</o>
+<t></t>
+</str>
+
+<str id="134">
+<o>Real Name</o>
+<t></t>
+</str>
+
+<str id="135">
+<o>Is Active?</o>
+<t></t>
+</str>
+
+<str id="136">
+<o>Is Admin?</o>
+<t></t>
+</str>
+
+<str id="137">
+<o>Change Password...</o>
+<t></t>
+</str>
+
+<str id="138">
+<o>list acls</o>
+<t></t>
+</str>
+
+<str id="139">
+<o>ACL List</o>
+<t></t>
+</str>
+
+<str id="140">
+<o>New ACL...</o>
+<t></t>
+</str>
+
+<str id="141">
+<o>Description</o>
+<t></t>
+</str>
+
+<str id="142">
+<o>e-mail</o>
+<t></t>
+</str>
+
+<str id="143">
+<o>grouplist</o>
+<t></t>
+</str>
+
+<str id="144">
+<o>Group List</o>
+<t></t>
+</str>
+
+<str id="145">
+<o>Edit</o>
+<t></t>
+</str>
+
+<str id="146">
+<o>Delete</o>
+<t></t>
+</str>
+
+<str id="147">
+<o>userlist</o>
+<t></t>
+</str>
+
+<str id="148">
+<o>User List</o>
+<t></t>
+</str>
+
+<str id="149">
+<o>New User...</o>
+<t></t>
+</str>
+
+<str id="150">
+<o>User Name</o>
+<t></t>
+</str>
+
+<str id="151">
+<o>Admin User?</o>
+<t></t>
+</str>
+
+<str id="152">
+<o>Active?</o>
+<t></t>
+</str>
+
+<str id="153">
+<o>wip items</o>
+<t></t>
+</str>
+
+<str id="154">
+<o>WIP Blog Entries</o>
+<t></t>
+</str>
+
+<str id="155">
+<o>Path</o>
+<t></t>
+</str>
+
+<str id="156">
+<o>Title</o>
+<t></t>
+</str>
+
+<str id="157">
+<o>Last Modified</o>
+<t></t>
+</str>
+
+<str id="158">
+<o>Publish</o>
+<t></t>
+</str>
+
+<str id="159">
+<o>No WIP Blog entries.</o>
+<t></t>
+</str>
+
+<str id="160">
+<o>WIP Articles</o>
+<t></t>
+</str>
+
+<str id="161">
+<o>No WIP Documents.</o>
+<t></t>
+</str>
+
+<str id="162">
+<o>Create Account</o>
+<t></t>
+</str>
+
+<str id="163">
+<o>New user</o>
+<t></t>
+</str>
+
+<str id="164">
+<o>Re-type Password</o>
+<t></t>
+</str>
+
+<str id="165">
+<o>Create</o>
+<t></t>
+</str>
+
+<str id="166">
+<o>pluginlist</o>
+<t></t>
+</str>
+
+<str id="167">
+<o>Plugin List</o>
+<t></t>
+</str>
+
+<str id="168">
+<o>Plugin Name</o>
+<t></t>
+</str>
+
+<str id="169">
+<o>Enabled</o>
+<t></t>
+</str>
+
+<str id="170">
+<o>Prefs</o>
+<t></t>
+</str>
+
+<str id="171">
+<o>Preferences:</o>
+<t></t>
+</str>
+
+<str id="172">
+<o>Click on a value to edit it.</o>
+<t></t>
+</str>
+
+<str id="173">
+<o>preferencelist</o>
+<t></t>
+</str>
+
+<str id="174">
+<o>settings</o>
+<t></t>
+</str>
+
+<str id="175">
+<o>Application Settings</o>
+<t></t>
+</str>
+
+<str id="176">
+<o>shutting down</o>
+<t></t>
+</str>
+
+<str id="177">
+<o>Shutdown Begun</o>
+<t></t>
+</str>
+
+<str id="178">
+<o>This application will shut down in 5 seconds.</o>
+<t></t>
+</str>
+
+<str id="179">
+<o>All files uploaded...</o>
+<t></t>
+</str>
+
+<str id="180">
+<o>Upload Themes</o>
+<t></t>
+</str>
+
+<str id="181">
+<o>themes</o>
+<t></t>
+</str>
+
+<str id="182">
+<o>Theme List</o>
+<t></t>
+</str>
+
+<str id="183">
+<o>Theme</o>
+<t></t>
+</str>
+
+<str id="184">
+<o>Make Active</o>
+<t></t>
+</str>
+
+<str id="185">
+<o>Download</o>
+<t></t>
+</str>
+
+<str id="186">
+<o>Upload Theme</o>
+<t></t>
+</str>
+
+<str id="187">
+<o>Backlinks for </o>
+<t></t>
+</str>
+
+<str id="188">
+<o>Pages that link to this page</o>
+<t></t>
+</str>
+
+<str id="189">
+<o>Commenting</o>
+<t></t>
+</str>
+
+<str id="190">
+<o>Website</o>
+<t></t>
+</str>
+
+<str id="191">
+<o>Preview</o>
+<t></t>
+</str>
+
+<str id="192">
+<o>Posted by</o>
+<t></t>
+</str>
+
+<str id="193">
+<o>anonymous</o>
+<t></t>
+</str>
+
+<str id="194">
+<o>Subject</o>
+<t></t>
+</str>
+
+<str id="195">
+<o>Editing Attachments</o>
+<t></t>
+</str>
+
+<str id="196">
+<o>You can't directly add attachments to a weblog page.</o>
+<t></t>
+</str>
+
+<str id="197">
+<o>Queue is empty</o>
+<t></t>
+</str>
+
+<str id="198">
+<o>Cancel queue</o>
+<t></t>
+</str>
+
+<str id="199">
+<o>Page Info</o>
+<t></t>
+</str>
+
+<str id="200">
+<o>Tiny Link</o>
+<t></t>
+</str>
+
+<str id="201">
+<o>Incoming Links</o>
+<t></t>
+</str>
+
+<str id="202">
+<o>Outgoing Links</o>
+<t></t>
+</str>
+
+<str id="203">
+<o>Login</o>
+<t></t>
+</str>
+
+<str id="204">
+<o>Forgot password?</o>
+<t></t>
+</str>
+
+<str id="205">
+<o>Create an account</o>
+<t></t>
+</str>
+
+<str id="206">
+<o>Posting</o>
+<t></t>
+</str>
+
+<str id="207">
+<o>TrackBack URLs</o>
+<t></t>
+</str>
+
+<str id="208">
+<o>click preview to detect</o>
+<t></t>
+</str>
+
+<str id="209">
+<o>TrackBack</o>
+<t></t>
+</str>
+
+<str id="210">
+<o>URLs</o>
+<t></t>
+</str>
+
+<str id="211">
+<o>Publish Date</o>
+<t></t>
+</str>
+
+<str id="212">
+<o>Post</o>
+<t></t>
+</str>
+
+<str id="213">
+<o>Page Actions</o>
+<t></t>
+</str>
+
+<str id="214">
+<o>edit page content</o>
+<t></t>
+</str>
+
+<str id="215">
+<o>edit attachments</o>
+<t></t>
+</str>
+
+<str id="216">
+<o>edit categories</o>
+<t></t>
+</str>
+
+<str id="217">
+<o>move page</o>
+<t></t>
+</str>
+
+<str id="218">
+<o>delete</o>
+<t></t>
+</str>
+
+<str id="219">
+<o>delete page</o>
+<t></t>
+</str>
+
+<str id="220">
+<o>unlock this page</o>
+<t></t>
+</str>
+
+<str id="221">
+<o>lock this page</o>
+<t></t>
+</str>
+
+<str id="222">
+<o>enable comments</o>
+<t></t>
+</str>
+
+<str id="223">
+<o>disable comments</o>
+<t></t>
+</str>
+
+<str id="224">
+<o>versions of this page</o>
+<t></t>
+</str>
+
+<str id="225">
+<o>get info</o>
+<t></t>
+</str>
+
+<str id="226">
+<o>new page</o>
+<t></t>
+</str>
+
+<str id="227">
+<o>Current ACL</o>
+<t></t>
+</str>
+
+<str id="228">
+<o>Object Type</o>
+<t></t>
+</str>
+
+<str id="229">
+<o>WIP Blog Entry</o>
+<t></t>
+</str>
+
+<str id="230">
+<o>Published Blog Entry</o>
+<t></t>
+</str>
+
+<str id="231">
+<o>Attachment</o>
+<t></t>
+</str>
+
+<str id="232">
+<o>Published Object</o>
+<t></t>
+</str>
+
+<str id="233">
+<o>You are not logged in.</o>
+<t></t>
+</str>
+
+<str id="234">
+<o>Backlinks for</o>
+<t></t>
+</str>
+
+<str id="235">
+<o>Category</o>
+<t></t>
+</str>
+
+<str id="236">
+<o>Items in this category</o>
+<t></t>
+</str>
+
+<str id="237">
+<o>select acl</o>
+<t></t>
+</str>
+
+<str id="238">
+<o>Choose a new ACL</o>
+<t></t>
+</str>
+
+<str id="239">
+<o>Document</o>
+<t></t>
+</str>
+
+<str id="240">
+<o>Change</o>
 <t></t>
 </str>

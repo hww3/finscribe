@@ -1,4 +1,4 @@
-   <h3><%LOCALE string="Commenting"%>: <%$obj%></h3>
+   <h3><%LOCALE id="189" string="Commenting"%>: <%$obj%></h3>
 
    <p>
 
@@ -12,7 +12,7 @@
 <% if data["anonymous"] %>
 <tr>
 <td>
-<b><%LOCALE string="Name"%>:</b>
+<b><%LOCALE id="82" string="Name"%>:</b>
 </td>
 <td>
  <input type="text" size="35" name="name" value="<%$name%>"><br/>
@@ -20,7 +20,7 @@
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="Email"%>:</b> 
+<b><%LOCALE id="68" string="Email"%>:</b> 
 </td>
 <td>
 <input type="text" size="35" name="email" value="<%$email%>"><br/>
@@ -28,7 +28,7 @@
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="Website"%>:</b> 
+<b><%LOCALE id="190" string="Website"%>:</b> 
 </td>
 <td>
 <input type="text" size="35" name="website" value="<%$website%>">
@@ -66,13 +66,13 @@
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
 <button type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return 
-false;" value="Preview"><%LOCALE string="Preview"%></button>
-<button type="button" onclick="closePopup(); return false;" value="Cancel"><%LOCALE string="Cancel"%></button>
+false;" value="Preview"><%LOCALE id="191" string="Preview"%></button>
+<button type="button" onclick="closePopup(); return false;" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 <button type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" 
-value="Save"><%LOCALE string="Save"%></button>
+value="Save"><%LOCALE id="127" string="Save"%></button>
 <% else %>
-<button type="submit" name="action" value="Preview"><%LOCALE string="Preview"%></button>
-<button type="submit" name="action" value="Save"><%LOCALE string="Save"%></button>
+<button type="submit" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
+<button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
 <% endif %>
 </td>
 </tr>
@@ -80,6 +80,6 @@ value="Save"><%LOCALE string="Save"%></button>
 </form>
 
 <% if data->preview %>
-<%LOCALE string="Preview"%>:<p>
+<%LOCALE id="191" string="Preview"%>:<p>
 <%$preview%>
 <% endif %>
