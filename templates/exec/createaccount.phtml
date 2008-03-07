@@ -1,14 +1,14 @@
 <%@include file="top.phtml"%>
-<title>Create Account</title>
+<title><LOCALE string="Create Account"%></title>
 <%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml"%>
-   <h3>Create account</h3>
+   <h3><LOCALE string="Create account"%></h3>
    <p>
 <form action="" method="post">
 <table>
 <tr>
 <td>
-<b>Your name:</b>
+<b><LOCALE string="Your name"%>:</b>
 </td>
 <td>
  <input type="string" name="Name" value="<%$Name%>"/><br/>
@@ -16,7 +16,7 @@
 </tr>
 <tr>
 <td>
-<b>Username:</b>
+<b><LOCALE string="Username"%>:</b>
 </td>
 <td>
  <input type="string" name="UserName" value="<%$UserName%>"/><br/>
@@ -24,14 +24,14 @@
 </tr>
 <tr>
 <td>
-<b>Email:</b>
+<b><LOCALE string="Email"%>:</b>
 </td>
 <td>
  <input type="string" name="Email" value="<%$Email%>"><br/>
 </td>
 </tr>
 <tr>
-<td><b>Password:</b>
+<td><b><LOCALE string="Password"%>:</b>
 </td>
 <td>
  <input type="password" name="Password" value="<%$Password%>"/><br/>
@@ -40,15 +40,15 @@
 <tr>
 <td>
 
-<b>Re-type Password:</b> </td><td> <input type="password" name="Password2"/>
+<b><LOCALE string="Re-type Password"%>:</b> </td><td> <input type="password" name="Password2"/>
 
 <p/>
 </td>
 </tr>
 <tr>
 <td colspan="2">
-<input type="submit" name="action" value="Create"/>
-<input type="submit" name="action" value="Cancel"/>
+<button type="submit" name="action" value="Create"><LOCALE string="Create"%></button>
+<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
 </td>
 </tr>

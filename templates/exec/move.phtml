@@ -1,24 +1,24 @@
 <%@include file="top.phtml" %>
-<title><%syspref var="site.name" %> :: moving object</title>
+<title><%syspref var="site.name" %> :: <LOCALE string="moving object"%></title>
 <%@include file="header.phtml" %>
 <%@include file="pagebegin.phtml" %>
-   <h3>Move an existing object</h3>
+   <h3><LOCALE string="Move an existing object"%></h3>
 
 <form action="" method="post">
-Current location: <%$object.path%><br/>
+<LOCALE string="Current location"%>: <%$object.path%><br/>
 
 <% if data["getconfirm"] %>
 
-New Object path: <%$newpath%> 
+<LOCALE string="New Object path"%>: <%$newpath%> 
   <% if data["movesub"] %>
   <br/>
-  Moving all subcontent as well.
+  <LOCALE string="Moving all subcontent as well."%>
   <% endif %>
 <input type="hidden" size="40" name="newpath" value="<%$newpath%>"/><br>
 <input type="hidden" size="40" name="movesub" value="<%$movesub%>"/><p>
 
 <% if data["affected"] %>
-  The following objects will be moved:
+  <LOCALE string="The following objects will be moved"%>:
 
   <% foreach var="$affected" val="afo" %>
     <li><%$afo.path%>
@@ -26,21 +26,19 @@ New Object path: <%$newpath%>
 <p>
 <% endif %>
 
-<input type="submit" name="action" value="Cancel">
-<input type="submit" name="action" value="Really Move">
+<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Really Move"><LOCALE string="Really Move"%></button>
 
 <% else %>
 <input type="text" size="40" name="newpath" value="<%$newpath%>"/><br>
 <br>
-Move all documents under  this location as well? 
+<LOCALE string="Move all documents under  this location as well?"%>
 <input type="checkbox" name="movesub" value="1" <%if data["movesub"] %>checked="1" <% endif %>/>
 <p/>
-<input type="submit" name="action" value="Cancel">
-<input type="submit" name="action" value="Move">
+<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Move"><LOCALE string="Move"%></button>
 <p>
-<i>Note:</i> moving established document locations is not recommended, as 
-existing links may be broken. Be sure to update any existing documents 
-that link to the objects being moved.
+<i><LOCALE string="Note"%>:</i> <LOCALE string="moving established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being moved."%>
 
 <% endif %>
 
@@ -48,4 +46,3 @@ that link to the objects being moved.
 
 <%@include file="footer.phtml" %>
 <%@include file="bottom.phtml" %>
-

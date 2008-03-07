@@ -1,8 +1,8 @@
 <%@include file="top.phtml"%>
-<title><%syspref var="site.name" %> :: creating object</title>
+<title><%syspref var="site.name" %> :: <LOCALE string="creating object"%></title>
 <%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml" %>
-   <h3>Create new object</h3>
+   <h3><LOCALE string="Create new object"%></h3>
 
 <form action="/exec/new/<%$currentpage%>" method="post">
 <table>
@@ -10,38 +10,38 @@
 <tr>
 <td colspan="2">
 <input type="hidden" name="currentpage" value="<%$currentpage%>"/>
-Create a new page:
+<LOCALE string="Create a new page"%>:
 <p/>
-<input type="radio" name="pageloc" value="subpage" checked="1"/> as a subpage of <b><%$object.path %></b>. <br/>
+<input type="radio" name="pageloc" value="subpage" checked="1"/> <LOCALE string="as a subpage of"%> <b><%$object.path %></b>. <br/>
   <%if data["parentobject"] %>
-<input type="radio" name="pageloc" value="parentpage" /> as a subpage of <b><%$parentobject.path %></b>. <br/>
+<input type="radio" name="pageloc" value="parentpage" /> <LOCALE string="as a subpage of"%> <b><%$parentobject.path %></b>. <br/>
   <% endif %>
-<input type="radio" name="pageloc" value="manual" /> by specifying the path manually. <br/>
+<input type="radio" name="pageloc" value="manual" /> <LOCALE string="by specifying the path manually."%> <br/>
 </td>
 </tr>
 <tr>
 <td>
-<b>Object name or path</b>:
+<b><LOCALE string="Object name or path"%></b>:
 </td>
 <td>
 <input type="text" size="40" name="title" value=""/><br>
-(no leading or trailing slashes, please)
+<LOCALE string="(no leading or trailing slashes, please)"%>
 </td>
 </tr>
 <% else %>
 <tr>
 <td>
-<b>Full Object path</b>:
+<b><LOCALE string="Full Object path"%></b>:
 </td>
 <td>
 <input type="text" size="40" name="title" value=""/><br>
-(no leading or trailing slashes, please)
+<LOCALE string="(no leading or trailing slashes, please)"%>
 </td>
 </tr>
 <% endif %>
 <tr>
 <td>
-<b>Object type:</b>
+<b><LOCALE string="Object type"%>:</b>
 </td>
 <td>
 <select  id="datatype" name="datatype">
@@ -60,7 +60,7 @@ Create a new page:
 </tr>
 <tr>
 <td colspan="2">
-<input type="submit" name="action" value="Create">
+<button type="submit" name="action" value="Create"><LOCALE string="Create"%></button>
 </td>
 </tr>
 </table>

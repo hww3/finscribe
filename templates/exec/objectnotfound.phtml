@@ -1,15 +1,14 @@
 <%@include file="top.phtml"%>
-<title>Not Found: <%$obj%></title>
+<title><LOCALE string="Not Found"%>: <%$obj%></title>
 <%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml"%>
 
-<h1>Whoops!</h1>
+<h1><LOCALE string="Whoops!"%></h1>
 
    
-The page you requested, <i><%$obj%></i>, could not be found.
+<LOCALE string="The page you requested,"%> <i><%$obj%></i>, <LOCALE string="could not be found."%>
 <p>
-Click <a href="/exec/edit/<%$obj%>">here</a> to create it.
+<a href="/exec/edit/<%$obj%>"><LOCALE string="Click here to create it."%></a>
 
 <%@include file="footer.phtml"%>
 <%@include file="bottom.phtml"%>
-

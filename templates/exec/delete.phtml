@@ -1,22 +1,22 @@
 
 <%@include file="top.phtml" %>
-<title><%syspref var="site.name" %> :: deleting object</title>
+<title><%syspref var="site.name" %> :: <LOCALE string="deleting object"%></title>
 <%@include file="header.phtml" %>
 <%@include file="pagebegin.phtml" %>
-   <h3>Delete an existing object</h3>
+   <h3><LOCALE string="Delete an existing object"%></h3>
 
 <form action="" method="post">
-Current location: <%$object.path%><br/>
+<LOCALE string="Current location"%>: <%$object.path%><br/>
 
 <% if data["getconfirm"] %>
 
   <% if data["movesub"] %>
-  Deleting all subcontent as well.
+  <LOCALE string="Deleting all subcontent as well."%>
   <% endif %>
 <input type="hidden" size="40" name="movesub" value="<%$movesub%>"/><p>
 
 <% if data["affected"] %>
-  The following objects will be deleted:
+  <LOCALE string="The following objects will be deleted"%>:
 
   <% foreach var="$affected" val="afo" %>
     <li><%$afo.path%>
@@ -24,19 +24,17 @@ Current location: <%$object.path%><br/>
 <p>
 <% endif %>
 
-<input type="submit" name="action" value="Cancel">
-<input type="submit" name="action" value="Really Delete">
+<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Really Delete"><LOCALE string="Really Delete"%></button>
 
 <% else %>
-Delete all documents under  this location as well? 
+<LOCALE string="Delete all documents under  this location as well?"%> 
 <input type="checkbox" name="movesub" value="1" <%if data["movesub"] %>checked="1" <% endif %>/>
 <p/>
-<input type="submit" name="action" value="Cancel">
-<input type="submit" name="action" value="Delete">
+<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Delete"><LOCALE string="Delete"%></button>
 <p>
-<i>Note:</i> deleting established document locations is not recommended, 
-as existing links may be broken. Be sure to update any existing documents 
-that link to the objects being deleted.
+<i><LOCALE string="Note"%>:</i> <LOCALE string="deleting established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being deleted."%>
 
 <% endif %>
 
