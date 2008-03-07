@@ -1,5 +1,5 @@
  <%if data->user_object%>
-<h2><%LOCALE string="Editing Categories"%></h2>
+<h2><%LOCALE id="75" string="Editing Categories"%></h2>
 <p>
 <%$flash%>
 <p>
@@ -7,11 +7,11 @@
 <% foreach var="$object.categories" val="cat" %>
 <a href="/exec/category/<%$cat.category %>"><%$cat.category %></a><br/>
 <% end %>
-<%LOCALE string="Existing Category"%>: <select name="existing-category">
-<option value=""><%LOCALE string="Select a category"%>
+<%LOCALE id="76" string="Existing Category"%>: <select name="existing-category">
+<option value=""><%LOCALE id="77" string="Select a category"%>
 <% foreach var="$existing-categories" val="ec" %><option><%$ec.category%>
 <% end %>
-</select> <%LOCALE string="or new category"%>: <input type="text" name="new-category" size="15" value=""/>
+</select> <%LOCALE id="78" string="or new category"%>: <input type="text" name="new-category" size="15" value=""/>
 <p/>
 <input type="hidden" id="action" name="action"/>
 <input type="button" value="<%LOCALE string="Include"%>"

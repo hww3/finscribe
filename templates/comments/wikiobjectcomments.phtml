@@ -6,10 +6,10 @@
 
 
    <h3><%$obj%></h3>
-   <%LOCALE string="Created by%> <%$author_username%>. <%LOCALE string="Last updated by"%> 
+   <%LOCALE id="103" string="Created by"%> <%$author_username%>. <%LOCALE id="8" string="Last updated by"%> 
 <%$editor_username%>, 
 <%$when%>. 
-<%LOCALE string="Version #"%><%$version%>.
+<%LOCALE id="9" string="Version #"%><%$version%>.
    <br/>
    
    
@@ -21,9 +21,9 @@
          <div>
 	 <%render content="$content" object="$object"%>         
          <p/>
-         <b><%$numcomments%> <%LOCALE string="Comments"%></b> | <a 
-href="/exec/comments/<%$obj%>"><%LOCALE string="Post a Comment"%></a> 
-         | <a href="/rss/<%$obj%>?type=comments"><%LOCALE string="RSS Feed"%></a>
+         <b><%$numcomments%> <%LOCALE id="10" string="Comments"%></b> | <a 
+href="/exec/comments/<%$obj%>"><%LOCALE id="11" string="Post a Comment"%></a> 
+         | <a href="/rss/<%$obj%>?type=comments"><%LOCALE id="12" string="RSS Feed"%></a>
 
          <p/>
 <%$comments%>

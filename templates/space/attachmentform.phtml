@@ -4,8 +4,7 @@
   <a id='link-attachments-<%$obj %>'
   onclick="toggleVisibility('attachments-<%$obj %>')"><img
   id="icon-attachments-<%$obj %>" src="/static/images/Icon-Unfold.png" border="0">
-  <%$numattachments %> <%LOCALE string="Attachments%"></a><br/>
-  <div id="attachments-<%$obj %>" style="display:none;margin-left:20px">
+  <%$numattachments %> <%LOCALE id="88" string="Attachments%"%>" style="display:none;margin-left:20px">
   <table>
   <% foreach var="attachments" val="attachment" %>
   <tr><td><a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>

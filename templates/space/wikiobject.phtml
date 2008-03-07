@@ -7,8 +7,8 @@
       <% if data["object_is_weblog"] %>
       <% else %>
    <h3><%$title %></h3>
-   <%LOCALE string="Created by"%> <%$author_username %>. <%LOCALE string="Last updated by%> <%$editor_username %>, 
-<%friendly_date var="$object_version.created"%>. <%LOCALE string="Version #"%><%$object_version.version%>.
+   <%LOCALE id="103" string="Created by"%> <%$author_username %>. <%LOCALE id="103" string="Created by"%> <%$editor_username %>, 
+<%friendly_date var="$object_version.created"%>. <%LOCALE id="9" string="Version #"%><%$object_version.version%>.
      <% endif %>
 
 
@@ -17,7 +17,7 @@
 [ <a id="Actions" href="/exec/actions/<%$obj%>">actions</a> ]
 </div>
 <% endif %> 
-<div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()"><%LOCALE string="Close"%></a></div> <div id="actions_contents" 
+<div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()"><%LOCALE id="104" string="Close"%></a></div> <div id="actions_contents" 
 class="action_contents"></div> </div>
 
 <div id="snip-wrapper">
@@ -28,7 +28,7 @@ class="action_contents"></div> </div>
 
    <%@ include file="space/attachmentform.phtml" %>
 <% if data["numcategories"] %>
- <%LOCALE string="Posted in "%><% implode var="$category_links" final=" and " %>.
+ <%LOCALE id="105" string="Posted in "%><% implode var="$category_links" final=" and " %>.
 <p/>
 <% endif %>
 <% if data["teaser"] %>
@@ -41,7 +41,7 @@ class="action_contents"></div> </div>
 
 <%if data["object_is_weblog"] %>
 <% elseif sizeof(data["object"]["attachments"])%>
-<h3><%LOCALE string="Attachments"%></h3>
+<h3><%LOCALE id="81" string="Attachments"%></h3>
 <%@ include file="space/_displayattachments.phtml"%>
 <p/>
 <%endif %>
@@ -50,17 +50,16 @@ class="action_contents"></div> </div>
 <% if data["object_is_weblog"] %>
 <% else %>
          <b><% if data["numcomments"] %>
-                 <a href="#" onclick="displayComments('wiper', '<%$obj%>')"><%$numcomments %> <%LOCALE string="comments"%></a></b>
+                 <a href="#" onclick="displayComments('wiper', '<%$obj%>')"><%$numcomments %> <%LOCALE id="98" string="comments"%></a></b>
             <% else %>
-                 <%LOCALE string="No comments"%> 
+                 <%LOCALE id="106" string="No comments"%> 
             <% endif %>
- |  <a id="PostComment" href="/exec/comments/<%$obj%>"><%LOCALE string="Post a Comment"%></a> | <a href="/rss/<%$obj%>?type=comments"><%LOCALE string="RSS Feed"%></a>
+ |  <a id="PostComment" href="/exec/comments/<%$obj%>"><%LOCALE id="11" string="Post a Comment"%></a> | <a href="/rss/<%$obj%>?type=comments"><%LOCALE id="12" string="RSS Feed"%></a>
   <% if data["metadata"]["trackbacks"] %> | <a href="/exec/display_trackbacks/<%$obj%>" id="TrackBacks"><%sizeof var="$metadata.trackbacks"%> 
-<%LOCALE string="TrackBacks"%></a> <% endif %>
+<%LOCALE id="100" string="TrackBacks"%></a> <% endif %>
   <% if data["metadata"]["pingbacks"] %> | <a href="/exec/display_pingbacks/<%$obj%>"><%sizeof var="$metadata.pingbacks"%> 
-<%LOCALE string="PingBacks"%></a> <% endif %> | <a 
-href="/exec/backlinks/<%$obj%>" id="BackLinks"><%LOCALE 
-string="BackLinks"%></a>
+<%LOCALE id="101" string="PingBacks"%></a> <% endif %> | <a 
+href="/exec/backlinks/<%$obj%>" id="BackLinks"><%LOCALE id="107" string="BackLinks"%></a>
          <p/>
 <div id="wiper" style="display:none;"></div>
 <% endif %>
