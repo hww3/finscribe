@@ -1,24 +1,24 @@
 <%@ include file="top.phtml" %>
 <%@ include file="header.phtml" %>
-<title><%syspref var="site.name" %> :: <LOCALE string="editing"%> <%$obj%></title>
+<title><%syspref var="site.name" %> :: <%LOCALE string="editing"%> <%$obj%></title>
 <%@ include file="pagebegin.phtml" %>
 
-   <h3><LOCALE string="Editing"%>: <%$obj%></h3>
+   <h3><%LOCALE string="Editing"%>: <%$obj%></h3>
 
 <%list_store name="jsfooter" val=" dojo.require('dojo.widget.ResizableTextarea'); " %>
 
 <form action="/exec/edit/<%$obj%>" method="post" id="editform">
-<LOCALE string="Subject"%>: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
+<%LOCALE string="Subject"%>: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
 <%$contentswidget %>
 <br>
 <input type="hidden" name="datatype" value="<%$datatype %>">
-<button type="submit" name="action" value="Preview"><LOCALE string="Preview"%></button>
-<button type="submit" name="action" value="Cancel"><LOCALE string="Cancel"%></button>
-<button type="submit" name="action" value="Save"><LOCALE string="Save"%></button>
+<button type="submit" name="action" value="Preview"><%LOCALE string="Preview"%></button>
+<button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Save"><%LOCALE string="Save"%></button>
 </form>
 
 <%if data->preview%>
-<LOCALE string="Preview"%>:<p>
+<%LOCALE string="Preview"%>:<p>
 <%$preview%>
 <%endif %>
 
