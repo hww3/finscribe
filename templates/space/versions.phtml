@@ -1,21 +1,21 @@
 <html>
 <head>
    <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-<title>Versions: <%$object.title%></title>
+<title><%LOCALE string="Versions"%>: <%$object.title%></title>
 </head>
 <body>
 <%@include file="tagline.phtml"%>
 
 <%@include file="pagebegin.phtml"%>
-   <h3>Versions: <%$object.title%></h3>
+   <h3><%LOCALE string="Versions"%>: <%$object.title%></h3>
 <form action="/exec/diff/<%$object.path%>" method="post">
 <table>
 <tr>
-<td>Version</td>
-<td>Date Saved</td>
-<td>Author</td>
-<td>Diff from</td>
-<td>Diff to</td>
+<td><%LOCALE string="Version"%></td>
+<td><%LOCALE string="Date Saved"%></td>
+<td><%LOCALE string="Author"%></td>
+<td><%LOCALE string="Diff from"%></td>
+<td><%LOCALE string="Diff to"%></td>
 </tr>
 <% foreach var="$versions" val="version" %>
 <tr>
@@ -25,12 +25,13 @@
   <%$version.author.UserName%> </td><td>
   <input type="radio" name="from" value="<%$version.version%>"/></td><td>
   <input type="radio" name="to" value="<%$version.version%>"/></td>
-  <td><a href="/space/<%$object.path%>?show_version=<%$version.version%>">Show</a></td>
+  <td><a 
+href="/space/<%$object.path%>?show_version=<%$version.version%>"><%LOCALE string="Show"%></a></td>
   </tr>
 <% end %>
 </table>
 <br/>
-<input type="submit" name="submit" value="Show Differences"/>
+<input type="submit" name="submit" value="<%LOCALE string="Show Differences"%>"/>
 </form>
 
 <%@include file="footer.phtml" %>

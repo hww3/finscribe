@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>FinScribe Installer</title>
+<title><%LOCALE string="FinScribe Installer"%></title>
 <script type='text/javascript'>
 var djConfig = {
     isDebug : true,
@@ -16,7 +16,7 @@ var djConfig = {
 	dojo.hostenv.writeIncludes();
 
     function cancel() {
-        alert("Wizard Cancelled!");
+        alert("<%LOCALE string="Wizard Cancelled!"%>");
     }
 
     function done() {
@@ -102,7 +102,7 @@ function verifyandcreate()
     bindArgs.url = url + v.value;
     requestObj = dojo.io.bind(bindArgs);
 
-    if(result) return "We failed to connect to the database.\n"
+    if(result) return "<%LOCALE string="We failed to connect to the database."%>\n"
                      + result;
 }
 
@@ -132,19 +132,19 @@ function populateprefs()
     bindArgs.url = url;
     bindArgs.formNode = document.getElementById("preferenceform1"),
     requestObj = dojo.io.bind(bindArgs);
-    if(result) return "We failed to set the application preferences.\n"
+    if(result) return "<%LOCALE string="We failed to set the application preferences."%>\n"
                      + result;
 
     bindArgs.formNode = document.getElementById("preferenceform2"),
     requestObj = dojo.io.bind(bindArgs);
-    if(result) return "We failed to set the application preferences.\n"
+    if(result) return "<%LOCALE string="We failed to set the application preferences."%>\n"
                      + result;
 
     bindArgs.formNode = document.getElementById("adminuserform1"),
     bindArgs.url = "/install/createadminuser/";
     requestObj = dojo.io.bind(bindArgs);
 
-    if(result) return "We failed to create the administrative account.\n"
+    if(result) return "<%LOCALE string="We failed to create the administrative account."%>\n"
                      + result;
 
 }
@@ -153,16 +153,16 @@ function checkadmin()
 {
   var v = document.getElementById("adminuser");
   if(v.value == null || v.value == "")
-    alert("You must provide an administrative username.");
+    alert("<%LOCALE string="You must provide an administrative username."%>");
   v = document.getElementById("confirmadminpassword");
   var v1 = document.getElementById("adminpassword");
   if(v.value.length < 4)
   {
-    alert("You must provide an administrative password that is at least 4 characters long.");
+    alert("<%LOCALE string="You must provide an administrative password that is at least 4 characters long."%>");
   }
   else if(v.value != v1.value)
   {
-    alert("Your administrative password and its confirmation do not match.");
+    alert("<%LOCALE string="Your administrative password and its confirmation do not match."%>");
   }
 }
 </script>
@@ -179,30 +179,25 @@ body {
 
 <div id="wizard" dojoType="WizardContainer" style="width:100%; height:350px;">
 <div dojoType="dojo:WizardPane" label="Welcome!">
-<h1>Welcome to FinScribe</h1>
+<h1><%LOCALE string="Welcome to FinScribe"%></h1>
 
-We're glad you've chosen to install FinScribe. 
+<%LOCALE string="We're glad you've chosen to install FinScribe."%>
 <p>
-The first step in getting 
-FinScribe up and running is to configure the database and install the 
-FinScribe objects. You'll also answer a few question about how you'd like 
-the application to work. 
+<%LOCALE string="The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work."%>
 <p>
-When you're finished with this wizard, your FinScribe install will be 
-complete!
+<%LOCALE string="When you're finished with this wizard, your FinScribe install will be complete!"%>
 
 </div>
 
-<div dojoType="WizardPane" label="Database Configuration (1)" 
+<div dojoType="WizardPane" label="<%LOCALE string="Database Configuration (1)"%>" 
 passFunction="verifyandcreate">
-<h1>Select a database</h1>
-FinScribe supports several database types for the storage of data. Please 
-choose a database storage type from the list of available drivers below.
+<h1><%LOCALE string="Select a database"%></h1>
+<%LOCALE string="FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below."%>
 <p>
 
 <form action="#" id="dbconfiguratorform">
-<b>Database type:</b> <select name="db" id="db" onChange="selectdb()">
-<option>Select a DB
+<b><%LOCALE string="Database type"%>:</b> <select name="db" id="db" onChange="selectdb()">
+<option><%LOCALE string="Select a DB"%>
 <% foreach var="$dbs" val="db" %>
 <option><%$db%>
 <% end %>
@@ -214,30 +209,25 @@ choose a database storage type from the list of available drivers below.
 </div>
 </form>
 
-Please verify this information before continuing. The database you've 
-specified 
-must already exist (in the case of SQLite, that means that the path must 
-be writable). 
+<%LOCALE string="Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable)."%>
 <p>
-When you click "next", we will attempt to connect to the database you've 
-specified and create the FinScribe objects. If the attempt fails, you can 
-return to the previous page to correct your information. 
+<%LOCALE string="When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information."%>
 </div>
 
-<div dojoType="WizardPane" label="Database Configuration (3)" 
+<div dojoType="WizardPane" label="<%LOCALE string="Database Configuration (3)"%>" 
 canGoBack="false">
-<h1>Database Objects Created</h1>
-We will now proceed to configure your copy of FinScribe.
+<h1><%LOCALE string="Database Objects Created"%></h1>
+<%LOCALE string="We will now proceed to configure your copy of FinScribe."%>
 <p>
-On the next few pages are a few questions that we will use to personalize your application.
+<%LOCALE string="On the next few pages are a few questions that we will use to personalize your application."%>
 </div>
-<div dojoType="WizardPane" label="Application Configuration" 
+<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" 
 canGoBack="false">
 <form action="#" id="preferenceform1">
-<h1>Site Basics</h1>
+<h1><%LOCALE string="Site Basics"%></h1>
 <table>
 <tr><td>
-<b>Site URL:</b>
+<b><%LOCALE string="Site URL"%>:</b>
 </td>
 <td>
 <input type="text" name="pref.site.url" value=""><br/>
@@ -245,7 +235,7 @@ canGoBack="false">
 </td></tr>
 <tr>
 <td colspan="2">
-This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).
+<%LOCALE string="This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/)."%>
 </td>
 </tr>
 
@@ -253,7 +243,7 @@ This is the URL that users will enter to access your site (it should be the root
 </td></tr>
 <tr>
 <td>
-<b>Site Name:</b>
+<b><%LOCALE string="Site Name"%>:</b>
 </td>
 <td>
 <input type="text" name="pref.site.name" value=""><br/>
@@ -261,138 +251,134 @@ This is the URL that users will enter to access your site (it should be the root
 </td></tr>
 <tr>
 <td colspan="2">
-This is the name for your website. It is used in the default templates. An example might be: "Joe's Weblog".
+<%LOCALE string="This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog"%>.
 </td>
 </tr>
 <tr>
 <td>
-<b>Site Logo File:</b>
+<b><%LOCALE string="Site Logo File"%>:</b>
 </td><td>
  <input type="text" name="pref.site.logo" value=""><br/>
 <input type="hidden" name="type.site.logo" value="string">
 </td></tr>
 <tr>
 <td colspan="2">
-You may specify the URL of an image that will be displayed in the default page layout template.
+<%LOCALE string="You may specify the URL of an image that will be displayed in the default page layout template."%>
 </td>
 </tr>
 <tr>
 <td>
-<b>Site Tagline:</b>
+<b><%LOCALE string="Site Tagline:"%></b>
 </td><td>
 <input type="text" name="pref.site.tagline" value=""><br/>
 <input type="hidden" name="type.site.tagline" value="string">
 </td></tr>
 <tr><td colspan="2">
-A short phrase describing your website. Displayed in the default page layout template. Example: "all the news that interests me".
+<%LOCALE string="A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me"%>.
 </td></tr>
 <tr>
 <td>
-<b>Track Views:</b>
+<b><%LOCALE string="Track Views"%>:</b>
 </td><td> 
-<input type="radio" name="pref.site.track_views" value="1" checked="1" /> Yes
-<input type="radio" name="pref.site.track_views" value="0" /> No<br/>
+<input type="radio" name="pref.site.track_views" value="1" checked="1" /> <%LOCALE string="Yes"%>
+<input type="radio" name="pref.site.track_views" value="0" /> <%LOCALE string="No"%><br/>
 <input type="hidden" name="type.site.track_views" value="boolean">
 </td>
 </tr>
 <tr><td colspan="2">
-Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.
+<%LOCALE string="Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase."%>
 </td></tr>
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="Application Configuration">
+<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>">
 <form action="#" id="preferenceform2">
-<h1>Administration</h1>
+<h1><%LOCALE string="Administration"%></h1>
 <table>
 <tr>
 <td><b>
-Mail Host:
+<%LOCALE string="Mail Host"%>:
 </b></td>
 <td> 
 <input type="text" name="pref.mail.host" value="" /><br/>
 <input type="hidden" name="type.mail.host" value="string">
 </td></tr>
 <tr><td colspan="2">
-FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.
+<%LOCALE string="FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here."%>
 </td></tr>
 <tr>
 <td><b>
-Mail Return Address:
+<%LOCALE string="Mail Return Address"%>:
 </b></td><td> 
 <input type="text" name="pref.mail.return_address" value="" /><br/>
 <input type="hidden" name="type.mail.return_address" value="string">
 </td></tr>
 <tr><td colspan="2">
-Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, 
-etc).
+<%LOCALE string="Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc)."%>
 </td></tr>
 <tr>
 <td><b>
-Account Autocreate:
+<%LOCALE string="Account Autocreate"%>:
 </b>
 </td><td> 
-<input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> Yes 
-<input type="radio" name="pref.administration.autocreate" value="0" /> No
+<input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> <%LOCALE string="Yes"%> 
+<input type="radio" name="pref.administration.autocreate" value="0" /> <%LOCALE string="No"%>
 <input type="hidden" name="type.administration.autocreate" value="boolean">
 <br/>
 </td></tr>
 <tr><td><b>
-Anonymous Commenting:
+<%LOCALE string="Anonymous Commenting"%>:
 </b></td><td> 
-<input type="radio" name="pref.comments.anonymous" value="1" checked="1" /> Yes 
-<input type="radio" name="pref.comments.anonymous" value="0" /> No
+<input type="radio" name="pref.comments.anonymous" value="1" checked="1" /> <%LOCALE string="Yes"%> 
+<input type="radio" name="pref.comments.anonymous" value="0" /> <%LOCALE string="No"%>
 <input type="hidden" name="type.comments.anonymous" value="boolean">
 <br/>
 </td></tr>
 <tr><td colspan="2">
-Enabling this feature will allow anonymous users to comment (with spam-detection 
-in place).
+<%LOCALE string="Enabling this feature will allow anonymous users to comment (with spam-detection in place)."%>
 </td></tr>
 <tr>
 <td><b>
 Weblog.com PING:
 </b></td><td> 
-<input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> Yes
-<input type="radio" name="pref.blog.weblog_ping" value="0" /> No<br/>
+<input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> <%LOCALE string="Yes"%>
+<input type="radio" name="pref.blog.weblog_ping" value="0" /> <%LOCALE string="No"%><br/>
 <input type="hidden" name="type.blog.weblog_ping" value="boolean">
 </td></tr>
 <tr>
 <td><b>
-Enable PingBack sending:
+<%LOCALE string="Enable PingBack sending"%>:
 </b></td><td> 
-<input type="radio" name="pref.blog.pingback_send" value="1" checked="1" /> Yes
-<input type="radio" name="pref.blog.pingback_send" value="0" /> No<br/>
+<input type="radio" name="pref.blog.pingback_send" value="1" checked="1" /> <%LOCALE string="Yes"%>
+<input type="radio" name="pref.blog.pingback_send" value="0" /> <%LOCALE string="No"%><br/>
 <input type="hidden" name="type.blog.pingback_send" value="boolean">
 </td></tr>
 <tr>
 <td><b>
-Enable PingBack recieving (recording):
+<%LOCALE string="Enable PingBack recieving (recording)"%>:
 </b></td><td> 
-<input type="radio" name="pref.blog.pingback_receive" value="1" checked="1" /> Yes
-<input type="radio" name="pref.blog.pingback_receive" value="0" /> No<br/>
+<input type="radio" name="pref.blog.pingback_receive" value="1" checked="1" /> <%LOCALE string="Yes"%>
+<input type="radio" name="pref.blog.pingback_receive" value="0" /> <%LOCALE string="No"%><br/>
 <input type="hidden" name="type.blog.pingback_receive" value="boolean">
 </td></tr>
 <tr>
 <td colspan="2">
-Should FinScribe receive "pingbacks" for links made to objects we create?
+<%LOCALE string="Should FinScribe receive 'pingbacks' for links made to objects we create?"%>
 </td></tr>
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="Administrative User" passFunction="checkadmin">
-<h1>Administrative User Setup</h1>
+<div dojoType="WizardPane" label="<%LOCALE string="Administrative User"%>" passFunction="checkadmin">
+<h1><%LOCALE string="Administrative User Setup"%></h1>
 <form action="#" id="adminuserform1">
-Please specify the username, password and email address for this FinScribe's administrative user. An 
-administrative user has full permission to change settings and content in on your FinScribe site. You can 
-set up additional users (regular and administrative) once you complete this wizard. 
+<%LOCALE string="Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. "%>
 <p>
-In the mean time, you'll use this account to log in and configure your site further.
+<%LOCALE string="In the mean time, you'll use this account to log in and configure your site further."%>
 <p>
 <table>
 <tr>
 <td><b>
-Username:
+<%LOCALE string="Username"%>:
 </b></td><td> 
 <input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
 </td></tr>
@@ -400,7 +386,7 @@ Username:
 </td></tr>
 <tr>
 <td><b>
-Password:
+<%LOCALE string="Password"%>:
 </b></td><td> 
 <input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
 </td></tr>
@@ -408,7 +394,7 @@ Password:
 </td></tr>
 <tr>
 <td><b>
-Confirm Password:
+<%LOCALE string="Confirm Password"%>:
 </b></td><td> 
 <input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
 </td></tr>
@@ -416,7 +402,7 @@ Confirm Password:
 </td></tr>
 <tr>
 <td><b>
-Email:
+<%LOCALE string="Email"%>:
 </b></td><td> 
 <input type="text" size="64" name="adminemail"/> 
 </td></tr>
@@ -425,19 +411,17 @@ Email:
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="Application Configuration" passFunction="populateprefs">
-<h1>Preparing to configure</h1>
-We're now ready to configure your FinScribe installation. At this time, you may wish to go back and 
-confirm the information you've provided on the previous pages. 
+<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" passFunction="populateprefs">
+<h1><%LOCALE string="Preparing to configure"%></h1>
+<%LOCALE string="We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages."%>
 <p>
-When you click "next", we will configure FinScribe using the information you've provided. We will also 
-set up a few starter objects so that you'll be able to get started adding content right away.
+<%LOCALE string="When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away."%>
 </div>
-<div dojoType="WizardPane" label="Application Configuration" doneFunction="done">
-<h1>Setup Complete!</h1>
-Congratulations! Your FinScribe installation is complete and ready to use.
+<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" doneFunction="done">
+<h1><%LOCALE string="Setup Complete!"%></h1>
+<%LOCALE string="Congratulations! Your FinScribe installation is complete and ready to use."%>
 <p>
-Click "done" below to visit your FinScribe site.
+<%LOCALE string="Click 'done' below to visit your FinScribe site."%>
 </div>
 </div>
 

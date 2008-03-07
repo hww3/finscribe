@@ -1,8 +1,8 @@
   <table>
-  <tr><td><strong>Name</strong></td>
-      <td><strong>Size</strong></td>
-      <td><strong>Last Update</strong></td>
-      <td><strong>Updated By</strong></td></tr>
+  <tr><td><strong><%LOCALE string="Name"%></strong></td>
+      <td><strong><%LOCALE string="Size"%></strong></td>
+      <td><strong><%LOCALE string="Last Update"%></strong></td>
+      <td><strong><%LOCALE string="Updated By"%></strong></td></tr>
   <% foreach var="$objects" val="attachment" %>
   <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.current_version.nice_content_length%></td>

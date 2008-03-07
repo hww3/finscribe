@@ -6,9 +6,10 @@
 
 
    <h3><%$obj%></h3>
-   Created by <%$author_username%>. Last updated by <%$editor_username%>, 
+   <%LOCALE string="Created by%> <%$author_username%>. <%LOCALE string="Last updated by"%> 
+<%$editor_username%>, 
 <%$when%>. 
-Version #<%$version%>.
+<%LOCALE string="Version #"%><%$version%>.
    <br/>
    
    
@@ -20,8 +21,9 @@ Version #<%$version%>.
          <div>
 	 <%render content="$content" object="$object"%>         
          <p/>
-         <b><%$numcomments%> Comments</b> | <a href="/exec/comments/<%$obj%>">Post a Comment</a> 
-         | <a href="/rss/<%$obj%>?type=comments">RSS Feed</a>
+         <b><%$numcomments%> <%LOCALE string="Comments"%></b> | <a 
+href="/exec/comments/<%$obj%>"><%LOCALE string="Post a Comment"%></a> 
+         | <a href="/rss/<%$obj%>?type=comments"><%LOCALE string="RSS Feed"%></a>
 
          <p/>
 <%$comments%>
