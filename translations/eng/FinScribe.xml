@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<locale version="1.0"/>
+<locale version="1.0">
 <project>FinScribe</project>
 <language>eng</language>
 <dumped>1204911915</dumped>
@@ -2218,3 +2218,4 @@ in</o>
 <o>You must provide a file to retrieve.</o>
 <t></t>
 </str>
+</locale>

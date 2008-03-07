@@ -1121,10 +1121,10 @@ public void toggle_comments(Request id, Response response, mixed ... args)
 	
 	obj_o["md"]["comments_closed"] = !obj_o["md"]["comments_closed"];
 
-   if(obj_o["md"]["comments_closed"]);
-     response->flash(LOCALE(385,"Comments successfully disabled.")) 
+   if(obj_o["md"]["comments_closed"])
+     response->flash(LOCALE(385,"Comments successfully disabled.")); 
    else
-     response->flash(LOCALE(386,"Comments successfully enabled.")) 
+     response->flash(LOCALE(386,"Comments successfully enabled."));
 
    response->redirect(id->referrer);
 }

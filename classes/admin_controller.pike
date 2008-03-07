@@ -476,7 +476,7 @@ public void newuser(Request id, Response response, mixed ... args)
                        }
                         else if(sizeof(Password)<4 || (Password != Password2))
                         {
-                                response->flash("msg", LOCALE(312,"Your password must be typed identically in both fields, and must be at least 4 characters long.");
+                                response->flash("msg", LOCALE(312,"Your password must be typed identically in both fields, and must be at least 4 characters long."));
                                 Password = Password2 = "";
                         }
                         else

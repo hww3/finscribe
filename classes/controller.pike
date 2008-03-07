@@ -17,6 +17,7 @@ Fins.FinsController whee;
 
 void start()
 {
+werror("************* starting controllers\n");
   objects = load_controller("objects_controller");
   whee = load_controller("whee_controller");
   exec = load_controller("exec_controller");
@@ -34,6 +35,8 @@ whee = load_controller("user_controller");
     install = load_controller("install_controller");
     view->default_template = Fins.Template.Simple;
   }
+
+ ::start();
 }
 
 public void index(Request id, Response response, mixed ... args)
