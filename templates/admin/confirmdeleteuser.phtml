@@ -1,17 +1,15 @@
   <%@include file="top.phtml"%>
   <%@include file="adminheader.phtml"%>
-   <title><%syspref var="site.name" %> :: admin :: delete user</title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="delete user"%></title>
 
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
-          <h3>Edit User</h3>
+          <h3><%LOCALE string="Delete User"%></h3>
 
 	<form action="" method="post">
         
-The user <%$user.Name%> owns the the following objects, or versions of the 
-following 
-documents:
+<%LOCALE string="The user"%> <%$user.Name%> <%LOCALE string="owns the the following objects, or versions of the following documents"%>:
 <p>
 <% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["object_versions"]) %>
 <div style="height:200px; overflow:auto;">
@@ -20,7 +18,7 @@ documents:
   <% end %>
 </div>
 <p>
-Please choose the user to which these objects will be reassigned:
+<%LOCALE string="Please choose the user to which these objects will be reassigned"%>:
 <p>
 <select size="10" name="reassign_to">
 <%foreach var="$all_users" val="u" %>
@@ -29,14 +27,14 @@ Please choose the user to which these objects will be reassigned:
 </select>
 
 <% else %>
-   No objects.
+  <%LOCALE string="No objects."%>
 <% endif %>
 <p>
 <!--
   <input type="hidden" name="userid" value="<%$user.id%>"/>
 -->
-        <button name="action" value="Cancel">Cancel</button>
-        <button name="action" value="Really Delete">Really Delete</button>
+        <button name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
+        <button name="action" value="Really Delete"><%LOCALE string="Really Delete"%></button>
 </td>
 </tr>
 </table>

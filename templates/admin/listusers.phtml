@@ -1,18 +1,17 @@
   <%@include file="top.phtml"%>
   <%@include file="adminheader.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: userlist</title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="userlist"%></title>
   
   <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash %></div>
-          <h3>User List</h3>
+          <h3><%LOCALE string="User List"%></h3>
 
-<a href="newuser">New User...</a>
+<a href="newuser"><%LOCALE string="New User..."%></a>
 <p>
         
         <table>
-            <tr><td>User Name</td><td>Real Name</td><td>e-mail</td><td>Admin 
-User?</td><td>Active?</td><td></td></tr>  
+            <tr><td><%LOCALE string="User Name"%></td><td><%LOCALE string="Real Name"%></td><td><%LOCALE string="e-mail"%></td><td><%LOCALE string="Admin User?"%></td><td><%LOCALE string="Active?"%></td><td></td></tr>  
           <% foreach var="$users" val="user"%>
         <tr>
             <td><%$user.UserName%></td>
@@ -20,13 +19,12 @@ User?</td><td>Active?</td><td></td></tr>
             <td><%$user.Email%></td>
             <td><a href="toggle_useradmin?userid=<%$user.id%>"><%boolean var="$user.is_admin"%></a></td>
             <td><a href="toggle_useractive?userid=<%$user.id%>"><%boolean var="$user.is_active"%></a></td>
-            <td>[ <a href="edituser?userid=<%$user.id%>">Edit</a> | 
-                <a href="deleteuser?userid=<%$user.id%>">Delete</a> ]</td>
+            <td>[ <a href="edituser?userid=<%$user.id%>"><%LOCALE string="Edit"%></a> | 
+                <a href="deleteuser?userid=<%$user.id%>"><%LOCALE string="Delete"%></a> ]</td>
         </tr>
           <% end %>
         </table>          
 
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
-
 

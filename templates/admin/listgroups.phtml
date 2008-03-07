@@ -1,21 +1,21 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: grouplist</title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="grouplist"%></title>
   <%@include file="adminheader.phtml" %>
   <%@include file="pagebegin.phtml" %>
 <div class="flash-message"><%flash %></div>
 
-          <h3>Group List</h3>
+          <h3><%LOCALE string="Group List"%></h3>
 
-<a href="editgroup?newgroup=1">New Group</a>
+<a href="editgroup?newgroup=1"><%LOCALE string="New Group"%></a>
 <p>
         
         <table>
-            <tr><td>Group Name</td></tr>  
+            <tr><td><%LOCALE string="Group Name"%></td></tr>  
           <% foreach var="$groups" val="group"%>
         <tr>
             <td><%$group.Name%></td>
-            <td>[ <a href="editgroup?groupid=<%$group.id%>">Edit</a> | 
-                <a href="deletegroup?groupid=<%$group.id%>">Delete</a> ]</td>
+            <td>[ <a href="editgroup?groupid=<%$group.id%>"><%LOCALE string="Edit"%></a> | 
+                <a href="deletegroup?groupid=<%$group.id%>"><%LOCALE string="Delete"%></a> ]</td>
         </tr>
           <% end %>
         </table>

@@ -1,11 +1,11 @@
   <%@include file="top.phtml"%>
   <%@include file="adminheader.phtml"%>
-   <title><%syspref var="site.name" %> :: admin :: edit user</title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="edit user"%></title>
 
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
-          <h3>Edit User</h3>
+          <h3><%LOCALE string="Edit User"%></h3>
 
 	<form action="" method="post">
 
@@ -13,7 +13,7 @@
 <table width="75%"> 
 <tr>
 <td>
-        <b>Username:</b> 
+        <b><%LOCALE string="Username"%>:</b> 
 </td>
 <td>
 <%$user.UserName%>
@@ -22,7 +22,7 @@
 </tr>
 <tr>
 <td>
-        <b>Real Name:</b>
+        <b><%LOCALE string="Real Name"%>:</b>
 </td>
 <td>
  <input type="text" size="32" name="Name" value="<%$user.Name%>" />
@@ -31,7 +31,7 @@
 </tr>
 <tr>
 <td>
-        <b>Email:</b>
+        <b><%LOCALE string="Email"%>:</b>
 </td>
 <td>
  <input type="text" size="32" name="Email" value="<%$user.Email%>" />
@@ -41,38 +41,38 @@
 
 <tr>
 <td>
-        <b>Is Active?</b>
+        <b><%LOCALE string="Is Active?"%></b>
 </td>
 <td>
  <input type="radio" name="is_active" value="0"
  <% if !data["user"]["is_active"] %>
    checked="1"
  <% endif %>
-/> No
+/> <%LOCALE string="No"%>
  <input type="radio" name="is_active" value="1"
  <% if data["user"]["is_active"] %>
    checked="1"
  <% endif %>
-/> Yes
+/> <%LOCALE string="Yes"%>
         <p/>
 </td>
 </tr>
 
 <tr>
 <td>
-        <b>Is Admin?</b>
+        <b><%LOCALE string="Is Admin?"%></b>
 </td>
 <td>
  <input type="radio" name="is_admin" value="0"
  <% if !data["user"]["is_admin"] %>
    checked="1"
  <% endif %>
-/> No
+/> <%LOCALE string="No"%>
  <input type="radio" name="is_admin" value="1"
  <% if data["user"]["is_admin"] %>
    checked="1"
  <% endif %>
-/> Yes
+/> <%LOCALE string="Yes"%>
         <p/>
 </td>
 </tr>
@@ -80,13 +80,13 @@
 <tr>
 <td colspan="2">
 <button dojoType="button2" widgetId="chpass" onclick="enable_chpass();">
-  Change Password...
+  <%LOCALE string="Change Password..."%>
 </button>
 <div dojoType="Container" id="passwordpane" style="display:none;">
 <table>
 <tr>
 <td>
-        <b>Password:</b> 
+        <b><%LOCALE string="Password"%>:</b> 
 </td>
 <td>
 <input type="password" size="32" name="Password" value="" />
@@ -95,7 +95,7 @@
 </tr>
 <tr>
 <td>
-        <b>Confirm Password:</b>
+        <b><%LOCALE string="Confirm Password"%>:</b>
 </td>
 <td>
  <input type="password" size="32" name="ConfirmPassword" value="" />
@@ -120,8 +120,8 @@
         <input type="hidden" name="removed" id="removed"/>
 
 
-        <button name="action" value="Cancel">Cancel</button>
-        <button name="action" value="Save">Save</button>
+        <button name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
+        <button name="action" value="Save"><%LOCALE string="Save"%></button>
 </td>
 </tr>
 </table>
