@@ -52,14 +52,14 @@ public void upload(Request id, Response response, mixed ... args)
     {
        object z;
        if(catch(z = Tools.Zip(Stdio.FakeFile(id->variables->Filedata))))
-         response->flash("Invalid Zip file " + id->variables->Filename + ".");      
+         response->flash(sprintf(LOCALE(0,"Invalid Zip file %[0]s."), id->variables->Filename));      
 mixed e = catch(
        z->unzip(combine_path(app->config->app_dir, "themes")));
        
     }
     else
     {
-      response->flash("Invalid file extension for document " + id->variables->Filename  + ".");
+      response->flash(sprintf(LOCALE(0,"Invalid file extension for document %[0]s."), id->variables->Filename));
     }
   }
 
@@ -92,7 +92,7 @@ public void activate(Request id, Response response, mixed ... args)
   object current_theme = app->new_string_pref("site.theme", "default");
   current_theme["Value"] = theme;
 
-  response->flash("Activated theme " + theme + ".");
+  response->flash("Activated theme %[0]s."), theme));
   response->redirect(list);
 }
 
@@ -116,28 +116,4 @@ public void get(Request id, Response response, mixed ... args)
   response->set_data(z->generate()); 
   response->set_type("application/zip");
   response->set_header("Content-Disposition", sprintf("attachment; filename=\"%s\"", theme + ".zip"));
-}
-
-public void toggle_enabled(Request id, Response response, mixed ... args)
-{
-  object u;
-
-  if(!id->variables->plugin)
-  {
-    response->flash("msg", "No plugin.");
-  }
-
-  else if(!app->plugins[id->variables->plugin])
-  {
-	response->flash("msg", "Plugin enumeration failure.");
-  }
-
-  else
-  {
-	object p = app->get_sys_pref("plugin." + app->plugins[id->variables->plugin]->name + ".enabled");
-    p["Value"] = !p->get_value();
-    response->flash("msg", "Plugin " + id->variables->plugin + " " + (p->get_value()?"en":"dis") + "abled.");
-  }
-
-  response->redirect("list");
 }

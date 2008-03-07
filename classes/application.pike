@@ -1,3 +1,7 @@
+//<locale-token project="FinScribe">LOCALE</locale-token>
+
+#define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
+
 import Fins;
 inherit Fins.Application : app;
 inherit Fins.Helpers.Macros.Base : macros;
@@ -14,7 +18,7 @@ mapping internal_path_handlers = ([]);
 
 void start()
 {
-  Locale.register_project(config->app_name, combine_path(config->app_dir, "locale/%L/finscribe.xml"));
+  Locale.register_project(config->app_name, combine_path(config->app_dir, "translations/%L/finscribe.xml"));
 
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();
@@ -317,7 +321,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
 {
   if(!id->misc->session_variables->userid)
   {
-    response->flash("msg", "You must be logged in as an administrator to continue.");
+    response->flash(LOCALE(0,"You must be logged in as an administrator to continue."));
     response->redirect("/exec/login");
     return 0;
   }
@@ -326,7 +330,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   
   if(!user)
   {
-    response->flash("msg", "Unable to find a user for your userid.");
+    response->flash(LOCALE(0,"Unable to find a user for your userid."));
     response->redirect("/exec/login");
     return 0;
   }
@@ -335,7 +339,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     return 1;
   else
   {
-    response->flash("msg", "You must be an administrator to access that resource.");
+    response->flash(LOCALE(0,"You must be an administrator to access that resource."));
     response->redirect("/exec/login");
     return 0;
   }

@@ -1,10 +1,10 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: <%LOCALE string="Trackbacks for"%> <%$object.title%></title>
+   <title><%syspref var="site.name" %> :: <%LOCALE id="253" string="Trackbacks for"%> <%$object.title%></title>
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
-<h3><%LOCALE string="Trackbacks for"%> <%$object.title%></h3>
+<h3><%LOCALE id="253" string="Trackbacks for"%> <%$object.title%></h3>
 
-<%LOCALE string="The trackback URL for this article is"%>: 
+<%LOCALE id="254" string="The trackback URL for this article is"%>: 
 <a 
 href="<%syspref var="site.url"%>/exec/trackback/<%$object.path%>"><%syspref var="site.url"%>/exec/trackback/<%$object.path%></a>.
 <%foreach var="$trackbacks" val="trackback" %>

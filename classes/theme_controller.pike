@@ -11,7 +11,7 @@ public void index(Request id, Response response, mixed ... args)
 {
   if(!args || !sizeof(args))
   {
-     response->set_data("You must provide a file to retrieve.");
+     response->set_data(LOCALE(0,"You must provide a file to retrieve."));
      return;
   }
 

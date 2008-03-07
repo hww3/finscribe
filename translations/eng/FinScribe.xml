@@ -2,7 +2,7 @@
 <locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1204865340</dumped>
+<dumped>1204906576</dumped>
 <file>templates/admin/adminindex.phtml</file>
 <file>templates/admin/confirmdeleteuser.phtml</file>
 <file>templates/admin/confirmshutdown.phtml</file>
@@ -1273,5 +1273,295 @@ in</o>
 
 <str id="240">
 <o>Change</o>
+<t></t>
+</str>
+
+<str id="241">
+<o>Create account</o>
+<t></t>
+</str>
+
+<str id="242">
+<o>Your name</o>
+<t></t>
+</str>
+
+<str id="243">
+<o>deleting object</o>
+<t></t>
+</str>
+
+<str id="244">
+<o>Delete an existing object</o>
+<t></t>
+</str>
+
+<str id="245">
+<o>Current location</o>
+<t></t>
+</str>
+
+<str id="246">
+<o>Deleting all subcontent as well.</o>
+<t></t>
+</str>
+
+<str id="247">
+<o>The following objects will be deleted</o>
+<t></t>
+</str>
+
+<str id="248">
+<o>Delete all documents under  this location as well?</o>
+<t></t>
+</str>
+
+<str id="249">
+<o>Note</o>
+<t></t>
+</str>
+
+<str id="250">
+<o>deleting established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being deleted.</o>
+<t></t>
+</str>
+
+<str id="251">
+<o>Differences</o>
+<t></t>
+</str>
+
+<str id="252">
+<o>Pingbacks for</o>
+<t></t>
+</str>
+
+<str id="253">
+<o>Trackbacks for</o>
+<t></t>
+</str>
+
+<str id="254">
+<o>The trackback URL for this article is</o>
+<t></t>
+</str>
+
+<str id="255">
+<o>editing</o>
+<t></t>
+</str>
+
+<str id="256">
+<o>Editing</o>
+<t></t>
+</str>
+
+<str id="257">
+<o>Password Retrieval</o>
+<t></t>
+</str>
+
+<str id="258">
+<o>Enter your username in the form below and click on 'Locate.' Your account password will be emailed to the address on record for that account.</o>
+<t></t>
+</str>
+
+<str id="259">
+<o>Locate</o>
+<t></t>
+</str>
+
+<str id="260">
+<o>Page Information for</o>
+<t></t>
+</str>
+
+<str id="261">
+<o>moving object</o>
+<t></t>
+</str>
+
+<str id="262">
+<o>Move an existing object</o>
+<t></t>
+</str>
+
+<str id="263">
+<o>New Object path</o>
+<t></t>
+</str>
+
+<str id="264">
+<o>Moving all subcontent as well.</o>
+<t></t>
+</str>
+
+<str id="265">
+<o>The following objects will be moved</o>
+<t></t>
+</str>
+
+<str id="266">
+<o>Really Move</o>
+<t></t>
+</str>
+
+<str id="267">
+<o>Move all documents under  this location as well?</o>
+<t></t>
+</str>
+
+<str id="268">
+<o>Move</o>
+<t></t>
+</str>
+
+<str id="269">
+<o>moving established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being moved.</o>
+<t></t>
+</str>
+
+<str id="270">
+<o>creating object</o>
+<t></t>
+</str>
+
+<str id="271">
+<o>Create new object</o>
+<t></t>
+</str>
+
+<str id="272">
+<o>Create a new page</o>
+<t></t>
+</str>
+
+<str id="273">
+<o>as a subpage of</o>
+<t></t>
+</str>
+
+<str id="274">
+<o>by specifying the path manually.</o>
+<t></t>
+</str>
+
+<str id="275">
+<o>Object name or path</o>
+<t></t>
+</str>
+
+<str id="276">
+<o>(no leading or trailing slashes, please)</o>
+<t></t>
+</str>
+
+<str id="277">
+<o>Full Object path</o>
+<t></t>
+</str>
+
+<str id="278">
+<o>Object type</o>
+<t></t>
+</str>
+
+<str id="279">
+<o>Not Found</o>
+<t></t>
+</str>
+
+<str id="280">
+<o>Whoops!</o>
+<t></t>
+</str>
+
+<str id="281">
+<o>The page you requested,</o>
+<t></t>
+</str>
+
+<str id="282">
+<o>could not be found.</o>
+<t></t>
+</str>
+
+<str id="283">
+<o>Click here to create it.</o>
+<t></t>
+</str>
+
+<str id="284">
+<o>Not Readable</o>
+<t></t>
+</str>
+
+<str id="285">
+<o>Not readable!</o>
+<t></t>
+</str>
+
+<str id="286">
+<o>You do not have permission to view the object</o>
+<t></t>
+</str>
+
+<str id="287">
+<o>Dear</o>
+<t></t>
+</str>
+
+<str id="288">
+<o>user</o>
+<t></t>
+</str>
+
+<str id="289">
+<o>You recently requested that your password for your account be mailed to you.</o>
+<t></t>
+</str>
+
+<str id="290">
+<o>Your password is:</o>
+<t></t>
+</str>
+
+<str id="291">
+<o>If you did not request this, someone else may be attempting to break into</o>
+<t></t>
+</str>
+
+<str id="292">
+<o>your account. If this is the case, please report this by contacting your</o>
+<t></t>
+</str>
+
+<str id="293">
+<o>system administrator.</o>
+<t></t>
+</str>
+
+<str id="294">
+<o>Sincerely,</o>
+<t></t>
+</str>
+
+<str id="295">
+<o>The</o>
+<t></t>
+</str>
+
+<str id="296">
+<o>Gnomes</o>
+<t></t>
+</str>
+
+<str id="297">
+<o>document tree</o>
+<t></t>
+</str>
+
+<str id="298">
+<o>Site Index</o>
 <t></t>
 </str>

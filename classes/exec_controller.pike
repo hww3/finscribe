@@ -77,23 +77,23 @@ public void object_properties_menu(Request id, Response response, mixed ... args
 
   array items = ({});
 
-  items += ({ (["title": "Edit...", "href": combine_path(action_url(edit), args * "/"), "enabled": obj->is_writeable(cuser)]) }) ;
-  items += ({ (["title": "New Child...", "href": combine_path(action_url(new), args * "/"), "enabled": obj->is_writeable(cuser) ]) }) ;
-  items += ({ (["title": "Delete...", "href": combine_path(action_url(delete), args * "/"), "enabled": obj->is_deleteable(cuser) ]) }) ;
+  items += ({ (["title": LOCALE(0,"Edit..."), "href": combine_path(action_url(edit), args * "/"), "enabled": obj->is_writeable(cuser)]) }) ;
+  items += ({ (["title": LOCALE(0,"New Child..."), "href": combine_path(action_url(new), args * "/"), "enabled": obj->is_writeable(cuser) ]) }) ;
+  items += ({ (["title": LOCALE(0,"Delete..."), "href": combine_path(action_url(delete), args * "/"), "enabled": obj->is_deleteable(cuser) ]) }) ;
 
   if(obj["md"]["locked"])
   {
-    items += ({ (["title": "Unlock", "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
+    items += ({ (["title": LOCALE(0,"Unlock"), "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
   }
   else
   {
-    items += ({ (["title": "Lock", "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
+    items += ({ (["title": LOCALE(0,"Lock"), "href": "", "enabled": obj->is_lockable(cuser)]) }) ;
   }
 
   int readable =  obj->is_readable(cuser);
 
-  items += ({ (["title": "Versions...", "href": combine_path(action_url(versions), args * "/"), "enabled": readable ]) }) ;
-  items += ({ (["title": "Properties...", "href": combine_path(action_url(info), args * "/"), "enabled": readable ]) }) ;
+  items += ({ (["title": LOCALE(0,"Versions..."), "href": combine_path(action_url(versions), args * "/"), "enabled": readable ]) }) ;
+  items += ({ (["title": LOCALE(0,"Properties..."), "href": combine_path(action_url(info), args * "/"), "enabled": readable ]) }) ;
 
   string json = Tools.JSON.serialize((["data": items]));
    
@@ -129,7 +129,7 @@ public void changeacl(Request id, Response response, mixed ... args)
 
    if(!obj) 
    {
-     response->flash("msg", "Unable to find the request object " + args*"/");
+     response->flash("msg", sprintf(LOCALE(0,"Unable to find the requested object, %[0]s."), args*"/"));
      response->redirect(id->referrer);
      return;
    }
@@ -144,7 +144,7 @@ public void changeacl(Request id, Response response, mixed ... args)
 
      obj["acl"] = a;
 
-     response->flash("msg", "ACL changed successfully.");
+     response->flash("msg", LOCALE(0,"ACL changed successfully."));
      response->redirect(id->variables->return_to);
    }
 
@@ -170,12 +170,12 @@ public void editcategory(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))
    {
-     response->set_data("You must provide an object to modify categories for.\n");
+     response->set_data(LOCALE(0,"You must provide an object to modify categories for."));
      return;
    }
    if(!id->misc->session_variables->userid)
    {
-     response->set_data("You must login to edit a category.");
+     response->set_data(LOCALE(0,"You must login to edit a category."));
      return;
    }
 
@@ -211,28 +211,28 @@ public void editcategory(Request id, Response response, mixed ... args)
 
   if(!sizeof(o))
   {
-    dta->add("flash", LOCALE(5, "Unknown object ") + path + ".");
+    dta->add("flash", sprintf(LOCALE(5, "Unknown object %[0]s."), path));
   }
   else if(!sizeof(c))
   {
-    dta->add("flash", LOCALE(6, "Unknown category ") + category + ".");
+    dta->add("flash", sprintf(LOCALE(6, "Unknown category %[0]s."), category));
   }
   else if(sizeof(x) && id->variables->action == LOCALE(9, "Include"))
   {
-    dta->add("flash", LOCALE(7, "Category ") + category + LOCALE(8, " is already assigned to this item."));
+    dta->add("flash", sprintf(LOCALE(7, "Category %[0]s is already assigned to this item."), category));
   }
-  else if(id->variables->action == LOCALE(9, "Include"))
+  else if(id->variables->action == "Include")
   {
     o[0]["categories"]+=c[0];
     model->clear_categories();
-    dta->add("flash", LOCALE(10, "Added to ") + category + ".");
+    dta->add("flash", sprintf(LOCALE(10, "Added to %[0]s ."), category));
   }
 
-  else if(id->variables->action == LOCALE(11, "Remove"))
+  else if(id->variables->action == "Remove")
   {
     o[0]["categories"]-=c[0];
     model->clear_categories();
-    dta->add("flash", LOCALE(12, "Removed from ") + category + ".");
+    dta->add("flash", sprintf(LOCALE(12, "Removed from %[0]s."), category));
   }
 
   }
@@ -249,7 +249,7 @@ public void category(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))
    {
-     response->set_data(LOCALE(13, "You must provide a category to view.\n"));
+     response->set_data(LOCALE(13, "You must provide a category to view."));
    }
 
     object t = view->get_idview("exec/category");
@@ -260,7 +260,7 @@ public void category(Request id, Response response, mixed ... args)
   
    if(!c || !sizeof(c))
    {
-     response->set_data(LOCALE(7, "Category ") + args[0] + LOCALE(14, " does not exist.\n"));
+     response->set_data(sprintf(LOCALE(7, "Category %[0]s does not exist."), args[0]));
      return;
    }
 
@@ -274,7 +274,7 @@ public void backlinks(Request id, Response response, mixed ... args)
 {
    if(!args || !sizeof(args))
    {
-     response->set_data(LOCALE(13, "You must provide an object to view the backlinks for.\n"));
+     response->set_data(LOCALE(13, "You must provide an object to view the backlinks for."));
    }
 
    object obj_o;
@@ -291,7 +291,7 @@ public void backlinks(Request id, Response response, mixed ... args)
 
    if(!obj_o)
    {
-     response->set_data("Object " + (args * "/") + " does not exist.");
+     response->set_data(sprintf(LOCALE(0,"Object %[0]s does not exist."), args*"/"));
      return;
    }
 
@@ -318,7 +318,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
   
    if(!id->variables->id)
    {
-      response->flash("msg", "You provide a comment id to delete.");
+      response->flash("msg", LOCALE(0,"You provide a comment id to delete."));
       response->redirect(id->referrer || "/space/");
       return;
    }
@@ -327,7 +327,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
    if(!c)
    {
-      response->flash("msg", "Comment #" + id->variables->id + " does not exist.");
+      response->flash("msg", sprintf(LOCALE(0,"Comment #%[0]s does not exist."), id->variables->id));
       response->redirect(id->referrer || "/space/");
       return;
    }
@@ -339,7 +339,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
    {
      // we can delete!
       c->delete();
-      response->flash("msg", "Comment deleted successfully.");
+      response->flash("msg", LOCALE(0,"Comment deleted successfully."));
       response->redirect(id->referrer || "/space/");
       return;
 
@@ -351,7 +351,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
       return;
    }
 
-     response->flash("msg", "How'd we get here?.");
+     response->flash("msg", LOCALE(0,"How'd we get here?"));
 }
 
 public void createaccount(Request id, Response response, mixed ... args)
@@ -382,19 +382,19 @@ public void createaccount(Request id, Response response, mixed ... args)
 			// check the username
 			if(sizeof(Name)< 2)
 			{
-				response->flash("msg", "You must provide a username with at least 2 characters.\n");
+				response->flash("msg", LOCALE(0,"You must provide a username with at least 2 characters."));
 			}
 			else if(sizeof(find.users((["UserName": UserName]))) != 0)
 			{
-				response->flash("msg", "The username you have chosen is already in use by another user.\n");
+				response->flash("msg", LOCALE(0,"The username you have chosen is already in use by another user."));
 			}
 			else if(!sizeof(Name) || !sizeof(Email))
 			{
-				response->flash("msg", "You must provide a Real name and e-mail address.\n");
+				response->flash("msg", LOCALE(0,"You must provide a Real name and e-mail address."));
 			}
 			else if(sizeof(Password)<4 || (Password != Password2))
 			{
-				response->flash("msg", "Your password must be typed identically in both fields, and must be at least 4 characters long.\n");
+				response->flash("msg", LOCALE(0,"Your password must be typed identically in both fields, and must be at least 4 characters long."));
 			}
 			else
 			{
@@ -407,7 +407,7 @@ public void createaccount(Request id, Response response, mixed ... args)
                                 u["is_active"] = 1;
 				u->save();
 
-				response->flash("msg", "User created successfully.\n");
+				response->flash("msg", LOCALE(0,"User created successfully."));
 				response->redirect("/space/start");
 				
 				object p = find.objects((["path": "themes/default/newuser"]))[0];
@@ -435,7 +435,7 @@ public void createaccount(Request id, Response response, mixed ... args)
                 }
 		else
 		{
-			response->flash("msg", "Unknown action " + id->variables->action);
+			response->flash("msg", sprintf(LOCALE(0,"Unknown action %[0]s."), id->variables->action));
 		}
 	}
 
@@ -462,7 +462,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 
 			if(!sizeof(a))
 			{
-				response->flash("msg", "Unable to find a user account with that username. Please try again.\n");
+				response->flash("msg", LOCALE(0,"Unable to find a user account with that username. Please try again."));
 			}
 			
 			else
@@ -480,7 +480,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 										app->get_sys_pref("mail.return_address")->get_value(), 
 																											mailmsg);
 				
-				response->flash("msg", "Your password has been located and will be sent to the email address on record for your account.\n");
+				response->flash("msg", LOCALE(0,"Your password has been located and will be sent to the email address on record for your account."));
 				response->redirect("/exec/login");
 			}
 			
@@ -503,13 +503,13 @@ public void upload(Request id, Response response, mixed ... args)
 {
   if(!id->variables->root || !strlen(id->variables->root)) 
   {
-    response->set_data("No attachment location specified.\n");
+    response->set_data(LOCALE(0,"No attachment location specified."));
     return;
   }
   
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to upload.");
+      response->flash("msg", LOCALE(0,"You must login to upload."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -529,9 +529,9 @@ public void upload(Request id, Response response, mixed ... args)
                array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
                if(!sizeof(dtos))
                {
-                  response->flash("msg", "Mime type " + 
-                     Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]) + " for file " +
-                     id->variables["save-as-filename"] + " is not valid.");
+                  response->flash("msg", sprintf(LOCALE(0,"Mime type %[0]s for file %[1]s is not valid.), 
+                     Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
+                     id->variables["save-as-filename"]));
                }
                else{              
                object dto = dtos[0];
@@ -561,7 +561,7 @@ public void upload(Request id, Response response, mixed ... args)
             obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
             obj_n->save();
             cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-            response->flash("msg", "Succesfully Saved.");
+            response->flash("msg", LOCALE(0,"Succesfully Saved."));
 
             }
 
@@ -575,13 +575,13 @@ public void editattachments(Request id, Response response, mixed ... args)
 
   if(!args || !sizeof(args)) 
   {
-    response->set_data("No attachment location specified.\n");
+    response->set_data(LOCALE(0,"No attachment location specified."));
     return;
   }
   
    if(!id->misc->session_variables->userid)
    {
-      response->set_data("You must login to upload.");
+      response->set_data(LOCALE(0,"You must login to upload."));
       return;
    } 
 
@@ -594,7 +594,7 @@ public void editattachments(Request id, Response response, mixed ... args)
     if(sizeof(a)) p = a[0];
     else 
     {
-      response->set_data("Unable to find root object to attach this document to.\n");
+      response->set_data(LOCALE(0,"Unable to find root object to attach this document to."));
       return;
     }
 
@@ -603,19 +603,19 @@ public void editattachments(Request id, Response response, mixed ... args)
     viaframe = 1;
     if(!id->variables["save-as-filename"])
     {
-      t->add("flash", "No filename specified to delete.");
+      t->add("flash", LOCALE(0,"No filename specified to delete."));
     }
     else
     {
       array o = find.objects((["path": id->variables["save-as-filename"]]));
       if(!sizeof(o))
       {
-        t->add("flash", "Cannot find file " + id->variables["save-as-filename"]);
+        t->add("flash", sprintf(LOCALE(0,"Cannot find file %[0]s"), id->variables["save-as-filename"]));
       }
       else
       {
         o[0]->delete(1);
-        t->add("flash", "Sucessfully deleted " + id->variables["save-as-filename"]);
+        t->add("flash", sprintf(LOCALE(0,"Sucessfully deleted %[0]s"), id->variables["save-as-filename"]));
       }
     }
   }
@@ -631,8 +631,8 @@ public void editattachments(Request id, Response response, mixed ... args)
     array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
     if(!sizeof(dtos))
     {
-       t->add("flash", "Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]) + 
-       " for file " + id->variables["save-as-filename"] + " is not valid.");
+       t->add("flash", sprintf(LOCALE(0,"Mime type %[0]s for file %[1]s is not valid."), Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
+         id->variables["save-as-filename"]));
     }
     else
     {       
@@ -670,9 +670,8 @@ mixed e = catch {
       obj_n->save();
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
-      t->add("flash", "Attachment added.");
+      t->add("flash", LOCALE(0,"Attachment added."));
     }
-
   }
   */
 
@@ -701,7 +700,7 @@ public void addattachments(Request id, Response response, mixed ... args)
   if(!args || !sizeof(args)) 
   {
     Log.debug("No attachment location specified.");
-    response->set_data("No attachment location specified.\n");
+    response->set_data(LOCALE(0,"No attachment location specified."));
     response->set_error(500);
     return;
   }
@@ -715,7 +714,7 @@ public void addattachments(Request id, Response response, mixed ... args)
    if(!id->misc->session_variables->userid)
    {
     Log.debug("You must login to upload.");
-      response->set_data("You must login to upload.");
+      response->set_data(LOCALE(0,"You must login to upload."));
     response->set_error(500);
       return;
    } 
@@ -727,7 +726,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     else 
     {
     Log.debug("unable to find root object for attachment.");
-      response->set_data("Unable to find root object to attach this document to.\n");
+      response->set_data(LOCALE(0,"Unable to find root object to attach this document to."));
     response->set_error(500);
       return;
     }
@@ -740,8 +739,8 @@ public void addattachments(Request id, Response response, mixed ... args)
     {
 
        Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + " for file " + id->variables["Filename"] + " is not valid.");
-       response->set_data("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + 
-       " for file " + id->variables["Filename"] + " is not valid.");
+       response->set_data(sprintf(LOCALE(0,"Mime type %[0]s for file %[1]s is not valid."), 
+             Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]), id->variables["Filename"]));
        response->set_error(500);
        return;
     }
@@ -850,7 +849,7 @@ public void login(Request id, Response response, mixed ... args)
       }
       else
       {
-         response->flash("msg", "Login Incorrect.");
+         response->flash("msg", LOCALE(0,"Login Incorrect."));
          t->add("UserName", id->variables->UserName);
          
       }
@@ -864,7 +863,7 @@ public void get_content(Request id, Response response, mixed ... args)
 {
   object obj_o = model->get_fbobject(args, id);
   if(!obj_o->is_readable(app->get_current_user(id) ))
-    response->set_data("you do not have read permission");
+    response->set_data(LOCALE(0,"You do not have read permission"));
   else
     response->set_data(app->render(obj_o->get_object_contents(), obj_o, id));
 }
@@ -881,10 +880,10 @@ public void comments(Request id, Response response, mixed ... args)
    {
      if(id->variables->ajax)
      {
-       response->set_data("You must login to comment.");
+       response->set_data(LOCALE(0,"You must login to comment."));
        return;
      }
-      response->flash("msg", "You must login to comment.");
+      response->flash("msg", LOCALE(0,"You must login to comment."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -901,10 +900,10 @@ public void comments(Request id, Response response, mixed ... args)
    {
      if(id->variables->ajax)
      {
-       response->set_data("Comments for this article have been closed.");
+       response->set_data(LOCALE(0,"Comments for this article have been closed."));
        return;
      }
-     response->flash("msg", "Comments for this article have been closed.");
+     response->flash("msg", LOCALE(0,"Comments for this article have been closed."));
      response->redirect("/comments/" + obj_o["path"]);
      return;
    }
@@ -939,7 +938,7 @@ public void comments(Request id, Response response, mixed ... args)
           if(anonymous && id->variables->check_value != 
                      id->misc->session_variables[id->variables->check])
           {
-             response->flash("msg", "Incorrect check image value.");
+             response->flash("msg", LOCALE(0,"Incorrect check image value."));
              break;
           }
           else
@@ -948,13 +947,13 @@ public void comments(Request id, Response response, mixed ... args)
           }
           if(anonymous && ! (id->variables->email && id->variables->name))
           {
-             response->flash("msg", "Name and Email are required for posting without logging in.");
+             response->flash("msg", LOCALE(0,"Name and Email are required for posting without logging in."));
              break;
           }
 
           if(anonymous && (!sizeof(id->variables->email) || !sizeof(id->variables->name)))
           {
-             response->flash("msg", "Name and Email are required for posting without logging in.");
+             response->flash("msg", LOCALE(0,"Name and Email are required for posting without logging in."));
              break;
           }
           object obj_n = Fins.Model.new("comment");
@@ -979,7 +978,7 @@ public void comments(Request id, Response response, mixed ... args)
             }
             if(!id->variables->ajax)
 			{
-	      	  response->flash("msg", "Succesfully Saved.");
+	      	  response->flash("msg", LOCALE(0,"Succesfully Saved."));
               response->redirect("/space/" + obj);
 			}
 			else
@@ -989,7 +988,7 @@ public void comments(Request id, Response response, mixed ... args)
 			}
           break;
        default:
-          response->set_data("Unknown comment action %s", id->variables->action);
+          response->set_data(sprintf(LOCALE(0,"Unknown comment action %[0]s"), id->variables->action));
           return; 
           break;
       }
@@ -1063,7 +1062,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to lock objects.");
+      response->flash("msg", LOCALE(0,"You must login to lock objects."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1073,21 +1072,24 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 
 	if(!obj_o)
 	{
-		response->flash("msg", "Object " + args*"/" + " does not exist.");
+		response->flash("msg", sprintf(LOCALE(0,"Object %[0]s does not exist."), args*"/"));
       response->redirect(id->referrer);		
  		return;
 	}
 
    if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
-		response->flash("msg", "A locked object can only be toggled by its owner or an administrator.");
+		response->flash("msg", LOCALE(0,"A locked object can only be toggled by its owner or an administrator."));
       response->redirect(id->referrer);		
 		return;
 	}
 	
 	obj_o["md"]["locked"] = !obj_o["md"]["locked"];
 
-   response->flash("msg", "Object successfully " + (obj_o["md"]["locked"]?"":"un") + "locked.");
+   if(obj_o["md"]["locked"])
+     response->flash("msg", LOCALE(0,"Object successfully locked."));
+   else
+     response->flash("msg", LOCALE(0,"Object successfully ulocked."));
    response->redirect(id->referrer);
 }
 
@@ -1095,7 +1097,7 @@ public void toggle_comments(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to toggle comments.");
+      response->flash("msg", LOCALE(0,"You must login to toggle comments."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1105,21 +1107,25 @@ public void toggle_comments(Request id, Response response, mixed ... args)
 
 	if(!obj_o)
 	{
-		response->flash("msg", "Object " + args*"/" + " does not exist.");
+		response->flash("msg", sprintf(LOCALE(0,"Object %[0]s does not exist."), args*"/"));
       response->redirect(id->referrer);		
 		return;
 	}
 
    if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
-		response->flash("msg", "Comments on an object can only be toggled by its owner or an administrator.");
+		response->flash("msg", LOCALE(0,"Comments on an object can only be toggled by its owner or an administrator."));
       response->redirect(id->referrer);		
 		return;
 	}
 	
 	obj_o["md"]["comments_closed"] = !obj_o["md"]["comments_closed"];
 
-   response->flash("msg", "Comments successfully " + (obj_o["md"]["comments_closed"]?"dis":"en") + "abled.");
+   if(obj_o["md"]["comments_closed"]);
+     response->flash(LOCALE(0,"Comments successfully disabled.")) 
+   else
+     response->flash(LOCALE(0,"Comments successfully enabled.")) 
+
    response->redirect(id->referrer);
 }
 
@@ -1127,7 +1133,7 @@ public void new(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to edit content.");
+      response->flash("msg", LOCALE(0,"You must login to edit content."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1199,7 +1205,7 @@ public void move(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to move content.");
+      response->flash("msg", LOCALE(0,"You must login to move content."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1217,14 +1223,14 @@ public void move(Request id, Response response, mixed ... args)
 
    if(!obj_o)
    {
-      response->flash("msg", "This is a non-existent object: " + args*"/");
+      response->flash("msg", sprintf(LOCALE(0,"This is a non-existent object: %[0]s"), args*"/"));
       response->redirect(id->referrer);		
       return;
    }
 
    if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
-      response->flash("msg", "You do not have permission to move this object");
+      response->flash("msg", LOCALE(0,"You do not have permission to move this object"));
       response->redirect(id->referrer);		
       return;
    }
@@ -1242,7 +1248,7 @@ public void move(Request id, Response response, mixed ... args)
 
    if(id->variables->action == "Cancel")
    {
-     response->flash("msg", "Move operation cancelled.");
+     response->flash("msg", LOCALE(0,"Move operation cancelled."));
      response->redirect("/space/" + (args*"/"));
      return;
    }
@@ -1251,7 +1257,7 @@ public void move(Request id, Response response, mixed ... args)
    {
      if(newpath == obj_o["path"])
      {
-       response->flash("msg", "You must specify a location to move to.");
+       response->flash("msg", LOCALE(0,"You must specify a location to move to."));
      }
      else
      {
@@ -1285,7 +1291,7 @@ Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
 
        if(sizeof(overlaps))
        {
-         response->flash("msg", "One or more objects already exist in the location you're moving to or cannot be moved because of permissions: <p/>" + (overlaps*"<br>") );
+         response->flash("msg", LOCALE(0,"One or more objects already exist in the location you're moving to or cannot be moved because of permissions") + ":<p/>" + (overlaps*"<br>") );
        }
        else 
        {       
@@ -1328,7 +1334,7 @@ Log.debug("moving %s to %s.", p["path"], pth);
        n++;
      }
 
-     t->add("msg", n + " objects moved.");
+     t->add("msg", sprintf(LOCALE(0,"%[0]s objects moved."), n));
      response->redirect("/space/" + newpath);
      return;
    }
@@ -1345,7 +1351,7 @@ public void delete(Request id, Response response, mixed ... args)
 {
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to delete content.");
+      response->flash("msg", LOCALE(0,"You must login to delete content."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1363,14 +1369,14 @@ public void delete(Request id, Response response, mixed ... args)
 
    if(!obj_o)
    {
-      response->flash("msg", "This is a non-existent object: " + args*"/");
+      response->flash("msg", sprintf(LOCALE(0,"This is a non-existent object: %[0]s"), args*"/"));
       response->redirect(id->referrer);	
       return;
    }
 
    if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
-      response->flash("msg", "You do not have permission to delete this object");
+      response->flash("msg", LOCALE(0,"You do not have permission to delete this object"));
       response->redirect(id->referrer);		
       return;
    }
@@ -1407,7 +1413,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
 
        if(sizeof(overlaps))
        {
-         response->flash("msg", "You do not have permission to delete one or more objects: <p/>" + (overlaps*"<br>") );
+         response->flash("msg", LOCALE(0,"You do not have permission to delete one or more objects") + ":<p/>" + (overlaps*"<br>") );
        }
        else 
        {       
@@ -1451,7 +1457,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
        n++;
      }
 
-     t->add("msg", n + " objects deleted.");
+     t->add("msg", sprintf(LOCALE(0,"%[0]d objects deleted."), n));
      response->redirect("/space/" + newpath);
      return;
    }
@@ -1471,7 +1477,7 @@ public void edit(Request id, Response response, mixed ... args)
    
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to edit content.");
+      response->flash("msg", LOCALE(0,"You must login to edit content."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1492,7 +1498,7 @@ public void edit(Request id, Response response, mixed ... args)
 
    if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
    {
-	response->flash("msg", "You do not have permission to edit this object");
+	response->flash("msg", LOCALE(0,"You do not have permission to edit this object."));
         response->redirect(id->referrer);		
 	return;
    }
@@ -1501,7 +1507,7 @@ public void edit(Request id, Response response, mixed ... args)
      np = model->find_nearest_parent(args*"/");
      if(np && !np->is_writeable(t->get_data()["user_object"]))
      {
-	response->flash("msg", "You do not have permission to create this object");
+	response->flash("msg", LOCALE(0,"You do not have permission to create this object."));
         response->redirect(id->referrer);		
 	return;
      }
@@ -1526,7 +1532,7 @@ public void edit(Request id, Response response, mixed ... args)
       switch(id->variables->action)
       {
 	 case "Cancel":
-            response->flash("msg", "Edit cancelled.");
+            response->flash("msg", LOCALE(0,"Edit cancelled."));
 	    response->redirect("/space/" + obj);
 	    return;
 	            break;
@@ -1540,7 +1546,7 @@ public void edit(Request id, Response response, mixed ... args)
                array dtos = find.datatypes((["mimetype": datatype]));
                if(!sizeof(dtos))
                {
-                  response->flash("msg", "Internal Database Error, unable to save.");
+                  response->flash("msg", LOCALE(0,"Internal Database Error, unable to save."));
                   break;
                }
               
@@ -1583,14 +1589,14 @@ public void edit(Request id, Response response, mixed ... args)
             {
                view->flush_template(args[2..]*"/");            }
 
-            response->flash("msg", "Succesfully Saved.");
+            response->flash("msg", LOCALE(0,"Succesfully Saved."));
             response->redirect("/space/" + obj + "?" + time());
 
             app->trigger_event("postSave", id, obj_o);
             break;
 
          default:
-            response->set_data("Unknown edit action %s", id->variables->action);
+            response->set_data(sprintf(LOCALE(0,"Unknown edit action %[0]s"), id->variables->action));
             return;
             break;
       }
@@ -1628,7 +1634,7 @@ public void publish(Request id, Response response, mixed ... args)
 
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to publish.");
+      response->flash("msg", LOCALE(0,"You must login to publish."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1637,14 +1643,14 @@ public void publish(Request id, Response response, mixed ... args)
    obj_o = model->get_fbobject(args, id);
    if(!obj_o || obj_o["is_attachment"] != 3)
    {
-     response->flash("msg", "Object doesn't exist, or isn't a WIP weblog entry.");
+     response->flash("msg", LOCALE(0,"Object doesn't exist, or isn't a WIP weblog entry."));
      response->redirect(id->referrer);
      return;
    }
 
    if(!obj_o->is_postable(app->get_current_user(id)))
    {
-     response->flash("msg", "You don't have permission to publish (post) this object.");
+     response->flash("msg", LOCALE(0,"You don't have permission to publish (post) this object."));
      response->redirect(id->referrer);
      return;
    }
@@ -1673,7 +1679,7 @@ public void publish(Request id, Response response, mixed ... args)
 
   app->trigger_event("postSave", id, obj_o);
 
-  response->flash("msg", "Object published successfully.");
+  response->flash("msg", LOCALE(0,"Object published successfully."));
   response->redirect(id->referrer);
 }
 
@@ -1691,7 +1697,7 @@ public void post(Request id, Response response, mixed ... args)
 
    if(!id->misc->session_variables->userid)
    {
-      response->flash("msg", "You must login to post.");
+      response->flash("msg", LOCALE(0,"You must login to post."));
       response->flash("from", id->not_query);
       response->redirect("/exec/login");
       return;
@@ -1723,11 +1729,11 @@ public void post(Request id, Response response, mixed ... args)
    {
      if(id->variables->ajax)
      {
-       response->set_data("You are not authorized to post to this weblog.");
+       response->set_data(LOCALE(0,"You are not authorized to post to this weblog."));
      }
      else
      {
-       response->flash("msg", "You are not authorized to post to this weblog.");
+       response->flash("msg", LOCALE(0,"You are not authorized to post to this weblog."));
        response->redirect(id->referrer || "/space/");
      }
      return;     
@@ -1743,11 +1749,11 @@ public void post(Request id, Response response, mixed ... args)
 	 case "Cancel":
             if(id->variables->ajax)
             {
-              response->set_data("Blog posting cancelled.");
+              response->set_data(LOCALE(0,"Blog posting cancelled."));
             }
             else
             {
-              response->flash("msg", "Blog Posting cancelled.");
+              response->flash("msg", LOCALE(0,"Blog Posting cancelled."));
   	      response->redirect("/space/" + obj);
             }
 	    return;
@@ -1789,7 +1795,7 @@ public void post(Request id, Response response, mixed ... args)
                array dtos = find.datatypes((["mimetype": "text/wiki"]));
                if(!sizeof(dtos))
                {
-                  response->flash("msg", "Internal Database Error, unable to save.");
+                  response->flash("msg", LOCALE(0,"Internal Database Error, unable to save."));
                   break;
                }
 
@@ -1889,20 +1895,20 @@ public void post(Request id, Response response, mixed ... args)
 
          if(id->variables->ajax)
          {
-            response->set_data("Succesfully Saved.<div style=\"display:none;\" id=\"result\">Success</div>");
+            response->set_data(LOCALE(0,"Succesfully Saved.") + "<div style=\"display:none;\" id=\"result\">" + LOCALE(0,"Success") + "</div>");
 //            response->redirect("/space/" + obj);
             return;
          }
          else
          {
-            response->flash("msg", "Succesfully Saved.");
+            response->flash("msg", LOCALE(0,"Succesfully Saved."));
             response->redirect("/space/" + obj);
             return;
          }
             break;
 
          default:
-            response->set_data("Unknown post action %s", id->variables->action);
+            response->set_data(LOCALE(0,"Unknown post action %[0]s"), id->variables->action);
             return;
             break;
       }
@@ -1916,7 +1922,7 @@ public void post(Request id, Response response, mixed ... args)
       }
       else
       {
-         response->set_data("You cannot post to a non-existent page.\n");
+         response->set_data(LOCALE(0,"You cannot post to a non-existent page."));
       }
    }
 
@@ -1943,7 +1949,7 @@ public void diff(Request id, Response response, mixed ... args)
    obj_o = model->get_fbobject(args, id);
    if(!obj_o)
    {
-     response->set_data("unable to find object " + args*"/");
+     response->set_data(LOCALE(0,"unable to find object %[0]s."), args*"/");
      return;
    } 
 
@@ -1965,7 +1971,7 @@ public void diff(Request id, Response response, mixed ... args)
      os = Fins.Model.find.object_versions((["object": obj_o, "version": to]));
      if(!sizeof(os))
      {
-       response->set_data("version " + to + " does not exist.\n");
+       response->set_data(LOCALE(0,"version %[0]s does not exist.\n"), to);
        return;
      }
      cto = os[0]["contents"];
@@ -1974,7 +1980,7 @@ public void diff(Request id, Response response, mixed ... args)
    os = Fins.Model.find.object_versions((["object": obj_o, "version": from]));
    if(!sizeof(os))
    {
-     response->set_data("version " + to + " does not exist.\n");
+     response->set_data(LOCALE(0,"version %[0]s does not exist."), to);
      return;
    }
    cfrom = os[0]["contents"];
@@ -2057,7 +2063,7 @@ public void versions(Request id, Response response, mixed ... args)
    obj_o = model->get_fbobject(args, id);
    if(!obj_o)
    {
-     response->set_data("unable to find object " + args*"/");
+     response->set_data(LOCALE(0,"unable to find object %[0]s."), args*"/");
      return;
    } 
 
@@ -2079,7 +2085,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
     object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
-      response->set_data("Unable to find object " + args*"/" + ".");
+      response->set_data(LOCALE(0,"Unable to find object %[0]s.", args*"/");
       return;
     } 
 
@@ -2097,7 +2103,7 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
     object obj_o = model->get_fbobject(args, id);
     if(!obj_o)
     {
-      response->set_data("Unable to find object " + args*"/" + ".");
+      response->set_data(LOCALE(0,"Unable to find object %[0]s."),args*"/");
       return;
     } 
 
