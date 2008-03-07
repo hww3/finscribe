@@ -34,7 +34,7 @@ var bindArgs = {
 
 function uploadQueueComplete(file) {
         var div = document.getElementById("queueinfo");
-        div.innerHTML = "All files uploaded..."
+        div.innerHTML = "<%LOCALE string="All files uploaded..."%>"
         document.getElementById("cancelqueuebtn").style.display = "none";
 
   var bindArgs = {
@@ -190,24 +190,24 @@ height: 16px;
 		
 	</style>
 
-<h2>Editing Attachments</h2>
+<h2><%LOCALE string="Editing Attachments"%></h2>
 <p>
 <%$flash%>
 <p>
 
 <% if data->object_is_weblog %>
-  You can't directly add attachments to a weblog page.
+  <%LOCALE string="You can't directly add attachments to a weblog page."%>
 <% else %>
-  This page (<%$object.path%>) contains <%$numattachments %> Attachments</a><br/>
+  <%LOCALE string="This page"%> (<%$object.path%>) <%LOCALE string="contains"%> <%$numattachments %> <%LOCALE string="Attachments"%></a><br/>
   <table>
-  <tr><th>Name</th><th>Type</th><th>Size</th><th></th></tr>
+  <tr><th><%LOCALE string="Name"%></th><th><%LOCALE string="Type"%></th><th><%LOCALE string="Size"%></th><th></th></tr>
   <% foreach var="$attachments" val="attachment" %>
   <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.content_length%></td>
   <td><a onclick="document.getElementById('action').value='Delete'; 
 document.getElementById('filename').value='<%$attachment.path%>'; saveAttachment('<%$object.path%>', 
-'attachmentform'); return false;">Delete</a></td>
+'attachmentform'); return false;"><%LOCALE string="Delete"%></a></td>
   </tr>
   <%end %>
   </table>
@@ -224,10 +224,9 @@ document.getElementById('filename').value='<%$attachment.path%>'; saveAttachment
 				<input type="submit" value="upload test" />
 			</form>
 		</div>
-		<h4 id="queueinfo">Queue is empty</h4>
+		<h4 id="queueinfo"><%LOCALE string="Queue is empty"%></h4>
 		<div id="SWFUploadFileListingFiles"></div>
 		<br class="clr" />
-		<a class="swfuploadbtn" id="cancelqueuebtn" href="javascript:cancelQueue();">Cancel queue</a>
+		<a class="swfuploadbtn" id="cancelqueuebtn" href="javascript:cancelQueue();"><%LOCALE string="Cancel queue"%></a>
 
 <% endif %>
-

@@ -1,63 +1,62 @@
 <% if data["user_object"]  %>
-<b>Page Actions</b>
+<b><%LOCALE string="Page Actions"%></b>
 <ul>
-  <% if data["iseditable"] %> <li> <a href="/exec/edit/<%$object.path%>">edit</a><% else %> edit <% 
-endif %> page content
+  <% if data["iseditable"] %> <li> <a href="/exec/edit/<%$object.path%>"><%LOCALE string="edit page content"%></a><% else %> <%LOCALE string="edit page content"%> 
+<% endif %> 
 
 <p>
  <% if data["iseditable"] %> 
 <li> <a href="#" 
-onclick="openAttachments('<%$object.path%>', '<%sessionid%>');return false;">edit</a> attachments
-<li> <a href="#" onclick="openPopup('/exec/editcategory/<%$object.path%>', '60%');return false;">edit</a> categories
+onclick="openAttachments('<%$object.path%>', '<%sessionid%>');return false;"><%LOCALE string="edit attachments"%></a>
+<li> <a href="#" onclick="openPopup('/exec/editcategory/<%$object.path%>', '60%');return false;"><%LOCALE string="edit categories"%></a>
  <% endif %>
 <p>
-  <% if data["iseditable"] %> <li> <a href="/exec/move/<%$object.path%>">move</a><% else %> move 
-<% 
-endif %> page
+  <% if data["iseditable"] %> <li> <a href="/exec/move/<%$object.path%>"><%LOCALE string="move page"%></a><% else %> <%LOCALE string="move page"%> 
+<% endif %>
 
   <% if data["isdeleteable"] %> <li> <a 
-href="/exec/delete/<%$object.path%>">delete</a><% else %> delete 
-<% 
-endif %> page
+href="/exec/delete/<%$object.path%>"><%LOCALE string="delete"%></a><% else %> <%LOCALE string="delete page"%> 
+<% endif %>
 
   <% if data["islockable"] %>
-	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>">unlock</a> this page
+	<% if data["islocked"] %> <li> <a href="/exec/toggle_lock/<%$object.path%>"><%LOCALE string="unlock this page"%></a>
         <% else %> 
-             <li> <a href="/exec/toggle_lock/<%$object.path%>">lock</a> this page
+             <li> <a href="/exec/toggle_lock/<%$object.path%>"><%LOCALE string="lock this page"%></a>
         <% endif %> 
       <% if data["comments_closed"] %>
-       <li> <a href="/exec/toggle_comments/<%$object.path%>">enable</a> comments
+       <li> <a href="/exec/toggle_comments/<%$object.path%>"><%LOCALE string="enable comments"%></a>
      <% else %>
-       <li> <a href="/exec/toggle_comments/<%$object.path%>">disable</a> comments
+       <li> <a href="/exec/toggle_comments/<%$object.path%>"><%LOCALE string="disable comments"%></a>
      <% endif %>
   <% endif %>
 
-<li> <a href="/exec/versions/<%$object.path %>">versions</a> of this page
+<li> <a href="/exec/versions/<%$object.path %>"><%LOCALE string="versions of this page"%></a>
 
-<li> <a href="/exec/info/<%$object.path %>">get info</a>
+<li> <a href="/exec/info/<%$object.path %>"><%LOCALE string="get info"%></a>
 
 <p>
-<li> <a href="/exec/new?currentpage=<%$object.path%>">new</a> page
+<li> <a href="/exec/new?currentpage=<%$object.path%>"><%LOCALE string="new page"%>
 </ul>
 <p>
-Current ACL: 
+<%LOCALE string="Current ACL"%>: 
 <%if data["isdeleteable"] %>
 <a href="/exec/changeacl/<%$object.path%>"><%$object.acl.Name%></a>
 <% else %>
 <%$object.acl.Name%>
 <% endif %>
 <br>
-Object Type: 
+<%LOCALE string="Object Type"%>: 
 <% if data["object"]["is_attachment"] == 3 %>
-  WIP Blog Entry <% if data["object"]->is_postable(data["user_object"]) %> <a href="/exec/publish/<%$object.path%>">Publish</a> <% endif %>
+  <%LOCALE string="WIP Blog Entry"%> <% if data["object"]->is_postable(data["user_object"]) %> <a 
+href="/exec/publish/<%$object.path%>"><%LOCALE string="Publish"%></a> <% endif %>
 <% elseif data["object"]["is_attachment"] == 2 %>
-  Published Blog Entry
+  <%LOCALE string="Published Blog Entry"%>
 <% elseif data["object"]["is_attachment"] == 1 %>
-  Attachment
+  <%LOCALE string="Attachment"%>
 <% else %>
-  Published Object
+  <%LOCALE string="Published Object"%>
 <% endif %>
 <% else %>
-You are not logged in. 
+<%LOCALE string="You are not logged in."%>
 <% endif %>
 

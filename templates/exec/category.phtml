@@ -1,18 +1,18 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: Category <%$category.category%></title>
+   <title><%syspref var="site.name" %> :: <%LOCALE string="Category"%> <%$category.category%></title>
   <%@include file="header.phtml" %>
   <%@include file="pagebegin.phtml" %>
 
    <h3><%$category.category%></h3>
 <div class="flash-message"><%flash %></div>
 
-Items in this category:
+<%LOCALE string="Items in this category"%>:
 <p>
 <%@include file="space/_objectlist.phtml"%>
 <p/>
 
 <a href="/rss/<%$category.category %>?type=category"><img src="/static/images/feed-icon-12x12.png" width="12" height="12" alt="[RSS]" border="0"></a> <a 
-href="/rss/<%$categroy.category %>?type=category">RSS Feed</a>
+href="/rss/<%$categroy.category %>?type=category"><%LOCALE string="RSS Feed"%></a>
 
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>

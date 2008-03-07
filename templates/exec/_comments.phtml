@@ -3,8 +3,8 @@
 border="0"></a>
          
          
-Posted by
-<% if data->comment["author"]["UserName"] == "anonymous" %><%$comment.md.name%> (anonymous)
+<%LOCALE string="Posted by"%>
+<% if data->comment["author"]["UserName"] == "anonymous" %><%$comment.md.name%> (<%LOCALE string="anonymous"%>)
 <% else %>
 <% gravatar var="$comment.author.email"%><%$comment.author.UserName%>
 <% endif %>, <%$comment.nice_created%>.
@@ -13,7 +13,7 @@ src="/static/images/Icon-Permalink.png" width="8" height="9"
 alt="permalink" border="0"/></a>
 
 <% if data->is_admin||(data->user_object && data->user_object["UserName"] && data->user_object["UserName"]==data->comment["author"]["UserName"]) %>
-<a href="/exec/deletecomment?id=<%$comment.id%>">Delete</a>
+<a href="/exec/deletecomment?id=<%$comment.id%>"><%LOCALE string="Delete"%></a>
 <% endif %>
 
 <p/>

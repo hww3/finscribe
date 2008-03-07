@@ -1,4 +1,4 @@
-   <h3>Commenting: <%$obj%></h3>
+   <h3><%LOCALE string="Commenting"%>: <%$obj%></h3>
 
    <p>
 
@@ -12,7 +12,7 @@
 <% if data["anonymous"] %>
 <tr>
 <td>
-<b>Name:</b>
+<b><%LOCALE string="Name"%>:</b>
 </td>
 <td>
  <input type="text" size="35" name="name" value="<%$name%>"><br/>
@@ -20,7 +20,7 @@
 </tr>
 <tr>
 <td>
-<b>Email:</b> 
+<b><%LOCALE string="Email"%>:</b> 
 </td>
 <td>
 <input type="text" size="35" name="email" value="<%$email%>"><br/>
@@ -28,7 +28,7 @@
 </tr>
 <tr>
 <td>
-<b>Website:</b> 
+<b><%LOCALE string="Website"%>:</b> 
 </td>
 <td>
 <input type="text" size="35" name="website" value="<%$website%>">
@@ -65,12 +65,14 @@
 <td colspan="2">
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
-<input type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return false;" value="Preview">
-<input type="button" onclick="closePopup(); return false;" value="Cancel">
-<input type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" value="Save">
+<button type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return 
+false;" value="Preview"><%LOCALE string="Preview"%></button>
+<button type="button" onclick="closePopup(); return false;" value="Cancel"><%LOCALE string="Cancel"%></button>
+<button type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" 
+value="Save"><%LOCALE string="Save"%></button>
 <% else %>
-<input type="submit" name="action" value="Preview">
-<input type="submit" name="action" value="Save">
+<button type="submit" name="action" value="Preview"><%LOCALE string="Preview"%></button>
+<button type="submit" name="action" value="Save"><%LOCALE string="Save"%></button>
 <% endif %>
 </td>
 </tr>
@@ -78,6 +80,6 @@
 </form>
 
 <% if data->preview %>
-Preview:<p>
+<%LOCALE string="Preview"%>:<p>
 <%$preview%>
 <% endif %>

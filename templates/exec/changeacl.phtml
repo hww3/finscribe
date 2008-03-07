@@ -1,20 +1,20 @@
 <%@include file="top.phtml"%>
-<title><%syspref var="site.name" %> :: select acl</title>
+<title><%syspref var="site.name" %> :: <%LOCALE string="select acl"%></title>
 <%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml" %>
-   <h3>Choose a new ACL</h3>
-Document: <b><%$obj%></b>
+   <h3><%LOCALE string="Choose a new ACL"%></h3>
+<%LOCALE string="Document"%>: <b><%$obj%></b>
 <br/>
-Current ACL: <b><%$currentacl.Name%></b>
+<%LOCALE string="Current ACL"%>: <b><%$currentacl.Name%></b>
 <p>
 <form>
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
-New ACL: <select name="newacl">
+<%LOCALE string="New ACL"%>: <select name="newacl">
 <% foreach var="$acls" val="acl" %>
 <option value="<%$acl.id %>"><%$acl.Name%>
 <% end %>
 </select>
-<input type="submit" value="Change">
+<button type="submit" value="Change"><%LOCALE string="Change"%></button>
 </form>
 <%@include file="footer.phtml" %>
 <%@include file="bottom.phtml" %>
