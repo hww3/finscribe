@@ -14,12 +14,12 @@ dojo.require("fins.widget.ACLBuilder");
 
 <div class="flash-message"><%flash %></div>
 <% if data["newacl"] %>
-          <h3><%LOCALE string="New ACL"%></h3>
+          <h3><%LOCALE id="124" string="New ACL"%></h3>
 <% else %>
-          <h3><%LOCALE string="Edit ACL"%></h3>
+          <h3><%LOCALE id="125" string="Edit ACL"%></h3>
 <% endif %>
 	<form id="form" action="" method="post">
-        <b><%LOCALE string="ACL Name"%>:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
+        <b><%LOCALE id="126" string="ACL Name"%>:</b> <input type="text" size="32" name="Name" value="<%$acl.Name%>" />
         <p/>
 <% if data["newacl"] %>
         <input type="hidden" name="newacl" value="1"/>
@@ -116,8 +116,8 @@ function getGroups()
 		<input type="hidden" name="rules2"/>
 
         <p/>
-        <button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel%></button>
-        <button type="submit" name="action" value="Save"><%LOCALE string="Save"%></button>
+        <button type="submit" name="action" value="Cancel"><%LOCALE id="126" string="ACL Name"%></button>
+        <button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
         </form>
         
   <%@include file="footer.phtml" %>

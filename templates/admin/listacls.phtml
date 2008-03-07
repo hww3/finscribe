@@ -1,17 +1,17 @@
  <%@include file="top.phtml" %>
   <%@include file="adminheader.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="list acls"%></title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="138" string="list acls"%></title>
   
   <%@include file="pagebegin.phtml" %>
 
 <div class="flash-message"><%flash %></div>
-          <h3><%LOCALE string="ACL List"%></h3>
+          <h3><%LOCALE id="139" string="ACL List"%></h3>
 
-<a href="editacl?newacl=1"><%LOCALE string="New ACL..."%></a>
+<a href="editacl?newacl=1"><%LOCALE id="140" string="New ACL..."%></a>
 <p>
         
         <table>
-            <tr><td><%LOCALE string="ACL Name"%></td><td><%LOCALE string="Description"%></td><td><%LOCALE string="e-mail"%></td><td></td></tr>  
+            <tr><td><%LOCALE id="126" string="ACL Name"%></td><td><%LOCALE id="141" string="Description"%></td><td><%LOCALE id="142" string="e-mail"%></td><td></td></tr>  
           <% foreach var="$acls" val="acl"%>
         <tr>
             <td><%$acl.Name%></td>

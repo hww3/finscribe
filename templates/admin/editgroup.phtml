@@ -1,18 +1,18 @@
   <%@ include file="top.phtml" %>
   <%@ include file="adminheader.phtml" %>
 
-   <title><%syspref var="site.name"%> :: admin :: <%LOCALE string="edit group"%></title>
+   <title><%syspref var="site.name"%> :: admin :: <%LOCALE id="128" string="edit group"%></title>
 
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
 <% if data["newgroup"] %>
-          <h3><%LOCALE string="New Group"%></h3>
+          <h3><%LOCALE id="129" string="New Group"%></h3>
 <% else %>
-          <h3><%LOCALE string="Edit Group"%></h3>
+          <h3><%LOCALE id="130" string="Edit Group"%></h3>
 <% endif %>
 	<form action="" method="post">
-        <b><%LOCALE string="Group Name"%>:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
+        <b><%LOCALE id="131" string="Group Name"%>:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
         <p/>
         <input type="hidden" name="added" id="added"/>
         <input type="hidden" name="removed" id="removed"/>
@@ -31,8 +31,8 @@
         <% end %>
 -->
         <p/>
-        <button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
-        <button type="submit" name="action" value="Save"><%LOCALE string="Cancel"%></button>
+        <button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
+        <button type="submit" name="action" value="Save"><%LOCALE id="122" string="Cancel"%></button>
         </form>
         
 <%@include file="footer.phtml"%>

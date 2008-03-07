@@ -1,45 +1,45 @@
   <%@include file="top.phtml" %>
   <%@include file="adminheader.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="wip items"%></title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="153" string="wip items"%></title>
   
   <%@include file="pagebegin.phtml" %>
 <div class="flash-message"><%flash%></div>
 
-          <h3><%LOCALE string="WIP Blog Entries"%></h3>
+          <h3><%LOCALE id="154" string="WIP Blog Entries"%></h3>
 <p>
         <table>
-            <tr><td><%LOCALE string="Path"%></td><td><%LOCALE string="Title"%></td><td><%LOCALE string="Author"%></td><td><%LOCALE string="Last Modified"%></td></tr>  
+            <tr><td><%LOCALE id="155" string="Path"%></td><td><%LOCALE id="156" string="Title"%></td><td><%LOCALE id="93" string="Author"%></td><td><%LOCALE id="157" string="Last Modified"%></td></tr>  
           <% foreach var="$wipblog" val="blog"%>
         <tr>
             <td><%$blog.path%></td>
             <td><%$blog.title%></td>
             <td><%$blog.author.Name%></td>
             <td><%$blog.current_version.nice_created%></td>
-            <td>[ <a href="/exec/edit/<%$blog.path%>"><%LOCALE string="Edit"%></a> | 
-                <a href="/exec/publish/<%$blog.path%>"><%LOCALE string="Publish"%></a> ]</td>
+            <td>[ <a href="/exec/edit/<%$blog.path%>"><%LOCALE id="145" string="Edit"%></a> | 
+                <a href="/exec/publish/<%$blog.path%>"><%LOCALE id="158" string="Publish"%></a> ]</td>
         </tr>
           <% end %>
    	<% if !sizeof(data->wipblog) %>
-	  <tr><td colspan="5"> <%LOCALE string="No WIP Blog entries."%> </td></tr>
+	  <tr><td colspan="5"> <%LOCALE id="159" string="No WIP Blog entries."%> </td></tr>
         <% endif %>
         </table>
 
-          <h3><%LOCALE string="WIP Articles"%></h3>
+          <h3><%LOCALE id="160" string="WIP Articles"%></h3>
 <p>
         <table>
-            <tr><td><%LOCALE string="Path"%></td><td><%LOCALE string="Title"%></td><td><%LOCALE string="Author"%></td><td><%LOCALE string="Last Modified"%></td></tr>  
+            <tr><td><%LOCALE id="155" string="Path"%></td><td><%LOCALE id="156" string="Title"%></td><td><%LOCALE id="93" string="Author"%></td><td><%LOCALE id="157" string="Last Modified"%></td></tr>  
           <% foreach var="$wipobj" val="obj"%>
         <tr>
             <td><%$obj.path%></td>
             <td><%$obj.title%></td>
             <td><%$obj.author.Name%></td>
             <td><%$obj.current_version.nice_created%></td>
-            <td>[ <a href="/exec/edit/<%$obj.path%>"><%LOCALE string="Edit"%></a> | 
-                <a href="/exec/publish/<%$obj.path%>"><%LOCALE string="Publish"%></a> ]</td>
+            <td>[ <a href="/exec/edit/<%$obj.path%>"><%LOCALE id="145" string="Edit"%></a> | 
+                <a href="/exec/publish/<%$obj.path%>"><%LOCALE id="158" string="Publish"%></a> ]</td>
         </tr>
           <% end %>
    	<% if !sizeof(data->wipobj) %>
-	  <tr><td colspan="5"> <%LOCALE string="No WIP Documents."%> </td></tr>
+	  <tr><td colspan="5"> <%LOCALE id="161" string="No WIP Documents."%> </td></tr>
         <% endif %>
         </table>
           

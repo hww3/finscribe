@@ -1,5 +1,5 @@
 <%@include file="top.phtml"%>
-<title><%LOCALE string="Create Account"%></title>
+<title><%LOCALE id="162" string="Create Account"%></title>
 <%@include file="adminheader.phtml"%>
 
 <script type="text/javascript">
@@ -40,14 +40,14 @@ function getAvailable()
 };
 </script>
 <%@include file="pagebegin.phtml"%>
-   <h3><%LOCALE string="New user"%></h3>
+   <h3><%LOCALE id="163" string="New user"%></h3>
 
    <p>
 <form action="" method="post">
 <table>
 <tr>
 <td>
-<b><%LOCALE string="Real Name"%>:</b>
+<b><%LOCALE id="134" string="Real Name"%>:</b>
 </td>
 <td>
  <input type="string" name="Name" value="<%$Name%>"/><br/>
@@ -55,7 +55,7 @@ function getAvailable()
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="Username"%>:</b>
+<b><%LOCALE id="66" string="Username"%>:</b>
 </td>
 <td>
  <input type="string" name="UserName" value="<%$UserName%>"/><br/>
@@ -63,14 +63,14 @@ function getAvailable()
 </tr>
 <tr>
 <td>
-<b><%LOCALE string="Email"%>:</b>
+<b><%LOCALE id="68" string="Email"%>:</b>
 </td>
 <td>
  <input type="string" name="Email" value="<%$Email%>"><br/>
 </td>
 </tr>
 <tr>
-<td><b><%LOCALE string="Password"%>:</b>
+<td><b><%LOCALE id="17" string="Password"%>:</b>
 </td>
 <td>
  <input type="password" name="Password" value="<%$Password%>"/><br/>
@@ -79,7 +79,7 @@ function getAvailable()
 <tr>
 <td>
 
-<b><%LOCALE string="Re-type Password"%>:</b> </td><td> <input type="password" name="Password2"/>
+<b><%LOCALE id="164" string="Re-type Password"%>:</b> </td><td> <input type="password" name="Password2"/>
 
 <p/>
 </td>
@@ -87,22 +87,22 @@ function getAvailable()
 
 <tr>
 <td>
-        <b><%LOCALE string="Is Active?"%></b>
+        <b><%LOCALE id="135" string="Is Active?"%></b>
 </td>
 <td>
- <input type="radio" name="is_active" value="0"/> <%LOCALE string="No"%>
- <input type="radio" name="is_active" value="1" checked="1"/> <%LOCALE string="Yes"%>
+ <input type="radio" name="is_active" value="0"/> <%LOCALE id="50" string="No"%>
+ <input type="radio" name="is_active" value="1" checked="1"/> <%LOCALE id="49" string="Yes"%>
         <p/>
 </td>
 </tr>
 
 <tr>
 <td>
-        <b><%LOCALE string="Is Admin?"%></b>
+        <b><%LOCALE id="136" string="Is Admin?"%></b>
 </td>
 <td>
- <input type="radio" name="is_admin" value="0" checked="1"/> <%LOCALE string="No"%>
- <input type="radio" name="is_admin" value="1"/> <%LOCALE string="Yes"%>
+ <input type="radio" name="is_admin" value="0" checked="1"/> <%LOCALE id="50" string="No"%>
+ <input type="radio" name="is_admin" value="1"/> <%LOCALE id="49" string="Yes"%>
         <p/>
 </td>
 </tr>
@@ -117,8 +117,8 @@ function getAvailable()
 <td colspan="2">
         <input type="hidden" name="added" id="added"/>
         <input type="hidden" name="removed" id="removed"/>
-<button type="submit" name="action" value="Create"><%LOCALE string="Create"%></button>
-<button type="submit" name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
+<button type="submit" name="action" value="Create"><%LOCALE id="165" string="Create"%></button>
+<button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 </td>
 </tr>
 </table>

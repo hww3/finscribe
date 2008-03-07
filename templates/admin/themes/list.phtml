@@ -1,5 +1,5 @@
  <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="themes"%></title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="181" string="themes"%></title>
   <%@include file="adminheader.phtml" %>
 
 <script type="text/javascript">
@@ -16,26 +16,26 @@ function openUpload(sid)
 
 
 <div class="flash-message"><%flash %></div>
-          <h3><%LOCALE string="Theme List"%></h3>
+          <h3><%LOCALE id="182" string="Theme List"%></h3>
 
         <table>
-            <tr><td><b><%LOCALE string="Theme"%></b></td><td></td><td></td></tr>
+            <tr><td><b><%LOCALE id="183" string="Theme"%></b></td><td></td><td></td></tr>
           <% foreach var="$themes" val="theme"%>
         <tr>
             <td><%$theme.name%></td>
 <% if data["theme"]["is_active"] %>
             <td>Active</td>
 <% else %>
-            <td><a href="activate/<%$theme.name%>"><%LOCALE string="Make Active"%></a></td>
+            <td><a href="activate/<%$theme.name%>"><%LOCALE id="184" string="Make Active"%></a></td>
 <% endif %>
 
-            <td><a href="get/<%$theme.name%>"><%LOCALE string="Download"%> <%$theme.name%>.zip</a></td>
+            <td><a href="get/<%$theme.name%>"><%LOCALE id="185" string="Download"%> <%$theme.name%>.zip</a></td>
         </tr>
           <% end %>
         </table>
 
   <p>
-  <a href="#" onclick="openUpload('<%sessionid%>');return false;"><%LOCALE string="Upload Theme"%></a>
+  <a href="#" onclick="openUpload('<%sessionid%>');return false;"><%LOCALE id="186" string="Upload Theme"%></a>
   <p>
 
   <%@include file="footer.phtml" %>

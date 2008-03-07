@@ -1,11 +1,11 @@
   <%@include file="top.phtml"%>
   <%@include file="adminheader.phtml"%>
-   <title><%syspref var="site.name" %> :: admin :: <%LOCALE string="edit user"%></title>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="132" string="edit user"%></title>
 
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
-          <h3><%LOCALE string="Edit User"%></h3>
+          <h3><%LOCALE id="133" string="Edit User"%></h3>
 
 	<form action="" method="post">
 
@@ -13,7 +13,7 @@
 <table width="75%"> 
 <tr>
 <td>
-        <b><%LOCALE string="Username"%>:</b> 
+        <b><%LOCALE id="66" string="Username"%>:</b> 
 </td>
 <td>
 <%$user.UserName%>
@@ -22,7 +22,7 @@
 </tr>
 <tr>
 <td>
-        <b><%LOCALE string="Real Name"%>:</b>
+        <b><%LOCALE id="134" string="Real Name"%>:</b>
 </td>
 <td>
  <input type="text" size="32" name="Name" value="<%$user.Name%>" />
@@ -31,7 +31,7 @@
 </tr>
 <tr>
 <td>
-        <b><%LOCALE string="Email"%>:</b>
+        <b><%LOCALE id="68" string="Email"%>:</b>
 </td>
 <td>
  <input type="text" size="32" name="Email" value="<%$user.Email%>" />
@@ -41,38 +41,38 @@
 
 <tr>
 <td>
-        <b><%LOCALE string="Is Active?"%></b>
+        <b><%LOCALE id="135" string="Is Active?"%></b>
 </td>
 <td>
  <input type="radio" name="is_active" value="0"
  <% if !data["user"]["is_active"] %>
    checked="1"
  <% endif %>
-/> <%LOCALE string="No"%>
+/> <%LOCALE id="50" string="No"%>
  <input type="radio" name="is_active" value="1"
  <% if data["user"]["is_active"] %>
    checked="1"
  <% endif %>
-/> <%LOCALE string="Yes"%>
+/> <%LOCALE id="49" string="Yes"%>
         <p/>
 </td>
 </tr>
 
 <tr>
 <td>
-        <b><%LOCALE string="Is Admin?"%></b>
+        <b><%LOCALE id="136" string="Is Admin?"%></b>
 </td>
 <td>
  <input type="radio" name="is_admin" value="0"
  <% if !data["user"]["is_admin"] %>
    checked="1"
  <% endif %>
-/> <%LOCALE string="No"%>
+/> <%LOCALE id="50" string="No"%>
  <input type="radio" name="is_admin" value="1"
  <% if data["user"]["is_admin"] %>
    checked="1"
  <% endif %>
-/> <%LOCALE string="Yes"%>
+/> <%LOCALE id="49" string="Yes"%>
         <p/>
 </td>
 </tr>
@@ -80,13 +80,13 @@
 <tr>
 <td colspan="2">
 <button dojoType="button2" widgetId="chpass" onclick="enable_chpass();">
-  <%LOCALE string="Change Password..."%>
+  <%LOCALE id="137" string="Change Password..."%>
 </button>
 <div dojoType="Container" id="passwordpane" style="display:none;">
 <table>
 <tr>
 <td>
-        <b><%LOCALE string="Password"%>:</b> 
+        <b><%LOCALE id="17" string="Password"%>:</b> 
 </td>
 <td>
 <input type="password" size="32" name="Password" value="" />
@@ -95,7 +95,7 @@
 </tr>
 <tr>
 <td>
-        <b><%LOCALE string="Confirm Password"%>:</b>
+        <b><%LOCALE id="67" string="Confirm Password"%>:</b>
 </td>
 <td>
  <input type="password" size="32" name="ConfirmPassword" value="" />
@@ -120,8 +120,8 @@
         <input type="hidden" name="removed" id="removed"/>
 
 
-        <button name="action" value="Cancel"><%LOCALE string="Cancel"%></button>
-        <button name="action" value="Save"><%LOCALE string="Save"%></button>
+        <button name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
+        <button name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
 </td>
 </tr>
 </table>
