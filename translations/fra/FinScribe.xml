@@ -1,0 +1,2221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='iso-8859-1'?><locale version='1.0'>
+<project>FinScribe</project>
+<language>fr</language>
+<dumped>1204911915</dumped>
+<file>classes/admin/plugin_controller.pike</file>
+<file>classes/admin/preference_controller.pike</file>
+<file>classes/admin/theme_controller.pike</file>
+<file>classes/admin_controller.pike</file>
+<file>classes/app_controller.pike</file>
+<file>classes/application.pike</file>
+<file>classes/atom_controller.pike</file>
+<file>classes/comment_controller.pike</file>
+<file>classes/controller.pike</file>
+<file>classes/exec_controller.pike</file>
+<file>classes/install.pike</file>
+<file>classes/install_controller.pike</file>
+<file>classes/internal_controller.pike</file>
+<file>classes/model.pike</file>
+<file>classes/rss_controller.pike</file>
+<file>classes/theme_controller.pike</file>
+<file>classes/themed_template.pike</file>
+<file>classes/themed_templatedata.pike</file>
+<file>classes/view.pike</file>
+<file>classes/wiki/attachmentindex_macro.pike</file>
+<file>classes/wiki/break_macro.pike</file>
+<file>classes/wiki/card_macro.pike</file>
+<file>classes/wiki/categoryindex_macro.pike</file>
+<file>classes/wiki/categoryoutput_macro.pike</file>
+<file>classes/wiki/code_macro.pike</file>
+<file>classes/wiki/deck_macro.pike</file>
+<file>classes/wiki/folder_macro.pike</file>
+<file>classes/wiki/image_macro.pike</file>
+<file>classes/wiki/info_macro.pike</file>
+<file>classes/wiki/link_macro.pike</file>
+<file>classes/wiki/note_macro.pike</file>
+<file>classes/wiki/objectindex_macro.pike</file>
+<file>classes/wiki/subpageoutput_macro.pike</file>
+<file>classes/wiki/tip_macro.pike</file>
+<file>classes/wiki/warning_macro.pike</file>
+<file>classes/wiki/weblog_macro.pike</file>
+<file>classes/xmlrpc_controller.pike</file>
+<file>templates/admin/adminindex.phtml</file>
+<file>templates/admin/confirmdeleteuser.phtml</file>
+<file>templates/admin/confirmshutdown.phtml</file>
+<file>templates/admin/editacl.phtml</file>
+<file>templates/admin/editgroup.phtml</file>
+<file>templates/admin/edituser.phtml</file>
+<file>templates/admin/listacls.phtml</file>
+<file>templates/admin/listgroups.phtml</file>
+<file>templates/admin/listusers.phtml</file>
+<file>templates/admin/listwip.phtml</file>
+<file>templates/admin/newuser.phtml</file>
+<file>templates/admin/plugin/list.phtml</file>
+<file>templates/admin/prefs/_list.phtml</file>
+<file>templates/admin/prefs/list.phtml</file>
+<file>templates/admin/settings.phtml</file>
+<file>templates/admin/shutdown.phtml</file>
+<file>templates/admin/themes/_upload.phtml</file>
+<file>templates/admin/themes/list.phtml</file>
+<file>templates/adminheader.phtml</file>
+<file>templates/bottom.phtml</file>
+<file>templates/comments/wikiobjectcomments.phtml</file>
+<file>templates/error/500.phtml</file>
+<file>templates/exec/_backlinks.phtml</file>
+<file>templates/exec/_comment.phtml</file>
+<file>templates/exec/_comments.phtml</file>
+<file>templates/exec/_edit.phtml</file>
+<file>templates/exec/_editattachments.phtml</file>
+<file>templates/exec/_info.phtml</file>
+<file>templates/exec/_login.phtml</file>
+<file>templates/exec/_post.phtml</file>
+<file>templates/exec/_tree.phtml</file>
+<file>templates/exec/actions.phtml</file>
+<file>templates/exec/backlinks.phtml</file>
+<file>templates/exec/category.phtml</file>
+<file>templates/exec/changeacl.phtml</file>
+<file>templates/exec/comment.phtml</file>
+<file>templates/exec/createaccount.phtml</file>
+<file>templates/exec/delete.phtml</file>
+<file>templates/exec/diff.phtml</file>
+<file>templates/exec/display_pingbacks.phtml</file>
+<file>templates/exec/display_trackbacks.phtml</file>
+<file>templates/exec/edit.phtml</file>
+<file>templates/exec/forgotpassword.phtml</file>
+<file>templates/exec/info.phtml</file>
+<file>templates/exec/login.phtml</file>
+<file>templates/exec/move.phtml</file>
+<file>templates/exec/new.phtml</file>
+<file>templates/exec/objectnotfound.phtml</file>
+<file>templates/exec/objectnotreadable.phtml</file>
+<file>templates/exec/post.phtml</file>
+<file>templates/exec/sendpassword.phtml</file>
+<file>templates/exec/tree.phtml</file>
+<file>templates/exec/versions.phtml</file>
+<file>templates/footer.phtml</file>
+<file>templates/header.phtml</file>
+<file>templates/install/SQLite.phtml</file>
+<file>templates/install/mysql.phtml</file>
+<file>templates/install/postgres.phtml</file>
+<file>templates/install/wizard.phtml</file>
+<file>templates/pagebegin.phtml</file>
+<file>templates/space/_categoryform.phtml</file>
+<file>templates/space/_displayattachments.phtml</file>
+<file>templates/space/_objectlist.phtml</file>
+<file>templates/space/attachmentform.phtml</file>
+<file>templates/space/categoryform.phtml</file>
+<file>templates/space/trackback.phtml</file>
+<file>templates/space/versions.phtml</file>
+<file>templates/space/weblogentry.phtml</file>
+<file>templates/space/wikiobject.phtml</file>
+<file>templates/tagline.phtml</file>
+<file>templates/top.phtml</file>
+
+<str id='108'>
+<o>Work with Users</o>
+<t>Travailler avec les utilisateurs</t>
+</str>
+
+<str id='109'>
+<o>Work with Groups</o>
+<t>Travailler avec des groupes</t>
+</str>
+
+<str id='110'>
+<o>Work with ACLs</o>
+<t>Travailler avec les ACLs</t>
+</str>
+
+<str id='111'>
+<o>Work with WIP items</o>
+<t>Travailler avec les éléments WIP</t>
+</str>
+
+<str id='112'>
+<o>Plugins</o>
+<t>Plugins</t>
+</str>
+
+<str id='113'>
+<o>Preferences</o>
+<t>Préférences</t>
+</str>
+
+<str id='114'>
+<o>Manage Themes</o>
+<t>Gestion des thèmes</t>
+</str>
+
+<str id='115'>
+<o>Shutdown</o>
+<t>Shutdown</t>
+</str>
+
+<str id='116'>
+<o>delete user</o>
+<t>Supprimer l&amp;#39;utilisateur</t>
+</str>
+
+<str id='117'>
+<o>Delete User</o>
+<t>Supprimer l&amp;#39;utilisateur</t>
+</str>
+
+<str id='118'>
+<o>The user</o>
+<t>L&amp;#39;utilisateur</t>
+</str>
+
+<str id='119'>
+<o>owns the the following objects, or versions of the following documents</o>
+<t>Détient les objets suivants, ou les versions des documents suivants</t>
+</str>
+
+<str id='120'>
+<o>Please choose the user to which these objects will be reassigned</o>
+<t>S’il vous plaît choisir à l&amp;#39;utilisateur de ces objets qui seront réaffectés</t>
+</str>
+
+<str id='121'>
+<o>No objects.</o>
+<t>Non objets.</t>
+</str>
+
+<str id='122'>
+<o>Cancel</o>
+<t>Annuler</t>
+</str>
+
+<str id='123'>
+<o>Really Delete</o>
+<t>Really Supprimer</t>
+</str>
+
+<str id='124'>
+<o>New ACL</o>
+<t>Nouvelle ACL</t>
+</str>
+
+<str id='125'>
+<o>Edit ACL</o>
+<t>Edit ACL</t>
+</str>
+
+<str id='126'>
+<o>ACL Name</o>
+<t>ACL Name</t>
+</str>
+
+<str id='127'>
+<o>Save</o>
+<t>Enregistrer</t>
+</str>
+
+<str id='128'>
+<o>edit group</o>
+<t>Ajouter groupe</t>
+</str>
+
+<str id='129'>
+<o>New Group</o>
+<t>Nouveau groupe</t>
+</str>
+
+<str id='130'>
+<o>Edit Group</o>
+<t>Modifier le groupe</t>
+</str>
+
+<str id='131'>
+<o>Group Name</o>
+<t>Nom du groupe</t>
+</str>
+
+<str id='132'>
+<o>edit user</o>
+<t>Modifier l&amp;#39;utilisateur</t>
+</str>
+
+<str id='133'>
+<o>Edit User</o>
+<t>Modifier l&amp;#39;utilisateur</t>
+</str>
+
+<str id='66'>
+<o>Username</o>
+<t>Nom d&amp;#39;utilisateur</t>
+</str>
+
+<str id='134'>
+<o>Real Name</o>
+<t>Nom réel</t>
+</str>
+
+<str id='68'>
+<o>Email</o>
+<t>Email</t>
+</str>
+
+<str id='135'>
+<o>Is Active?</o>
+<t>Est active?</t>
+</str>
+
+<str id='50'>
+<o>No</o>
+<t>N</t>
+</str>
+
+<str id='49'>
+<o>Yes</o>
+<t>Oui</t>
+</str>
+
+<str id='136'>
+<o>Is Admin?</o>
+<t>Est Admin?</t>
+</str>
+
+<str id='137'>
+<o>Change Password...</o>
+<t>Changer le mot de passe ...</t>
+</str>
+
+<str id='17'>
+<o>Password</o>
+<t>Mot de passe</t>
+</str>
+
+<str id='67'>
+<o>Confirm Password</o>
+<t>Confirmer le mot de passe</t>
+</str>
+
+<str id='138'>
+<o>list acls</o>
+<t>Liste ACL</t>
+</str>
+
+<str id='139'>
+<o>ACL List</o>
+<t>Liste ACL</t>
+</str>
+
+<str id='140'>
+<o>New ACL...</o>
+<t>Nouvelle ACL ...</t>
+</str>
+
+<str id='141'>
+<o>Description</o>
+<t>Description</t>
+</str>
+
+<str id='142'>
+<o>e-mail</o>
+<t>E-mail</t>
+</str>
+
+<str id='143'>
+<o>grouplist</o>
+<t>Grouplist</t>
+</str>
+
+<str id='144'>
+<o>Group List</o>
+<t>Liste Groupe</t>
+</str>
+
+<str id='145'>
+<o>Edit</o>
+<t>Modifier</t>
+</str>
+
+<str id='146'>
+<o>Delete</o>
+<t>Supprimer</t>
+</str>
+
+<str id='147'>
+<o>userlist</o>
+<t>Userlist</t>
+</str>
+
+<str id='148'>
+<o>User List</o>
+<t>Liste des utilisateurs</t>
+</str>
+
+<str id='149'>
+<o>New User...</o>
+<t>Nouvel Utilisateur ...</t>
+</str>
+
+<str id='150'>
+<o>User Name</o>
+<t>Nom d&amp;#39;utilisateur</t>
+</str>
+
+<str id='151'>
+<o>Admin User?</o>
+<t>Admin User?</t>
+</str>
+
+<str id='152'>
+<o>Active?</o>
+<t>Actif?</t>
+</str>
+
+<str id='153'>
+<o>wip items</o>
+<t>WIP articles</t>
+</str>
+
+<str id='154'>
+<o>WIP Blog Entries</o>
+<t>WIP blog entries</t>
+</str>
+
+<str id='155'>
+<o>Path</o>
+<t>Path</t>
+</str>
+
+<str id='156'>
+<o>Title</o>
+<t>Titre</t>
+</str>
+
+<str id='93'>
+<o>Author</o>
+<t>Auteur</t>
+</str>
+
+<str id='157'>
+<o>Last Modified</o>
+<t>Dernière mise à jour</t>
+</str>
+
+<str id='158'>
+<o>Publish</o>
+<t>Publier</t>
+</str>
+
+<str id='159'>
+<o>No WIP Blog entries.</o>
+<t>Aucun WIP blog entries.</t>
+</str>
+
+<str id='160'>
+<o>WIP Articles</o>
+<t>WIP Articles</t>
+</str>
+
+<str id='161'>
+<o>No WIP Documents.</o>
+<t>Aucun WIP documents.</t>
+</str>
+
+<str id='162'>
+<o>Create Account</o>
+<t>Créer un compte</t>
+</str>
+
+<str id='163'>
+<o>New user</o>
+<t>Nouveau utilisateur</t>
+</str>
+
+<str id='164'>
+<o>Re-type Password</o>
+<t>Confirmer le passe</t>
+</str>
+
+<str id='165'>
+<o>Create</o>
+<t>Créer</t>
+</str>
+
+<str id='166'>
+<o>pluginlist</o>
+<t>Pluginlist</t>
+</str>
+
+<str id='167'>
+<o>Plugin List</o>
+<t>Plugin Liste</t>
+</str>
+
+<str id='168'>
+<o>Plugin Name</o>
+<t>Nom du plugin</t>
+</str>
+
+<str id='169'>
+<o>Enabled</o>
+<t>Activé</t>
+</str>
+
+<str id='170'>
+<o>Prefs</o>
+<t>Préf</t>
+</str>
+
+<str id='171'>
+<o>Preferences:</o>
+<t>Préférences:</t>
+</str>
+
+<str id='172'>
+<o>Click on a value to edit it.</o>
+<t>Cliquez sur une valeur pour la modifier.</t>
+</str>
+
+<str id='173'>
+<o>preferencelist</o>
+<t>Preferencelist</t>
+</str>
+
+<str id='174'>
+<o>settings</o>
+<t>Réglages</t>
+</str>
+
+<str id='175'>
+<o>Application Settings</o>
+<t>Application Paramètres</t>
+</str>
+
+<str id='176'>
+<o>shutting down</o>
+<t>Fermer</t>
+</str>
+
+<str id='177'>
+<o>Shutdown Begun</o>
+<t>Commencée Shutdown</t>
+</str>
+
+<str id='178'>
+<o>This application will shut down in 5 seconds.</o>
+<t>Cette application va fermer dans 5 secondes.</t>
+</str>
+
+<str id='179'>
+<o>All files uploaded...</o>
+<t>Tous les fichiers téléchargés ...</t>
+</str>
+
+<str id='180'>
+<o>Upload Themes</o>
+<t>Envoyez Thèmes</t>
+</str>
+
+<str id='181'>
+<o>themes</o>
+<t>Thèmes</t>
+</str>
+
+<str id='182'>
+<o>Theme List</o>
+<t>Liste Thème</t>
+</str>
+
+<str id='183'>
+<o>Theme</o>
+<t>Thème</t>
+</str>
+
+<str id='184'>
+<o>Make Active</o>
+<t>Faites Active</t>
+</str>
+
+<str id='185'>
+<o>Download</o>
+<t>Télécharger</t>
+</str>
+
+<str id='186'>
+<o>Upload Theme</o>
+<t>Envoyez Thème</t>
+</str>
+
+<str id='103'>
+<o>Created by</o>
+<t>Créé par</t>
+</str>
+
+<str id='8'>
+<o>Last updated by</o>
+<t>Dernière mise à jour par</t>
+</str>
+
+<str id='9'>
+<o>Version #</o>
+<t>Version #</t>
+</str>
+
+<str id='10'>
+<o>Comments</o>
+<t>Commentaires</t>
+</str>
+
+<str id='11'>
+<o>Post a Comment</o>
+<t>Poster un commentaire</t>
+</str>
+
+<str id='12'>
+<o>RSS Feed</o>
+<t>Flux RSS</t>
+</str>
+
+<str id='13'>
+<o>FinScribe Error 500%</o>
+<t>FinScribe Erreur 500%</t>
+</str>
+
+<str id='14'>
+<o>An error occurred while processing your request</o>
+<t>Une erreur s&amp;#39;est produite lors du traitement de votre demande</t>
+</str>
+
+<str id='187'>
+<o>Backlinks for </o>
+<t>Backlinks pour</t>
+</str>
+
+<str id='188'>
+<o>Pages that link to this page</o>
+<t>Pages contenant un lien vers cette page</t>
+</str>
+
+<str id='189'>
+<o>Commenting</o>
+<t>Commentant</t>
+</str>
+
+<str id='82'>
+<o>Name</o>
+<t>Nom</t>
+</str>
+
+<str id='190'>
+<o>Website</o>
+<t>Site</t>
+</str>
+
+<str id='191'>
+<o>Preview</o>
+<t>Preview</t>
+</str>
+
+<str id='192'>
+<o>Posted by</o>
+<t>Posté par</t>
+</str>
+
+<str id='193'>
+<o>anonymous</o>
+<t>Anonyme</t>
+</str>
+
+<str id='194'>
+<o>Subject</o>
+<t>Sujet</t>
+</str>
+
+<str id='195'>
+<o>Editing Attachments</o>
+<t>Modification des pièces jointes</t>
+</str>
+
+<str id='196'>
+<o>You can't directly add attachments to a weblog page.</o>
+<t>Vous ne pouvez pas directement ajouter des pièces jointes à un weblog.</t>
+</str>
+
+<str id='79'>
+<o>This page</o>
+<t>Cette page</t>
+</str>
+
+<str id='80'>
+<o>contains</o>
+<t>Contient</t>
+</str>
+
+<str id='81'>
+<o>Attachments</o>
+<t>Pièces jointes</t>
+</str>
+
+<str id='83'>
+<o>Type</o>
+<t>Type</t>
+</str>
+
+<str id='84'>
+<o>Size</o>
+<t>Taille</t>
+</str>
+
+<str id='197'>
+<o>Queue is empty</o>
+<t>File d&amp;#39;attente est vide</t>
+</str>
+
+<str id='198'>
+<o>Cancel queue</o>
+<t>Annuler la file d&amp;#39;attente</t>
+</str>
+
+<str id='199'>
+<o>Page Info</o>
+<t>Infos page</t>
+</str>
+
+<str id='200'>
+<o>Tiny Link</o>
+<t>Tiny Link</t>
+</str>
+
+<str id='201'>
+<o>Incoming Links</o>
+<t>Incoming Links</t>
+</str>
+
+<str id='202'>
+<o>Outgoing Links</o>
+<t>Liens sortants</t>
+</str>
+
+<str id='203'>
+<o>Login</o>
+<t>Login</t>
+</str>
+
+<str id='204'>
+<o>Forgot password?</o>
+<t>Mot de passe oublié?</t>
+</str>
+
+<str id='205'>
+<o>Create an account</o>
+<t>Créer un compte</t>
+</str>
+
+<str id='206'>
+<o>Posting</o>
+<t>Détachement</t>
+</str>
+
+<str id='207'>
+<o>TrackBack URLs</o>
+<t>URL TrackBack</t>
+</str>
+
+<str id='208'>
+<o>click preview to detect</o>
+<t>Cliquez sur l&amp;#39;aperçu pour détecter</t>
+</str>
+
+<str id='209'>
+<o>TrackBack</o>
+<t>TrackBack</t>
+</str>
+
+<str id='210'>
+<o>URLs</o>
+<t>URL</t>
+</str>
+
+<str id='211'>
+<o>Publish Date</o>
+<t>Date de publication</t>
+</str>
+
+<str id='212'>
+<o>Post</o>
+<t>Post</t>
+</str>
+
+<str id='213'>
+<o>Page Actions</o>
+<t>Page Actions</t>
+</str>
+
+<str id='214'>
+<o>edit page content</o>
+<t>Modifier le contenu de la page</t>
+</str>
+
+<str id='215'>
+<o>edit attachments</o>
+<t>Ajouter des pièces jointes</t>
+</str>
+
+<str id='216'>
+<o>edit categories</o>
+<t>Modifier les catégories</t>
+</str>
+
+<str id='217'>
+<o>move page</o>
+<t>Déplacer la page</t>
+</str>
+
+<str id='218'>
+<o>delete</o>
+<t>Supprimer</t>
+</str>
+
+<str id='219'>
+<o>delete page</o>
+<t>Supprimer la page</t>
+</str>
+
+<str id='220'>
+<o>unlock this page</o>
+<t>Déverrouiller cette page</t>
+</str>
+
+<str id='221'>
+<o>lock this page</o>
+<t>Verrouiller cette page</t>
+</str>
+
+<str id='222'>
+<o>enable comments</o>
+<t>Activer les commentaires</t>
+</str>
+
+<str id='223'>
+<o>disable comments</o>
+<t>Désactiver les commentaires</t>
+</str>
+
+<str id='224'>
+<o>versions of this page</o>
+<t>Versions de cette page</t>
+</str>
+
+<str id='225'>
+<o>get info</o>
+<t>Get info</t>
+</str>
+
+<str id='226'>
+<o>new page</o>
+<t>Nouvelle page</t>
+</str>
+
+<str id='227'>
+<o>Current ACL</o>
+<t>Current ACL</t>
+</str>
+
+<str id='228'>
+<o>Object Type</o>
+<t>Objet Type</t>
+</str>
+
+<str id='229'>
+<o>WIP Blog Entry</o>
+<t>WIP entrée du blog</t>
+</str>
+
+<str id='230'>
+<o>Published Blog Entry</o>
+<t>Publié entrée du blog</t>
+</str>
+
+<str id='231'>
+<o>Attachment</o>
+<t>Pièce jointe</t>
+</str>
+
+<str id='232'>
+<o>Published Object</o>
+<t>Publié Object</t>
+</str>
+
+<str id='233'>
+<o>You are not logged in.</o>
+<t>You are not logged in</t>
+</str>
+
+<str id='234'>
+<o>Backlinks for</o>
+<t>Backlinks pour</t>
+</str>
+
+<str id='235'>
+<o>Category</o>
+<t>Catégorie</t>
+</str>
+
+<str id='236'>
+<o>Items in this category</o>
+<t>Articles dans cette catégorie</t>
+</str>
+
+<str id='237'>
+<o>select acl</o>
+<t>Sélectionnez ACL</t>
+</str>
+
+<str id='238'>
+<o>Choose a new ACL</o>
+<t>Choisir une nouvelle ACL</t>
+</str>
+
+<str id='239'>
+<o>Document</o>
+<t>Document</t>
+</str>
+
+<str id='240'>
+<o>Change</o>
+<t>Changer</t>
+</str>
+
+<str id='241'>
+<o>Create account</o>
+<t>Créez un compte</t>
+</str>
+
+<str id='242'>
+<o>Your name</o>
+<t>Votre nom</t>
+</str>
+
+<str id='243'>
+<o>deleting object</o>
+<t>Suppression de l&amp;#39;objet</t>
+</str>
+
+<str id='244'>
+<o>Delete an existing object</o>
+<t>Supprimer un objet existant</t>
+</str>
+
+<str id='245'>
+<o>Current location</o>
+<t>Emplacement actuel</t>
+</str>
+
+<str id='246'>
+<o>Deleting all subcontent as well.</o>
+<t>Suppression de tous subcontent ainsi.</t>
+</str>
+
+<str id='247'>
+<o>The following objects will be deleted</o>
+<t>Les objets suivants seront supprimés</t>
+</str>
+
+<str id='248'>
+<o>Delete all documents under  this location as well?</o>
+<t>Supprimer tous les documents en vertu de cette localité ainsi?</t>
+</str>
+
+<str id='249'>
+<o>Note</o>
+<t>Note</t>
+</str>
+
+<str id='250'>
+<o>deleting established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being deleted.</o>
+<t>De supprimer des lieux établi le document n&amp;#39;est pas recommandée, car les liens existant peut être brisé. Assurez-vous de mettre à jour les documents existants qui présentent des liens vers les objets étant supprimés.</t>
+</str>
+
+<str id='251'>
+<o>Differences</o>
+<t>Différences</t>
+</str>
+
+<str id='252'>
+<o>Pingbacks for</o>
+<t>Pingbacks pour</t>
+</str>
+
+<str id='253'>
+<o>Trackbacks for</o>
+<t>Trackbacks pour</t>
+</str>
+
+<str id='254'>
+<o>The trackback URL for this article is</o>
+<t>L&amp;#39;URL de trackback de cet article est</t>
+</str>
+
+<str id='255'>
+<o>editing</o>
+<t>Édition</t>
+</str>
+
+<str id='256'>
+<o>Editing</o>
+<t>Editing</t>
+</str>
+
+<str id='257'>
+<o>Password Retrieval</o>
+<t>Mot de passe oublié</t>
+</str>
+
+<str id='258'>
+<o>Enter your username in the form below and click on 'Locate.' Your account password will be emailed to the address on record for that account.</o>
+<t>Entrez votre nom d&amp;#39;utilisateur dans le formulaire ci-dessous et cliquez sur &amp;quot;Localiser&amp;quot;. Votre mot de passe sera envoyé à l&amp;#39;adresse qui figure au dossier pour ce compte.</t>
+</str>
+
+<str id='259'>
+<o>Locate</o>
+<t>Localiser</t>
+</str>
+
+<str id='260'>
+<o>Page Information for</o>
+<t>Page Information pour</t>
+</str>
+
+<str id='261'>
+<o>moving object</o>
+<t>Objet mobile</t>
+</str>
+
+<str id='262'>
+<o>Move an existing object</o>
+<t>Déplacer un objet existant</t>
+</str>
+
+<str id='263'>
+<o>New Object path</o>
+<t>Nouvel objet chemin</t>
+</str>
+
+<str id='264'>
+<o>Moving all subcontent as well.</o>
+<t>Subcontent déplaçant tout aussi bien.</t>
+</str>
+
+<str id='265'>
+<o>The following objects will be moved</o>
+<t>Les objets suivants seront déplacés</t>
+</str>
+
+<str id='266'>
+<o>Really Move</o>
+<t>Really Move</t>
+</str>
+
+<str id='267'>
+<o>Move all documents under  this location as well?</o>
+<t>Déplacer tous les documents en vertu de cette localité ainsi?</t>
+</str>
+
+<str id='268'>
+<o>Move</o>
+<t>Déplacer</t>
+</str>
+
+<str id='269'>
+<o>moving established document locations is not recommended, as existing links may be broken. Be sure to update any existing documents that link to the objects being moved.</o>
+<t>Le déplacement des lieux établi le document n&amp;#39;est pas recommandée, car les liens existant peut être brisé. Assurez-vous de mettre à jour les documents existants qui présentent des liens vers les objets déplacés.</t>
+</str>
+
+<str id='270'>
+<o>creating object</o>
+<t>Création d&amp;#39;objet</t>
+</str>
+
+<str id='271'>
+<o>Create new object</o>
+<t>Créer un nouvel objet</t>
+</str>
+
+<str id='272'>
+<o>Create a new page</o>
+<t>Créer une nouvelle page</t>
+</str>
+
+<str id='273'>
+<o>as a subpage of</o>
+<t>Comme des sous -</t>
+</str>
+
+<str id='274'>
+<o>by specifying the path manually.</o>
+<t>En spécifiant le chemin manuellement.</t>
+</str>
+
+<str id='275'>
+<o>Object name or path</o>
+<t>Nom de l&amp;#39;objet ou chemin</t>
+</str>
+
+<str id='276'>
+<o>(no leading or trailing slashes, please)</o>
+<t>(Pas de début ni de barres obliques, s’il vous plaît)</t>
+</str>
+
+<str id='277'>
+<o>Full Object path</o>
+<t>Objet pleine voie</t>
+</str>
+
+<str id='278'>
+<o>Object type</o>
+<t>Type d&amp;#39;objet</t>
+</str>
+
+<str id='279'>
+<o>Not Found</o>
+<t>Not Found</t>
+</str>
+
+<str id='280'>
+<o>Whoops!</o>
+<t>Aïe!</t>
+</str>
+
+<str id='281'>
+<o>The page you requested,</o>
+<t>La page que vous avez demandée,</t>
+</str>
+
+<str id='282'>
+<o>could not be found.</o>
+<t>N&amp;#39;a pas pu être trouvé.</t>
+</str>
+
+<str id='283'>
+<o>Click here to create it.</o>
+<t>Cliquez ici pour le créer.</t>
+</str>
+
+<str id='284'>
+<o>Not Readable</o>
+<t>Pas lisibles</t>
+</str>
+
+<str id='285'>
+<o>Not readable!</o>
+<t>Pas lisible!</t>
+</str>
+
+<str id='286'>
+<o>You do not have permission to view the object</o>
+<t>Vous n&amp;#39;avez pas l&amp;#39;autorisation d&amp;#39;afficher l&amp;#39;objet</t>
+</str>
+
+<str id='287'>
+<o>Dear</o>
+<t>Cher</t>
+</str>
+
+<str id='288'>
+<o>user</o>
+<t>Utilisateur</t>
+</str>
+
+<str id='289'>
+<o>You recently requested that your password for your account be mailed to you.</o>
+<t>Vous avez récemment demandé que votre mot de passe pour votre compte vous sera envoyé par la poste.</t>
+</str>
+
+<str id='290'>
+<o>Your password is:</o>
+<t>Votre mot de passe est:</t>
+</str>
+
+<str id='291'>
+<o>If you did not request this, someone else may be attempting to break into</o>
+<t>Si vous n&amp;#39;avez pas demandé ceci, peut-être quelqu&amp;#39;un d&amp;#39;autre qui tentent de s&amp;#39;introduire dans</t>
+</str>
+
+<str id='292'>
+<o>your account. If this is the case, please report this by contacting your</o>
+<t>Votre compte. Si tel est le cas, s’il vous plaît ce rapport en communiquant avec votre</t>
+</str>
+
+<str id='293'>
+<o>system administrator.</o>
+<t>Administrateur système.</t>
+</str>
+
+<str id='294'>
+<o>Sincerely,</o>
+<t>Cordialement,</t>
+</str>
+
+<str id='295'>
+<o>The</o>
+<t>L&amp;#39;</t>
+</str>
+
+<str id='296'>
+<o>Gnomes</o>
+<t>Gnomes</t>
+</str>
+
+<str id='297'>
+<o>document tree</o>
+<t>Document arbre</t>
+</str>
+
+<str id='298'>
+<o>Site Index</o>
+<t>Site Index</t>
+</str>
+
+<str id='1'>
+<o>contact info</o>
+<t>Info contact</t>
+</str>
+
+<str id='2'>
+<o>powered by</o>
+<t>Powered by</t>
+</str>
+
+<str id='15'>
+<o>Host</o>
+<t>Hôte</t>
+</str>
+
+<str id='16'>
+<o>User</o>
+<t>Utilisateur</t>
+</str>
+
+<str id='18'>
+<o>Database</o>
+<t>Base de données</t>
+</str>
+
+<str id='19'>
+<o>Database File Path</o>
+<t>Chemin d&amp;#39;accès au fichier de base de données</t>
+</str>
+
+<str id='20'>
+<o>FinScribe Installer</o>
+<t>Installer FinScribe</t>
+</str>
+
+<str id='21'>
+<o>Wizard Cancelled!</o>
+<t/>
+</str>
+
+<str id='22'>
+<o>We failed to connect to the database.</o>
+<t/>
+</str>
+
+<str id='23'>
+<o>We failed to set the application preferences.</o>
+<t/>
+</str>
+
+<str id='24'>
+<o>We failed to create the administrative account.</o>
+<t/>
+</str>
+
+<str id='25'>
+<o>You must provide an administrative username.</o>
+<t/>
+</str>
+
+<str id='26'>
+<o>Welcome to FinScribe</o>
+<t/>
+</str>
+
+<str id='27'>
+<o>We're glad you've chosen to install FinScribe.</o>
+<t/>
+</str>
+
+<str id='28'>
+<o>The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work.</o>
+<t/>
+</str>
+
+<str id='29'>
+<o>When you're finished with this wizard, your FinScribe install will be complete!</o>
+<t/>
+</str>
+
+<str id='30'>
+<o>Select a database</o>
+<t/>
+</str>
+
+<str id='31'>
+<o>FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below.</o>
+<t/>
+</str>
+
+<str id='32'>
+<o>Database type</o>
+<t/>
+</str>
+
+<str id='33'>
+<o>Select a DB</o>
+<t/>
+</str>
+
+<str id='34'>
+<o>Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable).</o>
+<t/>
+</str>
+
+<str id='35'>
+<o>When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information.</o>
+<t/>
+</str>
+
+<str id='36'>
+<o>Database Objects Created</o>
+<t/>
+</str>
+
+<str id='37'>
+<o>We will now proceed to configure your copy of FinScribe.</o>
+<t/>
+</str>
+
+<str id='38'>
+<o>On the next few pages are a few questions that we will use to personalize your application.</o>
+<t/>
+</str>
+
+<str id='39'>
+<o>Site Basics</o>
+<t/>
+</str>
+
+<str id='40'>
+<o>Site URL</o>
+<t/>
+</str>
+
+<str id='41'>
+<o>This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/).</o>
+<t/>
+</str>
+
+<str id='42'>
+<o>Site Name</o>
+<t/>
+</str>
+
+<str id='43'>
+<o>This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog</o>
+<t/>
+</str>
+
+<str id='44'>
+<o>Site Logo File</o>
+<t/>
+</str>
+
+<str id='45'>
+<o>You may specify the URL of an image that will be displayed in the default page layout template.</o>
+<t/>
+</str>
+
+<str id='46'>
+<o>Site Tagline:</o>
+<t/>
+</str>
+
+<str id='47'>
+<o>A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me</o>
+<t/>
+</str>
+
+<str id='48'>
+<o>Track Views</o>
+<t/>
+</str>
+
+<str id='51'>
+<o>Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase.</o>
+<t/>
+</str>
+
+<str id='52'>
+<o>Administration</o>
+<t/>
+</str>
+
+<str id='53'>
+<o>Mail Host</o>
+<t/>
+</str>
+
+<str id='54'>
+<o>FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here.</o>
+<t/>
+</str>
+
+<str id='55'>
+<o>Mail Return Address</o>
+<t/>
+</str>
+
+<str id='56'>
+<o>Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc).</o>
+<t/>
+</str>
+
+<str id='57'>
+<o>Account Autocreate</o>
+<t/>
+</str>
+
+<str id='58'>
+<o>Anonymous Commenting</o>
+<t/>
+</str>
+
+<str id='59'>
+<o>Enabling this feature will allow anonymous users to comment (with spam-detection in place).</o>
+<t/>
+</str>
+
+<str id='60'>
+<o>Enable PingBack sending</o>
+<t/>
+</str>
+
+<str id='61'>
+<o>Enable PingBack recieving (recording)</o>
+<t/>
+</str>
+
+<str id='62'>
+<o>Should FinScribe receive 'pingbacks' for links made to objects we create?</o>
+<t/>
+</str>
+
+<str id='63'>
+<o>Administrative User Setup</o>
+<t/>
+</str>
+
+<str id='64'>
+<o>Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. </o>
+<t/>
+</str>
+
+<str id='65'>
+<o>In the mean time, you'll use this account to log in and configure your site further.</o>
+<t/>
+</str>
+
+<str id='69'>
+<o>Preparing to configure</o>
+<t/>
+</str>
+
+<str id='70'>
+<o>We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages.</o>
+<t/>
+</str>
+
+<str id='71'>
+<o>When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away.</o>
+<t/>
+</str>
+
+<str id='72'>
+<o>Setup Complete!</o>
+<t/>
+</str>
+
+<str id='73'>
+<o>Congratulations! Your FinScribe installation is complete and ready to use.</o>
+<t/>
+</str>
+
+<str id='74'>
+<o>Click 'done' below to visit your FinScribe site.</o>
+<t/>
+</str>
+
+<str id='75'>
+<o>Editing Categories</o>
+<t/>
+</str>
+
+<str id='76'>
+<o>Existing Category</o>
+<t/>
+</str>
+
+<str id='77'>
+<o>Select a category</o>
+<t/>
+</str>
+
+<str id='78'>
+<o>or new category</o>
+<t/>
+</str>
+
+<str id='85'>
+<o>Updated</o>
+<t/>
+</str>
+
+<str id='86'>
+<o>Updated By</o>
+<t/>
+</str>
+
+<str id='87'>
+<o>Last Update</o>
+<t/>
+</str>
+
+<str id='88'>
+<o>Attachments%</o>
+<t/>
+</str>
+
+<str id='89'>
+<o>Categories</o>
+<t/>
+</str>
+
+<str id='90'>
+<o>Versions</o>
+<t/>
+</str>
+
+<str id='91'>
+<o>Version</o>
+<t/>
+</str>
+
+<str id='92'>
+<o>Date Saved</o>
+<t/>
+</str>
+
+<str id='94'>
+<o>Diff from</o>
+<t/>
+</str>
+
+<str id='95'>
+<o>Diff to</o>
+<t/>
+</str>
+
+<str id='96'>
+<o>Show</o>
+<t/>
+</str>
+
+<str id='97'>
+<o>Posted 
+in</o>
+<t/>
+</str>
+
+<str id='98'>
+<o>comments</o>
+<t/>
+</str>
+
+<str id='99'>
+<o>Post Comment</o>
+<t/>
+</str>
+
+<str id='100'>
+<o>TrackBacks</o>
+<t/>
+</str>
+
+<str id='101'>
+<o>PingBacks</o>
+<t/>
+</str>
+
+<str id='102'>
+<o>reads</o>
+<t/>
+</str>
+
+<str id='104'>
+<o>Close</o>
+<t/>
+</str>
+
+<str id='105'>
+<o>Posted in </o>
+<t/>
+</str>
+
+<str id='106'>
+<o>No comments</o>
+<t/>
+</str>
+
+<str id='107'>
+<o>BackLinks</o>
+<t/>
+</str>
+
+<str id='3'>
+<o>logged in as</o>
+<t/>
+</str>
+
+<str id='4'>
+<o>logout</o>
+<t/>
+</str>
+
+<str id='5'>
+<o>post blog</o>
+<t/>
+</str>
+
+<str id='6'>
+<o>login</o>
+<t/>
+</str>
+
+<str id='7'>
+<o>admin</o>
+<t/>
+</str>
+
+<str id='299'>
+<o>No plugin.</o>
+<t/>
+</str>
+
+<str id='300'>
+<o>Plugin enumeration failure.</o>
+<t/>
+</str>
+
+<str id='301'>
+<o>Plugin %[0]s enabled.</o>
+<t/>
+</str>
+
+<str id='302'>
+<o>Plugin %[0]s disabled.</o>
+<t/>
+</str>
+
+<str id='303'>
+<o>Invalid Zip file %[0]s.</o>
+<t/>
+</str>
+
+<str id='304'>
+<o>Invalid file extension for document %[0]s.</o>
+<t/>
+</str>
+
+<str id='305'>
+<o>Templates flushed.</o>
+<t/>
+</str>
+
+<str id='306'>
+<o>ACL was not updated successfully. Rules were missing.</o>
+<t/>
+</str>
+
+<str id='307'>
+<o>ACL was updated successfully.</o>
+<t/>
+</str>
+
+<str id='308'>
+<o>Group was updated successfully.</o>
+<t/>
+</str>
+
+<str id='309'>
+<o>You must provide a username with at least 2 characters.</o>
+<t/>
+</str>
+
+<str id='310'>
+<o>The username you have chosen is already in use by another user.</o>
+<t/>
+</str>
+
+<str id='311'>
+<o>You must provide a Real name and e-mail address.</o>
+<t/>
+</str>
+
+<str id='312'>
+<o>Your password must be typed identically in both fields, and must be at least 4 characters long.</o>
+<t/>
+</str>
+
+<str id='313'>
+<o>User %[0]s created successfully.</o>
+<t/>
+</str>
+
+<str id='314'>
+<o>Unknown action %[0]s</o>
+<t/>
+</str>
+
+<str id='315'>
+<o>You entered two differing passwords.</o>
+<t/>
+</str>
+
+<str id='316'>
+<o>User was updated successfully.</o>
+<t/>
+</str>
+
+<str id='317'>
+<o>No user provided.</o>
+<t/>
+</str>
+
+<str id='318'>
+<o>User id %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='319'>
+<o>User %[0]s deleted.</o>
+<t/>
+</str>
+
+<str id='320'>
+<o>User Delete Cancelled</o>
+<t/>
+</str>
+
+<str id='321'>
+<o>ACL id %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='322'>
+<o>ACL %[0]s deleted.</o>
+<t/>
+</str>
+
+<str id='323'>
+<o>No group provided.</o>
+<t/>
+</str>
+
+<str id='324'>
+<o>Group id %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='325'>
+<o>Group %[0]s deleted.</o>
+<t/>
+</str>
+
+<str id='326'>
+<o>User %[0]s deactivated.</o>
+<t/>
+</str>
+
+<str id='327'>
+<o>User %[0]s activated.</o>
+<t/>
+</str>
+
+<str id='328'>
+<o>User administrative rights revoked for %[0]s.</o>
+<t/>
+</str>
+
+<str id='329'>
+<o>User administrative rights granted for %[0]s.</o>
+<t/>
+</str>
+
+<str id='330'>
+<o>Showing archived version</o>
+<t/>
+</str>
+
+<str id='331'>
+<o>You must be logged in as an administrator to continue.</o>
+<t/>
+</str>
+
+<str id='332'>
+<o>Unable to find a user for your userid.</o>
+<t/>
+</str>
+
+<str id='333'>
+<o>You must be an administrator to access that resource.</o>
+<t/>
+</str>
+
+<str id='334'>
+<o>hello from exec, perhaps you'd like to choose a function?</o>
+<t/>
+</str>
+
+<str id='335'>
+<o>Edit...</o>
+<t/>
+</str>
+
+<str id='336'>
+<o>New Child...</o>
+<t/>
+</str>
+
+<str id='337'>
+<o>Delete...</o>
+<t/>
+</str>
+
+<str id='338'>
+<o>Unlock</o>
+<t/>
+</str>
+
+<str id='339'>
+<o>Lock</o>
+<t/>
+</str>
+
+<str id='340'>
+<o>Versions...</o>
+<t/>
+</str>
+
+<str id='341'>
+<o>Properties...</o>
+<t/>
+</str>
+
+<str id='342'>
+<o>Unable to find the requested object, %[0]s.</o>
+<t/>
+</str>
+
+<str id='343'>
+<o>ACL changed successfully.</o>
+<t/>
+</str>
+
+<str id='344'>
+<o>You must provide an object to modify categories for.</o>
+<t/>
+</str>
+
+<str id='345'>
+<o>You must login to edit a category.</o>
+<t/>
+</str>
+
+<str id='346'>
+<o>Unknown object %[0]s.</o>
+<t/>
+</str>
+
+<str id='347'>
+<o>Unknown category %[0]s.</o>
+<t/>
+</str>
+
+<str id='348'>
+<o>Category %[0]s is already assigned to this item.</o>
+<t/>
+</str>
+
+<str id='349'>
+<o>Added to %[0]s .</o>
+<t/>
+</str>
+
+<str id='350'>
+<o>Removed from %[0]s.</o>
+<t/>
+</str>
+
+<str id='351'>
+<o>You must provide a category to view.</o>
+<t/>
+</str>
+
+<str id='352'>
+<o>Category %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='353'>
+<o>You must provide an object to view the backlinks for.</o>
+<t/>
+</str>
+
+<str id='354'>
+<o>Object %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='355'>
+<o>You must login to delete comments.</o>
+<t/>
+</str>
+
+<str id='356'>
+<o>You provide a comment id to delete.</o>
+<t/>
+</str>
+
+<str id='357'>
+<o>Comment #%[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='358'>
+<o>Comment deleted successfully.</o>
+<t/>
+</str>
+
+<str id='359'>
+<o>How'd we get here?</o>
+<t/>
+</str>
+
+<str id='360'>
+<o>User created successfully.</o>
+<t/>
+</str>
+
+<str id='361'>
+<o>Unknown action %[0]s.</o>
+<t/>
+</str>
+
+<str id='362'>
+<o>Unable to find a user account with that username. Please try again.</o>
+<t/>
+</str>
+
+<str id='363'>
+<o>Your password has been located and will be sent to the email address on record for your account.</o>
+<t/>
+</str>
+
+<str id='364'>
+<o>No attachment location specified.</o>
+<t/>
+</str>
+
+<str id='365'>
+<o>You must login to upload.</o>
+<t/>
+</str>
+
+<str id='366'>
+<o>Mime type %[0]s for file %[1]s is not valid.</o>
+<t/>
+</str>
+
+<str id='367'>
+<o>Succesfully Saved.</o>
+<t/>
+</str>
+
+<str id='368'>
+<o>Unable to find root object to attach this document to.</o>
+<t/>
+</str>
+
+<str id='369'>
+<o>No filename specified to delete.</o>
+<t/>
+</str>
+
+<str id='370'>
+<o>Cannot find file %[0]s</o>
+<t/>
+</str>
+
+<str id='371'>
+<o>Sucessfully deleted %[0]s</o>
+<t/>
+</str>
+
+<str id='372'>
+<o>Login Incorrect.</o>
+<t/>
+</str>
+
+<str id='373'>
+<o>You do not have read permission</o>
+<t/>
+</str>
+
+<str id='374'>
+<o>You must login to comment.</o>
+<t/>
+</str>
+
+<str id='375'>
+<o>Comments for this article have been closed.</o>
+<t/>
+</str>
+
+<str id='376'>
+<o>Incorrect check image value.</o>
+<t/>
+</str>
+
+<str id='377'>
+<o>Name and Email are required for posting without logging in.</o>
+<t/>
+</str>
+
+<str id='378'>
+<o>Unknown comment action %[0]s</o>
+<t/>
+</str>
+
+<str id='379'>
+<o>You must login to lock objects.</o>
+<t/>
+</str>
+
+<str id='380'>
+<o>A locked object can only be toggled by its owner or an administrator.</o>
+<t/>
+</str>
+
+<str id='381'>
+<o>Object successfully locked.</o>
+<t/>
+</str>
+
+<str id='382'>
+<o>Object successfully ulocked.</o>
+<t/>
+</str>
+
+<str id='383'>
+<o>You must login to toggle comments.</o>
+<t/>
+</str>
+
+<str id='384'>
+<o>Comments on an object can only be toggled by its owner or an administrator.</o>
+<t/>
+</str>
+
+<str id='385'>
+<o>Comments successfully disabled.</o>
+<t/>
+</str>
+
+<str id='386'>
+<o>Comments successfully enabled.</o>
+<t/>
+</str>
+
+<str id='387'>
+<o>You must login to edit content.</o>
+<t/>
+</str>
+
+<str id='388'>
+<o>You must login to move content.</o>
+<t/>
+</str>
+
+<str id='389'>
+<o>This is a non-existent object: %[0]s</o>
+<t/>
+</str>
+
+<str id='390'>
+<o>You do not have permission to move this object</o>
+<t/>
+</str>
+
+<str id='391'>
+<o>Move operation cancelled.</o>
+<t/>
+</str>
+
+<str id='392'>
+<o>You must specify a location to move to.</o>
+<t/>
+</str>
+
+<str id='393'>
+<o>One or more objects already exist in the location you're moving to or cannot be moved because of permissions</o>
+<t/>
+</str>
+
+<str id='394'>
+<o>%[0]s objects moved.</o>
+<t/>
+</str>
+
+<str id='395'>
+<o>You must login to delete content.</o>
+<t/>
+</str>
+
+<str id='396'>
+<o>You do not have permission to delete this object</o>
+<t/>
+</str>
+
+<str id='397'>
+<o>You do not have permission to delete one or more objects</o>
+<t/>
+</str>
+
+<str id='398'>
+<o>%[0]d objects deleted.</o>
+<t/>
+</str>
+
+<str id='399'>
+<o>You do not have permission to edit this object.</o>
+<t/>
+</str>
+
+<str id='400'>
+<o>You do not have permission to create this object.</o>
+<t/>
+</str>
+
+<str id='401'>
+<o>Edit cancelled.</o>
+<t/>
+</str>
+
+<str id='402'>
+<o>Internal Database Error, unable to save.</o>
+<t/>
+</str>
+
+<str id='403'>
+<o>Unknown edit action %[0]s</o>
+<t/>
+</str>
+
+<str id='404'>
+<o>You must login to publish.</o>
+<t/>
+</str>
+
+<str id='405'>
+<o>Object doesn't exist, or isn't a WIP weblog entry.</o>
+<t/>
+</str>
+
+<str id='406'>
+<o>You don't have permission to publish (post) this object.</o>
+<t/>
+</str>
+
+<str id='407'>
+<o>Object published successfully.</o>
+<t/>
+</str>
+
+<str id='408'>
+<o>You must login to post.</o>
+<t/>
+</str>
+
+<str id='409'>
+<o>You are not authorized to post to this weblog.</o>
+<t/>
+</str>
+
+<str id='410'>
+<o>Blog posting cancelled.</o>
+<t/>
+</str>
+
+<str id='411'>
+<o>Blog Posting cancelled.</o>
+<t/>
+</str>
+
+<str id='412'>
+<o>Success</o>
+<t/>
+</str>
+
+<str id='413'>
+<o>Unknown post action %[0]s</o>
+<t/>
+</str>
+
+<str id='414'>
+<o>You cannot post to a non-existent page.</o>
+<t/>
+</str>
+
+<str id='415'>
+<o>unable to find object %[0]s.</o>
+<t/>
+</str>
+
+<str id='416'>
+<o>version %[0]s does not exist.
+</o>
+<t/>
+</str>
+
+<str id='417'>
+<o>version %[0]s does not exist.</o>
+<t/>
+</str>
+
+<str id='418'>
+<o>Unable to find object %[0]s.</o>
+<t/>
+</str>
+
+<str id='419'>
+<o>Unknown database type.</o>
+<t/>
+</str>
+
+<str id='420'>
+<o>Unsupported database type.</o>
+<t/>
+</str>
+
+<str id='421'>
+<o>You must provide a file to retrieve.</o>
+<t/>
+</str>
+</locale>
