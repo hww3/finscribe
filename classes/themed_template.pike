@@ -3,7 +3,7 @@ import Fins.Template;
 import Tools.Logging;
 
 mapping themes = ([]);
-mapping scripts = ([]);
+//mapping scripts = ([]);
 
 inherit Fins.Template.Simple;
 
@@ -32,8 +32,8 @@ static void reload_template(string theme)
    object ctx = compilecontext(theme);
 
    string template = load_template(templatename, ctx);
-   string psp = parse_psp(template, theme + "/" + templatename, ctx);
-   scripts[theme] = psp;
+//   string psp = parse_psp(template, theme + "/" + templatename, ctx);
+ //  scripts[theme] = psp;
 
    mixed x = gauge{
      themes[theme] = compile_string(template, theme + "/" + templatename, ctx);
