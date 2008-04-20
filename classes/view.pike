@@ -37,8 +37,8 @@ string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
 {
   if(!args->content || !args->object) return "render macro missing content or object arguments";
 
-  string contents = get_var_value(args->content, data->get_data());
-  mixed obj = get_var_value(args->object, data->get_data());
+  string contents = args->content;
+  mixed obj = args->entry;
 
   object request = data->get_request();
 //  if(!request->misc->template_data)
@@ -66,7 +66,7 @@ string simple_macro_list_retrieve(Fins.Template.TemplateData data, mapping|void 
 {
   mixed contents;
   if(args->var)
-    contents = get_var_value(args->var, data->get_data());
+    contents = args->var;
 
   if(contents && arrayp(contents))
   {
@@ -80,7 +80,7 @@ string simple_macro_fontlock(Fins.Template.TemplateData data, mapping|void args)
   string contents = "";
 
   if(args->var)
-    contents = get_var_value(args->var, data->get_data());
+    contents = args->var;
 
   function hilite = FontLock.Pike.highlight;
 
@@ -111,7 +111,7 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
 
 string simple_macro_friendly_date(Template.TemplateData data, mapping|void args)
 {
-  return Tools.String.friendly_date(get_var_value(args->var, data->get_data()));
+  return Tools.String.friendly_date(args->var);
 }
 
 string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)
@@ -137,7 +137,7 @@ string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void ar
 string simple_macro_breadcrumbs(Template.TemplateData data, mapping|void args)
 {
   if(!mappingp(args)) return "";
-  return get_page_breadcrumbs(get_var_value(args->var, data->get_data())||args->val||"");
+  return get_page_breadcrumbs(args->var||args->val||"");
 }
 
 string get_page_breadcrumbs(string page)
