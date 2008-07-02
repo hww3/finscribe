@@ -18,7 +18,7 @@ mapping internal_path_handlers = ([]);
 
 void start()
 {
-  Locale.register_project(config->app_name, combine_path(config->app_dir, "translations/%L/finscribe.xml"));
+  Locale.register_project(config->app_name, combine_path(config->app_dir, "translations/%L/FinScribe.xml"));
 
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();
@@ -355,13 +355,14 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Model.Preference p;
-  p = Fins.Model.find.preferences_by_alt(pref);
+  catch(p = Fins.Model.find.preferences_by_alt(pref));
   return p;
 }
 
 object new_string_pref(string pref, string value)
 {
-  object p = get_sys_pref(pref);
+  object p;
+  catch(p = get_sys_pref(pref));
   if(p) return p;
   else 
   { 
@@ -378,7 +379,8 @@ object new_string_pref(string pref, string value)
 
 object new_pref(string pref, string value, int type)
 {
-  object p = get_sys_pref(pref);
+  object p;
+  catch(p = get_sys_pref(pref));
   if(p) return p;
   else 
   { 
