@@ -9,11 +9,16 @@
 
 <script src="/static/javascripts/SWFUpload.js"></script>
 
-<script type='text/javascript'>
+<xscript type='text/javascript'>
   djConfig = {
-    isDebug : false,
+    isDebug : true,
     disableFlashStorage : true
   };
 
-</script>
+</xscript>
+  <xscript src="/static/javascripts/dojo.js"></script>
+<xscript type='text/javascript'>
+dojo.hostenv.setModulePrefix("fins", "fins/");
+</xscript>
+
 <div style="display:none" id="object"><%$obj%></div>

@@ -3,7 +3,7 @@
 
    <title><%syspref var="site.name"%> :: admin :: <%LOCALE id="128" string="edit group"%></title>
 
-<%@include file="pagebegin.phtml"%>
+<%@include file="adminpagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
 <% if data["newgroup"] %>
@@ -20,7 +20,8 @@
         <input type="hidden" name="newgroup" value="1"/>
 <% endif %>
 
-		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" 
+removesID="removed"></div>
 
 <!--
         <p/>
@@ -32,15 +33,10 @@
 -->
         <p/>
         <button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
-        <button type="submit" name="action" value="Save"><%LOCALE id="122" string="Cancel"%></button>
+        <button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
         </form>
         
-<%@include file="footer.phtml"%>
-
-<script type="text/javascript">
-dojo.require("dojo.json");
-dojo.require("fins.widget.ComboPicker");
-</script>
+<%@include file="adminfooter.phtml"%>
 
 <script type="text/javascript">
 function getMembers()
