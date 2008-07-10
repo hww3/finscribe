@@ -2,13 +2,6 @@
   <%@include file="adminheader.phtml" %>
    <title><%syspref var="site.name" %> :: admin</title>
   
-<script type="text/javascript">
-dojo.require("fins.widget.*");
-dojo.require("dojo.json");
-dojo.require("fins.widget.ACLBuilder");
-
- dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
-</script>
 
   <%@include file="adminpagebegin.phtml" %>
 
@@ -116,9 +109,19 @@ function getGroups()
 		<input type="hidden" name="rules2"/>
 
         <p/>
-        <button type="submit" name="action" value="Cancel"><%LOCALE id="126" string="ACL Name"%></button>
+        <button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
         <button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
         </form>
         
   <%@include file="adminfooter.phtml" %>
+
+<script type="text/javascript">
+dojo.require("fins.widget.*");
+dojo.require("dojo.json");
+dojo.require("fins.widget.ACLBuilder");
+
+ dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
+</script>
+
+
   <%@include file="bottom.phtml" %>

@@ -100,7 +100,8 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
 {
   if(arguments->var)
   {
-    object p = app->get_sys_pref(arguments->var);
+    object p = app->new_string_pref(arguments->var, arguments->val || 
+                                         arguments->var);
 
     if(!p) return "";
 

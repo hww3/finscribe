@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<locale version="1.0">
+<locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1204911915</dumped>
+<dumped>1215724991</dumped>
 <file>classes/admin/plugin_controller.pike</file>
 <file>classes/admin/preference_controller.pike</file>
 <file>classes/admin/theme_controller.pike</file>
@@ -2219,3 +2219,13 @@ in</o>
 <t></t>
 </str>
 </locale>
+
+<str id="0">
+<o>Cancel</o>
+<t></t>
+</str>
+
+<str id="422">
+<o>Activated theme %[0]s.</o>
+<t></t>
+</str>
