@@ -106,7 +106,6 @@ private void handle(string datatype, object obj, Request id, Response response)
   t->add("editor_username", v["author"]["UserName"]);
   t->add("numattachments", sizeof(o));
   t->add("attachments", o);
-  t->add("object_is_weblog", id->misc->object_is_weblog);
   t->add("object", obj);
   t->add("metadata", obj->get_metadata());
 
@@ -140,6 +139,9 @@ private void handle(string datatype, object obj, Request id, Response response)
 
 private void low_handle_wiki(object v, object t, object obj, Request id, Response response)
 {
+  t->add("content", app->render(v["contents"], obj, id, (int)id->variables->force));
+  t->add("object_is_weblog", id->misc->object_is_weblog);
+
   if(id->misc->object_is_weblog)
   {
     t->add("heads", "<link rel=\"alternate\" type=\"application/rss+xml\" "
@@ -151,7 +153,7 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
     t->add("heads", "");
   }
 
-  t->add("content", app->render(v["contents"], obj, id, (int)id->variables->force));
+
   t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data()));
 }
 
