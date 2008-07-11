@@ -1,8 +1,7 @@
 <script type="text/javascript">
  dojo.require("dojo.widget.DropdownDatePicker");
- dojo.require("dojo.widget.ResizableTextArea");
 </script>
-
+<div style="text-align:left">
 <h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
 <table>
@@ -18,7 +17,7 @@
 <tr>
 <td></td>
 <td>
-<textarea dojoType="resizabletextarea" rows="20" cols="80" name="contents"><%$contents%></textarea>
+<textarea xdojoType="resizabletextarea" rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br/>
 </td>
 </tr>
@@ -30,7 +29,7 @@ href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBac
 <br/>
 </td>
 <td>
-<textarea dojoType="resizabletextarea" rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
+<textarea xdojoType="resizabletextarea" rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
 <br/>
 </td>
 </tr>
@@ -39,9 +38,13 @@ href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBac
 <b><%LOCALE id="211" string="Publish Date"%>: </b>
 </td>
 <td>
-<input type="text" size="15" <%$showcreated%> id="createdDate" name="createddate"
-value="<%$createddate%>" dojoType="dropdowndatepicker" />
-<input type="checkbox" name="created_toggle" <%$createchecked%> onclick="toggleCreated()"/>
+<input type="text" size="15" 
+ id="createdDate" name="createddate"
+<%$showcreated%>
+value="<%$createddate%>" dojoType="DropDownDatePicker" />
+<input type="checkbox" name="created_toggle" 
+<%$createchecked%> 
+onclick="toggleCreated()"/>
 </td>
 </tr>
 <tr>
@@ -69,3 +72,18 @@ value="<%$createddate%>" dojoType="dropdowndatepicker" />
 <b><%LOCALE id="191" string="Preview"%>:</b><p/>
 <%$preview%>
 <% endif %>
+
+</div>
+
+
+<script type="text/javascript">
+function postOnLoad()
+{
+//alert("foo");
+dojo.debug("loading dojo widgets...");
+     var parser = new dojo.xml.Parse();
+     var frag = parser.parseElement(dojo.byId("postblogform"), null, true);
+     dojo.widget.getParser().createComponents(frag);
+}
+</script>
+

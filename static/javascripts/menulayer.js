@@ -144,7 +144,7 @@ function openPostBlog(item)
   if(!d) return;
   else obj = d.innerHTML;
 
-  openPopup("/exec/post/" + obj, '80%', null, null, null, setinsert);
+  openPopup("/exec/post/" + obj, '80%', null, null, null, function(){if(window.postOnLoad) window.postOnLoad();});
 }
 
 function postBlog(id, obj, formid)
@@ -474,6 +474,17 @@ var bindArgs = {
         // handle successful response here
      block2.innerHTML = data.toString();
 
+     var q = block2.getElementsByTagName("script");
+     var x;
+     for(x = 0 ; x < q.length; x++)
+     {
+       installScript(q[x]);
+     }
+/*
+     var parser = new dojo.xml.Parse();
+     var frag = parser.parseElement(block2, null, true);
+     dojo.widget.getParser().createComponents(frag);
+*/
 //     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
@@ -529,6 +540,32 @@ dojo.debug("done.");
 // dispatch the request
     var requestObj = dojo.io.bind(bindArgs);
    
+}
+
+function installScript( script )
+{
+    if (!script)
+        return;
+
+    if (script.src)
+    {
+        var head = document.getElementsByTagName("head")[0];
+        var scriptObj = document.createElement("script");
+
+        scriptObj.setAttribute("type", "text/javascript");
+        scriptObj.setAttribute("src", script.src);  
+
+        head.appendChild(scriptObj);
+
+    }
+    else if (script.innerHTML)
+    {
+        //  Internet Explorer has a funky execScript method that makes this easy
+        if (window.execScript)
+            window.execScript( script.innerHTML );
+        else
+            window.setTimeout( script.innerHTML, 0 );
+    }
 }
 
 function editCategory(obj, formid, a) {
@@ -653,8 +690,8 @@ return [valueL, valueT];
         {  
 
                 var field = dojo.widget.byId("createdDate");
-                if(field.disabled) field.enable();
-		else field.disable();
+                if(field && field.disabled) field.enable();
+		else if(field) field.disable();
        }
 
 var swfu;
