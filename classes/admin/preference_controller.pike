@@ -38,6 +38,7 @@ public void tree(Request id, Response response, mixed ... args)
         prefixes += ({x[0]});
       }
       prefixes = Array.uniq(prefixes);
+      prefixes -= ({"", 0});
 	foreach(prefixes;;string p)
        data += ({ (["title":  p, "data": p, "widgetId": "tree_" + p, "isFolder": 1 ]) });
 
