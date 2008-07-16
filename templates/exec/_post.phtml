@@ -1,4 +1,5 @@
 <script type="text/javascript">
+ dojo.require("dojo.widget.*");
  dojo.require("dojo.widget.DropdownDatePicker");
 </script>
 <div style="text-align:left">
@@ -79,7 +80,7 @@ onclick="toggleCreated()"/>
 <script type="text/javascript">
 function postOnLoad()
 {
-//alert("foo");
+alert("foo");
 dojo.debug("loading dojo widgets...");
      var parser = new dojo.xml.Parse();
      var frag = parser.parseElement(dojo.byId("postblogform"), null, true);

@@ -1,3 +1,8 @@
+<script type="text/javascript">
+ dojo.require("dojo.widget.*");
+// dojo.require("dojo.widget.DropdownDatePicker");
+</script>
+
    <h3><%LOCALE id="189" string="Commenting"%>: <%$obj%></h3>
 
    <p>
@@ -10,6 +15,10 @@
 <form action="" id="postcomments" method="post">
 <table>
 <% if data["anonymous"] %>
+<script type="text/javascript"
+   src="http://api.recaptcha.net/js/recaptcha_ajax.js">
+</script>
+
 <tr>
 <td>
 <b><%LOCALE id="82" string="Name"%>:</b>
@@ -35,21 +44,11 @@
 </td>
 </tr>
 <tr>
-<td colspan="2">
-<p>
-<script type="text/javascript"
-   src="http://api.recaptcha.net/challenge?k=<%syspref var="recaptcha.public_key" %>">
-</script>
-
-<noscript>
-   <iframe src="http://api.recaptcha.net/noscript?k=<%syspref var="recaptcha.public_key" %>"
-       height="300" width="500" frameborder="0"></iframe><br>
-   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-   </textarea>
-   <input type="hidden" name="recaptcha_response_field" 
-       value="manual_challenge">
-</noscript>
-<p>
+<td>
+<b><%LOCALE id="423" string="Authenticate"%>:</b> 
+</td>
+<td>
+  <div id="recaptcha_div"></div>
 </td>
 </tr>
 <% endif %>
@@ -83,3 +82,24 @@ value="Save"><%LOCALE id="127" string="Save"%></button>
 <%LOCALE id="191" string="Preview"%>:<p>
 <%$preview%>
 <% endif %>
+
+<script type="text/javascript">
+function postOnLoad()
+{
+dojo.debug("loading dojo widgets...");
+     var parser = new dojo.xml.Parse();
+     var frag = parser.parseElement(dojo.byId("postcomments"), null, 
+true);
+     dojo.widget.getParser().createComponents(frag);
+     Recaptcha.create("<%syspref var="recaptcha.public_key" %>",
+			"recaptcha_div",
+                        { theme: "red", 
+                          callback: Recaptcha.focus_response_field }
+                     );
+
+}
+
+dojo.addOnLoad(postOnLoad);
+
+</script>
+

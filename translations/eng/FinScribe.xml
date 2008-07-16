@@ -2,7 +2,7 @@
 <locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1215724991</dumped>
+<dumped>1216249180</dumped>
 <file>classes/admin/plugin_controller.pike</file>
 <file>classes/admin/preference_controller.pike</file>
 <file>classes/admin/theme_controller.pike</file>
@@ -2227,5 +2227,20 @@ in</o>
 
 <str id="422">
 <o>Activated theme %[0]s.</o>
+<t></t>
+</str>
+
+<str id="423">
+<o>Authenticate</o>
+<t></t>
+</str>
+
+<str id="424">
+<o>Error: No reCAPTCHA data provided.</o>
+<t></t>
+</str>
+
+<str id="425">
+<o>Error: reCAPTCHA failure: </o>
 <t></t>
 </str>

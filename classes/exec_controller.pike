@@ -873,6 +873,8 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
+werror("POST: %O\n", id->variables);
+
    int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
  
    if(!id->misc->session_variables->userid && 
@@ -935,16 +937,44 @@ public void comments(Request id, Response response, mixed ... args)
             t->add("preview", app->render(contents, obj_o, id));
             break;
          case "Save":
-          if(anonymous && id->variables->check_value != 
-                     id->misc->session_variables[id->variables->check])
-          {
-             response->flash("msg", LOCALE(376,"Incorrect check image value."));
-             break;
+
+     if(anonymous && app->get_sys_pref("recaptcha.private_key"))
+     {
+        // if we've got a recaptcha key, we assume it will be used.
+        if(!id->variables->recaptcha_challenge_field ||
+           !id->variables->recaptcha_response_field)
+        {
+            if(id->variables->ajax)
+            {
+              response->set_data(LOCALE(424,"Error: No reCAPTCHA data provided."));
+              return;
+            }
+            response->flash("msg", LOCALE(424,"Error: No reCAPTCHA data provided."));
+            response->redirect("/comments/" + obj_o["path"]);
+            return;
           }
+
           else
           {
-              m_delete(id->misc->session_variables, id->variables->check);
+            object rc = FinScribe.Recaptcha(app->get_sys_pref("recaptcha.private_key")["Value"]);
+            if(!rc->validate(id->variables->recaptcha_challenge_field,
+                     id->variables->recaptcha_response_field,
+                     id->get_client_addr()))
+            {
+              if(id->variables->ajax)
+              {
+                response->set_data(LOCALE(425,"Error: reCAPTCHA failure: ") + rc->get_error());
+                return;
+              }
+              response->flash("msg", LOCALE(0,"Error: reCAPTCHA failure: " + rc->get_error()));
+              response->redirect("/comments/" + obj_o["path"]);
+              return;
+            }
+
+            
           }
+       }
+
           if(anonymous && ! (id->variables->email && id->variables->name))
           {
              response->flash("msg", LOCALE(377,"Name and Email are required for posting without logging in."));

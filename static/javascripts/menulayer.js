@@ -480,11 +480,6 @@ var bindArgs = {
      {
        installScript(q[x]);
      }
-/*
-     var parser = new dojo.xml.Parse();
-     var frag = parser.parseElement(block2, null, true);
-     dojo.widget.getParser().createComponents(frag);
-*/
 //     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
      var h = block.offsetHeight || block.style.pixelHeight || 
                (block.currentStyle && block.currentStyle.height) || block.height;
@@ -512,7 +507,7 @@ dojo.debug("made corners.");
 		objOverlay.style.width = (arrayPageSize[2] + 'px');
 		objOverlay.style.height = (arrayPageSize[1] + 'px');
 		dojo.debug("showing item.");
-dojo.widget.createWidget(block);
+
      		if(loadfunc) loadfunc();
 }
 ).play();
