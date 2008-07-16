@@ -873,7 +873,7 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-werror("POST: %O\n", id->variables);
+//werror("POST: %O\n", id->variables);
 
    int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
  
@@ -961,6 +961,7 @@ werror("POST: %O\n", id->variables);
                      id->variables->recaptcha_response_field,
                      id->get_client_addr()))
             {
+		Log.info("rejected anonymous comment via reCAPTCHA from %s.", id->get_client_addr()); 
               if(id->variables->ajax)
               {
                 response->set_data(LOCALE(425,"Error: reCAPTCHA failure: ") + rc->get_error());
