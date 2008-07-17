@@ -23,6 +23,11 @@ mapping query_macro_callers()
             "search-results": searchresults_macro() ]);
 }
 
+mapping query_preferences()
+{
+  return ([ "indexserver" : (["type": FinScribe.STRING, "value": "http://localhost:8124"]) ]);
+}
+
 void ftSearch(object id, object response, mixed ... args)
 {
   if(!id->variables->q)
@@ -33,7 +38,7 @@ void ftSearch(object id, object response, mixed ... args)
 
   else
   {
-    object c = Protocols.XMLRPC.Client(app->config["fulltext"]["indexserver"]+"/search/?PSESSIONID=123");
+    object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value() +"/search/?PSESSIONID=123");
     array r = c["search"](app->get_sys_pref("site.url")["Value"], id->variables->q, "contents");
 
     if(r[0] && sizeof(r[0]))
@@ -71,7 +76,7 @@ void doUpdateIndex(string event, object id, object obj)
   }
 //  Log.info("saved " + obj["path"]);  
 
-  object p = app->get_sys_pref("plugin." + name + ".indexserver");
+  object p = app->get_preference("indexserver");
   if(!p) return 0;
 
   object c = Protocols.XMLRPC.Client(p->get_value() + "/update/");
@@ -152,7 +157,7 @@ array doSearchMacro(Macros.MacroParameters params)
     return ({"No query specified."});
 
   object c = 
-Protocols.XMLRPC.Client(params->extras->request->fins_app->config["fulltext"]["indexserver"]+ "/search/?PSESSIONID=123");
+Protocols.XMLRPC.Client(get_preference("indexserver")->get_value()+ "/search/?PSESSIONID=123");
   mixed r =
 c["search"](params->extras->request->fins_app->get_sys_pref("site.url")["Value"],
 params->extras->request->variables->q, "contents");

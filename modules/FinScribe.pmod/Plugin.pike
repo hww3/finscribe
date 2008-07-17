@@ -47,4 +47,6 @@ mapping query_path_callers();
 
 mapping query_ipath_callers();
 
+//! @returns a mapping containing localprefname : ([ "type": FinScribe.STRING|FinScribe.BOOLEAN, "value": defaultvalue])
+//!    pairs. these will be automatically created if they don't exist.
 mapping(string:mapping) query_preferences();
