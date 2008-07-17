@@ -3,7 +3,8 @@ Version 0.9
 - added support for reCAPTCHA (http://recaptcha.org) when posting 
     anonymously. this is enabled by default, so to enable anonymous
     posting, get reCAPTCHA keys for your site and add them to the
-    recaptcha.public_key and recaptcha.private_key preferences.
+    public-key and private-key preferences for the reCAPTCHA support
+    plugin.
 - added theme management
 - reorganized admin templates for consistency and ease of removing 
     dependency on dojo in non-admin pages.

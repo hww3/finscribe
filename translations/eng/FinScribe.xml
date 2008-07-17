@@ -2,7 +2,7 @@
 <locale version="1.0"/>
 <project>FinScribe</project>
 <language>eng</language>
-<dumped>1216249180</dumped>
+<dumped>1216328637</dumped>
 <file>classes/admin/plugin_controller.pike</file>
 <file>classes/admin/preference_controller.pike</file>
 <file>classes/admin/theme_controller.pike</file>
@@ -2242,5 +2242,15 @@ in</o>
 
 <str id="425">
 <o>Error: reCAPTCHA failure: </o>
+<t></t>
+</str>
+
+<str id="426">
+<o>Admin</o>
+<t></t>
+</str>
+
+<str id="427">
+<o>Error: </o>
 <t></t>
 </str>

@@ -47,15 +47,21 @@ public void tree(Request id, Response response, mixed ... args)
     {
       array x = find.preferences((["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
       int q = sizeof(d->node->widgetId[5..] / ".");
+      multiset nodesadded = (<>);
       foreach(x;;object p)
       {
         array x1 = p["Name"]/".";
-        if(sizeof(x1)>(q +1))
+        if(sizeof(x1)>(q))
+        {
+          if(nodesadded[x1[q]]) continue;
           prefixes += ({ ({x1[q], (x1[..q] * ".")})});
+          nodesadded[x1[q]] = 1;
+        }
         else
           nodes += ({p});
       }
-      prefixes = Array.uniq(prefixes);
+  
+//      prefixes = Array.uniq(prefixes);
     
 
       if(sizeof(prefixes))
@@ -98,7 +104,8 @@ public void list(Request id, Response response, mixed ... args)
     if(id->variables->startswith) c->Name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
     ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
 
-     t->add("startswith", (id->variables->startswith||"")/".");
+     if(id->variables->startswith)
+       t->add("startswith", (id->variables->startswith||"")/".");
      t->add("prefprefixes", prefixes);
      t->add("preferences", ul);
 	

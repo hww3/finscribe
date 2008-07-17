@@ -75,6 +75,7 @@ void load_plugins()
 			
 			if(installer && functionp(installer->install) && module->installed())
 			    installer->install(Filesystem.System(pd));
+                        
 			plugins[module->name] = module;
 		}
 	}
@@ -94,6 +95,14 @@ void start_plugins()
            if(plugin->enabled && !plugin->enabled())
              continue;
            Log.debug("Starting " + name);
+
+                if(plugin->query_preferences && functionp(plugin->query_preferences))
+                {
+                  foreach(plugin->query_preferences(); string p; mapping pv)
+                  {
+                    new_pref("plugin." + plugin->name + "." + p, pv->value, pv->type);
+                  }
+                }
 
 		if(plugin->start && functionp(plugin->start))
 		  plugin->start();

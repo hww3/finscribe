@@ -91,7 +91,7 @@ dojo.debug("loading dojo widgets...");
      var frag = parser.parseElement(dojo.byId("postcomments"), null, 
 true);
      dojo.widget.getParser().createComponents(frag);
-     Recaptcha.create("<%syspref var="recaptcha.public_key" %>",
+     Recaptcha.create("<%syspref var="plugin.reCAPTCHA support.public-key" %>",
 			"recaptcha_div",
                         { theme: "red", 
                           callback: Recaptcha.focus_response_field }

@@ -8,10 +8,10 @@
         
         <table>
             <tr><td><b><%LOCALE id="168" string="Plugin Name"%></b></td><td><b><%LOCALE id="169" string="Enabled"%></b></td><td> &nbsp; </td></tr>
-          <% foreach var="plugins" val="plugin"%>
+          <% foreach var="$plugins" val="plugin"%>
         <tr>
             <td><%$plugin.name%></td>
-            <td><a href="toggle_enabled?plugin=<%$plugin.name%>"><%boolean var="plugin.enabled"%></a></td>
+            <td><a href="toggle_enabled?plugin=<%$plugin.name%>"><%boolean var="$plugin.enabled"%></a></td>
 			<td><a href="/admin/prefs/list?startswith=plugin.<%$plugin.name%>"><%LOCALE id="170" string="Prefs"%> &gt;&gt;</a></td>
         </tr>
         <tr>

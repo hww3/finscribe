@@ -28,6 +28,11 @@ void start();
 
 void stop();
 
+mixed get_preference(string pref)
+{
+  return app->get_sys_pref("plugin." + name + "." + pref);
+}
+
 mapping query_event_callers();
 
 
@@ -42,4 +47,4 @@ mapping query_path_callers();
 
 mapping query_ipath_callers();
 
-array query_preferences();
+mapping(string:mapping) query_preferences();

@@ -87,11 +87,12 @@ createCallback(w.widgetId); });
   </script>
 <%@include file="adminpagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
-          <h3><%LOCALE id="113" string="Preferences"%></h3>
+          <h3><a href="../"><%LOCALE id="426" string="Admin"%></a> &gt; &gt; <%LOCALE id="113" string="Preferences"%></h3>
 
 <table cellpadding="10" valign="top">
 <tr>
 <td>
+<%if !data->startswith %>
 <div dojoType="TreeRPCController" RPCUrl="/admin/prefs/tree" widgetId="treeController"></div>
 <div dojoType="TreeSelector" widgetId="treeSelector"></div>
 <div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
@@ -99,10 +100,13 @@ createCallback(w.widgetId); });
     <div dojoType="TreeNode" widgetId="prefroot" title="Preferences" isFolder="true" actionsDisabled="remove">
 	</div>
 </div>
+<%endif%>
 </td>
 <td valign="top">
 <div id="prefpane" style="vertical-align : top;">
-
+  <%if data->startswith %>
+  <%@include file="admin/prefs/_list.phtml"%>
+  <%endif %>
 </div>
 </td></tr>
 </table>

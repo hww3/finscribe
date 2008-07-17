@@ -1,0 +1,63 @@
+//<locale-token project="FinScribe">LOCALE</locale-token>
+
+#define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
+
+import Tools.Logging;
+import Public.Web.Wiki;
+
+inherit FinScribe.Plugin;
+
+constant name="reCAPTCHA support";
+
+int _enabled = 1;
+
+void start()
+{
+}
+
+mapping query_event_callers()
+{
+  return (["prePostComment": check_recaptcha ]);
+}
+
+mapping query_preferences()
+{
+  return ([
+             "public-key": (["type": FinScribe.STRING, "value": "NO_KEY_YET"]),
+             "private-key": (["type": FinScribe.STRING, "value": "NO_KEY_YET"])
+          ]);
+}
+
+int check_recaptcha(string event, object id, object obj)
+{
+  int anonymous = id->misc->anonymous;
+
+     if(anonymous && get_preference("private_key"))
+     {
+        // if we've got a recaptcha key, we assume it will be used.
+        if(!id->variables->recaptcha_challenge_field ||
+           !id->variables->recaptcha_response_field)
+        {
+            if(id->variables->ajax)
+              throw(Error.Generic(LOCALE(424,"Error: No reCAPTCHA data provided.")));
+            else
+              throw(Error.Generic(LOCALE(424,"Error: No reCAPTCHA data provided.")));
+        }
+
+        else
+        {
+          object rc = FinScribe.Recaptcha(get_preference("private-key")["Value"]);
+          if(!rc->validate(id->variables->recaptcha_challenge_field,
+                   id->variables->recaptcha_response_field,
+                   id->get_client_addr()))
+          {
+              Log.info("rejected anonymous comment via reCAPTCHA from %s.", id->get_client_addr());
+              throw(Error.Generic(LOCALE(0,"Error: reCAPTCHA failure: " + rc->get_error())));
+          }
+
+
+          }
+       }
+
+  return FinScribe.success;
+}

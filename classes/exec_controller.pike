@@ -896,6 +896,8 @@ public void comments(Request id, Response response, mixed ... args)
    }
    else anonymous = 0;
 
+   id->misc->anonymous = anonymous;
+
    obj_o = model->get_fbobject(args, id);
 
    if(obj_o["md"]["comments_closed"] == 1)
@@ -938,43 +940,21 @@ public void comments(Request id, Response response, mixed ... args)
             break;
          case "Save":
 
-     if(anonymous && app->get_sys_pref("recaptcha.private_key"))
-     {
-        // if we've got a recaptcha key, we assume it will be used.
-        if(!id->variables->recaptcha_challenge_field ||
-           !id->variables->recaptcha_response_field)
-        {
+         mixed e,a;
+         e = catch(a=app->trigger_event("prePostComment", id, obj_o));
+
+         if(e || a == FinScribe.abort)
+          {
+            if(!e) e = ({"An unknown error occurred."});
             if(id->variables->ajax)
             {
-              response->set_data(LOCALE(424,"Error: No reCAPTCHA data provided."));
+              response->set_data(LOCALE(0,"Error: " + e[0]));
               return;
             }
-            response->flash("msg", LOCALE(424,"Error: No reCAPTCHA data provided."));
+            response->flash("msg", LOCALE(0,"Error: " + e[0]));
             response->redirect("/comments/" + obj_o["path"]);
             return;
           }
-
-          else
-          {
-            object rc = FinScribe.Recaptcha(app->get_sys_pref("recaptcha.private_key")["Value"]);
-            if(!rc->validate(id->variables->recaptcha_challenge_field,
-                     id->variables->recaptcha_response_field,
-                     id->get_client_addr()))
-            {
-		Log.info("rejected anonymous comment via reCAPTCHA from %s.", id->get_client_addr()); 
-              if(id->variables->ajax)
-              {
-                response->set_data(LOCALE(425,"Error: reCAPTCHA failure: ") + rc->get_error());
-                return;
-              }
-              response->flash("msg", LOCALE(0,"Error: reCAPTCHA failure: " + rc->get_error()));
-              response->redirect("/comments/" + obj_o["path"]);
-              return;
-            }
-
-            
-          }
-       }
 
           if(anonymous && ! (id->variables->email && id->variables->name))
           {
