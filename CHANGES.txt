@@ -1,5 +1,7 @@
 Version 0.9
 
+- if using full text support, check to see if index exists before
+    updating. if it doesn't, create the index automatically.
 - added support for reCAPTCHA (http://recaptcha.org) when posting 
     anonymously. this is enabled by default, so to enable anonymous
     posting, get reCAPTCHA keys for your site and add them to the
