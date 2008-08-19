@@ -7,6 +7,8 @@ constant name="Full Text indexing";
 
 int _enabled = 0;
 
+int checked_exists = 0;
+
 mapping query_event_callers()
 {
   return (["postSave": updateIndex ]);
@@ -80,6 +82,14 @@ void doUpdateIndex(string event, object id, object obj)
   if(!p) return 0;
 
   object c = Protocols.XMLRPC.Client(p->get_value() + "/update/");
+
+  if(!checked_exists)
+  {
+    int e = c["exists"](app->get_sys_pref("site.url")->get_value())[0];
+    if(!e)
+      c["new"](app->get_sys_pref("site.url")->get_value());
+    checked_exists = 1;
+  }
 
   string t = textify(app->render(obj["current_version"]["contents"], obj, id));
   if(obj["path"] && strlen(obj["path"]))
