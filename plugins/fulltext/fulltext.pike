@@ -78,10 +78,10 @@ void doUpdateIndex(string event, object id, object obj)
   }
 //  Log.info("saved " + obj["path"]);  
 
-  object p = app->get_preference("indexserver");
-  if(!p) return 0;
+  mapping p = app->config["fulltext"];
+  if(!p || !p["indexserver"]) return 0;
 
-  object c = Protocols.XMLRPC.Client(p->get_value() + "/update/");
+  object c = Protocols.XMLRPC.Client(p["indexserver"] + "/update/");
 
   if(!checked_exists)
   {
