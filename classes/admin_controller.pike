@@ -659,7 +659,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
     t->add("in_admin", 1);
     t->add("user", u);
-    t->add("all_users", Fins.Model.find.user(([])));
+    t->add("all_users", Fins.Model.find.users(([])));
     response->set_view(t);
   }
 }

@@ -1,6 +1,6 @@
   <%@include file="top.phtml"%>
    <title><%syspref var="site.name" %> :: <%LOCALE id="297" string="document tree"%></title>
-  <%@include file="header.phtml"%>
+  <%@include file="adminheader.phtml"%>
 <%@include file="pagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
           <h3><%LOCALE id="298" string="Site Index"%></h3>
@@ -10,5 +10,35 @@ href="/space/category-index">category-index</a> |
 document-tree ] 
 <p>
 <%@include file="exec/_tree.phtml" %>
-  <%@include file="footer.phtml"%>
+  <%@include file="adminfooter.phtml"%>
   <%@include file="bottom.phtml"%>
+
+
+  <script type="text/javascript">
+   function postOnLoad()
+{
+    dojo.require("dojo.xml.*");
+    dojo.require("dojo.widget.*");
+    dojo.require("dojo.event.*");
+    dojo.require("fins.widget.*");
+    dojo.require("dojo.widget.TreeV3");
+    dojo.require("fins.widget.ObjectTreeContextMenu");
+    dojo.require("dojo.widget.TreeRpcControllerV3");
+    dojo.require("dojo.widget.TreeSelectorV3");
+    dojo.require("dojo.widget.TreeNodeV3");
+    dojo.require("fins.widget.ObjectTreeContextMenu");
+
+     dojo.addOnLoad(postPostOnLoad);
+}
+
+function postPostOnLoad() {
+dojo.debug("loading dojo widgets...");
+     var parser = new dojo.xml.Parse();
+     var frag = parser.parseElement(document, null, true);
+     dojo.widget.getParser().createComponents(frag);
+     init();
+}
+
+dojo.addOnLoad(postOnLoad);
+</script>
+

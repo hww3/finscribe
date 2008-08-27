@@ -379,6 +379,24 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 		if(id->variables->action == "Create")
 		{
+
+         mixed e,a;
+         e = catch(a=app->trigger_event("preCreateAccount", id));
+
+         if(e || a == FinScribe.abort)
+          {
+            if(!e) e = ({"An unknown error occurred."});
+            if(id->variables->ajax)
+            {
+              response->set_data(LOCALE(0,"Error: " + e[0]));
+              return;
+            }
+            response->flash("msg", LOCALE(0,"Error: " + e[0]));
+            response->redirect(Tools.Function.this_function());
+            return;
+          }
+
+
 			// check the username
 			if(sizeof(Name)< 2)
 			{
@@ -1395,6 +1413,7 @@ public void delete(Request id, Response response, mixed ... args)
    array a = ({});
 
    newpath = "/space/" + combine_path(args*"/", "..");
+   
 
    if(id->variables->action == "Delete")
    {
@@ -1469,7 +1488,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      }
 
      t->add("msg", sprintf(LOCALE(398,"%[0]d objects deleted."), n));
-     response->redirect("/space/" + newpath);
+     response->redirect(app->controller->space);
      return;
    }
 
