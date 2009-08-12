@@ -9,6 +9,11 @@ inherit Fins.FinsController;
 
 int i=0;
 
+public void up(Request id, Response response, mixed ... args)
+{
+  werror("UPLOAD: %O\n", id->variables);
+}
+
 public void index(Request id, Response response, mixed ... args)
 {
   response->set_data(LOCALE(334, "hello from exec, perhaps you'd like to choose a function?"));
@@ -588,8 +593,15 @@ public void upload(Request id, Response response, mixed ... args)
 
 public void editattachments(Request id, Response response, mixed ... args)
 {
-
   int viaframe = 0;
+
+werror("editattachments: %O\n", id->variables);
+
+  if(id->variables->Filedata)
+  {
+    addattachments(id, response, @args);
+    return;
+  } 
 
   if(!args || !sizeof(args)) 
   {
@@ -602,6 +614,7 @@ public void editattachments(Request id, Response response, mixed ... args)
       response->set_data(LOCALE(365,"You must login to upload."));
       return;
    } 
+
 
   object t = view->get_idview("exec/_editattachments");
   t->add("flash", "");
@@ -619,79 +632,24 @@ public void editattachments(Request id, Response response, mixed ... args)
   if(id->variables->action == "Delete") 
   {
     viaframe = 1;
-    if(!id->variables["save-as-filename"])
+    if(!id->variables["filename"])
     {
       t->add("flash", LOCALE(369,"No filename specified to delete."));
     }
     else
     {
-      array o = find.objects((["path": id->variables["save-as-filename"]]));
+      array o = find.objects((["path": id->variables["filename"]]));
       if(!sizeof(o))
       {
-        t->add("flash", sprintf(LOCALE(370,"Cannot find file %[0]s"), id->variables["save-as-filename"]));
+        t->add("flash", sprintf(LOCALE(370,"Cannot find file %[0]s"), id->variables["filename"]));
       }
       else
       {
         o[0]->delete(1);
-        t->add("flash", sprintf(LOCALE(371,"Sucessfully deleted %[0]s"), id->variables["save-as-filename"]));
+        t->add("flash", sprintf(LOCALE(371,"Sucessfully deleted %[0]s"), id->variables["filename"]));
       }
     }
   }
- 
-  // we shouldn't be using this code any more.
-  /*
-  if(id->variables->action == "Add") 
-  {
-    viaframe = 1;
-    string path = Stdio.append_path(obj, id->variables["save-as-filename"]);
-    object obj_o;
-  
-    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
-    if(!sizeof(dtos))
-    {
-       t->add("flash", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
-         id->variables["save-as-filename"]));
-    }
-    else
-    {       
-mixed e = catch {
-      object dto = dtos[0];
-      obj_o = Fins.Model.new("object");
-      obj_o["datatype"] = dto;
-      obj_o["is_attachment"] = 1;
-      obj_o["parent"] = p;
-      obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
-      obj_o["datatype"] = dto;
-      obj_o["path"] = path;
-      obj_o->save();
-
-};
-
-      object obj_n = Fins.Model.new("object_version");
-      obj_n["contents"] = id->variables["upload-file"];
-
-      int v;
-      object cv;
-      obj_o->refresh();
-
-      if(cv = obj_o["current_version"])
-      { 
-        v = cv["version"];
-      }
-      else
-      {
-        werror("no existing version.\n");         
-      }
-      obj_n["version"] = (v+1);
-      obj_n["object"] = obj_o;
-      obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
-      obj_n->save();
-      cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-
-      t->add("flash", LOCALE(0,"Attachment added."));
-    }
-  }
-  */
 
   array o = find.objects(([ "is_attachment": 1, "parent": p ]));
   array datatypes = model->get_datatypes();  
@@ -715,18 +673,23 @@ mixed e = catch {
 
 public void addattachments(Request id, Response response, mixed ... args)
 {
-  if(!args || !sizeof(args)) 
+
+  if(!id->variables->path) 
   {
     Log.debug("No attachment location specified.");
     response->set_data(LOCALE(364,"No attachment location specified."));
     response->set_error(500);
     return;
   }
+
+  args = id->variables->path/"/";
+  werror("addattachments!: %O\n", args);
   
   // workaround for flash player not passing cookies properly
-  if(!id->misc->session_id && id->variables->PSESSIONID)
+  if(id->variables->PSESSIONID)
   {
     id->misc->session_variables = id->get_session_by_id(id->variables->PSESSIONID);
+    if(id->misc->session_variables) id->misc->session_variables = id->misc->session_variables->data;
   }
 
    if(!id->misc->session_variables->userid)
@@ -737,7 +700,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
    } 
 
-    string obj=args*"/";
+    string obj=id->variables->path;
     array a = find.objects((["path": obj ]));
     object p;
     if(sizeof(a)) p = a[0];
@@ -891,7 +854,7 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-//werror("POST: %O\n", id->variables);
+werror("POST: %O\n", id->variables);
 
    int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
  
@@ -1646,7 +1609,7 @@ public void edit(Request id, Response response, mixed ... args)
       }
    }
 
-   t->add("contentswidget", app->get_widget_for_type(datatype, contents));
+   t->add("contentswidget", app->get_widget_for_type(t, datatype, contents));
    t->add("subject", subject);
    t->add("datatype", datatype);
    t->add("title", title);
@@ -1720,7 +1683,7 @@ public void publish(Request id, Response response, mixed ... args)
 //! danger of this shortcoming.
 public void post(Request id, Response response, mixed ... args)
 {
-//   Log.debug("POST: %O -> %O\n", id, id->variables);
+   Log.debug("POST: %O -> %O\n", id, id->variables);
    string contents, subject, obj, trackbacks, createddate;
    object obj_o;
    int just_saving = 0;

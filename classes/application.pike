@@ -266,7 +266,7 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
   else return contents;
 }
 
-public string get_widget_for_type(string type, string contents)
+public string get_widget_for_type(object view, string type, string contents)
 {
   object t = get_renderer_for_type(type);
 
@@ -277,7 +277,7 @@ werror("using default widget.\n");
                   contents + "</textarea>";
   }
 
-  else return t->get_widget(contents);
+  else return t->get_widget(view, contents);
 }
 
 public Public.Web.Wiki.RenderEngine get_renderer_for_type(string type)

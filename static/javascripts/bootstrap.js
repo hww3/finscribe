@@ -4,7 +4,7 @@ function setupAjaxLinks()
 {
   if(!(typeof fs_global["dojo"] == "undefined"))
   {
-    dojo.debug("dojo is here.");
+    console.debug("dojo is here.");
     doSetupAjaxLinks();
   }
 }
@@ -17,10 +17,10 @@ function doSetupAjaxLinks()
    convertToPopup("PingBacks"); 
 
    convertToAjax("Login", openLogin);
-   convertToAjax("PostBlog", openPostBlog);
+//   convertToAjax("PostBlog", openPostBlog);
    convertToAjax("Actions", openActions);
 
-   if(!dj_undef("doThemeSetup"))
+   if(!(typeof fs_global["doThemeSetup"] == "undefined"))
      doThemeSetup();
 } 
 
@@ -30,7 +30,7 @@ function convertToAjax(id, func)
 
   if(!a) return;
  
-  dojo.debug("ajaxifying " + id);
+  console.debug("ajaxifying " + id);
 
   a.onclick = function(event){ if(!event) event = window.event; func(a, event); return false; };
 

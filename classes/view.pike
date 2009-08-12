@@ -68,10 +68,11 @@ string simple_macro_list_retrieve(Fins.Template.TemplateData data, mapping|void 
   if(args->var)
     contents = args->var;
 
-  if(contents && arrayp(contents))
+  if(contents && arrayp(contents) && sizeof(contents))
   {
     return contents * (args->separator||"\n");
   }
+  else return "";
 }
 
 
@@ -108,11 +109,6 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
     if(!arguments->val)
       return p["Value"];
   }
-}
-
-string simple_macro_friendly_date(Template.TemplateData data, mapping|void args)
-{
-  return Tools.String.friendly_date(args->var);
 }
 
 string simple_macro_folding_div(Fins.Template.TemplateData data, mapping|void arguments)
