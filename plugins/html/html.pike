@@ -29,11 +29,21 @@ mapping query_type_callers()
 }
 
 
-string get_widget(string contents)
+void add_to_list(object view, string list, string value)
 {
-     return "<script type=\"text/javascript\">dojo.require(\"fins.widget.*\"); dojo.require(\"fins.widget.RTEditor\"); </script> "
-                        "<div style=\"background-color: #ffffff; height: 400px; width: 100%; border-width: 1px; border-style: dashed; border-color: #999999; overflow: auto\">"
-                        "<textarea name=\"contents\" dojoType=\"fins:rteditor\">" + 
+    mixed d = view->get_data();
+    if(!d[list]) d[list] = ({});
+    d[list] += ({ value });
+}
+
+string get_widget(object view, string contents)
+{
+
+    add_to_list(view, "jsfooter", "dojo.require('fins.widget.RTEditor');");
+
+     return 
+                        "<div style=\"background-color: #ffffff; height: 400px; width: 100%; border-width: 1px; border-style: dashed; border-color: #999999\">"
+                        "<textarea name=\"contents\" dojoType=\"fins:rteditor\" id=\"htmleditor\">" + 
                         (contents||"Edit your document contents here.") + "</textarea></div>";
 
 }
