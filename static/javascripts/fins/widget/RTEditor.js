@@ -123,7 +123,7 @@ fins.widget.RTEditor = function() {
 
   this.replaceEditorContent = function(html)
   {
-    this.editor._richText.editNode.innerHTML = html;
+    this.editor.editNode.innerHTML = html;
   }
 
   this.initEditor = function(e)
