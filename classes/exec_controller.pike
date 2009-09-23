@@ -1326,7 +1326,7 @@ Log.debug("moving %s to %s.", p["path"], pth);
        n++;
      }
 
-     t->add("msg", sprintf(LOCALE(394,"%[0]s objects moved."), n));
+     t->add("msg", sprintf(LOCALE(394,"%[0]s objects moved."), (string)n));
      response->redirect("/space/" + newpath);
      return;
    }
