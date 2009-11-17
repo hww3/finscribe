@@ -49,6 +49,16 @@ CREATE TABLE datatypes (
 ) TYPE=MyISAM;
 
 #
+# Table structure for table 'templates'
+#
+
+CREATE TABLE templates (
+ id int(11) NOT NULL auto_increment,
+ name char(32) not null unique,
+  PRIMARY KEY(id)
+) TYPE=MyISAM;
+
+#
 # Table structure for table 'object_versions'
 #
 
@@ -76,6 +86,7 @@ CREATE TABLE objects (
   datatype_id int(11) NOT NULL default '0',
   acl_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
+  template_id int(11) NOT NULL default '0',
   metadata blob,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

@@ -15,6 +15,15 @@ CREATE TABLE preferences (
   value varchar(64) NOT NULL default '',
   PRIMARY KEY  (id)
 ) 
+
+\g
+
+CREATE TABLE templates (
+ id SERIAL NOT NULL,
+ name char(32) not null unique,
+ PRIMARY KEY (id)
+);
+  
   
 
 \g
@@ -63,6 +72,7 @@ CREATE TABLE objects (
   datatype_id integer NOT NULL default '0',
   acl_id integer NOT NULL default '0',
   is_attachment integer default NULL,
+  template_id integer NOT NULL default '0',
   metadata bytea,
   PRIMARY KEY  (id)
 )

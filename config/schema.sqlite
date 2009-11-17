@@ -35,6 +35,13 @@ CREATE TABLE datatypes (
 
 \g
 
+CREATE TABLE templates (
+ id integer primary key,
+ name char(32) not null unique
+)
+  
+\g
+
 CREATE TABLE object_versions (
   id integer primary key,
   object_id int(11) NOT NULL default '0',
@@ -56,6 +63,7 @@ CREATE TABLE objects (
   datatype_id int(11) NOT NULL default '0',
   acl_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
+  template_id int(11) NOT NULL default '0',
   metadata blob
 )
 
