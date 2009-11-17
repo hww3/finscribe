@@ -1,7 +1,8 @@
 <script type="text/javascript">
- dojo.require("dijit.form.DateTextBox");
+ dojo.require("dojo.widget.*");
+ dojo.require("dojo.widget.DropdownDatePicker");
 </script>
-<div style="text-align:left; overflow:auto;">
+<div style="text-align:left">
 <h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
 <table>
@@ -25,7 +26,8 @@
 <td>
 <b><%LOCALE id="207" string="TrackBack URLs"%>: </b>
 <br>(<%LOCALE id="208" string="click preview to detect"%> <a 
-href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBack"%></a> <%LOCALE id="210" string="URLs"%>)
+href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBack"%></a> <%LOCALE id="210" 
+string="URLs"%>)
 <br/>
 </td>
 <td>
@@ -40,7 +42,11 @@ href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBac
 <td>
 <input type="text" size="15" 
  id="createdDate" name="createddate"
-value="<%$createddate%>" dojoType="dijit.form.DateTextBox" />
+<%$showcreated%>
+value="<%$createddate%>" dojoType="DropDownDatePicker" />
+<input type="checkbox" name="created_toggle" 
+<%$createchecked%> 
+onclick="toggleCreated()"/>
 </td>
 </tr>
 <tr>
@@ -75,9 +81,11 @@ value="<%$createddate%>" dojoType="dijit.form.DateTextBox" />
 <script type="text/javascript">
 function postOnLoad()
 {
-console.debug("loading dojo widgets...");
-     var frag = dojo.parser.parse(dojo.byId("postblogform"));
-console.debug("done");
+dojo.debug("loading dojo widgets...");
+     var parser = new dojo.xml.Parse();
+     var frag = parser.parseElement(dojo.byId("postblogform"), null, true);
+     dojo.widget.getParser().createComponents(frag);
 }
 </script>
+
 

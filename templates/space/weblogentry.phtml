@@ -3,8 +3,7 @@
 height="9" alt="permalink" border="0"/></a></b>
 <p/>
   <%render content="$content" object="$entry"%>
-<p/><% if sizeof(data->entry["categories"]) %> <%LOCALE id="97" string="Posted 
-in"%> <% implode var="$entry.category_links" final=" and " %> |
+<p/><% if sizeof(data->entry["categories"]) %> <%LOCALE id="97" string="Posted in"%> <% implode var="$entry.category_links" final=" and " %> |
 <% endif %> <a onclick="displayComments('wiper<%$entry.id%>', '<%$entry.path%>'); return false;"><% sizeof 
 var="$entry.comments"%> <%LOCALE id="98" string="comments"%></a></b> | <a 
 href="/exec/comments/<%$entry.path%>"><%LOCALE id="99" string="Post Comment"%></a> 

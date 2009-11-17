@@ -50,7 +50,7 @@ public void index(Request id, Response response, mixed ... args)
 private void handle(string datatype, object obj, Request id, Response response)
 {
   object v;
-  object t = view->get_idview("space/wikiobject");
+  object t = view->get_idview("space/wikiobject", id);
 
   app->set_default_data(id, t);
 

@@ -19,7 +19,7 @@ void start()
 void update_parents()
 {
   Log.info("Parent updater thread started.");
-
+werror(">>>\n>>>parent updater\n>>>\n");
   if(is_running) return;
 
   is_running = 1;
@@ -68,11 +68,13 @@ void update_parents()
 
 void process_object(object o, int|void immediate)
 {
+werror("finding children for %s\n", o["path"]);
   array x = app->model->find("object", (["path": Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(o["path"] + "/%"), 
 Fins.Model.NotCriteria(Fins.Model.LikeCriteria(o["path"] + "/%/%") ) })) ]));
 
   foreach(x;; object c)
   {
+  werror("  -- parent of %s is %s.\n", c["path"], o["path"]);
     c["parent"] = o;
   }
 }

@@ -4,7 +4,9 @@
 <%@include file="pagebegin.phtml"%>
    <h3><%LOCALE id="203" string="Login"%></h3>
 
-   <p>
+<p>
+<div class="flash-message"><font color="red"><%flash %></font></div>
+<p>
 <%@ include file="exec/_login.phtml" %>
 <%@ include file="footer.phtml"%>
 <%@ include file="bottom.phtml"%>

@@ -26,7 +26,7 @@ public Template.View get_idview(string tn, object id)
   object t;
 
   t = get_view(tn);
-
+  t->data->request = id;
   t->get_data()->id = id;
 
   return t;  

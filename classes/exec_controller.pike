@@ -37,7 +37,7 @@ public void x(Request id, Response response, mixed ... args)
 
 public void notfound(Request id, Response response, mixed ... args)
 {
-     object t = view->get_idview("exec/objectnotfound");
+     object t = view->get_idview("exec/objectnotfound", id);
 
      app->set_default_data(id, t);
 
@@ -48,7 +48,7 @@ public void notfound(Request id, Response response, mixed ... args)
 
 public void notreadable(Request id, Response response, mixed ... args)
 {
-     object t = view->get_idview("exec/objectnotreadable");
+     object t = view->get_idview("exec/objectnotreadable", id);
 
      app->set_default_data(id, t);
 
@@ -60,7 +60,7 @@ public void notreadable(Request id, Response response, mixed ... args)
 public void actions(Request id, Response response, mixed ... args)
 {
   object obj = model->get_fbobject(args, id);
-  object t = view->get_idview("exec/actions");
+  object t = view->get_idview("exec/actions", id);
 
   app->set_default_data(id, t);
 
@@ -108,7 +108,7 @@ public void object_properties_menu(Request id, Response response, mixed ... args
 public void info(Request id, Response response, mixed ... args)
 {
   object obj = model->get_fbobject(args, id);
-  object t = view->get_idview("exec/info");
+  object t = view->get_idview("exec/info", id);
 
   app->set_default_data(id, t);
 
@@ -121,7 +121,7 @@ public void changeacl(Request id, Response response, mixed ... args)
 {
   object obj = model->get_fbobject(args, id);
 
-   object t = view->get_idview("exec/changeacl");
+   object t = view->get_idview("exec/changeacl", id);
 
    if(!id->variables->return_to)
    {
@@ -257,7 +257,7 @@ public void category(Request id, Response response, mixed ... args)
      response->set_data(LOCALE(351, "You must provide a category to view."));
    }
 
-    object t = view->get_idview("exec/category");
+    object t = view->get_idview("exec/category", id);
 
    app->set_default_data(id, t);
 
@@ -286,9 +286,9 @@ public void backlinks(Request id, Response response, mixed ... args)
 
    object t;
    if(id->variables->ajax)
-     t = view->get_idview("exec/_backlinks");
+     t = view->get_idview("exec/_backlinks", id);
    else
-     t = view->get_idview("exec/backlinks");
+     t = view->get_idview("exec/backlinks", id);
 
    app->set_default_data(id, t);
 
@@ -361,7 +361,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
 
 public void createaccount(Request id, Response response, mixed ... args)
 {
-   object t = view->get_idview("exec/createaccount");
+   object t = view->get_idview("exec/createaccount", id);
 
    app->set_default_data(id, t);
 
@@ -472,7 +472,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 
 public void forgotpassword(Request id, Response response, mixed ... args)
 {
-    object t = view->get_idview("exec/forgotpassword");
+    object t = view->get_idview("exec/forgotpassword", id);
 
      app->set_default_data(id, t);
 
@@ -491,7 +491,7 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 			else
 			{
 
-                object tp = view->get_idview("exec/sendpassword");
+                object tp = view->get_idview("exec/sendpassword", id);
 
 				
 				tp->add("password", a[0]["Password"]);
@@ -595,13 +595,7 @@ public void editattachments(Request id, Response response, mixed ... args)
 {
   int viaframe = 0;
 
-werror("editattachments: %O\n", id->variables);
-
-  if(id->variables->Filedata)
-  {
-    addattachments(id, response, @args);
-    return;
-  } 
+//werror("editattachments: %O\n", id->variables);
 
   if(!args || !sizeof(args)) 
   {
@@ -616,7 +610,7 @@ werror("editattachments: %O\n", id->variables);
    } 
 
 
-  object t = view->get_idview("exec/_editattachments");
+  object t = view->get_idview("exec/_editattachments", id);
   t->add("flash", "");
 
     string obj=args*"/";
@@ -632,21 +626,21 @@ werror("editattachments: %O\n", id->variables);
   if(id->variables->action == "Delete") 
   {
     viaframe = 1;
-    if(!id->variables["filename"])
+    if(!id->variables["save-as-filename"])
     {
       t->add("flash", LOCALE(369,"No filename specified to delete."));
     }
     else
     {
-      array o = find.objects((["path": id->variables["filename"]]));
+      array o = find.objects((["path": id->variables["save-as-filename"], "is_attachment": 1]));
       if(!sizeof(o))
       {
-        t->add("flash", sprintf(LOCALE(370,"Cannot find file %[0]s"), id->variables["filename"]));
+        t->add("flash", sprintf(LOCALE(370,"Cannot find file %[0]s"), id->variables["save-as-filename"]));
       }
       else
       {
         o[0]->delete(1);
-        t->add("flash", sprintf(LOCALE(371,"Sucessfully deleted %[0]s"), id->variables["filename"]));
+        t->add("flash", sprintf(LOCALE(371,"Sucessfully deleted %[0]s"), id->variables["save-as-filename"]));
       }
     }
   }
@@ -667,23 +661,12 @@ werror("editattachments: %O\n", id->variables);
    else
    {
      response->set_view(t);
-
    }
 }
 
 public void addattachments(Request id, Response response, mixed ... args)
 {
-
-  if(!id->variables->path) 
-  {
-    Log.debug("No attachment location specified.");
-    response->set_data(LOCALE(364,"No attachment location specified."));
-    response->set_error(500);
-    return;
-  }
-
-  args = id->variables->path/"/";
-  werror("addattachments!: %O\n", args);
+  //werror("addattachments!: %O\n", args);
   
   // workaround for flash player not passing cookies properly
   if(id->variables->PSESSIONID)
@@ -700,7 +683,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
    } 
 
-    string obj=id->variables->path;
+    string obj=args*"/";
     array a = find.objects((["path": obj ]));
     object p;
     if(sizeof(a)) p = a[0];
@@ -712,16 +695,16 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
     }
 
-    string path = Stdio.append_path(obj, id->variables["Filename"]);
+    string path = Stdio.append_path(obj, id->variables["userfile.filename"]);
     object obj_o;
   
-    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["Filename"])]));
+    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"])]));
     if(!sizeof(dtos))
     {
 
-       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]) + " for file " + id->variables["Filename"] + " is not valid.");
+       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"]) + " for file " + id->variables["userfile.filename"] + " is not valid.");
        response->set_data(sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
-             Protocols.HTTP.Server.filename_to_type(id->variables["Filename"]), id->variables["Filename"]));
+             Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"]), id->variables["userfile.filename"]));
        response->set_error(500);
        return;
     }
@@ -747,7 +730,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     }
 
       object obj_n = Fins.Model.new("object_version");
-      obj_n["contents"] = id->variables["Filedata"];
+      obj_n["contents"] = id->variables["userfile"];
 
       int v;
       object cv;
@@ -777,10 +760,10 @@ public void login(Request id, Response response, mixed ... args)
 
    if(id->variables->ajax)
    {
-     t = view->get_idview("exec/_login");
+     t = view->get_idview("exec/_login", id);
      t->add("ajax", 1);
    }
-   else t = view->get_idview("exec/login");
+   else t = view->get_idview("exec/login", id);
 
    app->set_default_data(id, t);
 
@@ -900,10 +883,10 @@ werror("POST: %O\n", id->variables);
 
    if(id->variables->ajax)
    {
-     t = view->get_idview("exec/_comment");
+     t = view->get_idview("exec/_comment", id);
      t->add("ajax", 1);
    }
-   else t = view->get_idview("exec/comment");
+   else t = view->get_idview("exec/comment", id);
 
    app->set_default_data(id, t);
 
@@ -1159,7 +1142,7 @@ public void new(Request id, Response response, mixed ... args)
      return;
    }   
 
-     object t = view->get_idview("exec/new");
+     object t = view->get_idview("exec/new", id);
 
      app->set_default_data(id, t);
 
@@ -1208,7 +1191,7 @@ public void move(Request id, Response response, mixed ... args)
    string newpath;
    string movesub;
 
-   t = view->get_idview("exec/move");
+   t = view->get_idview("exec/move", id);
    obj_o = model->get_fbobject(args, id);
 
    app->set_default_data(id, t);
@@ -1354,7 +1337,7 @@ public void delete(Request id, Response response, mixed ... args)
    string newpath;
    string movesub;
 
-   t = view->get_idview("exec/delete");
+   t = view->get_idview("exec/delete", id);
    obj_o = model->get_fbobject(args, id);
 
    app->set_default_data(id, t);
@@ -1482,9 +1465,9 @@ public void edit(Request id, Response response, mixed ... args)
 
    object t;
    if(id->variables->ajax)
-     t = view->get_idview("exec/_edit");
+     t = view->get_idview("exec/_edit", id);
    else
-     t = view->get_idview("exec/edit");
+     t = view->get_idview("exec/edit", id);
    object np;
 
    app->set_default_data(id, t);
@@ -1707,10 +1690,10 @@ public void post(Request id, Response response, mixed ... args)
    object t;
    if(id->variables->ajax)
    {
-     t = view->get_idview("exec/_post");
+     t = view->get_idview("exec/_post", id);
      t->add("ajax", 1);
    }
-   else t = view->get_idview("exec/post");
+   else t = view->get_idview("exec/post", id);
 
    t->add("object", obj_o);
    t->add("showcreated", "disabled=\"1\"");
@@ -1946,7 +1929,7 @@ public void diff(Request id, Response response, mixed ... args)
      return;
    } 
 
-    object t = view->get_idview("exec/diff");
+    object t = view->get_idview("exec/diff", id);
    
     app->set_default_data(id, t);
 
@@ -2060,7 +2043,7 @@ public void versions(Request id, Response response, mixed ... args)
      return;
    } 
 
-   object t = view->get_idview("exec/versions");
+   object t = view->get_idview("exec/versions", id);
    
    app->set_default_data(id, t);
 
@@ -2082,7 +2065,7 @@ public void display_trackbacks(Request id, Response response, mixed ... args)
       return;
     } 
 
-    object t = view->get_idview("exec/display_trackbacks");
+    object t = view->get_idview("exec/display_trackbacks", id);
    
     app->set_default_data(id, t);
 	t->add("object", obj_o);
@@ -2100,7 +2083,7 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
       return;
     } 
 
-    object t = view->get_idview("exec/display_pingbacks");
+    object t = view->get_idview("exec/display_pingbacks", id);
    
     app->set_default_data(id, t);
     t->add("object", obj_o);
@@ -2303,7 +2286,7 @@ public void json_userlist(Request id, Response response, mixed ... args)
 
 public void doctree(Request id, Response response, mixed ... args)
 {
-  object t = view->get_idview("exec/tree");
+  object t = view->get_idview("exec/tree", id);
 
   app->set_default_data(id, t);
   response->set_view(t);
