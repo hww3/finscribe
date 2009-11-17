@@ -63,7 +63,7 @@ CREATE TABLE objects (
   datatype_id int(11) NOT NULL default '0',
   acl_id int(11) NOT NULL default '0',
   is_attachment int(11) default NULL,
-  template_id int(11) NOT NULL default '0',
+  template_id int(11) DEFAULT NULL,
   metadata blob
 )
 

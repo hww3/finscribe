@@ -778,8 +778,8 @@ public void login(Request id, Response response, mixed ... args)
       t->add("UserName", "");
 
 
-   if(app->get_sys_pref("admin.autocreate") && 
-         app->get_sys_pref("admin.autocreate")->get_value())
+   if(app->get_sys_pref("administration.autocreate") && 
+         app->get_sys_pref("administration.autocreate")->get_value())
 	{
 		t->add("autocreate", 1);
 	}
@@ -1481,7 +1481,23 @@ public void edit(Request id, Response response, mixed ... args)
    else if(!obj_o)
    {
      np = model->find_nearest_parent(args*"/");
-     if(np && !np->is_writeable(t->get_data()["user_object"]))
+     if(!np) 
+     {
+        object acl = Fins.Model.find.acls_by_id(1);
+        if(!acl)
+        {
+	  response->flash("msg", LOCALE(400,"No default ACL found."));
+	  response->redirect(id->referrer);
+          return;
+        }
+        if(!acl->has_xmit(t->get_data()["user_object"], "write", 0))
+	{
+	  response->flash("msg", LOCALE(400,"You do not have permission to create this object."));
+	  response->redirect(id->referrer);
+          return;
+	}
+     }
+     else if(!np->is_writeable(t->get_data()["user_object"]))
      {
 	response->flash("msg", LOCALE(400,"You do not have permission to create this object."));
         response->redirect(id->referrer);		

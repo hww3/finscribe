@@ -14,6 +14,7 @@ import Fins.Model;
       add_field(KeyReference("author", "author_id", "user"));
       add_field(KeyReference("datatype", "datatype_id", "datatype"));
       add_field(KeyReference("acl", "acl_id", "acl"));
+      add_field(KeyReference("template", "template_id", "template", UNDEFINED, 1));
       add_field(KeyReference("parent", "parent_id", "object", UNDEFINED, 1));
       add_field(StringField("path", 128, 0));
       // 0 = not attachment

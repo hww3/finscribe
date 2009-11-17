@@ -50,10 +50,19 @@ public void index(Request id, Response response, mixed ... args)
 private void handle(string datatype, object obj, Request id, Response response)
 {
   object v;
-  object t = view->get_idview("space/wikiobject", id);
+
+  // support for configuring template on a per-object basis.
+  object template;
+  object t;
+
+  if(template = obj["template"])
+  {
+    t = view->get_idview("space/" + template["name"], id);
+  }
+  else 
+    t = view->get_idview("space/wikiobject", id);
 
   app->set_default_data(id, t);
-
   if(!obj->is_readable(t->get_data()["user_object"])) 
   {
      response->redirect(app->controller->exec->notreadable, ({obj["path"]})); 
