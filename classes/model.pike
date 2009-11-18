@@ -3,6 +3,8 @@ import Fins.Model;
 inherit Fins.FinsModel;
 import Tools.Logging;
 
+int lower_case_link_names = 1;
+
 //object datatype_instance_module = FinScribe.Objects;
 //object datatype_definition_module = FinScribe.Model;
 
