@@ -15,7 +15,7 @@ array evaluate(Macros.MacroParameters params)
   if(params->extras && params->extras->request)
     params->extras->request->misc->object_is_index = 1;
 
-  array o = params->engine->wiki->model->find("object", (["is_attachment": 1]));
+  array o = Fins.Model.find.objects((["is_attachment": 1]));
   array res = ({});
   array e = ({});
   array f = ({});

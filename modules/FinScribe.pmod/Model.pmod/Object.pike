@@ -25,7 +25,7 @@ import Fins.Model;
       add_field(CacheField("current_version", "current_version_uncached", context));
 //      add_field(BinaryStringField("metadata", 1024, 0, ""));
       add_field(MetaDataField("md", "metadata"));
-      add_field(InverseForeignKeyReference("current_version_uncached", "Object_version", "Object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
+      add_field(InverseForeignKeyReference("current_version_uncached", "Object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("versions", "object_version", "object"));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
       add_field(InverseForeignKeyReference("children", "object", "parent"));
@@ -146,7 +146,7 @@ MIME.encode_base64((string)n));
      {
        object o;
        array ar;
-       ar = context->app->model->find("object", (["path": l[sizeof(au)..] ]));
+       ar = Fins.Model.find.objects((["path": l[sizeof(au)..] ]));
 
        if(sizeof(ar))
        {

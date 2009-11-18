@@ -252,7 +252,7 @@ public string render(string contents, FinScribe.Model.Object obj, Fins.Request|v
 
   if(!f && obj)
   {
-    object n = get_renderer_for_type(obj["Datatype"]["mimetype"]);
+    object n = get_renderer_for_type(obj["datatype"]["mimetype"]);
     if(n && n->render) render_methods[t] = f = n->render;
   }
 

@@ -67,7 +67,7 @@ public array get_blog_entries(int|void max, int|void start)
 
   if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
 
-  array o = Fins.Model.find("object", ([ "is_attachment": 2, "parent": this]),
+  array o = Fins.Model.find.objects( ([ "is_attachment": 2, "parent": this]),
                         Fins.Model.CompoundCriteria( crit )
             );
 
@@ -83,7 +83,7 @@ public array get_attachments(int|void max, int|void start)
 
   if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
 
-  array o = Fins.Model.find("object", ([ "is_attachment": 1, "parent": this]),
+  array o = Fins.Model.find.objects(([ "is_attachment": 1, "parent": this]),
                         Fins.Model.CompoundCriteria( crit )
             );
 

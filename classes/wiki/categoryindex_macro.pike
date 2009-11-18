@@ -15,7 +15,7 @@ array evaluate(Macros.MacroParameters params)
   if(params->extras && params->extras->request)
     params->extras->request->misc->object_is_index = 1;
 
-  array o = params->engine->wiki->model->find("category", ([]));
+  array o = Fins.Model.find.categories(([]));
   array res = ({});
   array e = ({});
   array f = ({});

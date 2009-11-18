@@ -39,7 +39,7 @@ int exists(string _file)
 
   if(wiki->cache->get("PATHdata_" + _file)) return 1;
 
-  res = wiki->model->find("object", (["path": _file]));
+  res = Fins.Model.find.objects((["path": _file]));
 
   if(!sizeof(res)) return 0;
   else 
@@ -117,7 +117,7 @@ catch{
   res = wiki->cache->get("MACRORECENTCHANGES");
   if(!res)
   {
-    res = wiki->model->find("object", (["is_attachment": 
+    res = Fins.Model.find.objects( (["is_attachment": 
                              Model.Criteria("is_attachment!=1")]), 
                              Model.Criteria("GROUP BY id ORDER by created DESC LIMIT 10"));
     wiki->cache->set("MACRORECENTCHANGES", res, 600);
