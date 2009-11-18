@@ -106,7 +106,7 @@ CREATE TABLE objects_categories (
 
 CREATE TABLE users (
   id int(11) NOT NULL auto_increment,
-  username char(12) NOT NULL default '',
+  username char(16) NOT NULL default '',
   password char(16) default NULL,
   is_admin int(1) default '0',
   is_active int(1) default NULL,

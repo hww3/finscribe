@@ -1,3 +1,9 @@
+- replace SWFUpload with an all javascript version
+- increase username field to 16 characters
+- fix some templates to pass flash messages
+- add template object and attribute to objects to allow content to be 
+    rendered using specific templates
+
 Version 0.9
 
 - if using full text support, check to see if index exists before

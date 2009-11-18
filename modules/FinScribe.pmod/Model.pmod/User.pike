@@ -9,7 +9,7 @@ import Fins.Model;
       set_instance_name("user");
       add_field(PrimaryKeyField("id"));
       add_field(StringField("Name", 36, 0));
-      add_field(StringField("UserName", 12, 0));
+      add_field(StringField("UserName", 16, 0));
       add_field(StringField("Email", 64, 0));
       add_field(IntField("is_admin", 1, 1));
       add_field(IntField("is_active", 1, 1));
