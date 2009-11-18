@@ -22,7 +22,7 @@ import Fins.Model;
       add_field(TransformField("nice_created", "created", format_created));
       add_field(CacheField("current_version", "current_version_uncached", context));
 //      add_field(BinaryStringField("metadata", 1024, 0, ""));
-      add_field(TransformField("md", "metadata", get_md));
+      add_field(MetaDataField("md", "metadata"));
       add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("versions", "object_version", "object"));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
@@ -31,11 +31,6 @@ import Fins.Model;
 
       set_alternate_key("path");
       add_default_value_object("acl", "acl", (["name": "Default ACL"]), 1);
-   }
-
-   static object created()
-   {
-     return Calendar.Second();
    }
 
    static mixed get_attachments(mixed n, object i)

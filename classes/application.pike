@@ -393,7 +393,7 @@ object new_pref(string pref, string value, int type)
   if(p) return p;
   else 
   { 
-     p = Fins.Model.new("preference");
+     p = FinScribe.Objects.Preference();
      p["name"] = pref;
      p["type"] = type;
      p["description"] = "";
