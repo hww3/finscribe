@@ -86,7 +86,7 @@ public void __index(Request id, Response response, mixed ... args)
 private void weblog_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["Datatype"]["mimetype"] != "text/wiki")
   {
     response->flash("msg", "page requested is not a weblog.\n");
     response->redirect("/exec/notfound/" + args*"/");
@@ -106,7 +106,7 @@ private void weblog_atom(Fins.Request id, Fins.Response response,
 private void comments_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["Datatype"]["mimetype"] != "text/wiki")
   {
     response->flash("msg", "page requested is not a wiki page.\n");
     response->redirect("/exec/notfound/" + args*"/");
@@ -139,7 +139,7 @@ private void category_atom(Fins.Request id, Fins.Response response,
 private void history_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["Datatype"]["mimetype"] != "text/wiki")
   {
     response->flash("msg", "page requested is not a weblog.\n");
     response->redirect("/exec/notfound/" + args*"/");
@@ -379,7 +379,7 @@ static ATOM.Entry make_entry(Request id, object e) {
 	ATOM.Link at = ATOM.Link();
 	at->rel("enclosure");
 	at->href(URI(sprintf("/space/%s", a["path"]), app->get_sys_pref("site.url")["value"]));
-	at->type(a["datatype"]["mimetype"]=="text/wiki"?"text/html":a["datatype"]["mimetype"]);
+	at->type(a["Datatype"]["mimetype"]=="text/wiki"?"text/html":a["datatype"]["mimetype"]);
 	at->title(a["title"]);
 	at->length((int)a["current_version"]["content_length"]);
 	entry->add_link(at);
