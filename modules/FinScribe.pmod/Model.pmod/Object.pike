@@ -10,6 +10,8 @@ import Fins.Model;
       // 2 = blog entry
       // 3 = wip blog entry
 
+      add_field(KeyReference("parent", "parent_id", "Object", UNDEFINED, 1));
+      
       add_field(TransformField("title", "path", get_title));
       add_field(TransformField("tinylink", "id", get_tinylink));
       add_field(TransformField("link", "id", get_link));
@@ -23,7 +25,7 @@ import Fins.Model;
       add_field(CacheField("current_version", "current_version_uncached", context));
 //      add_field(BinaryStringField("metadata", 1024, 0, ""));
       add_field(MetaDataField("md", "metadata"));
-      add_field(InverseForeignKeyReference("current_version_uncached", "object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
+      add_field(InverseForeignKeyReference("current_version_uncached", "Object_version", "Object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
       add_field(InverseForeignKeyReference("versions", "object_version", "object"));
       add_field(InverseForeignKeyReference("comments", "comment", "object"));
       add_field(InverseForeignKeyReference("children", "object", "parent"));

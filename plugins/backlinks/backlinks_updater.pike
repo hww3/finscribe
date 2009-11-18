@@ -93,7 +93,7 @@ mixed extract_href(object parser, mapping args, string content, mixed ... extra)
           array a;
 
           catch {
-            a = app->model->find("object", ([ "path": path ]));
+            a = Fins.Model.find.objects(([ "path": path ]));
             if(a[0])
             {
               array x = a[0]["md"]["backlinks"];
