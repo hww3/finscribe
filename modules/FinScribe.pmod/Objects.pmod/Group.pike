@@ -1,6 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "group";
+string type_name = "Group";
 object repository = Fins.Model.module;
 
 

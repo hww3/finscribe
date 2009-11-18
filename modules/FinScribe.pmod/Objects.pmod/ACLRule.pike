@@ -1,6 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "aclrule";
+string type_name = "ACLRule";
 object repository = Fins.Model.module;
 
 constant xmits = ([

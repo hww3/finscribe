@@ -1,6 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "acl";
+string type_name = "ACL";
 object repository = Fins.Model.module;
 
 

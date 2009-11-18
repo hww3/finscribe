@@ -1,7 +1,7 @@
 import Tools.Logging;
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "object";
+string type_name = "Object";
 object repository = Fins.Model.module;
 
    int is_readable(object user)

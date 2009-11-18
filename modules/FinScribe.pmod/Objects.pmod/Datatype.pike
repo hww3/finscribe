@@ -1,4 +1,4 @@
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "datatype";
+string type_name = "Datatype";
 object repository = Fins.Model.module;
