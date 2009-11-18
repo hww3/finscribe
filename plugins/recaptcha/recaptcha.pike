@@ -60,7 +60,7 @@ int check_recaptcha_always(string event, object id, object obj)
                  id->variables->recaptcha_response_field,
                  id->variables->recaptcha_challenge_field);
 
-          object rc = FinScribe.Recaptcha(get_preference("private-key")["Value"]);
+          object rc = FinScribe.Recaptcha(get_preference("private-key")["value"]);
           if(!rc->validate(id->variables->recaptcha_challenge_field,
                    id->variables->recaptcha_response_field,
                    id->get_client_addr()))

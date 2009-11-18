@@ -90,7 +90,7 @@ public void activate(Request id, Response response, mixed ... args)
     return 0;
 
   object current_theme = app->new_string_pref("site.theme", "default");
-  current_theme["Value"] = theme;
+  current_theme["value"] = theme;
 
   response->flash(sprintf(LOCALE(422,"Activated theme %[0]s."), theme));
   response->redirect(list);

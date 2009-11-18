@@ -7,18 +7,18 @@
 <% foreach var="$preferences" val="pref" %>
 <tr>
 <td>
-<%$pref.ShortName %>: 
+<%$pref.shortname %>: 
 </td>
 <td>
-<% if data->pref["Type"] == FinScribe.BOOLEAN %>
+<% if data->pref["type"] == FinScribe.BOOLEAN %>
 <div dojoType="fins:InlineBooleanBox" 
-id="<%$pref.Name%>" name="<%$pref.ShortName%>">
-<%$pref.BooleanValue%>
+id="<%$pref.name%>" name="<%$pref.shortname%>">
+<%$pref.booleanvalue%>
 </div>
 <%else %>
-<div dojoType="dojo:InlineEditBox" id="<%$pref.Name%>" 
-name="<%$pref.Name%>">
-<%$pref.Value%>
+<div dojoType="dojo:InlineEditBox" id="<%$pref.name%>" 
+name="<%$pref.name%>">
+<%$pref.value%>
 </div>
 <% endif %>
 </td>

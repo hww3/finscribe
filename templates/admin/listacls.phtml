@@ -14,8 +14,8 @@
             <tr><td><%LOCALE id="126" string="ACL Name"%></td><td><%LOCALE id="141" string="Description"%></td><td><%LOCALE id="142" string="e-mail"%></td><td></td></tr>  
           <% foreach var="$acls" val="acl"%>
         <tr>
-            <td><%$acl.Name%></td>
-            <td><%$acl.Description%></td>
+            <td><%$acl.name%></td>
+            <td><%$acl.description%></td>
             <td>[ <a href="editacl?aclid=<%$acl.id%>">Edit</a> | 
                 <a href="deleteacl?aclid=<%$acl.id%>">Delete</a> ]</td>
         </tr>

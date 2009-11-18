@@ -51,7 +51,7 @@ public void toggle_enabled(Request id, Response response, mixed ... args)
   else
   {
 	object p = app->get_sys_pref("plugin." + app->plugins[id->variables->plugin]->name + ".enabled");
-    p["Value"] = !p->get_value();
+    p["value"] = !p->get_value();
     if(p->get_value())
       response->flash("msg", sprintf(LOCALE(301,"Plugin %[0]s enabled."), id->variables->plugin));
     else

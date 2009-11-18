@@ -367,7 +367,7 @@ function openLogin()
 
 function setinsert()
 {
- window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 300);
+ window.setTimeout('var elem = document.getElementById("username");if(elem){ elem.focus(); }', 300);
 }
 
 var currentPopup;

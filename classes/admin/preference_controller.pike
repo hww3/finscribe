@@ -34,7 +34,7 @@ public void tree(Request id, Response response, mixed ... args)
       array x =  find.preferences_all();
       foreach(x;;object p)
       {
-	array x = (p["Name"]/".");
+	array x = (p["name"]/".");
         prefixes += ({x[0]});
       }
       prefixes = Array.uniq(prefixes);
@@ -50,7 +50,7 @@ public void tree(Request id, Response response, mixed ... args)
       multiset nodesadded = (<>);
       foreach(x;;object p)
       {
-        array x1 = p["Name"]/".";
+        array x1 = p["name"]/".";
         if(sizeof(x1)>(q))
         {
           if(nodesadded[x1[q]]) continue;
@@ -68,7 +68,7 @@ public void tree(Request id, Response response, mixed ... args)
         foreach(prefixes;; array p)
           data += ({ (["title":  p[0], "data": p[1], "widgetId": "tree_" + p[1], "isFolder": 1 ]) });
       if(sizeof(nodes))foreach(nodes;; object pref)
-          data += ({ (["title":  pref["ShortName"], "data": pref["Name"], "widgetId": "treepref_" + pref["Name"], "isFolder": 0 ]) });
+          data += ({ (["title":  pref["shortname"], "data": pref["name"], "widgetId": "treepref_" + pref["name"], "isFolder": 0 ]) });
       
 }
       response->set_data(Tools.JSON.serialize(data));
@@ -97,11 +97,11 @@ public void list(Request id, Response response, mixed ... args)
     {
       array x =  find.preferences_all();
       foreach(x;;object p)
-        prefixes += ({ (p["Name"]/".")[0]});
+        prefixes += ({ (p["name"]/".")[0]});
       prefixes = Array.uniq(prefixes);
     }     
 
-    if(id->variables->startswith) c->Name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
+    if(id->variables->startswith) c->name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
     ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
 
      if(id->variables->startswith)
@@ -119,17 +119,17 @@ public void set(Request id, Response response, mixed ... args)
   if (id->variables->key && id->variables->value) {
     object pref = app->get_sys_pref(id->variables->key);
     if (pref) {
-      if(pref["Type"] == FinScribe.BOOLEAN)
+      if(pref["type"] == FinScribe.BOOLEAN)
       {
         if(lower_case(id->variables->value) == "false" || id->variables->value == "0")
-          pref["Value"] = 0;
+          pref["value"] = 0;
         else
         {
-          pref["Value"] = 1;
+          pref["value"] = 1;
         }
 
       }
-      pref["Value"] = id->variables->value;
+      pref["value"] = id->variables->value;
       response->set_data(JSON.serialize(([ "set" : 1 ])));
       response->set_type("text/javascript");
     }

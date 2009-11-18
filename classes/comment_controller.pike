@@ -45,11 +45,11 @@ private void handle_wiki(object obj, Request id, Response response)
   t->add("obj", obj["path"]);
   t->add("title", title);
   t->add("content", contents);
-  t->add("author", obj["author"]["Name"]);
-  t->add("author_username", obj["author"]["UserName"]);
+  t->add("author", obj["author"]["name"]);
+  t->add("author_username", obj["author"]["username"]);
   t->add("when", model->get_when(obj["current_version"]["created"]));
-  t->add("editor", obj["current_version"]["author"]["Name"]);
-  t->add("editor_username", obj["current_version"]["author"]["UserName"]);
+  t->add("editor", obj["current_version"]["author"]["name"]);
+  t->add("editor_username", obj["current_version"]["author"]["username"]);
   t->add("version", (string)obj["current_version"]["version"]);
   t->add("object_is_weblog", id->misc->object_is_weblog);  
 

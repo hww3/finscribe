@@ -37,7 +37,7 @@ public void index(Request id, Response response, mixed ... args)
   id->misc->current_page = obj["path"];
   id->misc->current_page_object = obj;
 
-  if((int)(app->get_sys_pref("site.track_views")["Value"]))
+  if((int)(app->get_sys_pref("site.track_views")["value"]))
     obj["md"]["views"] ++;
 
   string datatype = obj["datatype"]["mimetype"];
@@ -109,10 +109,10 @@ private void handle(string datatype, object obj, Request id, Response response)
   t->add("obj", obj["path"]);
   t->add("object_version", v);
   t->add("title", obj["title"]);
-  t->add("author", obj["author"]["Name"]);
-  t->add("author_username", obj["author"]["UserName"]);
-  t->add("editor", v["author"]["Name"]);
-  t->add("editor_username", v["author"]["UserName"]);
+  t->add("author", obj["author"]["name"]);
+  t->add("author_username", obj["author"]["username"]);
+  t->add("editor", v["author"]["name"]);
+  t->add("editor_username", v["author"]["username"]);
   t->add("numattachments", sizeof(o));
   t->add("attachments", o);
   t->add("object", obj);

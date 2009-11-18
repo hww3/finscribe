@@ -157,7 +157,7 @@ private void history_atom(Fins.Request id, Fins.Response response,
 private ATOM.Feed generate_weblog_atom(object root, array entries, object id)
 {
   ATOM.Feed feed = generate_empty_atom(root, id);
-  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["Value"], root["title"]));
+  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["value"], root["title"]));
   // Assume the entries are sorted in reverse chronological order.
   if (sizeof(entries)) {
     feed->updated(ATOM.RFC3339(entries[0]["created"]));
@@ -175,7 +175,7 @@ private ATOM.Feed generate_weblog_atom(object root, array entries, object id)
 private ATOM.Feed generate_category_atom(object root, array|object entries, object id)
 {
   ATOM.Feed feed = generate_empty_atom(root, id);
-  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["Value"], root["category"]));
+  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["value"], root["category"]));
 
   if (sizeof(entries)) {
     feed->updated(ATOM.RFC3339(reverse(sort((array)entries["created"]))[0]));
@@ -192,7 +192,7 @@ private ATOM.Feed generate_category_atom(object root, array|object entries, obje
 private ATOM.Feed generate_comments_atom(object root, array entries, object id)
 {
   ATOM.Feed feed = generate_empty_atom(root, id);
-  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["Value"], root["title"]));
+  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["value"], root["title"]));
 
   string contents = app->render(root["current_version"]["contents"], root, id);
   mixed c = make_contents(contents);
@@ -221,7 +221,7 @@ private ATOM.Feed generate_comments_atom(object root, array entries, object id)
 private ATOM.Feed generate_history_atom(object root, array entries, object id)
 {
   ATOM.Feed feed = generate_empty_atom(root, id);
-  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["Value"], root["title"]));
+  feed->title()->contents(sprintf("%s :: %s", app->get_sys_pref("site.name")["value"], root["title"]));
 
   if (sizeof(entries)) {
     feed->updated(ATOM.RFC3339(reverse(sort((array)entries["created"]))[0]));
@@ -237,7 +237,7 @@ private ATOM.Feed generate_history_atom(object root, array entries, object id)
 
 ATOM.Feed generate_empty_atom(object root, object id) {
   ATOM.Feed feed = ATOM.Feed();
-  feed->id(URI(id->not_query, app->get_sys_pref("site.url")["Value"]));
+  feed->id(URI(id->not_query, app->get_sys_pref("site.url")["value"]));
   ATOM.HRText title = ATOM.HRText();
   title->tag_name("title");
   title->type(ATOM.HRText.TEXT_PLAIN);
@@ -249,21 +249,21 @@ ATOM.Feed generate_empty_atom(object root, object id) {
   else if (idxs["category"])
     title->contents(root["category"]);
   else
-    title->contents(app->get_sys_pref("site.name")["Value"]);
+    title->contents(app->get_sys_pref("site.name")["value"]);
   feed->title(title);
   ATOM.Link self = ATOM.Link();
   self->rel("self");
-  self->href(URI(id->not_query, app->get_sys_pref("site.url")["Value"]));
+  self->href(URI(id->not_query, app->get_sys_pref("site.url")["value"]));
   self->type("application/atom+xml");
   feed->add_link(self);
   ATOM.Link html = ATOM.Link();
   html->rel("alternate");
   // FIXME - Bill, is this the right thing to do (the replace())?
-  html->href(URI(replace(id->not_query, "atom", "space"), app->get_sys_pref("site.url")["Value"]));
+  html->href(URI(replace(id->not_query, "atom", "space"), app->get_sys_pref("site.url")["value"]));
   html->type("text/html");
   feed->add_link(html);
   ATOM.Link rss = ATOM.Link();
-  rss->href(URI(replace(id->not_query, "atom", "rss"), app->get_sys_pref("site.url")["Value"]));
+  rss->href(URI(replace(id->not_query, "atom", "rss"), app->get_sys_pref("site.url")["value"]));
   rss->type("application/rss+xml");
   feed->add_link(rss);
   feed->generator(ATOM.Generator());
@@ -271,12 +271,12 @@ ATOM.Feed generate_empty_atom(object root, object id) {
   feed->generator()->uri(URI("http://hww3.riverweb.com/space/pike/FinScribe"));
   // FIXME - potential bug if the logo isn't on the same host as
   // the site.url.
-  feed->logo(URI(app->get_sys_pref("site.logo")["Value"], app->get_sys_pref("site.url")["Value"]));
-  feed->icon(URI("/favicon.ico", app->get_sys_pref("site.url")["Value"]));
+  feed->logo(URI(app->get_sys_pref("site.logo")["value"], app->get_sys_pref("site.url")["value"]));
+  feed->icon(URI("/favicon.ico", app->get_sys_pref("site.url")["value"]));
   feed->subtitle(ATOM.HRText());
   feed->subtitle()->tag_name("subtitle");
   feed->subtitle()->type(ATOM.HRText.TEXT_PLAIN);
-  feed->subtitle()->contents(app->get_sys_pref("site.tagline")["Value"]);
+  feed->subtitle()->contents(app->get_sys_pref("site.tagline")["value"]);
   return feed;
 }
 
@@ -323,7 +323,7 @@ static string|Node make_contents(string contents) {
 
 static ATOM.Entry make_entry(Request id, object e) {
   ATOM.Entry entry = ATOM.Entry();
-  URI perma = URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["Value"]);
+  URI perma = URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["value"]);
   entry->id(perma);
   entry->title(ATOM.HRText());
   entry->title()->tag_name("title");
@@ -331,15 +331,15 @@ static ATOM.Entry make_entry(Request id, object e) {
   entry->title()->contents(e["title"]);
   entry->updated(ATOM.RFC3339(e["created"]));
   entry->published(ATOM.RFC3339(e["created"]));
-  string author_name = e["author"]["Name"];
+  string author_name = e["author"]["name"];
   ATOM.Author author = ATOM.Author();
   author->name(author_name);
   entry->add_author(author);
   // FIXME - add XESN stuff here.
   foreach((array)e["versions"], object ee) {
-    if (ee["author"]["Name"] != author_name) {
+    if (ee["author"]["name"] != author_name) {
       ATOM.Contributor cont = ATOM.Contributor();
-      cont->name(ee["author"]["Name"]);
+      cont->name(ee["author"]["name"]);
       // FIXME - also here
       entry->add_contributor(cont);
     }
@@ -362,13 +362,13 @@ static ATOM.Entry make_entry(Request id, object e) {
     if (sizeof((array)e["comments"])) {
       ATOM.Link atom_comments = ATOM.Link();
       atom_comments->rel(URI("http://purl.org/syndication/thread/1.0/comments"));
-      atom_comments->href(URI(sprintf("/atom/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["Value"]));
+      atom_comments->href(URI(sprintf("/atom/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["value"]));
       atom_comments->type("application/atom+xml");
       atom_comments->title("Comment feed.");
       entry->add_link(atom_comments);
       ATOM.Link rss_comments = ATOM.Link();
       rss_comments->rel(URI("http://purl.org/syndication/thread/1.0/comments"));
-      rss_comments->href(URI(sprintf("/rss/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["Value"]));
+      rss_comments->href(URI(sprintf("/rss/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["value"]));
       rss_comments->type("application/rss+xml");
       rss_comments->title("Comments feed.");
       entry->add_link(rss_comments);
@@ -378,7 +378,7 @@ static ATOM.Entry make_entry(Request id, object e) {
       foreach(attachments, object a) {
 	ATOM.Link at = ATOM.Link();
 	at->rel("enclosure");
-	at->href(URI(sprintf("/space/%s", a["path"]), app->get_sys_pref("site.url")["Value"]));
+	at->href(URI(sprintf("/space/%s", a["path"]), app->get_sys_pref("site.url")["value"]));
 	at->type(a["datatype"]["mimetype"]=="text/wiki"?"text/html":a["datatype"]["mimetype"]);
 	at->title(a["title"]);
 	at->length((int)a["current_version"]["content_length"]);
@@ -410,7 +410,7 @@ static ATOM.Entry make_entry(Request id, object e) {
   }
   else {
     entry->content(ATOM.Content());
-    entry->content()->set(e["datatype"]["mimetype"]=="text/wiki"?"text/html":e["datatype"]["mimetype"], URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["Value"]));
+    entry->content()->set(e["datatype"]["mimetype"]=="text/wiki"?"text/html":e["datatype"]["mimetype"], URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["value"]));
   }
   return entry;
 }

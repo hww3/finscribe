@@ -5,17 +5,17 @@
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
 <%LOCALE id="203" string="Login"%>: 
 </td><td>
-<input type="string" id="UserName" name="UserName" value="<%$UserName%>"/><br/>
+<input type="string" id="username" name="username" value="<%$username%>"/><br/>
 </td>
 </tr>
 <tr>
 <td>
 <%LOCALE id="17" string="Password"%>:</td><td>
- <input type="password" name="Password"/></td></tr>
+ <input type="password" name="password"/></td></tr>
 <tr><td colspan="2">
 <%if !data->ajax %>
 <script type="text/javascript">
-var f = document.getElementById("UserName");
+var f = document.getElementById("username");
 f.focus();
 </script>
 <% endif %>

@@ -92,14 +92,14 @@ string format_nice()
   }
   else if(sizeof(a))
   {
-    desc+=("User: " + a[0]["Name"] + " ");
+    desc+=("User: " + a[0]["name"] + " ");
   }
   else
   {
     a = this["group"];
     if(sizeof(a))
     {
-      desc+=("Group: " + a[0]["Name"] + " ");
+      desc+=("Group: " + a[0]["name"] + " ");
     }
     else
     {

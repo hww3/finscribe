@@ -40,9 +40,9 @@ int updateList(string event, object id, object obj)
     f = f[0..4];
   }
 
-  p["Value"] = f*"\n";
+  p["value"] = f*"\n";
 
-//  werror("value: " + p["Value"] + ".\n");
+//  werror("value: " + p["value"] + ".\n");
 
   return 0;
 

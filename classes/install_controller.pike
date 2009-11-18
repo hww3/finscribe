@@ -52,19 +52,19 @@ public void createadminuser(Request id, Response response, mixed ... args)
     object u;
   mixed e = catch {
     u = FinScribe.Objects.User();
-    u["UserName"] = id->variables->adminuser;
-    u["Name"] = id->variables->adminuser;
-    u["Password"] = id->variables->adminpassword;
-    u["Email"] = id->variables->adminemail;
+    u["username"] = id->variables->adminuser;
+    u["name"] = id->variables->adminuser;
+    u["password"] = id->variables->adminpassword;
+    u["email"] = id->variables->adminemail;
     u["is_admin"] = 1;
     u["is_active"] = 1;
     u->save();
 
     u = FinScribe.Objects.User();
-    u["UserName"] = "anonymous";
-    u["Name"] = "Anonymous";
-    u["Password"] = "*LCK*";
-    u["Email"] = "";
+    u["username"] = "anonymous";
+    u["name"] = "Anonymous";
+    u["password"] = "*LCK*";
+    u["email"] = "";
     u["is_admin"] = 0;
     u["is_active"] = 0;
     u->save();

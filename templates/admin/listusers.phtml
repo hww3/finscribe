@@ -14,9 +14,9 @@
             <tr><td><%LOCALE id="150" string="User Name"%></td><td><%LOCALE id="134" string="Real Name"%></td><td><%LOCALE id="142" string="e-mail"%></td><td><%LOCALE id="151" string="Admin User?"%></td><td><%LOCALE id="152" string="Active?"%></td><td></td></tr>  
           <% foreach var="$users" val="user"%>
         <tr>
-            <td><%$user.UserName%></td>
-            <td><%$user.Name%></td>
-            <td><%$user.Email%></td>
+            <td><%$user.username%></td>
+            <td><%$user.name%></td>
+            <td><%$user.email%></td>
             <td><a href="toggle_useradmin?userid=<%$user.id%>"><%boolean var="$user.is_admin"%></a></td>
             <td><a href="toggle_useractive?userid=<%$user.id%>"><%boolean var="$user.is_active"%></a></td>
             <td>[ <a href="edituser?userid=<%$user.id%>"><%LOCALE id="145" string="Edit"%></a> | 

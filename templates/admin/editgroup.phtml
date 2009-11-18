@@ -12,7 +12,7 @@
           <h3><%LOCALE id="130" string="Edit Group"%></h3>
 <% endif %>
 	<form action="" method="post">
-        <b><%LOCALE id="131" string="Group Name"%>:</b> <input type="text" size="32" name="Name" value="<%$group.Name%>" />
+        <b><%LOCALE id="131" string="Group Name"%>:</b> <input type="text" size="32" name="name" value="<%$group.name%>" />
         <p/>
         <input type="hidden" name="added" id="added"/>
         <input type="hidden" name="removed" id="removed"/>
@@ -28,7 +28,7 @@ removesID="removed"></div>
         <b><%LOCALE string="Group Members"%></b><br/>
 
         <% foreach var="$group.groups" val="member" %>
-        <%$member.Name%><br />
+        <%$member.name%><br />
         <% end %>
 -->
         <p/>

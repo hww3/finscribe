@@ -40,9 +40,9 @@ href="/exec/delete/<%$object.path%>"><%LOCALE id="218" string="delete"%></a><% e
 <p>
 <%LOCALE id="227" string="Current ACL"%>: 
 <%if data["isdeleteable"] %>
-<a href="/exec/changeacl/<%$object.path%>"><%$object.acl.Name%></a>
+<a href="/exec/changeacl/<%$object.path%>"><%$object.acl.name%></a>
 <% else %>
-<%$object.acl.Name%>
+<%$object.acl.name%>
 <% endif %>
 <br>
 <%LOCALE id="228" string="Object Type"%>: 

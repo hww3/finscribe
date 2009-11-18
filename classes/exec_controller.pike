@@ -375,11 +375,11 @@ public void createaccount(Request id, Response response, mixed ... args)
 	
 	if(id->variables->action)
 	{
-		Name = id->variables->Name;
-		UserName = id->variables->UserName;
-		Email = id->variables->Email;
-		Password = id->variables->Password;
-		Password2 = id->variables->Password2;
+		Name = id->variables->name;
+		UserName = id->variables->username;
+		Email = id->variables->email;
+		Password = id->variables->password;
+		Password2 = id->variables->password2;
 		return_to = id->variables->return_to;
 
 		if(id->variables->action == "Create")
@@ -407,7 +407,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			{
 				response->flash("msg", LOCALE(309,"You must provide a username with at least 2 characters."));
 			}
-			else if(sizeof(find.users((["UserName": UserName]))) != 0)
+			else if(sizeof(find.users((["username": UserName]))) != 0)
 			{
 				response->flash("msg", LOCALE(310,"The username you have chosen is already in use by another user."));
 			}
@@ -423,11 +423,11 @@ public void createaccount(Request id, Response response, mixed ... args)
 			{
 				// if we got here, everything should be good to go.
 				object u = Fins.Model.new("user");
-				u["UserName"] = UserName;
-				u["Name"] = Name;
-				u["Email"] = Email;
-				u["Password"] = Password;
-                                u["is_active"] = 1;
+				u["username"] = UserName;
+				u["name"] = Name;
+				u["email"] = Email;
+				u["password"] = Password;
+                u["is_active"] = 1;
 				u->save();
 
 				response->flash("msg", LOCALE(360,"User created successfully."));
@@ -436,7 +436,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				object p = find.objects((["path": "themes/default/newuser"]))[0];
 				
 				object up = Fins.Model.new("object");
-				up["path"] = u["UserName"];
+				up["path"] = u["username"];
 				up["author"] = u;
 				up["datatype"] = p["datatype"];
 				up["is_attachment"] = 0;
@@ -462,10 +462,10 @@ public void createaccount(Request id, Response response, mixed ... args)
 		}
 	}
 
-   t->add("Name", Name);
-   t->add("UserName", UserName);
-   t->add("Email", Email); 
-   t->add("Password", Password);
+   t->add("name", Name);
+   t->add("username", UserName);
+   t->add("email", Email); 
+   t->add("password", Password);
 
    response->set_view(t);
 }
@@ -476,12 +476,12 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
-	 t->add("UserName", "");
+	 t->add("username", "");
 
-		if(id->variables->UserName)
+		if(id->variables->username)
 		{
-			t->add("UserName", id->variables->UserName);
-			array a = find.users((["UserName": id->variables->UserName]));
+			t->add("username", id->variables->username);
+			array a = find.users((["username": id->variables->username]));
 
 			if(!sizeof(a))
 			{
@@ -494,11 +494,11 @@ public void forgotpassword(Request id, Response response, mixed ... args)
                 object tp = view->get_idview("exec/sendpassword", id);
 
 				
-				tp->add("password", a[0]["Password"]);
+				tp->add("password", a[0]["password"]);
 				
 				string mailmsg = tp->render();
 				
-				Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(a[0]["Email"], 
+				Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(a[0]["email"], 
 																											"Your FinScribe password", 
 										app->get_sys_pref("mail.return_address")->get_value(), 
 																											mailmsg);
@@ -774,8 +774,8 @@ public void login(Request id, Response response, mixed ... args)
 	                               "/space/");
    }
 
-   if(!id->variables->UserName)
-      t->add("UserName", "");
+   if(!id->variables->username)
+      t->add("username", "");
 
 
    if(app->get_sys_pref("administration.autocreate") && 
@@ -796,8 +796,8 @@ public void login(Request id, Response response, mixed ... args)
          return;
       }
       
-      array r = find.users((["UserName": id->variables->UserName, 
-                                        "Password": id->variables->Password, 
+      array r = find.users((["username": id->variables->username, 
+                                        "password": id->variables->password, 
                                         "is_active": 1]));
       if(r && sizeof(r))
       {
@@ -814,7 +814,7 @@ public void login(Request id, Response response, mixed ... args)
       else
       {
          response->flash("msg", LOCALE(372,"Login Incorrect."));
-         t->add("UserName", id->variables->UserName);
+         t->add("username", id->variables->username);
          
       }
    }
@@ -936,7 +936,7 @@ werror("POST: %O\n", id->variables);
             obj_n["object"] = obj_o;
             if(anonymous)
             {
-              obj_n["author"] = find.users((["UserName": "anonymous"]))[0];
+              obj_n["author"] = find.users((["username": "anonymous"]))[0];
             }
             else
               obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
@@ -1146,7 +1146,7 @@ public void new(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
-     mixed p = app->new_string_pref(t->get_data()["user_object"]["UserName"] + ".new.default_mimetype", "text/wiki");
+     mixed p = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki");
 
      array mimetypes = ({});
 
@@ -1513,7 +1513,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
    else if(!datatype)
    {
-     datatype = app->new_string_pref(t->get_data()["user_object"]["UserName"] + ".new.default_mimetype", "text/wiki")->get_value();
+     datatype = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki")->get_value();
    }
 
    if(id->variables->action)
@@ -1827,7 +1827,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o["parent"] = p;
                if(just_saving)
                {
-                 array s_a = Fins.Model.old_find("acl", (["Name": "Work In Progress Object"]));
+                 array s_a = Fins.Model.old_find("acl", (["name": "Work In Progress Object"]));
                  object s_acl;
                  if(sizeof(s_a))
                    s_acl = s_a[0];
@@ -2285,14 +2285,14 @@ public void json_userlist(Request id, Response response, mixed ... args)
 { 
   array userlist;
   if(id->variables->startswith)
-    userlist = Fins.Model.find.users((["Name" : Fins.Model.LikeCriteria(id->variables->startswith + "%")]));
+    userlist = Fins.Model.find.users((["name" : Fins.Model.LikeCriteria(id->variables->startswith + "%")]));
   else
     userlist = Fins.Model.find.users_all();
    
   array list = allocate(sizeof(userlist));   
   foreach(userlist;int i;object u)
   {
-    list[i] = (["name": u["Name"], "username": u["UserName"]]);
+    list[i] = (["name": u["name"], "username": u["username"]]);
   }
 
   string json = Tools.JSON.serialize((["users": list]));

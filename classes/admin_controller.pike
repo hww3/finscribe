@@ -72,7 +72,7 @@ public void getusers_json(Request id, Response response, mixed ... args)
 
   foreach((array)x;;mixed g)
   {
-    j += ({([ "name": g["Name"] + " [" + g["UserName"] + "]", "value": g["id"] ])});
+    j += ({([ "name": g["name"] + " [" + g["username"] + "]", "value": g["id"] ])});
   } 
 
   json = Tools.JSON.serialize((["data": j]));
@@ -123,7 +123,7 @@ public void getgroups_json(Request id, Response response, mixed ... args)
 
   foreach(x;;mixed g)
   {
-    j += ({([ "name": g["Name"], "value": g["id"] ])});
+    j += ({([ "name": g["name"], "value": g["id"] ])});
   } 
 
   json = Tools.JSON.serialize((["data": j]));
@@ -210,8 +210,8 @@ public void editacl(Request id, Response response, mixed ... args)
               g = Fins.Model.new("acl");
               Log.info("creating a new acl.");
             }
-            if((id->variables->Name != g["Name"]) || id->variables->newacl)
-               g["Name"] = id->variables->Name;
+            if((id->variables->name != g["name"]) || id->variables->newacl)
+               g["name"] = id->variables->name;
 
             if(id->variables->newacl)
               g->save();
@@ -392,8 +392,8 @@ public void editgroup(Request id, Response response, mixed ... args)
             if(id->variables->newgroup)
               g = Fins.Model.new("group");
 
-            if(id->variables->Name != g["Name"])
-               g["Name"] = id->variables->Name;
+            if(id->variables->name != g["name"])
+               g["name"] = id->variables->name;
 
             if(id->variables->newgroup)
               g->save();
@@ -445,11 +445,11 @@ public void newuser(Request id, Response response, mixed ... args)
 
         if(id->variables->action)
         {
-                Name = id->variables->Name;
-                UserName = id->variables->UserName;
-                Email = id->variables->Email;
-                Password = id->variables->Password;
-                Password2 = id->variables->Password2;
+                Name = id->variables->name;
+                UserName = id->variables->username;
+                Email = id->variables->email;
+                Password = id->variables->password;
+                Password2 = id->variables->password2;
                 is_active = (int)id->variables->is_active;
                 is_admin = (int)id->variables->is_admin;
 
@@ -462,7 +462,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 response->flash("msg", LOCALE(309,"You must provide a username with at least 2 characters."));
                                 UserName = "";
                         }
-                        else if(sizeof(Fins.Model.find.users((["UserName": UserName]))) != 0)
+                        else if(sizeof(Fins.Model.find.users((["username": UserName]))) != 0)
                         {
                                 response->flash("msg", LOCALE(310,"The username you have chosen is already in use by another user."));
                                 UserName = "";
@@ -483,10 +483,10 @@ public void newuser(Request id, Response response, mixed ... args)
                         {
                                 // if we got here, everything should be good to go.
                                 object u = Fins.Model.new("user");
-                                u["UserName"] = UserName;
-                                u["Name"] = Name;
-                                u["Email"] = Email;
-                                u["Password"] = Password;
+                                u["username"] = UserName;
+                                u["name"] = Name;
+                                u["email"] = Email;
+                                u["password"] = Password;
                                 u["is_active"] = is_active;
                                 u["is_admin"] = is_admin;
                                 u->save();
@@ -508,7 +508,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 object p = Fins.Model.find("object", (["path": "themes/default/newuser"]))[0];
 
                                 object up = Fins.Model.new("object");
-                                up["path"] = u["UserName"];
+                                up["path"] = u["username"];
                                 up["author"] = u;
                                 up["datatype"] = p["datatype"];
                                 up["is_attachment"] = 0;
@@ -535,11 +535,11 @@ public void newuser(Request id, Response response, mixed ... args)
 
         }
 
-          t->add("Name", Name);
-          t->add("UserName", UserName);
-          t->add("Email", Email);
-          t->add("Password", Password);
-          t->add("Password2", "");          
+          t->add("name", Name);
+          t->add("username", UserName);
+          t->add("email", Email);
+          t->add("password", Password);
+          t->add("password2", "");          
 
 }
 
@@ -570,22 +570,22 @@ public void edituser(Request id, Response response, mixed ... args)
             if((int)id->variables->is_active != u["is_active"])
                u["is_active"] = (int)id->variables->is_active;
 
-            if(id->variables->Name != u["Name"])
-               u["Name"] = id->variables->Name;
+            if(id->variables->name != u["name"])
+               u["name"] = id->variables->name;
 
-            if(id->variables->Email != u["Email"])
-               u["Email"] = id->variables->Email;
+            if(id->variables->email != u["email"])
+               u["email"] = id->variables->email;
 
 
-            if(id->variables->Password && sizeof(id->variables->Password))
+            if(id->variables->password && sizeof(id->variables->password))
             {
-               if(id->variables->Password != id->variables->ConfirmPassword)
+               if(id->variables->password != id->variables->confirmpassword)
                {
                  response->flash("msg", LOCALE(315,"You entered two differing passwords."));
                  return;
                }
 
-               u["Password"] = id->variables->Password;
+               u["password"] = id->variables->password;
             }
 
             if(id->variables->added != "")
@@ -641,7 +641,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
     foreach(u["object_versions"];; object x)
       x["author"] = nu;
 
-    string n = u["Name"];
+    string n = u["name"];
     u->delete();
     response->flash("msg", sprintf(LOCALE(319,"User %[0]s deleted."),n));
     response->redirect("listusers");
@@ -678,7 +678,7 @@ public void deleteacl(Request id, Response response, mixed ... args)
   }
   else
   {
-    string n = u["Name"];
+    string n = u["name"];
     u->delete();
     response->flash("msg", sprintf(LOCALE(322,"ACL %[0]s deleted."), n));
   }
@@ -701,7 +701,7 @@ public void deletegroup(Request id, Response response, mixed ... args)
   }
   else
   {
-    string n = u["Name"];
+    string n = u["name"];
     u->delete();
     response->flash("msg", sprintf(LOCALE(325,"Group %[0]s deleted."), n));
   }
@@ -727,9 +727,9 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
     
     string pre = "";
     if(!u["is_active"])
-      response->flash("msg", sprintf(LOCALE(326,"User %[0]s deactivated."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(326,"User %[0]s deactivated."), u["name"]));
     else
-      response->flash("msg", sprintf(LOCALE(327,"User %[0]s activated."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(327,"User %[0]s activated."), u["name"]));
   }
   response->redirect("listusers");
 }
@@ -752,9 +752,9 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
     u["is_admin"] = !u["is_admin"];
     
     if(!u["is_admin"])
-      response->flash("msg", sprintf(LOCALE(328,"User administrative rights revoked for %[0]s."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(328,"User administrative rights revoked for %[0]s."), u["name"]));
     else
-      response->flash("msg", sprintf(LOCALE(329,"User administrative rights granted for %[0]s."), u["Name"]));
+      response->flash("msg", sprintf(LOCALE(329,"User administrative rights granted for %[0]s."), u["name"]));
   }
   response->redirect("listusers");
 }

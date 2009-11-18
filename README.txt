@@ -105,7 +105,7 @@ bin/start.sh  --hilfe --config yourconfigname
 
 at the prompt, run the following command:
 
-  application->get_sys_pref("site.theme")["Value"] = "yournewthemename";
+  application->get_sys_pref("site.theme")["value"] = "yournewthemename";
   quit
 
 And that's it! To switch back to the default theme, simply follow the 

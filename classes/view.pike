@@ -107,7 +107,7 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
     if(!p) return "";
 
     if(!arguments->val)
-      return p["Value"];
+      return p["value"];
   }
 }
 

@@ -13,7 +13,7 @@
             <tr><td><%LOCALE id="131" string="Group Name"%></td></tr>  
           <% foreach var="$groups" val="group"%>
         <tr>
-            <td><%$group.Name%></td>
+            <td><%$group.name%></td>
             <td>[ <a href="editgroup?groupid=<%$group.id%>"><%LOCALE id="145" string="Edit"%></a> | 
                 <a href="deletegroup?groupid=<%$group.id%>"><%LOCALE id="146" string="Delete"%></a> ]</td>
         </tr>

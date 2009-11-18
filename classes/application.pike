@@ -377,10 +377,10 @@ object new_string_pref(string pref, string value)
   { 
      Log.info("Creating new preference object '" + pref  + "'.");
      p = FinScribe.Objects.Preference();
-     p["Name"] = pref;
-     p["Type"] = FinScribe.STRING;
-     p["Value"] = value;
-     p["Description"] = "";
+     p["name"] = pref;
+     p["type"] = FinScribe.STRING;
+     p["value"] = value;
+     p["description"] = "";
      p->save();
      return p;
   }
@@ -394,10 +394,10 @@ object new_pref(string pref, string value, int type)
   else 
   { 
      p = Fins.Model.new("preference");
-     p["Name"] = pref;
-     p["Type"] = type;
-     p["Description"] = "";
-     p["Value"] = value;
+     p["name"] = pref;
+     p["type"] = type;
+     p["description"] = "";
+     p["value"] = value;
      p->save();
      return p;
   }

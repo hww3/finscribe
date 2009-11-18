@@ -9,7 +9,7 @@
 
 	<form action="" method="post">
         
-<%LOCALE id="118" string="The user"%> <%$user.Name%> <%LOCALE id="119" string="owns the the following objects, or versions of the following documents"%>:
+<%LOCALE id="118" string="The user"%> <%$user.name%> <%LOCALE id="119" string="owns the the following objects, or versions of the following documents"%>:
 <p>
 <% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["object_versions"]) %>
 <div style="height:200px; overflow:auto;">
@@ -22,7 +22,7 @@
 <p>
 <select size="10" name="reassign_to">
 <%foreach var="$all_users" val="u" %>
-<option value="<%$u.id%>"><%$u.Name%> [<%$u.UserName%>]
+<option value="<%$u.id%>"><%$u.name%> [<%$u.username%>]
 <% end %>
 </select>
 

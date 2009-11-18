@@ -128,7 +128,7 @@ private Node generate_weblog_rss(object root, array entries, object id)
   string x = sprintf( 
                      "href=\"%s\" type=\"text/css\"", 
               (string)Standards.URI("/static/rss.css", 
-                    app->get_sys_pref("site.url")["Value"]));
+                    app->get_sys_pref("site.url")["value"]));
   Node ss;
   catch{ ss = n->new_pi("xml-stylesheet", x); };
   if(ss)
@@ -137,7 +137,7 @@ private Node generate_weblog_rss(object root, array entries, object id)
 
   c = n->new_child("channel", "");
   c->new_child("title", root["title"]);
-  c->new_child("link", app->get_sys_pref("site.url")["Value"]);
+  c->new_child("link", app->get_sys_pref("site.url")["value"]);
   c->new_child("description", "");
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
@@ -146,10 +146,10 @@ private Node generate_weblog_rss(object root, array entries, object id)
     {
       Node item = c->new_child("item", "");
       item->new_child("link",  sprintf(
-        "%s/space/%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/space/%s", app->get_sys_pref("site.url")["value"], 
         row["path"]));
       item->new_child("guid",  sprintf(
-        "%s/space/%s", app->get_sys_pref("site.url")["Value"],
+        "%s/space/%s", app->get_sys_pref("site.url")["value"],
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
@@ -171,7 +171,7 @@ private Node generate_category_rss(object root, array|object entries, object id)
 
   c = n->new_child("channel", "");
   c->new_child("title", root["category"]);
-  c->new_child("link", app->get_sys_pref("site.url")["Value"]);
+  c->new_child("link", app->get_sys_pref("site.url")["value"]);
   c->new_child("description", "");
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
@@ -180,10 +180,10 @@ private Node generate_category_rss(object root, array|object entries, object id)
   {
       Node item = c->new_child("item", "");
       item->new_child("link",  sprintf(
-        "%s/space/%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/space/%s", app->get_sys_pref("site.url")["value"], 
         row["path"]));
       item->new_child("guid",  sprintf(
-        "%s/space/%s", app->get_sys_pref("site.url")["Value"],
+        "%s/space/%s", app->get_sys_pref("site.url")["value"],
         row["path"]))->set_attribute("isPermaLink", "1");
       item->new_child("title", row["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
@@ -201,7 +201,7 @@ private Node generate_comments_rss(object root, array entries, object id)
 
   c = n->new_child("channel", "");
   c->new_child("title", root["title"]);
-  c->new_child("link", ({ app->get_sys_pref("site.url")["Value"], "space",  root["path"] }) * "/" );
+  c->new_child("link", ({ app->get_sys_pref("site.url")["value"], "space",  root["path"] }) * "/" );
   c->new_child("description", app->render(root["current_version"]["contents"], root, id));
   c->new_child("generator", version());
   c->new_child("docs", "http://blogs.law.harvard.edu/tech/rss");
@@ -215,14 +215,14 @@ private Node generate_comments_rss(object root, array entries, object id)
     {
       Node item = c->new_child("item", "");
       item->new_child("link",  sprintf(
-        "%s/comments/%s#%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/comments/%s#%s", app->get_sys_pref("site.url")["value"], 
         root["path"], (string)row["id"]));
 
       item->new_child("guid",  sprintf(
-        "%s/comments/%s#%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/comments/%s#%s", app->get_sys_pref("site.url")["value"], 
         root["path"], (string)row["id"]))->set_attribute("isPermalink", "1");
 
-      item->new_child("title", row["author"]["UserName"] + ": " + row["object"]["title"]);
+      item->new_child("title", row["author"]["username"] + ": " + row["object"]["title"]);
       item->new_child("pubDate", row["created"]->format_smtp());
       item->new_child("description", app->render(row["contents"], row, id));
     }
@@ -239,7 +239,7 @@ private Node generate_history_rss(object root, array entries, object id)
 
   c = n->new_child("channel", "");
   c->new_child("title", root["title"]);
-  c->new_child("link", ({ app->get_sys_pref("site.url")["Value"], "space",  root["path"] }) * "/" );
+  c->new_child("link", ({ app->get_sys_pref("site.url")["value"], "space",  root["path"] }) * "/" );
   c->new_child("description", "");
 // app()->engine->render(root["current_version"]["contents"], (["request": id, "obj": root])));
   c->new_child("generator", version());
@@ -254,11 +254,11 @@ private Node generate_history_rss(object root, array entries, object id)
     {
       Node item = c->new_child("item", "");
       item->new_child("link",  sprintf(
-        "%s/space/%s?show_version=%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/space/%s?show_version=%s", app->get_sys_pref("site.url")["value"], 
         root["path"], (string)row["version"]));
 
       item->new_child("guid",  sprintf(
-        "%s/comments/%s#%s", app->get_sys_pref("site.url")["Value"], 
+        "%s/comments/%s#%s", app->get_sys_pref("site.url")["value"], 
         root["path"], (string)row["id"]))->set_attribute("isPermalink", "1");
 
       item->new_child("title", "Version " + row["version"] + ": " + row["object"]["title"]);

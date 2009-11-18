@@ -25,24 +25,6 @@ public void load_model()
   ::load_model();
 }
 
-/*
-void register_types()
-{
-
-   repository->add_object_type(FinScribe.Model.Object(context), FinScribe.Objects.Object);
-   repository->add_object_type(FinScribe.Model.Object_version(context), FinScribe.Objects.Object_version);
-   repository->add_object_type(FinScribe.Model.Datatype(context), FinScribe.Objects.Datatype);   
-   repository->add_object_type(FinScribe.Model.Category(context), FinScribe.Objects.Category);
-   repository->add_object_type(FinScribe.Model.Comment(context), FinScribe.Objects.Comment);
-   repository->add_object_type(FinScribe.Model.User(context), FinScribe.Objects.User);
-   repository->add_object_type(FinScribe.Model.Group(context), FinScribe.Objects.Group);
-   repository->add_object_type(FinScribe.Model.ACL(context), FinScribe.Objects.ACL);
-   repository->add_object_type(FinScribe.Model.ACLRule(context), FinScribe.Objects.ACLRule);
-   repository->add_object_type(FinScribe.Model.Preference(context), FinScribe.Objects.Preference);
-   repository->add_object_type(FinScribe.Model.Whee(context), FinScribe.Objects.Whee);
-}
-*/
-
 //!
 Model.DataObjectInstance find_nearest_parent(string path)
 {

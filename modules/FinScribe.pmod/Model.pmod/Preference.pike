@@ -3,17 +3,9 @@ import Fins.Model;
 
    inherit Model.DataObject;
 
-   static void define()
+   static void post_define()
    {  
-      set_table_name("preferences");
-      set_instance_name("preference");
-      add_field(PrimaryKeyField("id"));
-      add_field(StringField("Name", 64, 0));
-      add_field(StringField("Description", 256, 0));
-      add_field(IntField("Type", 1, 0));
-      add_field(StringField("Value", 1024, 0));
-      add_field(TransformField("ShortName", "Name", lambda(mixed n, object i){return (n/".")[-1];}));
-      add_field(TransformField("BooleanValue", "Value", lambda(mixed n, object i){return (((int)n)?"true":"false");}));
-      set_primary_key("id");
-      set_alternate_key("Name");
+      add_field(TransformField("shortname", "name", lambda(mixed n, object i){return (n/".")[-1];}));
+      add_field(TransformField("booleanvalue", "value", lambda(mixed n, object i){return (((int)n)?"true":"false");}));
+      set_alternate_key("name");
    }

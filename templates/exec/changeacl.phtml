@@ -5,13 +5,13 @@
    <h3><%LOCALE id="238" string="Choose a new ACL"%></h3>
 <%LOCALE id="239" string="Document"%>: <b><%$obj%></b>
 <br/>
-<%LOCALE id="227" string="Current ACL"%>: <b><%$currentacl.Name%></b>
+<%LOCALE id="227" string="Current ACL"%>: <b><%$currentacl.name%></b>
 <p>
 <form>
 <input type="hidden" name="return_to" value="<%$return_to%>"/>
 <%LOCALE id="124" string="New ACL"%>: <select name="newacl">
 <% foreach var="$acls" val="acl" %>
-<option value="<%$acl.id %>"><%$acl.Name%>
+<option value="<%$acl.id %>"><%$acl.name%>
 <% end %>
 </select>
 <button type="submit" value="Change"><%LOCALE id="240" string="Change"%></button>

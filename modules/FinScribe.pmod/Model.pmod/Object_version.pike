@@ -3,28 +3,14 @@ import Fins.Model;
 
    inherit Model.DataObject;
 
-   static void define()
+   static void post_define()
    {  
-      set_table_name("object_versions");
-      set_instance_name("object_version");
-      add_field(PrimaryKeyField("id"));
-      add_field(KeyReference("object", "object_id", "object"));
-      add_field(KeyReference("author", "author_id", "user"));
-      add_field(IntField("version", 0, 1));
-      add_field(StringField("subject", 128, 1));
       add_field(TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
       add_field(TransformField("nice_content_length", "contents", lambda(mixed n, object i){int z = sizeof(n); if(z < 1024) return z + " bytes"; else if (z < 1024000) return (z / 1024) + " kb"; else return (z / 1024000) + " mb";}));
-      add_field(BinaryStringField("contents", 1024000, 0));
-      add_field(DateTimeField("created", 0, created));
-      add_field(TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));
-      add_field(InverseForeignKeyReference("comments", "comment", "object"));
 
-      set_primary_key("id");
+//      add_field(BinaryStringField("contents", 1024000, 0));
+
+      add_field(TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));
+
       set_alternate_key("version");
    }
-
-   static object created()
-   {
-     return Calendar.Second();
-   }
-

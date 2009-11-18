@@ -20,7 +20,7 @@
 
 
 <% if data["user_object"] %>
-| <%LOCALE id="3" string="logged in as"%> <%$user_object.UserName%> | <a href="/exec/logout"><%LOCALE id="4" string="logout"%></a>
+| <%LOCALE id="3" string="logged in as"%> <%$user_object.username%> | <a href="/exec/logout"><%LOCALE id="4" string="logout"%></a>
 <% if data["object_is_weblog"] %>
       |  <a href="/exec/post/<%$obj%>" id="PostBlog"><%LOCALE id="5" string="post blog"%></a>
   <% endif %>

@@ -32,10 +32,10 @@ int run()
 
   write("Creating admin user...\n");
   object u = FinScribe.Objects.User(UNDEFINED);
-  u["UserName"] = "admin";
-  u["Password"] = password;
-  u["Name"] = "Admin User";
-  u["Email"] = email;
+  u["username"] = "admin";
+  u["password"] = password;
+  u["name"] = "Admin User";
+  u["email"] = email;
   u["is_active"] = 1;
   u["is_admin"] = 1;
   u->save();
@@ -97,7 +97,7 @@ void create_groups()
   object g;
 
   g = FinScribe.Objects.Group();
-  g["Name"] = "Editors";
+  g["name"] = "Editors";
   g->save();
 }
 
@@ -108,7 +108,7 @@ void create_acls()
   object r;
 
   a = FinScribe.Objects.ACL();
-  a["Name"] = "Default ACL";
+  a["name"] = "Default ACL";
   a->save();
 
   r = FinScribe.Objects.ACLRule();
@@ -134,7 +134,7 @@ void create_acls()
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  object e = model->find("group", (["Name": "Editors"]))[0];
+  object e = model->find("group", (["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
     r["group"] += e;
@@ -142,7 +142,7 @@ void create_acls()
 
 
   a = FinScribe.Objects.ACL();
-  a["Name"] = "Work In Progress Object";
+  a["name"] = "Work In Progress Object";
   a->save();
 
   r = FinScribe.Objects.ACLRule();
@@ -155,7 +155,7 @@ void create_acls()
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  e = model->find("group", (["Name": "Editors"]))[0];
+  e = model->find("group", (["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
     r["group"] += e;
