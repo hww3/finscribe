@@ -62,10 +62,10 @@ public void getusers_json(Request id, Response response, mixed ... args)
   array x;
 
   if(!sizeof(args))
-   x = Fins.Model.find.users_all();
+   x = Fins.DataSource._default.find.users_all();
   else
   {
-    object g = Fins.Model.find.groups_by_id((int)args[0]);
+    object g = Fins.DataSource._default.find.groups_by_id((int)args[0]);
     
     x = g["users"];
   }
@@ -92,7 +92,7 @@ public void getrules_json(Request id, Response response, mixed ... args)
 
   else
   {
-    a = Fins.Model.find.acls_by_id((int)args[0]);
+    a = Fins.DataSource._default.find.acls_by_id((int)args[0]);
   }
 
   foreach(a["rules"];;mixed r)
@@ -113,12 +113,12 @@ public void getgroups_json(Request id, Response response, mixed ... args)
   array x = ({});
 
   if(!sizeof(args))
-    x = Fins.Model.find.groups_all();
+    x = Fins.DataSource._default.find.groups_all();
   else
   {
-    object u = Fins.Model.find.users_by_id((int)args[0]);
+    object u = Fins.DataSource._default.find.users_by_id((int)args[0]);
     if(u)
-       x = Fins.Model.find.group((["users": u]));
+       x = Fins.DataSource._default.find.groups((["users": u]));
   }
 
   foreach(x;;mixed g)
@@ -141,7 +141,7 @@ public void listacls(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = Fins.Model.find.acls_all();
+		ul = Fins.DataSource._default.find.acls_all();
 	
 	t->add("acls", ul);
     t->add("in_admin", 1);
@@ -157,10 +157,10 @@ public void listwip(Request id, Response response, mixed ... args)
 
     mixed ul;
 
-    ul = Fins.Model.find.objects((["is_attachment": 3]));
+    ul = Fins.DataSource._default.find.objects((["is_attachment": 3]));
     t->add("wipblog", ul);
 
-    ul = Fins.Model.find.objects((["is_attachment": 4]));
+    ul = Fins.DataSource._default.find.objects((["is_attachment": 4]));
     t->add("wipobj", ul);
 
     t->add("in_admin", 1);
@@ -179,7 +179,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
         if(id->variables->aclid)
         {
-           g = Fins.Model.find.acls_by_id((int)id->variables->aclid);
+           g = Fins.DataSource._default.find.acls_by_id((int)id->variables->aclid);
 	   t->add("acl", g);
         }
         else
@@ -207,7 +207,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             if(id->variables->newacl)
             {
-              g = Fins.Model.new("acl");
+              g = Fins.DataSource._default.new("acl");
               Log.info("creating a new acl.");
             }
             if((id->variables->name != g["name"]) || id->variables->newacl)
@@ -221,7 +221,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             foreach(rules->deleted;;mapping r)
             {
-              object r = Fins.Model.find.aclrules_by_id((int)(r->id));
+              object r = Fins.DataSource._default.find.aclrules_by_id((int)(r->id));
               if(!r)
                 Log.error("Non existent ACL Rule %d.", (int)r->id);
               else
@@ -236,7 +236,7 @@ public void editacl(Request id, Response response, mixed ... args)
               if(r->isNew)
               {
                 Log.debug("adding a rule");
-                object newrule = Fins.Model.new("aclrule");
+                object newrule = Fins.DataSource._default.new("aclrule");
                 int cls = 0;
                 if(r->class == "anonymous")
                   cls = 4;
@@ -259,12 +259,12 @@ public void editacl(Request id, Response response, mixed ... args)
 
                 if(r->class == "user")
                 {
-                  object u = Fins.Model.find.users_by_id((int)r->user);
+                  object u = Fins.DataSource._default.find.users_by_id((int)r->user);
                   newrule["user"] += u;
                 }
                 else if(r->class == "group")
                 {
-                  object g = Fins.Model.find.groups_by_id((int)r->group);
+                  object g = Fins.DataSource._default.find.groups_by_id((int)r->group);
                   newrule["group"] += g;
                 }
 
@@ -277,7 +277,7 @@ public void editacl(Request id, Response response, mixed ... args)
               {
                 Log.debug("changing a rule");
 
-                object oldrule = Fins.Model.find.aclrules_by_id((int)r->id);
+                object oldrule = Fins.DataSource._default.find.aclrules_by_id((int)r->id);
                 int cls = 0;
  
                 if(r->class == "anonymous")
@@ -305,12 +305,12 @@ public void editacl(Request id, Response response, mixed ... args)
 
                 if(r->class == "user")
                 {
-                  object u = Fins.Model.find.users_by_id((int)r->user);
+                  object u = Fins.DataSource._default.find.users_by_id((int)r->user);
                   oldrule["user"] += u;
                 }
                 else if(r->class == "group")
                 {
-                  object g = Fins.Model.find.groups_by_id((int)r->group);
+                  object g = Fins.DataSource._default.find.groups_by_id((int)r->group);
                   oldrule["group"] += g;
                 }
               }
@@ -334,7 +334,7 @@ public void listusers(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = Fins.Model.find.users_all();
+		ul = Fins.DataSource._default.find.users_all();
 	
 	t->add("users", ul);
     t->add("in_admin", 1);
@@ -351,7 +351,7 @@ public void listgroups(Request id, Response response, mixed ... args)
 	mixed ul;
 
 	if(!id->variables->limit)
-		ul = Fins.Model.find.groups_all();
+		ul = Fins.DataSource._default.find.groups_all();
 	
 	t->add("groups", ul);
     t->add("in_admin", 1);
@@ -370,7 +370,7 @@ public void editgroup(Request id, Response response, mixed ... args)
 
         if(id->variables->groupid)
         {
-           g = Fins.Model.find.groups_by_id((int)id->variables->groupid);
+           g = Fins.DataSource._default.find.groups_by_id((int)id->variables->groupid);
 	   t->add("group", g);
         }
         else
@@ -390,7 +390,7 @@ public void editgroup(Request id, Response response, mixed ... args)
           {
 
             if(id->variables->newgroup)
-              g = Fins.Model.new("group");
+              g = Fins.DataSource._default.new("group");
 
             if(id->variables->name != g["name"])
                g["name"] = id->variables->name;
@@ -403,7 +403,7 @@ public void editgroup(Request id, Response response, mixed ... args)
               array a = id->variables->added / ",";
               foreach(a;;string toadd)
               {
-                 object x = Fins.Model.find.users_by_id((int)toadd);
+                 object x = Fins.DataSource._default.find.users_by_id((int)toadd);
                  g["users"] += x;
               }
             }
@@ -413,7 +413,7 @@ public void editgroup(Request id, Response response, mixed ... args)
               array a = id->variables->removed / ",";
               foreach(a;;string toremove)
               {
-                 object x = Fins.Model.find.users_by_id((int)toremove);
+                 object x = Fins.DataSource._default.find.users_by_id((int)toremove);
                  g["users"] -= x;
               }
             }
@@ -462,7 +462,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 response->flash("msg", LOCALE(309,"You must provide a username with at least 2 characters."));
                                 UserName = "";
                         }
-                        else if(sizeof(Fins.Model.find.users((["username": UserName]))) != 0)
+                        else if(sizeof(Fins.DataSource._default.find.users((["username": UserName]))) != 0)
                         {
                                 response->flash("msg", LOCALE(310,"The username you have chosen is already in use by another user."));
                                 UserName = "";
@@ -482,7 +482,7 @@ public void newuser(Request id, Response response, mixed ... args)
                         else
                         {
                                 // if we got here, everything should be good to go.
-                                object u = Fins.Model.new("user");
+                                object u = Fins.DataSource._default.new("user");
                                 u["username"] = UserName;
                                 u["name"] = Name;
                                 u["email"] = Email;
@@ -496,7 +496,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                  array a = id->variables->added / ",";
                                  foreach(a;;string toadd)
                                  {
-                                    object x = Fins.Model.find.groups_by_id((int)toadd);
+                                    object x = Fins.DataSource._default.find.groups_by_id((int)toadd);
                                     x["users"] += u;
                                   }
                                 }
@@ -505,9 +505,9 @@ public void newuser(Request id, Response response, mixed ... args)
                                 response->redirect("listusers");
 
 // now, let's set up a page for the new user.
-                                object p = Fins.Model.find("object", (["path": "themes/default/newuser"]))[0];
+                                object p = Fins.DataSource._default.find("object", (["path": "themes/default/newuser"]))[0];
 
-                                object up = Fins.Model.new("object");
+                                object up = Fins.DataSource._default.new("object");
                                 up["path"] = u["username"];
                                 up["author"] = u;
                                 up["datatype"] = p["datatype"];
@@ -516,7 +516,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 up->save();
                                 up["md"]["locked"] = 1;
 
-                                object uv = Fins.Model.new("object_version");
+                                object uv = Fins.DataSource._default.new("object_version");
                                 uv["author"] = u;
                                 uv["object"] = up;
                                 uv["contents"] = p["current_version"]["contents"];
@@ -551,7 +551,7 @@ public void edituser(Request id, Response response, mixed ... args)
   	response->set_view(t);
     t->add("in_admin", 1);
 
-    object u = Fins.Model.find.users_by_id((int)id->variables->userid);
+    object u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid);
 	t->add("user", u);
 
         if(id->variables->action)
@@ -593,7 +593,7 @@ public void edituser(Request id, Response response, mixed ... args)
               array a = id->variables->added / ",";
               foreach(a;;string toadd)
               {
-                 object x = Fins.Model.find.groups_by_id((int)toadd);
+                 object x = Fins.DataSource._default.find.groups_by_id((int)toadd);
                  x["users"] += u;
               }
             }
@@ -603,7 +603,7 @@ public void edituser(Request id, Response response, mixed ... args)
               array a = id->variables->removed / ",";
               foreach(a;;string toremove)
               {
-                 object x = Fins.Model.find.groups_by_id((int)toremove);
+                 object x = Fins.DataSource._default.find.groups_by_id((int)toremove);
                  x["users"] -= u;
               }
             }
@@ -626,7 +626,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
     response->flash("msg", LOCALE(317,"No user provided."));
   }
-  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
+  if(!(u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }
@@ -634,7 +634,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
   {
 
     // first, we should reassign the documents.
-    object nu = Fins.Model.find.users_by_id((int)id->variables->reassign_to);
+    object nu = Fins.DataSource._default.find.users_by_id((int)id->variables->reassign_to);
 
     foreach(u["objects"];; object x)
       x["author"] = nu;
@@ -659,7 +659,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
     t->add("in_admin", 1);
     t->add("user", u);
-    t->add("all_users", Fins.Model.find.users(([])));
+    t->add("all_users", Fins.DataSource._default.find.users(([])));
     response->set_view(t);
   }
 }
@@ -672,7 +672,7 @@ public void deleteacl(Request id, Response response, mixed ... args)
   {
     response->flash("msg", "No ACL provided.");
   }
-  if(!(u = Fins.Model.find.acls_by_id((int)id->variables->aclid)))
+  if(!(u = Fins.DataSource._default.find.acls_by_id((int)id->variables->aclid)))
   {
     response->flash("msg", sprintf(LOCALE(321,"ACL id %[0]s does not exist."), id->variables->aclid));
   }
@@ -695,7 +695,7 @@ public void deletegroup(Request id, Response response, mixed ... args)
   {
     response->flash("msg", LOCALE(323,"No group provided."));
   }
-  if(!(u = Fins.Model.find.groups_by_id((int)id->variables->groupid)))
+  if(!(u = Fins.DataSource._default.find.groups_by_id((int)id->variables->groupid)))
   {
     response->flash("msg", sprintf(LOCALE(324,"Group id %[0]s does not exist."), id->variables->groupid));
   }
@@ -717,7 +717,7 @@ public void toggle_useractive(Request id, Response response, mixed ... args)
   {
     response->flash("msg", LOCALE(317,"No user provided."));
   }
-  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
+  if(!(u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }
@@ -743,7 +743,7 @@ public void toggle_useradmin(Request id, Response response, mixed ... args)
   {
     response->flash("msg", LOCALE(317,"No user provided."));
   }
-  if(!(u = Fins.Model.find.users_by_id((int)id->variables->userid)))
+  if(!(u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid)))
   {
     response->flash("msg", sprintf(LOCALE(318,"User id %[0]s does not exist."), id->variables->userid));
   }

@@ -18,7 +18,7 @@ array evaluate(Macros.MacroParameters params)
     root = params->extras->obj;
   else
   {
-    array o = Fins.Model.find.objects((["path": params->extras->obj["path"]]));
+    array o = Fins.DataSource._default.find.objects((["path": params->extras->obj["path"]]));
     if(sizeof(o))
       root = o[0];
   }

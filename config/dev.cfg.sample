@@ -3,7 +3,7 @@ class=model
 #datasource=mysql://hww3:gazonk@localhost/blog
 debug=1
 # this path is relative to the current directory
-datasource=SQLite://blog.db
+#datasource=SQLite://blog.db
 
 [controller]
 class=controller
@@ -13,3 +13,5 @@ class=view
 
 [fulltext]
 indexserver=http://somehost:9001
+
+[application]

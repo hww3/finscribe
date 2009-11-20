@@ -24,7 +24,7 @@ werror(">>>\n>>>parent updater\n>>>\n");
 
   is_running = 1;
 
-  array a = Fins.Model.find.objects(([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
+  array a = Fins.DataSource._default.find.objects(([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
 
   if (!(a && arrayp(a) && sizeof(a)))
     return;
@@ -39,7 +39,7 @@ werror(">>>\n>>>parent updater\n>>>\n");
 
   do
   {
-    array objs = Fins.Model.find.objects( 
+    array objs = Fins.DataSource._default.find.objects( 
       (["id": Fins.Model.Criteria("id >= " + cid + " and id < " + (cid + 100)) ])
     );
 
@@ -53,7 +53,7 @@ werror(">>>\n>>>parent updater\n>>>\n");
   } while(cid < maxid);
 
   // okay, now we need to find any objects which have a slash, but no parent.
-  array orphans = Fins.Model.find.objects( (["parent": 0, "path": Fins.Model.LikeCriteria("%/%")]));
+  array orphans = Fins.DataSource._default.find.objects( (["parent": 0, "path": Fins.Model.LikeCriteria("%/%")]));
 
   foreach(orphans;; object orp)
   {
@@ -69,7 +69,7 @@ werror(">>>\n>>>parent updater\n>>>\n");
 void process_object(object o, int|void immediate)
 {
 werror("finding children for %s\n", o["path"]);
-  array x = Fins.Model.find.objects( (["path": Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(o["path"] + "/%"), 
+  array x = Fins.DataSource._default.find.objects( (["path": Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(o["path"] + "/%"), 
 Fins.Model.NotCriteria(Fins.Model.LikeCriteria(o["path"] + "/%/%") ) })) ]));
 
   foreach(x;; object c)

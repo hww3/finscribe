@@ -68,7 +68,7 @@ array evaluate(Macros.MacroParameters params)
     if(!(int)k) continue;
   
     object ent;
-    catch(ent = Fins.Model.find.objects_by_id((int)k));
+    catch(ent = Fins.DataSource._default.find.objects_by_id((int)k));
       if(!ent /*|| !ent->is_browseable()*/) continue;
       res += ({"<li><a href=\"/space/" + ent["path"] + "\">" + ent["title"] + "</a></li>\n"});
   }

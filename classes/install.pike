@@ -53,7 +53,7 @@ void populate()
     object d;
     dt = String.trim_whites(dt);
     if(dt=="") continue;
-    d = model->find("datatype", (["mimetype": dt]));
+    d = model->context->find->datatypes((["mimetype": dt]));
     if(d && sizeof(d))
        continue;
     else
@@ -75,7 +75,7 @@ void populate()
               Stdio.read_file(fn), "text/wiki");
   }
 
-  array a = model->find("object", (["path": Fins.Model.LikeCriteria("%-index")]));
+  array a = model->context->find->objects((["path": Fins.Model.LikeCriteria("%-index")]));
  
   // move all "*-index" objects up to the root.
   foreach(a;; object i)
@@ -116,29 +116,29 @@ void create_acls()
   r["xmit"] = 35;
 
   r->save();
-  a["rules"] += r;
+  a["aclrules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 2; // users have browse, read, version, create, comment.
   r["xmit"] = 47;
   r->save();
-  a["rules"] += r;
+  a["aclules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 1; // owners have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  a["rules"] += r;
+  a["aclules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  object e = model->find("group", (["name": "Editors"]))[0];
+  object e = model->context->find->groups((["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
     r["group"] += e;
-  a["rules"] += r;
+  a["aclrules"] += r;
 
 
   a = FinScribe.Objects.ACL();
@@ -149,15 +149,15 @@ void create_acls()
   r["class"] = 1; // owners have browse, read, version, create, comment, post and lock.
   r["xmit"] = 239;
   r->save();
-  a["rules"] += r;
+  a["aclrules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  e = model->find("group", (["name": "Editors"]))[0];
+  e = model->context->find->groups((["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
     r["group"] += e;
-  a["rules"] += r;
+  a["aclrules"] += r;
 }

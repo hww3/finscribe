@@ -27,7 +27,7 @@ public void x(Request id, Response response, mixed ... args)
   }
   else
   {
-    object o = Fins.Model.find.objects_by_id((int)MIME.decode_base64(args[0]));
+    object o = Fins.DataSource._default.find.objects_by_id((int)MIME.decode_base64(args[0]));
     if(!o)
       response->redirect(action_url(app->controller));
     else
@@ -140,7 +140,7 @@ public void changeacl(Request id, Response response, mixed ... args)
    }
 
    t->add("obj", obj["path"]);
-   t->add("acls", find.acls_all());
+   t->add("acls", Fins.Model.find.acls_all());
    t->add("currentacl", obj["acl"]);
 
    if(id->variables->newacl)
@@ -200,7 +200,7 @@ public void editcategory(Request id, Response response, mixed ... args)
     if(!category || !sizeof(category))
     { 
       category = id->variables["new-category"];
-      object nc = Fins.Model.new("category");
+      object nc = Fins.DataSource._default.new("category");
       nc["category"] = category;
       nc->save();
       c=({nc});
@@ -422,7 +422,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			else
 			{
 				// if we got here, everything should be good to go.
-				object u = Fins.Model.new("user");
+				object u = Fins.DataSource._default.new("user");
 				u["username"] = UserName;
 				u["name"] = Name;
 				u["email"] = Email;
@@ -435,7 +435,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				
 				object p = find.objects((["path": "themes/default/newuser"]))[0];
 				
-				object up = Fins.Model.new("object");
+				object up = Fins.DataSource._default.new("object");
 				up["path"] = u["username"];
 				up["author"] = u;
 				up["datatype"] = p["datatype"];
@@ -444,7 +444,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				up->save();
 				up["md"]["locked"] = 1;
 				
-				object uv = Fins.Model.new("object_version");
+				object uv = Fins.DataSource._default.new("object_version");
 				uv["author"] = u;
 				uv["object"] = up;
 				uv["contents"] = p["current_version"]["contents"];
@@ -558,7 +558,7 @@ public void upload(Request id, Response response, mixed ... args)
                }
                else{              
                object dto = dtos[0];
-               obj_o = Fins.Model.new("object");
+               obj_o = Fins.DataSource._default.new("object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
@@ -567,7 +567,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = Fins.Model.new("object_version");
+            object obj_n = Fins.DataSource._default.new("object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -718,7 +718,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     {       
       mixed e = catch {
         object dto = dtos[0];
-        obj_o = Fins.Model.new("object");
+        obj_o = Fins.DataSource._default.new("object");
         obj_o["datatype"] = dto;
         obj_o["is_attachment"] = 1;
         obj_o["parent"] = p;
@@ -729,7 +729,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       };
     }
 
-      object obj_n = Fins.Model.new("object_version");
+      object obj_n = Fins.DataSource._default.new("object_version");
       obj_n["contents"] = id->variables["userfile"];
 
       int v;
@@ -931,7 +931,7 @@ werror("POST: %O\n", id->variables);
              response->flash("msg", LOCALE(377,"Name and Email are required for posting without logging in."));
              break;
           }
-          object obj_n = Fins.Model.new("comment");
+          object obj_n = Fins.DataSource._default.new("comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
             if(anonymous)
@@ -1543,7 +1543,7 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                dto = dtos[0];
-               obj_o = Fins.Model.new("object");
+               obj_o = Fins.DataSource._default.new("object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
                obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
@@ -1557,7 +1557,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = Fins.Model.new("object_version");
+            object obj_n = Fins.DataSource._default.new("object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -1819,7 +1819,7 @@ public void post(Request id, Response response, mixed ... args)
                object p = obj_o;
 
                object dto = dtos[0]; 
-               obj_o = Fins.Model.new("object");
+               obj_o = Fins.DataSource._default.new("object");
                obj_o["datatype"] = dto;
                obj_o["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -1827,7 +1827,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o["parent"] = p;
                if(just_saving)
                {
-                 array s_a = Fins.Model.old_find("acl", (["name": "Work In Progress Object"]));
+                 array s_a = Fins.DataSource._default.find.acls("acl", (["name": "Work In Progress Object"]));
                  object s_acl;
                  if(sizeof(s_a))
                    s_acl = s_a[0];
@@ -1846,7 +1846,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = Fins.Model.new("object_version");
+            object obj_n = Fins.DataSource._default.new("object_version");
             obj_n["contents"] = contents;
             obj_n["subject"] = subject;
             obj_n["created"] = c;

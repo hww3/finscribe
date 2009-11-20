@@ -116,7 +116,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
   Log.debug("connection to database " + id->variables->dburl + " successful.");
   switch(id->variables->dburl[0..1])
   {
-    case "SQ":
+    case "sq":
       dbtype="sqlite";
       splitter = "\\g\n";
       break;
@@ -161,7 +161,7 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
     if (sscanf(command, "CREATE TABLE %s %*s", table_name))
     {
       Log.debug("found definition for %s.", table_name);
-      tables[table_name] = command;
+      tables[table_name] = String.trim_all_whites(command);
     }
   }
 
@@ -195,6 +195,9 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
 
   view->default_template = (program)"themed_template";
 
+werror("app: %O\n", app);
+werror("app->kick_model: %O\n", app->kick_model);
+
   app->kick_model();
   app->load_plugins();
 
@@ -205,9 +208,9 @@ public void verifyandcreate(Request id, Response response, mixed ... args)
 public void makedburl(Request id, Response response, mixed ... args)
 {
   string url = "";
-  if(args[0] == "SQLite")
+  if(args[0] == "sqlite")
   {
-    url = sprintf("SQLite://%s", id->variables->sqlitepath);
+    url = sprintf("sqlite://%s", id->variables->sqlitepath);
   }
   else if(args[0] == "mysql")
   {
@@ -235,7 +238,7 @@ args)
 {
   if(!args || !args[0])
     response->set_data("Invalid db type.");
-  else if (!(<"mysql", "postgres", "SQLite">)[args[0]])
+  else if (!(<"mysql", "postgres", "sqlite">)[args[0]])
   {
     response->set_data(LOCALE(420,"Unsupported database type."));
   }
@@ -251,9 +254,9 @@ private array available_dbs()
   array r = ({});
 
 
-  if(haveit("Sql.Provider.SQLite"))
+  if(haveit("Sql.sqlite"))
   {
-    r += ({"SQLite"});
+    r += ({"sqlite"});
   }
 
   if(haveit("Mysql.mysql"))

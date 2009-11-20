@@ -36,7 +36,7 @@ void update_backlinks()
   is_running = 1;
   backlink_mods = ([]);
 
-  array a = Fins.Model.find.objects(([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
+  array a = Fins.DataSource._default.find.objects(([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
 
   if (!(a && arrayp(a) && sizeof(a)))
     return;
@@ -51,7 +51,7 @@ void update_backlinks()
 
   do
   {
-    array objs = Fins.Model.find.objects( 
+    array objs = Fins.DataSource._default.find.objects( 
       (["id": Fins.Model.Criteria("id >= " + cid + " and id < " + (cid + 100)) ])
     );
 
@@ -66,7 +66,7 @@ void update_backlinks()
 
   foreach(backlink_mods; string page; array backlinks)
   {
-    array a = Fins.Model.find.objects(([ "path": page ]));
+    array a = Fins.DataSource._default.find.objects(([ "path": page ]));
 
     if(!sizeof(a)) continue;
     else a[0]["md"]["backlinks"] = Array.uniq(backlinks);
@@ -93,7 +93,7 @@ mixed extract_href(object parser, mapping args, string content, mixed ... extra)
           array a;
 
           catch {
-            a = Fins.Model.find.objects(([ "path": path ]));
+            a = Fins.DataSource._default.find.objects(([ "path": path ]));
             if(a[0])
             {
               array x = a[0]["md"]["backlinks"];

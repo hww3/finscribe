@@ -17,9 +17,9 @@ array evaluate(Macros.MacroParameters params)
 
   if(!params->args) params->make_args();
 
-  array o = Fins.Model.find.objects((["is_attachment": 0]));
+  array o = Fins.DataSource._default.find.objects((["is_attachment": 0]));
   if (params->args->showblog)
-    o += Fins.Model.find.objects(([ "is_attachment" : 2]));
+    o += Fins.DataSource._default.find.objects(([ "is_attachment" : 2]));
   array res = ({});
   array e = ({});
   array f = ({});

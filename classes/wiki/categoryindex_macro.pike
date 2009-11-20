@@ -15,7 +15,7 @@ array evaluate(Macros.MacroParameters params)
   if(params->extras && params->extras->request)
     params->extras->request->misc->object_is_index = 1;
 
-  array o = Fins.Model.find.categories(([]));
+  array o = Fins.DataSource._default.find.categories(([]));
   array res = ({});
   array e = ({});
   array f = ({});

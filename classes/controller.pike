@@ -18,6 +18,13 @@ Fins.FinsController whee;
 void start()
 {
 werror("************* starting controllers\n");
+  if(!config["application"] || !(int)config["application"]["installed"])
+  {
+    install = load_controller("install_controller");
+    view->default_template = Fins.Template.Simple;
+  }
+  else
+  {
   objects = load_controller("objects_controller");
   whee = load_controller("whee_controller");
   exec = load_controller("exec_controller");
@@ -30,10 +37,6 @@ werror("************* starting controllers\n");
   theme = load_controller("theme_controller");
   _internal = load_controller("internal_controller");
 whee = load_controller("user_controller");
-  if(!config["application"] || !(int)config["application"]["installed"])
-  {
-    install = load_controller("install_controller");
-    view->default_template = Fins.Template.Simple;
   }
 
  ::start();

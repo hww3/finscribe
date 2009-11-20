@@ -4,7 +4,7 @@
 
 import Fins;
 inherit Fins.Application : app;
-inherit Fins.Helpers.Macros.Base : macros;
+//inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 import Tools.Logging;
 
@@ -18,6 +18,7 @@ mapping internal_path_handlers = ([]);
 
 void start()
 {
+werror("START!\n\n\n");
   Locale.register_project(config->app_name, combine_path(config->app_dir, "translations/%L/FinScribe.xml"));
 
   if(config["application"] && (int)config["application"]["installed"])
@@ -225,7 +226,7 @@ public string render_wiki(string contents)
 
 }
 
-public string render(string contents, FinScribe.Model.Object obj, Fins.Request|void id, int|void force)
+public string render(string contents, FinScribe.Objects.Object obj, Fins.Request|void id, int|void force)
 {
   string t;
   if(obj)
@@ -320,7 +321,7 @@ object get_current_user(object id)
 
   if(id->misc->session_variables && id->misc->session_variables->userid)
   {
-     user = Fins.Model.find_by_id("user", id->misc->session_variables->userid);
+     user = Fins.DataSource->_default->find_by_id("user", id->misc->session_variables->userid);
   }
 
   return user;
@@ -335,7 +336,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     return 0;
   }
 
-  object user = Fins.Model.find_by_id("user", id->misc->session_variables->userid);
+  object user = Fins.DataSource->_default->find_by_id("user", id->misc->session_variables->userid);
   
   if(!user)
   {
@@ -363,8 +364,8 @@ mixed handle_request(Request request)
 
 object get_sys_pref(string pref)
 {
-  FinScribe.Model.Preference p;
-  catch(p = Fins.Model.find.preferences_by_alt(pref));
+  FinScribe.Objects.Preference p;
+  catch(p = Fins.DataSource->_default->find->preferences_by_alt(pref));
   return p;
 }
 

@@ -75,7 +75,7 @@ mixed category_fetch(string category, object params)
   if(!category)
     r = params->engine->wiki->model->get_categories();
   else
-    r = Fins.Model.find.categories((["category" : category]));
+    r = Fins.DataSource._default.find.categories((["category" : category]));
 
   return r;
 }
