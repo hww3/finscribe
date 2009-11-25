@@ -154,9 +154,9 @@ CREATE TABLE acls (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
-CREATE TABLE acls_rules (
+CREATE TABLE acls_aclrules (
   acl_id int(11) NOT NULL,
-  rule_id int(11) NOT NULL
+  aclrule_id int(11) NOT NULL
 ) TYPE=MyISAM;
 
 CREATE TABLE aclrules (

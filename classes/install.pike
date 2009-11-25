@@ -62,8 +62,9 @@ void populate()
     d->save();
   }
 
-  Log.info("Creating users and ACLs.");
+  Log.info("Creating users.");
   create_groups();
+  Log.info("Creating ACLs.");
   create_acls();
 
 
@@ -122,13 +123,13 @@ void create_acls()
   r["class"] = 2; // users have browse, read, version, create, comment.
   r["xmit"] = 47;
   r->save();
-  a["aclules"] += r;
+  a["aclrules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 1; // owners have browse, read, version, create, delete, comment, post and lock.
   r["xmit"] = 255;
   r->save();
-  a["aclules"] += r;
+  a["aclrules"] += r;
 
   r = FinScribe.Objects.ACLRule();
   r["class"] = 0; // Editors have browse, read, version, create, delete, comment, post and lock.
@@ -137,7 +138,7 @@ void create_acls()
   object e = model->context->find->groups((["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
-    r["group"] += e;
+    r["group"] = e;
   a["aclrules"] += r;
 
 
@@ -158,6 +159,6 @@ void create_acls()
   e = model->context->find->groups((["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
-    r["group"] += e;
+    r["group"] = e;
   a["aclrules"] += r;
 }

@@ -1,7 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "ACLRule";
-object repository = Fins.Model.module;
 
 constant xmits = ([
    "browse": 1,

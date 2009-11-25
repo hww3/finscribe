@@ -74,11 +74,10 @@ public void createadminuser(Request id, Response response, mixed ... args)
     o->populate();
   };
 
-
-
   if(e)
   {
-    Log.exception("Error while creating admin user.", e);
+//	werror("error: %O", e);
+    Log.exception("Error while populating the database.", e);
     response->set_data(((array)e)[0]);  
   }
   else

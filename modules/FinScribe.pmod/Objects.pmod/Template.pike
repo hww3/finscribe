@@ -1,3 +1,3 @@
 inherit Fins.Model.DirectAccessInstance;
 
-string type_name = "Comment";
+string type_name = "Template";

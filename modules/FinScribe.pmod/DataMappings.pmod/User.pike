@@ -5,6 +5,10 @@ inherit Model.DataObject;
 
 static void post_define(object context)
 {  
+  has_many(context, "Object", "objects", "author_id");
+  has_many(context, "Object_version", "versions", "author_id");
+  has_many(context, "Comment", "comments", "author_id");
+
   set_alternate_key("username");
 }
 

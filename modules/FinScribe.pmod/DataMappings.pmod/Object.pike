@@ -10,7 +10,13 @@ import Fins.Model;
       // 2 = blog entry
       // 3 = wip blog entry
 
-      add_field(context, KeyReference("parent", "parent_id", "Object", UNDEFINED, 1));
+	  belongs_to(context, "User", "author", "author_id");
+	  belongs_to(context, "Object", "parent", "parent_id");
+	  belongs_to(context, "Template");
+	  has_many(context, "Comment", "comments");
+	  has_many(context, "Object", "children", "parent_id");
+	  has_many(context, "Object_version", "versions");
+//      add_field(context, KeyReference("parent", "parent_id", "Object", UNDEFINED, 1));
       
       add_field(context, TransformField("title", "path", get_title));
       add_field(context, TransformField("tinylink", "id", get_tinylink));
@@ -26,9 +32,9 @@ import Fins.Model;
 //      add_field(context, BinaryStringField("metadata", 1024, 0, ""));
       add_field(context, MetaDataField("md", "metadata"));
       add_field(context, InverseForeignKeyReference("current_version_uncached", "Object_version", "object", Model.Criteria("ORDER BY version DESC LIMIT 1"), 1));
-      add_field(context, InverseForeignKeyReference("versions", "object_version", "object"));
-      add_field(context, InverseForeignKeyReference("comments", "comment", "object"));
-      add_field(context, InverseForeignKeyReference("children", "object", "parent"));
+//      add_field(context, InverseForeignKeyReference("versions", "object_version", "object"));
+//      add_field(context, InverseForeignKeyReference("comments", "comment", "object"));
+//      add_field(context, InverseForeignKeyReference("children", "object", "parent"));
       add_field(context, TransformField("attachments", "id", get_attachments));
 
       set_alternate_key("path");

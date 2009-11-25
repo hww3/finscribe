@@ -5,5 +5,6 @@ import Fins.Model;
 
    static void post_define(object context)
    {  
+	  
       set_alternate_key("name");
    }

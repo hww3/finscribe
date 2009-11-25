@@ -5,6 +5,8 @@ import Fins.Model;
 
    static void post_define(object context)
    {  
+	  belongs_to(context, "User", "author", "author_id");
+
       add_field(context, TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
       add_field(context, TransformField("nice_content_length", "contents", lambda(mixed n, object i){int z = sizeof(n); if(z < 1024) return z + " bytes"; else if (z < 1024000) return (z / 1024) + " kb"; else return (z / 1024000) + " mb";}));
 

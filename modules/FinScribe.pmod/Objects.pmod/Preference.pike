@@ -1,8 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "Preference";
-object repository = Fins.Model.module;
-
 
 mixed get_value()
 {

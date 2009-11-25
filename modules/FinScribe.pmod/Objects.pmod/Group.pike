@@ -1,8 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "Group";
-object repository = Fins.Model.module;
-
 
 //!
 int is_member(object user)

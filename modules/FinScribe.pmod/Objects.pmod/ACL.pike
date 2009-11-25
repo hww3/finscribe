@@ -1,8 +1,6 @@
 inherit Fins.Model.DirectAccessInstance;
 
 string type_name = "ACL";
-object repository = Fins.Model.module;
-
 
    int has_xmit(object user, string xmit, int|void is_owner)
    {

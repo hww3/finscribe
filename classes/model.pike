@@ -137,7 +137,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
     isnew=0;
   }
   else
-               obj_o = context->new("object");
+               obj_o = FinScribe.Objects.Object();
                obj_o["datatype"] = dto;
                if(att)
                  obj_o["is_attachment"] = 1;
@@ -149,7 +149,7 @@ int new_from_string(string path, string contents, string type, int|void att, int
            if(isnew)
             obj_o->save();
 
-            object obj_n = context->new("object_version");
+            object obj_n = FinScribe.Objects.Object_version();
             obj_n["contents"] = contents;
 
             int v;
