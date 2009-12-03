@@ -11,8 +11,8 @@ import Fins.Model;
       // 3 = wip blog entry
 
 	  belongs_to(context, "User", "author", "author_id");
-	  belongs_to(context, "Object", "parent", "parent_id");
-	  belongs_to(context, "Template");
+	  belongs_to(context, "Object", "parent", "parent_id", (["nullable": 1]));
+	  belongs_to(context, "Template", 0, 0, (["nullable": 1]));
 	  has_many(context, "Comment", "comments");
 	  has_many(context, "Object", "children", "parent_id");
 	  has_many(context, "Object_version", "versions");
@@ -38,7 +38,7 @@ import Fins.Model;
       add_field(context, TransformField("attachments", "id", get_attachments));
 
       set_alternate_key("path");
-      add_default_value_object(context, "acl", "acl", (["name": "Default ACL"]), 1);
+      add_default_value_object(context, "acl", "ACL", (["name": "Default ACL"]), 1);
    }
 
    static mixed get_attachments(mixed n, object i)

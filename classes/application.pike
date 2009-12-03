@@ -365,7 +365,7 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Objects.Preference p;
-  catch(p = Fins.DataSource->_default->find->preferences_by_alt(pref));
+  (p = Fins.DataSource->_default->find->preferences_by_alt(pref));
   return p;
 }
 

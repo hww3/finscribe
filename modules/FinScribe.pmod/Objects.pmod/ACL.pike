@@ -4,7 +4,7 @@ string type_name = "ACL";
 
    int has_xmit(object user, string xmit, int|void is_owner)
    {
-     foreach(this["rules"];; object rule)
+     foreach(this["aclrules"];; object rule)
        if(rule->has_xmit(user, xmit, is_owner))
          return 1;
      return 0;

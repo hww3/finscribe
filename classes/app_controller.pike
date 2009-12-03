@@ -40,7 +40,7 @@ public void index(Request id, Response response, mixed ... args)
   if((int)(app->get_sys_pref("site.track_views")["value"]))
     obj["md"]["views"] ++;
 
-  string datatype = obj["Datatype"]["mimetype"];
+  string datatype = obj["datatype"]["mimetype"];
 
   handle(datatype,obj,id,response);
 
@@ -180,5 +180,5 @@ private void low_handle_data(object v, object obj, Request id, Response response
   response->set_header("Expires", (Calendar.Second() + 3600*12)->format_http());
 
   response->set_data(v["contents"]);
-  response->set_type(obj["Datatype"]["mimetype"]);
+  response->set_type(obj["datatype"]["mimetype"]);
 }

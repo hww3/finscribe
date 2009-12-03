@@ -15,7 +15,7 @@ string type_name = "Object";
 
    int has_xmit(object user, string xmit, int|void is_owner)
    {
-     foreach(this["acl"]["rules"];; object rule)
+     foreach(this["acl"]["aclrules"];; object rule)
        if(rule->has_xmit(user, xmit, is_owner))
          return 1;
      return 0;	
@@ -51,7 +51,7 @@ string type_name = "Object";
 
 public int get_blog_count()
 {
-  array o = master_object->context->sql->query("SELECT COUNT(*) as foo FROM objects WHERE parent_id=" + 
+  array o = context->sql->query("SELECT COUNT(*) as foo FROM objects WHERE parent_id=" + 
                      this["id"] + " AND is_attachment=2 AND created < current_timestamp");
   return (int)(o[0]->foo);
 

@@ -21,7 +21,7 @@ CREATE TABLE comments (
   id integer primary key,
   object_id int(11) NOT NULL default '0',
   author_id int(11) NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
+  created datetime NOT NULL default CURRENT_TIMESTAMP,
   contents blob,
   metadata blob
 )
@@ -46,7 +46,7 @@ CREATE TABLE object_versions (
   id integer primary key,
   object_id int(11) NOT NULL default '0',
   author_id int(11) NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
+  created datetime NOT NULL default CURRENT_TIMESTAMP,
   subject varchar(128) default NULL,
   contents blob NOT NULL,
   version int(11) NOT NULL default '0'
@@ -80,7 +80,7 @@ CREATE TABLE users (
   id integer primary key,
   username char(16) NOT NULL default '',
   password char(16) default NULL,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
+  created datetime NOT NULL default CURRENT_TIMESTAMP,
   is_admin int(1) default '0',
   is_active int(1) default NULL,
   name char(36) NOT NULL default '',
