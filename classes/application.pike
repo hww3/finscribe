@@ -18,8 +18,8 @@ mapping internal_path_handlers = ([]);
 
 void start()
 {
-werror("START!\n\n\n");
-  Locale.register_project(config->app_name, combine_path(config->app_dir, "translations/%L/FinScribe.xml"));
+  Locale.register_project(config->app_name, combine_path(config->app_dir,     
+    "translations/%L/FinScribe.xml"));
 
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();

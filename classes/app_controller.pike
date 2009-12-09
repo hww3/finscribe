@@ -1,5 +1,8 @@
 //<locale-token project="FinScribe">LOCALE</locale-token>
 
+// this controller provides the "view" portion of the application, and is typically
+// mounted at /space/.
+
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
 import Tools.Logging;
@@ -8,6 +11,7 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsController;
 
+// compression is a good thing, so let's offer it.
 static void start()
 {
   after_filter(Fins.Helpers.Filters.Compress());
