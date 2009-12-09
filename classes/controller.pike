@@ -15,33 +15,36 @@ Fins.FinsController _internal;
 Fins.FinsController install;
 Fins.FinsController whee;
 
+// if we are started in install mode (that is, if the application->installed variable
+//  is zero or not present), load up the installer only. otherwise load up the real
+//  controllers.
 void start()
 {
   if(!config["application"] || !(int)config["application"]["installed"])
   {
-Tools.Logging.Log.info("Starting in install mode.");
+    Tools.Logging.Log.info("Starting in install mode.");
     install = load_controller("install_controller");
     view->default_template = Fins.Template.Simple;
   }
   else
   {
-  objects = load_controller("objects_controller");
-  whee = load_controller("whee_controller");
-  exec = load_controller("exec_controller");
-  space = load_controller("app_controller");
-  comments = load_controller("comment_controller");
-  admin = load_controller("admin_controller");
-  xmlrpc = load_controller("xmlrpc_controller");
-  rss = load_controller("rss_controller");
-  atom = load_controller("atom_controller");
-  theme = load_controller("theme_controller");
-  _internal = load_controller("internal_controller");
-whee = load_controller("user_controller");
+    objects = load_controller("objects_controller");
+    whee = load_controller("whee_controller");
+    exec = load_controller("exec_controller");
+    space = load_controller("app_controller");
+    comments = load_controller("comment_controller");
+    admin = load_controller("admin_controller");
+    xmlrpc = load_controller("xmlrpc_controller");
+    rss = load_controller("rss_controller");
+    atom = load_controller("atom_controller");
+    theme = load_controller("theme_controller");
+    _internal = load_controller("internal_controller");
   }
 
  ::start();
 }
 
+// redirect the request to the appropriate controller
 public void index(Request id, Response response, mixed ... args)
 {
   if(!config["application"] || !(int)config["application"]["installed"])
@@ -50,10 +53,4 @@ public void index(Request id, Response response, mixed ... args)
      response->redirect("space");
   else if(object_program(id) == Fins.FCGIRequest)
      response->not_found("/" + args*"/");
-}
-
-public void rtedit(object request, object response, mixed ... args)
-{
-  object t= view->get_view("rtedit");
-  response->set_view(t);
 }

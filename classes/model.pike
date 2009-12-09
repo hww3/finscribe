@@ -5,6 +5,7 @@ import Tools.Logging;
 
 int lower_case_link_names = 1;
 
+//! @deprecated
 DataModelContext context;
 
 //object datatype_instance_module = FinScribe.Objects;
@@ -12,6 +13,8 @@ DataModelContext context;
 
 //object repository = FinScribe.Repo;
 
+// because we might be starting the app in "install mode", we 
+// override the default loader to check for that scenario.
 public void load_model()
 {
   if(!config["application"] || !config["application"]["installed"]) 
@@ -26,10 +29,12 @@ public void load_model()
 
   ::load_model();
 
+  // context is used by some legacy code, so we'll manually populate it (for now);
   context = Fins.Model.get_default_context();
 }
 
-//!
+//! given a path p, find the path component closest to p that represents
+//! an actual object. if none exists, return 0.
 Model.DataObjectInstance find_nearest_parent(string path)
 {
   array a = path/"/";
@@ -44,11 +49,14 @@ Model.DataObjectInstance find_nearest_parent(string path)
   return 0;
 }
 
+// return the last component of a path.
+// for example, get_object_name("/path/to/document") would return "document".
 string get_object_name(string n)
 {
   return (n/"/")[-1];
 }
 
+//! a cache-enabled version of find.datatypes_all().
 mixed get_datatypes()
 	{
   mixed res;
@@ -64,6 +72,7 @@ mixed get_datatypes()
   return res;
 }
 
+//! decode the metadata field in object obj.
 mixed get_metadata(object obj)
 {
   string md = obj["metadata"];
@@ -72,10 +81,12 @@ mixed get_metadata(object obj)
   else return ([]);
 }
 
+//! encode the data metadata into the metadata field in object obj.
 void set_metadata(object obj, mixed metadata)
 {  obj["metadata"] = encode_value(metadata);
 }
 
+//! a cache-enabled version of find.categories_all().
 mixed get_categories()
 {
   mixed res;
@@ -91,11 +102,13 @@ mixed get_categories()
   return res;
 }
 
+//! clear the category cache
 void clear_categories()
 {
   cache->clear("CATEGORIES_");
 }
 
+//! a cache enabled version of find.objects_by_alt()
 public object get_fbobject(array args, Request|void id)
 {
    array r;
@@ -105,7 +118,7 @@ public object get_fbobject(array args, Request|void id)
 
    if(r && sizeof(r)) return r[0];
 
-   r = context->find->objects((["path": a]));
+   r = context->find->objects_by_path(a);
 
    if(sizeof(r))
    {
@@ -117,6 +130,7 @@ public object get_fbobject(array args, Request|void id)
 
 function get_when = Tools.String.friendly_date;
 
+//! convenience function used by installer.
 int new_from_string(string path, string contents, string type, int|void att, int|void skip_if_exists)
 {
   int isnew = 1;

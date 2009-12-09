@@ -1,5 +1,7 @@
 //<locale-token project="FinScribe">LOCALE</locale-token>
 
+// this class is a mess. we should really organize it better, possibly into multiple sub-controllers.
+
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
 import Tools.Logging;

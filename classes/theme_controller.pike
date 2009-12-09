@@ -6,6 +6,7 @@ import Fins;
 import Fins.Model;
 inherit Fins.FinsController;
 
+// provides a static file controller that accesses files in themes/
 
 public void index(Request id, Response response, mixed ... args)
 {
