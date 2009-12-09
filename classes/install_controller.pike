@@ -84,6 +84,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
   {
     response->set_data("true");
     app->controller->install = 0;
+    app->reload_controllers();
   }
 }
 

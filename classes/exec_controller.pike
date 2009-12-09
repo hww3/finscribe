@@ -200,7 +200,7 @@ public void editcategory(Request id, Response response, mixed ... args)
     if(!category || !sizeof(category))
     { 
       category = id->variables["new-category"];
-      object nc = Fins.DataSource._default.new("category");
+      object nc = Fins.DataSource._default.new("Category");
       nc["category"] = category;
       nc->save();
       c=({nc});
@@ -422,7 +422,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 			else
 			{
 				// if we got here, everything should be good to go.
-				object u = Fins.DataSource._default.new("user");
+				object u = Fins.DataSource._default.new("User");
 				u["username"] = UserName;
 				u["name"] = Name;
 				u["email"] = Email;
@@ -435,7 +435,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				
 				object p = find.objects((["path": "themes/default/newuser"]))[0];
 				
-				object up = Fins.DataSource._default.new("object");
+				object up = Fins.DataSource._default.new("Object");
 				up["path"] = u["username"];
 				up["author"] = u;
 				up["datatype"] = p["datatype"];
@@ -444,7 +444,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				up->save();
 				up["md"]["locked"] = 1;
 				
-				object uv = Fins.DataSource._default.new("object_version");
+				object uv = Fins.DataSource._default.new("Object_version");
 				uv["author"] = u;
 				uv["object"] = up;
 				uv["contents"] = p["current_version"]["contents"];
@@ -558,7 +558,7 @@ public void upload(Request id, Response response, mixed ... args)
                }
                else{              
                object dto = dtos[0];
-               obj_o = Fins.DataSource._default.new("object");
+               obj_o = Fins.DataSource._default.new("Object");
                obj_o["datatype"] = dto;
                obj_o["is_attachment"] = 1;
                obj_o["parent"] = p;
@@ -567,7 +567,7 @@ public void upload(Request id, Response response, mixed ... args)
                obj_o["path"] = path;
                obj_o->save();
 
-            object obj_n = Fins.DataSource._default.new("object_version");
+            object obj_n = Fins.DataSource._default.new("Object_version");
             obj_n["contents"] = id->variables["upload-file"];
 
             int v;
@@ -709,7 +709,7 @@ public void addattachments(Request id, Response response, mixed ... args)
        return;
     }
 
-    array x = Fins.Model.find("object", (["path": path]));
+    array x = Fins.Model.find("Object", (["path": path]));
     if(sizeof(x))
     {
       obj_o = x[0];
@@ -718,7 +718,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     {       
       mixed e = catch {
         object dto = dtos[0];
-        obj_o = Fins.DataSource._default.new("object");
+        obj_o = Fins.DataSource._default.new("Object");
         obj_o["datatype"] = dto;
         obj_o["is_attachment"] = 1;
         obj_o["parent"] = p;
@@ -729,7 +729,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       };
     }
 
-      object obj_n = Fins.DataSource._default.new("object_version");
+      object obj_n = Fins.DataSource._default.new("Object_version");
       obj_n["contents"] = id->variables["userfile"];
 
       int v;
@@ -931,7 +931,7 @@ werror("POST: %O\n", id->variables);
              response->flash("msg", LOCALE(377,"Name and Email are required for posting without logging in."));
              break;
           }
-          object obj_n = Fins.DataSource._default.new("comment");
+          object obj_n = Fins.DataSource._default.new("Comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
             if(anonymous)
@@ -1239,15 +1239,15 @@ public void move(Request id, Response response, mixed ... args)
        string oldpath = obj_o["path"];
 
        if(id->variables->movesub)
-         a = Fins.Model.find("object",
+         a = Fins.Model.find("Object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += Fins.Model.find("object", ([ "path": oldpath, 
+       a += Fins.Model.find("Object", ([ "path": oldpath, 
                  "type": Fins.Model.Criteria("is_attachment = 2") ]));
 
-       a += Fins.Model.find("object", ([ "path": oldpath ]));
+       a += Fins.Model.find("Object", ([ "path": oldpath ]));
 
        array overlaps = ({});
 
@@ -1258,7 +1258,7 @@ public void move(Request id, Response response, mixed ... args)
          pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
 Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
          if(!p->is_deleteable(t->get_data()["user_object"]) || 
-                   sizeof(Fins.Model.find("object", ([ "path": pth]))))
+                   sizeof(Fins.Model.find("Object", ([ "path": pth]))))
          {
            overlaps += ({pth});
          }
@@ -1285,15 +1285,15 @@ Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
      string oldpath = obj_o["path"];
  
        if(id->variables->movesub)
-         a = Fins.Model.find("object",
+         a = Fins.Model.find("Object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += Fins.Model.find("object", ([ "path": oldpath, 
+       a += Fins.Model.find("Object", ([ "path": oldpath, 
                  "type": Fins.Model.Criteria("is_attachment = 2") ]));
 
-     a += Fins.Model.find("object", ([ "path": oldpath ]));
+     a += Fins.Model.find("Object", ([ "path": oldpath ]));
 
      int n;
      foreach(a;; object p)
@@ -1366,15 +1366,15 @@ public void delete(Request id, Response response, mixed ... args)
        string oldpath = obj_o["path"];
 
      if(id->variables->movesub)
-         a = Fins.Model.find("object",
+         a = Fins.Model.find("Object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += Fins.Model.find("object", ([ "path": oldpath + "/%", 
+       a += Fins.Model.find("Object", ([ "path": oldpath + "/%", 
                  "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
 
-       a += Fins.Model.find("object", ([ "path": oldpath ])) || ({});
+       a += Fins.Model.find("Object", ([ "path": oldpath ])) || ({});
 
        array overlaps = ({});
 
@@ -1408,15 +1408,15 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      string oldpath = obj_o["path"];
  
      if(id->variables->movesub)
-         a = Fins.Model.find("object",
+         a = Fins.Model.find("Object",
              ([ "path": Fins.Model.LikeCriteria(oldpath + "/%"), 
                 "type": Fins.Model.Criteria("is_attachment != 2")])) 
            || ({});     
 
-       a += Fins.Model.find("object", ([ "path": oldpath + "/%", 
+       a += Fins.Model.find("Object", ([ "path": oldpath + "/%", 
                  "type": Fins.Model.Criteria("is_attachment = 2") ])) || ({});
 
-     a += Fins.Model.find("object", ([ "path": oldpath ])) || ({});
+     a += Fins.Model.find("Object", ([ "path": oldpath ])) || ({});
 
      int n;
      foreach(a;; object p)
@@ -1543,7 +1543,7 @@ public void edit(Request id, Response response, mixed ... args)
                }
               
                dto = dtos[0];
-               obj_o = Fins.DataSource._default.new("object");
+               obj_o = Fins.DataSource._default.new("Object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
                obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
@@ -1557,7 +1557,7 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = Fins.DataSource._default.new("object_version");
+            object obj_n = Fins.DataSource._default.new("Object_version");
             obj_n["contents"] = contents;
 
             int v;
@@ -1819,7 +1819,7 @@ public void post(Request id, Response response, mixed ... args)
                object p = obj_o;
 
                object dto = dtos[0]; 
-               obj_o = Fins.DataSource._default.new("object");
+               obj_o = Fins.DataSource._default.new("Object");
                obj_o["datatype"] = dto;
                obj_o["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
@@ -1846,7 +1846,7 @@ public void post(Request id, Response response, mixed ... args)
                obj_o->save();
             }
 
-            object obj_n = Fins.DataSource._default.new("object_version");
+            object obj_n = Fins.DataSource._default.new("Object_version");
             obj_n["contents"] = contents;
             obj_n["subject"] = subject;
             obj_n["created"] = c;

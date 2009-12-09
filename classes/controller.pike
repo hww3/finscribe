@@ -17,9 +17,9 @@ Fins.FinsController whee;
 
 void start()
 {
-werror("************* starting controllers\n");
   if(!config["application"] || !(int)config["application"]["installed"])
   {
+Tools.Logging.Log.info("Starting in install mode.");
     install = load_controller("install_controller");
     view->default_template = Fins.Template.Simple;
   }

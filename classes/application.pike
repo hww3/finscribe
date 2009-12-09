@@ -168,7 +168,8 @@ void start_plugins()
   }
 }
 
-void add_event_handler(string event, function handler)
+
+int add_event_handler(string event, function handler)
 {
   Log.debug("adding handler for " + event + ".");
   if(!event_handlers[event])
@@ -321,7 +322,7 @@ object get_current_user(object id)
 
   if(id->misc->session_variables && id->misc->session_variables->userid)
   {
-     user = Fins.DataSource->_default->find_by_id("user", id->misc->session_variables->userid);
+     user = Fins.DataSource->_default->find_by_id("User", id->misc->session_variables->userid);
   }
 
   return user;
@@ -336,7 +337,7 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
     return 0;
   }
 
-  object user = Fins.DataSource->_default->find_by_id("user", id->misc->session_variables->userid);
+  object user = Fins.DataSource->_default->find_by_id("User", id->misc->session_variables->userid);
   
   if(!user)
   {
