@@ -71,6 +71,8 @@ public string render(TemplateData d)
 
    string theme;
 
+//werror("render(%O)\n", d->get_request());
+
    theme = context->application->get_theme(d->id);
    if(!themes[theme])
    {

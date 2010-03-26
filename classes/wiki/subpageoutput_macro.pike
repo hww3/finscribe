@@ -31,10 +31,11 @@ werror("subpage: %O\n", subpage);
       params->engine->wiki->cache->set("__SUBPAGESdata-" + subpage, r, 1800);
   }
 
-werror("subpageoutput macro!\n");
+//werror("subpageoutput macro:%O, %O!\n", params->extras->request, params->engine->wiki->view);
   int ci=0;
 
-  res = ({ params->engine->wiki->view->render_partial("space/_objectlist", (["objects": r])) });
+  res = ({ params->engine->wiki->view->render_partial("space/_objectlist", 
+                (["objects": r]), UNDEFINED, UNDEFINED, params->extras->request) });
 
   return res;
 }
