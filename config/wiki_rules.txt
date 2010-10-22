@@ -1,7 +1,7 @@
-filter.bold.match=(^|>|[[:punct:][:space:]]+)__(.*?)__($|<|[[:punct:][:space:]]+)
+filter.bold.match=(^|>|[[:punct:][:space:]]+)__([\s\S]*?)__($|<|[[:punct:][:space:]]+)
 filter.bold.print=$1<b class="bold">$2</b>$3
 filter.bold.class=Public.Web.Wiki.Filters.Bold
-filter.ital.match=(^|>|[[:punct:][:space:]]+)~~(.*?)~~($|<|[[:punct:][:space:]]+)
+filter.ital.match=(^|>|[[:punct:][:space:]]+)~~([\s\S]*?)~~($|<|[[:punct:][:space:]]+)
 filter.ital.print=$1<i class="ital">$2</i>$3
 filter.ital.class=Public.Web.Wiki.Filters.Ital
 filter.line.match=-{5,}
@@ -17,7 +17,7 @@ filter.url.match=([[:space:]]|^)((http|ftp)s?://(%[[:digit:]A-Fa-f][[:digit:]A-F
 #regex.url.match=([^\"'=]|^)((http|ftp)s?://(%[[:digit:]A-Fa-f][[:digit:]A-Fa-f]|[-_.!~*';/?:@#&=+$,[:alnum:]])+)
 filter.url.print=$1<span class="nobr"><img height="9" width="8" src="/static/images/Icon-Extlink.png" alt="&#91;external]"/><a href="$2">$2</a></span>
 filter.url.class=FinScribe.Blog.URLFilter
-filter.heading.match=^[[:space:]]*(1(?:\.1)?)[[:space:]]+(.*?)$
+filter.heading.match=^[[:space:]]*(1(?:\.1)?)[[:space:]]+([\s\S]*?)$
 filter.heading.print=<h3 class="heading-$1">$2</h3>
 filter.heading.class=Public.Web.Wiki.Filters.Heading
 #regex.strikethrough.match=([^!-]|^)--((?:(?:[^-]+)-?)+)--([^-]|$)
@@ -37,7 +37,7 @@ filter.link.match=\[(.*?)\]
 filter.link.class=Public.Web.Wiki.Filters.Link
 filter.escape.match=\\(\\\\)|\\(.)
 filter.escape.class=Public.Web.Wiki.Filters.Escape
-macros.format.match={([a-z\-_0-9]+):?(.*?)}(?:((?s).*?){\1})?
+macros.format.match={([a-z\-_0-9]+):?([\s\S]*?)}(?:((?s)[\s\S]*?){\1})?
 macro.hello.class=Public.Web.Wiki.Macros.Hello
 macro.break.class=wiki/break_macro
 macro.link.class=wiki/link_macro
