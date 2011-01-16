@@ -11,7 +11,9 @@ int checked_exists = 0;
 
 mapping query_event_callers()
 {
-  return (["postSave": updateIndex ]);
+  return (["postSave": updateIndex,
+           "postMove": updateIndexMove,
+           "postDelete": updateIndexDelete ]);
 }
 
 mapping query_ipath_callers()
@@ -69,6 +71,47 @@ int updateIndex(string event, object id, object obj)
   return 0;
 }
 
+int updateIndexDelete(string event, object id, string obj)
+{
+  call_out(Thread.Thread, 0, doUpdateIndexDelete, event, id, obj);
+    
+  return 0;
+}          
+    
+int updateIndexMove(string event, object id, string oldpath, object obj)
+{
+  call_out(Thread.Thread, 0, doUpdateIndexMove, event, id, oldpath, obj);
+        
+  return 0;
+}
+
+void doUpdateIndexDelete(string event, object id, string obj)
+{
+
+  mapping p = app->config["fulltext"];
+  if(!p || !p["indexserver"]) return 0;
+
+  object c = Protocols.XMLRPC.Client(p["indexserver"] + "/update/");
+
+  if(!checked_exists)
+  {
+    int e = c["exists"](app->get_sys_pref("site.url")->get_value())[0];
+    if(!e)
+      c["new"](app->get_sys_pref("site.url")->get_value());
+    checked_exists = 1;
+  }
+
+  if(strlen(obj))
+    c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj);
+}
+
+void doUpdateIndexMove(string event, object id, string oldpath, object obj)
+{
+  doUpdateIndexDelete(event, id, oldpath);
+  doUpdateIndex(event, id, obj);
+}
+
+    
 void doUpdateIndex(string event, object id, object obj)
 {
   if(obj["is_attachment"] == 3)

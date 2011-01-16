@@ -1,3 +1,5 @@
+- moving content no longer messes paths up as it had
+- moving or deleting content now updates the full text index
 - replace SWFUpload with an all javascript version
 - increase username field to 16 characters
 - fix some templates to pass flash messages

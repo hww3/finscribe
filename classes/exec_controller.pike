@@ -1302,14 +1302,24 @@ Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
      {
        // is it really as simple as just renaming the path?
        string pth = p["path"];
-       pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
-
+        string myOldPath = pth;
+// i'm sure this made some sense at some point, maybe for subtrees?
+//       pth = newpath + ((sizeof(pth) > sizeof(newpath))?(pth[sizeof(newpath)-1..]):"");
+          
+       if(oldpath == pth)
+           pth = newpath;
+       else
+           pth = newpath + (sizeof(pth) > sizeof(oldpath)?pth[sizeof(oldpath) -1..]:"");
+       
+Log.debug("newpath is %s", newpath);
 Log.debug("moving %s to %s.", p["path"], pth);
- 
+        
        p["path"] = pth;
        cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", p->get_id()));
+       app->trigger_event("postMove", id, myOldPath, p);
        n++;
      }
+
 
      t->add("msg", sprintf(LOCALE(394,"%[0]s objects moved."), (string)n));
      response->redirect("/space/" + newpath);
@@ -1430,6 +1440,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
        foreach(p["comments"];; object c)
           c->delete(1);
        p->delete(1);
+       app->trigger_event("postDelete", id, pth);
  
        cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", pid));
        n++;
