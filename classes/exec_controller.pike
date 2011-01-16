@@ -168,7 +168,7 @@ public void getcomments(Request id, Response response, mixed ... args)
 
   app->set_default_data(id, data);
 
-  string r = view->render_partial("exec/_comments", data->get_data(), "comment", obj["comments"]);
+  string r = view->render_partial("exec/_comments", data->get_data(), "comment", obj["comments"], id);
      
   response->set_data(r);
 }
@@ -249,7 +249,7 @@ public void editcategory(Request id, Response response, mixed ... args)
   dta->add("object", o[0]);
   dta->add("existing-categories",  model->get_categories());
 
-  response->set_data(view->render_partial("space/_categoryform", dta->get_data()));
+  response->set_data(view->render_partial("space/_categoryform", dta->get_data(), 0, 0, id));
 }
 
 public void category(Request id, Response response, mixed ... args)
