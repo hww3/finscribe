@@ -275,7 +275,7 @@ public string get_widget_for_type(object view, string type, string contents)
   if(!t || !t->get_widget)
   {
 werror("using default widget.\n");
-    return "<textarea dojoType=\"dojo:ResizableTextarea\" id=\"contents\" name=\"contents\" rows=\"10\" cols=\"600\">" + 
+    return "<textarea style=\"width: 100%;\" id=\"contents\" name=\"contents\" rows=\"10\">" + 
                   contents + "</textarea>";
   }
 

@@ -5,9 +5,9 @@
 
    <h3><%LOCALE id="256" string="Editing"%>: <%$obj%></h3>
 
-<%list_store name="jsfooter" val=" dojo.require('dojo.widget.ResizableTextarea'); " %>
-
 <form action="/exec/edit/<%$obj%>" method="post" id="editform">
+<span style="width:70%; display: inline-block;">
+<div style="position:absolute; width:70%;">
 <%LOCALE id="194" string="Subject"%>: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
 <%$contentswidget %>
 <br>
@@ -15,6 +15,8 @@
 <button type="submit" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
 <button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 <button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
+</div>
+</span>
 </form>
 
 <%if data->preview%>
