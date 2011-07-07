@@ -697,16 +697,18 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
     }
 
-    string path = Stdio.append_path(obj, id->variables["userfile.filename"]);
+    string fn = id->request_headers["x-file-name"];
+    string path = Stdio.append_path(obj, fn);
+
     object obj_o;
   
-    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"])]));
+    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(fn)]));
     if(!sizeof(dtos))
     {
 
-       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"]) + " for file " + id->variables["userfile.filename"] + " is not valid.");
+       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(fn) + " for file " + fn + " is not valid.");
        response->set_data(sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
-             Protocols.HTTP.Server.filename_to_type(id->variables["userfile.filename"]), id->variables["userfile.filename"]));
+             Protocols.HTTP.Server.filename_to_type(fn), fn));
        response->set_error(500);
        return;
     }
@@ -732,7 +734,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     }
 
       object obj_n = Fins.DataSource._default.new("Object_version");
-      obj_n["contents"] = id->variables["userfile"];
+      obj_n["contents"] = id->body_raw;
 
       int v;
       object cv;
