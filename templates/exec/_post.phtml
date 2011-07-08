@@ -1,9 +1,11 @@
 <script type="text/javascript">
- dojo.require("dojo.widget.*");
  dojo.require("dojo.widget.DropdownDatePicker");
 </script>
 <div style="text-align:left">
 <h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
+<span style="width:70%; display: inline-block;">
+<div style="position:absolute; width:70%;">
+
 <form action="" method="post" id="postblogform">
 <table>
 <tr>
@@ -18,7 +20,7 @@
 <tr>
 <td></td>
 <td>
-<textarea xdojoType="resizabletextarea" rows="20" cols="80" name="contents"><%$contents%></textarea>
+<textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br/>
 </td>
 </tr>
@@ -31,7 +33,7 @@ string="URLs"%>)
 <br/>
 </td>
 <td>
-<textarea xdojoType="resizabletextarea" rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
+<textarea rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
 <br/>
 </td>
 </tr>
@@ -68,12 +70,15 @@ onclick="toggleCreated()"/>
 </td>
 </tr>
 </table>
-</form>
-
 <%if data->preview %>
 <b><%LOCALE id="191" string="Preview"%>:</b><p/>
 <%$preview%>
 <% endif %>
+
+
+</form>
+</div>
+</span>
 
 </div>
 

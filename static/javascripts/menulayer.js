@@ -143,7 +143,7 @@ function openPostBlog(item)
   if(!d) return;
   else obj = d.innerHTML;
 
-  openPopup("/exec/post/" + obj, '80%', null, null, null, function(){if(window.postOnLoad) window.postOnLoad();});
+  openPopup("/exec/post/" + obj, '750px', null, null, null, function(){if(window.postOnLoad) window.postOnLoad();});
 }
 
 function postBlog(id, obj, formid)
@@ -356,7 +356,7 @@ Array(pageWidth,pageHeight,windowWidth,windowHeight)
 function openAttachments(obj, sid)
 {
   setCurrentSessionId(sid);
-  openPopup('/exec/editattachments/' + obj, '60%', null, null, null,
+  openPopup('/exec/editattachments/' + obj, '500px', null, null, null,
        function(){ setCurrentObject(obj); /*showSWFUpload('/exec/addattachments/' + obj  + '?PSESSIONID=' + sid);*/})
 }
 
@@ -367,7 +367,7 @@ function openLogin()
 
 function setinsert()
 {
- window.setTimeout('var elem = document.getElementById("username");if(elem){ elem.focus(); }', 300);
+ window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 300);
 }
 
 var currentPopup;
