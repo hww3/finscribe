@@ -111,19 +111,21 @@ void clear_categories()
 //! a cache enabled version of find.objects_by_alt()
 public object get_fbobject(array args, Request|void id)
 {
-   array r;
+   object r;
    string a = args*"/";
 
    r=cache->get("PATHOBJECTCACHE_" + a);
 
-   if(r && sizeof(r)) return r[0];
+   if(r) return r;
 
-   r = context->find->objects_by_path(a);
+   mixed e = catch(r = context->find->objects_by_path(a));
 
-   if(sizeof(r))
+   // TODO: we should do something with the error rather than just swallow it.
+
+   if(r)
    {
      cache->set("PATHOBJECTCACHE_" + a, r, 600);
-     return r[0];
+     return r;
    }
    else return 0;
 }

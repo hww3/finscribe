@@ -366,7 +366,9 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Objects.Preference p;
-  (p = Fins.DataSource->_default->find->preferences_by_alt(pref));
+  mixed err = catch(p = Fins.DataSource->_default->find->preferences_by_alt(pref));
+
+  if(err && !err->_is_recordnotfound_error) throw(err);
   return p;
 }
 
@@ -391,7 +393,7 @@ object new_string_pref(string pref, string value)
 object new_pref(string pref, string value, int type)
 {
   object p;
-  catch(p = get_sys_pref(pref));
+  p = get_sys_pref(pref);
   if(p) return p;
   else 
   { 
