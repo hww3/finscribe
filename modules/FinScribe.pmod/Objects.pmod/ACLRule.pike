@@ -43,14 +43,14 @@ int has_xmit(object user, string xmit, int|void is_owner)
   {
     object l;
     // first, we check groups, as that's more likely to be a source of permission.
-    l = this["group"];
+    l = this["groups"];
     if(sizeof(l)) 
     {
       if(l[0]->is_member(user)) return 1;
     }
 
     // lastly, we check users
-    l = this["user"];
+    l = this["users"];
     if(sizeof(l))
     {
        if(l[0] == user) return 1;
