@@ -2,6 +2,18 @@ import Public.Web.Wiki;
 import Fins;
 inherit Macros.Macro;
 
+//
+// args: 
+//
+// path - specify the path of the weblog to display. defaults to current page.
+// limit - how many entries to list on each page.
+// quiet - if set to true, supresses the navigation elements
+// template - use the named template in space folder to display each entry.
+//
+// if content contains a <!-- break --> comment, the portion before the break
+// will be available in the template as <%$teaser%>
+//
+
 string describe()
 {
    return "Produces a weblog, args: path, limit, quiet, template";
