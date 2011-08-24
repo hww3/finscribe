@@ -213,3 +213,12 @@ string simple_macro_friendly_size(Template.TemplateData data, mapping|void args)
   
 
 
+//! display a calendar object as a date and time in a friendly manner
+//!
+//! args: var
+string simple_macro_describe_news_date(Fins.Template.TemplateData data, mapping|void args)
+{
+  if(args->var && args->var->format_ymd)  
+    return args->var->format_ymd();
+  else return "N/A";
+} 

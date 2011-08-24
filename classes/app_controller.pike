@@ -145,8 +145,13 @@ private void handle(string datatype, object obj, Request id, Response response)
       break;
   }
 
+  object c = v["created"];
+
+  werror("created: %O/%O: %O\n", v["object"], v, c);
+
   response->set_view(t);
-  response->set_header("Last-Modified", v["created"]->format_http());
+  if(c)
+    response->set_header("Last-Modified", c->format_http());
 
 }
 

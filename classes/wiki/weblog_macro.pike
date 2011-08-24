@@ -4,7 +4,7 @@ inherit Macros.Macro;
 
 string describe()
 {
-   return "Produces a weblog";
+   return "Produces a weblog, args: path, limit, quiet, template";
 }
 
 array evaluate(Macros.MacroParameters params)
@@ -13,15 +13,30 @@ array evaluate(Macros.MacroParameters params)
   int limit;
   int start = 1;
   array res = ({});
+  string template = "weblogentry";
 
-  if(params->extras->obj && !stringp(params->extras->obj))
-    root = params->extras->obj;
-  else
+  params->make_args();
+
+  if(params->args->template)
+    template = params->args->template;
+
+  if(params->args->path)
   {
-    array o = Fins.DataSource._default.find.objects((["path": params->extras->obj["path"]]));
-    if(sizeof(o))
-      root = o[0];
+    root = Fins.DataSource._default.find.objects_by_path(params->args->path);
   }
+  if(!root)
+  {
+    if( params->extras->obj && !stringp(params->extras->obj))
+    root = params->extras->obj;
+    else
+    {
+      array o = Fins.DataSource._default.find.objects((["path": params->extras->obj["path"]]));
+      if(sizeof(o))
+        root = o[0];
+    }
+  }
+werror("params: %O\n", mkmapping(indices(params), values(params)));
+werror("root: %O\n", root);
 
   if(params->extras->request)
   {
@@ -30,7 +45,6 @@ array evaluate(Macros.MacroParameters params)
   }
   // we should get a limit for the number of entries to display.
 
-  if(!params->args) params->make_args();
 
   if(params->args->limit)
     limit = (int)params->args->limit;
@@ -58,7 +72,7 @@ array evaluate(Macros.MacroParameters params)
   {
     //werror("ENTRY: %O\n", entry["path"]);
     object t;
-    t = params->engine->wiki->view->get_view("space/weblogentry");
+    t = params->engine->wiki->view->get_view("space/" + template);
 
 
     t->add("entry", entry);
@@ -78,40 +92,42 @@ array evaluate(Macros.MacroParameters params)
     res += ({t->render()});
   }
 
-
-  res += ({ "<div class=\"pager\">" });
-  if(start && start > 1)
+  if(!params->args->quiet)
   {
-    int nstart = start;
-    if((start - limit)< 1) nstart = 1;
-      else nstart = start-limit;
-    res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Newer Entries</a> | "});
-  }
-  else
-  {
-    res += ({"Newer Entries | "});
+    res += ({ "<div class=\"pager\">" });
+    if(start && start > 1)
+    {
+      int nstart = start;
+      if((start - limit)< 1) nstart = 1;
+        else nstart = start-limit;
+      res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Newer Entries</a> | "});
+    }
+    else
+    {
+      res += ({"Newer Entries | "});
+    }
+
+    int end = root->get_blog_count();
+
+    if(start > end || start+limit > end)
+    {
+      res += ({"Older Entries | "});
+    }
+    else
+    {
+      int nstart = start + limit;
+      res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Older Entries</a> | "});
+    }
+
+
+    res+=({"<a href=\"/rss/"});
+    res+=({root["path"]});
+    res+=({"\">RSS Feed</a>"});
+    res+=({ "</div>" });
   }
 
-  int end = root->get_blog_count();
-
-  if(start > end || start+limit > end)
-  {
-    res += ({"Older Entries | "});
-  }
-  else
-  {
-    int nstart = start + limit;
-    res+=({"<a href=\"?weblog=partial&start=" + nstart + "\">Older Entries</a> | "});
-  }
-
-
-  res+=({"<a href=\"/rss/"});
-  res+=({root["path"]});
-  res+=({"\">RSS Feed</a>"});
-  res+=({ "</div>" });
   res+=({WeblogReplacerObject()});
-
-
+  
   return res;
 }
 

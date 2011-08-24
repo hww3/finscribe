@@ -39,6 +39,7 @@ import Fins.Model;
 
       set_alternate_key("path");
       add_default_value_object(context, "acl", "ACL", (["name": "Default ACL"]), 1);
+      add_default_value(context, "created", created);
    }
 
    static mixed get_attachments(mixed n, object i)
@@ -177,4 +178,9 @@ MIME.encode_base64((string)n));
    string format_created(object c, object i)
    {
      return c->format_ext_ymd();
+   }
+
+   object created()
+   {
+     return Calendar.now()->second();
    }

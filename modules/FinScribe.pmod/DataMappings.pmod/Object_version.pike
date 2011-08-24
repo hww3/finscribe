@@ -14,5 +14,13 @@ import Fins.Model;
 
       add_field(context, TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));
 
+      add_default_value(context, "created", created);
+
       set_alternate_key("version");
    }
+
+   object created()
+   {
+     return Calendar.now()->second();
+   }   
+        
