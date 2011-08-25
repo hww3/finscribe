@@ -66,8 +66,8 @@ void populate()
   create_groups();
   Log.info("Creating ACLs.");
   create_acls();
-
-
+  Log.info("Creating Templates.");
+  create_templates();
 
   Log.info("Loading predefined wiki objects.");
   foreach(glob("*.wiki", get_dir(".")), string fn)
@@ -91,6 +91,16 @@ void populate()
 
 }
 
+
+// set up the default template.
+void create_templates()
+{
+  object t;
+
+  t = FinScribe.Objects.Template();
+  t["name"] = "Default";
+  t->save();
+}
 
 // set up the default groups.
 void create_groups()

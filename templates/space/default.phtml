@@ -1,0 +1,75 @@
+  <%@ include file="top.phtml" %>
+  <%@ include file="header.phtml" %>
+   <title><%syspref var="site.name" %> :: <%$title %></title>
+<!--   <%$heads %> -->
+<%@include file="pagebegin.phtml"%>
+
+      <% if data["object_is_weblog"] %>
+      <% else %>
+   <h3><%$title %></h3>
+   <%LOCALE id="103" string="Created by"%> <%$author_username %>. <%LOCALE id="103" string="Created by"%> <%$editor_username %>, 
+<%friendly_date var="$object_version.created"%>. <%LOCALE id="9" string="Version #"%><%$object_version.version%>.
+     <% endif %>
+
+
+<% if data["user_object"]  %>
+<div class="snip-buttons">
+[ <a id="Actions" href="/exec/actions/<%$obj%>">actions</a> ]
+</div>
+<% endif %> 
+<div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()"><%LOCALE id="104" string="Close"%></a></div> <div id="actions_contents" 
+class="action_contents"></div> </div>
+
+<div id="snip-wrapper">
+
+   <div id="snip-content">
+ 
+   <div class="flash-message"><% flash %></div>
+
+   <%@ include file="space/attachmentform.phtml" %>
+<% if data["numcategories"] %>
+ <%LOCALE id="105" string="Posted in "%><% implode var="$category_links" final=" and " %>.
+<p/>
+<% endif %>
+<% if data["teaser"] %>
+  <%$teaser%>
+<% else %>
+  <%render content="$content" object="$object"%>
+<% endif %>
+<p/>
+
+
+<%if data["object_is_weblog"] %>
+<% elseif sizeof(data["object"]["attachments"])%>
+<h3><%LOCALE id="81" string="Attachments"%></h3>
+<%@ include file="space/_displayattachments.phtml"%>
+<p/>
+<%endif %>
+
+
+<% if data["object_is_weblog"] %>
+<% else %>
+         <b><% if data["numcomments"] %>
+                 <a href="#" onclick="displayComments('wiper', '<%$obj%>')"><%$numcomments %> <%LOCALE id="98" string="comments"%></a></b>
+            <% else %>
+                 <%LOCALE id="106" string="No comments"%> 
+            <% endif %>
+ |  <a id="PostComment" href="/exec/comments/<%$obj%>"><%LOCALE id="11" string="Post a Comment"%></a> | <a href="/rss/<%$obj%>?type=comments"><%LOCALE id="12" string="RSS Feed"%></a>
+  <% if data["metadata"]["trackbacks"] %> | <a href="/exec/display_trackbacks/<%$obj%>" id="TrackBacks"><%sizeof var="$metadata.trackbacks"%> 
+<%LOCALE id="100" string="TrackBacks"%></a> <% endif %>
+  <% if data["metadata"]["pingbacks"] %> | <a href="/exec/display_pingbacks/<%$obj%>"><%sizeof var="$metadata.pingbacks"%> 
+<%LOCALE id="101" string="PingBacks"%></a> <% endif %> | <a 
+href="/exec/backlinks/<%$obj%>" id="BackLinks"><%LOCALE id="107" string="BackLinks"%></a>
+         <p/>
+<div id="wiper" style="display:none;"></div>
+<% endif %>
+      </div>
+
+</div>
+</div>         
+
+  <%@ include file="footer.phtml" %>
+
+</div>
+  <%@ include file="bottom.phtml" %>
+

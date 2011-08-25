@@ -61,7 +61,7 @@ private void handle(string datatype, object obj, Request id, Response response)
 
   if(template = obj["template"])
   {
-    t = view->get_idview("space/" + template["name"], id);
+    t = view->get_idview("space/" + (lower_case(template["name"])), id);
   }
   else 
     t = view->get_idview("space/wikiobject", id);

@@ -12,7 +12,7 @@ import Fins.Model;
 
 	  belongs_to(context, "User", "author", "author_id");
 	  belongs_to(context, "Object", "parent", "parent_id", (["nullable": 1]));
-	  belongs_to(context, "Template", 0, 0, (["nullable": 1]));
+	  belongs_to(context, "Template", 0, 0, (["nullable": 0]));
 	  has_many(context, "Comment", "comments");
 	  has_many(context, "Object", "children", "parent_id");
 	  has_many(context, "Object_version", "versions");
@@ -39,6 +39,7 @@ import Fins.Model;
 
       set_alternate_key("path");
       add_default_value_object(context, "acl", "ACL", (["name": "Default ACL"]), 1);
+      add_default_value_object(context, "template", "Template", (["name": "Default"]), 1);
       add_default_value(context, "created", created);
    }
 
