@@ -1623,6 +1623,7 @@ public void edit(Request id, Response response, mixed ... args)
       }
    }
 
+   t->add("template", Fins.Model.find.templates_all()["name"]);
    t->add("contentswidget", app->get_widget_for_type(t, datatype, contents));
    t->add("subject", subject);
    t->add("datatype", datatype);
