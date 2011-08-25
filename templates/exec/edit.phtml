@@ -12,11 +12,7 @@
 <div style="position:absolute; width:70%;">
 <%LOCALE id="194" string="Subject"%>: <input type="text" size="40" name="subject" value="<%$subject%>"/><br>
 <%LOCALE id="194" string="Template"%>: 
-<select name="subject">
-<%foreach var="template" val="templatex"%>
-<%$templatex.name%>
-<%end%>
-</select>
+<%select name="subject" options="$templates" default_value="default"%>
 <br>
 <%$contentswidget %>
 <br>
