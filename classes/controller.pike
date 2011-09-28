@@ -10,7 +10,7 @@ Fins.FinsController admin;
 Fins.FinsController xmlrpc;
 Fins.FinsController rss;
 Fins.FinsController atom;
-Fins.FinsController theme;
+Fins.FinsController theme, themes;
 Fins.FinsController _internal;
 Fins.FinsController install;
 Fins.FinsController whee;
@@ -38,6 +38,7 @@ void start()
     rss = load_controller("rss_controller");
     atom = load_controller("atom_controller");
     theme = load_controller("theme_controller");
+    themes = theme;
     _internal = load_controller("internal_controller");
   }
 
