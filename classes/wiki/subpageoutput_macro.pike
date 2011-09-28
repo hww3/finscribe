@@ -10,9 +10,7 @@ string describe()
 array evaluate(Macros.MacroParameters params)
 {
   string subpage;
-  int limit;
   // we should get a limit for the number of entries to display.
-
 
   array res = ({"whee"});
 werror(">>>\n>>>subpage: %O\n>>>\n", params->extras);

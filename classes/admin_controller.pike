@@ -85,7 +85,6 @@ public void getrules_json(Request id, Response response, mixed ... args)
 {
   string json;
   array j = ({});
-  array x;
   object a;
 
   if(!sizeof(args)) return;
@@ -247,8 +246,6 @@ public void editacl(Request id, Response response, mixed ... args)
 
                 newrule["class"] = cls;
 
-                int xmit;
-
                 foreach(newrule->get_available_xmits();;string xm)
                 {
                   if(r[xm]) newrule->add_xmit(xm);
@@ -288,8 +285,6 @@ public void editacl(Request id, Response response, mixed ... args)
                   cls = 1;
 
                 oldrule["class"] = cls;
-
-                int xmit;
 
                 foreach(oldrule->get_available_xmits();;string xm)
                 {

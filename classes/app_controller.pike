@@ -172,7 +172,7 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
   }
 
 
-  t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data()));
+  t->add("cfcontents", view->render_partial("space/_categoryform", t->get_data(), 0, 0, id));
 }
 
 private void low_handle_text(object v, object t, object obj, Request id, Response response)

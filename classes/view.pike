@@ -168,15 +168,12 @@ string get_page_breadcrumbs(string page)
 
 string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
-   int cps;
    mixed rv;
 
    if(!mappingp(args)) return "";
    if(!args->snip) return "";
    object obj = model->get_fbobject((args->snip)/"/");
-   object id = data->get_request();
-
-   
+   object id = data->get_request();   
 
    if(!obj) return "";
 

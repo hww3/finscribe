@@ -24,10 +24,6 @@ string describe()
 
 array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
 {
-  string doc;
-  int limit;
-  int hidetitle;
-
   string query = "select categories.category, count(*) as cnt, objects_categories.object_id from  "
                  "objects_categories, categories where objects_categories.category_id = categories.id "
                  "group by categories.category order by cnt desc";

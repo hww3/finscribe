@@ -34,10 +34,6 @@ string describe()
 
 array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
 {
-  string doc;
-  int limit;
-  int hidetitle;
-
   array res = ({ });
   
   object obj;

@@ -11,8 +11,6 @@ string describe()
 
 array evaluate(Macros.MacroParameters params)
 {
-  int nohilight;
-
   if(!params->args) params->make_args();
 
   array res = ({});

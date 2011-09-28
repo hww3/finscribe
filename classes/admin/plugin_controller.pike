@@ -36,8 +36,6 @@ public void list(Request id, Response response, mixed ... args)
 
 public void toggle_enabled(Request id, Response response, mixed ... args)
 {
-  object u;
-
   if(!id->variables->plugin)
   {
     response->flash("msg", LOCALE(299,"No plugin."));

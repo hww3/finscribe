@@ -155,8 +155,6 @@ string describe()
 
 array evaluate(Macros.MacroParameters params)
 {
-  int limit;
-
   array res = ({});
   string target_url;
 
@@ -200,20 +198,14 @@ string describe()
 
 array doSearchMacro(Macros.MacroParameters params)
 {
-  int limit;
-
   array res = ({});
-  string target_url;
-
 
   if(!params || !params->extras->request || !params->extras->request->variables->q)
     return ({"No query specified."});
 
-  object c = 
-Protocols.XMLRPC.Client(get_preference("indexserver")->get_value()+ "/search/?PSESSIONID=123");
-  mixed r =
-c["search"](params->extras->request->fins_app->get_sys_pref("site.url")["value"],
-params->extras->request->variables->q, "contents");
+  object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value()+ "/search/?PSESSIONID=123");
+  mixed r = c["search"](params->extras->request->fins_app->get_sys_pref("site.url")["value"],
+				params->extras->request->variables->q, "contents");
   res+=({"<div class=\"search-results\">\n"});
 
   if(objectp(r))

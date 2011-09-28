@@ -58,7 +58,7 @@ string render(string s, mixed|void extras, int|void force)
 {
   array a;
 
-    string fn, h;
+    string fn;
     if(extras && objectp(extras->obj))
       fn = extras->obj["path"];
     else if (extras && stringp(extras->obj))

@@ -1193,7 +1193,6 @@ public void move(Request id, Response response, mixed ... args)
    object obj_o; 
    object t;
    string newpath;
-   string movesub;
 
    t = view->get_idview("exec/move", id);
    obj_o = model->get_fbobject(args, id);
@@ -1349,7 +1348,6 @@ public void delete(Request id, Response response, mixed ... args)
    object obj_o; 
    object t;
    string newpath;
-   string movesub;
 
    t = view->get_idview("exec/delete", id);
    obj_o = model->get_fbobject(args, id);
@@ -1636,7 +1634,6 @@ public void edit(Request id, Response response, mixed ... args)
 public void publish(Request id, Response response, mixed ... args)
 {
 //   Log.debug("PUBLISH: %O -> %O\n", id, id->variables);
-   string contents, subject, obj, trackbacks, createddate;
    object obj_o;
    int just_saving = 0;
 
@@ -2126,7 +2123,6 @@ public void display_pingbacks(Request id, Response response, mixed ... args)
 
 public void pingback(Request id, Response response, mixed ... args)
 {
-        mapping m;
         int off = search(id->raw, "\r\n\r\n");
 
         if(off<=0) error("invalid request format.\n");

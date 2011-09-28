@@ -261,7 +261,7 @@ constant types=({"mapping","function","multiset","array","object","program","flo
 //!
 array (string) find_decl(string in)
 {
-  string pre,decl,p2;
+  string pre,decl;
   sscanf(in, "%[ \t\r\n]%s", pre, in);
   if(!strlen(in)) return ({"",pre+in});
   if(in[0]==')') // Cast
@@ -309,7 +309,7 @@ string find_complex_type(string post)
 //!
 array (string) find_type(string in)
 {
-  string s,pre,post,decl;
+  string s,pre,post;
   int min=10000000000,i;
   string mt;
   foreach(types, s)

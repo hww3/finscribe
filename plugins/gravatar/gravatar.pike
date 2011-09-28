@@ -52,7 +52,7 @@ class generate_gravatar_url
       foreach(params->args; string arg; string val)
       {
 
-        if(arg == "default") val = Protocols.HTTP.http_encode_string(val);
+        if(arg == "default") val = Protocols.HTTP.uri_encode(val);
         r = r + "&" + arg + "=" + val;
       }
 
@@ -77,7 +77,7 @@ class generate_gravatar_url
     m_delete(arguments, "email");
     foreach(arguments; string argument; string value)
     {
-      if(argument == "default") value = Protocols.HTTP.http_encode_string(value);
+      if(argument == "default") value = Protocols.HTTP.uri_encode(value);
         r = r + "&" + argument + "=" + value;
     }
 
