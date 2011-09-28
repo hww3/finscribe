@@ -36,7 +36,7 @@ void update_backlinks()
   is_running = 1;
   backlink_mods = ([]);
 
-  array a = Fins.DataSource._default.find.objects(([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
+  array a = app->model->find("object", ([]), Fins.Model.Criteria("ORDER BY ID DESC LIMIT 1"));
 
   if (!(a && arrayp(a) && sizeof(a)))
     return;
@@ -51,7 +51,7 @@ void update_backlinks()
 
   do
   {
-    array objs = Fins.DataSource._default.find.objects( 
+    array objs = app->model->find("object", 
       (["id": Fins.Model.Criteria("id >= " + cid + " and id < " + (cid + 100)) ])
     );
 
@@ -66,7 +66,7 @@ void update_backlinks()
 
   foreach(backlink_mods; string page; array backlinks)
   {
-    array a = Fins.DataSource._default.find.objects(([ "path": page ]));
+    array a = app->model->find("object", ([ "path": page ]));
 
     if(!sizeof(a)) continue;
     else a[0]["md"]["backlinks"] = Array.uniq(backlinks);
@@ -93,7 +93,7 @@ mixed extract_href(object parser, mapping args, string content, mixed ... extra)
           array a;
 
           catch {
-            a = Fins.DataSource._default.find.objects(([ "path": path ]));
+            a = app->model->find("object", ([ "path": path ]));
             if(a[0])
             {
               array x = a[0]["md"]["backlinks"];
@@ -119,7 +119,11 @@ void process_object(object o, int|void immediate)
 {
   mapping r = (["misc": ([]), "variables": ([]) ]);
 
-  string html = app->render(o["current_version"]["contents"], o, r);
+  string html;
+
+  catch(html = app->render(o["current_version"]["contents"], o, r));
+
+  if(!html) Log.warn("Unable to render %O to html.", o["path"]);
 
   if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
   {
