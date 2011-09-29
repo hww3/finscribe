@@ -36,7 +36,7 @@ CREATE TABLE datatypes (
 \g
 
 CREATE TABLE templates (
- id integer primary key,
+ id integer not null primary key,
  name char(32) not null unique
 )
   

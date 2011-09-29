@@ -761,6 +761,7 @@ public void addattachments(Request id, Response response, mixed ... args)
 public void login(Request id, Response response, mixed ... args)
 {
      object t;
+werror("%O\n", id->variables);
 
    if(id->variables->ajax)
    {
@@ -1840,12 +1841,8 @@ public void post(Request id, Response response, mixed ... args)
                obj_o["parent"] = p;
                if(just_saving)
                {
-                 array s_a = Fins.DataSource._default.find.acls("acl", (["name": "Work In Progress Object"]));
-                 object s_acl;
-                 if(sizeof(s_a))
-                   s_acl = s_a[0];
-                 else
-                   s_acl = p["acl"];
+                 object s_acl = Fins.DataSource._default.find.acls_by_name("Work In Progress Object");
+                  if(!s_acl) s_acl = p["acl"];
 
                  obj_o["acl"] = s_acl;
                }

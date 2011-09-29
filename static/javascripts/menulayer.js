@@ -1,101 +1,3 @@
-var menuLayers = {
-  timer: null,
-  activeMenuID: null,
-  item: null,
-  onLoad: null,
-  offX: 4,   // horizontal offset 
-  offY: 6,   // vertical offset 
-  clientX: null,
-  clientY: null,
-  pageX: null,
-  pageY: null,
-  show: function(id, o, e, item) {
-    this.clientX = e.clientX;
-    this.clientY = e.clientY;
-    this.pageX = e.pageX;
-    this.pageY = e.pageY;
-    this.activeMenuID = id;
-    this.item = item;
-
-var bindArgs = {
-    url:         o + "?ajax=1&return_to=" + window.location,
-    mimetype:   "text/plain",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById(id + "_contents");
-        if(!d)
-          return;
-        d.innerHTML = data.toString();
-	menuLayers.low_show();
-    }
-};
-
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-  },
-
-  low_show: function() {
-    var mnu = document.getElementById? document.getElementById(menuLayers.activeMenuID): null;
-    if (!mnu){
-      return;
-    }
-    if ( mnu.onmouseout == null ) mnu.onmouseout = menuLayers.mouseoutCheck;
-    if ( mnu.onmouseover == null ) mnu.onmouseover = menuLayers.clearTimer;
-    menuLayers.position(mnu);
-  },
-  
-  hide: function() {
-    this.clearTimer();
-    if (menuLayers.activeMenuID && document.getElementById) 
-      this.timer = setTimeout("dojo.lfx.html.implode(document.getElementById('"+menuLayers.activeMenuID+"'), menuLayers.item, 200).play()", 200);
-      return false;
-  },
-  
-  position: function(mnu) {
-    var x = menuLayers.pageX? menuLayers.pageX: menuLayers.clientX + dojo.html.getScroll().left;
-    var y = menuLayers.pageY? menuLayers.pageY: menuLayers.clientY + dojo.html.getScroll().top;
-    if ( x + mnu.offsetWidth + this.offX > dojo.html.getViewport().width + dojo.html.getScroll().left)
-      x = x - mnu.offsetWidth - this.offX;
-    else x = x + this.offX;
-  
-    if ( y + mnu.offsetHeight + this.offY > dojo.html.getViewport().height + dojo.html.getScroll().top )
-      y = ( y - mnu.offsetHeight - this.offY > dojo.html.getScroll().top )? y - mnu.offsetHeight - 
-this.offY : dojo.html.getViewport().height + dojo.html.getScroll().top - mnu.offsetHeight;
-    else y = y + this.offY;
-    mnu.style.left = x + "px"; mnu.style.top = y + "px";
-      this.timer = setTimeout("dojo.lfx.html.explode(menuLayers.item, document.getElementById('"+menuLayers.activeMenuID+"'), 200).play()", 
-200);
-  },
-  
-  mouseoutCheck: function(e) {
-    e = e? e: window.event;
-	    // is element moused into contained by menu? or is it menu (ul or li or a to menu div)?
-    var mnu = document.getElementById(menuLayers.activeMenuID);
-    var toEl = e.relatedTarget? e.relatedTarget: e.toElement;
-    if ( mnu != toEl && !menuLayers.contained(toEl, mnu) ) menuLayers.hide();
-  },
-  
-  // returns true of oNode is contained by oCont (container)
-  contained: function(oNode, oCont) {
-    if (!oNode) return; // in case alt-tab away while hovering (prevent error)
-    try {
-    while ( oNode = oNode.parentNode ) 
-      if ( oNode == oCont ) return true;
-    return false;
-    }
-    catch(err)
-    {
-      return;
-    }
-  },
-
-  clearTimer: function() {
-    if (menuLayers.timer) clearTimeout(menuLayers.timer);
-  }
-  
-}
 
 function displayComments(div, path, force)
 {
@@ -114,7 +16,7 @@ function displayComments(div, path, force)
     }
   };
 
-    requestObj = dojo.io.bind(bindArgs);
+    requestObj = dojo.xhrGet(bindArgs);
 
   return false;
 }
@@ -130,8 +32,10 @@ function openActions(item, event)
   if(!d) return;
   else obj = d.innerHTML;
 
-  menuLayers.show('actions', '/exec/actions/' + obj, event, item)
+  d = new dijit.TooltipDialog({id: "actions", href: '/exec/actions/' + obj});
 
+  dijit.popup.open({ popup: d, around: dojo.byId(item) });
+  dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
 }
 
 function openPostBlog(item)
@@ -143,10 +47,10 @@ function openPostBlog(item)
   if(!d) return;
   else obj = d.innerHTML;
 
-  openPopup("/exec/post/" + obj, '750px', null, null, null, function(){if(window.postOnLoad) window.postOnLoad();});
+  openPopup("/exec/post/" + obj + "?ajax=1", 'Post Blog Entry', null, null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
 }
 
-function postBlog(id, obj, formid)
+function postBlog(obj, formid)
 {
 var bindArgs = { 
     url:        "/exec/post/" + obj,  
@@ -155,15 +59,20 @@ var bindArgs = {
     method: "POST",
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
-        var d = document.getElementById(id);
-        if(!d)
+
+ var dialog = dijit.byId('dialog');
+ if(!dialog)
+ {
+	alert("uh-oh!");
           return;
-        d.innerHTML = data.toString();
-        d = document.getElementById("result");
-        if(d && d.innerHTML == "Success")
-          window.setTimeout('saveBlog();', 2000);
+ }
+
+   dialog.set('content', data.toString());
+   var d = dojo.byId("result");
+   if(d && d.innerHTML == "Success")
+      window.setTimeout('saveBlog();', 2000);
     }
 
   };
@@ -172,18 +81,23 @@ var bindArgs = {
   {
     var form = document.getElementById(formid);
     if(form)
-      bindArgs.formNode = form;
+      bindArgs.form = form;
   }
     
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrPost(bindArgs);
     
 }
 
 function saveBlog(id, obj)
-{
+{	
 	closePopup();
-	window.location = window.location + "?refresh=1";    
+	window.setTimeout('refreshBlog();', 500);
+}
+
+function refreshBlog()
+{
+	window.location = window.location + "?refresh=" + (Date.now()); 
 }
 
 function saveComment(obj, formid, noanim)
@@ -222,7 +136,7 @@ var bindArgs = {
   }
     
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrPost(bindArgs);
 }
 
 function postComment(obj, formid, noanim)
@@ -253,30 +167,9 @@ function postComment(obj, formid, noanim)
   }
     
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrPost(bindArgs);
 }
 
-/*
-dojo.provide("dojo.widget.YellowFade")
-dojo.provide("dojo.widget.HtmlYellowFade")
-dojo.require("dojo.widget.*");
-dojo.require("dojo.graphics.*");
-dojo.widget.HtmlYellowFade = function() {
-    dojo.widget.HtmlWidget.call(this);
-    this.widgetType = "YellowFade";
-    this.delay    = 0;
-    this.duration = 4000;
-    this.initColor = "#FFE066";
-    this.buildRendering = function(args, frag) {
-        var o = frag["dojo:yellowfade"]["nodeRef"];
-        dojo.lfx.html.colorFadeIn(o, 
-dojo.graphics.color.extractRGB(this.initColor), this.duration, this.delay).play();
-    }
-}
-dj_inherits(dojo.widget.HtmlYellowFade, dojo.widget.HtmlWidget);
-dojo.widget.tags.addParseTreeHandler("dojo:yellowfade");
-
-*/
 //
 // getPageScroll()
 // Returns array with x,y page scroll values.
@@ -362,7 +255,7 @@ function openAttachments(obj, sid)
 
 function openLogin()
 {
-  openPopup("/exec/login?return_to="  + window.location, '300px', null, null, null, setinsert);
+  openPopup("/exec/login?ajax=1&return_to="  + window.location, 'Login', null, null, null, null, setinsert);
 }
 
 function setinsert()
@@ -384,157 +277,33 @@ function setCurrentSessionId(sid)
   currentSessionId = sid;
 }
 
-function openPopup(url, width, height, formid, action, loadfunc) {
-  closePopup();
+function openPopup(url, title, width, height, formid, action, loadfunc) {
+//  closePopup();
   currentPopup = url;  
-dojo.debug("closed popup.");
-  var objOverlay = document.getElementById("dialogoverlay");
+  //dojo.debug("closed popup.");
+  var s = "";
 
-  if(!objOverlay)
-  {
+  if(width!=null) s += "width: " + width + "; ";
+  if(height!=null) s += "height: " + height + "; ";
 
-	var objBody = document.getElementsByTagName("body").item(0);
+  var dialog;
+  dialog = dijit.byId('dialog');
+  if(dialog) dialog.destroyRecursive(true);
 
-	objOverlay = document.createElement("div");
-	objOverlay.setAttribute('id','dialogoverlay');
-	objOverlay.onclick = function () {closePopup(); return false;}
-	objOverlay.style.display = 'none';
-	objOverlay.style.position = 'absolute';
-	objOverlay.style.top = '0';
-	objOverlay.style.left = '0';
-	objOverlay.style.zIndex = '90';
- 	objOverlay.style.width = ((dojo.html.getViewport().width + dojo.html.getScroll().left + 10) || 2000) + 
-"px";
-	objBody.insertBefore(objOverlay, null);
-  }
+ 	dialog = new dijit.Dialog({
+      title: title,
+      style: s,
+      id: 'dialog'
+  });
+ 
 
-	var arrayPageSize = getPageSize();
-	var arrayPageScroll = getPageScroll();
+  var lh =  
+  dojo.connect(dialog, "onLoad", function() {dojo.disconnect(lh); if(loadfunc) loadfunc();});
 
-	// set height of Overlay to take up whole page and show
-	objOverlay.style.height = (arrayPageSize[1] + 'px');
-        dojo.debug("page height: " + arrayPageSize[1]);
-        dojo.debug("page width: " + objOverlay.style.width);
-	objOverlay.style.display = 'block';
-
-var block = document.getElementById("popup");
-if (!block) {
-var body = dojo.body();
-block = document.createElement("div");
-block.setAttribute("id", "popup");
-block.className = "rounded rc-parentcolor-404040";
-block.style.display = "none";
-block.style.position = "absolute";
-block.style.width = width;
-if(height)
-  block.style.height= height;
-//block.style.padding;
-block.style.zIndex = "400";
-block.style.background = "Window";
-block.style.backgroundColor = "#FFEB99";
-
-body.appendChild(block);
-
+  dialog.set("href", url);
+  dialog.show();
 }
 
-var block1 = document.getElementById("popup_close");
-if(!block1)
-{
-  block1 = document.createElement("div");
-  block1.style.padding="0px";
-  block1.style.textAlign = "right";
-  block1.style.width="100%";
-  block1.setAttribute("id", "popup_close");
-  block1.innerHTML="<a href=\"#\" onclick=\"closePopup(); return false;\"><img border=\"0\" src=\"/static/images/close.gif\"></a> &nbsp;";
-  block.appendChild(block1);
-}
-
-var block2 = document.getElementById("popup_contents");
-
-if(!block2)
-{
-  block2 = document.createElement("div");
-  block2.style.padding="0px 20px 20px 20px";
-  block2.setAttribute("id", "popup_contents");
-  block.appendChild(block2);
-}
-
-dojo.debug("got everything set up.");
-
-var bindArgs = { 
-    url:        url,  
-    content: {ajax: "1"},
-    method: "POST",
-    mimetype:   "text/plain",
-    error:      function(type, errObj){
-      alert("error: " + type + "," + errObj.message + ", " + errObj.type + ", " + errObj.number );
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-     block2.innerHTML = data.toString();
-
-     var q = block2.getElementsByTagName("script");
-     var x;
-     for(x = 0 ; x < q.length; x++)
-     {
-       installScript(q[x]);
-     }
-//     objOverlay.style.width = dojo.html.getViewport().width + dojo.html.getScroll().left + 10;
-     var h = block.offsetHeight || block.style.pixelHeight || 
-               (block.currentStyle && block.currentStyle.height) || block.height;
-
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().height) - h) / 2
-       else h = 20;
-     var blockTop = dojo.html.getScroll().top + h;
-   
-     h = block.offsetWidth || block.style.pixelWidth ||
-               (block.currentStyle && block.currentStyle.width) || block.width;
-
-     if(h && dojo.lang.isNumber(h)) h = ((dojo.html.getViewport().width) - h) / 2
-       else h = 20;
-
-     var blockLeft = dojo.html.getScroll().left + h;
-
-		block.style.top = (blockTop < 0) ? "0px" : blockTop + "px";
-		block.style.left = (blockLeft < 0) ? "0px" : blockLeft + "px";
-dojo.debug("making corners.");
-     make_corners();
-dojo.debug("made corners.");
-     dojo.lfx.html.fadeShow(block, 200, 0, function(){		
-
-		arrayPageSize = getPageSize();
-		objOverlay.style.width = (arrayPageSize[2] + 'px');
-		objOverlay.style.height = (arrayPageSize[1] + 'px');
-		dojo.debug("showing item.");
-
-     		if(loadfunc) loadfunc();
-}
-).play();
-dojo.debug("done.");
-
-	// After image is loaded, update the overlay height as the new image might have
-	// increased the overall page height.
-
-
-    }
-
-  };
-  if(formid)
-  {
-    var form = document.getElementById(formid);
-    if(form)
-      bindArgs.formNode = form;
-
-    if(action && form)
-    {
-      document.getElementById("action").value=action;
-    }
-  }
-
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-   
-}
 
 function installScript( script )
 {
@@ -591,21 +360,21 @@ var bindArgs = {
   }
 
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrPost(bindArgs);
    
 }
 
 function closePopup()
 {
-  var d = document.getElementById("popup");
-  if(d)
-  {
-    dojo.lfx.html.fadeHide(d, 200).play();
-    var objOverlay = document.getElementById("dialogoverlay");
-    objOverlay.style.display = 'none';
-    d.parentNode.removeChild(d);
-  }
-  return false;	
+	var dialog2;
+	
+	dialog2 = dijit.byId('dialog');
+	if(dialog2)
+	{
+//		alert("closing");
+		dialog2.hide();
+	}
+  //return false;	
 }
 
 function updateFilename(elem)
@@ -631,59 +400,21 @@ function updateFilename(elem)
 
 }
 
-function showDatePicker() {
-var block = document.getElementById("datePicker");
-var picker;
-if (!block) {
-var body = dojo.body();
-block = document.createElement("div");
-block.setAttribute("id", "datePicker");
-block.style.display = "none";
-block.style.position = "absolute";
-block.style.zIndex = "400";
-block.style.background = "Window";
-block.style.backgroundColor = "white";
-block.style.border = "1px solid #efefef";
-var inputField = document.getElementById("createdDate");
-var offsets = cumulativeOffset(inputField);
-block.style.top = offsets[1] + 15 + 'px';
-block.style.left = offsets[0] + 'px';
-body.appendChild(block);
-
-picker = dojo.widget.createWidget("DatePicker",
-{widgetId: "datePickerPicker"}, block, "last");
-dojo.event.kwConnect({srcObj: picker,srcFunc:"onValueChanged",targetObj: this, targetFunc:"setDateField",
-once:true});
-}
-dojo.lfx.html.fadeShow(block, 200).play();
+function cumulativeOffset(element) 
+{
+  var valueT = 0, valueL = 0;
+  do 
+  {
+    valueT += element.offsetTop || 0;
+    valueL += element.offsetLeft || 0;
+    element = element.offsetParent;
+  } 
+  while (element);
+  return [valueL, valueT];
 }
 
-function cumulativeOffset(element) {
-var valueT = 0, valueL = 0;
-do {
-valueT += element.offsetTop || 0;
-valueL += element.offsetLeft || 0;
-element = element.offsetParent;
-} while (element);
-return [valueL, valueT];
+function toggleCreated()
+{  
+  var field = dijit.byId("createdDate");
+  if(field) field.set('disabled', !field.disabled);
 }
-
-  function setDateField(evt) {
-
-        document.getElementById("datePicker").style.display="none";
-
-        var field = document.getElementById("createdDate");
-
-        var date = dojo.widget.manager.getWidgetById("datePickerPicker").getDate();
-
-        field.value = dojo.date.format(date, "#yyyy-#MM-#dd");
-
-    }
-
-        function toggleCreated()
-        {  
-
-                var field = dojo.widget.byId("createdDate");
-                if(field && field.disabled) field.enable();
-		else if(field) field.disable();
-       }

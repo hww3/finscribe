@@ -24,7 +24,6 @@ CREATE TABLE templates (
  PRIMARY KEY (id)
 );
   
-  
 
 \g
 

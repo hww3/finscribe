@@ -1,10 +1,4 @@
-<script type="text/javascript">
- dojo.require("dojo.widget.DropdownDatePicker");
-</script>
-<div style="text-align:left">
 <h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
-<span style="width:70%; display: inline-block;">
-<div style="position:absolute; width:70%;">
 
 <form action="" method="post" id="postblogform">
 <table>
@@ -45,7 +39,7 @@ string="URLs"%>)
 <input type="text" size="15" 
  id="createdDate" name="createddate"
 <%$showcreated%>
-value="<%$createddate%>" dojoType="DropDownDatePicker" />
+value="<%$createddate%>" dojoType="dijit.form.DateTextBox"/>
 <input type="checkbox" name="created_toggle" 
 <%$createchecked%> 
 onclick="toggleCreated()"/>
@@ -57,10 +51,10 @@ onclick="toggleCreated()"/>
 <input type="hidden" name="ajax" value="1"/>
 <input type="hidden" id="postformajaxaction" name="action" value="" />
 
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Preview'; postBlog('<%$object.path%>', 'postblogform'); return false;" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
 <button type="button" onclick="closePopup(); return false;" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
-<button type="button" onclick="document.getElementById('postformajaxaction').value='Post'; postBlog('popup_contents', '<%$object.path%>', 'postblogform'); return false;" name="action" value="Post"><%LOCALE id="212" string="Post"%></button> 
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Save'; postBlog('<%$object.path%>', 'postblogform'); return false;" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
+<button type="button" onclick="document.getElementById('postformajaxaction').value='Post'; postBlog('<%$object.path%>', 'postblogform'); return false;" name="action" value="Post"><%LOCALE id="212" string="Post"%></button> 
 <% else %>
 <button type="submit" name="action" value="Preview"><%LOCALE id="191" string="Preview"%></button>
 <button type="submit" name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
@@ -75,22 +69,4 @@ onclick="toggleCreated()"/>
 <%$preview%>
 <% endif %>
 
-
 </form>
-</div>
-</span>
-
-</div>
-
-
-<script type="text/javascript">
-function postOnLoad()
-{
-dojo.debug("loading dojo widgets...");
-     var parser = new dojo.xml.Parse();
-     var frag = parser.parseElement(dojo.byId("postblogform"), null, true);
-     dojo.widget.getParser().createComponents(frag);
-}
-</script>
-
-
