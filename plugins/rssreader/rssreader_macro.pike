@@ -5,7 +5,7 @@ inherit FinScribe.Plugin;
 
 constant name="RSS Reader Macro";
 
-#if constant(Public.Parser.XML2) && constant(Public.Web.RSS)
+#if constant(Public.Parser.XML2) && constant(Public.Syndication.RSS)
 int _enabled = 1;
 
 
@@ -60,7 +60,7 @@ array res = ({});
       params->engine->wiki->cache->set("__RSSdata-" + doc, r, 1800);
   }
 
-  Public.Web.RSS.Item item;
+  Public.Syndication.RSS.Item item;
 
   if(!r) 
   {
@@ -102,7 +102,7 @@ mixed rss_fetch(string rssurl, int timeout)
   {
 
   if(rss)
-    r = Public.Web.RSS.parse(rss);
+    r = Public.Syndication.RSS.parse(rss);
   };
 
   return r;
@@ -157,7 +157,7 @@ array res = ({});
       params->engine->wiki->cache->set("__RSSdata-" + doc, r, 1800);
   }
 
-  Public.Web.RSS.Item item;
+  Public.Syndication.RSS.Item item;
 
   if(!r) 
   {
@@ -205,11 +205,11 @@ mixed rss_fetch(string rssurl, int timeout)
   {
 
   if(rss)
-    r = Public.Web.RSS.parse(rss);
+    r = Public.Syndication.RSS.parse(rss);
   };
 
   return r;
 }
 
 }
-#endif /* Public.Parser.XML2 && Public.Web.RSS */
+#endif /* Public.Parser.XML2 && Public.Syndication.RSS */

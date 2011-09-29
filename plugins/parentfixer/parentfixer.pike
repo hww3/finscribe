@@ -3,6 +3,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
+object log = get_logger("plugin.parentfixer");
+
 constant name = "Parent Fixer";
 
 int _enabled = 1;
@@ -11,15 +13,14 @@ int is_running = 0;
 
 void start()
 {
-  Log.debug("starting parent fixer...");
+  log->debug("starting parent fixer.");
 
   call_out(Thread.Thread, 0, update_parents);
 }
 
 void update_parents()
 {
-  Log.info("Parent updater thread started.");
-werror(">>>\n>>>parent updater\n>>>\n");
+  log->info("Parent updater thread started.");
   if(is_running) return;
 
   is_running = 1;
@@ -68,13 +69,13 @@ werror(">>>\n>>>parent updater\n>>>\n");
 
 void process_object(object o, int|void immediate)
 {
-werror("finding children for %s\n", o["path"]);
+	log->debug("finding children for %s", o["path"]);
   array x = Fins.DataSource._default.find.objects( (["path": Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(o["path"] + "/%"), 
 Fins.Model.NotCriteria(Fins.Model.LikeCriteria(o["path"] + "/%/%") ) })) ]));
 
   foreach(x;; object c)
   {
-  werror("  -- parent of %s is %s.\n", c["path"], o["path"]);
+  	log->debug("  -- parent of %s is %s.", c["path"], o["path"]);
     c["parent"] = o;
   }
 }

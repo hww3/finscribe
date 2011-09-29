@@ -1,13 +1,13 @@
 inherit Fins.FinsController;
 import Fins;
 
-#if constant(Public.Web.ATOM)
+#if constant(Public.Syndication.ATOM)
 
 // atom implies xml2.
 import Public.Parser.XML2;
 
 import Fins.Model;
-import Public.Web;
+import Public.Syndication;
 import Standards;
 
 constant __uses_session = 0;
@@ -418,6 +418,6 @@ static ATOM.Entry make_entry(Request id, object e) {
 #else
 public void index(Request id, Response response, mixed ... args)
 {
-  response->set_data("Public.Web.ATOM is not installed. ATOM feeds are unavailable.");
+  response->set_data("Public.Syndication.ATOM is not installed. ATOM feeds are unavailable.");
 }
-#endif /* Public.Web.ATOM */
+#endif /* Public.Syndication.ATOM */

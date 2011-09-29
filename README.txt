@@ -21,19 +21,17 @@ easier of the three to install support for, as you can use Monger.
    b. Modules bundled with Pike (only necessary if you installed the 
       corresponding library _after_ you compiled/installed Pike.)
       - _Regexp_PCRE
-      - Mysql
-      - Postgresql module
+      - Mysql (if using Mysql as your database)
+      - Postgresql module (if using Postgres as your database)
    c. Third party Pike modules, installable using the following command: 
          pike -x monger modulename
       - Sql.Provider.SQLite (if using SQLite as your database)
       - Public.Parser.XML2 (optional, required for RSS/ATOM support)
-      - Public.Web.ATOM (any public version will do, optional)
       - Public.Web.FCGI (if deploying using FastCGI)
       - Public.Web.Wiki (v1.5 or newer) 
-           [included with distributions of FinScribe]
       - Public.Tools.ConfigFiles (any pubic version will do) 
            [included with distributions of FinScribe]
-      - Public.Web.RSS (any public version will do, optional) 
+      - Public.Syndication (any public version will do, optional) 
            [included with distributions of FinScribe]
 
 1. Prepare the database:
@@ -57,7 +55,9 @@ easier of the three to install support for, as you can use Monger.
    where yourconfigname is the name of a configuration file, which is 
    normally located in the config directory. Release packages of FinScribe 
    typically have a pre-bundled configuration called "dev", which is the
-   default configuration name, so you don't have to provide it.
+   default configuration name, so you don't have to provide it. Either way,
+   you should review the contents of this file to make sure the settings
+   are correct.
 
 3. Access your application by pointing your browser to the proper 
    port number supplied when you start fin serve. On first access, you'll

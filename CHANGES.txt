@@ -1,3 +1,4 @@
+- we use Public.Syndication now, for RSS and ATOM support.
 - clean up some of the layouts
 - moving content no longer messes paths up as it had
 - moving or deleting content now updates the full text index
