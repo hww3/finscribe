@@ -1,6 +1,7 @@
+<div style="text-align: left">
 <% if data["user_object"]  %>
 <b><%LOCALE id="213" string="Page Actions"%></b>
-<ul>
+<p>
   <% if data["iseditable"] %> <li> <a href="/exec/edit/<%$object.path%>"><%LOCALE id="214" string="edit page content"%></a><% else %> <%LOCALE id="214" string="edit page content"%> 
 <% endif %> 
 
@@ -35,8 +36,8 @@ href="/exec/delete/<%$object.path%>"><%LOCALE id="218" string="delete"%></a><% e
 <li> <a href="/exec/info/<%$object.path %>"><%LOCALE id="225" string="get info"%></a>
 
 <p>
-<li> <a href="/exec/new?currentpage=<%$object.path%>"><%LOCALE id="226" string="new page"%>
-</ul>
+<li> <a href="/exec/new?currentpage=<%$object.path%>"><%LOCALE id="226" string="new page"%></a>
+
 <p>
 <%LOCALE id="227" string="Current ACL"%>: 
 <%if data["isdeleteable"] %>
@@ -59,4 +60,4 @@ href="/exec/publish/<%$object.path%>"><%LOCALE id="158" string="Publish"%></a> <
 <% else %>
 <%LOCALE id="233" string="You are not logged in."%>
 <% endif %>
-
+</div>

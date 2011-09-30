@@ -1,7 +1,6 @@
-  <%@include file="top.phtml"%>
-  <%@include file="adminheader.phtml"%>
+<%@include file="top.phtml"%>
+<%@include file="adminheader.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="132" string="edit user"%></title>
-
 <%@include file="adminpagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
 
@@ -129,7 +128,8 @@
 <%@include file="adminfooter.phtml"%>
 
 <script type="text/javascript">
-dojo.require("fins.widget.ComboPicker");
+  dojo.require("dijit.form.Button");
+  dojo.require("fins.widget.ComboPicker");
 </script>
 
 <script type="text/javascript">
@@ -187,24 +187,23 @@ function getAvailable()
 </script>
 
 <script type="text/javascript">
-        dojo.require("dojo.widget.Button2");
-	dojo.require("dojo.widget.html.Button2");
 
    function enable_chpass()
    {
-     var w = dojo.widget.manager.byId('chpass');
+     var w = dijit.byId('chpass');
 
      if(w)
      {
        w.hide();
      }
 
-     var p = dojo.widget.manager.byId('passwordpane');
+     var p = dijit.byId('passwordpane');
      
      if(p)
        p.show();     
    }
 
    </script>
-
+XXXX
+<%@include file="adminfooter.phtml"%>
 <%@include file="bottom.phtml"%>

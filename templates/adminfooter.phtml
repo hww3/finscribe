@@ -1,4 +1,4 @@
-<!-- this is adminfooter.phtml -->
+<!-- this is default adminfooter.phtml -->
          </div>
       </div>
       </div>
@@ -9,24 +9,18 @@
 <div id="page-bottom"><a href="/space/contact info"><%LOCALE id="1" string="contact info"%></a> | <%LOCALE id="2" string="powered by"%> <a 
 href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
 
-<script src="/static/javascripts/dojo.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
 <script type='text/javascript'>
     
-dojo.hostenv.setModulePrefix("fins",
-                                "/static/javascripts/fins"
+dojo.registerModulePath("fins",
+                                 "<%syspref var="site.url"%>/static/javascripts/fins"
 );
 
-dojo.require("dojo.widget.*");
-dojo.require("fins.widget.*");
-dojo.require("fins.widget.ComboPicker");    
-//dojo.widget.getParser().createComponents(document);
 </script>
 <script src="/static/javascripts/menulayer.js" type="text/javascript"></script>
-<script src="/static/javascripts/rounded-corners.js" type="text/javascript"></script>
 <script src="/static/javascripts/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
 <% list_retrieve var="$jsfooter" %>
-make_corners();
 </script>
 </body>
 </html>

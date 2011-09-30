@@ -147,7 +147,7 @@ private void handle(string datatype, object obj, Request id, Response response)
 
   object c = v["created"];
 
-  werror("created: %O/%O: %O\n", v["object"], v, c);
+//  werror("created: %O/%O: %O\n", v["object"], v, c);
 
   response->set_view(t);
   if(c)

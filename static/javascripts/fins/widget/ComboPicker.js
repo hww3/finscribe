@@ -1,49 +1,47 @@
 
 dojo.provide("fins.widget.ComboPicker");
 
-dojo.require("dojo.widget.*");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
+
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
 dojo.require("dojo.html.style");
 
-fins.widget.ComboPicker = function(){
+dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated], 
+{
+    added: new Array(),
+    removed: new Array(),
 
-    dojo.widget.HtmlWidget.call(this);
+    original: [],
 
-    this.added = new Array();
-    this.removed = new Array();
+    fromList: null,
+    toList: null,
+    pickerNode: null,
+    pickerFromContainerNode: null,
+    pickerControlContainerNode: null,
+    addButton: null,
+    removeButton: null,
+    pickerToContainerNode: null,
 
-    this.original = [];
+    loadAvailableFunction: "",
+    loadMembersFunction: "",
+    addsId: "",
+    removesId: "",
 
-    this.fromList = null;
-    this.toList = null;
-    this.pickerNode = null;
-    this.pickerFromContainerNode = null;
-    this.pickerControlContainerNode = null;
-    this.addButton = null;
-    this.removeButton = null;
-    this.pickerToContainerNode = null;
+    addsElement: null,
+    removesElement: null,
 
-    this.loadAvailableFunction = "";
-    this.loadMembersFunction = "";
-    this.addsId = "";
-    this.removesId = "";
-
-    this.addsElement = null;
-    this.removesElement = null;
-
-
-     this.fillInTemplate = function() {
+    postCreate: function() {
                 if (this.loadAvailableFunction) {
                         this.loadAvailableFunction = dj_global[this.loadAvailableFunction];
                 }
                 if (this.loadMembersFunction) {
                         this.loadMembersFunction = dj_global[this.loadMembersFunction];
                 }
-        }
+        },
 
-
-    this.initialize = function()
+    startup: function()
     {
       if(this.loadMembersFunction &&  dojo.lang.isFunction(this.loadMembersFunction))
       {
@@ -74,9 +72,9 @@ fins.widget.ComboPicker = function(){
       }
 
       if(this.addsId)
-        this.addsElement = document.getElementById(this.addsId);
+        this.addsElement = dojo.byId(this.addsId);
       if(this.removesId)
-        this.removesElement = document.getElementById(this.removesId);
+        this.removesElement = dojo.byId(this.removesId);
 
       dojo.debug("removes element: " + this.removesId);
       dojo.debug("removes element: " + this.removesElement);
@@ -84,23 +82,20 @@ fins.widget.ComboPicker = function(){
                                   (this.removesElement && this.removesElement.form)){
 				dojo.debug("hooking into the form.");
                                 dojo.event.connect(this.addsElement.form, "onsubmit",
-                                        dojo.lang.hitch(this, function(){
+                                        dojo.hitch(this, function(){
                                                 this.addsElement.value = this.getAdded();
                                                 this.removesElement.value = this.getRemoved();
                                         })
                                 );
                         }
+    },
 
-
-
-    }
-
-	function hasOptions(obj) {
+	hasOptions: function(obj) {
 		if (obj!=null && obj.options!=null) { return true; }
 		return false;
-		}
+		},
 
-	function sortSelect(obj) {
+	sortSelect: function(obj) {
 		var o = new Array();
 		if (!hasOptions(obj)) { return; }
 		for (var i=0; i<obj.options.length; i++) {
@@ -119,10 +114,10 @@ fins.widget.ComboPicker = function(){
 			obj.options[i] = new Option(o[i].text, o[i].value, o[i].defaultSelected, o[i].selected);
 			}
 
-		}
+		},
 
 
-    this.addItem = function() {
+    addItem: function() {
 
        var toRemove = new Array();
 
@@ -165,9 +160,9 @@ fins.widget.ComboPicker = function(){
 
 		for(var j = toRemove.length-1; j >= 0; j--)
 		  this.fromList.options[toRemove[j]] = null;
-    };
+    },
 
-    this.getAdded = function(){
+    getAdded: function(){
       var a = new Array();
 
       for(var i = 0; i < this.added.length; i++)
@@ -175,9 +170,9 @@ fins.widget.ComboPicker = function(){
           a[a.length] = this.added[i];          
 
       return a;
-    };
+    },
 
-    this.getRemoved = function(){
+    getRemoved: function(){
       var a = new Array();
 
       for(var i = 0; i < this.removed.length; i++)
@@ -185,19 +180,17 @@ fins.widget.ComboPicker = function(){
           a[a.length] = this.removed[i];          
 
       return a;
-    };
+    },
 
-    this.Q = function() {
+    Q: function() {
 	  	var str = "";
 	    str = str + "added: " + this.getAdded();
-
 	    str = str + "removed: " + this.getRemoved();
 
          alert(str);
+    },
 
-    };
-
-    this.removeItem = function() { 
+    removeItem: function() { 
 	   
 	   var toRemove = new Array();
 	
@@ -241,12 +234,9 @@ fins.widget.ComboPicker = function(){
 
 		for(var j = toRemove.length-1; j >= 0; j--)
 		  this.toList.options[toRemove[j]] = null;
-
-
-	};
+	},
 	
-	this.fromChanged = function() {
-		
+	fromChanged: function() {
 		
        var selectedItems = new Array();
 
@@ -262,10 +252,9 @@ fins.widget.ComboPicker = function(){
        {
 	       this.addButton.disabled = false;
        }
-
-     };
+     },
 	
-	this.toChanged = function() {
+	toChanged: function() {
 		
        var selectedItems = new Array();
 
@@ -281,22 +270,13 @@ fins.widget.ComboPicker = function(){
        {
 	       this.removeButton.disabled = false;
        }
+     },
 
-     };
+	widgetType: "ComboPicker",
 
+	labelPosition: "top",
 
-	this.widgetType = "ComboPicker";
+	templateString:  dojo.cache("fins.widget", "templates/ComboPicker.html"),
+//	templateCssPath: dojo.uri.dojoUri("fins/widget/templates/ComboPicker.css")
 
-	this.labelPosition = "top";
-
-	this.templatePath =  dojo.uri.dojoUri("fins/widget/templates/ComboPicker.html");
-	this.templateCssPath = dojo.uri.dojoUri("fins/widget/templates/ComboPicker.css");
-
-};
-
-
-
-dojo.inherits(fins.widget.ComboPicker, dojo.widget.HtmlWidget);
-
-//dojo.widget.tags.addParseTreeHandler("dojo:combopicker");
-
+});

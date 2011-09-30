@@ -9,10 +9,9 @@ var djConfig = {
   };
 
 </script>
-<script type="text/javascript" src="/static/javascripts/dojo.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
 <script type="text/javascript">
-	dojo.require("dojo.widget.*");
-	dojo.require("dojo.widget.Wizard");
+	dojo.require("dijit.Wizard");
 	dojo.hostenv.writeIncludes();
 
     function cancel() {
@@ -177,8 +176,8 @@ body {
 
 <body>
 
-<div id="wizard" dojoType="WizardContainer" style="width:100%; height:350px;">
-<div dojoType="dojo:WizardPane" label="Welcome!">
+<div id="wizard" dojoType="dijit.WizardContainer" style="width:100%; height:350px;">
+<div dojoType="dojo:dijit.WizardPane" label="Welcome!">
 <h1><%LOCALE id="26" string="Welcome to FinScribe"%></h1>
 
 <%LOCALE id="27" string="We're glad you've chosen to install FinScribe."%>
@@ -189,7 +188,7 @@ body {
 
 </div>
 
-<div dojoType="WizardPane" label="<%LOCALE string="Database Configuration (1)"%>" 
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Database Configuration (1)"%>" 
 passFunction="verifyandcreate">
 <h1><%LOCALE id="30" string="Select a database"%></h1>
 <%LOCALE id="31" string="FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below."%>
@@ -214,14 +213,14 @@ passFunction="verifyandcreate">
 <%LOCALE id="35" string="When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information."%>
 </div>
 
-<div dojoType="WizardPane" label="<%LOCALE string="Database Configuration (3)"%>" 
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Database Configuration (3)"%>" 
 canGoBack="false">
 <h1><%LOCALE id="36" string="Database Objects Created"%></h1>
 <%LOCALE id="37" string="We will now proceed to configure your copy of FinScribe."%>
 <p>
 <%LOCALE id="38" string="On the next few pages are a few questions that we will use to personalize your application."%>
 </div>
-<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" 
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" 
 canGoBack="false">
 <form action="#" id="preferenceform1">
 <h1><%LOCALE id="39" string="Site Basics"%></h1>
@@ -291,7 +290,7 @@ canGoBack="false">
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>">
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>">
 <form action="#" id="preferenceform2">
 <h1><%LOCALE id="52" string="Administration"%></h1>
 <table>
@@ -368,7 +367,7 @@ Weblog.com PING:
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="<%LOCALE string="Administrative User"%>" passFunction="checkadmin">
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Administrative User"%>" passFunction="checkadmin">
 <h1><%LOCALE id="63" string="Administrative User Setup"%></h1>
 <form action="#" id="adminuserform1">
 <%LOCALE id="64" string="Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. "%>
@@ -411,13 +410,13 @@ Weblog.com PING:
 </table>
 </form>
 </div>
-<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" passFunction="populateprefs">
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" passFunction="populateprefs">
 <h1><%LOCALE id="69" string="Preparing to configure"%></h1>
 <%LOCALE id="70" string="We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages."%>
 <p>
 <%LOCALE id="71" string="When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away."%>
 </div>
-<div dojoType="WizardPane" label="<%LOCALE string="Application Configuration"%>" doneFunction="done">
+<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" doneFunction="done">
 <h1><%LOCALE id="72" string="Setup Complete!"%></h1>
 <%LOCALE id="73" string="Congratulations! Your FinScribe installation is complete and ready to use."%>
 <p>
