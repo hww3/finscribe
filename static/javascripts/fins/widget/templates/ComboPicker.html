@@ -8,8 +8,8 @@
   </td>
   <td>
     <div class="PickerButtonHolder" dojoAttachPoint="pickerControlContainerNode">
-        <input class="PickerButton" type="button"  value="--&gt;" dojoAttachPoint="addButton" dojoAttachEvent="onClick: addItem;"/><br/>&nbsp;<br/>
-        <input class="PickerButton" type="button" value="&lt;--" dojoAttachPoint="removeButton" dojoAttachEvent="onClick: removeItem;"/>
+        <button dojoType="dijit.form.Button" dojoAttachPoint="addButton" xdojoAttachEvent="onclick: addItem">--&gt;</button><br/> &nbsp;<br/>
+        <button dojoType="dijit.form.Button" dojoAttachPoint="removeButton" xdojoAttachEvent="onclick: removeItem">&lt;--</button>
 <p/>
     </div>
   </td>

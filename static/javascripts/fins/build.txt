@@ -1,18 +1,4 @@
-fins.profile.js:
+./build.sh profile=standardCustomBase loader=xdomain action=release
+cp -rf /Users/hww3/Downloads/dojo-release-1.6.1-src/release/dojo/fins /Users/hww3/devel/FinScribe/static/javascripts/fins_release
 
-dependencies ={
-    layers:  [
-        {
-        name: "mydojo.js",
-        dependencies: [
-            "dojo.widget.Button",
-            "fins.widget.Comments"
-        ]
-        }
-    ],
-    prefixes: [
-        [ "fins", "/Users/hww3/Fins/FinScribe/static/javascripts/fins" ]
-    ]
-};
 
-java -jar lib/custom_rhino.jar xdgen.js xdgen profiles/fins.profile.js /tmp/foo ../src/ /Users/hww3/Fins/FinScribe/static/javascripts/fins/

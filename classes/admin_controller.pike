@@ -78,7 +78,7 @@ public void getusers_json(Request id, Response response, mixed ... args)
   json = Tools.JSON.serialize((["data": j]));
 
   response->set_data(json);
-  response->set_type("text/javascript");
+  response->set_type("text/json");
 }
 
 public void getrules_json(Request id, Response response, mixed ... args)
@@ -102,7 +102,7 @@ public void getrules_json(Request id, Response response, mixed ... args)
   json = Tools.JSON.serialize((["data": j]));
 
   response->set_data(json);
-  response->set_type("text/javascript");
+  response->set_type("text/json");
 }
 
 public void getgroups_json(Request id, Response response, mixed ... args)
@@ -128,7 +128,7 @@ public void getgroups_json(Request id, Response response, mixed ... args)
   json = Tools.JSON.serialize((["data": j]));
 
   response->set_data(json);
-  response->set_type("text/javascript");
+  response->set_type("text/json");
 }
 
 public void listacls(Request id, Response response, mixed ... args)

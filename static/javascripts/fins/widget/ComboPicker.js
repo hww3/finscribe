@@ -3,10 +3,7 @@ dojo.provide("fins.widget.ComboPicker");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
-
-dojo.require("dojo.event.*");
-dojo.require("dojo.html");
-dojo.require("dojo.html.style");
+dojo.require("dijit.form.Button");
 
 dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated], 
 {
@@ -32,18 +29,20 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
     addsElement: null,
     removesElement: null,
 
+	widgetsInTemplate: true,
+	
     postCreate: function() {
                 if (this.loadAvailableFunction) {
-                        this.loadAvailableFunction = dj_global[this.loadAvailableFunction];
+                        this.loadAvailableFunction = dojo.global[this.loadAvailableFunction];
                 }
                 if (this.loadMembersFunction) {
-                        this.loadMembersFunction = dj_global[this.loadMembersFunction];
+                        this.loadMembersFunction = dojo.global[this.loadMembersFunction];
                 }
         },
 
     startup: function()
     {
-      if(this.loadMembersFunction &&  dojo.lang.isFunction(this.loadMembersFunction))
+      if(this.loadMembersFunction &&  dojo.isFunction(this.loadMembersFunction))
       {
         var res = this.loadMembersFunction();
         for(var i = 0; i < res.length; i++)
@@ -51,9 +50,10 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
           this.toList.options[this.toList.length] = new Option(res[i].name, res[i].value);
           this.original[this.original.length] = res[i].value;
         }
+
       }
 
-      if(this.loadAvailableFunction &&  dojo.lang.isFunction(this.loadAvailableFunction))
+      if(this.loadAvailableFunction &&  dojo.isFunction(this.loadAvailableFunction))
       {
         var res = this.loadAvailableFunction();
         for(var i = 0; i < res.length; i++)
@@ -75,17 +75,21 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
         this.addsElement = dojo.byId(this.addsId);
       if(this.removesId)
         this.removesElement = dojo.byId(this.removesId);
+//alert(this.addButton);
+		this.addButton.connect("onclick", this.addItem);
+		this.removeButton.connect(this, "onclick", this.removeItem);
 
-      dojo.debug("removes element: " + this.removesId);
-      dojo.debug("removes element: " + this.removesElement);
+//      dojo.debug("removes element: " + this.removesId);
+//      dojo.debug("removes element: " + this.removesElement);
                         if((this.addsElement && this.addsElement.form) || 
                                   (this.removesElement && this.removesElement.form)){
-				dojo.debug("hooking into the form.");
-                                dojo.event.connect(this.addsElement.form, "onsubmit",
-                                        dojo.hitch(this, function(){
+//				dojo.debug("hooking into the form.");
+                                dojo.connect(this.addsElement.form, "onsubmit", 
+                                       dojo.hitch(this, function(){
+	alert("submit!");
                                                 this.addsElement.value = this.getAdded();
                                                 this.removesElement.value = this.getRemoved();
-                                        })
+                                        } )
                                 );
                         }
     },
@@ -116,17 +120,16 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
 
 		},
 
-
     addItem: function() {
-
+alert("add");
        var toRemove = new Array();
 
        for (var i = 0; i < this.fromList.length; i++) {
 	      if(this.fromList.options[i].selected)
 	      {
 		    var n = 0;
-                    var v = this.fromList.options[i].value;
-
+            var v = this.fromList.options[i].value;
+			
                 for(var y = 0; y < this.toList.options.length; y++)
                 {
                    if(this.toList.options[y].value == v)
@@ -134,32 +137,33 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
                 }
      
                 if(n==0)
-  	          this.toList.options[this.toList.length] = new Option(this.fromList.options[i].text, v);
+     	          this.toList.options[this.toList.length] = new Option(this.fromList.options[i].text, v);
 
                 n = 1;
 
-                    for(var q = 0; q < this.original.length; q++)
-                    {
-               	       if(this.original[q] == v) // already had it in our list
-                       n = 0;
-                    }
+                for(var q = 0; q < this.original.length; q++)
+                {
+               	   if(this.original[q] == v) // already had it in our list
+                   n = 0;
+                }
 
-                    if(n)
-                      this.added[this.added.length] =  v;
+                if(n)
+                   this.added[this.added.length] =  v;
   
-                    // we also need to remove any entry for this element from the "removed" column.
-                    for(var z = this.removed.length; z >= 0; z--)
-                    {
-			if(this.removed[z] == v) this.removed[z] = null;
-                    }
+                // we also need to remove any entry for this element from the "removed" column.
+                for(var z = this.removed.length; z >= 0; z--)
+                {
+			      if(this.removed[z] == v) this.removed[z] = null;
+                }
 		    toRemove[toRemove.length] = i;
+	
           }
        }
 
        sortSelect(this.toList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.fromList.options[toRemove[j]] = null;
+			this.fromList.options[toRemove[j]].remove();
     },
 
     getAdded: function(){
@@ -187,11 +191,11 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
 	    str = str + "added: " + this.getAdded();
 	    str = str + "removed: " + this.getRemoved();
 
-         alert(str);
+//         alert(str);
     },
 
     removeItem: function() { 
-	   
+	   alert("remove");
 	   var toRemove = new Array();
 	
 	   for (var i = 0; i < this.toList.length; i++) {
@@ -204,11 +208,13 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
                 for(var y = 0; y < this.fromList.options.length; y++)
                 {
                    if(this.fromList.options[y].value == v)
+					{
                       n = 1; // already on the list
+					}
                 }
      
                 if(n==0)
-  	          this.fromList.options[this.fromList.length] = new Option(this.toList.options[i].text, v);
+    	          this.fromList.options[this.fromList.length] = new Option(this.toList.options[i].text, v);
 
                 n = 0;
 
@@ -233,7 +239,7 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
        sortSelect(this.fromList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.toList.options[toRemove[j]] = null;
+		  this.toList.options[toRemove[j]].remove();
 	},
 	
 	fromChanged: function() {
@@ -246,11 +252,11 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
        }
        if(selectedItems.length == 0)
        {
-	       this.addButton.disabled = true;
+	     //  this.addButton.set('disabled', true);
        }
        else
        {
-	       this.addButton.disabled = false;
+	     //  this.addButton.set('disabled', false);
        }
      },
 	
@@ -264,11 +270,11 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
        }
        if(selectedItems.length == 0)
        {
-	       this.removeButton.disabled = true;
+	    //   this.removeButton.set('disabled', true);
        }
        else
        {
-	       this.removeButton.disabled = false;
+	    //   this.removeButton.set('disabled', false);
        }
      },
 

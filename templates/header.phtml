@@ -17,7 +17,11 @@
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
 <script type='text/javascript'>
-dojo.hostenv.setModulePrefix("fins", "fins/");
+
+	dojo.registerModulePath("fins",
+	                                 "<%syspref var="site.url"%>/static/javascripts/fins_release"
+	);
+	
 </script>
 <script src="/static/javascripts/menulayer.js" type="text/javascript"></script>
 <script src="/static/javascripts/bootstrap.js" type="text/javascript"></script>
