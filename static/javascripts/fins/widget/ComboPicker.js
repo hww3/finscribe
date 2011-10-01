@@ -75,18 +75,21 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
         this.addsElement = dojo.byId(this.addsId);
       if(this.removesId)
         this.removesElement = dojo.byId(this.removesId);
-//alert(this.addButton);
-		this.addButton.connect("onclick", this.addItem);
-		this.removeButton.connect(this, "onclick", this.removeItem);
 
-//      dojo.debug("removes element: " + this.removesId);
-//      dojo.debug("removes element: " + this.removesElement);
+//alert(this.fromList);
+	this.connect(this.fromList, "onchange", "fromChanged");
+	this.connect(this.toList, "onchange", "toChanged");
+	this.addButton = new dijit.form.Button({label: "--&gt;", disabled: true, onClick: dojo.hitch(this, "addItem")}, this.addButton);
+	this.removeButton = new dijit.form.Button({label: "&lt;--", disabled: true, onClick: dojo.hitch(this, "removeItem")}, this.removeButton);
+
                         if((this.addsElement && this.addsElement.form) || 
                                   (this.removesElement && this.removesElement.form)){
 //				dojo.debug("hooking into the form.");
                                 dojo.connect(this.addsElement.form, "onsubmit", 
                                        dojo.hitch(this, function(){
-	alert("submit!");
+	//alert(this.getAdded());
+	//alert(this.getRemoved());
+	
                                                 this.addsElement.value = this.getAdded();
                                                 this.removesElement.value = this.getRemoved();
                                         } )
@@ -101,7 +104,7 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
 
 	sortSelect: function(obj) {
 		var o = new Array();
-		if (!hasOptions(obj)) { return; }
+		if (!this.hasOptions(obj)) { return; }
 		for (var i=0; i<obj.options.length; i++) {
 			o[o.length] = new Option( obj.options[i].text, obj.options[i].value, obj.options[i].defaultSelected, obj.options[i].selected) ;
 			}
@@ -121,9 +124,7 @@ dojo.declare("fins.widget.ComboPicker", [dijit._Widget, dijit._Templated],
 		},
 
     addItem: function() {
-alert("add");
        var toRemove = new Array();
-
        for (var i = 0; i < this.fromList.length; i++) {
 	      if(this.fromList.options[i].selected)
 	      {
@@ -160,10 +161,11 @@ alert("add");
           }
        }
 
-       sortSelect(this.toList);
-
+       this.sortSelect(this.toList);
 		for(var j = toRemove.length-1; j >= 0; j--)
-			this.fromList.options[toRemove[j]].remove();
+			this.fromList.options[toRemove[j]]=null;
+		
+		this.fromChanged();
     },
 
     getAdded: function(){
@@ -195,7 +197,7 @@ alert("add");
     },
 
     removeItem: function() { 
-	   alert("remove");
+	   //alert("remove");
 	   var toRemove = new Array();
 	
 	   for (var i = 0; i < this.toList.length; i++) {
@@ -236,14 +238,15 @@ alert("add");
 		  }
        }
 	
-       sortSelect(this.fromList);
+       this.sortSelect(this.fromList);
 
 		for(var j = toRemove.length-1; j >= 0; j--)
-		  this.toList.options[toRemove[j]].remove();
+		  this.toList.options[toRemove[j]] = null;
+		this.toChanged();
 	},
 	
 	fromChanged: function() {
-		
+		//alert("fromChanged");
        var selectedItems = new Array();
 
        for (var i = 0; i < this.fromList.length; i++) {
@@ -252,16 +255,16 @@ alert("add");
        }
        if(selectedItems.length == 0)
        {
-	     //  this.addButton.set('disabled', true);
+	      this.addButton.set('disabled', true);
        }
        else
        {
-	     //  this.addButton.set('disabled', false);
+	       this.addButton.set('disabled', false);
        }
      },
 	
 	toChanged: function() {
-		
+		//alert("toChanged");
        var selectedItems = new Array();
 
        for (var i = 0; i < this.toList.length; i++) {
@@ -270,11 +273,11 @@ alert("add");
        }
        if(selectedItems.length == 0)
        {
-	    //   this.removeButton.set('disabled', true);
+	      this.removeButton.set('disabled', true);
        }
        else
        {
-	    //   this.removeButton.set('disabled', false);
+	      this.removeButton.set('disabled', false);
        }
      },
 
