@@ -1,93 +1,106 @@
 
 dojo.provide("fins.widget.ACLBuilder");
 
-dojo.require("dojo.widget.*");
-dojo.require("dojo.event.*");
-dojo.require("dojo.html");
-dojo.require("dojo.html.style");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
+dojo.require("dijit.form.Button");
+dojo.require("dojox.collections.ArrayList");
 
-fins.widget.ACLBuilder = function(){
+dojo.declare("fins.widget.ACLBuilder", [dijit._Widget, dijit._Templated], 
+{
 
-    dojo.widget.HtmlWidget.call(this);
+    added: new Array(),
+    removed: new Array(),
 
-    this.added = new Array();
-    this.removed = new Array();
+    originalRules: new dojox.collections.ArrayList(),
+    deletedRules: new dojox.collections.ArrayList(),
 
-    this.originalRules = new dojo.collections.ArrayList();
-    this.deletedRules = new dojo.collections.ArrayList();
+    formNode: null,
+    builderNode: null,
+	rulesElement: null,
 
-    this.formNode = null;
-    this.builderNode = null;
-    this.builderFromContainerNode = null;
-    this.builderControlContainerNode = null;
-    this.builderToContainerNode = null;
+    builderFromContainerNode: null,
+    builderControlContainerNode: null,
+    builderToContainerNode: null,
 
-    this.ruleChangedFlag = false;
-    this.newRuleFlag = false;
-    this.currentRuleId = null;
-    this.currentRule = null;
-    this.currentRuleIndex = null;
+    ruleChangedFlag: false,
+    newRuleFlag: false,
+    currentRuleId: null,
+    currentRule: null,
+    currentRuleIndex: null,
 
-    this.ruleAppliesList = null;
-    this.fullRule = null;
+    ruleAppliesList: null,
+    fullRule: null,
 
-    this.newButton = null;
-    this.editButton = null;
-    this.deleteButton = null;
-    this.saveButton = null;
-    this.cancelButton = null;
+    newButton: null,
+    editButton: null,
+    deleteButton: null,
+    saveButton: null,
+    cancelButton: null,
 
-    this.fromRulesList = null;
-    this.toGroupList = null;
-    this.toUserList = null;
+    fromRulesList: null,
+    toGroupList: null,
+    toUserList: null,
 
-    this.rule_groups_div = null;
-    this.rule_users_div = null;
+    rule_groups_div: null,
+    rule_users_div: null,
 
-    this.rule_radio_user = null;
-    this.rule_radio_group = null;
-    this.rule_radio_allusers = null;
-    this.rule_radio_owner = null;
-    this.rule_radio_anonymous = null;
+    rule_radio_user: null,
+    rule_radio_group: null,
+    rule_radio_allusers: null,
+    rule_radio_owner: null,
+    rule_radio_anonymous: null,
 
-    this.rule_xmit_browse = null;
-    this.rule_xmit_read = null;
-    this.rule_xmit_version = null;
-    this.rule_xmit_write = null;
-    this.rule_xmit_delete = null;
-    this.rule_xmit_comment = null;
-    this.rule_xmit_post = null;
-    this.rule_xmit_lock = null;
+    rule_xmit_browse: null,
+    rule_xmit_read: null,
+    rule_xmit_version: null,
+    rule_xmit_write: null,
+    rule_xmit_delete: null,
+    rule_xmit_comment: null,
+    rule_xmit_post: null,
+    rule_xmit_lock: null,
 
     // this is a div containing the current rule as built.
-    this.current_rule_storage = null;
+    current_rule_storage: null,
 
     // functions that return an array of valid users and groupss
-    this.loadAvailableUsersFunction = "";
-    this.loadAvailableGroupsFunction = "";
-    this.loadAvailableRulesFunction = "";
+    loadAvailableUsersFunction: "",
+    loadAvailableGroupsFunction: "",
+    loadAvailableRulesFunction: "",
 
-    this.addsId = "";
-    this.removesId = "";
+    addsId: "",
+    removesId: "",
 
-    this.addsElement = null;
-    this.removesElement = null;
+    addsElement: null,
+    removesElement: null,
 
-    this.xmitChanged = function(evt)
+	capitalize: function (str) {
+	        if (!dojo.isString(str)) {
+	                return "";
+	        }
+	        if (arguments.length == 0) {
+	                str = this;
+	        }
+	        var words = str.split(" ");
+	        for (var i = 0; i < words.length; i++) {
+	                words[i] = words[i].charAt(0).toUpperCase() + words[i].substring(1);
+	        }
+	        return words.join(" ");
+	},
+
+    xmitChanged: function(evt)
     {
-//      var xmit = evt.target.name;    
-//      dojo.debug(xmit);
       this.ruleChanged();
-    }
+    },
 
-    this.newRule = function()
+    newRule: function()
     {
       this.fromRulesList.disabled = 1;
       this.newRuleFlag = true;
       this.enableRule();
-    }
+    },
 
-    this.editRule = function()
+    editRule: function()
     {
 
       var sel = this.fromRulesList.selectedIndex;
@@ -111,9 +124,9 @@ fins.widget.ACLBuilder = function(){
       this.enableRule();
       this.populateRule(rule);
 
-    }
+    },
 
-    this.populateRule = function(rule)
+    populateRule: function(rule)
     {
       this.updateRuleApplies(rule);
       this.updateRulePermissions(rule);
@@ -125,10 +138,9 @@ fins.widget.ACLBuilder = function(){
       this.editButton.disabled = 1;
       this.deleteButton.disabled = 1;
       this.newButton.disabled = 1;
+    },
 
-    }
-
-    this.updateRulePermissions = function(rule)
+    updateRulePermissions: function(rule)
     {
       if(rule["browse"])
         this.rule_xmit_browse.checked = 1;
@@ -146,9 +158,9 @@ fins.widget.ACLBuilder = function(){
         this.rule_xmit_post.checked = 1;
       if(rule["lock"])
         this.rule_xmit_lock.checked = 1;
-    }
+    },
 
-    this.updateRuleApplies = function(rule)
+    updateRuleApplies: function(rule)
     {
       var i;
       var c = rule.class;
@@ -186,9 +198,9 @@ fins.widget.ACLBuilder = function(){
           }
         }
       }
-    }
+    },
 
-    this.deleteRule = function()
+    deleteRule: function()
     {
       var s = this.fromRulesList.selectedIndex;
 
@@ -204,9 +216,9 @@ fins.widget.ACLBuilder = function(){
       this.editButton.disabled = 1;   
       this.deleteButton.disabled = 1;   
       this.fullRule.innerHTML = "ACL Rule Deleted.";
-    }
+    },
 
-    this.saveRule = function()
+    saveRule: function()
     {
       this.saveButton.disabled = 1;
       this.editButton.disabled = 0;
@@ -216,9 +228,9 @@ fins.widget.ACLBuilder = function(){
      
       this.saveRuleChanges();
       this.resetRule();
-    }
+    },
 
-    this.saveRuleChanges = function()
+    saveRuleChanges: function()
     {
       var r = this.currentRule;
 
@@ -265,9 +277,9 @@ fins.widget.ACLBuilder = function(){
         this.fullRule.innerHTML = "ACL Rule Saved.";
       }
 
-    }
+    },
 
-    this.cancelRule = function()
+    cancelRule: function()
     {
       this.saveButton.disabled = 1;
       this.editButton.disabled = 0;
@@ -275,14 +287,14 @@ fins.widget.ACLBuilder = function(){
       this.newButton.disabled = 0;
       this.fromRulesList.disabled = 0;
       this.resetRule();
-    }
+    },
 
-    this.describeRule = function(rule)
+    describeRule: function(rule)
     {
       var res = "";
       var s = new String(rule.class);
       s = s.replace("_", " ");
-      res += dojo.string.capitalize(s);
+      res += this.capitalize(s);
 
       if(rule.class == "user")
       {
@@ -311,7 +323,7 @@ fins.widget.ACLBuilder = function(){
 
       res += ": ";
 
-      var a = new dojo.collections.ArrayList();;
+      var a = new dojox.collections.ArrayList();;
 
       if(rule["browse"])
          a.add("BROWSE");
@@ -331,9 +343,9 @@ fins.widget.ACLBuilder = function(){
          a.add("LOCK");
 
       return res + a.toArray().join(", ");
-    }
+    },
 
-    this.resetRule = function()
+    resetRule: function()
     {
       this.ruleEnableOwner();
 
@@ -364,9 +376,9 @@ fins.widget.ACLBuilder = function(){
       this.rule_xmit_lock.disabled = 1;
 
       this.ruleChangedFlag = false;
-    }
+    },
 
-    this.enableRule = function()
+    enableRule: function()
     {
       this.ruleEnableOwner();
 
@@ -389,42 +401,42 @@ fins.widget.ACLBuilder = function(){
       this.rule_xmit_comment.disabled = 0;
       this.rule_xmit_post.disabled = 0;
       this.rule_xmit_lock.disabled = 0;
-    }
+    },
 
-    this.ruleEnableUser = function()
+    ruleEnableUser: function()
     {
       this.rule_groups_div.style.display = 'none';
       this.rule_users_div.style.display = '';
       this.toGroupList.selectedIndex = -1;
       this.toUserList.disabled = 0;
       this.toGroupList.disabled = 1;
-    }
+    },
 
-    this.ruleEnableOwner = function()
+    ruleEnableOwner: function()
     {
       this.ruleEnableOther();
-    }
+    },
 
-    this.ruleEnableAllUsers = function()
+    ruleEnableAllUsers: function()
     {
       this.ruleEnableOther();
-    }
+    },
 
-    this.ruleEnableAnonymous = function()
+    ruleEnableAnonymous: function()
     {
       this.ruleEnableOther();
-    }
+    },
 
-    this.ruleEnableGroup = function()
+    ruleEnableGroup: function()
     {
       this.rule_users_div.style.display = 'none';
       this.rule_groups_div.style.display = '';
       this.toUserList.selectedIndex = -1;
       this.toGroupList.disabled = 0;
       this.toUserList.disabled = 1;
-    }
+    },
 
-    this.ruleEnableOther = function()
+    ruleEnableOther: function()
     {
       this.rule_users_div.style.display = 'none';
       this.rule_groups_div.style.display = 'none';
@@ -432,32 +444,32 @@ fins.widget.ACLBuilder = function(){
       this.toGroupList.selectedIndex = -1;
       this.toGroupList.disabled = 1;
       this.toUserList.disabled = 1;
-    }
+    },
 
-    this.fillInTemplate = function() {
+    postCreate: function() {
       if (this.loadAvailableGroupsFunction) {
-        this.loadAvailableGroupsFunction = dj_global[this.loadAvailableGroupsFunction];
+        this.loadAvailableGroupsFunction = dojo.global[this.loadAvailableGroupsFunction];
       }
       if (this.loadAvailableUsersFunction) {
-        this.loadAvailableUsersFunction = dj_global[this.loadAvailableUsersFunction];
+        this.loadAvailableUsersFunction = dojo.global[this.loadAvailableUsersFunction];
       }
       if (this.loadAvailableRulesFunction) {
-        this.loadAvailableRulesFunction = dj_global[this.loadAvailableRulesFunction];
+        this.loadAvailableRulesFunction = dojo.global[this.loadAvailableRulesFunction];
       }
 
        this.editButton.disabled = 1;
        this.deleteButton.disabled = 1;
        this.saveButton.disabled = 1;
 
-    }
+    },
 
-
-    this.initialize = function(args, fragment)
+    startup: function(args, fragment)
     {
        this.resetRule();
-      if(this.loadAvailableUsersFunction &&  dojo.lang.isFunction(this.loadAvailableUsersFunction))
+      if(this.loadAvailableUsersFunction &&  dojo.isFunction(this.loadAvailableUsersFunction))
       {
         var res = this.loadAvailableUsersFunction();
+//alert(res);
         for(var i = 0; i < res.length; i++)
         {
           this.toUserList.options[this.toUserList.length] = new Option(res[i].name, res[i].value);
@@ -465,7 +477,7 @@ fins.widget.ACLBuilder = function(){
         }
       }
 
-      if(this.loadAvailableGroupsFunction &&  dojo.lang.isFunction(this.loadAvailableGroupsFunction))
+      if(this.loadAvailableGroupsFunction &&  dojo.isFunction(this.loadAvailableGroupsFunction))
       {
         var res = this.loadAvailableGroupsFunction();
         for(var i = 0; i < res.length; i++)
@@ -475,7 +487,7 @@ fins.widget.ACLBuilder = function(){
         }
       }
 
-      if(this.loadAvailableRulesFunction &&  dojo.lang.isFunction(this.loadAvailableRulesFunction))
+      if(this.loadAvailableRulesFunction &&  dojo.isFunction(this.loadAvailableRulesFunction))
       {
         var res = this.loadAvailableRulesFunction();
         for(var i = 0; i < res.length; i++)
@@ -486,27 +498,44 @@ fins.widget.ACLBuilder = function(){
 
       }
 
-      var f = this.getFragNodeRef(fragment);
-      if(f.form)
+      var f = this.domNode;
+      var form;
+	  do
+	  {
+		if(f.parentNode == f)
+		  break;
+		f = f.parentNode;
+		//alert("f: " + f);
+		if(f.nodeName.toLowerCase() == "form") 
+		  form = f;
+		else
+		{
+          form = dojo.query('form', f);
+ 		  if(form.length)
+			form = form[0];
+		}
+	  } while(!form || !form.length);
+	
+      if(form)
       {
-              dojo.debug("hooking into the form.");
+              //alert("hooking into the form.");
        	this.formNode = f;
-                                dojo.event.connect(f.form, "onsubmit",
-                                        dojo.lang.hitch(this, function(){
-                                dojo.dom.insertAfter(this.formNode, this.domNode, 1); 
-					  this.formNode.value=dojo.json.serialize({rules: this.originalRules.toArray(), deleted: this.deletedRules.toArray() });
+                                dojo.connect(f.form, "onsubmit",
+                                        dojo.hitch(this, function(){
+											this.rulesElement.value = dojo.json.serialize({rules: this.originalRules.toArray(), deleted: this.deletedRules.toArray() });                              			
+//											this.formNode.appendChild(rules); 
                                         })
                                 );
 
       }
-    }
+    },
 
-	function hasOptions(obj) {
+	hasOptions: function(obj) {
 		if (obj!=null && obj.options!=null) { return true; }
 		return false;
-		}
+		},
 
-	function sortSelect(obj) {
+	sortSelect: function(obj) {
 		var o = new Array();
 		if (!hasOptions(obj)) { return; }
 		for (var i=0; i<obj.options.length; i++) {
@@ -525,10 +554,9 @@ fins.widget.ACLBuilder = function(){
 			obj.options[i] = new Option(o[i].text, o[i].value, o[i].defaultSelected, o[i].selected);
 			}
 
-		}
+		},
 
-
-    this.getAdded = function(){
+    getAdded: function(){
       var a = new Array();
 
       for(var i = 0; i < this.added.length; i++)
@@ -536,9 +564,9 @@ fins.widget.ACLBuilder = function(){
           a[a.length] = this.added[i];          
 
       return a;
-    };
+    },
 
-    this.getRemoved = function(){
+    getRemoved: function(){
       var a = new Array();
 
       for(var i = 0; i < this.removed.length; i++)
@@ -546,21 +574,21 @@ fins.widget.ACLBuilder = function(){
           a[a.length] = this.removed[i];          
 
       return a;
-    };
+    },
 
-        this.ruleChanged = function()
+    ruleChanged: function()
         {
           this.ruleChangedFlag = true;
           this.saveButton.disabled = 0;
-        }
+        },
 	
-        this.ruleAppliesChanged = function()
+        ruleAppliesChanged: function()
         {
           this.ruleAppliesChangedInternal();
           this.ruleChanged();
-        }
+        },
 
-        this.ruleAppliesChangedInternal = function()
+        ruleAppliesChangedInternal: function()
         {
           var t = this.ruleAppliesList.options[this.ruleAppliesList.selectedIndex];
 
@@ -572,11 +600,35 @@ fins.widget.ACLBuilder = function(){
           else if(v=="all_users") this.ruleEnableAllUsers();
           else if(v=="owner") this.ruleEnableOwner();
 
-        }
+        },
 
-	this.fromChanged = function() {	
+		fromGroupChanged: function() {	
+		          var selectedItems = new Array();
+
+		          for (var i = 0; i < this.fromGroupList.length; i++) {
+		            if (this.fromRulesList.options[i].selected)
+		              selectedItems[selectedItems.length] = this.fromRulesList.options[i].value;
+		          }
+		          if(selectedItems.length == 0)
+		          {
+		            this.fullRule.innerHTML = "";
+			    this.deleteButton.disabled = 1;
+			    this.editButton.disabled = 1;
+		          }
+		          else
+		  	  {
+		         this.fullRule.innerHTML = this.fromRulesList.options[this.fromRulesList.selectedIndex].text;
+
+				//dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
+			    this.deleteButton.disabled = 0;
+			    this.editButton.disabled = 0;
+		          }
+		       },
+
+	fromChanged: function() {	
           var selectedItems = new Array();
 
+//alert("fromchanged");
 
           for (var i = 0; i < this.fromRulesList.length; i++) {
             if (this.fromRulesList.options[i].selected)
@@ -592,13 +644,13 @@ fins.widget.ACLBuilder = function(){
   	  {
             this.fullRule.innerHTML = this.fromRulesList.options[this.fromRulesList.selectedIndex].text;
             
-dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
+//dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
 	    this.deleteButton.disabled = 0;
 	    this.editButton.disabled = 0;
           }
-       };
+       },
 	
-	this.toChanged = function() {
+	toChanged: function() {
 		
        var selectedItems = new Array();
 
@@ -615,21 +667,11 @@ dojo.debug(this.fromRulesList.options[this.fromRulesList.selectedIndex].text);
 	       this.removeButton.disabled = false;
        }
 
-     };
+     },
 
+	widgetType: "ACLBuilder",
 
-	this.widgetType = "ACLBuilder";
+	labelPosition: "top",
 
-	this.labelPosition = "top";
-
-	this.templatePath =  dojo.uri.dojoUri("fins/widget/templates/ACLBuilder.html");
-	this.templateCssPath = dojo.uri.dojoUri("fins/widget/templates/ACLBuilder.css");
-
-};
-
-
-
-dojo.inherits(fins.widget.ACLBuilder, dojo.widget.HtmlWidget);
-
-//dojo.widget.tags.addParseTreeHandler("dojo:aclbuilder");
-
+	templateString:  dojo.cache("fins.widget", "templates/ACLBuilder.html")
+});

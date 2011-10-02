@@ -76,7 +76,7 @@ public void getusers_json(Request id, Response response, mixed ... args)
   } 
 
   json = Tools.JSON.serialize((["data": j]));
-
+werror("json: %O\n", json);
   response->set_data(json);
   response->set_type("text/json");
 }
@@ -94,7 +94,7 @@ public void getrules_json(Request id, Response response, mixed ... args)
     a = Fins.DataSource._default.find.acls_by_id((int)args[0]);
   }
 
-  foreach(a["rules"];;mixed r)
+  foreach(a["aclrules"];;mixed r)
   {
     j += ({([ "name": r->format_nice(), "value": r->format_data() ])});
   } 
@@ -196,6 +196,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
           else if(id->variables->action == "Save")
           {
+//werror("%O\n", id->variables);
 
             if(!id->variables->rules)
             {
@@ -385,7 +386,7 @@ public void editgroup(Request id, Response response, mixed ... args)
           {
 
             if(id->variables->newgroup)
-              g = Fins.DataSource._default.new("group");
+              g = FinScribe.Objects.Group();
 
             if(id->variables->name != g["name"])
                g["name"] = id->variables->name;

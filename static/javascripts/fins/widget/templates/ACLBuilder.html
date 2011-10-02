@@ -4,15 +4,16 @@
   <td width="50%" valign="top">
     <div class="BuilderFromHolder" dojoAttachPoint="builderFromContainerNode">
     Rules<br/>
-    <select class="FromPicker" multiple="0" size="10" dojoAttachPoint="fromRulesList" dojoAttachEvent="onChange: fromChanged"/>
+	<input type="hidden" name="rules" dojoAttachPoint="rulesElement"/>
+    <select class="FromPicker" multiple="0" size="10" dojoAttachPoint="fromChangedList" dojoAttachEvent="onchange: fromChanged"/>
     <p>
     &nbsp;
     </p>
     <p>&nbsp;</p>
     <p>
-    <input class="BuilderButton" type="button"  value="Edit Rule" dojoAttachPoint="editButton" dojoAttachEvent="onClick: editRule;">
-    <input class="BuilderButton" type="button"  value="New Rule" dojoAttachPoint="newButton" dojoAttachEvent="onClick: newRule;">
-    <input class="BuilderButton" type="button"  value="Delete Rule" dojoAttachPoint="deleteButton" dojoAttachEvent="onClick: deleteRule;">
+    <input class="BuilderButton" type="button"  value="Edit Rule" dojoAttachPoint="editButton" dojoAttachEvent="onclick: editRule">
+    <input class="BuilderButton" type="button"  value="New Rule" dojoAttachPoint="newButton" dojoAttachEvent="onclick: newRule">
+    <input class="BuilderButton" type="button"  value="Delete Rule" dojoAttachPoint="deleteButton" dojoAttachEvent="onclick: deleteRule">
     </p>
     </div>
     <div id="fullRule" class="fullRule" dojoAttachPoint="fullRule"></div>
@@ -21,7 +22,7 @@
   <td width="50%" valign="top">
     <div class="BuilderToHolder" dojoAttachPoint="builderToContainerNode">
      Rule applies to:
-     <select dojoAttachPoint="ruleAppliesList" dojoAttachEvent="onChange: ruleAppliesChanged">
+     <select dojoAttachPoint="ruleAppliesList" dojoAttachEvent="onchange: ruleAppliesChanged">
        <option value="anonymous">Anonymous
        <option value="all_users">All Users
        <option value="owner">Owner
@@ -34,7 +35,7 @@
          <tr>
            <td>
             Groups<br/>
-	      <select class="ToGroupPicker" size="5" dojoAttachPoint="toGroupList" dojoAttachEvent="onChange: toGroupChanged"/>
+	      <select class="ToGroupPicker" size="5" dojoAttachPoint="toGroupList" sdojoAttachEvent="onchange: toGroupChanged"/>
           </td>
         </tr>
         </table>
@@ -45,7 +46,7 @@
         <tr>
           <td>
             Users<br/>
-	    <select class="ToUserPicker" size="5" dojoAttachPoint="toUserList" dojoAttachEvent="onChange: toUserChanged"/>
+	    <select class="ToUserPicker" size="5" dojoAttachPoint="toUserList" xdojoAttachEvent="onchange: toUserChanged"/>
           </td>
         </tr>
         </table>
@@ -59,30 +60,30 @@
             <tr>
             <td>
 	    <!-- we could probably do this dynamically, huh? -->
-            <input type="checkbox" value="1" name="browse" dojoAttachPoint="rule_xmit_browse" dojoAttachEvent="onChange: xmitChanged"/> Browse
+            <input type="checkbox" value="1" name="browse" dojoAttachPoint="rule_xmit_browse" dojoAttachEvent="onchange: xmitChanged"/> Browse
             <br/>
-            <input type="checkbox" value="1" name="read" dojoAttachPoint="rule_xmit_read" dojoAttachEvent="onChange: xmitChanged"/> Read
+            <input type="checkbox" value="1" name="read" dojoAttachPoint="rule_xmit_read" dojoAttachEvent="onchange: xmitChanged"/> Read
             <br/>
-            <input type="checkbox" value="1" name="version" dojoAttachPoint="rule_xmit_version" dojoAttachEvent="onChange: xmitChanged"/> Version
+            <input type="checkbox" value="1" name="version" dojoAttachPoint="rule_xmit_version" dojoAttachEvent="onchange: xmitChanged"/> Version
             <br/>
-            <input type="checkbox" value="1" name="write" dojoAttachPoint="rule_xmit_write" dojoAttachEvent="onChange: xmitChanged"/> Write
+            <input type="checkbox" value="1" name="write" dojoAttachPoint="rule_xmit_write" dojoAttachEvent="onchange: xmitChanged"/> Write
             </td>
             <td>    
-            <input type="checkbox" value="1" name="delete" dojoAttachPoint="rule_xmit_delete" dojoAttachEvent="onChange: xmitChanged"/> Delete
+            <input type="checkbox" value="1" name="delete" dojoAttachPoint="rule_xmit_delete" dojoAttachEvent="onchange: xmitChanged"/> Delete
             <br/>
-            <input type="checkbox" value="1" name="comment" dojoAttachPoint="rule_xmit_comment" dojoAttachEvent="onChange: xmitChanged"/> Comment
+            <input type="checkbox" value="1" name="comment" dojoAttachPoint="rule_xmit_comment" dojoAttachEvent="onchange: xmitChanged"/> Comment
             <br/>
-            <input type="checkbox" value="1" name="post" dojoAttachPoint="rule_xmit_post" dojoAttachEvent="onChange: xmitChanged"/> Post
+            <input type="checkbox" value="1" name="post" dojoAttachPoint="rule_xmit_post" dojoAttachEvent="onchange: xmitChanged"/> Post
             <br/>
-            <input type="checkbox" value="1" name="lock" dojoAttachPoint="rule_xmit_lock" dojoAttachEvent="onChange: xmitChanged"/> Lock
+            <input type="checkbox" value="1" name="lock" dojoAttachPoint="rule_xmit_lock" dojoAttachEvent="onchange: xmitChanged"/> Lock
 
             <div dojoAttachPoint="current_rule_storage"></div>
             </td>
            </tr>
            </table>
     <p>
-    <input class="BuilderButton" type="button"  enabled="0" value="Cancel Changes" dojoAttachPoint="cancelButton" dojoAttachEvent="onClick: cancelRule;">
-    <input class="BuilderButton" type="button"  enabled="0" value="Save Rule" dojoAttachPoint="saveButton" dojoAttachEvent="onClick: saveRule;">
+    <input class="BuilderButton" type="button"  enabled="0" value="Cancel Changes" dojoAttachPoint="cancelButton" dojoAttachEvent="onclick: cancelRule">
+    <input class="BuilderButton" type="button"  enabled="0" value="Save Rule" dojoAttachPoint="saveButton" dojoAttachEvent="onclick: saveRule">
     </p>
 
     </td>

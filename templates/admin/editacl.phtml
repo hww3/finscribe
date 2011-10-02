@@ -1,5 +1,7 @@
   <%@include file="top.phtml" %>
   <%@include file="adminheader.phtml" %>
+  <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/javascripts/fins_release/widget/templates/ComboPicker.css"/>
+
    <title><%syspref var="site.name" %> :: admin</title>
   
 
@@ -22,27 +24,24 @@
 function getUsers()
 {
   var res = null;
-
 <% if data["newacl"] %>
     return [];
 <% endif %>
-
   var bindArgs = {
     url:         "/admin/getusers_json/",
-    mimetype:   "text/plain",
+    handleAs:   "json",
     sync: true,
     error:      function(type, errObj){
+		alert("error");
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
-
-        res = dojo.json.evalJson(data.toString());
-        res = res.data;
+       res = data.data;
     }
 };
 
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrGet(bindArgs);
 
     return res;
 }
@@ -57,20 +56,18 @@ function getRules()
 
   var bindArgs = {
     url:         "/admin/getrules_json/<%$acl.id %>",
-    mimetype:   "text/plain",
+    handleAs:   "json",
     sync: true,
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
-        // handle successful response here
-
-        res = dojo.json.evalJson(data.toString());
-        res = res.data;
+    load:      function(data, evt){
+       // handle successful response here
+       res = data.data;
     }
 };
 
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+var requestObj = dojo.xhrGet(bindArgs);
 
     return res;
 }
@@ -85,26 +82,24 @@ function getGroups()
 
   var bindArgs = {
     url:         "/admin/getgroups_json/",
-    mimetype:   "text/plain",
+    handleAs:   "json",
     sync: true,
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
-
-        res = dojo.json.evalJson(data.toString());
-        res = res.data;
+        res = data.data;
     }
 };
 
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+var requestObj = dojo.xhrGet(bindArgs);
 
     return res;
 }
 </script>
 
-		<input type="hidden" name="rules" dojoType="fins:ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
+		<input type="hidden" name="rules" dojoType="fins.widget.ACLBuilder" loadAvailablerulesFunction="getRules" loadAvailableUsersFunction="getUsers" 
                         loadAvailableGroupsFunction="getGroups"/>
 		<input type="hidden" name="rules2"/>
 
@@ -116,12 +111,9 @@ function getGroups()
   <%@include file="adminfooter.phtml" %>
 
 <script type="text/javascript">
-dojo.require("fins.widget.*");
-dojo.require("dojo.json");
+dojo.require("dijit.form.Button");
 dojo.require("fins.widget.ACLBuilder");
-
- dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
+// dojo.addOnLoad(function(){dojo.widget.createWidget(document.getElementById("form"));});
 </script>
-
 
   <%@include file="bottom.phtml" %>

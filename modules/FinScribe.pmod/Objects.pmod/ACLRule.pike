@@ -89,14 +89,14 @@ string format_nice()
     
     desc += ": ";
   }
-  else if(sizeof(a))
+  else if(a && sizeof(a))
   {
     desc+=("User: " + a[0]["name"] + " ");
   }
   else
   {
     a = this["group"];
-    if(sizeof(a))
+    if(a && sizeof(a))
     {
       desc+=("Group: " + a[0]["name"] + " ");
     }
@@ -138,7 +138,7 @@ mapping format_data()
       data->class="anonymous";
     
   }
-  else if(sizeof(a))
+  else if(a && sizeof(a))
   {
     data->class="user";
     data["user"] = a[0]["id"];
@@ -147,7 +147,7 @@ mapping format_data()
   {
     data->class="group";
     a = this["group"];
-    if(sizeof(a))
+    if(a && sizeof(a))
     {
       data["group"] = a[0]["id"];
     }
