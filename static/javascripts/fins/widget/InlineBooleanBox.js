@@ -1,75 +1,12 @@
 dojo.provide("fins.widget.InlineBooleanBox");
-dojo.provide("fins.widget.html.InlineBooleanBox");
 
-dojo.require("dojo.widget.*");
-dojo.require("dojo.lfx.*");
-dojo.require("dojo.graphics.color");
-dojo.require("dojo.string");
-dojo.require("dojo.html.style");
-dojo.require("dojo.html");
+dojo.require("dijit.InlineEditBox");
+dojo.require("dijit.form.CheckBox");
 
-//dojo.widget.tags.addParseTreeHandler("dojo:inlinebooleanbox");
-
-fins.widget.html.InlineBooleanBox = function(){
-	dojo.widget.HtmlWidget.call(this);
-	// mutable objects need to be in constructor to give each instance its own copy
-	this.history = [];
-}
-
-dojo.inherits(fins.widget.html.InlineBooleanBox,dojo.widget.HtmlWidget);
-
-dojo.lang.extend(fins.widget.html.InlineBooleanBox, {
-	templatePath: dojo.uri.dojoUri("fins/widget/templates/HtmlInlineBooleanBox.html"),
-	templateCssPath: dojo.uri.dojoUri("fins/widget/templates/HtmlInlineBooleanBox.css"),
-	widgetType: "InlineBooleanBox",
-
-	form: null,
-        input_true: null,
-        input_false: null,
-	submitButton: null,
-	cancelButton: null,
-
-	minWidth: 100, //px. minimum width of edit box
-	minHeight: 200, //px. minimum width of edit box, if it's a TA
-
-	editing: false,
-	textValue: "",
-	defaultText: "",
-	doFade: false,
+dojo.declare("fins.widget.InlineBooleanBox", dijit.InlineEditBox, 
+{
+	editor: dijit.form.RadioButton,
 	
-	onSave: function(newValue, oldValue){},
-	onUndo: function(value){},
-
-	postCreate: function(args, frag){
-		// put original node back in the document, and attach handlers
-		// which hide it and display the editor
-                this.input_true.name=this.widgetId;
-                this.input_false.name=this.widgetId;
-
-		this.editable = this.getFragNodeRef(frag);
-		dojo.dom.insertAfter(this.editable, this.form);
-		dojo.event.connect(this.editable, "onmouseover", this, "mouseover");
-		dojo.event.connect(this.editable, "onmouseout", this, "mouseout");
-		dojo.event.connect(this.editable, "onclick", this, "beginEdit");
-
-		this.textValue = dojo.string.trim(this.editable.innerHTML);
-		if(dojo.string.trim(this.textValue).length == 0){
-			this.editable.innerHTML = this.defaultText;
-		}		
-	},
-
-	mouseover: function(e){
-		if(!this.editing){
-			dojo.html.addClass(this.editable, "editableRegion");
-		}
-	},
-
-	mouseout: function(e){
-		if(!this.editing){
-			dojo.html.removeClass(this.editable, "editableRegion");
-		}
-	},
-
 	// When user clicks the text, then start editing.
 	// Hide the text and display the form instead.
 	beginEdit: function(e){
@@ -154,5 +91,7 @@ dojo.lang.extend(fins.widget.html.InlineBooleanBox, {
                 {
 			this.submitButton.disabled = false;
 		}
-	}
+	},
+	
+	widgetType: "InlineBooleanBox"
 });

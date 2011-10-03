@@ -2,88 +2,29 @@
   <%@include file="adminheader.phtml"%>
    <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="173" string="preferencelist"%></title>
   <script type="text/javascript">
-	var reporter = function(reporter) {
-		this.name = "titleClick";
-		this.go = function(message) {
-			if(message &&  message.source)
-			{
-			  var m = message.source.data;
-			  prefloadHandler(m);
-			}
-		}
-	}
 
-    function init() {
-/*
-		var controller = dojo.widget.manager.getWidgetById('treeController');
-		for(eventName in controller.eventNames) {
-			dojo.event.topic.subscribe(
-				controller.eventNames[eventName],
-				new reporter('controller'),
-				'go'
-			);
-		}
-*/
-		/* Add debug print for all prefTree events */
-		var prefTree = dojo.widget.manager.getWidgetById('prefTree');
-//		for(eventName in prefTree.eventNames) {
-			dojo.event.topic.subscribe(
-				prefTree.eventNames.titleClick,
-				new reporter('prefTree'),
-				'go'
-			);
-//		}
-    };
-
-    function createCallback(pref) {
-      return function(newVal, oldVal) { saveHandler(pref, newVal, oldVal); };
+    function init()
+    {	
     }
-
-    function saveHandler(pref, newVal, oldVal) {
+	
+    function saveValue(pref, newVal) {
       var bindArgs = {
-	url : '/admin/prefs/set',
-	mimetype : 'text/plain',
-	sync : false,
-	method : 'POST',
-	content : {
+		url : '/admin/prefs/set',
+		mimetype : 'text/plain',
+		sync : false,
+		method : 'POST',
+		content : {
 		    key : pref,
 		    value : newVal
-		  },
-	error : function(type, errObj) {
-		},
-	load : function(type, data, evt) {
+		  	},
+		error : function(type, errObj) {
+			},
+		load : function(type, data, evt) {
 	       }
       };
-      dojo.io.bind(bindArgs);
+      dojo.xhrGet(bindArgs);
     }
 
-    function prefloadHandler(pref) {
-
-      var bindArgs = {
-        url:        "/admin/prefs/list",
-        content: {ajax: "1", startswith: pref},
-        mimetype:   "text/plain",
-        method: "POST",
-        error:      function(type, errObj){
-      },
-      load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById("prefpane");
-        if(!d)
-          return;
-        d.innerHTML = data.toString();
-        dojo.widget.createWidget(d);
-	dojo.lang.forEach(dojo.widget.byType("InlineEditBox"), function(w) {w.onSave = 
-createCallback(w.widgetId); });
-	dojo.lang.forEach(dojo.widget.byType("InlineBooleanBox"), function(w) {w.onSave = 
-createCallback(w.widgetId); });
-    }
-
-  }
-
-  dojo.io.bind(bindArgs);
-
-}
   </script>
 <%@include file="adminpagebegin.phtml"%>
 <div class="flash-message"><%flash %></div>
@@ -93,13 +34,7 @@ createCallback(w.widgetId); });
 <tr>
 <td>
 <%if !data->startswith %>
-<div dojoType="TreeRPCController" RPCUrl="/admin/prefs/tree" widgetId="treeController"></div>
-<div dojoType="TreeSelector" widgetId="treeSelector"></div>
-<div dojoType="Tree" selector="treeSelector" actionsDisabled="addChild" 
-  toggler="fade" widgetId="prefTree" controller="treeController" isFolder="true">
-    <div dojoType="TreeNode" widgetId="prefroot" title="Preferences" isFolder="true" actionsDisabled="remove">
-	</div>
-</div>
+
 <%endif%>
 </td>
 <td valign="top">
@@ -112,20 +47,17 @@ createCallback(w.widgetId); });
 </table>
 
   <%@include file="adminfooter.phtml"%>
-  <%@include file="bottom.phtml"%>
+
+
 <script type="text/javascript">
     dojo.addOnLoad(init);
 </script>
   <script type="text/javascript">
-    dojo.require("dojo.widget.*");
-    dojo.require("dojo.event.*");
-    dojo.require("fins.widget.*");
-    dojo.require("dojo.widget.InlineEditBox");
-    dojo.require("fins.widget.InlineBooleanBox");
-    dojo.require("dojo.widget.Tree");
-    dojo.require("dojo.widget.TreeRPCController");
-    dojo.require("dojo.widget.TreeSelector");
-    dojo.require("dojo.widget.TreeNode");
+    dojo.require("dijit.InlineEditBox");
+   dojo.require("dijit.Editor");
+	dojo.require("dijit.form.Textarea");
+	dojo.require("dijit.form.Select");
   </script>
 
+  <%@include file="bottom.phtml"%>
 

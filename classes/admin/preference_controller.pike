@@ -80,16 +80,16 @@ public void tree(Request id, Response response, mixed ... args)
 
 public void list(Request id, Response response, mixed ... args)
 {
-     object t;
+    object t;
+werror("list()\n");
+    if(id->variables->ajax)
+      t = view->get_view("admin/prefs/_list");
+    else
+      t = view->get_view("admin/prefs/list");
+werror("template: %O\n", t);
+    app->set_default_data(id, t);
 
-     if(id->variables->ajax)
-       t = view->get_view("admin/prefs/_list");
-     else
-       t = view->get_view("admin/prefs/list");
-
-     app->set_default_data(id, t);
-
-     mixed ul = ({});
+    mixed ul = ({});
     mapping c = ([]);
 
     array prefixes=({});
@@ -103,25 +103,26 @@ public void list(Request id, Response response, mixed ... args)
 
     if(id->variables->startswith) c->name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
     ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
+werror("prefixes: %O\n", prefixes);
+werror("prefs:    %O\n", ul);
 
-     if(id->variables->startswith)
-       t->add("startswith", (id->variables->startswith||"")/".");
-     t->add("prefprefixes", prefixes);
-     t->add("preferences", ul);
-	
-     response->set_view(t);
+    if(id->variables->startswith)
+      t->add("startswith", (id->variables->startswith||"")/".");
+    t->add("prefprefixes", prefixes);
+    t->add("preferences", ul);
+
+    response->set_view(t);
 }
 
 public void set(Request id, Response response, mixed ... args)
 {
   mixed e;
-
   if (id->variables->key && id->variables->value) {
     object pref = app->get_sys_pref(id->variables->key);
     if (pref) {
       if(pref["type"] == FinScribe.BOOLEAN)
       {
-        if(lower_case(id->variables->value) == "false" || id->variables->value == "0")
+        if(lower_case(id->variables->value) == "false" || id->variables->value == "0" || lower_case(id->variables->value) == "no")
           pref["value"] = 0;
         else
         {
@@ -129,7 +130,8 @@ public void set(Request id, Response response, mixed ... args)
         }
 
       }
-      pref["value"] = id->variables->value;
+	  else
+      	pref["value"] = id->variables->value;
       response->set_data(JSON.serialize(([ "set" : 1 ])));
       response->set_type("text/javascript");
     }
