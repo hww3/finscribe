@@ -27,7 +27,12 @@ array evaluate(Macros.MacroParameters params)
     {
       res += ({javascript_predefs});
     }
-    res += ({ "<div dojoType=\"fins:Folder\">" });
+    res += ({ "<div dojoType=\"dijit.TitlePane\""});
+	if(params->args->title)
+      res += ({" title=\"" + params->args->title + "\"" });
+	if(params->args->folded)
+      res += ({" open=\"" + params->args->open + "\"" });
+	res += ({">" });
 
     res +=  params->engine->macro_rule->full_replace(({params->contents}), params->engine->macros, 
                  params->engine, params->extras);
@@ -40,7 +45,7 @@ array evaluate(Macros.MacroParameters params)
 string javascript_predefs = 
 #"
 <script type=\"text/javascript\">
-	dojo.require(\"fins.widget.Folder\");
+  dojo.require(\"dijit.TitlePane\");
 </script>
 ";
 
