@@ -34,7 +34,11 @@
 <tr>
 <td>
 <%if !data->startswith %>
-
+<% foreach var="$prefprefixes" val="prefix" %>
+<%action_link action="list" startswith="$prefix"%><%$prefix%></a>
+<% end%>
+<%else%>
+<%action_link action="list"%>&lt;&lt; root</a>
 <%endif%>
 </td>
 <td valign="top">

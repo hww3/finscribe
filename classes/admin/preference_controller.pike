@@ -98,6 +98,7 @@ werror("template: %O\n", t);
       array x =  find.preferences_all();
       foreach(x;;object p)
         prefixes += ({ (p["name"]/".")[0]});
+      prefixes -= ({"", 0});
       prefixes = Array.uniq(prefixes);
     }     
 

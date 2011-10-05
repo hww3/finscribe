@@ -10,12 +10,12 @@ var editbox;
 <% foreach var="$preferences" val="pref" %>
 <tr>
 <td>
-<%$pref.shortname %>: 
+<%$pref.name %>: 
 </td>
-<td>
+<td width="100">
 <% if data->pref["type"] == FinScribe.BOOLEAN %>
 
-<span data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams: 
+<span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams: 
 	{ options: [
 		{label: 'Yes', value: 'Yes' <%if (int)data->pref->value %>, selected: 1<%endif%>}, 
 		{label: 'No', value: 'No' <%if !(int)data->pref->value %>, selected: 1<%endif%>}
