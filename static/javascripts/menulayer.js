@@ -1,27 +1,4 @@
 
-function displayComments(div, path, force)
-{
-//  if(comments_displayed !=0)
-//    dojo.lfx.html.wipeOut(document.getElementById(div), 100);
-
-    var bindArgs = {
-    url:         "/exec/getcomments/" + path,
-    mimetype:   "text/plain",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-      document.getElementById(div).innerHTML = data.toString();
-      dojo.lfx.html.wipeIn(document.getElementById(div), 100).play();
-    }
-  };
-
-    requestObj = dojo.xhrGet(bindArgs);
-
-  return false;
-}
-
-
 function openActions(item, event)
 {
   // onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)"
@@ -69,7 +46,7 @@ var bindArgs = {
           return;
  }
 
-   dialog.set('content', data.toString());
+   dialog.setAttribute('content', data.toString());
    var d = dojo.byId("result");
    if(d && d.innerHTML == "Success")
       window.setTimeout('saveBlog();', 2000);
@@ -100,71 +77,40 @@ function refreshBlog()
 	window.location = window.location + "?refresh=" + (Date.now()); 
 }
 
-function saveComment(obj, formid, noanim)
+function saveComment(obj, formid, noanim, widgetId)
 {
+//	alert("saveComment");
 var bindArgs = { 
-    url:        "/exec/comments/" + obj,  
+    url:        "/exec/comments/" + obj, 
+ 	form: dojo.byId(formid),
     content: {ajax: "1"},
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
-        var d = document.getElementById("popup_contents");
-        
-        if(!d)
+//        var d = document.getElementById("popup_contents");
+var dialog = dijit.byId('dialog');
+
+        if(!dialog)
           return;
         else
         {
           if(data.toString() != "OK")
-            d.innerHTML = data.toString();
+		  {
+            dialog.set('content', data);
+   		  }
           else
           {
-            closePopup();
-            displayComments('wiper', obj);
+			  dialog.set('content', 'OK');
+		      window.setTimeout('closePopup();', 2000);
+			  var d = dijit.byId(obj + "_comments");
+			  if(d) d.click();
+	          //displayComments('wiper', obj);
           }
         }
-    }
-    
+    }    
   };
-
-  if(formid)
-  {
-    var form = document.getElementById(formid);
-    if(form)
-      bindArgs.formNode = form;
-  }
-    
-// dispatch the request
-    var requestObj = dojo.xhrPost(bindArgs);
-}
-
-function postComment(obj, formid, noanim)
-{
-  var bindArgs = { 
-    url:        "/exec/comments/" + obj,  
-    content: {ajax: "1"},
-    mimetype:   "text/plain",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById("popup_contents");
-        if(!d)
-          return;
-        else
-          d.innerHTML = data.toString();
-    }
-  };
-
-  if(formid)
-  {
-    var form = document.getElementById(formid);
-    if(form)
-    {
-      bindArgs.formNode = form;
-    }
-  }
     
 // dispatch the request
     var requestObj = dojo.xhrPost(bindArgs);
@@ -179,12 +125,27 @@ function openAttachments(obj, sid)
 
 function openLogin()
 {
-  openPopup("/exec/login?ajax=1&return_to="  + window.location, 'Login', null, null, null, null, setinsert);
+//  openPopup("/exec/login?ajax=1&return_to="  + window.location, 'Login', null, null, null, null, setinsert);
+// onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)"
+var obj;
+var d;
+
+d = document.getElementById("object");
+if(!d) return;
+else obj = d.innerHTML;
+
+d = new dijit.TooltipDialog({id: "LoginPopup", href: '/exec/login?ajax=1&return_to=' + window.location});
+var lh =  dojo.connect(d, "onLoad", function() {dojo.disconnect(lh); if(setinsert) setinsert();});
+
+dijit.popup.open({ popup: d, around: dojo.byId('Login') });
+dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
+
+
 }
 
 function setinsert()
 {
- window.setTimeout('var elem = document.getElementById("UserName");if(elem){ elem.focus(); }', 300);
+ window.setTimeout('var elem = dojo.byId("username");if(elem){ elem.focus(); }', 300);
 }
 
 var currentPopup;
@@ -200,6 +161,8 @@ function setCurrentSessionId(sid)
 {
   currentSessionId = sid;
 }
+
+var loadhandler;
 
 function openPopup(url, title, width, height, formid, action, loadfunc) {
 //  closePopup();
@@ -220,9 +183,11 @@ function openPopup(url, title, width, height, formid, action, loadfunc) {
       id: 'dialog'
   });
  
+  if(loadhandler) dojo.disconnect(loadhandler);
 
-  var lh =  
-  dojo.connect(dialog, "onLoad", function() {dojo.disconnect(lh); if(loadfunc) loadfunc();});
+  loadhandler =  
+  dojo.connect(dialog, "onLoad", function() {dojo.disconnect(loadhandler); loadhandler = 0; if(loadfunc && dojo.isFunction(loadfunc)) loadfunc(); 
+		else if(dojo.global[loadfunc]){ dojo.global[loadfunc]();}});
 
   dialog.set("href", url);
   dialog.show();
@@ -295,7 +260,7 @@ function closePopup()
 	dialog2 = dijit.byId('dialog');
 	if(dialog2)
 	{
-//		alert("closing");
+		//alert("closing");
 		dialog2.hide();
 	}
   //return false;	

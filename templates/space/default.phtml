@@ -17,9 +17,6 @@
 [ <a id="Actions" href="/exec/actions/<%$obj%>">actions</a> ]
 </div>
 <% endif %> 
-<div id="actions" class="menu"><div id="closebutton" class="closebutton"><a onclick="menuLayers.hide()"><%LOCALE id="104" string="Close"%></a></div> <div id="actions_contents" 
-class="action_contents"></div> </div>
-
 <div id="snip-wrapper">
 
    <div id="snip-content">
@@ -50,7 +47,7 @@ class="action_contents"></div> </div>
 <% if data["object_is_weblog"] %>
 <% else %>
          <b><% if data["numcomments"] %>
-                 <a href="#" onclick="displayComments('wiper', '<%$obj%>')"><%$numcomments %> <%LOCALE id="98" string="comments"%></a></b>
+			                 <a href="#" id="trigger_comments-<%$obj%>"><%$numcomments %> comments</a>
             <% else %>
                  <%LOCALE id="106" string="No comments"%> 
             <% endif %>
@@ -61,7 +58,7 @@ class="action_contents"></div> </div>
 <%LOCALE id="101" string="PingBacks"%></a> <% endif %> | <a 
 href="/exec/backlinks/<%$obj%>" id="BackLinks"><%LOCALE id="107" string="BackLinks"%></a>
          <p/>
-<div id="wiper" style="display:none;"></div>
+			<div dojoType="fins.widget.Comments" refreshUrl="/exec/getcomments/<%$obj%>" id="<%$obj%>_comments" connectorId="trigger_comments-<%$obj%>"></div>
 <% endif %>
       </div>
 

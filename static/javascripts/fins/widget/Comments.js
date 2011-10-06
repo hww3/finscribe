@@ -1,73 +1,71 @@
 dojo.provide("fins.widget.Comments");
 
-dojo.require("dojo.widget.*");
-dojo.require("dojo.event.*");
-dojo.require("dojo.html");
-dojo.require("dojo.html.style");
-dojo.require("dojo.lfx");
-dojo.require("dojo.animation");
+dojo.require("dojo.fx");
+/* Call <div dojoType="fins.widget.Comments" refreshUrl="/exec/json/comments?id=34" connectorId="button-34" /> */
 
-/* Call <div dojoType="Comments" refreshUrl="/exec/json/comments?id=34" connectorId="button-34" /> */
-
-fins.widget.Comments = function() {
+dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated], 
+{
 
   /* Stuff for Dojo */
-  dojo.widget.HtmlWidget.call(this);
-  this.templatePath = dojo.uri.dojoUri("fins/widget/templates/Comments.html");
-  this.templateCssPath = dojo.uri.dojoUri("fins/widget/templates/Comments.css");
-  this.widgetType = "Comments";
+  templateString: dojo.cache("fins.widget", "templates/Comments.html"),
+  widgetType: "Comments",
   /* end */
 
-  this.refreshUrl = '';
-  this.refreshRate = 30;
-  this.connectorId = '';
-  this.myDiv = null;
+  refreshUrl: '',
+  refreshRate: 30,
+  connectorId: '',
+  myDiv: null,
   /* closure crap */
-  var _this = this;
-  this.onDisplay = 0;
-  this.connectorOriginalHref = '';
-  this.updating;
+  onDisplay: 0,
+  connectorOriginalHref: '',
+  updating: 0,
 
-  this.initialize = function() {
-    dojo.debug("Hello from comments");
-    var connector = document.getElementById(this.connectorId);
+  startup: function() {
+ //   dojo.debug("Hello from comments");
+    var connector = dojo.byId(this.connectorId);
     if (connector) {
       // Do this so that if the widget doesn't work then the original
       // fallback in the href works.
       this.connectorOriginalHref = connector.href;
       connector.href = '#';
-      dojo.event.connect(connector, "onlick", this.click);
+      this.connect(connector, "onclick", this.click);
     }
-    this.myDiv.style.visibility = 'hidden';
-    this.update();
-  }
+   this.myDiv.style.visibility = 'hidden';
+//    this.update();
+  },
 
-  this.click = function() {
+  click: function() {
+//	alert("click!");
     if (!this.onDisplay) {
-      dojo.lfx.wipeIn(this.myDiv, 1000);
+		this.update();
     }
-  }
+  },
 
-  this.update = function() {
+  update: function() {
     if (!this.updating) {
       var bindArgs = { 
-	url : _this.refreshUrl,
-	mimetype: "text/plain",
+	url : this.refreshUrl,
 	sync : "false",
 	error : function(type, errObj) {},
-	load : _this._update
+	load : this._update,
+	widget: this
       };
-      _this.updating = dojo.io.bind(bindArgs);
+      this.updating = dojo.xhrGet(bindArgs);
     }
+  },
+
+  _update: function(data, evt) {
+	var widget = this.widget;
+    widget.myDiv.innerHTML = data;
+	if(!widget.onDisplay)
+	{
+	  dojo.fx.wipeIn({ node: widget.myDiv, duration:1000 }).play();
+	  widget.onDisplay = 1;
+	}
+	widget.updating = 0;
+	
+    if (widget.refreshRate > 0) 
+      setTimeout(widget.update, widget.refreshRate * 1000);
   }
+});
 
-  this._update = function(type, data, evt) {
-    this.myDiv.innerHTML = data.toString();
-    if (this.refreshRate > 0) 
-      setTimeout(this.update, this.refreshRate * 1000);
-  }
-
-};
-
-dojo.inherits(dojo.widget.HtmlWidget);
-//dojo.widget.tags.addParseTreeHandler("dojo:Comments");

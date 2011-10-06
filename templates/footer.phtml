@@ -13,19 +13,21 @@
 
 <div id="page-bottom"><a href="/space/contact info"><%LOCALE id="1" string="contact info"%></a> | <%LOCALE id="2" string="powered by"%> <a 
 href="http://bill.welliver.org/space/pike/FinScribe">FinScribe</a></div>
-
-<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
-<script type='text/javascript'>
-    
-dojo.registerModulePath("fins",
-                                 "<%syspref var="site.url"%>/static/javascripts/fins_release"
-);
-    
+<script src="/static/javascripts/dojo/dojo.js" type="text/javascript"></script>
+<xscript src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></xscript>
+<script type='text/javascript'>  
+dojo.registerModulePath("fins", "<%syspref var="site.url"%>/static/javascripts/fins");
 </script>
 <script src="/static/javascripts/menulayer.js" type="text/javascript"></script>
 <script src="/static/javascripts/bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://api.recaptcha.net/js/recaptcha_ajax.js"></script>
 <script type="text/javascript">
 // include code inserted previously in the parse process
+dojo.require("dijit.Dialog");
+dojo.require("fins.widget.Comments");
+dojo.require("fins.widget.Recaptcha");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.TooltipDialog");
 <% list_retrieve var="$jsfooter" %>
 </script>
 </body>

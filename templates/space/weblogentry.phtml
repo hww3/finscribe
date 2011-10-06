@@ -4,7 +4,7 @@ height="9" alt="permalink" border="0"/></a></b>
 <p/>
   <%render content="$content" object="$entry"%>
 <p/><% if sizeof(data->entry["categories"]) %> <%LOCALE id="97" string="Posted in"%> <% implode var="$entry.category_links" final=" and " %> |
-<% endif %> <a onclick="displayComments('wiper<%$entry.id%>', '<%$entry.path%>'); return false;"><% sizeof 
+<% endif %> <a href="#" id="trigger_comments-<%$entry.id%>"><% sizeof 
 var="$entry.comments"%> <%LOCALE id="98" string="comments"%></a></b> | <a 
 href="/exec/comments/<%$entry.path%>"><%LOCALE id="99" string="Post Comment"%></a> 
 | <a href="/rss/<%$entry.path%>?type=comments"><%LOCALE id="12" string="RSS Feed"%></a> | 
@@ -12,5 +12,5 @@ href="/exec/comments/<%$entry.path%>"><%LOCALE id="99" string="Post Comment"%></
 var="$entry.md.trackbacks"%> <%LOCALE id="100" string="TrackBacks"%></a> | <a 
 href="/exec/display_pingbacks/<%$entry.path%>"><% sizeof var="$entry.md.pingbacks"%> <%LOCALE id="101" string="PingBacks"%></a> | <%$entry.md.views%> 
 <%LOCALE id="102" string="reads"%> <a href="/space/<%$entry.path%>">&gt;&gt;</a><p/>
-<div id="wiper<%$entry.id%>" style="display:none; padding-left:20px;"></div>
+<div dojoType="fins.widget.Comments" refreshUrl="/exec/getcomments/<%$entry.path%>" id="<%$entry.id%>_comments" connectorId="trigger_comments-<%$entry.id%>"></div>
 <p/>

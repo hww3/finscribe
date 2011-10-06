@@ -50,12 +50,15 @@ string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
 // args: name, val
 string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void args)
 {
+//werror("*\n*\n*\n list_store: %O\n", args->name);
   if(args->name)
   {
     mixed d = data->get_data();
     if(!d[args->name]) d[args->name] = ({});
     d[args->name] += ({ args->val });
   }  
+
+//werror("d: %O\n");
 
   return "";
 }

@@ -842,7 +842,7 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-werror("POST: %O\n", id->variables);
+werror("POST: %O %O\n", args*"/", id->variables);
 
    int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
  
@@ -947,6 +947,7 @@ werror("POST: %O\n", id->variables);
               obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
 
             obj_n->save();
+			werror("object: %O\n", obj_n);
             if(anonymous)
             {
               obj_n["md"]["name"] = id->variables->name;

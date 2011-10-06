@@ -41,6 +41,6 @@ function convertToPopup(id)
 
   var z = a.href + "?ajax=1";
 
-  a.onclick = function(event){ openPopup(z, "80%"); return false; };
+  a.onclick = function(event){ openPopup(z, a.innerHTML, null, null, null, null, id + "OnLoad");};
   a.href="#";
 }

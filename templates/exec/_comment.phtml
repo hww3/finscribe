@@ -1,9 +1,4 @@
-<script type="text/javascript">
- dojo.require("dojo.widget.*");
-// dojo.require("dojo.widget.DropdownDatePicker");
-</script>
-
-   <h3><%LOCALE id="189" string="Commenting"%>: <%$obj%></h3>
+<h3><%LOCALE id="189" string="Commenting"%>: <%$obj%></h3>
 
    <p>
 
@@ -15,9 +10,7 @@
 <form action="" id="postcomments" method="post">
 <table>
 <% if data["anonymous"] %>
-<script type="text/javascript"
-   src="http://api.recaptcha.net/js/recaptcha_ajax.js">
-</script>
+
 
 <tr>
 <td>
@@ -48,7 +41,7 @@
 <b><%LOCALE id="423" string="Authenticate"%>:</b> 
 </td>
 <td>
-  <div id="recaptcha_div"></div>
+  <div dojoType="fins.widget.Recaptcha" public_key="<%syspref var="plugin.reCAPTCHA support.public-key" %>" id="comment_recaptcha"></div>
 </td>
 </tr>
 <% endif %>
@@ -56,7 +49,7 @@
 <td>
 </td>
 <td>
-<textarea dojoType="resizabletextarea" rows="20" cols="80" name="contents"><%$contents%></textarea>
+<textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
 <br>
 </td>
 </tr>
@@ -64,7 +57,7 @@
 <td colspan="2">
 <% if data["ajax"] %>
 <input type="hidden" id="postaction" name="action">
-<button type="button" onclick="document.getElementById('postaction').value='Preview'; postComment('<%$obj%>', 'postcomments', 1); return 
+<button type="button" onclick="document.getElementById('postaction').value='Preview'; saveComment('<%$obj%>', 'postcomments', 1); return 
 false;" value="Preview"><%LOCALE id="191" string="Preview"%></button>
 <button type="button" onclick="closePopup(); return false;" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
 <button type="button" onclick="document.getElementById('postaction').value='Save'; saveComment('<%$obj%>', 'postcomments', 1);" 
@@ -82,24 +75,3 @@ value="Save"><%LOCALE id="127" string="Save"%></button>
 <%LOCALE id="191" string="Preview"%>:<p>
 <%$preview%>
 <% endif %>
-
-<script type="text/javascript">
-function postOnLoad()
-{
-dojo.debug("loading dojo widgets...");
-     var parser = new dojo.xml.Parse();
-     var frag = parser.parseElement(dojo.byId("postcomments"), null, 
-true);
-     dojo.widget.getParser().createComponents(frag);
-     Recaptcha.create("<%syspref var="plugin.reCAPTCHA support.public-key" %>",
-			"recaptcha_div",
-                        { theme: "red", 
-                          callback: Recaptcha.focus_response_field }
-                     );
-
-}
-
-dojo.addOnLoad(postOnLoad);
-
-</script>
-
