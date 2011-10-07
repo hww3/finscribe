@@ -668,7 +668,7 @@ public void editattachments(Request id, Response response, mixed ... args)
 
 public void addattachments(Request id, Response response, mixed ... args)
 {
-  //werror("addattachments!: %O\n", args);
+  werror("addattachments!: %O %O\n", args, id->variables);
   
   // workaround for flash player not passing cookies properly
   if(id->variables->PSESSIONID)
@@ -697,7 +697,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
     }
 
-    string fn = id->request_headers["x-file-name"];
+    string fn = id->variables["uploadedfiles[].filename"];
     string path = Stdio.append_path(obj, fn);
 
     object obj_o;
@@ -734,7 +734,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     }
 
       object obj_n = Fins.DataSource._default.new("Object_version");
-      obj_n["contents"] = id->body_raw;
+      obj_n["contents"] = id["uploadedfiles[]"];
 
       int v;
       object cv;
@@ -755,7 +755,10 @@ public void addattachments(Request id, Response response, mixed ... args)
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
 
-  response->set_data("ok");
+//     string data = Tools.JSON.serialize((["file": fn, "extension": (fn/".")[-1]]));
+     string data = Tools.JSON.serialize(([]));
+
+  response->set_data(data);
 }
 
 public void login(Request id, Response response, mixed ... args)

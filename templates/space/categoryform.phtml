@@ -3,7 +3,7 @@
 
 <a id='link-categories-<%$obj%>'
 onclick="toggleVisibility('categories-<%$obj%>')"><img
-id="icon-categories-<%$obj%>" src="/static/images/Icon-Unfold.png" 
+id="icon-categories-<%$obj%>" src="<%syspref var="site.url"%>/static/images/Icon-Unfold.png" 
 border="0">
 <%$numcategories%> <%LOCALE id="89" string="Categories"%></a><br/>
 <div id="categories-<%$obj%>" style="display:none;margin-left:20px">
@@ -12,7 +12,7 @@ border="0">
 <% elseif data->numcategories %>
   <%LOCALE id="89" string="Categories"%>:
   <%foreach var="$object.categories" val="cat" %>
-    <a href="/exec/category/<%$cat.category%>"><%$cat.category%></a> &nbsp;
+    <a href="<%syspref var="site.url"%>/exec/category/<%$cat.category%>"><%$cat.category%></a> &nbsp;
   <% end %>
 <p/>
 

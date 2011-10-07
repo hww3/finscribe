@@ -6,22 +6,26 @@
 
 </div>
 
-<div id="page-bottom"><a href="/space/contact info"><%LOCALE id="1" string="contact info"%></a> | <%LOCALE id="2" string="powered by"%> <a 
-href="http://hww3.riverweb.com/space/pike/FinScribe">FinScribe</a></div>
+<div id="page-bottom"><a href="<%syspref var="site.url"%>/space/contact info"><%LOCALE id="1" string="contact info"%></a> | <%LOCALE id="2" string="powered by"%> <a 
+href="http://bill.welliver.org/space/pike/FinScribe">FinScribe</a></div>
 
-<xscript src="/static/javascripts/dojo/dojo.js" type="text/javascript"></xscript>
+<%if data->config->config_name == "dev" %>
+<script src="<%syspref var="site.url"%>/static/javascripts/dojo/dojo.js" type="text/javascript"></script>
+<% else %>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
-<<script type='text/javascript'>
-    
-dojo.registerModulePath("fins",
-                                 "<%syspref var="site.url"%>/static/javascripts/fins"
-);
+<% endif %>
 
+
+<script type='text/javascript'>   
+<%if data->config->config_name == "dev" %>
+dojo.registerModulePath("fins", "<%syspref var="site.url"%>/static/javascripts/fins");
+<% else %>
+dojo.registerModulePath("fins", "<%syspref var="site.url"%>/static/javascripts/fins_release");
+<% endif %>
 </script>
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
-       />
-<script src="/static/javascripts/menulayer.js" type="text/javascript"></script>
-<script src="/static/javascripts/bootstrap.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
+<script src="<%syspref var="site.url"%>/static/javascripts/menulayer.js" type="text/javascript"></script>
+<script src="<%syspref var="site.url"%>/static/javascripts/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
 <% list_retrieve var="$jsfooter" %>
 </script>

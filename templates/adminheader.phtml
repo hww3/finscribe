@@ -4,14 +4,19 @@
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>snip.css"/>
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>page.css"/>
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>style.css"/>
-   <link rel="STYLESHEET" type="text/css" href="/static/lightbox.css"/>
+   <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url" %>/static/lightbox.css"/>
 <script type='text/javascript'>
+
   djConfig = {
-    isDebug : true,
     disableFlashStorage : true,
     parseOnLoad: true, 
-       useXDomain: false,
-
+	<%if data->config->config_name == "dev" %>
+    useXDomain: false,
+    isDebug : true,
+	<% else %>
+    useXDomain: true,
+    isDebug : false,
+	<% endif %>
   };
 
 </script>

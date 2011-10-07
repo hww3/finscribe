@@ -27,6 +27,74 @@ function openPostBlog(item)
   openPopup("/exec/post/" + obj + "?ajax=1", 'Post Blog Entry', null, null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
 }
 
+function uploadAttachemnts(obj, formid)
+{
+	  var bindArgs = { 
+	    url:        "/exec/addattachments/" + obj, 
+	 	form: dojo.byId(formid),
+	    content: {ajax: "1"},
+	    error:      function(type, errObj){
+	    },
+	    load:      function(data, evt){
+	        // handle successful response here
+	//        var d = document.getElementById("popup_contents");
+	  var dialog = dijit.byId('dialog');
+
+	        if(!dialog)
+	          return;
+	        else
+	        {
+	          if(data.toString() != "OK")
+			  {
+	            dialog.set('content', data);
+	   		  }
+	          else
+	          {
+				  dialog.set('content', 'OK');
+			      window.setTimeout('closePopup();', 2000);
+				  var d = dijit.byId(obj + "_comments");
+				  if(d) d.click();
+		          //displayComments('wiper', obj);
+	          }
+	        }
+	    }    
+	  };
+
+	// dispatch the request
+	    var requestObj = dojo.xhrPost(bindArgs);
+	
+}
+
+
+function deleteAttachment(obj, filetodelete)
+{
+	
+	  var dialog = dijit.byId('dialog');
+
+	        if(!dialog)
+	          return;
+	
+  var bindArgs = {
+    url:        "/exec/editattachments/" + obj,
+    content: {ajax: "1", when: (new Date().getTime()), action: "Delete", 'save-as-filename': filetodelete},
+    error:      function(type, errObj){
+    },
+    load:      function(data){
+        // handle successful response here
+        if(!dialog)
+          return;
+        else
+		{
+   			dialog.set('content', data.toString());
+		}
+    }
+  };
+
+    var requestObj = dojo.xhrPost(bindArgs);
+
+}
+
+
 function postBlog(obj, formid)
 {
 var bindArgs = { 
@@ -46,7 +114,7 @@ var bindArgs = {
           return;
  }
 
-   dialog.setAttribute('content', data.toString());
+   dialog.set('content', data.toString());
    var d = dojo.byId("result");
    if(d && d.innerHTML == "Success")
       window.setTimeout('saveBlog();', 2000);
@@ -56,7 +124,7 @@ var bindArgs = {
 
   if(formid)
   {
-    var form = document.getElementById(formid);
+    var form = dojo.byId(formid);
     if(form)
       bindArgs.form = form;
   }
@@ -80,7 +148,7 @@ function refreshBlog()
 function saveComment(obj, formid, noanim, widgetId)
 {
 //	alert("saveComment");
-var bindArgs = { 
+  var bindArgs = { 
     url:        "/exec/comments/" + obj, 
  	form: dojo.byId(formid),
     content: {ajax: "1"},
@@ -90,7 +158,7 @@ var bindArgs = {
     load:      function(data, evt){
         // handle successful response here
 //        var d = document.getElementById("popup_contents");
-var dialog = dijit.byId('dialog');
+  var dialog = dijit.byId('dialog');
 
         if(!dialog)
           return;
@@ -193,7 +261,6 @@ function openPopup(url, title, width, height, formid, action, loadfunc) {
   dialog.show();
 }
 
-
 function installScript( script )
 {
     if (!script)
@@ -221,36 +288,33 @@ function installScript( script )
 }
 
 function editCategory(obj, formid, a) {
+  var forme = dojo.byId(formid);
 
-var block2 = document.getElementById("popup_contents");
-
-var bindArgs = { 
+  var bindArgs = { 
     url:        "/exec/editcategory/" + obj,  
     content: {ajax: "1"},
-    mimetype:   "text/plain",
+	form: forme,
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
-        // handle successful response here
-     block2.innerHTML = data.toString();
-    }
+    load:      function(data, evt){
 
+	 var dialog = dijit.byId('dialog');
+	 if(!dialog)
+	 {
+		alert("uh-oh!");
+	          return;
+	 }
+	 dialog.set('content', data.toString());
+    }
   };
-  if(formid)
-  {
-    var form = document.getElementById(formid);
-    if(form)
-      bindArgs.formNode = form;
 
-    if(a && form)
-    {
-      document.getElementById("action").value=a;
-    }
+  if(a && forme)
+  {
+    dojo.byId("action").value=a;
   }
 
 // dispatch the request
     var requestObj = dojo.xhrPost(bindArgs);
-   
 }
 
 function closePopup()

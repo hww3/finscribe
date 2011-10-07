@@ -64,7 +64,7 @@ private void handle(string datatype, object obj, Request id, Response response)
     t = view->get_idview("space/" + (lower_case(template["name"])), id);
   }
   else 
-    t = view->get_idview("space/wikiobject", id);
+    t = view->get_idview("space/default", id);
 
   app->set_default_data(id, t);
   if(!obj->is_readable(t->get_data()["user_object"])) 
