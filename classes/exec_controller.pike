@@ -697,7 +697,19 @@ public void addattachments(Request id, Response response, mixed ... args)
       return;
     }
 
-    string fn = id->variables["uploadedfiles[].filename"];
+    array fta = ({});
+    if(arrayp(id->variables["uploadedfiles[].filename"]))
+	  fta = id->variables["uploadedfiles[].filename"];
+	else fta = ({id->variables["uploadedfiles[].filename"]});
+
+    array fc_array;
+    if(arrayp(id->variables["uploadedfiles[]"]))
+ 	  fc_array = id->variables["uploadedfiles[]"];
+    else fc_array = ({id->variables["uploadedfiles[]"]});
+
+    foreach(fta; int file_index; string fn)
+    {
+
     string path = Stdio.append_path(obj, fn);
 
     object obj_o;
@@ -732,9 +744,8 @@ public void addattachments(Request id, Response response, mixed ... args)
         obj_o->save();
       };
     }
-
       object obj_n = Fins.DataSource._default.new("Object_version");
-      obj_n["contents"] = id["uploadedfiles[]"];
+      obj_n["contents"] = fc_array[file_index];
 
       int v;
       object cv;
@@ -757,8 +768,9 @@ public void addattachments(Request id, Response response, mixed ... args)
 
 //     string data = Tools.JSON.serialize((["file": fn, "extension": (fn/".")[-1]]));
      string data = Tools.JSON.serialize(([]));
-
   response->set_data(data);
+  }
+//  response->set_data(data);
 }
 
 public void login(Request id, Response response, mixed ... args)

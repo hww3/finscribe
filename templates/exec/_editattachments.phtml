@@ -52,16 +52,20 @@ function uploadQueueComplete(file) {
   <%end %>
   </table>
 <form enctype="multipart/form-data" id="attachmentForm">
-<input type="file" multiple="true" id="attachment_uploader" dojoType="dojox.form.Uploader"
-label="Select Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>"/>
+<button type="file" multiple="true" id="attachment_uploader" dojoType="dojox.form.Uploader"
+label="Select Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>">
+<script type="dojo/connect" event="onComplete" args="value">
+var dialog = dijit.byId('dialog');
+if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<%$object.path%>'); 
+</script>
+Select Files
+</button>
 <button label="Submit" dojoType="dijit.form.Button">
  <script type="dojo/connect" event="onClick" args="value">
-    console.log("hey!");
 	var uploader = dijit.byId('attachment_uploader');
 	if(uploader)
 	{ 
 		uploader.upload();
-		console.log("done!");
 	}
 	else
 		console.log("no widget!");

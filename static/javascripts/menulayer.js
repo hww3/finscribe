@@ -186,8 +186,8 @@ function saveComment(obj, formid, noanim, widgetId)
 
 function openAttachments(obj, sid)
 {
-  setCurrentSessionId(sid);
-  openPopup('/exec/editattachments/' + obj, '500px', null, null, null,
+ // setCurrentSessionId(sid);
+  openPopup('/exec/editattachments/' + obj, 'Edit Attachments', null, null, null,
        function(){ setCurrentObject(obj); /*showSWFUpload('/exec/addattachments/' + obj  + '?PSESSIONID=' + sid);*/})
 }
 
