@@ -5,7 +5,7 @@
 <p>
 <form action="" method="post" id="editcategory-<%$obj%>">
 <% foreach var="$object.categories" val="cat" %>
-<a href="<%syspref var="site.url"%>/exec/category/<%$cat.category %>"><%$cat.category %></a><br/>
+<a href="<%syspref var="site.url"%>/exec/category/<%$cat.category %>"><%$cat.category %></a> <a onclick="deleteCategory('<%$obj%>', '<%$cat.category%>');"><%LOCALE string="Remove"%></a><br/>
 <% end %>
 <%LOCALE id="76" string="Existing Category"%>: <select name="existing-category">
 <option value=""><%LOCALE id="77" string="Select a category"%>
@@ -16,9 +16,6 @@
 <input type="hidden" id="action" name="action"/>
 <input type="button" value="<%LOCALE string="Include"%>"
 onclick="editCategory('<%$obj%>', 'editcategory-<%$obj%>', '<%LOCALE string="Include"%>')"/> 
-&nbsp;
-<input type="button" value="<%LOCALE string="Remove"%>"
-onclick="editCategory('<%$obj%>', 'editcategory-<%$obj%>', '<%LOCALE string="Remove"%>')"/>
 &nbsp;
 <input type="button" value="<%LOCALE string="Close"%>"
 onclick="closePopup(); return false"/>

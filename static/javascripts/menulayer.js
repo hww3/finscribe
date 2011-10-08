@@ -62,6 +62,31 @@ function uploadAttachemnts(obj, formid)
 	// dispatch the request
 	    var requestObj = dojo.xhrPost(bindArgs);
 }
+function deleteCategory(obj, categoryname)
+{
+	  var dialog = dijit.byId('dialog');
+
+	        if(!dialog)
+	          return;
+
+  var bindArgs = {
+    url:        "/exec/editcategory/" + obj,
+    content: {ajax: "1", when: (new Date().getTime()), action: "Remove", "existing-category": categoryname},
+    error:      function(type, errObj){
+    },
+    load:      function(data){
+        // handle successful response here
+        if(!dialog)
+          return;
+        else
+		{
+   			dialog.set('content', data.toString());
+		}
+    }
+  };
+
+    var requestObj = dojo.xhrPost(bindArgs);
+}
 
 function deleteAttachment(obj, filetodelete)
 {
@@ -257,7 +282,7 @@ function editCategory(obj, formid, a) {
 
   var bindArgs = { 
     url:        "/exec/editcategory/" + obj,  
-    content: {ajax: "1"},
+   // content: {ajax: "1"},
 	form: forme,
     error:      function(type, errObj){
     },

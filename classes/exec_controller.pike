@@ -175,6 +175,7 @@ public void getcomments(Request id, Response response, mixed ... args)
 
 public void editcategory(Request id, Response response, mixed ... args)
 {
+werror("editCategory: %O\n", id->variables);
    if(!args || !sizeof(args))
    {
      response->set_data(LOCALE(344,"You must provide an object to modify categories for."));
@@ -191,17 +192,14 @@ public void editcategory(Request id, Response response, mixed ... args)
   object dta = view->default_data();
   dta->add("flash", "");
 
-  if(!((!id->variables["existing-category"] || 
-     !sizeof(id->variables["existing-category"])) && 
-     (!id->variables["new-category"] ||
-     !sizeof(id->variables["new-category"]))))
+  if((id->variables["existing-category"] && sizeof(id->variables["existing-category"])) 
+	|| (id->variables["new-category"] && sizeof(id->variables["new-category"])))
   {
-    string category = id->variables["existing-category"];
+    string category = id->variables["new-category"];
     array c;
 
-    if(!category || !sizeof(category))
+    if(category && sizeof(category))
     { 
-      category = id->variables["new-category"];
       object nc = Fins.DataSource._default.new("Category");
       nc["category"] = category;
       nc->save();
@@ -209,39 +207,37 @@ public void editcategory(Request id, Response response, mixed ... args)
     }
     else
     {
-       c = find.categories((["category": category]));
+      category = id->variables["existing-category"];
+      c = find.categories((["category": id->variables["existing-category"]]));
     }
+    array x;
+    if(sizeof(c))
+      x = find.objects((["path": path, "categories": c[0]]));
 
-  array x;
-  if(sizeof(c))
-    x = find.objects((["path": path, "categories": c[0]]));
-
-  if(!sizeof(o))
-  {
-    dta->add("flash", sprintf(LOCALE(346, "Unknown object %[0]s."), path));
-  }
-  else if(!sizeof(c))
-  {
-    dta->add("flash", sprintf(LOCALE(347, "Unknown category %[0]s."), category));
-  }
-  else if(sizeof(x) && id->variables->action == "Include")
-  {
-    dta->add("flash", sprintf(LOCALE(348, "Category %[0]s is already assigned to this item."), category));
-  }
-  else if(id->variables->action == "Include")
-  {
-    o[0]["categories"]+=c[0];
-    model->clear_categories();
-    dta->add("flash", sprintf(LOCALE(349, "Added to %[0]s ."), category));
-  }
-
-  else if(id->variables->action == "Remove")
-  {
-    o[0]["categories"]-=c[0];
-    model->clear_categories();
-    dta->add("flash", sprintf(LOCALE(350, "Removed from %[0]s."), category));
-  }
-
+    if(!sizeof(o))
+    {
+      dta->add("flash", sprintf(LOCALE(346, "Unknown object %[0]s."), path));
+    }
+    else if(!sizeof(c))
+    {
+      dta->add("flash", sprintf(LOCALE(347, "Unknown category %[0]s."), category));
+    }
+    else if(sizeof(x) && id->variables->action == "Include")
+    {
+      dta->add("flash", sprintf(LOCALE(348, "Category %[0]s is already assigned to this item."), category));
+    }
+    else if(id->variables->action == "Include")
+    {
+      o[0]["categories"]+=c[0];
+      model->clear_categories();
+      dta->add("flash", sprintf(LOCALE(349, "Added to %[0]s ."), category));
+    }
+    else if(id->variables->action == "Remove")
+    {
+      o[0]["categories"]-=c[0];
+      model->clear_categories();
+      dta->add("flash", sprintf(LOCALE(350, "Removed from %[0]s."), category));
+    }
   }
 
   app->set_default_data(id, dta);
