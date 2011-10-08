@@ -58,21 +58,7 @@ uploadOnSelect="true" label="Select Files" url="<%syspref var="site.url"%>/exec/
 var dialog = dijit.byId('dialog');
 if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<%$object.path%>'); 
 </script>
-Select Files
-</button>
-<button label="Submit" dojoType="dijit.form.Button">
- <script type="dojo/connect" event="onClick" args="value">
-	var uploader = dijit.byId('attachment_uploader');
-	if(uploader)
-	{ 
-		uploader.upload();
-	}
-	else
-		console.log("no widget!");
-//	uploadAttachments('<%$object.path%>', 'attachmentForm');
-//   console.log(this.id + " changed to value " + value);
-//
- </script>
+Add Files
 </button>
 </form>
 <div id="files" dojoType="dojox.form.uploader.FileList" uploaderId="attachment_uploader"></div>
