@@ -5,7 +5,7 @@ function openActions(item, event)
   var obj;
   var d;
 
-  d = document.getElementById("object");
+  d = dojo.byId("object");
   if(!d) return;
   else obj = d.innerHTML;
 
@@ -20,7 +20,7 @@ function openPostBlog(item)
   var obj;
   var d;
 
-  d = document.getElementById("object");
+  d = dojo.byId("object");
   if(!d) return;
   else obj = d.innerHTML;
 
@@ -37,8 +37,7 @@ function uploadAttachemnts(obj, formid)
 	    },
 	    load:      function(data, evt){
 	        // handle successful response here
-	//        var d = document.getElementById("popup_contents");
-	  var dialog = dijit.byId('dialog');
+  	        var dialog = dijit.byId('dialog');
 
 	        if(!dialog)
 	          return;
@@ -62,13 +61,10 @@ function uploadAttachemnts(obj, formid)
 
 	// dispatch the request
 	    var requestObj = dojo.xhrPost(bindArgs);
-	
 }
-
 
 function deleteAttachment(obj, filetodelete)
 {
-	
 	  var dialog = dijit.byId('dialog');
 
 	        if(!dialog)
@@ -91,9 +87,7 @@ function deleteAttachment(obj, filetodelete)
   };
 
     var requestObj = dojo.xhrPost(bindArgs);
-
 }
-
 
 function postBlog(obj, formid)
 {
@@ -131,7 +125,6 @@ var bindArgs = {
     
 // dispatch the request
     var requestObj = dojo.xhrPost(bindArgs);
-    
 }
 
 function saveBlog(id, obj)
@@ -157,8 +150,7 @@ function saveComment(obj, formid, noanim, widgetId)
     },
     load:      function(data, evt){
         // handle successful response here
-//        var d = document.getElementById("popup_contents");
-  var dialog = dijit.byId('dialog');
+        var dialog = dijit.byId('dialog');
 
         if(!dialog)
           return;
@@ -198,7 +190,7 @@ function openLogin()
 var obj;
 var d;
 
-d = document.getElementById("object");
+d = dojo.byId("object");
 if(!d) return;
 else obj = d.innerHTML;
 
@@ -207,10 +199,9 @@ var lh =  dojo.connect(d, "onLoad", function() {dojo.disconnect(lh); if(setinser
 
 dijit.popup.open({ popup: d, around: dojo.byId('Login') });
 dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
-
-
 }
 
+// used by login dialog to move the insertion point to the username box.
 function setinsert()
 {
  window.setTimeout('var elem = dojo.byId("username");if(elem){ elem.focus(); }', 300);
@@ -261,32 +252,6 @@ function openPopup(url, title, width, height, formid, action, loadfunc) {
   dialog.show();
 }
 
-function installScript( script )
-{
-    if (!script)
-        return;
-
-    if (script.src)
-    {
-        var head = document.getElementsByTagName("head")[0];
-        var scriptObj = document.createElement("script");
-
-        scriptObj.setAttribute("type", "text/javascript");
-        scriptObj.setAttribute("src", script.src);  
-
-        head.appendChild(scriptObj);
-
-    }
-    else if (script.innerHTML)
-    {
-        //  Internet Explorer has a funky execScript method that makes this easy
-        if (window.execScript)
-            window.execScript( script.innerHTML );
-        else
-            window.setTimeout( script.innerHTML, 0 );
-    }
-}
-
 function editCategory(obj, formid, a) {
   var forme = dojo.byId(formid);
 
@@ -328,29 +293,6 @@ function closePopup()
 		dialog2.hide();
 	}
   //return false;	
-}
-
-function updateFilename(elem)
-{
-
-  var str = elem.value;
-
-  var ch = 0;
-
-  ch = str.lastIndexOf('/');
- 
-  if(ch == -1)
-    ch = str.lastIndexOf('\\');
-
-  var e = document.getElementById('filename');
-
-  if(e)
-    e.value = str.substring(ch + 1);
-
-  var d = document.getElementById('filename-div');
-  if(d)
-    d.innerHTML = str.substring(ch + 1);
-
 }
 
 function toggleCreated()
