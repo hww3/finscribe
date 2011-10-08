@@ -53,7 +53,7 @@ function uploadQueueComplete(file) {
   </table>
 <form enctype="multipart/form-data" id="attachmentForm">
 <button type="file" multiple="true" id="attachment_uploader" dojoType="dojox.form.Uploader"
-label="Select Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>">
+uploadOnSelect="true" label="Select Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>">
 <script type="dojo/connect" event="onComplete" args="value">
 var dialog = dijit.byId('dialog');
 if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<%$object.path%>'); 
