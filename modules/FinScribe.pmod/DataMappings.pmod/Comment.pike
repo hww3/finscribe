@@ -5,7 +5,7 @@ import Fins.Model;
 
    static void post_define(object context)
    {  
-	  belongs_to(context, "User", "author", "author_id");
+      belongs_to(context, "User", "author", "author_id");
 
   //    add_field(context, BinaryStringField("metadata", 1024, 0, "")); 
       add_field(context, MetaDataField("md", "metadata"));
