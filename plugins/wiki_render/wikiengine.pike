@@ -81,6 +81,8 @@ string render(string s, mixed|void extras, int|void force)
 
 string make_key(string s, string fn)
 {
+  if(String.width(s) != 8)
+    s = string_to_utf8(s);
   string h = MIME.encode_base64(Crypto.MD5.hash(s));
 
   return "WIKICOMPILER_" + fn + "_" + h;
