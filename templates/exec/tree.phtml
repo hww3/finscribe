@@ -1,8 +1,8 @@
   <%@include file="top.phtml"%>
    <title><%syspref var="site.name" %> :: <%LOCALE id="297" string="document tree"%></title>
-  <%@include file="adminheader.phtml"%>
+  <%@include file="header.phtml"%>
 <%@include file="pagebegin.phtml"%>
-<div class="flash-message"><%flash %></div>
+<div class="tundra flash-message"><%flash %></div>
           <h3><%LOCALE id="298" string="Site Index"%></h3>
 [ <a href="/space/object-index">object-index</a> | <a 
 href="/space/attachment-index">attachment-index</a> | <a 
@@ -10,35 +10,43 @@ href="/space/category-index">category-index</a> |
 document-tree ] 
 <p>
 <%@include file="exec/_tree.phtml" %>
-  <%@include file="adminfooter.phtml"%>
+  <%@include file="footer.phtml"%>
   <%@include file="bottom.phtml"%>
 
+<script type="text/javascript">
+var tree;
+var usGov;
 
-  <script type="text/javascript">
-   function postOnLoad()
-{
-    dojo.require("dojo.xml.*");
-    dojo.require("dojo.widget.*");
-    dojo.require("dojo.event.*");
-    dojo.require("fins.widget.*");
-    dojo.require("dojo.widget.TreeV3");
-    dojo.require("fins.widget.ObjectTreeContextMenu");
-    dojo.require("dojo.widget.TreeRpcControllerV3");
-    dojo.require("dojo.widget.TreeSelectorV3");
-    dojo.require("dojo.widget.TreeNodeV3");
-    dojo.require("fins.widget.ObjectTreeContextMenu");
+	alert("whee");
+usGov = new dojo.store.JsonRest({
+    target:"/rest/document/",
+    mayHaveChildren: function(object){
+        // see if it has a children property
+        return "children" in object;
+    },
+    getChildren: function(object, onComplete, onError){
+		alert(object.path);
+        // retrieve the full copy of the object
+        this.get(object.path).then(function(fullObject){
+            // copy to the original object so it has the children array as well.
+            object.children = fullObject.children;
+            // now that full object, we should have an array of children
+            onComplete(fullObject.children);
+        }, onError);
+    },
+    getRoot: function(onItem, onError){
+        // get the root object, we will do a get() and callback the result
+        this.get("start").then(onItem, onError);
+    },
+    getLabel: function(object){
+        // just get the name
+        return object.title;
+    }
+});
 
-     dojo.addOnLoad(postPostOnLoad);
-}
+tree = new dijit.Tree({ // create a tree
+        model: usGov // give it the model
+    }, "tree"); // target HTML element's id
+tree.startup();
 
-function postPostOnLoad() {
-dojo.debug("loading dojo widgets...");
-     var parser = new dojo.xml.Parse();
-     var frag = parser.parseElement(document, null, true);
-     dojo.widget.getParser().createComponents(frag);
-     init();
-}
-
-dojo.addOnLoad(postOnLoad);
 </script>
-

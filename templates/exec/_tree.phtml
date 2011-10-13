@@ -1,46 +1,55 @@
-  <script type="text/javascript">
-	var reporter = function(reporter) {
-		this.name = "titleClick";
-		this.go = function(message) {
-			dojo.debug("message: " + message.node.data);
-			if(message &&  message.node && message.node.data != undefined)
-			{
-			  var m = message.node.data;
-			  window.location = (m);
-			}
-		    return false;
-		}
-	}
+<script type="text/javascript">
+var tree;
+var usGov;
 
-    function init() {
-		var pageTree = dojo.widget.manager.getWidgetById('treeSelector');
+function postOnLoad()
+{
+	alert("whee");
+usGov = new dojo.store.JsonRest({
+    target:"/rest/document/",
+    mayHaveChildren: function(object){
+        // see if it has a children property
+        return "children" in object;
+    },
+    getChildren: function(object, onComplete, onError){
+        // retrieve the full copy of the object
+        this.get(object.id).then(function(fullObject){
+            // copy to the original object so it has the children array as well.
+            object.children = fullObject.children;
+            // now that full object, we should have an array of children
+            onComplete(fullObject.children);
+        }, onError);
+    },
+    getRoot: function(onItem, onError){
+        // get the root object, we will do a get() and callback the result
+        this.get("space").then(onItem, onError);
+    },
+    getLabel: function(object){
+        // just get the name
+        return object.title;
+    }
+});
 
-			dojo.event.topic.subscribe(
-				pageTree.eventNames.select,
-				new reporter('pageTree'),
-				'go'
-			);
+tree = new dijit.Tree({ // create a tree
+        model: usGov // give it the model
+    }, "tree"); // target HTML element's id
+tree.startup();
+}
+</script>
 
-		var rootNode = dojo.widget.manager.getWidgetById('pageroot');
-		var controller = dojo.widget.manager.getWidgetById('treeController');
-                controller.expand(rootNode);
-    };
+<%list_store var="jsfooter" val="dojo.ready(function(){initialize();})"%>
 
-//    dojo.addOnLoad(init);
-
-  </script>
-
-
-
-<dl dojoType="fins:ObjectTreeContextMenu"  id="treeContextMenu">
-<dt class="dojo-TreeMenuItemV3" id="ctxMenuAdd" caption="Add Child">
-<dt class="dojo-TreeMenuItemV3" id="ctxMenuDel" caption="Remove Item">
-</dl>
-
-<div dojoType="TreeRpcControllerV3" RpcUrl="/exec/tree" widgetId="treeController"></div>
-<div dojoType="TreeSelectorV3" widgetId="treeSelector"></div>
-<div dojoType="TreeV3" listeners="treeSelector;treeController;treeContextMenu" actionsDisabled="addChild" widgetId="pageTree" isFolder="true">
-    <div dojoType="TreeNodeV3" widgetId="pageroot" title="Contents" isFolder="true" actionsDisabled="remove">
+<div id="tree">
 	</div>
+<xdiv xdojoType="dojo.store.JsonRest" jsId="documentStore" target="/rest/document/" labelAttribute='title' idProperty='path'>
+</div>
+<xdiv xdojoType="dijit.tree.ForestStoreModel" jsId="documentModel" store="documentStore"
+query="{'parent': 0}" rootId="documentRoot" rootLabel="Documents" deferItemLoadingUntilExpand="true"
+childrenAttrs="children">
+</div>
+<div xdojoType="dijit.Tree" id="mytree" model="usGov" openOnClick="true">
+    <script type="dojo/method" event="onClick" args="item">
+        alert("Execute of node " + documentStore.getLabel(item) + ", path=" + docmentStore.getValue(item, "path"));
+    </script>
 </div>
 
