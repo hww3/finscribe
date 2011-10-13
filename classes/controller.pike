@@ -13,7 +13,7 @@ Fins.FinsController atom;
 Fins.FinsController theme, themes;
 Fins.FinsController _internal;
 Fins.FinsController install;
-Fins.FinsController whee;
+Fins.FinsController rest;
 
 // if we are started in install mode (that is, if the application->installed variable
 //  is zero or not present), load up the installer only. otherwise load up the real
@@ -29,7 +29,7 @@ void start()
   else
   {
     objects = load_controller("objects_controller");
-    whee = load_controller("whee_controller");
+    rest = load_controller("rest_controller");
     exec = load_controller("exec_controller");
     space = load_controller("app_controller");
     comments = load_controller("comment_controller");
