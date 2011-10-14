@@ -1614,12 +1614,12 @@ public void edit(Request id, Response response, mixed ... args)
             break;
 
          default:
-            response->set_data(sprintf(LOCALE(403,"Unknown edit action %[0]s"), id->variables->action));
-            return;
+//            response->set_data(sprintf(LOCALE(403,"Unknown edit action %[0]s"), id->variables->action));
+//            return;
             break;
       }
    }
-   else
+ //  else
    {
       if(obj_o)
       {

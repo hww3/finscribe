@@ -1,43 +1,5 @@
-<script type="text/javascript">
-var tree;
-var usGov;
 
-function postOnLoad()
-{
-	alert("whee");
-usGov = new dojo.store.JsonRest({
-    target:"/rest/document/",
-    mayHaveChildren: function(object){
-        // see if it has a children property
-        return "children" in object;
-    },
-    getChildren: function(object, onComplete, onError){
-        // retrieve the full copy of the object
-        this.get(object.id).then(function(fullObject){
-            // copy to the original object so it has the children array as well.
-            object.children = fullObject.children;
-            // now that full object, we should have an array of children
-            onComplete(fullObject.children);
-        }, onError);
-    },
-    getRoot: function(onItem, onError){
-        // get the root object, we will do a get() and callback the result
-        this.get("space").then(onItem, onError);
-    },
-    getLabel: function(object){
-        // just get the name
-        return object.title;
-    }
-});
-
-tree = new dijit.Tree({ // create a tree
-        model: usGov // give it the model
-    }, "tree"); // target HTML element's id
-tree.startup();
-}
-</script>
-
-<%list_store var="jsfooter" val="dojo.ready(function(){initialize();})"%>
+<% list_store var="jsfooter"  val="dojo.ready(function(){initialize();})"%>
 
 <div id="tree">
 	</div>

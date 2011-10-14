@@ -27,7 +27,7 @@ array evaluate(Macros.MacroParameters params)
     {
       res += ({javascript_predefs});
     }
-    res += ({ "<div dojoType=\"LayoutContainer\"><div dojoType=\"TabContainer\" doLayout=\"false\">" });
+    res += ({ "<div dojoType=\"dijit.LayoutContainer\"><div dojoType=\"dijit.TabContainer\" doLayout=\"false\">" });
 
     res +=  params->engine->macro_rule->full_replace(({params->contents}), params->engine->macros, 
                  params->engine, params->extras);
@@ -40,10 +40,10 @@ array evaluate(Macros.MacroParameters params)
 string javascript_predefs = 
 #"
 <script type=\"text/javascript\">
-	dojo.require(\"dojo.widget.TabContainer\");
-	dojo.require(\"dojo.widget.LinkPane\");
-	dojo.require(\"dojo.widget.ContentPane\");
-	dojo.require(\"dojo.widget.LayoutContainer\");
+	dojo.require(\"dijit.TabContainer\");
+	dojo.require(\"dijit.LinkPane\");
+	dojo.require(\"dijit.ContentPane\");
+	dojo.require(\"dijit.LayoutContainer\");
 </script>
 ";
 
