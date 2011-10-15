@@ -24,7 +24,8 @@ document-tree ]
 		</xscript>
 
 		<script type="dojo/connect" event="onDblClick">
-	    	console.log("clicked on " + object.name + " from " + object.id);
+	    	console.log("clicked on " + arguments[0].name + " from " + arguments[0].id);
+		window.location = '<%action_url controller="/" action="space"%>/' + arguments[0].id;
 		</script>
 
 		<script type="dojo/connect">
