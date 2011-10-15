@@ -3,15 +3,4 @@
 
 <div id="tree">
 	</div>
-<xdiv xdojoType="dojo.store.JsonRest" jsId="documentStore" target="/rest/document/" labelAttribute='title' idProperty='path'>
-</div>
-<xdiv xdojoType="dijit.tree.ForestStoreModel" jsId="documentModel" store="documentStore"
-query="{'parent': 0}" rootId="documentRoot" rootLabel="Documents" deferItemLoadingUntilExpand="true"
-childrenAttrs="children">
-</div>
-<div xdojoType="dijit.Tree" id="mytree" model="usGov" openOnClick="true">
-    <script type="dojo/method" event="onClick" args="item">
-        alert("Execute of node " + documentStore.getLabel(item) + ", path=" + docmentStore.getValue(item, "path"));
-    </script>
-</div>
 

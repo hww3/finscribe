@@ -18,10 +18,10 @@ document-tree ]
 	    </li>
 	</ul>
 	
-	<div dojoType="dijit.Tree" model="documentStore" openOnClick="false" jsId="tree" id="tree">
-		<xscript type="dojo/connect" event="postCreate">
+	<div model="documentStore" openOnClick="false" jsId="doctree" id="doctree">
+		<script type="dojo/connect" event="postCreate">
 			object.set("model", documentStore);
-		</xscript>
+		</script>
 
 		<script type="dojo/connect" event="onDblClick">
 	    	console.log("clicked on " + arguments[0].name + " from " + arguments[0].id);
@@ -30,7 +30,7 @@ document-tree ]
 
 		<script type="dojo/connect">
 		var menu = dijit.byId("tree_menu");
-		var tree = dijit.byId('tree');
+		var tree = dijit.byId('doctree');
 		// when we right-click anywhere on the tree, make sure we open the menu
 		menu.bindDomNode(tree.domNode);
 
@@ -63,6 +63,11 @@ document-tree ]
 <script type="text/javascript">
 var documentStore;
 
+dojo.addOnLoad(function(){
+  startDocumentStore();
+});
+
+
 function edit_item(t)
 {
 	window.location = '<%action_url controller="/exec" action="edit"%>/' + t.item.id;
@@ -73,19 +78,19 @@ function delete_item(t)
 	window.location = '<%action_url controller="/exec" action="delete"%>/' + t.item.id;
 }
 
-//	alert("whee");
+function startDocumentStore()
+{
 documentStore = new dojo.store.JsonRest({
 	root: 0,
     target:"/rest/document/",
     mayHaveChildren: function(object){
         // see if it has a children property
         return (object.children && object.children != 0);
-//        return "children" in object;
     },
     getChildren: function(object, onComplete, onError){
-//		alert(object);
 		if(!object.stub)
         {
+//console.debug(object.children.slice(0,object.children.length-4));
 	      onComplete(object.children);
 		  return;
         }
@@ -105,7 +110,9 @@ documentStore = new dojo.store.JsonRest({
         // just get the name
         return object.name;
     }
-});
+  });
 
+  dojo.parser.instantiate([dojo.byId("doctree")], {dojoType: "dijit.Tree"});
+}
 </script>
 
