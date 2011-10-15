@@ -39,7 +39,7 @@ void add_to_list(object view, string list, string value)
 string get_widget(object view, string contents)
 {
 
-    add_to_list(view, "jsfooter", "dojo.require('fins.widget.RTEditor');");
+    add_to_list(view, "jsfooter", "dojo.require('dijit.Editor');");
 
      return 
                         "<div style=\"background-color: #ffffff; height: 400px; width: 100%; border-width: 1px; border-style: dashed; border-color: #999999\">"
