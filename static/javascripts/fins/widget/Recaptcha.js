@@ -1,13 +1,9 @@
 dojo.provide("fins.widget.Recaptcha");
 
-//dojo.require("dojo.fx");
-/* Call <div dojoType="fins.widget.Comments" refreshUrl="/exec/json/comments?id=34" connectorId="button-34" /> */
-
 dojo.declare("fins.widget.Recaptcha", [dijit._Widget], 
 {
 
   /* Stuff for Dojo */
-//  templatePath: dojo.cache("fins.widget", "templates/Recaptcha.html"),
   widgetType: "Recaptcha",
   /* end */
   theme: "red",
@@ -24,4 +20,3 @@ dojo.declare("fins.widget.Recaptcha", [dijit._Widget],
   },
 
 });
-
