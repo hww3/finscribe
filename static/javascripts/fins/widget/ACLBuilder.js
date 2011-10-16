@@ -5,6 +5,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form.Button");
 dojo.require("dojox.collections.ArrayList");
+dojo.require("dojo.json");
 
 dojo.declare("fins.widget.ACLBuilder", [dijit._Widget, dijit._Templated], 
 {
