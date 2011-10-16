@@ -223,7 +223,7 @@ array doSearchMacro(Macros.MacroParameters params)
     res += ({ "<b>Search results:</b><p>" });
     foreach(r[0];int i; mapping entry)
     {
-      array o = params->engine->wiki->model->find("object", (["path": entry->handle]));
+      array o = params->engine->wiki->model->context->find->objects((["path": entry->handle]));
       if(!sizeof(o)) continue;
       object e = o[0];
       if(e->is_readable(user))

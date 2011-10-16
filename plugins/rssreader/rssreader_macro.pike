@@ -8,6 +8,7 @@ constant name="RSS Reader Macro";
 #if constant(Public.Parser.XML2) && constant(Public.Syndication.RSS)
 int _enabled = 1;
 
+Tools.Mapping.MappingCache feed_data = Tools.Mapping.MappingCache(600);
 
 mapping(string:object) query_macro_callers()
 {
@@ -31,7 +32,6 @@ array evaluate(Public.Web.Wiki.Macros.MacroParameters params)
   int hidetitle;
 
   // we should get a limit for the number of entries to display.
-
 array res = ({});
   array a = params->parameters / "|";
 
@@ -72,16 +72,15 @@ array res = ({});
     res+=({"<h3>" + r->data->title + "</h3>"});
   }
 
-  foreach(r->items, item)
+  foreach(r->items; int cnt; item)
   {
 
+     if(cnt >= limit) break;
+  
       res+=({ replace(params->contents, ({"%L", "%T"}),
               ({item->data->link, item->data->title }) )
            });
-
   }
-
-
   return res;
 }
 
@@ -91,18 +90,22 @@ mixed rss_fetch(string rssurl, int timeout)
   string rss;
   object r;
 
-  Log.debug("rss-reader getting " + rssurl);
+  if(!(rss = feed_data[rssurl]))
+  {
 
-  if(has_prefix(rssurl, "file://"))
-    rss = Stdio.read_file(rssurl[7..]);
+    Log.debug("rss-reader getting " + rssurl);
 
-  else rss = Protocols.HTTP.get_url_data(rssurl);
+    if(has_prefix(rssurl, "file://"))
+      rss = Stdio.read_file(rssurl[7..]);
+    else rss = Protocols.HTTP.get_url_data(rssurl);
+
+    if(rss) feed_data[rssurl] = rss;
+  }
 
   catch
   {
-
-  if(rss)
-    r = Public.Syndication.RSS.parse(rss);
+    if(rss)
+      r = Public.Syndication.RSS.parse(rss);
   };
 
   return r;
@@ -172,8 +175,10 @@ array res = ({});
     res+=({"<hr/>\n"});
   }
 
-  foreach(r->items, item)
+  foreach(r->items; int cnt; item)
   {
+     if(cnt >= limit) break;
+
     res+=({"<li class=\"rssreader\"/>\n"});
     res+=({"<a href=\""});
     res+=({item->data->link});
@@ -194,18 +199,22 @@ mixed rss_fetch(string rssurl, int timeout)
   string rss;
   object r;
 
-  Log.debug("rss-reader getting " + rssurl);
 
-  if(has_prefix(rssurl, "file://"))
-    rss = Stdio.read_file(rssurl[7..]);
+  if(!(rss = feed_data[rssurl]))
+  {
+    Log.debug("rss-reader getting " + rssurl);
 
-  else rss = Protocols.HTTP.get_url_data(rssurl);
+    if(has_prefix(rssurl, "file://"))
+      rss = Stdio.read_file(rssurl[7..]);
+    else rss = Protocols.HTTP.get_url_data(rssurl);
+
+    if(rss) feed_data[rssurl] = rss;
+  }
 
   catch
   {
-
-  if(rss)
-    r = Public.Syndication.RSS.parse(rss);
+    if(rss)
+      r = Public.Syndication.RSS.parse(rss);
   };
 
   return r;
