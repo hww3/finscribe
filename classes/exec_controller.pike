@@ -302,9 +302,9 @@ public void backlinks(Request id, Response response, mixed ... args)
 
    mixed bl = obj_o["md"]["backlinks"];
  
-   if(!bl) bl = ({});
-   array bal;
-   bal = find.objects((["path": Fins.Model.InCriteria(bl)]));
+   array bal = ({});
+   if(bl && sizeof(bl))   
+     bal = find.objects((["path": Fins.Model.InCriteria(bl)]));
    t->add("objects", bal);
    response->set_view(t);
 }
