@@ -21,7 +21,12 @@ inherit Fins.FinsController;
 
 public void index(Request id, Response response, mixed ... args)
 {
-    object t = view->get_idview("admin/adminindex");
+   object t;
+
+    if(id->variables->_ajax || id->variables->ajax) 
+	  t = view->get_idview("admin/_adminindex");
+	else
+	  t = view->get_idview("admin/adminindex");
 
     app->set_default_data(id, t);
 

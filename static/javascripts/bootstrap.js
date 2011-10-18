@@ -16,6 +16,7 @@ function doSetupAjaxLinks()
    convertToPopup("PingBacks"); 
 
    convertToAjax("Login", openLogin);
+   convertToAjax("Admin", openAdmin);
    convertToAjax("PostBlog", openPostBlog);
    convertToAjax("Actions", openActions);
 

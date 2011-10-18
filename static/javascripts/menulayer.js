@@ -15,6 +15,18 @@ function openActions(item, event)
   dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
 }
 
+function openAdmin(item, event)
+{
+  // onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)"
+  var obj;
+  var d;
+
+  d = new dijit.TooltipDialog({id: "admin", href: '/admin/?_ajax=1'});
+
+  dijit.popup.open({ popup: d, around: dojo.byId(item) });
+  dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
+}
+
 function openPostBlog(item)
 {
   var obj;
