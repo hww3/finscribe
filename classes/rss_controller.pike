@@ -15,7 +15,6 @@ static void start() {
 #if constant (Public.Parser.XML2)
 public void index(Request id, Response response, mixed ... args)
 {
-  string r;
   object obj;
   if(id->variables->type == "category")
   {

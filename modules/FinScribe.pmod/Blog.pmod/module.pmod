@@ -15,7 +15,6 @@ public int trackback_ping(object obj, Standards.URI my_baseurl, string url)
 	r->blog_name = obj["parent"]["title"];
 
         string result;
-        object q;
         int count = 0;
 
 
@@ -128,9 +127,6 @@ string detect_pingback_url(string url)
 	object n = Public.Parser.XML2.parse_html(s);
 	foreach(Public.Parser.XML2.select_xpath_nodes("//link", n) || ({});; object link)
 	{
-		object r;
-		array c;
-		
 		werror("Looking at a link...\n");
                 mapping a = link->get_attributes();
 

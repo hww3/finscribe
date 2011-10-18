@@ -30,7 +30,6 @@ public void index(Request id, Response response, mixed ... args) {
 
 public void __index(Request id, Response response, mixed ... args)
 {
-  string r;
   object obj;
 
   if(id->variables->type == "category")
