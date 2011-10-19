@@ -14,36 +14,39 @@ array evaluate(Macros.MacroParameters params)
   if(!params->args) params->make_args();
 
   array res = ({});
-  
+//werror("%O\n", params->extras);  
+  object id = params->extras->request;
+
   if(params->contents)
   {
-
-    if(params->extras->request && !params->extras->request->misc->__have_deck)
-    {
-      params->extras->request->misc->__have_deck = 1;
-      res += ({javascript_predefs});
+    if(id && !id->misc->__have_deck)
+    {      
+      id->misc->__have_deck = 1;
+      if(id->misc->template_data)
+         id->fins_app->view->list_store(
+          id->misc->template_data, "jsfooter", javascript_predefs);
     }
-    else if(!params->extras->request)
+    else if(!id)
     {
-      res += ({javascript_predefs});
+      res += ({full_javascript_predefs});
     }
-    res += ({ "<div dojoType=\"dijit.LayoutContainer\"><div dojoType=\"dijit.TabContainer\" doLayout=\"false\">" });
+    res += ({ "<div dojoType=\"dijit.layout.TabContainer\">" });
 
     res +=  params->engine->macro_rule->full_replace(({params->contents}), params->engine->macros, 
                  params->engine, params->extras);
-        res += ({"</div></div>\n"});
+        res += ({"</div>\n"});
    }
   return res;
 }
 
-
 string javascript_predefs = 
 #"
-<script type=\"text/javascript\">
-	dojo.require(\"dijit.TabContainer\");
-	dojo.require(\"dijit.LinkPane\");
-	dojo.require(\"dijit.ContentPane\");
-	dojo.require(\"dijit.LayoutContainer\");
-</script>
+	dojo.require(\"dijit.layout.TabContainer\");
+	dojo.require(\"dijit.layout.ContentPane\");
 ";
+
+string full_javascript_predefs = 
+"<script type=\"text/javascript\">" + javascript_predefs + 
+"</script>";
+
 

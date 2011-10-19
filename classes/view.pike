@@ -27,6 +27,11 @@ public Template.View get_idview(string tn, object id)
 
   t = get_view(tn);
   t->data->request = id;
+
+  // NOTE
+  // we use a shared copy of the data mapping
+  // so we must be careful to not use += on it!
+  id->misc->template_data = t->get_data();
   t->get_data()->id = id;
 
   return t;  
@@ -54,8 +59,7 @@ string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void arg
   if(args->name)
   {
     mixed d = data->get_data();
-    if(!d[args->name]) d[args->name] = ({});
-    d[args->name] += ({ args->val });
+    list_store(d, args->name, args->val); 
   }  
 
 //werror("d: %O\n");
@@ -63,6 +67,11 @@ string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void arg
   return "";
 }
 
+void list_store(mapping data, string name, mixed value)
+{
+  if(!data[name]) data[name] = ({});
+    data[name] += ({ value });
+}
 
 //! args: var, separator (optional)
 string simple_macro_list_retrieve(Fins.Template.TemplateData data, mapping|void args)

@@ -15,19 +15,23 @@ array evaluate(Macros.MacroParameters params)
 
   array res = ({});
   
+  object id = params->extras->request;
+
   if(params->contents)
   {
+    if(id && !id->misc->__have_folder)
+    {
+      id->misc->__have_folder = 1;
+      if(id->misc->template_data)
+         id->fins_app->view->list_store(
+          id->misc->template_data, "jsfooter", javascript_predefs);
+    }
+    else if(!id)
+    {
+      res += ({full_javascript_predefs});
+    }
 
-    if(params->extras->request && !params->extras->request->misc->__have_folder)
-    {
-      params->extras->request->misc->__have_folder = 1;
-      res += ({javascript_predefs});
-    }
-    else if(!params->extras->request)
-    {
-      res += ({javascript_predefs});
-    }
-    res += ({ "<div dojoType=\"dijit.TitlePane\""});
+    res += ({ "<div dojoType=\"dijit.layout.TitlePane\""});
 	if(params->args->title)
       res += ({" title=\"" + params->args->title + "\"" });
 	if(params->args->folded)
@@ -44,8 +48,11 @@ array evaluate(Macros.MacroParameters params)
 
 string javascript_predefs = 
 #"
-<script type=\"text/javascript\">
   dojo.require(\"dijit.TitlePane\");
-</script>
 ";
+
+string full_javascript_predefs =
+"<script type=\"text/javascript\">" + javascript_predefs +
+"</script>";
+
 

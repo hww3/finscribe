@@ -19,12 +19,12 @@ public void load_model()
 {
   if(!config["application"] || !config["application"]["installed"]) 
   {
-    Log.info("Not starting model.\n");
+    Log.info("Not starting model.");
     return 0;
   }
   else
   {
-    Log.info("Starting model.\n");
+    Log.info("Starting model.");
   }
 
   ::load_model();

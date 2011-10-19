@@ -1476,7 +1476,8 @@ public void edit(Request id, Response response, mixed ... args)
 {
    string contents, title, obj, subject, datatype;
    object obj_o;
-   
+
+  contents = "wooga!";   
    if(!id->misc->session_variables->userid)
    {
       response->flash("msg", LOCALE(387,"You must login to edit content."));
@@ -1545,6 +1546,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(id->variables->action)
    {
       object dto;
+werror("variables: %O\n", id->variables);
       contents = id->variables->contents;
       subject = id->variables->subject ||"";
       switch(id->variables->action)
@@ -1619,7 +1621,7 @@ public void edit(Request id, Response response, mixed ... args)
             break;
       }
    }
- //  else
+   else
    {
       if(obj_o)
       {

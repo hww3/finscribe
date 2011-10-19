@@ -17,16 +17,18 @@ array evaluate(Macros.MacroParameters params)
   
   if(params->contents)
   {
-    res += ({ "<div dojoType=\"ContentPane\" label=\"" + (params->args->label||"") + "\">" + params->contents + "</div>" });
+    res += ({ "<div dojoType=\"dijit.layout.ContentPane\" label=\"" + (params->args->label||"") + "\">" + params->contents + "</div>" });
   }
   else if(params->args->snip)
   {
     object o = params->engine->wiki->model->get_fbobject((params->args->snip)/"/", 0);
     if(!o)
-      res += ({ "<div dojoType=\"ContentPane\" label=\"" + (params->args->label||"") + "\">" + "content " + 
+      res += ({ "<div dojoType=\"dijit.layout.ContentPane\" label=\"" + 
+(params->args->label||"") + "\">" + "content " + 
                      params->args->snip + " does not exist." + "</div>" });
     else
-      res += ({ "<a dojoType=\"LinkPane\" href=\"/exec/get_content/" + params->args->snip + "\">" + o["title"] + "</a>"});
+      res += ({ "<a dojoType=\"dijit.layout.ContentPane\" href=\"/exec/get_content/" 
++ params->args->snip + "\">" + o["title"] + "</a>"});
   }
   return res;
 }

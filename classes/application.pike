@@ -270,11 +270,12 @@ public string render(string contents, FinScribe.Objects.Object obj, Fins.Request
 
 public string get_widget_for_type(object view, string type, string contents)
 {
+//  werror("get_widget_for_type(%O, %O, %O)\n", view, type, contents);
   object t = get_renderer_for_type(type);
 
   if(!t || !t->get_widget)
   {
-werror("using default widget.\n");
+    werror("using default widget.\n");
     return "<textarea style=\"width: 100%;\" id=\"contents\" name=\"contents\" rows=\"10\">" + 
                   contents + "</textarea>";
   }
