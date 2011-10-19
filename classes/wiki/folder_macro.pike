@@ -6,7 +6,7 @@ constant is_container = 1;
 
 string describe()
 {
-   return "Present a Foldup container.";
+   return "Present a Foldup container. args: label/title, open";
 }
 
 array evaluate(Macros.MacroParameters params)
@@ -31,10 +31,10 @@ array evaluate(Macros.MacroParameters params)
       res += ({full_javascript_predefs});
     }
 
-    res += ({ "<div dojoType=\"dijit.layout.TitlePane\""});
-	if(params->args->title)
-      res += ({" title=\"" + params->args->title + "\"" });
-	if(params->args->folded)
+    res += ({ "<div style=\"width:70%;\" dojoType=\"dijit.TitlePane\""});
+	if(params->args->title || params->args->label)
+      res += ({" title=\"" + (params->args->label || params->args->title) + "\"" });
+	if(params->args->open)
       res += ({" open=\"" + params->args->open + "\"" });
 	res += ({">" });
 

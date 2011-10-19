@@ -30,11 +30,11 @@ array evaluate(Macros.MacroParameters params)
     {
       res += ({full_javascript_predefs});
     }
-    res += ({ "<div dojoType=\"dijit.layout.TabContainer\">" });
+    res += ({ "<div style=\"width:70%; height:400px;\"><div dojoType=\"dijit.layout.TabContainer\" style=\"width:100%; height:100%;\">" });
 
     res +=  params->engine->macro_rule->full_replace(({params->contents}), params->engine->macros, 
                  params->engine, params->extras);
-        res += ({"</div>\n"});
+        res += ({"</div></div>\n"});
    }
   return res;
 }
