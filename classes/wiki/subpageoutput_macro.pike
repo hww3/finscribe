@@ -13,10 +13,10 @@ array evaluate(Macros.MacroParameters params)
   // we should get a limit for the number of entries to display.
 
   array res = ({"whee"});
-werror(">>>\n>>>subpage: %O\n>>>\n", params->extras);
+//werror(">>>\n>>>subpage: %O\n>>>\n", params->extras);
 
   subpage = params->extras->request ? params->extras->request->misc->current_page : 0;
-werror("subpage: %O\n", subpage);
+//werror("subpage: %O\n", subpage);
 
   if(!subpage) return res;
 

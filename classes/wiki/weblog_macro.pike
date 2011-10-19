@@ -47,8 +47,8 @@ array evaluate(Macros.MacroParameters params)
         root = o[0];
     }
   }
-werror("params: %O\n", mkmapping(indices(params), values(params)));
-werror("root: %O\n", root);
+//werror("params: %O\n", mkmapping(indices(params), values(params)));
+//werror("root: %O\n", root);
 
   if(params->extras->request)
   {
