@@ -1,3 +1,6 @@
+filter.escape.match=\\(\\\\)|\\(.)
+#filter.escape.match=\\(\\\\)|\\(.)|([&<>])
+filter.escape.class=Public.Web.Wiki.Filters.Escape
 filter.bold.match=(^|>|[[:punct:][:space:]]+)__([\s\S]*?)__($|<|[[:punct:][:space:]]+)
 filter.bold.print=$1<b class="bold">$2</b>$3
 filter.bold.class=Public.Web.Wiki.Filters.Bold
@@ -7,7 +10,7 @@ filter.ital.class=Public.Web.Wiki.Filters.Ital
 filter.line.match=-{5,}
 filter.line.print=<hr class="line"/>\n
 filter.line.class=Public.Web.Wiki.Filters.Line
-filter.break.match=\\\\\r?\n
+filter.break.match=\\\\\r\n
 filter.break.print=<br class="break"/>\n
 filter.break.class=Public.Web.Wiki.Filters.Break
 filter.newline.match=\n{2,}
@@ -35,9 +38,8 @@ filter.list.match=(^[[:space:]]*([-#*]+|[-#*]*[iIaA1ghHkKj]+\.)[[:space:]]+([^\r
 filter.list.class=Public.Web.Wiki.Filters.List
 filter.link.match=\[(.*?)\]
 filter.link.class=Public.Web.Wiki.Filters.Link
-filter.escape.match=\\(\\\\)|\\(.)
-filter.escape.class=Public.Web.Wiki.Filters.Escape
 macros.format.match={([a-z\-_0-9]+):?([\s\S]*?)}(?:((?s)[\s\S]*?){\1})?
+macro.table.class=Public.Web.Wiki.Macros.Table
 macro.hello.class=Public.Web.Wiki.Macros.Hello
 macro.break.class=wiki/break_macro
 macro.link.class=wiki/link_macro

@@ -1547,7 +1547,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       object dto;
 werror("variables: %O\n", id->variables);
-      contents = id->variables->contents;
+      contents = id->variables->contents||"";
       subject = id->variables->subject ||"";
       switch(id->variables->action)
       {
