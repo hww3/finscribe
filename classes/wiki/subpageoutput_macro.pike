@@ -50,7 +50,7 @@ mixed subpage_fetch(string subpage, object params)
   werror("subpage-output: getting " + subpage + "\n");
 
 
-  r = params->engine->wiki->model->find("object", (["path" : 
+  r = params->engine->wiki->model->context->find->objects((["path" : 
            Fins.Model.AndCriteria(({
               Fins.Model.LikeCriteria(subpage + "/%")
               , Fins.Model.NotCriteria(Fins.Model.LikeCriteria(subpage + "/%/%"))
