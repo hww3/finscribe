@@ -121,10 +121,7 @@ void doUpdateIndex(string event, object id, object obj)
   }
 //  Log.info("saved " + obj["path"]);  
 
-  mapping p = app->config["fulltext"];
-  if(!p || !p["indexserver"]) return 0;
-
-  object c = Protocols.XMLRPC.Client(p["indexserver"] + "/update/");
+  object c = Protocols.XMLRPC.Client(get_preference("indexserver") + "/update/?PSESSIONID=123");
 
   if(!checked_exists)
   {
@@ -238,33 +235,16 @@ array doSearchMacro(Macros.MacroParameters params)
 
 }
 
-array evaluate(Macros.MacroParameters params)
+int is_cacheable()
 {
-  return ({"",  SearchResultReplacerObject(doSearchMacro, params), ""});
+  return 0;
 }
 
-
-  class SearchResultReplacerObject(function f, object params)
-                                                {
-
-                                                        array render(object engine, mixed extras)
-                                                        {
-                                                             object p = Public.Web.Wiki.Macros.MacroParameters();
-                                                             p->engine = engine;
-                                                             p->extras = extras;
-                                                             p->contents = params->contents;
-                                                             p->parameters = params->parameters;
-                                                            return f(p);
-                                                        }
-
-                                                        string _sprintf(mixed t)
-                                                        {
-                                                                return "SearchResultReplacer()";
-                                                        }
-                                                }
-
-
-
+array evaluate(Macros.MacroParameters params)
+{
+  array res = doSearchMacro(params);
+  return res;
+}
 
 
 }

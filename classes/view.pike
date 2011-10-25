@@ -31,7 +31,8 @@ public Template.View get_idview(string tn, object id)
   // NOTE
   // we use a shared copy of the data mapping
   // so we must be careful to not use += on it!
-  id->misc->template_data = t->get_data();
+  if(id && id->misc)
+    id->misc->template_data = t->get_data();
   t->get_data()->id = id;
 
   return t;  
