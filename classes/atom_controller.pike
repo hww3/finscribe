@@ -82,7 +82,7 @@ public void __index(Request id, Response response, mixed ... args)
 
 }
 
-private vod weblog_atom(Fins.Request id, Fins.Response response,
+private void weblog_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
   if(obj["datatype"]["mimetype"] != "text/wiki")
