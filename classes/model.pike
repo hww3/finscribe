@@ -109,10 +109,10 @@ void clear_categories()
 }
 
 //! a cache enabled version of find.objects_by_alt()
-public object get_fbobject(array args, Request|void id)
+public object get_fbobject(array|string args, Request|void id)
 {
    object r;
-   string a = args*"/";
+   string a = (stringp(args)?args:(args*"/"));
 
    r=cache->get("PATHOBJECTCACHE_" + a);
 
