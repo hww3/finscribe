@@ -121,7 +121,7 @@ void doUpdateIndex(string event, object id, object obj)
   }
 //  Log.info("saved " + obj["path"]);  
 
-  object c = Protocols.XMLRPC.Client(get_preference("indexserver") + "/update/?PSESSIONID=123");
+  object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value() + "/update/?PSESSIONID=123");
 
   if(!checked_exists)
   {

@@ -1808,106 +1808,8 @@ public void post(Request id, Response response, mixed ... args)
              Log.info("Saving entry.");
              just_saving = 1;
          case "Post":
-               object c;
-            // posting should always create a new entry; afterwards it's a standard object
-            // that you can edit normally by editing its object content.
-            {
-               array dtos = find.datatypes((["mimetype": "text/wiki"]));
-               if(!sizeof(dtos))
-               {
-                  response->flash("msg", LOCALE(402,"Internal Database Error, unable to save."));
-                  break;
-               }
-
-	       // let's get the next blog path name...              
-               string path = "";
-               array r = obj_o->get_blog_entries();
-               int seq = 1;
-               if(id->variables->createddate && sizeof(id->variables->createddate))
-                 c = Calendar.Gregorian.dwim_day(id->variables->createddate)->second();
- 			   else 
-                 c = Calendar.ISO.Second();
-               string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(),  c->month_day());
-               if(sizeof(r))
-               {
-                 foreach(r;;object entry) 
-                 {
-//		   write("LOOKING AT " + entry["path"] + "; does it match " + obj + "/" + date + "/ ?\n");
-                   // we assume that everything in here will be organized chronologically, and that no out of 
-                   // date order pathnames will show up in the list.
-                   if(has_prefix(entry["path"], obj + "/" + date + "/"))
-                     seq++;
-                   else break;
-                 }
-               }
-
-               path = combine_path(obj, date + "/" +  seq);
-
-               // this is the parent, to which the new entry is associated.
-               object p = obj_o;
-
-               object dto = dtos[0]; 
-               obj_o = Fins.DataSource._default.new("Object");
-               obj_o["datatype"] = dto;
-               obj_o["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
-               obj_o["datatype"] = dto;
-               obj_o["path"] = path;
-               obj_o["parent"] = p;
-               if(just_saving)
-               {
-                 object s_acl = Fins.DataSource._default.find.acls_by_name("Work In Progress Object");
-                  if(!s_acl) s_acl = p["acl"];
-
-                 obj_o["acl"] = s_acl;
-               }
-               else
-                 obj_o["acl"] = p["acl"];
-               obj_o["created"] = c;
-               if(just_saving)
-                 obj_o["is_attachment"] = 3;
-               else
-                 obj_o["is_attachment"] = 2;
-               obj_o->save();
-            }
-
-            object obj_n = Fins.DataSource._default.new("Object_version");
-            obj_n["contents"] = contents;
-            obj_n["subject"] = subject;
-            obj_n["created"] = c;
-            int v;
-            object cv;
-
-            obj_o->refresh();
-
-            if(cv = obj_o["current_version"])
-            { 
-              v = cv["version"];
-            }
-            obj_n["version"] = (v+1);
-            obj_n["object"] = obj_o;            
-            if(id->variables->subject)
-              obj_n["subject"] = id->variables->subject;            
-            obj_n["author"] = Fins.Model.find.users_by_id(id->misc->session_variables->userid);
-            obj_n->save();
-
-            cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-
-            if(!just_saving)
-            {	
-              // we use this object for both trackback and pingback processing.
-              object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
-  	      u->path = combine_path(u->path, "/space");
-
-	      if(sizeof(trackbacks))
-	      {
-                Thread.Thread(do_trackback_ping, (trackbacks/"\n")-({""}), obj_o, u);
-  	      }
-            }
-         cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(), 
-                                                     obj_o["parent"]["path"]));
-
-         app->trigger_event("postSave", id, obj_o);
-
+		object user = t->get_data()["user_object"];
+		model->do_post(id, obj_o, user, subject, contents, id->variables->createddate, 0 /* TODO: pass categories */,  !just_saving);
 
          if(id->variables->ajax)
          {
@@ -1949,13 +1851,6 @@ public void post(Request id, Response response, mixed ... args)
    t->add("obj", obj);
    
    response->set_view(t);
-}
-
-private void do_trackback_ping(array trackbacks, object obj_o, object u)
-{
-  foreach(trackbacks;; string url)
-    Thread.Thread(FinScribe.Blog.trackback_ping, obj_o, u, url);
-
 }
 
 public void diff(Request id, Response response, mixed ... args)
@@ -2382,3 +2277,4 @@ public void tree(Request id, Response response, mixed ... args)
       
   }
 }
+

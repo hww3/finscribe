@@ -1,3 +1,7 @@
+//<locale-token project="FinScribe">LOCALE</locale-token>
+
+#define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
+
 import Fins;
 import Fins.Model;
 inherit Fins.FinsModel;
@@ -185,3 +189,171 @@ int new_from_string(string path, string contents, string type, int|void att, int
 
             }
 }
+
+private void do_trackback_ping(array trackbacks, object obj_o, object u)
+{
+  foreach(trackbacks;; string url)
+    Thread.Thread(FinScribe.Blog.trackback_ping, obj_o, u, url);
+ 
+}
+
+
+int delete_post(object id, object obj_o, object user, int publish)
+{
+werror("delete_post()\n");
+   if(!obj_o->is_deleteable(user)) 
+   {
+     throw(Error.Generic(LOCALE(406,"You don't have permission to delete this object.")));
+   }
+
+    cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+    cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(),
+      obj_o["parent"]["path"]));
+
+    app->trigger_event("postDelete", id, obj_o["path"]);
+    obj_o->delete(1);
+}
+
+object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, array|void categories, int publish)
+ {
+    object c;
+    object obj_n;
+    string obj = obj_o["path"];
+    string trackbacks = "";
+werror("do_post()\n");
+   if(!obj_o->is_postable(user)) 
+   {
+     throw(Error.Generic(LOCALE(406,"You don't have permission to publish (post) this object.")));
+   }
+
+    // posting should always create a new entry; afterwards it's a standard object
+    // that you can edit normally by editing its object content.
+    {
+        array dtos = context->find->datatypes((["mimetype": "text/wiki"]));
+        if (!sizeof(dtos))
+        {
+            throw (Error.Generic(LOCALE(402, "Internal Database Error, unable to save.")));
+            return 0;
+        }
+
+        // let's get the next blog path name...
+        string path = "";
+        array r = obj_o->get_blog_entries();
+        int seq = 1;
+        if (createddate && sizeof(createddate))
+        c = Calendar.Gregorian.dwim_day(createddate)->second();
+        else
+        c = Calendar.ISO.Second();
+        string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(), c->month_day());
+        if (sizeof(r))
+        {
+            foreach(r;; object entry)
+            {
+                //                 write("LOOKING AT " + entry["path"] + "; does it match " + obj + "/" + date + "/ ?\n");
+                // we assume that everything in here will be organized chronologically, and that no out of
+                // date order pathnames will show up in the list.
+                if (has_prefix(entry["path"], obj + "/" + date + "/"))
+                seq++;
+                else break;
+            }
+        }
+
+        path = combine_path(obj, date + "/" + seq);
+
+        // this is the parent, to which the new entry is associated.
+        object p = obj_o;
+werror("creating new object\n");
+        object dto = dtos[0];
+        obj_o = context->new("Object");
+        obj_o["datatype"] = dto;
+        obj_o["author"] = user;
+
+        obj_o["datatype"] = dto;
+        obj_o["path"] = path;
+        obj_o["parent"] = p;
+        if (!publish)
+        {
+            object s_acl = context->find->acls_by_name("Work In Progress Object");
+            if (!s_acl) s_acl = p["acl"];
+
+            obj_o["acl"] = s_acl;
+        }
+        else
+        obj_o["acl"] = p["acl"];
+        obj_o["created"] = c;
+        if (!publish)
+        obj_o["is_attachment"] = 3;
+        else
+        obj_o["is_attachment"] = 2;
+        obj_o->save();
+    }
+werror("creating new version\n");
+
+    obj_n = context->new("Object_version");
+    obj_n["contents"] = contents;
+    obj_n["subject"] = subject;
+    obj_n["created"] = c;
+    int v;
+    object cv;
+
+    obj_o->refresh();
+
+    if (cv = obj_o["current_version"])
+    {
+        v = cv["version"];
+    }
+    obj_n["version"] = (v + 1);
+    obj_n["object"] = obj_o;
+    if (subject)
+    obj_n["subject"] = subject;
+    obj_n["author"] = user;
+    obj_n->save();
+
+    if(categories && sizeof(categories))
+    {
+       mixed cats = context->find->categories((["category": categories]));
+       foreach(cats;; mixed c)
+         obj_o["categories"] += c;
+    }
+
+    cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+
+    if (publish)
+    {
+        // we use this object for both trackback and pingback processing.
+        object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
+        u->path = combine_path(u->path, "/space");
+
+        app->render(contents, obj_o, id);
+        array bu = (replace(trackbacks, "\r", "") / "\n" - ({
+            ""
+        }));
+        if (id->misc->permalinks)
+        {
+            foreach(id->misc->permalinks, string url)
+            {
+                string l;
+                l = FinScribe.Blog.detect_trackback_url(url);
+                if (l && search(bu, l) == -1)
+                bu += ({
+                    l
+                });
+            }
+        }
+        trackbacks = Array.uniq(bu) * "\n";
+
+        if (sizeof(trackbacks))
+        {
+            Thread.Thread(do_trackback_ping, (trackbacks / "\n") - ({
+                ""
+            }), obj_o, u);
+        }
+    }
+    cache->clear(app->get_renderer_for_type(obj_o["parent"]["datatype"]["mimetype"])->make_key(obj_o["parent"]->get_object_contents(),
+    obj_o["parent"]["path"]));
+
+    app->trigger_event("postSave", id, obj_o);
+    return obj_o;
+}
+
+
