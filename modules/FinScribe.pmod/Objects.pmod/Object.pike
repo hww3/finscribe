@@ -57,7 +57,7 @@ public int get_blog_count()
 
 }
 
-public array get_blog_entries(int|void max, int|void start)
+public array get_blog_entries(int|void max, int|void start, int|void include_wip)
 {
   Log.debug("Getting blog entries for " + this["path"]);
   array crit = ({});
@@ -66,7 +66,7 @@ public array get_blog_entries(int|void max, int|void start)
 
   if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
 
-  array o = context->find->objects( ([ "is_attachment": 2, "parent": this]),
+  array o = context->find->objects( ([ "is_attachment": (include_wip?({2,3}):2), "parent": this]),
                         Fins.Model.CompoundCriteria( crit )
             );
 

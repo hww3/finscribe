@@ -117,7 +117,7 @@ public array get_posts(object id, string blogId, string username, string passwor
 
   if(!obj) throw(Error.Generic(sprintf("No post with id %O found.\n", blogId)));
 
-  array o = obj->get_blog_entries(count||10);    
+  array o = obj->get_blog_entries(count||10,0,1);    
 
   array res = allocate(sizeof(o));
 

@@ -249,7 +249,7 @@ werror("do_post()\n");
 
         // let's get the next blog path name...
         string path = "";
-        array r = obj_o->get_blog_entries();
+        array r = obj_o->get_blog_entries(0,0,1);
         int seq = 1;
         if (sizeof(r))
         {
