@@ -109,7 +109,7 @@ private void comments_atom(Fins.Request id, Fins.Response response,
   {
     response->flash("msg", "page requested is not a wiki page.\n");
     response->redirect("/exec/notfound/" + args*"/");
-    return;
+    return 0;
   }
  
   array o = obj["comments"];
@@ -142,7 +142,7 @@ private void history_atom(Fins.Request id, Fins.Response response,
   {
     response->flash("msg", "page requested is not a weblog.\n");
     response->redirect("/exec/notfound/" + args*"/");
-    return;
+    return 0;
   }
  
   ATOM.Feed feed = generate_history_atom(obj, find.object_versions((["object": obj])), id);
