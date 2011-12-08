@@ -8,11 +8,13 @@ constant __uses_session = 0;
 mapping(string:function|string|object) __actions = 
   ([
     "metaWeblog.newPost": new_post,
+    "metaWeblog.editPost": edit_post,
     "metaWeblog.getPost": get_post,
     "metaWeblog.getRecentPosts": get_posts,
     "metaWeblog.getCategories": get_categories,
     "blogger.getUsersBlogs": get_users_blogs,
-    "blogger.deletePost": delete_post    
+    "blogger.deletePost": delete_post,
+    "blogger.getUserInfo": get_user_info
   ]); 
 
 array get_categories(object id, string blogId, string username, string password)
@@ -38,7 +40,7 @@ array get_categories(object id, string blogId, string username, string password)
 
 }
 
-int delete_post(object id, string appKey, string postId, string username, string password, int publish)
+public int delete_post(object id, string appKey, string postId, string username, string password, int publish)
 {
   CHECKUSER(username, password)
 
@@ -50,12 +52,37 @@ int delete_post(object id, string appKey, string postId, string username, string
   return model->delete_post(id, obj, user, publish);
 }
 
-array get_users_blogs(object id, string appkey, string username, string password)
+public array get_users_blogs(object id, string appkey, string username, string password)
 {
   CHECKUSER(username, password)
 
   object obj = model->get_fbobject(appkey, id);
   return ({ object_to_bloginfo(obj) });
+}
+
+public mapping get_user_info(object id, string username, string password)
+{
+  CHECKUSER(username, password)
+  object user = model->context->find->users_by_alt(username);
+  return ([
+    "userid": user["username"],
+    "nickname":  user["name"],
+    "email": user["email"]
+    ]);
+}
+
+public int edit_post(object id, string postId, string username, string password, mapping content, int publish)
+{
+  CHECKUSER(username, password)
+  object new_post;
+  object user = model->context->find->users_by_alt(username);
+  object obj = model->get_fbobject(postId, id);
+
+  if(!obj) throw(Error.Generic(sprintf("No post with id %O found.\n", postId)));
+
+  new_post = model->do_post(id, obj, user, content->title, content->description, content->pubDate, content->categories, publish, 1);
+
+  return (new_post["path"]?1:0);
 }
 
 public string new_post(object id, string blogId, string username, string password, mapping content, int publish)

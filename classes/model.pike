@@ -214,9 +214,9 @@ werror("delete_post()\n");
     obj_o->delete(1);
 }
 
-object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, array|void categories, int publish)
+object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, array|void categories, int publish, int|void is_update)
  {
-    object c;
+    object c, p;
     object obj_n;
     string obj = obj_o["path"];
     string trackbacks = "";
@@ -226,8 +226,19 @@ werror("do_post()\n");
      throw(Error.Generic(LOCALE(406,"You don't have permission to publish (post) this object.")));
    }
 
+    if (createddate && sizeof(createddate))
+      c = Calendar.Gregorian.dwim_day(createddate)->second();
+    else
+      c = Calendar.ISO.Second();
+    string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(), c->month_day());
+
     // posting should always create a new entry; afterwards it's a standard object
     // that you can edit normally by editing its object content.
+    if(is_update)
+    {
+        p = obj_o;
+    }
+    else
     {
         array dtos = context->find->datatypes((["mimetype": "text/wiki"]));
         if (!sizeof(dtos))
@@ -240,11 +251,6 @@ werror("do_post()\n");
         string path = "";
         array r = obj_o->get_blog_entries();
         int seq = 1;
-        if (createddate && sizeof(createddate))
-        c = Calendar.Gregorian.dwim_day(createddate)->second();
-        else
-        c = Calendar.ISO.Second();
-        string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(), c->month_day());
         if (sizeof(r))
         {
             foreach(r;; object entry)
@@ -261,16 +267,19 @@ werror("do_post()\n");
         path = combine_path(obj, date + "/" + seq);
 
         // this is the parent, to which the new entry is associated.
-        object p = obj_o;
+        p = obj_o;
 werror("creating new object\n");
         object dto = dtos[0];
         obj_o = context->new("Object");
         obj_o["datatype"] = dto;
-        obj_o["author"] = user;
-
         obj_o["datatype"] = dto;
         obj_o["path"] = path;
         obj_o["parent"] = p;
+
+        }
+
+        obj_o["author"] = user;
+
         if (!publish)
         {
             object s_acl = context->find->acls_by_name("Work In Progress Object");
@@ -279,14 +288,18 @@ werror("creating new object\n");
             obj_o["acl"] = s_acl;
         }
         else
-        obj_o["acl"] = p["acl"];
+          obj_o["acl"] = p["acl"];
+
         obj_o["created"] = c;
+
         if (!publish)
-        obj_o["is_attachment"] = 3;
+          obj_o["is_attachment"] = 3;
         else
-        obj_o["is_attachment"] = 2;
-        obj_o->save();
-    }
+          obj_o["is_attachment"] = 2;
+
+        if(!is_update)
+          obj_o->save();
+
 werror("creating new version\n");
 
     obj_n = context->new("Object_version");
@@ -312,6 +325,8 @@ werror("creating new version\n");
     if(categories && sizeof(categories))
     {
        mixed cats = context->find->categories((["category": categories]));
+       if(is_update)
+         cats -= (array)obj_o["categories"];
        foreach(cats;; mixed c)
          obj_o["categories"] += c;
     }
