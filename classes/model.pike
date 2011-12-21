@@ -214,13 +214,68 @@ werror("delete_post()\n");
     obj_o->delete(1);
 }
 
+object add_media(object id, object parent, object user, string name, string type, string contents, 
+  mapping|void struct)
+{
+  object obj_o; // the new object, oddly named.
+
+   if(!parent->is_writable(user))
+   {
+     throw(Error.Generic(LOCALE(406,"You don't have permission to write to this object (" + parent["path"] + ").")));
+   }
+
+   array dtos = context->find->datatypes((["mimetype": type]));
+   if (!sizeof(dtos))
+   {
+     throw (Error.Generic(LOCALE(402, "Content type " + type + " not configured, unable to save.")));
+     return 0;
+   }
+
+   string path = combine_path(parent["path"], name);
+   obj_o = get_fbobject(path);
+
+   object dto = dtos[0];
+
+   if(!obj_o) // new object
+   {
+     obj_o = context->new("Object");
+     obj_o["is_attachment"] = 1;
+     obj_o["parent"] = parent;
+     obj_o["path"] = path;
+     obj_o->save();
+   }
+  
+   obj_o["datatype"] = dto;
+   obj_o["author"] = user;
+
+   object obj_n = context->new("Object_version");
+   obj_n["contents"] = contents;
+
+   int v;
+   object cv;
+
+   obj_o->refresh();
+
+   if(cv = obj_o["current_version"])
+   {
+     v = cv["version"];
+   }
+   obj_n["version"] = (v+1);
+   obj_n["object"] = obj_o;
+   obj_n["author"] = user;
+   obj_n->save();
+   cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+   
+   return obj_o;  
+}
+
 object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, array|void categories, int publish, int|void is_update)
  {
     object c, p;
     object obj_n;
     string obj = obj_o["path"];
     string trackbacks = "";
-werror("do_post()\n");
+
    if(!obj_o->is_postable(user)) 
    {
      throw(Error.Generic(LOCALE(406,"You don't have permission to publish (post) this object.")));

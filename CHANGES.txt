@@ -10,7 +10,7 @@
 
 Version 0.9
 
-- Nearly full MetaWeblog API support for remote editing.
+- MetaWeblog API support for remote webblog editing.
 - if using full text support, check to see if index exists before
     updating. if it doesn't, create the index automatically.
 - added support for reCAPTCHA (http://recaptcha.org) when posting 

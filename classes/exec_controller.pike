@@ -538,55 +538,31 @@ public void upload(Request id, Response response, mixed ... args)
 
   string path = Stdio.append_path(id->variables->root, id->variables["save-as-filename"]);
   string obj=id->variables->root;
-  array a = find.objects((["path": obj ]));
-  object obj_o;
   object p;
-  if(sizeof(a)) p = a[0];
-  else 
+  object user =  find.users_by_id(id->misc->session_variables->userid);
+  mixed e = catch(p = find.objects_by_path(obj));
+
+  if(e || !p)
   {
     throw(Error.Generic("Unable to find root object to attach this document to.\n"));
   }
   
-               array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
-               if(!sizeof(dtos))
-               {
-                  response->flash("msg", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
-                     Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
-                     id->variables["save-as-filename"]));
-               }
-               else{              
-               object dto = dtos[0];
-               obj_o = Fins.DataSource._default.new("Object");
-               obj_o["datatype"] = dto;
-               obj_o["is_attachment"] = 1;
-               obj_o["parent"] = p;
-               obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
-               obj_o["datatype"] = dto;
-               obj_o["path"] = path;
-               obj_o->save();
+  array dtos = find.datatypes((["mimetype": 
+    Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
+  
+  if(!sizeof(dtos))
+  {
+    response->flash("msg", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
+    Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
+      id->variables["save-as-filename"]));
+  }
+  else 
+  {
+    model->add_media(id, p, user, id->variables["save-as-filename"], dtos[0]["mimetype"], id->variables["upload-file"]);
+    response->flash("msg", LOCALE(367,"Succesfully Saved."));
+  }
 
-            object obj_n = Fins.DataSource._default.new("Object_version");
-            obj_n["contents"] = id->variables["upload-file"];
-
-            int v;
-            object cv;
-
-            obj_o->refresh();
-
-            if(cv = obj_o["current_version"])
-            { 
-              v = cv["version"];
-            }
-            obj_n["version"] = (v+1);
-            obj_n["object"] = obj_o;
-            obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
-            obj_n->save();
-            cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-            response->flash("msg", LOCALE(367,"Succesfully Saved."));
-
-            }
-
-            response->redirect("/space/" + obj);
+  response->redirect("/space/" + obj);
 }
 
 public void editattachments(Request id, Response response, mixed ... args)
@@ -709,8 +685,9 @@ public void addattachments(Request id, Response response, mixed ... args)
     string path = Stdio.append_path(obj, fn);
 
     object obj_o;
+    string mimetype = Protocols.HTTP.Server.filename_to_type(fn);
   
-    array dtos = find.datatypes((["mimetype": Protocols.HTTP.Server.filename_to_type(fn)]));
+    array dtos = find.datatypes((["mimetype": mimetype]));
     if(!sizeof(dtos))
     {
 

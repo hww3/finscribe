@@ -12,10 +12,28 @@ mapping(string:function|string|object) __actions =
     "metaWeblog.getPost": get_post,
     "metaWeblog.getRecentPosts": get_posts,
     "metaWeblog.getCategories": get_categories,
+    "metaWeblog.newMediaObject": new_media,
     "blogger.getUsersBlogs": get_users_blogs,
     "blogger.deletePost": delete_post,
     "blogger.getUserInfo": get_user_info
   ]); 
+
+
+mapping new_media(object id, string blogId, string username, string password, mapping content)
+{
+  CHECKUSER(username, password)
+
+  object new_media;
+  object user = model->context->find->users_by_alt(username);
+  object obj = model->get_fbobject(blogId, id);
+
+  if(!obj) throw(Error.Generic(sprintf("No blog with id %O found.\n", blogId)));
+
+  new_media = model->add_media(id, obj, user, content->name, content->type, content->bits, 
+	content);
+
+  return (["url": action_url(app->controller->space, ({new_media["path"]})) ]);
+}
 
 array get_categories(object id, string blogId, string username, string password)
 {
