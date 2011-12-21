@@ -31,7 +31,6 @@ mapping new_media(object id, string blogId, string username, string password, ma
 
   new_media = model->add_media(id, obj, user, content->name, content->type, content->bits, 
 	content);
-
   return (["url": action_url(app->controller->space, ({new_media["path"]})) ]);
 }
 

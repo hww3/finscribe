@@ -200,7 +200,6 @@ private void do_trackback_ping(array trackbacks, object obj_o, object u)
 
 int delete_post(object id, object obj_o, object user, int publish)
 {
-werror("delete_post()\n");
    if(!obj_o->is_deleteable(user)) 
    {
      throw(Error.Generic(LOCALE(406,"You don't have permission to delete this object.")));
@@ -218,8 +217,7 @@ object add_media(object id, object parent, object user, string name, string type
   mapping|void struct)
 {
   object obj_o; // the new object, oddly named.
-
-   if(!parent->is_writable(user))
+   if(!parent->is_writeable(user))
    {
      throw(Error.Generic(LOCALE(406,"You don't have permission to write to this object (" + parent["path"] + ").")));
    }
@@ -230,7 +228,6 @@ object add_media(object id, object parent, object user, string name, string type
      throw (Error.Generic(LOCALE(402, "Content type " + type + " not configured, unable to save.")));
      return 0;
    }
-
    string path = combine_path(parent["path"], name);
    obj_o = get_fbobject(path);
 
@@ -242,15 +239,17 @@ object add_media(object id, object parent, object user, string name, string type
      obj_o["is_attachment"] = 1;
      obj_o["parent"] = parent;
      obj_o["path"] = path;
+     obj_o["author"] = user;
+     obj_o["datatype"] = dto;
      obj_o->save();
    }
-  
-   obj_o["datatype"] = dto;
-   obj_o["author"] = user;
-
+   else
+   {
+     obj_o["datatype"] = dto;
+     obj_o["author"] = user;
+   }
    object obj_n = context->new("Object_version");
    obj_n["contents"] = contents;
-
    int v;
    object cv;
 
