@@ -59,7 +59,8 @@ public void index(Request id, Response response, mixed ... args)
 private void weblog_rss(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  // attachments and blog entries cannot be blogs.
+  if(obj["is_attachment"]!=0)
   {
     response->flash("msg", "page requested is not a weblog.\n");
     response->redirect("/exec/notfound/" + args*"/");
@@ -76,13 +77,13 @@ private void weblog_rss(Fins.Request id, Fins.Response response,
 private void comments_rss(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["is_attachment"] == 1)
   {
-    response->flash("msg", "page requested is not a wiki page.\n");
-    response->redirect("/exec/notfound/" + args*"/");
-    return;
+    response->flash("msg", "document requested cannot contain comments.\n");
+    response->redirect("/exec/notfound/" +  args*"/");
+    return 0;
   }
- 
+
   array o = obj["comments"];
 
   Node n = generate_comments_rss(obj, o, id);

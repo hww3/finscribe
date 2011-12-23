@@ -85,7 +85,8 @@ public void __index(Request id, Response response, mixed ... args)
 private void weblog_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  // attachments and blog entries cannot be blogs.
+  if(obj["is_attachment"]!=0)
   {
     response->flash("msg", "page requested is not a weblog.\n");
     response->redirect("/exec/notfound/" + args*"/");
@@ -103,12 +104,12 @@ private void weblog_atom(Fins.Request id, Fins.Response response,
 }
 
 private void comments_atom(Fins.Request id, Fins.Response response,
-  object obj, mixed ... args)
+  object obj, array args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["is_attachment"] == 1)
   {
-    response->flash("msg", "page requested is not a wiki page.\n");
-    response->redirect("/exec/notfound/" + args*"/");
+    response->flash("msg", "document requested cannot contain comments.\n");
+    response->redirect("/exec/notfound/" +  args*"/");
     return 0;
   }
  

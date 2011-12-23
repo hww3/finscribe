@@ -4,6 +4,8 @@
 
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
+#define NOTFOUND(X,Y) { response->flash("msg", "Unable to perform action " + X + " for document " + (Y*"/") + "."); response->redirect(notfound, Y); return;}
+
 import Tools.Logging;
 import Fins;
 import Fins.Model;   
@@ -830,8 +832,6 @@ public void comments(Request id, Response response, mixed ... args)
    string contents, title, obj;
    object obj_o;
 
-werror("POST: %O %O\n", args*"/", id->variables);
-
    int anonymous = app->get_sys_pref("comments.anonymous")->get_value();
  
    if(!id->misc->session_variables->userid && 
@@ -856,7 +856,8 @@ werror("POST: %O %O\n", args*"/", id->variables);
    id->misc->anonymous = anonymous;
 
    obj_o = model->get_fbobject(args, id);
-
+   if(!obj_o)
+     NOTFOUND("comments", args);
    if(obj_o["md"]["comments_closed"] == 1)
    {
      if(id->variables->ajax)
