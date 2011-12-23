@@ -139,9 +139,9 @@ private void category_atom(Fins.Request id, Fins.Response response,
 private void history_atom(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
-  if(obj["datatype"]["mimetype"] != "text/wiki")
+  if(obj["is_attachment"] == 1)
   {
-    response->flash("msg", "page requested is not a weblog.\n");
+    response->flash("msg", "object requested cannot have history.\n");
     response->redirect("/exec/notfound/" + args*"/");
     return 0;
   }
