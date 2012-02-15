@@ -9,7 +9,7 @@ CREATE TABLE categories (
 
 CREATE TABLE preferences (
   id serial NOT NULL, 
-  name char(64) NOT NULL default '',
+  name char(64) NOT NULL UNIQUE default '',
   description char(256) NOT NULL default '',
   type smallint NOT NULL default 0,    
   value varchar(64) NOT NULL default '',
@@ -64,7 +64,7 @@ CREATE TABLE object_versions (
 
 CREATE TABLE objects (
   id SERIAL not null,
-  path varchar(128) NOT NULL default '',
+  path varchar(128) NOT NULL UNIQUE default '',
   author_id integer NOT NULL default '0',
   created timestamp default NULL,
   parent_id integer NULL default '0',
@@ -89,7 +89,7 @@ CREATE TABLE objects_categories (
 
 CREATE TABLE users (
   id SERIAL not null,
-  username varchar(16) NOT NULL default '',
+  username varchar(16) NOT NULL UNIQUE default '',
   password varchar(16) default NULL,
   is_admin smallint default 0,
   is_active smallint default NULL,

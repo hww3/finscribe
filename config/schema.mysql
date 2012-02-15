@@ -17,7 +17,7 @@ CREATE TABLE categories (
 
 CREATE TABLE preferences (
   id int(11) NOT NULL auto_increment,
-  name char(64) NOT NULL default '',
+  name char(64) NOT NULL UNIQUE default '',
   description char(255) NOT NULL default '',
   type int(1) NOT NULL default 0,
   value char(64) NOT NULL default '',
@@ -79,7 +79,7 @@ CREATE TABLE object_versions (
 
 CREATE TABLE objects (
   id int(11) NOT NULL auto_increment,
-  path varchar(128) NOT NULL default '',
+  path varchar(128) NOT NULL UNIQUE default '',
   author_id int(11) NOT NULL default '0',
   created datetime default NULL,
   parent_id int(11) NULL default '0',
@@ -106,7 +106,7 @@ CREATE TABLE objects_categories (
 
 CREATE TABLE users (
   id int(11) NOT NULL auto_increment,
-  username char(16) NOT NULL default '',
+  username char(16) NOT NULL UNIQUE default '',
   password char(16) default NULL,
   is_admin int(1) default '0',
   is_active int(1) default NULL,
