@@ -376,7 +376,7 @@ object get_sys_pref(string pref)
 object new_string_pref(string pref, string value)
 {
   object p;
-  catch(p = get_sys_pref(pref));
+  p = get_sys_pref(pref);
   if(p) return p;
   else 
   { 
