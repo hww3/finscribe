@@ -77,11 +77,15 @@ private void weblog_rss(Fins.Request id, Fins.Response response,
 private void comments_rss(Fins.Request id, Fins.Response response,
   object obj, mixed ... args)
 {
+  if(!obj)
+  {
+    response->not_found(args*"/");
+    return 0;
+  }
+
   if(obj["is_attachment"] == 1)
   {
-    response->flash("msg", "document requested cannot contain comments.\n");
-    response->redirect("/exec/notfound/" +  args*"/");
-    return 0;
+    throw(Error.Generic("document requested cannot contain comments."));
   }
 
   array o = obj["comments"];

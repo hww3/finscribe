@@ -297,7 +297,7 @@ public void set_default_data(Fins.Request id, object|mapping t)
     t->set_request(id);
 
   object user = get_current_user(id);
-  if(!user) return;
+  if(!user) return 0;
 
      if(mappingp(t))
      {
