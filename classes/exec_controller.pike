@@ -615,7 +615,9 @@ public void editattachments(Request id, Response response, mixed ... args)
       }
       else
       {
+        string pth = o[0]["path"];
         o[0]->delete(1);
+        app->trigger_event("postDeleteAttachment", id, pth);
         t->add("flash", sprintf(LOCALE(371,"Sucessfully deleted %[0]s"), id->variables["save-as-filename"]));
       }
     }
@@ -740,6 +742,7 @@ public void addattachments(Request id, Response response, mixed ... args)
       obj_n->save();
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
 
+      app->trigger_event("postSaveAttachment", id, obj_o);
 
 //     string data = Tools.JSON.serialize((["file": fn, "extension": (fn/".")[-1]]));
      string data = Tools.JSON.serialize(([]));
@@ -1311,7 +1314,6 @@ Log.debug("moving %s to %s.", p["path"], pth);
        app->trigger_event("postMove", id, myOldPath, p);
        n++;
      }
-
 
      t->add("msg", sprintf(LOCALE(394,"%[0]s objects moved."), (string)n));
      response->redirect("/space/" + newpath);

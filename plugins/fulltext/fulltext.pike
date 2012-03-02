@@ -11,7 +11,10 @@ int checked_exists = 0;
 
 mapping query_event_callers()
 {
-  return (["postSave": updateIndex,
+  return (["postSaveAttachment": updateIndex,
+           "postDeleteAttachment": updateIndexDelete,
+           "postMoveAttachement": updateIndexMove,
+           "postSave": updateIndex,
            "postMove": updateIndexMove,
            "postDelete": updateIndexDelete ]);
 }
@@ -54,14 +57,6 @@ void ftSearch(object id, object response, mixed ... args)
       response->set_data("no results for your query.");
     }
   }
-}
-
-string textify(string html)
-{
-  object p = Parser.HTML();
-  p->_set_tag_callback(lambda(object parser, mixed val){return " ";});
-
-  return p->finish(html)->read();
 }
 
 int updateIndex(string event, object id, object obj)
@@ -131,13 +126,13 @@ void doUpdateIndex(string event, object id, object obj)
     checked_exists = 1;
   }
 
-  string t = textify(app->render(obj["current_version"]["contents"], obj, id));
+  string t = app->render(obj["current_version"]["contents"], obj, id);
   if(obj["path"] && strlen(obj["path"]))
   c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]);  
   c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
-      obj["title"] + " " + t, obj["path"], 
-      FinScribe.Blog.make_excerpt(t), obj["datatype"]["mimetype"]);
+      obj["title"] + " " + t, obj["path"], 0,
+      obj["datatype"]["mimetype"]);
 }
 
 class searchdialog_macro
