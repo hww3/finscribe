@@ -44,7 +44,7 @@ CREATE TABLE comments (
 
 CREATE TABLE datatypes (
   id int(11) NOT NULL auto_increment,
-  mimetype char(32) default NULL,
+  mimetype char(96) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

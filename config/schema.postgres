@@ -42,7 +42,7 @@ CREATE TABLE comments (
 
 CREATE TABLE datatypes (
   id SERIAL not null,
-  mimetype varchar(32) default NULL,
+  mimetype varchar(96) default NULL,
   PRIMARY KEY  (id)
 )
 

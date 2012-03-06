@@ -30,7 +30,7 @@ CREATE TABLE comments (
 
 CREATE TABLE datatypes (
   id integer primary key,
-  mimetype char(32) default NULL
+  mimetype char(96) default NULL
 ) 
 
 \g
