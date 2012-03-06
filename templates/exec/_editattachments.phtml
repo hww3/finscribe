@@ -47,7 +47,7 @@ function uploadQueueComplete(file) {
   <tr><td align="left"><img src="<%syspref var="site.url"%>/static/images/attachment/<%$attachment.icon%>"> <a href="<%syspref var="site.url"%>/space/<%$attachment.path%>"><%$attachment.title%></a></td>
 <!--  <td><%$attachment.datatype.mimetype%></td> -->
   <td align="right"><%friendly_size size="$attachment.current_version.content_length"%></td>
-  <td><a onclick="deleteAttachment("<%$object.path%>", "<%$attachment.path%>"); return false;"><%LOCALE id="146" string="Delete"%></a></td>
+  <td><a href="#" onClick='deleteAttachment("<%$object.path%>", "<%$attachment.path%>"); return false;'><%LOCALE id="146" string="Delete"%></a></td>
   </tr>
   <%end %>
   </table>
