@@ -127,11 +127,12 @@ void doUpdateIndex(string event, object id, object obj)
   }
 
   string t = app->render(obj["current_version"]["contents"], obj, id);
+
   if(obj["path"] && strlen(obj["path"]))
   c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]);  
   c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
-      obj["title"] + " " + t, obj["path"], 0,
+      MIME.encode_base64(t), obj["path"], 0,
       obj["datatype"]["mimetype"]);
 }
 
