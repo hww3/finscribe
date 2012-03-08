@@ -203,17 +203,24 @@ array doSearchMacro(Macros.MacroParameters params)
 
   if(e)
   {
+    res+=({"<div class=\"search-results\">\n"});
     res += ({ "<b>Searching failed, with the following response from the index server:</b><p>"  });  
     res += ({ e->message() });  
+    res+=({"</div>\n"});
+  
+    return res;  
   }
-  else if(sizeof(r) == 0) 
+
+  res+=({"<div class=\"search-results\">\n"});
+  
+  if(!r || !sizeof(r)) 
   {
     res += ({ "Your search for <b>" + params->extras->request->variables->q + "</b> returned no results.</b><p>\n" });
   }  
   else
   {
     object user = params->engine->wiki->get_current_user(params->extras->request);
-    res += ({ "<b>Results for your query: <b>" + params->extras->request->variables->q + "</b>:</b><p>" });
+    res += ({ "Results for your query: <b>" + params->extras->request->variables->q + "</b>:<p>" });
     foreach(r;int i; mapping entry)
     {
       array o = params->engine->wiki->model->context->find->objects((["path": entry->handle]));
@@ -226,11 +233,9 @@ array doSearchMacro(Macros.MacroParameters params)
     }
   }
 
-
   res+=({"</div>\n"});
 
   return res;
-
 }
 
 int is_cacheable()
