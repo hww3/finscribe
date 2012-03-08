@@ -1,6 +1,6 @@
 Setting up FinScribe
 
-FinScribe runs under Pike versions 7.6.112 or newer. Additionally, there 
+FinScribe runs under Pike versions 7.8 or newer. Additionally, there 
 are a number of additional modules which provide necessary functionality. 
 Item 0 below describes these prerequisites.
 
@@ -70,6 +70,36 @@ Chances are, you'll run into difficulties getting things set up. We're
 working on making the experience easier, but the problems aren't all 
 completely solved. Drop the author a line, and he will be more than happy 
 to walk you through solving all of the problems.
+
+FULL TEXT
+
+FinScribe includes a plugin for using the Fins/Xapian Full Text 
+application. When the fulltext plugin is enabled and configured, content 
+will be indexed and be available for search.
+
+The Fins/Xapian Full Text application may be downloaded from the following 
+location:
+
+http://hg.welliver.org/fulltext
+
+When configured and running, you should create a new index for FinScribe to
+store its information in. Also, you should use the grant_access tool in 
+order to get an authorization code. Once you have this information, you
+can enable the full text plugin in the FinScribe administration interface.
+
+The 3 settings you'll need to provide are:
+
+Index server url: normally http://localhost:8124, but may be different 
+based on your installtion
+
+Index name: this is the name of the full text index you've created using
+the Fins/Xapian administrative tools.
+
+Index Authorization: this is the authorization code that will allow 
+FinScribe to search and update the full text index. You can get an
+authorization code for your particular index by using the Fins/Xapian 
+administrative tools.
+
 
 THEMES
 

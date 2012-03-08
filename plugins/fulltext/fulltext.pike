@@ -1,3 +1,4 @@
+import FullText;
 import Tools.Logging;
 import Public.Web.Wiki;
 
@@ -32,7 +33,12 @@ mapping query_macro_callers()
 
 mapping query_preferences()
 {
-  return ([ "indexserver" : (["type": FinScribe.STRING, "value": "http://localhost:8124"]) ]);
+  return ([ 
+    "indexserver" : (["type": FinScribe.STRING, "value": "http://localhost:8124"]), 
+    "indexname" : (["type": FinScribe.STRING, "value": "http://bill.welliver.org"]), 
+    "authcode" : (["type": FinScribe.STRING, "value": "NANA"]) 
+
+  ]);
 }
 
 void ftSearch(object id, object response, mixed ... args)
@@ -45,12 +51,15 @@ void ftSearch(object id, object response, mixed ... args)
 
   else
   {
-    object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value() +"/search/?PSESSIONID=123");
-    array r = c["search"](app->get_sys_pref("site.url")["value"], id->variables->q, "contents");
+    object c = SearchClient(get_preference("indexserver")->get_value(), 
+				get_preference("indexname")->get_value(),
+				get_preference("authcode")->get_value());
 
-    if(r[0] && sizeof(r[0]))
+    array r = c->search(id->variables->q);
+
+    if(r && sizeof(r))
     {
-      response->set_data(sprintf("<pre>%O</pre>\n", r[0]));
+      response->set_data(sprintf("<pre>%O</pre>\n", r));
     }
     else 
     {
@@ -86,18 +95,12 @@ void doUpdateIndexDelete(string event, object id, string obj)
   mapping p = app->config["fulltext"];
   if(!p || !p["indexserver"]) return 0;
 
-  object c = Protocols.XMLRPC.Client(p["indexserver"] + "/update/");
-
-  if(!checked_exists)
-  {
-    int e = c["exists"](app->get_sys_pref("site.url")->get_value())[0];
-    if(!e)
-      c["new"](app->get_sys_pref("site.url")->get_value());
-    checked_exists = 1;
-  }
+    object c = UpdateClient(get_preference("indexserver")->get_value(), 
+				get_preference("indexname")->get_value(),
+				get_preference("authcode")->get_value());
 
   if(strlen(obj))
-    c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj);
+    c->delete_by_handle(obj);
 }
 
 void doUpdateIndexMove(string event, object id, string oldpath, object obj)
@@ -116,23 +119,17 @@ void doUpdateIndex(string event, object id, object obj)
   }
 //  Log.info("saved " + obj["path"]);  
 
-  object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value() + "/update/?PSESSIONID=123");
-
-  if(!checked_exists)
-  {
-    int e = c["exists"](app->get_sys_pref("site.url")->get_value())[0];
-    if(!e)
-      c["new"](app->get_sys_pref("site.url")->get_value());
-    checked_exists = 1;
-  }
+    object c = UpdateClient(get_preference("indexserver")->get_value(), 
+				get_preference("indexname")->get_value(),
+				get_preference("authcode")->get_value());
 
   string t = app->render(obj["current_version"]["contents"], obj, id);
 
   if(obj["path"] && strlen(obj["path"]))
-  c["delete_by_handle"](app->get_sys_pref("site.url")->get_value(), obj["path"]);  
-  c["add"](app->get_sys_pref("site.url")->get_value(), obj["title"], 
+  c->delete_by_handle(obj["path"]);  
+  c->add(obj["title"], 
       obj["current_version"]["created"]->unix_time(), 
-      MIME.encode_base64(t), obj["path"], 0,
+      t, obj["path"], 0,
       obj["datatype"]["mimetype"]);
 }
 
@@ -196,17 +193,21 @@ array doSearchMacro(Macros.MacroParameters params)
   if(!params || !params->extras->request || !params->extras->request->variables->q)
     return ({"No query specified."});
 
-  object c = Protocols.XMLRPC.Client(get_preference("indexserver")->get_value()+ "/search/?PSESSIONID=123");
-  mixed r = c["search"](params->extras->request->fins_app->get_sys_pref("site.url")["value"],
-				params->extras->request->variables->q, "contents");
+  object c = SearchClient(get_preference("indexserver")->get_value(), 
+				get_preference("indexname")->get_value(),
+				get_preference("authcode")->get_value());
+
+  mixed r;
+  mixed e = catch(r = c->search(params->extras->request->variables->q));
   res+=({"<div class=\"search-results\">\n"});
 
-  if(objectp(r))
+  if(e)
   {
     res += ({ "<b>Searching failed, with the following response from the index server:</b><p>"  });  
-    res += ({ r->fault_string });  
+    res += ({ e->message() });  
   }
-  else if(!sizeof(r[0])) 
+
+  else if(!sizeof(r)) 
   {
     res += ({ "<b>No documents found</b><p>" });
   }  
@@ -214,7 +215,7 @@ array doSearchMacro(Macros.MacroParameters params)
   {
     object user = params->engine->wiki->get_current_user(params->extras->request);
     res += ({ "<b>Search results:</b><p>" });
-    foreach(r[0];int i; mapping entry)
+    foreach(r;int i; mapping entry)
     {
       array o = params->engine->wiki->model->context->find->objects((["path": entry->handle]));
       if(!sizeof(o)) continue;

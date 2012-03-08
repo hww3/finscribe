@@ -1,3 +1,6 @@
+- Full text indexing uses updated client and server,
+- Full text indexing plugin no longer creates index automatically,
+  see documentation for details and configuration steps.
 - we use Public.Syndication now, for RSS and ATOM support.
 - clean up some of the layouts
 - moving content no longer messes paths up as it had
