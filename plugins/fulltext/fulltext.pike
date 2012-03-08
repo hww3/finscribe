@@ -128,7 +128,7 @@ void doUpdateIndex(string event, object id, object obj)
   if(obj["path"] && strlen(obj["path"]))
   c->delete_by_handle(obj["path"]);  
   c->add(obj["title"], 
-      obj["current_version"]["created"]->unix_time(), 
+      obj["current_version"]["created"], 
       t, obj["path"], 0,
       obj["datatype"]["mimetype"]);
 }
