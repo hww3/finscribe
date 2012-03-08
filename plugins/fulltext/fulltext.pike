@@ -206,15 +206,14 @@ array doSearchMacro(Macros.MacroParameters params)
     res += ({ "<b>Searching failed, with the following response from the index server:</b><p>"  });  
     res += ({ e->message() });  
   }
-
-  else if(!sizeof(r)) 
+  else if(sizeof(r) == 0) 
   {
-    res += ({ "<b>No documents found</b><p>" });
+    res += ({ "Your search for <b>" + params->extras->request->variables->q + "</b> returned no results.</b><p>\n" });
   }  
   else
   {
     object user = params->engine->wiki->get_current_user(params->extras->request);
-    res += ({ "<b>Search results:</b><p>" });
+    res += ({ "<b>Results for your query: <b>" + params->extras->request->variables->q + "</b>:</b><p>" });
     foreach(r;int i; mapping entry)
     {
       array o = params->engine->wiki->model->context->find->objects((["path": entry->handle]));
@@ -226,6 +225,8 @@ array doSearchMacro(Macros.MacroParameters params)
               "</a> (" + entry->date + ")  [" + (int)(entry->score * 100.0)+ "%]<dd>\n" + entry->excerpt + "</dd><p>\n"});
     }
   }
+
+
   res+=({"</div>\n"});
 
   return res;
