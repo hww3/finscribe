@@ -19,7 +19,7 @@ void start()
 {
   Log.debug("starting backlinks updater...");
 
-  call_out(Thread.Thread, 0, update_backlinks);
+  app->call_out(app->create_thread, 0, update_backlinks);
 }
 
 int doUpdateBacklinks(string event, object id, object obj)
