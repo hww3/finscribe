@@ -1,4 +1,4 @@
-<form action="/exec/login" id="loginform" method="post">
+<%action_form controller="/exec" action="login" id="loginform" method="post"%>
 <table>
 <tr>
 <td>
@@ -31,9 +31,9 @@ f.focus();
 </table>
 </form>
 <p/>
-<a href="/exec/forgotpassword"><%LOCALE id="204" string="Forgot password?"%></a>
+<%action_link controller="/exec" action="forgotpassword" return_to="$return_to"%><%LOCALE id="204" string="Forgot password?"%></a>
 <% if data->autocreate %>
 |
-<a href="/exec/createaccount"><%LOCALE id="205" string="Create an account"%></a>
+<%action_link controller="/exec" action="createaccount"%><%LOCALE id="205" string="Create an account"%></a>
 <%endif%>
 

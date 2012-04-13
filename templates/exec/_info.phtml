@@ -12,4 +12,12 @@
 <% foreach var="$object.outlinks_links" val="link"%>
 <%$link%><br>
 <% end %>
+<p>
+<b><%LOCALE id="" string="Content Type"%>:</b> <%$object.datatype.mimetype%>
+[<%action_link controller="/exec" action="changedatatype" args="$object.path"%>Change</a>]
+<p>
+
+<b><%LOCALE id="" string="Author/Owner"%>:</b> <%$object.author.name%>
+[<%action_link controller="/exec" action="changeowner" args="$object.path"%>Change</a>]
+<p>
 

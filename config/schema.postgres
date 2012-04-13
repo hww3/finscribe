@@ -90,7 +90,7 @@ CREATE TABLE objects_categories (
 CREATE TABLE users (
   id SERIAL not null,
   username varchar(16) NOT NULL UNIQUE default '',
-  password varchar(16) default NULL,
+  password varchar(48) default NULL,
   is_admin smallint default 0,
   is_active smallint default NULL,
   name varchar(36) NOT NULL default '',

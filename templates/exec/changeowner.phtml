@@ -1,0 +1,20 @@
+<%@include file="top.phtml"%>
+<title><%syspref var="site.name" %> :: <%LOCALE id="" string="select owner"%></title>
+<%@include file="header.phtml"%>
+<%@include file="pagebegin.phtml" %>
+   <h3><%LOCALE id="" string="Choose a new Owner"%></h3>
+<%LOCALE id="239" string="Document"%>: <b><%$obj%></b>
+<br/>
+<%LOCALE id="" string="Current Owner"%>: <b><%$currentowner.name%></b>
+<p>
+<form>
+<input type="hidden" name="return_to" value="<%$return_to%>"/>
+<%LOCALE id="" string="New Owner"%>: <select name="newowner">
+<% foreach var="$owners" val="owner" %>
+<option value="<%$owner.id %>"><%$owner.name%>
+<% end %>
+</select>
+<button type="submit" value="Change"><%LOCALE id="240" string="Change"%></button>
+</form>
+<%@include file="footer.phtml" %>
+<%@include file="bottom.phtml" %>

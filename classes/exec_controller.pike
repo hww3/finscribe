@@ -4,7 +4,7 @@
 
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
-#define NOTFOUND(X,Y) { response->flash("msg", "Unable to perform action " + X + " for document " + (Y*"/") + "."); response->redirect(notfound, Y); return;}
+#define NOTFOUND(X,Y) { response->flash("msg", "Unable to perform action " + X + " for document " + (Y*"/") + "."); response->redirect_temp(notfound, Y); return;}
 
 import Tools.Logging;
 import Fins;
@@ -27,15 +27,15 @@ public void x(Request id, Response response, mixed ... args)
 {
   if(!sizeof(args))
   {
-    response->redirect(action_url(app->controller));
+    response->redirect_temp(action_url(app->controller));
   }
   else
   {
     object o = Fins.DataSource._default.find.objects_by_id((int)MIME.decode_base64(args[0]));
     if(!o)
-      response->redirect(action_url(app->controller));
+      response->redirect_temp(action_url(app->controller));
     else
-      response->redirect(action_url(app->controller->space), o["path"]);
+      response->redirect_temp(action_url(app->controller->space), o["path"]);
   }
 }
 
@@ -127,6 +127,12 @@ public void changeacl(Request id, Response response, mixed ... args)
 
    object t = view->get_idview("exec/changeacl", id);
 
+   if(!id->misc->session_variables->userid)
+   {
+     response->set_data(LOCALE(345,"You must login to change acls."));
+     return;
+   }
+
    if(!id->variables->return_to)
    {
      t->add("return_to", id->referrer || "/space/start");
@@ -139,8 +145,15 @@ public void changeacl(Request id, Response response, mixed ... args)
    if(!obj) 
    {
      response->flash("msg", sprintf(LOCALE(342,"Unable to find the requested object, %[0]s."), args*"/"));
-     response->redirect(id->referrer);
+     response->redirect_temp(id->referrer);
      return;
+   }
+
+   if(obj && !obj->is_aclable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", LOCALE(390,"You do not have permission to change the ACL on this object."));
+      response->redirect_temp(id->referrer);		
+      return;
    }
 
    t->add("obj", obj["path"]);
@@ -154,7 +167,111 @@ public void changeacl(Request id, Response response, mixed ... args)
      obj["acl"] = a;
 
      response->flash("msg", LOCALE(343,"ACL changed successfully."));
-     response->redirect(id->variables->return_to);
+     response->redirect_temp(id->variables->return_to);
+   }
+
+   response->set_view(t);
+}
+
+public void changedatatype(Request id, Response response, mixed ... args)
+{
+  object obj = model->get_fbobject(args, id);
+
+   object t = view->get_idview("exec/changedatatype", id);
+
+   if(!id->misc->session_variables->userid)
+   {
+     response->set_data(LOCALE(345,"You must login to change datatypes."));
+     return;
+   }
+
+   if(!id->variables->return_to)
+   {
+     t->add("return_to", id->referrer || "/space/start");
+   }
+   else
+     t->add("return_to", id->variables->return_to);
+
+   app->set_default_data(id, t);
+
+   if(!obj) 
+   {
+     response->flash("msg", sprintf(LOCALE(342,"Unable to find the requested object, %[0]s."), args*"/"));
+     response->redirect_temp(id->referrer);
+     return;
+   }
+
+   if(obj && !obj->is_writeable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", LOCALE(390,"You do not have permission to change the Datatype of this object."));
+      response->redirect_temp(id->referrer);		
+      return;
+   }
+
+   t->add("obj", obj["path"]);
+   t->add("datatypes", Fins.Model.find.datatypes_all());
+   t->add("currentdatatype", obj["datatype"]);
+
+   if(id->variables->newdatatype)
+   {
+     object d = find.datatypes_by_id((int)id->variables->newdatatype);
+
+     obj["datatype"] = d;
+
+     response->flash("msg", LOCALE(0,"Datatype changed successfully."));
+     response->redirect_temp(id->variables->return_to);
+   }
+
+   response->set_view(t);
+}
+
+public void changeowner(Request id, Response response, mixed ... args)
+{
+  object obj = model->get_fbobject(args, id);
+
+   object t = view->get_idview("exec/changeowner", id);
+
+   if(!id->misc->session_variables->userid)
+   {
+     response->set_data(LOCALE(345,"You must login to change owners."));
+     return;
+   }
+
+   if(!id->variables->return_to)
+   {
+     t->add("return_to", id->referrer || "/space/start");
+   }
+   else
+     t->add("return_to", id->variables->return_to);
+
+   app->set_default_data(id, t);
+
+   if(!obj) 
+   {
+     response->flash("msg", sprintf(LOCALE(342,"Unable to find the requested object, %[0]s."), args*"/"));
+     response->redirect_temp(id->referrer);
+     return;
+   }
+
+   if(obj && !obj->is_aclable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", LOCALE(390,"You do not have permission to change the owner of this object."));
+      response->redirect_temp(id->referrer);		
+      return;
+   }
+
+   t->add("obj", obj["path"]);
+   t->add("owners", Fins.Model.find.users_all());
+   t->add("currentowner", obj["author"]);
+
+   if(id->variables->newowner)
+   {
+     object d = find.users_by_id((int)id->variables->newowner);
+
+     obj["author"] = d;
+
+     response->flash("msg", LOCALE(0,"Owner changed successfully."));
+     response->redirect_temp(id->variables->return_to);
    }
 
    response->set_view(t);
@@ -317,14 +434,14 @@ public void deletecomment(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(355, "You must login to delete comments."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
   
    if(!id->variables->id)
    {
       response->flash("msg", LOCALE(356,"You provide a comment id to delete."));
-      response->redirect(id->referrer || "/space/");
+      response->redirect_temp(id->referrer || "/space/");
       return;
    }
 
@@ -333,7 +450,7 @@ public void deletecomment(Request id, Response response, mixed ... args)
    if(!c)
    {
       response->flash("msg", sprintf(LOCALE(357,"Comment #%[0]s does not exist."), id->variables->id));
-      response->redirect(id->referrer || "/space/");
+      response->redirect_temp(id->referrer || "/space/");
       return;
    }
 
@@ -345,14 +462,14 @@ public void deletecomment(Request id, Response response, mixed ... args)
      // we can delete!
       c->delete();
       response->flash("msg", LOCALE(358,"Comment deleted successfully."));
-      response->redirect(id->referrer || "/space/");
+      response->redirect_temp(id->referrer || "/space/");
       return;
 
    }
    else
    {
       response->flash("msg", "Only administrators and page owners can delete comments.");
-      response->redirect(id->referrer || "/space/");
+      response->redirect_temp(id->referrer || "/space/");
       return;
    }
 
@@ -397,7 +514,7 @@ public void createaccount(Request id, Response response, mixed ... args)
               return;
             }
             response->flash("msg", LOCALE(0,"Error: " + e[0]));
-            response->redirect(Tools.Function.this_function());
+            response->redirect_temp(Tools.Function.this_function());
             return;
           }
 
@@ -431,7 +548,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 				u->save();
 
 				response->flash("msg", LOCALE(360,"User created successfully."));
-				response->redirect("/space/start");
+				response->redirect_temp("/space/start");
 				
 				object p = find.objects((["path": "themes/default/newuser"]))[0];
 				
@@ -453,7 +570,7 @@ public void createaccount(Request id, Response response, mixed ... args)
 		}
                 else if(id->variables->action == "Cancel")
                 {
-                    response->redirect("/space/");
+                    response->redirect_temp("/space/");
                     return;
                 }
 		else
@@ -478,6 +595,13 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 
 	 t->add("username", "");
 
+     if(!id->variables->return_to)
+     {
+        id->variables->return_to = ((id->misc->flash && id->misc->flash->from) ||
+                               id->variables->referrer || id->referrer ||
+                                       "/space/");
+     }
+
 		if(id->variables->username)
 		{
 			t->add("username", id->variables->username);
@@ -493,21 +617,25 @@ public void forgotpassword(Request id, Response response, mixed ... args)
 
                 object tp = view->get_idview("exec/sendpassword", id);
 
+
+			string pass = Tools.String.generate_password(10);
+
+			a[0]["password"] = Crypto.make_crypt_md5(pass);
+			tp->add("password", pass);
 				
-				tp->add("password", a[0]["password"]);
+			string mailmsg = tp->render();
 				
-				string mailmsg = tp->render();
-				
-				Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(a[0]["email"], 
-																											"Your FinScribe password", 
-										app->get_sys_pref("mail.return_address")->get_value(), 
+			Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(a[0]["email"], 
+						"Your FinScribe password", 
+						app->get_sys_pref("mail.return_address")->get_value(), 
 																											mailmsg);
 				
-				response->flash("msg", LOCALE(363,"Your password has been located and will be sent to the email address on record for your account."));
-				response->redirect("/exec/login");
+				response->flash("msg", LOCALE(0,"Your password has been reset and will be sent to the email address on record for your account."));
+				response->redirect_temp("/exec/login", ({}), (["return_to": id->variables->return_to]));
 			}
 			
 		}
+     t->add("return_to", id->variables->return_to);
      response->set_view(t);
 }
 
@@ -519,7 +647,7 @@ public void logout(Request id, Response response, mixed ... args)
      m_delete(id->misc->session_variables, "userid");
   }
 
-  response->redirect(id->referrer||"/space/");
+  response->redirect_temp(id->referrer||"/space/");
 }
 
 public void upload(Request id, Response response, mixed ... args)
@@ -534,7 +662,7 @@ public void upload(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(365,"You must login to upload."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    } 
 
@@ -564,7 +692,7 @@ public void upload(Request id, Response response, mixed ... args)
     response->flash("msg", LOCALE(367,"Succesfully Saved."));
   }
 
-  response->redirect("/space/" + obj);
+  response->redirect_temp("/space/" + obj);
 }
 
 public void editattachments(Request id, Response response, mixed ... args)
@@ -758,7 +886,7 @@ string e =            sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not 
 public void login(Request id, Response response, mixed ... args)
 {
      object t;
-werror("%O\n", id->variables);
+//werror("%O\n", id->variables);
 
    if(id->variables->ajax)
    {
@@ -792,17 +920,19 @@ werror("%O\n", id->variables);
 	
    if(id->variables->action)
    {
-      if(id->variables->action == "Cancel")
+      if(id->variables->action == LOCALE(0,"Cancel"))
       {
-         response->redirect(id->variables->return_to);
+         response->redirect_temp(id->variables->return_to);
          return;
       }
       
-      array r = find.users((["username": id->variables->username, 
-                                        "password": id->variables->password, 
-                                        "is_active": 1]));
-      if(r && sizeof(r))
+      if(id->variables->action == LOCALE(0,"Login"))
       {
+        array r = find.users((["username": id->variables->username, 
+//                                        "password": id->variables->password, 
+                                        "is_active": 1]));
+        if(r && sizeof(r) && verify_password(id->variables->password, r[0]["password"]))
+        {
          // success!
          id->misc->session_variables->logout = 0;
          id->misc->session_variables["userid"] = r[0]["id"];
@@ -810,19 +940,27 @@ werror("%O\n", id->variables);
            id->variables->return_to = id->variables->return_to + "&" + time();
          else
            id->variables->return_to = id->variables->return_to + "?" + time();
-         response->redirect(id->variables->return_to);
+         response->redirect_temp(id->variables->return_to);
          return;
-      }
-      else
-      {
+        }
+        else
+        {
          response->flash("msg", LOCALE(372,"Login Incorrect."));
          t->add("username", id->variables->username);
-         
-      }
+        }
+     }
    }
    
          t->add("return_to", id->variables->return_to);
    response->set_view(t);
+}
+
+private int verify_password(string password, string hash)
+{
+  int r;
+  catch(r=Crypto.verify_crypt_md5(password,hash));
+
+  return r;
 }
 
 public void get_content(Request id, Response response, mixed ... args)
@@ -851,7 +989,7 @@ public void comments(Request id, Response response, mixed ... args)
      }
       response->flash("msg", LOCALE(374,"You must login to comment."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
    else if(!id->misc->session_variables->userid && anonymous)
@@ -873,7 +1011,7 @@ public void comments(Request id, Response response, mixed ... args)
        return;
      }
      response->flash("msg", LOCALE(375,"Comments for this article have been closed."));
-     response->redirect("/comments/" + obj_o["path"]);
+     response->redirect_temp("/comments/" + obj_o["path"]);
      return;
    }
  
@@ -917,7 +1055,7 @@ public void comments(Request id, Response response, mixed ... args)
               return;
             }
             response->flash("msg", LOCALE(0,"Error: " + e[0]));
-            response->redirect("/comments/" + obj_o["path"]);
+            response->redirect_temp("/comments/" + obj_o["path"]);
             return;
           }
 
@@ -956,7 +1094,7 @@ public void comments(Request id, Response response, mixed ... args)
             if(!id->variables->ajax)
 			{
 	      	  response->flash("msg", LOCALE(367,"Succesfully Saved."));
-              response->redirect("/space/" + obj);
+              response->redirect_temp("/space/" + obj);
 			}
 			else
 			{
@@ -1041,7 +1179,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(379,"You must login to lock objects."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
 
@@ -1050,14 +1188,14 @@ public void toggle_lock(Request id, Response response, mixed ... args)
 	if(!obj_o)
 	{
 		response->flash("msg", sprintf(LOCALE(354,"Object %[0]s does not exist."), args*"/"));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
  		return;
 	}
 
    if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
 		response->flash("msg", LOCALE(380,"A locked object can only be toggled by its owner or an administrator."));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
 		return;
 	}
 	
@@ -1067,7 +1205,7 @@ public void toggle_lock(Request id, Response response, mixed ... args)
      response->flash("msg", LOCALE(381,"Object successfully locked."));
    else
      response->flash("msg", LOCALE(382,"Object successfully ulocked."));
-   response->redirect(id->referrer);
+   response->redirect_temp(id->referrer);
 }
 
 public void toggle_comments(Request id, Response response, mixed ... args)
@@ -1076,7 +1214,7 @@ public void toggle_comments(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(383,"You must login to toggle comments."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
 
@@ -1085,14 +1223,14 @@ public void toggle_comments(Request id, Response response, mixed ... args)
 	if(!obj_o)
 	{
 		response->flash("msg", sprintf(LOCALE(354,"Object %[0]s does not exist."), args*"/"));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
 		return;
 	}
 
    if((obj_o["author"]["id"] != id->misc->session_variables->userid) && !find.users_by_id(id->misc->session_variables->userid)["is_admin"])
 	{
 		response->flash("msg", LOCALE(384,"Comments on an object can only be toggled by its owner or an administrator."));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
 		return;
 	}
 	
@@ -1103,7 +1241,7 @@ public void toggle_comments(Request id, Response response, mixed ... args)
    else
      response->flash(LOCALE(386,"Comments successfully enabled."));
 
-   response->redirect(id->referrer);
+   response->redirect_temp(id->referrer);
 }
 
 public void new(Request id, Response response, mixed ... args)
@@ -1112,7 +1250,7 @@ public void new(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(387,"You must login to edit content."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
 
@@ -1140,7 +1278,7 @@ public void new(Request id, Response response, mixed ... args)
      }
 
 
-     response->redirect("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
+     response->redirect_temp("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
      return;
    }   
 
@@ -1184,7 +1322,7 @@ public void move(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(388,"You must login to move content."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
 
@@ -1200,14 +1338,14 @@ public void move(Request id, Response response, mixed ... args)
    if(!obj_o)
    {
       response->flash("msg", sprintf(LOCALE(389,"This is a non-existent object: %[0]s"), args*"/"));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
       return;
    }
 
    if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
       response->flash("msg", LOCALE(390,"You do not have permission to move this object"));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
       return;
    }
 
@@ -1225,7 +1363,7 @@ public void move(Request id, Response response, mixed ... args)
    if(id->variables->action == "Cancel")
    {
      response->flash("msg", LOCALE(391,"Move operation cancelled."));
-     response->redirect("/space/" + (args*"/"));
+     response->redirect_temp("/space/" + (args*"/"));
      return;
    }
 
@@ -1320,7 +1458,7 @@ Log.debug("moving %s to %s.", p["path"], pth);
      }
 
      t->add("msg", sprintf(LOCALE(394,"%[0]s objects moved."), (string)n));
-     response->redirect("/space/" + newpath);
+     response->redirect_temp("/space/" + newpath);
      return;
    }
 
@@ -1338,7 +1476,7 @@ public void delete(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(395,"You must login to delete content."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
 
@@ -1354,14 +1492,14 @@ public void delete(Request id, Response response, mixed ... args)
    if(!obj_o)
    {
       response->flash("msg", sprintf(LOCALE(389,"This is a non-existent object: %[0]s"), args*"/"));
-      response->redirect(id->referrer);	
+      response->redirect_temp(id->referrer);	
       return;
    }
 
    if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
       response->flash("msg", LOCALE(396,"You do not have permission to delete this object"));
-      response->redirect(id->referrer);		
+      response->redirect_temp(id->referrer);		
       return;
    }
 
@@ -1444,7 +1582,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      }
 
      t->add("msg", sprintf(LOCALE(398,"%[0]d objects deleted."), n));
-     response->redirect(app->controller->space);
+     response->redirect_temp(app->controller->space);
      return;
    }
 
@@ -1466,7 +1604,7 @@ public void edit(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(387,"You must login to edit content."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
    
@@ -1486,7 +1624,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(obj_o && !obj_o->is_editable(t->get_data()["user_object"]))
    {
 	response->flash("msg", LOCALE(399,"You do not have permission to edit this object."));
-        response->redirect(id->referrer);		
+        response->redirect_temp(id->referrer);		
 	return;
    }
    else if(!obj_o)
@@ -1498,20 +1636,20 @@ public void edit(Request id, Response response, mixed ... args)
         if(!acl)
         {
 	  response->flash("msg", LOCALE(400,"No default ACL found."));
-	  response->redirect(id->referrer);
+	  response->redirect_temp(id->referrer);
           return;
         }
         if(!acl->has_xmit(t->get_data()["user_object"], "write", 0))
 	{
 	  response->flash("msg", LOCALE(400,"You do not have permission to create this object."));
-	  response->redirect(id->referrer);
+	  response->redirect_temp(id->referrer);
           return;
 	}
      }
      else if(!np->is_writeable(t->get_data()["user_object"]))
      {
 	response->flash("msg", LOCALE(400,"You do not have permission to create this object."));
-        response->redirect(id->referrer);		
+        response->redirect_temp(id->referrer);		
 	return;
      }
    }
@@ -1537,7 +1675,7 @@ werror("variables: %O\n", id->variables);
       {
 	 case "Cancel":
             response->flash("msg", LOCALE(401,"Edit cancelled."));
-	    response->redirect("/space/" + obj);
+	    response->redirect_temp("/space/" + obj);
 	    return;
 	            break;
          case "Preview":
@@ -1594,7 +1732,7 @@ werror("variables: %O\n", id->variables);
                view->flush_template(args[2..]*"/");            }
 
             response->flash("msg", LOCALE(367,"Succesfully Saved."));
-            response->redirect("/space/" + obj + "?" + time());
+            response->redirect_temp("/space/" + obj + "?" + time());
 
             app->trigger_event("postSave", id, obj_o);
             break;
@@ -1640,7 +1778,7 @@ public void publish(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(404,"You must login to publish."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
    
@@ -1648,14 +1786,14 @@ public void publish(Request id, Response response, mixed ... args)
    if(!obj_o || obj_o["is_attachment"] != 3)
    {
      response->flash("msg", LOCALE(405,"Object doesn't exist, or isn't a WIP weblog entry."));
-     response->redirect(id->referrer);
+     response->redirect_temp(id->referrer);
      return;
    }
 
    if(!obj_o->is_postable(app->get_current_user(id)))
    {
      response->flash("msg", LOCALE(406,"You don't have permission to publish (post) this object."));
-     response->redirect(id->referrer);
+     response->redirect_temp(id->referrer);
      return;
    }
 
@@ -1684,7 +1822,7 @@ public void publish(Request id, Response response, mixed ... args)
   app->trigger_event("postSave", id, obj_o);
 
   response->flash("msg", LOCALE(407,"Object published successfully."));
-  response->redirect(id->referrer);
+  response->redirect_temp(id->referrer);
 }
 
 //! we don't check to make sure that a page has a {weblog}
@@ -1703,7 +1841,7 @@ public void post(Request id, Response response, mixed ... args)
    {
       response->flash("msg", LOCALE(408,"You must login to post."));
       response->flash("from", id->not_query);
-      response->redirect("/exec/login");
+      response->redirect_temp("/exec/login");
       return;
    }
    
@@ -1738,7 +1876,7 @@ public void post(Request id, Response response, mixed ... args)
      else
      {
        response->flash("msg", LOCALE(409,"You are not authorized to post to this weblog."));
-       response->redirect(id->referrer || "/space/");
+       response->redirect_temp(id->referrer || "/space/");
      }
      return;     
    }
@@ -1758,7 +1896,7 @@ public void post(Request id, Response response, mixed ... args)
             else
             {
               response->flash("msg", LOCALE(411,"Blog Posting cancelled."));
-  	      response->redirect("/space/" + obj);
+  	      response->redirect_temp("/space/" + obj);
             }
 	    return;
             break;
@@ -1798,13 +1936,13 @@ public void post(Request id, Response response, mixed ... args)
          if(id->variables->ajax)
          {
             response->set_data(LOCALE(367,"Succesfully Saved.") + "<div style=\"display:none;\" id=\"result\">" + LOCALE(412,"Success") + "</div>");
-//            response->redirect("/space/" + obj);
+//            response->redirect_temp("/space/" + obj);
             return;
          }
          else
          {
             response->flash("msg", LOCALE(367,"Succesfully Saved."));
-            response->redirect("/space/" + obj);
+            response->redirect_temp("/space/" + obj);
             return;
          }
             break;

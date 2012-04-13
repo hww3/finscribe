@@ -48,6 +48,14 @@ string type_name = "Object";
      return has_xmit(user, "lock", user && user["id"] == this["author"]["id"]);
    }
 
+   // can the acl be changed?
+   // owners can change acls as well as anyone who has lock permission.
+   int is_aclable(object user)
+   {
+     if(user && user["id"] != this["author"]["id"]) return 1;
+     else return has_xmit(user, "lock", user && user["id"] == this["author"]["id"]);
+   }
+
 
 public int get_blog_count()
 {

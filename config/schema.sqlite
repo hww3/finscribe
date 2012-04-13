@@ -79,7 +79,7 @@ CREATE TABLE objects_categories (
 CREATE TABLE users (
   id integer primary key,
   username char(16) NOT NULL UNIQUE default '',
-  password char(16) default NULL,
+  password char(48) default NULL,
   created datetime NOT NULL default CURRENT_TIMESTAMP,
   is_admin int(1) default '0',
   is_active int(1) default NULL,

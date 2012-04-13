@@ -23,8 +23,6 @@ void start()
 
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();
-
-  call_out(lambda(){werror("hi\n\n");}, 10);
 }
 
 void kick_model()

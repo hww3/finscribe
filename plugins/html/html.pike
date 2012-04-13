@@ -162,7 +162,6 @@ mixed render_tag(string name, object parser, mapping args, mixed extras, int for
 
 string render(string s, mixed|void extras, int|void force)
 {
-werror("Render: %O\n", extras);
   object my_parser = parser->clone();
    my_parser->set_extra(extras, force);
 

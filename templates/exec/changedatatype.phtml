@@ -1,0 +1,20 @@
+<%@include file="top.phtml"%>
+<title><%syspref var="site.name" %> :: <%LOCALE id="" string="select datatype"%></title>
+<%@include file="header.phtml"%>
+<%@include file="pagebegin.phtml" %>
+   <h3><%LOCALE id="" string="Choose a new Datatype"%></h3>
+<%LOCALE id="239" string="Document"%>: <b><%$obj%></b>
+<br/>
+<%LOCALE id="" string="Current Datatype"%>: <b><%$currentdatatype.mimetype%></b>
+<p>
+<form>
+<input type="hidden" name="return_to" value="<%$return_to%>"/>
+<%LOCALE id="" string="New Datatype"%>: <select name="newdatatype">
+<% foreach var="$datatypes" val="datatype" %>
+<option value="<%$datatype.id %>"><%$datatype.mimetype%>
+<% end %>
+</select>
+<button type="submit" value="Change"><%LOCALE id="240" string="Change"%></button>
+</form>
+<%@include file="footer.phtml" %>
+<%@include file="bottom.phtml" %>
