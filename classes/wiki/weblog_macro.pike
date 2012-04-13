@@ -10,7 +10,7 @@ inherit Macros.Macro;
 // quiet - if set to true, supresses the navigation elements
 // template - use the named template in space folder to display each entry.
 //
-// if content contains a <!--break--> comment, the portion before the break
+// if content contains a <!-- break --> comment, the portion before the break
 // will be available in the template as <%$teaser%>
 //
 
@@ -98,8 +98,8 @@ array evaluate(Macros.MacroParameters params)
     string contents = entry["current_version"]["contents"];
 
     t->add("content", contents);
-    if (sizeof(contents / "<!--break-->") > 1) 
-      t->add("teaser", (contents / "<!--break-->")[0]);
+    if (sizeof(contents / "<!-- break -->") > 1) 
+      t->add("teaser", (contents / "<!-- break -->")[0]);
     else
       t->add("teaser", contents);
 
