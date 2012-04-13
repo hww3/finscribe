@@ -100,6 +100,12 @@ array evaluate(Macros.MacroParameters params)
     t->add("content", contents);
     if (sizeof(contents / "<!-- break -->") > 1) 
       t->add("teaser", (contents / "<!-- break -->")[0]);
+    else if (sizeof(contents / "<break>") > 1) 
+      t->add("teaser", (contents / "<break>")[0]);
+    else if (sizeof(contents / "<break/>") > 1) 
+      t->add("teaser", (contents / "<break/>")[0]);
+    else if (sizeof(contents / "{break}") > 1) 
+      t->add("teaser", (contents / "{break}")[0]);
     else
       t->add("teaser", contents);
 
