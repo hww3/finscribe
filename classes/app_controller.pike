@@ -46,12 +46,12 @@ public void index(Request id, Response response, mixed ... args)
 
   string datatype = obj["datatype"]["mimetype"];
 
-  handle(datatype,obj,id,response);
+  handle(datatype,obj,id,response, args);
 
   return;
 }
 
-private void handle(string datatype, object obj, Request id, Response response)
+private void handle(string datatype, object obj, Request id, Response response, array args)
 {
   object v;
 
@@ -129,6 +129,8 @@ private void handle(string datatype, object obj, Request id, Response response)
   t->add("category_links", obj["category_links"]);
   t->add("metadata", obj["md"]);
   t->add("numtrackbacks", sizeof(obj["md"]["trackbacks"] || ([])));
+
+  t->add("section", args[0]);
 
   switch(datatype)
   {
