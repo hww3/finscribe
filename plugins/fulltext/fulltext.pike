@@ -147,7 +147,9 @@ array evaluate(Macros.MacroParameters params)
 {
   array res = ({});
   string target_url;
-
+  string button_url;
+  int size;
+werror("params: %O\n", params->parameters);
   array a = params->parameters / "|";
 
   if(!sizeof(a) || !strlen(a[0]))
@@ -157,16 +159,29 @@ array evaluate(Macros.MacroParameters params)
 
   foreach(a;;string val)
   {
-    if(has_prefix(val, "target_url="))
+    if(has_prefix(val, "target_url=") || has_prefix(val, "target-url="))
     {
       target_url = val[11..];
     }
+    if(has_prefix(val, "button_src=") || has_prefix(val, "button-src="))
+    {
+      button_url = val[11..];
+    }
+    if(has_prefix(val, "button_src=") || has_prefix(val, "button-src="))
+    {
+      size = (int)(val[5..]);
+    }
   }
+
 
   res+=({"<div class=\"search-dialog\">\n"});
   res+=({"<form action=\"" + target_url + "\">\n" });
 
-  res+=({"<input type=\"text\" name=\"q\"> <input type=\"submit\" value=\"Search\">"});
+  res+=({"<input size=\"" + (size||30) + "\" type=\"text\" name=\"q\">"});
+  if(button_url)
+    res+=({" <input src=\"" + button_url + "\" type=\"image\" value=\"\">"});
+  else
+    res+=({" <input type=\"submit\" value=\"Search\">"});
 
   res+=({"</form>\n"});
   res+=({"</div>\n"});
