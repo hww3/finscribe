@@ -121,7 +121,11 @@ void add_macro(string n, object m)
 mixed render_container(string name, object parser, mapping args, string 
 contents, mixed extras, int force)
 {
+  // we don't want to parse macros that happen to have the same name as an html tag.
+  if(name == "table") return ({contents}); 
+  // ... or things that have been parsed already.
   if(args->_parsed) return 0;
+
   object m = macros[name];
   if(!m) return 0;
 
