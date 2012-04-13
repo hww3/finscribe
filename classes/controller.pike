@@ -3,6 +3,7 @@ inherit Fins.FinsController;
 
 Fins.FinsController objects;
 
+Fins.FinsController account;
 Fins.FinsController exec;
 Fins.FinsController space;
 Fins.FinsController comments;
@@ -28,6 +29,7 @@ void start()
   }
   else
   {
+    account = load_controller("account_controller");
     objects = load_controller("objects_controller");
     rest = load_controller("rest_controller");
     exec = load_controller("exec_controller");

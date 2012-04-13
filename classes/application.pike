@@ -317,6 +317,11 @@ int admin_user_filter(Fins.Request id, Fins.Response response, mixed ... args)
   return is_admin_user(id, response);
 }
 
+int user_filter(Fins.Request id, Fins.Response response, mixed ... args)
+{
+  return is_user(id, response);
+}
+
 object get_current_user(object id)
 {
   object user;
@@ -352,6 +357,34 @@ public int is_admin_user(Fins.Request id, Fins.Response response)
   else
   {
     response->flash(LOCALE(333,"You must be an administrator to access that resource."));
+    response->redirect("/exec/login");
+    return 0;
+  }
+}
+
+public int is_user(Fins.Request id, Fins.Response response)
+{
+  if(!id->misc->session_variables->userid)
+  {
+    response->flash(LOCALE(0,"You must be logged in to continue."));
+    response->redirect("/exec/login");
+    return 0;
+  }
+
+  object user = Fins.DataSource->_default->find_by_id("User", id->misc->session_variables->userid);
+  
+  if(!user)
+  {
+    response->flash(LOCALE(332,"Unable to find a user for your userid."));
+    response->redirect("/exec/login");
+    return 0;
+  }
+  
+  if(user["is_active"])
+    return 1;
+  else
+  {
+    response->flash(LOCALE(333,"You must be an active user to access that resource."));
     response->redirect("/exec/login");
     return 0;
   }

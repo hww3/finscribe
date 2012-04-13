@@ -1,0 +1,152 @@
+<%@include file="top.phtml"%>
+<%@include file="adminheader.phtml"%>
+   <title><%syspref var="site.name" %> :: my account :: <%LOCALE id="132" string="edit user"%></title>
+   <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/javascripts/fins_release/widget/templates/ComboPicker.css"/>
+<%@include file="adminpagebegin.phtml"%>
+<div class="flash-message"><%flash %></div>
+
+          <h3><%LOCALE id="133" string="Account Settings"%></h3>
+
+	<form action="" method="post">
+
+
+<table width="75%"> 
+<tr>
+<td>
+        <b><%LOCALE id="66" string="Username"%>:</b> 
+</td>
+<td>
+<%$user.username%>
+        <br />
+</td>
+</tr>
+<tr>
+<td>
+        <b><%LOCALE id="134" string="Real Name"%>:</b>
+</td>
+<td>
+ <input type="text" size="32" name="name" value="<%$user.name%>" />
+        <br />
+</td>
+</tr>
+<tr>
+<td>
+        <b><%LOCALE id="68" string="Email"%>:</b>
+</td>
+<td>
+ <input type="text" size="32" name="email" value="<%$user.email%>" />
+        <p/>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<div dojoType="dijit.TitlePane" title="Change Password" open="false" id="passwordpane">
+<table>
+<tr>
+<td>
+        <b><%LOCALE id="17" string="Password"%>:</b> 
+</td>
+<td>
+<input type="password" size="32" name="password" value="" />
+        <br />
+</td>
+</tr>
+<tr>
+<td>
+        <b><%LOCALE id="67" string="Confirm Password"%>:</b>
+</td>
+<td>
+ <input type="password" size="32" name="confirmpassword" value="" />
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+	<div dojoType="dijit.TitlePane" title="Group Membership" open="true" id="grouppane">
+
+		<div dojoType="fins.widget.ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+</div>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+        <p/>
+
+        <input type="hidden" name="added" id="added"/>
+        <input type="hidden" name="removed" id="removed"/>
+
+
+        <button name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
+        <button name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
+</td>
+</tr>
+</table>
+
+<%@include file="adminfooter.phtml"%>
+
+<script type="text/javascript">
+  dojo.require("dijit.form.Button");
+  dojo.require("dijit.TitlePane");
+  dojo.require("fins.widget.ComboPicker");
+</script>
+
+<script type="text/javascript">
+
+dojo.onLoad
+function getMembers()
+{
+  var res = null;
+
+<% if data["newgroup"] %>
+    return [];
+<% endif %>
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json/" +  "<%$user.id%>" ,
+    handleAs:   "json",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(data, evt){
+        // handle successful response here
+        res = data.data;
+    }
+};
+
+// dispatch the request
+    var requestObj = dojo.xhrGet(bindArgs);
+
+    return res;
+}
+
+function getAvailable()
+{
+  var res = null;
+
+  var bindArgs = {
+    url:         "/admin/getgroups_json",
+    handleAs:   "json",
+    sync: true,
+    error:      function(type, errObj){
+    },
+    load:      function(data, evt){
+        // handle successful response here
+		
+        res = data.data;
+    }
+};
+
+    // dispatch the request
+    var requestObj = dojo.xhrGet(bindArgs);
+
+    return res;
+};
+</script>
+
+<%@include file="bottom.phtml"%>
