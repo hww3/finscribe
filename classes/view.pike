@@ -232,3 +232,14 @@ string simple_macro_describe_news_date(Fins.Template.TemplateData data, mapping|
     return args->var->format_ymd();
   else return "N/A";
 } 
+
+
+//! on a weblog page, display the source of the entries.
+string simple_macro_blog_source(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed r;
+
+  if((r = data->get_request()) && r->misc->object_is_weblog) 
+    return r->misc->object_is_weblog["path"];
+  else return "";
+}

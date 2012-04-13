@@ -27,7 +27,7 @@ function openAdmin(item, event)
   dojo.connect(d, "onMouseLeave", function(){ dijit.popup.close(d); d.destroyRecursive(true);  });
 }
 
-function openPostBlog(item)
+function openPostBlog(item, event, source)
 {
   var obj;
   var d;
@@ -36,7 +36,7 @@ function openPostBlog(item)
   if(!d) return;
   else obj = d.innerHTML;
 
-  openPopup("/exec/post/" + obj + "?ajax=1", 'Post Blog Entry', null, null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
+  openPopup(source + "?ajax=1", 'Post Blog Entry', null, null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
 }
 
 function uploadAttachemnts(obj, formid)

@@ -294,7 +294,8 @@ object do_post(object id, object obj_o, object user, string subject, string cont
     }
     else
     {
-        array dtos = context->find->datatypes((["mimetype": "text/wiki"]));
+//        array dtos = context->find->datatypes((["mimetype": "text/wiki"]));
+        array dtos = ({ obj_o["datatype"] });
         if (!sizeof(dtos))
         {
             throw (Error.Generic(LOCALE(402, "Internal Database Error, unable to save.")));

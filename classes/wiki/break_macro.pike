@@ -9,7 +9,7 @@ string describe()
 
 array evaluate(Macros.MacroParameters params)
 {
-  return ({"<!-- break -->"});
+  return ({"<!--break-->"});
 }
 
 

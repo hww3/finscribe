@@ -38,6 +38,45 @@ mapping query_type_callers()
   return (["text/html" : this]);
 }
 
+int exists(string _file)
+{
+  array res;
+
+  if(wiki->cache->get("PATHdata_" + _file)) return 1;
+
+  res = Fins.DataSource._default.find.objects((["path": _file]));
+
+  if(!sizeof(res)) return 0;
+  else
+  {
+    wiki->cache->set("PATHdata_" + _file, 1, 1200);
+    return 1;
+  }
+}
+
+
+void appendLink(String.Buffer buf, string name, string view, string|void anchor)
+{
+  //werror("appendLink: %O %O %O\n", name, view, anchor);
+  buf->add("<a href=\"/space/");
+  buf->add(name + (anchor?("#" + anchor):""));
+  buf->add("\">");
+  buf->add(wiki->model->get_object_name(view));
+  buf->add("</a>");
+}
+ 
+void appendCreateLink(String.Buffer buf, string name, string view)
+{
+  //werror("appendCreateLink: %O %O\n", name, view); 
+  buf->add("&#");
+  buf->add((string)'[');
+  buf->add("; create <a href=\"/exec/edit/");
+  buf->add(name);
+  buf->add("\">");
+  buf->add(view);
+  buf->add("</a>]");
+}
+   
 string make_key(string s, string fn)
 {
   if(String.width(s) != 8)

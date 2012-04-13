@@ -10,7 +10,7 @@ inherit Macros.Macro;
 // quiet - if set to true, supresses the navigation elements
 // template - use the named template in space folder to display each entry.
 //
-// if content contains a <!-- break --> comment, the portion before the break
+// if content contains a <!--break--> comment, the portion before the break
 // will be available in the template as <%$teaser%>
 //
 
@@ -52,7 +52,7 @@ array evaluate(Macros.MacroParameters params)
 
   if(params->extras->request)
   {
-    params->extras->request->misc->object_is_weblog = 1;
+    params->extras->request->misc->object_is_weblog = root;
 //    params->extras->request->misc->template_data->add("object_is_weblog", 1);
   }
   // we should get a limit for the number of entries to display.
@@ -86,6 +86,9 @@ array evaluate(Macros.MacroParameters params)
     object t;
     t = params->engine->wiki->view->get_view("space/" + template);
 
+//    werror("t->get_data(): %O\n", t->get_data());
+
+    t->data->set_request(params->extras->request || ([]));
 
     t->add("entry", entry);
     string s = entry["current_version"]["subject"];
@@ -138,19 +141,19 @@ array evaluate(Macros.MacroParameters params)
     res+=({ "</div>" });
   }
 
-  res+=({WeblogReplacerObject()});
+  res+=({WeblogReplacerObject(root)});
   
   return res;
 }
 
 
-  class WeblogReplacerObject()
+  class WeblogReplacerObject(object root)
   {
 
     array render(object engine, mixed extras)
     {
       if(extras->request)
-        extras->request->misc->object_is_weblog = 1;
+        extras->request->misc->object_is_weblog = root;
       return ({""});
     }
 

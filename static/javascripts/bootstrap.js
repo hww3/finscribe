@@ -29,8 +29,8 @@ function convertToAjax(id, func)
   var a = document.getElementById(id);
 
   if(!a) return;
-
-  a.onclick = function(event){ if(!event) event = window.event; func(a, event); return false; };
+  var z = a.href;
+  a.onclick = function(event){ if(!event) event = window.event; func(a, event, z); return false; };
   a.href="#";
 }
 

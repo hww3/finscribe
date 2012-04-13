@@ -56,6 +56,7 @@ macro.category-index.class=wiki/categoryindex_macro
 #macro.rss-reader.class=wiki/rssreader_macro
 macro.category-output.class=wiki/categoryoutput_macro
 macro.subpage-output.class=wiki/subpageoutput_macro
+macro.page.class=wiki/page_macro
 macro.deck.class=wiki/deck_macro
 macro.card.class=wiki/card_macro
 macro.folder.class=wiki/folder_macro
