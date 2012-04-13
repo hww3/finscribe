@@ -121,6 +121,7 @@ void add_macro(string n, object m)
 mixed render_container(string name, object parser, mapping args, string 
 contents, mixed extras, int force)
 {
+  if(args->_parsed) return 0;
   object m = macros[name];
   if(!m) return 0;
 
@@ -143,9 +144,9 @@ contents, mixed extras, int force)
 
 mixed render_tag(string name, object parser, mapping args, mixed extras, int force)
 {
+  if(args->_parsed) return 0;
   object m = macros[name];
   if(!m) return 0;
-
   array a = ({});
   foreach(args; string k; string v)
     a += ({k+"="+v});
@@ -155,6 +156,7 @@ mixed render_tag(string name, object parser, mapping args, mixed extras, int for
 //  params->contents = contents;
   params->extras = extras;
   params->engine = this;  
+
   array res = m->evaluate(params);
 
   return output(res, extras);
@@ -165,7 +167,10 @@ string render(string s, mixed|void extras, int|void force)
   object my_parser = parser->clone();
    my_parser->set_extra(extras, force);
 
-  return my_parser->finish(s)->read();
+  string res = my_parser->finish(s)->read();
+
+  destruct(my_parser);
+  return res;
 }
 
 string output(array input, mixed|void extras)
@@ -174,22 +179,26 @@ string output(array input, mixed|void extras)
 
   foreach(input;; mixed item)
   {
-                if(arrayp(item))
-                        buf->add(output(item, extras));
-     else if(stringp(item))
-                buf->add(item);
-          else
-                        foreach(item->render(this, extras);;mixed i)
-                        {
+    if(arrayp(item))
+      buf->add(output(item, extras));
+    else if(stringp(item))
+//werror("%O\n",item);
+      buf->add(item);
+    else
+      foreach(item->render(this, extras);;mixed i)
+      {
 //                              werror("%O\n", i);
-                        if(stringp(i))
-                                buf->add(i);
-                        else if(arrayp(i))
-                          buf->add(output(i, extras));
-                        else if(objectp(i)) buf->add(output(i->render(this, extras), extras));
-                        else error("invalid result.\n");
-                }
+        if(stringp(i))
+          buf->add(i);
+        else if(arrayp(i))
+          buf->add(output(i, extras));
+        else if(objectp(i)) 
+          buf->add(output(i->render(this, extras), extras));
+        else error("invalid result.\n");
+      }
   }
 
-  return buf->get();
+  string r = buf->get();
+  destruct(buf);
+  return r;
 }
