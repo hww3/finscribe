@@ -1,38 +1,8 @@
-<script type="text/javascript">
-
-function uploadQueueComplete(file) {
-
-
-  var bindArgs = {
-    url:        currentPopup,
-    content: {ajax: "1", when: (new Date().getTime())},
-    method: "POST",
-    mimetype:   "text/html",
-    error:      function(type, errObj){
-    },
-    load:      function(type, data, evt){
-        // handle successful response here
-        var d = document.getElementById("popup_contents");
-        if(!d)
-          return;
-        else
-{
-            d.innerHTML = data.toString();
-	enableUploader();
-}
-    }
-  };
-
-// dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
-
-}
-
-</script>
-
 <h2><%LOCALE id="195" string="Editing Attachments"%></h2>
 <p>
+<div id="flash" class="flash-message">
 <%$flash%>
+</div>
 <p>
 <div id="attachments">
 <% if data->object_is_weblog %>
@@ -54,7 +24,26 @@ function uploadQueueComplete(file) {
 <form enctype="multipart/form-data" id="attachmentForm">
 <button type="file" multiple="true" id="attachment_uploader" dojoType="dojox.form.Uploader"
 uploadOnSelect="true" label="Add Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>">
+
+
+<script type="dojo/connect" event="onProgress" args="value">
+</script>
+
 <script type="dojo/connect" event="onComplete" args="value">
+  if(value && value.length && value[0].error)
+  {
+    var d = dojo.byId("flash");
+    if(d) d.innerHTML = value[0].error;
+    return;
+  }   
+
+var dialog = dijit.byId('dialog');
+if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<%$object.path%>'); 
+return;
+</script>
+
+<script type="dojo/connect" event="onError" args="value">
+alert("uh oh!");
 var dialog = dijit.byId('dialog');
 if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<%$object.path%>'); 
 </script>

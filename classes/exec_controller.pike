@@ -554,7 +554,7 @@ public void upload(Request id, Response response, mixed ... args)
   
   if(!sizeof(dtos))
   {
-    response->flash("msg", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
+    response->flash("msg", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not permitted."), 
     Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
       id->variables["save-as-filename"]));
   }
@@ -695,10 +695,14 @@ public void addattachments(Request id, Response response, mixed ... args)
     if(!sizeof(dtos))
     {
 
-       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(fn) + " for file " + fn + " is not valid.");
-       response->set_data(sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not valid."), 
-             Protocols.HTTP.Server.filename_to_type(fn), fn));
-       response->set_error(500);
+       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(fn) + " for file " + fn + " is not permitted.");
+string e =            sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not permitted."), 
+             Protocols.HTTP.Server.filename_to_type(fn), fn);
+
+       response->set_data("[" + Tools.JSON.serialize( (["filename": fn, "filetype": 
+           Protocols.HTTP.Server.filename_to_type(fn), "error": e ])  
+         ) + "]" );
+
        return;
     }
 
