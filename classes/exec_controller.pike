@@ -543,8 +543,9 @@ public void createaccount(Request id, Response response, mixed ... args)
 				u["username"] = UserName;
 				u["name"] = Name;
 				u["email"] = Email;
-				u["password"] = Password;
-                u["is_active"] = 1;
+				
+				u["password"] = Crypto.make_crypt_md5(Password);
+		                u["is_active"] = 1;
 				u->save();
 
 				response->flash("msg", LOCALE(360,"User created successfully."));
