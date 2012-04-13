@@ -8,6 +8,8 @@ import Tools.Logging;
 import Fins.Model;
 inherit Fins.FinsController;
 
+protected string vtype = "admin";
+
 static void start()
 {
   before_filter(app->admin_user_filter);
@@ -83,9 +85,9 @@ public void list(Request id, Response response, mixed ... args)
     object t;
 werror("list()\n");
     if(id->variables->ajax)
-      t = view->get_view("admin/prefs/_list");
+      t = view->get_view(vtype + "/prefs/_list");
     else
-      t = view->get_view("admin/prefs/list");
+      t = view->get_view(vtype + "/prefs/list");
 werror("template: %O\n", t);
     app->set_default_data(id, t);
 

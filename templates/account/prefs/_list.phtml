@@ -1,0 +1,44 @@
+<%LOCALE id="171" string="Preferences:"%>
+<b>
+<% implode var="$startswith" splice="</b> &gt; <b>" final="</b> &gt; <b>"%>
+</b>
+<script type="text/javascript">
+var editbox;
+</script>
+<p>
+<table>
+<% foreach var="$preferences" val="pref" %>
+<tr>
+<td>
+<%$pref.name %>: 
+</td>
+<td width="100">
+<% if data->pref["type"] == FinScribe.BOOLEAN %>
+
+<span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams: 
+	{ options: [
+		{label: 'Yes', value: 'Yes' <%if (int)data->pref->value %>, selected: 1<%endif%>}, 
+		{label: 'No', value: 'No' <%if !(int)data->pref->value %>, selected: 1<%endif%>}
+		] 
+	}"
+      title="<%$pref.name%>" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
+	          console.log(this.id + " changed to value " + value);
+	 			saveValue(this.id, value);
+	     </script><%$pref.yesnovalue%></span>
+
+<%else %>
+
+<span data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.TextBox', autoSave:false"
+      title="quantity" width="70px" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
+	          console.log(this.id + " changed to value " + value);
+	 			saveValue(this.id, value);
+	     </script>
+	<%$pref.value%></span>
+
+<% endif %>
+</td>
+</tr>
+<% end %>
+</table>
+<p><i><%LOCALE id="172" string="Click on a value to edit it."%></i>
+</p>

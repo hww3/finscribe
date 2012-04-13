@@ -68,8 +68,9 @@
 <tr>
 <td colspan="2">
 	<div dojoType="dijit.TitlePane" title="Group Membership" open="true" id="grouppane">
-
-		<div dojoType="fins.widget.ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
+<%foreach var="$user.groups" val="group"%>
+<li><%$group.name%>
+<%end%>
 </div>
 </td>
 </tr>
@@ -78,8 +79,6 @@
 <td colspan="2">
         <p/>
 
-        <input type="hidden" name="added" id="added"/>
-        <input type="hidden" name="removed" id="removed"/>
 
 
         <button name="action" value="Cancel"><%LOCALE id="122" string="Cancel"%></button>
@@ -93,60 +92,7 @@
 <script type="text/javascript">
   dojo.require("dijit.form.Button");
   dojo.require("dijit.TitlePane");
-  dojo.require("fins.widget.ComboPicker");
 </script>
 
-<script type="text/javascript">
-
-dojo.onLoad
-function getMembers()
-{
-  var res = null;
-
-<% if data["newgroup"] %>
-    return [];
-<% endif %>
-
-  var bindArgs = {
-    url:         "/admin/getgroups_json/" +  "<%$user.id%>" ,
-    handleAs:   "json",
-    sync: true,
-    error:      function(type, errObj){
-    },
-    load:      function(data, evt){
-        // handle successful response here
-        res = data.data;
-    }
-};
-
-// dispatch the request
-    var requestObj = dojo.xhrGet(bindArgs);
-
-    return res;
-}
-
-function getAvailable()
-{
-  var res = null;
-
-  var bindArgs = {
-    url:         "/admin/getgroups_json",
-    handleAs:   "json",
-    sync: true,
-    error:      function(type, errObj){
-    },
-    load:      function(data, evt){
-        // handle successful response here
-		
-        res = data.data;
-    }
-};
-
-    // dispatch the request
-    var requestObj = dojo.xhrGet(bindArgs);
-
-    return res;
-};
-</script>
 
 <%@include file="bottom.phtml"%>

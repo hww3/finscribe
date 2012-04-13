@@ -9,7 +9,7 @@ Fins.FinsController prefs;
 void start()
 {
   before_filter(app->user_filter);
-//  plugin = load_controller("admin/plugin_controller");
+  prefs = load_controller("account/user_prefs_controller");
 }
 
 import Fins;
@@ -39,7 +39,7 @@ public void listwip(Request id, Response response, mixed ... args)
     app->set_default_data(id, t);
 
     mixed ul;
-    object u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid);
+    object u = app->get_current_user(id);
 
     ul = Fins.DataSource._default.find.objects((["is_attachment": 3, "author": u]));
     t->add("wipblog", ul);
@@ -57,11 +57,12 @@ public void edit(Request id, Response response, mixed ... args)
       object t = view->get_idview("account/edit");
 	
     app->set_default_data(id, t);
-  	response->set_view(t);
     t->add("in_admin", 1);
 
-    object u = Fins.DataSource._default.find.users_by_id((int)id->variables->userid);
-	t->add("user", u);
+    object u = app->get_current_user(id);
+
+     t->add("user", u);
+    response->set_view(t);
 
         if(id->variables->action)
         {
@@ -88,7 +89,7 @@ public void edit(Request id, Response response, mixed ... args)
                  return;
                }
 
-               u["password"] = id->variables->password;
+               u["password"] = Crypto.make_crypt_md5(id->variables->password);
             }
 
             response->flash("msg", LOCALE(0,"Settings updated successfully."));

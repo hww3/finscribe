@@ -1,0 +1,67 @@
+  <%@include file="top.phtml"%>
+  <%@include file="adminheader.phtml"%>
+   <title><%syspref var="site.name" %> :: my account :: <%LOCALE id="173" string="preferencelist"%></title>
+  <script type="text/javascript">
+
+    function init()
+    {	
+    }
+	
+    function saveValue(pref, newVal) {
+      var bindArgs = {
+		url : '/admin/prefs/set',
+		mimetype : 'text/plain',
+		sync : false,
+		method : 'POST',
+		content : {
+		    key : pref,
+		    value : newVal
+		  	},
+		error : function(type, errObj) {
+			},
+		load : function(type, data, evt) {
+	       }
+      };
+      dojo.xhrGet(bindArgs);
+    }
+
+  </script>
+<%@include file="adminpagebegin.phtml"%>
+<div class="flash-message"><%flash %></div>
+          <h3><a href="../"><%LOCALE id="" string="My Account"%></a> &gt; &gt; <%LOCALE id="113" string="Preferences"%></h3>
+
+<table cellpadding="10" valign="top">
+<tr>
+<td>
+<%if !data->startswith %>
+<% foreach var="$prefprefixes" val="prefix" %>
+<%action_link action="list" startswith="$prefix"%><%$prefix%></a>
+<% end%>
+<%else%>
+<%action_link action="list"%>&lt;&lt; root</a>
+<%endif%>
+</td>
+<td valign="top">
+<div id="prefpane" style="vertical-align : top;">
+  <%if data->startswith %>
+  <%@include file="account/prefs/_list.phtml"%>
+  <%endif %>
+</div>
+</td></tr>
+</table>
+
+  <%@include file="adminfooter.phtml"%>
+
+
+<script type="text/javascript">
+    dojo.addOnLoad(init);
+</script>
+  <script type="text/javascript">
+    dojo.require("dijit.InlineEditBox");
+   dojo.require("dijit.Editor");
+	dojo.require("dijit.form.Textarea");
+	dojo.require("dijit.form.Select");
+  </script>
+
+  <%@include file="bottom.phtml"%>
+

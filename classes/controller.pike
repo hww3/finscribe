@@ -29,7 +29,7 @@ void start()
   }
   else
   {
-    account = load_controller("account_controller");
+    account = load_controller("account/account_controller");
     objects = load_controller("objects_controller");
     rest = load_controller("rest_controller");
     exec = load_controller("exec_controller");
