@@ -90,15 +90,16 @@ mixed extract_href(object parser, mapping args, string content, mixed ... extra)
 	if(extra[1]) // immediate mode?
         {
           string path = (args->href)[7..];
-          array a;
+          object a;
 
           catch {
-            a = Fins.DataSource._default.find.objects(([ "path": path ]));
-            if(a[0])
+            a = Fins.DataSource._default.find.objects_by_alt( path );
+            if(!a)
             {
-              array x = a[0]["md"]["backlinks"];
+              array x = a["md"]["backlinks"];
               x = Array.uniq(x);
-              a[0]["md"]["backlinks"] = x;
+              a["md"]["backlinks"] = x;
+	      destruct(a);
             }
           };
 
@@ -137,4 +138,5 @@ void process_object(object o, int|void immediate)
   parser->set_extra(o, immediate);
 
   parser->finish(html);
+  destruct(parser);
 }
