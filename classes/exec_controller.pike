@@ -69,7 +69,7 @@ public void actions(Request id, Response response, mixed ... args)
   app->set_default_data(id, t);
 
   t->add("object", obj);
-  t->add("islocked", obj["md"]["locked"]);
+  t->add("islocked", obj["md"] && obj["md"]["locked"]);
   t->add("iseditable", obj->is_editable(t->get_data()["user_object"]));
   t->add("isdeleteable", obj->is_deleteable(t->get_data()["user_object"]));
   t->add("islockable", obj->is_lockable(t->get_data()["user_object"]));
@@ -586,6 +586,20 @@ public void createaccount(Request id, Response response, mixed ... args)
    t->add("password", Password);
 
    response->set_view(t);
+
+   object tp = view->get_idview("exec/sendaccount", id);
+
+
+   tp->add("name", Name);
+   tp->add("username", UserName);
+				
+   string mailmsg = tp->render();
+				
+   Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(Email, 
+	"New account at " + app->get_sys_pref("site.name")->get_value(), 
+	app->get_sys_pref("mail.return_address")->get_value(), 
+																											mailmsg);
+
 }
 
 public void forgotpassword(Request id, Response response, mixed ... args)
@@ -1473,6 +1487,7 @@ Log.debug("moving %s to %s.", p["path"], pth);
 
 public void delete(Request id, Response response, mixed ... args)
 {
+werror("delete: %O=%O\n", args*"/", id->variables);
    if(!id->misc->session_variables->userid)
    {
       response->flash("msg", LOCALE(395,"You must login to delete content."));
@@ -1493,14 +1508,14 @@ public void delete(Request id, Response response, mixed ... args)
    if(!obj_o)
    {
       response->flash("msg", sprintf(LOCALE(389,"This is a non-existent object: %[0]s"), args*"/"));
-      response->redirect_temp(id->referrer);	
+      response->redirect_temp(id->variables->return_to || id->referrer);	
       return;
    }
 
    if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
    {
       response->flash("msg", LOCALE(396,"You do not have permission to delete this object"));
-      response->redirect_temp(id->referrer);		
+      response->redirect_temp(id->variables->return_to || id->referrer);		
       return;
    }
 
@@ -1583,7 +1598,7 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
      }
 
      t->add("msg", sprintf(LOCALE(398,"%[0]d objects deleted."), n));
-     response->redirect_temp(app->controller->space);
+     response->redirect_temp(id->variables->return_to || app->controller->space);
      return;
    }
 
@@ -2346,6 +2361,7 @@ public void doctree(Request id, Response response, mixed ... args)
   object t = view->get_idview("exec/tree", id);
 
   app->set_default_data(id, t);
+  t->add("return_to", action_url(doctree));
   response->set_view(t);
 }
 

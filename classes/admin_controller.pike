@@ -487,7 +487,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 u["username"] = UserName;
                                 u["name"] = Name;
                                 u["email"] = Email;
-                                u["password"] = Password;
+                                u["password"] = Crypto.make_crypt_md5(Password);
                                 u["is_active"] = is_active;
                                 u["is_admin"] = is_admin;
                                 u->save();
@@ -639,7 +639,7 @@ public void deleteuser(Request id, Response response, mixed ... args)
 
     foreach(u["objects"];; object x)
       x["author"] = nu;
-    foreach(u["object_versions"];; object x)
+    foreach(u["versions"];; object x)
       x["author"] = nu;
 
     string n = u["name"];

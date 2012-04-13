@@ -13,8 +13,8 @@ document-tree ]
 	    <li dojoType="dijit.MenuItem" onClick="edit_item(this);">
 	        Edit...
 	    </li>
-	    <li dojoType="dijit.MenuItem" onClick="edit_item(this);">
-			Delete...
+	    <li dojoType="dijit.MenuItem" onClick="delete_item(this);">
+		Delete...
 	    </li>
 	</ul>
 	
@@ -25,7 +25,7 @@ document-tree ]
 
 		<script type="dojo/connect" event="onDblClick">
 	    	console.log("clicked on " + arguments[0].name + " from " + arguments[0].id);
-		window.location = '<%action_url controller="/" action="space"%>/' + arguments[0].id;
+		window.location = '<%action_url controller="/space"%>/' + arguments[0].id;
 		</script>
 
 		<script type="dojo/connect">
@@ -75,7 +75,7 @@ function edit_item(t)
 
 function delete_item(t)
 {
-	window.location = '<%action_url controller="/exec" action="delete"%>/' + t.item.id;
+	window.location = '<%action_url controller="/exec" action="delete"%>/' + t.item.id + "?return_to=<%$return_to%>";
 }
 
 function startDocumentStore()

@@ -11,7 +11,9 @@
         
 <%LOCALE id="118" string="The user"%> <%$user.name%> <%LOCALE id="119" string="owns the the following objects, or versions of the following documents"%>:
 <p>
-<% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["object_versions"]) %>
+<%LOCALE id="" string="Objects:"%><%sizeof var="$user.objects"%><br>
+<%LOCALE id="" string="Versions:"%><%sizeof var="$user.versions"%><p>
+<% if sizeof(data["user"]["objects"]) || sizeof(data["user"]["versions"]) %>
 <div style="height:200px; overflow:auto;">
   <% foreach var="$user.objects" val="objs" %>
     <li> <%$objs.path%>
