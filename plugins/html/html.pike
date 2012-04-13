@@ -7,6 +7,7 @@ constant typename = "HTML";
 int _enabled = 1;
 
 mapping macros = ([]);
+object wiki; // the app
 object parser;
 
 void start()
@@ -15,7 +16,16 @@ void start()
 
   parser = Parser.HTML();
 
+  call_out(register_macros, 0);
+  wiki = app;
+}
+
+void register_macros()
+{
   add_macro("code", ((program)"wiki/code_macro")());
+  foreach(app->render_macros + app->engines["text/wiki"]->macros;string macro_name; object 
+macro_object)
+    add_macro(macro_name, macro_object);
 }
 
 mapping query_macro_callers()
@@ -52,7 +62,7 @@ string get_widget(object view, string contents)
 
 void add_macro(string n, object m)
 {
-  Log.debug("HTML Tag registration: %s", n);
+  Log.info("HTML Tag registration: %s", n);
   if(m->is_container)
     parser->add_container(n, lambda(object o, mapping args, string c, mixed ... a) { return render_container(n, o, args, c, @a); });
   else
@@ -76,6 +86,7 @@ contents, mixed extras, int force)
   params->parameters = a*"|";
   params->contents = contents;
   params->extras = extras;
+  params->engine = this;  
   
   array res = m->evaluate(params);
 
@@ -96,7 +107,7 @@ mixed render_tag(string name, object parser, mapping args, mixed extras, int for
   params->parameters = a*"|";
 //  params->contents = contents;
   params->extras = extras;
-  
+  params->engine = this;  
   array res = m->evaluate(params);
 
   return output(res, extras);
@@ -104,7 +115,9 @@ mixed render_tag(string name, object parser, mapping args, mixed extras, int for
 
 string render(string s, mixed|void extras, int|void force)
 {
-  object my_parser = parser->clone(extras, force);
+werror("Render: %O\n", extras);
+  object my_parser = parser->clone();
+   my_parser->set_extra(extras, force);
 
   return my_parser->finish(s)->read();
 }
