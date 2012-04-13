@@ -149,7 +149,6 @@ array evaluate(Macros.MacroParameters params)
   string target_url;
   string button_url;
   int size;
-werror("params: %O\n", params->parameters);
   array a = params->parameters / "|";
 
   if(!sizeof(a) || !strlen(a[0]))
