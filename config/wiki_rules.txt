@@ -64,4 +64,4 @@ macro.warning.class=wiki/warning_macro
 macro.note.class=wiki/note_macro
 macro.info.class=wiki/info_macro
 macro.tip.class=wiki/tip_macro
-
+macro.include.class=wiki/include_macro

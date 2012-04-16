@@ -34,7 +34,7 @@ array evaluate(Macros.MacroParameters params)
 
   if(params->args->path)
   {
-    root = Fins.DataSource._default.find.objects_by_path(params->args->path);
+    root = params->engine->wiki->model->get_fbobject(params->args->path/"/");
   }
   if(!root)
   {

@@ -182,6 +182,7 @@ string get_page_breadcrumbs(string page)
 string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
    mixed rv;
+werror("macro snip: %O\n", args);
 
    if(!mappingp(args)) return "";
    if(!args->snip) return "";
