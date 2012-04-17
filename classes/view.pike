@@ -68,8 +68,8 @@ string simple_macro_list_subpages(Fins.Template.TemplateData data, mapping|void 
 
   string rv = "";
 
-  if(id->misc->section)
-    rv = id->misc->section + "»<br/>";
+  if(request->misc->section)
+    rv = request->misc->section + "»<br/>";
 
   foreach(s;;object sp)
   {
