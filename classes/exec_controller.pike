@@ -1684,7 +1684,6 @@ public void edit(Request id, Response response, mixed ... args)
    if(id->variables->action)
    {
       object dto;
-werror("variables: %O\n", id->variables);
       contents = id->variables->contents||"";
       subject = id->variables->subject ||"";
       switch(id->variables->action)
@@ -1712,6 +1711,7 @@ werror("variables: %O\n", id->variables);
                obj_o = Fins.DataSource._default.new("Object");
                obj_o["is_attachment"] = 0;
                obj_o["datatype"] = dto;
+            obj_o["template"] = id->variables->template;
                obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
@@ -1723,6 +1723,8 @@ werror("variables: %O\n", id->variables);
                obj_o->save();
             }
 
+	    werror("template: %O\n", id->variables->template);   
+            obj_o["template"] = id->variables->template;
             object obj_n = Fins.DataSource._default.new("Object_version");
             obj_n["contents"] = contents;
 

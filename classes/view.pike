@@ -53,6 +53,30 @@ string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
   return app->render(contents, obj, request, (int)args->force);
 }
 
+//! template: match all sub pages with this template name.
+string simple_macro_list_subpages(Fins.Template.TemplateData data, mapping|void args)
+{
+
+  object request = data->get_request();
+  mixed obj = request->misc->current_page_object;
+
+  if(!obj) return "";
+  if(!args->template) return "list_subpages: no template specified.";
+
+  mapping criteria = (["template": args->template, "path": Fins.Model.LikeCriteria(obj["path"] + "/%") ]);
+  array s = app->model->context->find->objects(criteria);
+
+  string rv = "";
+
+  foreach(s;;object sp)
+  {
+//werror("sp: %O, %O\n", sp["path"],  app->url_for_action(app->controller->space, ({sp["path"]})));
+    rv += ("<a href=\"" + app->url_for_action(app->controller->space, ({sp["path"]})) + "\">" + sp["title"] + "</a><br/>");
+  }
+  return(rv);
+}
+
+
 // args: name, val
 string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void args)
 {
@@ -182,7 +206,6 @@ string get_page_breadcrumbs(string page)
 string simple_macro_snip(Template.TemplateData data, mapping|void args)
 {
    mixed rv;
-werror("macro snip: %O\n", args);
 
    if(!mappingp(args)) return "";
    if(!args->snip) return "";

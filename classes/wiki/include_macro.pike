@@ -20,9 +20,6 @@ array evaluate(Macros.MacroParameters params)
 
   params->make_args();
 
-
-  werror("args: %O\n", params->args);
-
   if(params->args->path)
   {
     page= params->engine->wiki->model->get_fbobject(params->args->path/"/");
