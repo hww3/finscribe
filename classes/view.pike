@@ -1,3 +1,5 @@
+#charset utf8
+
 import Fins;
 inherit Fins.FinsView;
 import Tools.Logging;
