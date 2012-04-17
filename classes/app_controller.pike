@@ -130,6 +130,7 @@ private void handle(string datatype, object obj, Request id, Response response, 
   t->add("metadata", obj["md"]);
   t->add("numtrackbacks", sizeof(obj["md"]["trackbacks"] || ([])));
 
+  id->misc->section = args[0];
   t->add("section", args[0]);
 
   switch(datatype)

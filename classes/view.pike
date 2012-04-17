@@ -68,6 +68,9 @@ string simple_macro_list_subpages(Fins.Template.TemplateData data, mapping|void 
 
   string rv = "";
 
+  if(id->misc->section)
+    rv = id->misc->section + "»<br/>";
+
   foreach(s;;object sp)
   {
 //werror("sp: %O, %O\n", sp["path"],  app->url_for_action(app->controller->space, ({sp["path"]})));
