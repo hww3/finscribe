@@ -2,7 +2,7 @@
 <% if data["user_object"]  %>
 <b><%LOCALE id="213" string="Page Actions"%></b>
 <p>
-  <% if data["iseditable"] %> <li> <a href="<%syspref var="site.url"%>/exec/edit/<%$object.path%>"><%LOCALE id="214" string="edit page content"%></a><% else %> <%LOCALE id="214" string="edit page content"%> 
+  <% if data["iseditable"] %> <li> <a href="<%action_link controller="/exec" action="edit" args="$object.path"%><%LOCALE id="214" string="edit page content"%></a><% else %> <%LOCALE id="214" string="edit page content"%> 
 <% endif %> 
 
 <p>
@@ -48,8 +48,8 @@ href="<%syspref var="site.url"%>/exec/delete/<%$object.path%>"><%LOCALE id="218"
 <br>
 <%LOCALE id="228" string="Object Type"%>: 
 <% if data["object"]["is_attachment"] == 3 %>
-  <%LOCALE id="229" string="WIP Blog Entry"%> <% if data["object"]->is_postable(data["user_object"]) %> <a 
-href="<%syspref var="site.url"%>/exec/publish/<%$object.path%>"><%LOCALE id="158" string="Publish"%></a> <% endif %>
+  <%LOCALE id="229" string="WIP Blog Entry"%> <% if data["object"]->is_postable(data["user_object"]) %>
+<%action_link controller="/exec" action="publish" args="$object.path"%><%LOCALE id="158" string="Publish"%></a> <% endif %>
 <% elseif data["object"]["is_attachment"] == 2 %>
   <%LOCALE id="230" string="Published Blog Entry"%>
 <% elseif data["object"]["is_attachment"] == 1 %>

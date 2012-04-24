@@ -8,12 +8,12 @@ border="0"></a>
 <% else %>
 <% gravatar var="$comment.author.email"%><%$comment.author.username%>
 <% endif %>, <%$comment.nice_created%>.
-<a href="/comments/<%$obj%>#<%$comment.id%>"><img
+<a href="<%action_url controller="/comments" args="$obj"%>#<%$comment.id%>"><img
 src="/static/images/Icon-Permalink.png" width="8" height="9"
 alt="permalink" border="0"/></a>
 
 <% if data->is_admin||(data->user_object && data->user_object["username"] && data->user_object["username"]==data->comment["author"]["username"]) %>
-<a href="/exec/deletecomment?id=<%$comment.id%>"><%LOCALE id="146" string="Delete"%></a>
+<%action_link controller="/exec" action="deletecomment" id="$comment.id"%><%LOCALE id="146" string="Delete"%></a>
 <% endif %>
 
 <p/>

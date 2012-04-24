@@ -4,9 +4,9 @@
 <%@include file="pagebegin.phtml"%>
 <div class="tundra flash-message"><%flash %></div>
           <h3><%LOCALE id="298" string="Site Index"%></h3>
-[ <a href="/space/object-index">object-index</a> | <a 
-href="/space/attachment-index">attachment-index</a> | <a 
-href="/space/category-index">category-index</a> | 
+[ <%action_link controller="/space" args="object-index"%>object-index</a> | 
+<%action_link controller="/space" args="attachment-index"%>attachment-index</a> | 
+<%action_link controller="/space" args="category-index"%>category-index</a> | 
 document-tree ] 
 <p>
 	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
@@ -25,7 +25,7 @@ document-tree ]
 
 		<script type="dojo/connect" event="onDblClick">
 	    	console.log("clicked on " + arguments[0].name + " from " + arguments[0].id);
-		window.location = '<%action_url controller="/space"%>/' + arguments[0].id;
+		window.location = '<%action_url controller="/space"%>' + arguments[0].id;
 		</script>
 
 		<script type="dojo/connect">

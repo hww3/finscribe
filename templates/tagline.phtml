@@ -9,13 +9,13 @@
 <% if data["obj"]=="start" %>
  start
 <% else %>
-<a href="/space/start">start</a>
+<%action_link controller="/space"%>start</a>
 <% endif %>
 |
 <% if data["obj"]=="object-index" %>
  index 
 <% else %>
-<a href="/space/object-index">index</a>
+<%action_link controller="/space" args="object-index"%>index</a>
 <% endif %>
 
 
