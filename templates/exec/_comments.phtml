@@ -8,7 +8,7 @@ border="0"></a>
 <% else %>
 <% gravatar var="$comment.author.email"%><%$comment.author.username%>
 <% endif %>, <%$comment.nice_created%>.
-<a href="<%action_url controller="/comments" args="$obj"%>#<%$comment.id%>"><img
+<%action_link controller="/comments" args="$obj" #="$comment.id"%><img
 src="/static/images/Icon-Permalink.png" width="8" height="9"
 alt="permalink" border="0"/></a>
 
