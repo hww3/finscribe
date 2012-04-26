@@ -243,6 +243,7 @@ public string render(string contents, FinScribe.Objects.Object obj, Fins.Request
     t = "text/wiki";
   }
 
+//werror("rendering %O as %O\n", obj?obj["path"]:"unknown", t);
   if(id &&  id["request_headers"]
         && id["request_headers"]["pragma"] == "no-cache")
   {

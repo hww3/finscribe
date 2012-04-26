@@ -1,5 +1,4 @@
 import Public.Web.Wiki;
-
 inherit Macros.Macro;
 
 constant is_container = 1;
@@ -31,6 +30,5 @@ array evaluate(Macros.MacroParameters params)
    }
   return res;
 }
-
 
 

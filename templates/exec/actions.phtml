@@ -2,7 +2,7 @@
 <% if data["user_object"]  %>
 <b><%LOCALE id="213" string="Page Actions"%></b>
 <p>
-  <% if data["iseditable"] %> <li> <a href="<%action_link controller="/exec" action="edit" args="$object.path"%><%LOCALE id="214" string="edit page content"%></a><% else %> <%LOCALE id="214" string="edit page content"%> 
+  <% if data["iseditable"] %> <li> <%action_link controller="/exec" action="edit" args="$object.path"%><%LOCALE id="214" string="edit page content"%></a><% else %> <%LOCALE id="214" string="edit page content"%> 
 <% endif %> 
 
 <p>

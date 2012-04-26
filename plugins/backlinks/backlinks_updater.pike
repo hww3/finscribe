@@ -122,10 +122,12 @@ void process_object(object o, int|void immediate)
 
   string html;
 
-  catch(html = app->render(o["current_version"]["contents"], o, r));
+  mixed e = catch(html = app->render(o["current_version"]["contents"], o, r));
 
-  if(!html) Log.warn("Unable to render %O to html.", o["path"]);
-
+  if(!html) {
+    Log.warn("Unable to render %O to html.", o["path"]);
+    Log.exception("Exception follows.", e);
+  }
   if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
   {
     return;
