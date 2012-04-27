@@ -70,11 +70,20 @@ array evaluate(Macros.MacroParameters params)
   array o;
 
   // if we're starting somewhere in the middle, we should note that.
-  if(params->extras && params->extras->request && 
-           params->extras->request->variables->start)
+  if(params->extras && params->extras->request)
   {
-    params->extras->request->misc->render_no_cache = 1;
-    start = (int)(params->extras->request->variables->start);
+    string root_path = root["path"];
+    object page_object = params->extras->request->misc->current_page_object;
+    if(page_object)
+    {
+      if(page_object["md"]["weblog_source_path"] != root_path)
+        page_object["md"]["weblog_source_path"] = root_path;
+    }
+    if(params->extras->request->variables->start)
+    {     
+      params->extras->request->misc->render_no_cache = 1;
+      start = (int)(params->extras->request->variables->start);
+    }
   }
   o = root->get_blog_entries(limit, start);
 
