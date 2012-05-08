@@ -1,4 +1,12 @@
-./build.sh profile=standardCustomBase loader=xdomain action=release
-cp -rf /Users/hww3/Downloads/dojo-release-1.6.1-src/release/dojo/fins /Users/hww3/devel/FinScribe/static/javascripts/fins_release
+FSDIR=$HOME/Fins/FinScribe
+DOJODIR=$FSDIR/dojo-release-1.6.1-src
+cd $FSDIR
+wget http://download.dojotoolkit.org/release-1.6.1/dojo-release-1.6.1-src.tar.gz 
+gtar xzvf dojo-release-1.6.1-src.tar.gz
+ln -s $FSDIR/static/javascripts/fins $DOJODIR/fins
+ln -s $FSDIR/static/javascripts/fins/standardCustomBase.profile.js.txt $DOJODIR/util/buildscripts/profiles/standardCustomBaseFins.profile.js
+cd $DOJODIR/util/buildscripts
+./build.sh profile=standardCustomBaseFins loader=xdomain action=release
+cp -rf $DOJODIR/release/dojo/fins $FSDIR/static/javascripts/fins_release
 
 

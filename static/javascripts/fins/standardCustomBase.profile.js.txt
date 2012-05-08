@@ -45,6 +45,6 @@ dependencies = {
 	prefixes: [
 		[ "dijit", "../dijit" ],
 		[ "dojox", "../dojox" ],
-		[ "fins", "/Users/hww3/devel/FinScribe/static/javascripts/fins" ]
+		[ "fins", "/home/hww3/Fins/FinScribe/static/javascripts/fins" ]
 	]
 }
