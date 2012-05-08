@@ -300,6 +300,7 @@ static Node make_xhtml(Node node, void|int first) {
 static string|Node make_contents(string contents) {
   Node node;
   Node div;
+  contents = string_to_utf8(contents);
   if (!catch(node = parse_html(contents))) {
     array nodes = node->children()[0]->children();
     foreach(nodes, object n)
