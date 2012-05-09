@@ -98,16 +98,20 @@ string get_widget(object view, string contents)
 
     add_to_list(view, "jsfooter", "dojo.require('dijit.Editor');");
     add_to_list(view, "jsfooter", "dojo.require('fins.editor.plugins.SafePaste');");
+    add_to_list(view, "jsfooter", "dojo.require('dojox.editor.plugins.PasteFromWord');");
     add_to_list(view, "jsfooter", "dojo.require('dojox.editor.plugins.PrettyPrint');");
     add_to_list(view, "jsfooter", "dojo.require('dojox.editor.plugins.NormalizeStyle');");
     add_to_list(view, "jsfooter", "dojo.require('dijit._editor.plugins.ViewSource');");
 	add_to_list(view, "jsfooter", "dojo.connect(dojo.byId('editform'), 'onsubmit', function(){dojo.byId('contents').value =dijit.byId('htmleditor').get('value');});");
      return 
-//	"<link rel=\"stylesheet\" type=\"text/css\" href=\"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/editor/plugins/resources/css/PasteFromWord.css\">"
+	"<link rel=\"stylesheet\" type=\"text/css\" href=\"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/editor/plugins/resources/css/PasteFromWord.css\">"
 //                        "< style=\"background-color: #ffffff; height: 400px; width: 100%; border-width: 1px; border-style: dashed; border-color: #999999\">"
         "<input id=\"contents\" type=\"hidden\" name=\"contents\">"
 		"<div data-dojo-type=\"dijit.Editor\" data-dojo-props=\""
-"extraPlugins:['safepaste', 'normalizestyle', 'prettyprint', "
+"extraPlugins:["
+//"'safepaste', "
+"'pastefromword', "
+"'normalizestyle', 'prettyprint', "
 "{name: 'dijit._editor.plugins.ViewSource', command:'viewsource'}]\" id=\"htmleditor\">" + 
                         (contents||"Edit your document contents here.") + "</div>";
 

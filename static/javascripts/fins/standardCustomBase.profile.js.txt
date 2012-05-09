@@ -45,6 +45,6 @@ dependencies = {
 	prefixes: [
 		[ "dijit", "../dijit" ],
 		[ "dojox", "../dojox" ],
-		[ "fins", "/home/hww3/Fins/FinScribe/static/javascripts/fins" ]
+		[ "fins", "$FSDIR/static/javascripts/fins" ]
 	]
 }

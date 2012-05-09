@@ -4,7 +4,7 @@ cd $FSDIR
 wget http://download.dojotoolkit.org/release-1.6.1/dojo-release-1.6.1-src.tar.gz 
 gtar xzvf dojo-release-1.6.1-src.tar.gz
 ln -s $FSDIR/static/javascripts/fins $DOJODIR/fins
-ln -s $FSDIR/static/javascripts/fins/standardCustomBase.profile.js.txt $DOJODIR/util/buildscripts/profiles/standardCustomBaseFins.profile.js
+sed -e 's/\$FSDIR/$FSDIR/' < $FSDIR/static/javascripts/fins/standardCustomBase.profile.js.txt > $DOJODIR/util/buildscripts/profiles/standardCustomBaseFins.profile.js
 cd $DOJODIR/util/buildscripts
 ./build.sh profile=standardCustomBaseFins loader=xdomain action=release
 cp -rf $DOJODIR/release/dojo/fins $FSDIR/static/javascripts/fins_release
