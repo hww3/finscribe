@@ -2,9 +2,11 @@ inherit FinScribe.Plugin;
 import Tools.Logging;
 
 constant name = "HTML content type support";
-constant typename = "HTML";
-
+constant type = "html";
 int _enabled = 1;
+
+// distinct from "type" identifier above, used for content type rendering.
+constant typename = "HTML";
 
 mapping macros = ([]);
 object wiki; // the app
@@ -12,7 +14,7 @@ object parser;
 
 void start()
 {
-  Log.info("starting html rendering engine");
+  logger->info("starting html rendering engine");
 
   parser = Parser.HTML();
 
@@ -119,7 +121,7 @@ string get_widget(object view, string contents)
 
 void add_macro(string n, object m)
 {
-  Log.info("HTML Tag registration: %s", n);
+  logger->info("HTML Tag registration: %s", n);
   if(m->is_container)
     parser->add_container(n, lambda(object o, mapping args, string c, mixed ... a) { return render_container(n, o, args, c, @a); });
   else

@@ -5,12 +5,16 @@ Fins.Application app;
 constant name = "";
 constant description = "";
 string module_dir = "";
+constant type = "default";
 
 int _enabled = 0;
 
+object logger;
+
 void create(Fins.Application _app)
 {
-	app = _app;
+  app = _app;
+  logger = Tools.Logging.get_logger("finscribe.plugins." + type); 
 }
 
 int installed();
