@@ -298,11 +298,11 @@ function updatedburl(url)
     var bindArgs = {
     url:         null,
     sync: true,
-    formNode: document.getElementById("dbconfiguratorform"),      
+    form: dojo.byId("dbconfiguratorform"),      
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
         var e = document.getElementById("dburl");
         if(!(e))
@@ -315,7 +315,7 @@ function updatedburl(url)
   };
 
     bindArgs.url = url + v.value;
-    requestObj = dojo.io.bind(bindArgs);
+    requestObj = dojo.xhrPost(bindArgs);
 }
 
 function selectdb()
@@ -328,8 +328,9 @@ function selectdb()
     url:         null,
     mimetype:   "text/plain",
     error:      function(type, errObj){
+alert(errorObj);
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
         var d = document.getElementById("dburlconfigurator");
         if(!d)
@@ -339,7 +340,7 @@ function selectdb()
   };
 
     bindArgs.url = url + v.value;
-    requestObj = dojo.io.bind(bindArgs);
+    requestObj = dojo.xhrPost(bindArgs);
 }
 
 function verifyandcreate()
@@ -354,11 +355,11 @@ function verifyandcreate()
     var bindArgs = {
     url:         url,
     sync: true,
-    formNode: document.getElementById("dbconfiguratorform"),
+    form: document.getElementById("dbconfiguratorform"),
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
         if(data.toString() != "true")
            result = data.toString();
@@ -366,7 +367,7 @@ function verifyandcreate()
   };
 
     bindArgs.url = url + v.value;
-    requestObj = dojo.io.bind(bindArgs);
+    requestObj = dojo.xhrPost(bindArgs);
 
     if(result) return "<%LOCALE id="22" string="We failed to connect to the database."%>\n"
                      + result;
@@ -384,11 +385,11 @@ function populateprefs()
     var bindArgs = {
     url:         url,
     sync: true,
-    formNode: null,
+    form: null,
     mimetype:   "text/plain",
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
         if(data.toString() != "true")
            result = data.toString();
@@ -396,19 +397,19 @@ function populateprefs()
   };
 
     bindArgs.url = url;
-    bindArgs.formNode = document.getElementById("preferenceform1"),
-    requestObj = dojo.io.bind(bindArgs);
+    bindArgs.form = document.getElementById("preferenceform1"),
+    requestObj = dojo.xhrPost(bindArgs);
     if(result) return "<%LOCALE id="23" string="We failed to set the application preferences."%>\n"
                      + result;
 
-    bindArgs.formNode = document.getElementById("preferenceform2"),
-    requestObj = dojo.io.bind(bindArgs);
+    bindArgs.form = document.getElementById("preferenceform2"),
+    requestObj = dojo.xhrPost(bindArgs);
     if(result) return "<%LOCALE id="23" string="We failed to set the application preferences."%>\n"
                      + result;
 
-    bindArgs.formNode = document.getElementById("adminuserform1"),
+    bindArgs.form = document.getElementById("adminuserform1"),
     bindArgs.url = "/install/createadminuser/";
-    requestObj = dojo.io.bind(bindArgs);
+    requestObj = dojo.xhrPost(bindArgs);
 
     if(result) return "<%LOCALE id="24" string="We failed to create the administrative account."%>\n"
                      + result;

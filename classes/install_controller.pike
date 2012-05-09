@@ -54,7 +54,7 @@ public void createadminuser(Request id, Response response, mixed ... args)
     u = FinScribe.Objects.User();
     u["username"] = id->variables->adminuser;
     u["name"] = id->variables->adminuser;
-    u["password"] = id->variables->adminpassword;
+    u["password"] = Crypto.make_crypt_md5(id->variables->adminpassword);
     u["email"] = id->variables->adminemail;
     u["is_admin"] = 1;
     u["is_active"] = 1;
@@ -207,6 +207,7 @@ werror("app->kick_model: %O\n", app->kick_model);
 
 public void makedburl(Request id, Response response, mixed ... args)
 {
+werror("makedburl: %O\n", id->variables);
   string url = "";
   if(args[0] == "sqlite")
   {
