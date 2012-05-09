@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
@@ -32,7 +31,7 @@ void send_pingback(object id, object obj_o)
            if(app->get_sys_pref("blog.pingback_send")->get_value())
            {
 
-              Log.debug("Checking for pingbacks...");
+              logger->debug("Checking for pingbacks...");
 
               array bu = ({});
 
@@ -49,7 +48,7 @@ void send_pingback(object id, object obj_o)
              }
              foreach(bu;; array pingback_url)
              {
-               Log.debug("sending pingback ping for %s", pingback_url[1]);
+               logger->debug("sending pingback ping for %s", pingback_url[1]);
                FinScribe.Blog.pingback_ping(obj_o, u, pingback_url[1],
                                                       pingback_url[0]);
              }

@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Fins;
 
 inherit FinScribe.Plugin;
@@ -93,7 +92,7 @@ mixed rss_fetch(string rssurl, int timeout)
   if(!(rss = feed_data[rssurl]))
   {
 
-    Log.debug("rss-reader getting " + rssurl);
+    logger->debug("rss-reader getting " + rssurl);
 
     if(has_prefix(rssurl, "file://"))
       rss = Stdio.read_file(rssurl[7..]);
@@ -202,7 +201,7 @@ mixed rss_fetch(string rssurl, int timeout)
 
   if(!(rss = feed_data[rssurl]))
   {
-    Log.debug("rss-reader getting " + rssurl);
+    logger->debug("rss-reader getting " + rssurl);
 
     if(has_prefix(rssurl, "file://"))
       rss = Stdio.read_file(rssurl[7..]);

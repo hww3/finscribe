@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Fins;
 
 inherit FinScribe.Plugin;

@@ -2,7 +2,6 @@
 
 #define LOCALE(X,Y) Locale.translate(app->config->app_name, id->get_lang(), X, Y)
 
-import Tools.Logging;
 import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
@@ -40,10 +39,10 @@ int check_recaptcha_anon(string event, object id, object obj)
 int check_recaptcha_always(string event, object id, object obj)
 {
      if(!get_preference("private-key"))
-        Log.info("skipping reCAPTCHA; no private-key set.");  
+        logger->info("skipping reCAPTCHA; no private-key set.");  
      else
      {
-        Log.info("checking reCAPTCHA.");  
+        logger->info("checking reCAPTCHA.");  
         // if we've got a recaptcha key, we assume it will be used.
         if(!id->variables->recaptcha_challenge_field ||
            !id->variables->recaptcha_response_field)
@@ -56,7 +55,7 @@ int check_recaptcha_always(string event, object id, object obj)
 
         else
         {
-          Log.debug("reCAPTCHA data: %O %O",                    
+          logger->debug("reCAPTCHA data: %O %O",                    
                  id->variables->recaptcha_response_field,
                  id->variables->recaptcha_challenge_field);
 
@@ -65,13 +64,13 @@ int check_recaptcha_always(string event, object id, object obj)
                    id->variables->recaptcha_response_field,
                    id->get_client_addr()))
           {
-              Log.info("rejected reCAPTCHA from %s.", id->get_client_addr());
+              logger->info("rejected reCAPTCHA from %s.", id->get_client_addr());
               throw(Error.Generic(LOCALE(0,"Error: reCAPTCHA failure: " + rc->get_error())));
           }
 
 
           }
        }
-  Log.info("reCAPTCHA success from %s.", id->get_client_addr());
+  logger->info("reCAPTCHA success from %s.", id->get_client_addr());
   return FinScribe.success;
 }

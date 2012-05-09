@@ -1,5 +1,4 @@
 import FullText;
-import Tools.Logging;
 import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
@@ -114,10 +113,10 @@ void doUpdateIndex(string event, object id, object obj)
 {
   if(obj["is_attachment"] == 3)
   {
-    Log.info("Skipping " + obj["path"]);
+    logger->info("Skipping " + obj["path"]);
      return;
   }
-//  Log.info("saved " + obj["path"]);  
+//  logger->info("saved " + obj["path"]);  
 
     object c = UpdateClient(get_preference("indexserver")->get_value(), 
 				get_preference("indexname")->get_value(),

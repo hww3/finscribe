@@ -1,9 +1,6 @@
-import Tools.Logging;
 import Fins;
 
 inherit FinScribe.Plugin;
-
-object log = get_logger("plugin.parentfixer");
 
 constant name = "Parent Fixer";
 
@@ -13,14 +10,14 @@ int is_running = 0;
 
 void start()
 {
-  log->debug("starting parent fixer.");
+  logger->debug("starting parent fixer.");
 
   app->call_out(app->create_thread, 0, update_parents);
 }
 
 void update_parents()
 {
-  log->info("Parent updater thread started.");
+  logger->info("Parent updater thread started.");
   if(is_running) return;
 
   is_running = 1;
@@ -69,13 +66,13 @@ void update_parents()
 
 void process_object(object o, int|void immediate)
 {
-	log->debug("finding children for %s", o["path"]);
+	logger->debug("finding children for %s", o["path"]);
   array x = Fins.DataSource._default.find.objects( (["path": Fins.Model.AndCriteria(({Fins.Model.LikeCriteria(o["path"] + "/%"), 
 Fins.Model.NotCriteria(Fins.Model.LikeCriteria(o["path"] + "/%/%") ) })) ]));
 
   foreach(x;; object c)
   {
-  	log->debug("  -- parent of %s is %s.", c["path"], o["path"]);
+  	logger->debug("  -- parent of %s is %s.", c["path"], o["path"]);
     c["parent"] = o;
   }
 }

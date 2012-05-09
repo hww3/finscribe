@@ -1,4 +1,3 @@
-import Tools.Logging;
 inherit Fins.FinsController;
 
 void index(object id, object response, mixed ... args)
@@ -19,7 +18,7 @@ void index(object id, object response, mixed ... args)
   {
     string f = Stdio.append_path(app->plugins[args[0]]->module_dir, "/static", args[1..]*"/");
 
-    Log.debug("Does %s exist?", f);
+    logger->debug("Does %s exist?", f);
 
     app->low_static_request(id, response, f);
 

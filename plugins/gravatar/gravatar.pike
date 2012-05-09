@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
@@ -14,7 +13,7 @@ mapping(string:Public.Web.Wiki.Macros.Macro) query_macro_callers()
 
 void start()
 {
-  Log.info("Adding Simple Macro gravatar.");
+  logger->info("Adding Simple Macro gravatar.");
   app->view->add_simple_macro("gravatar", simple_macro_gravatar);
 }
 

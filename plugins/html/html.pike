@@ -1,5 +1,4 @@
 inherit FinScribe.Plugin;
-import Tools.Logging;
 
 constant name = "HTML content type support";
 constant type = "html";

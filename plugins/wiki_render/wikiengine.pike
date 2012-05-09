@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Public.Web.Wiki;
 import Fins;
 import Fins.Model;

@@ -1,4 +1,3 @@
-import Tools.Logging;
 inherit Fins.FinsController;
 
 void index(object id, object response, mixed ... args)
@@ -40,7 +39,7 @@ mixed _makethumb(object file) {
 
   if(i) return i;
 
-  Log.debug("rendering thumbnail for " + file["path"]);
+  logger->debug("rendering thumbnail for " + file["path"]);
 
   string data = file["current_version"]["contents"];
 

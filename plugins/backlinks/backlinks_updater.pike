@@ -1,4 +1,3 @@
-import Tools.Logging;
 import Fins;
 
 inherit FinScribe.Plugin;
@@ -17,7 +16,7 @@ mapping query_event_callers()
 
 void start()
 {
-  Log.debug("starting backlinks updater...");
+  logger->debug("starting backlinks updater...");
 
   app->call_out(app->create_thread, 0, update_backlinks);
 }
@@ -29,7 +28,7 @@ int doUpdateBacklinks(string event, object id, object obj)
 
 void update_backlinks()
 {
-  Log.info("BackLink updater thread started.");
+  logger->info("BackLink updater thread started.");
 
   if(is_running) return;
 
@@ -70,7 +69,7 @@ void update_backlinks()
 
     if(!sizeof(a)) continue;
     else a[0]["md"]["backlinks"] = Array.uniq(backlinks);
-//    Log.debug("%s: %O", a[0]["path"], a[0]["md"]["backlinks"]);
+//    logger->debug("%s: %O", a[0]["path"], a[0]["md"]["backlinks"]);
   }
 
   is_running = 0;
@@ -125,8 +124,8 @@ void process_object(object o, int|void immediate)
   mixed e = catch(html = app->render(o["current_version"]["contents"], o, r));
 
   if(!html) {
-    Log.warn("Unable to render %O to html.", o["path"]);
-    Log.exception("Exception follows.", e);
+    logger->warn("Unable to render %O to html.", o["path"]);
+    logger->exception("Exception follows.", e);
   }
   if(r["misc"]["object_is_weblog"] || r["misc"]["object_is_index"]) 
   {
