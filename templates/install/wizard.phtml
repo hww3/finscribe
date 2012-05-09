@@ -3,24 +3,291 @@
 <title><%LOCALE id="20" string="FinScribe Installer"%></title>
 <script type='text/javascript'>
 var djConfig = {
+    useXDomain: true,
     isDebug : true,
-    debugAtAllCosts : true,
-    disableFlashStorage : true
+    disableFlashStorage : true,
+    parseOnLoad:true
   };
 
 </script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/widget/Wizard/Wizard.css"/>
+
+<style type="text/css">
+@import 
+body {
+	font-family : sans-serif;
+}
+
+</style>
+</head>
+
+<body class="tundra">
+
+<div id="wizard" data-dojo-type="dojox.widget.Wizard" style="width:100%; height:350px;">
+<div dojoType="dojox.widget.WizardPane" label="Welcome!">
+<h1><%LOCALE id="26" string="Welcome to FinScribe"%></h1>
+
+<%LOCALE id="27" string="We're glad you've chosen to install FinScribe."%>
+<p>
+<%LOCALE id="28" string="The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work."%>
+<p>
+<%LOCALE id="29" string="When you're finished with this wizard, your FinScribe install will be complete!"%>
+
+</div>
+
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Database Configuration (1)"%>" passFunction="verifyandcreate">
+<h1><%LOCALE id="30" string="Select a database"%></h1>
+<%LOCALE id="31" string="FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below."%>
+<p>
+
+<form action="#" id="dbconfiguratorform">
+<b><%LOCALE id="32" string="Database type"%>:</b> <select name="db" id="db" onChange="selectdb()">
+<option><%LOCALE id="33" string="Select a DB"%>
+<% foreach var="$dbs" val="db" %>
+<option><%$db%>
+<% end %>
+</select>
+
+<input type="hidden" name="dburl" id="dburl" value=""/>
+
+<div id="dburlconfigurator">
+</div>
+</form>
+
+<%LOCALE id="34" string="Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable)."%>
+<p>
+<%LOCALE id="35" string="When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information."%>
+</div>
+
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Database Configuration (3)"%>" 
+canGoBack="false">
+<h1><%LOCALE id="36" string="Database Objects Created"%></h1>
+<%LOCALE id="37" string="We will now proceed to configure your copy of FinScribe."%>
+<p>
+<%LOCALE id="38" string="On the next few pages are a few questions that we will use to personalize your application."%>
+</div>
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Application Configuration"%>" 
+canGoBack="false">
+<form action="#" id="preferenceform1">
+<h1><%LOCALE id="39" string="Site Basics"%></h1>
+<table>
+<tr><td>
+<b><%LOCALE id="40" string="Site URL"%>:</b>
+</td>
+<td>
+<input type="text" name="pref.site.url" value=""><br/>
+<input type="hidden" name="type.site.url" value="string">
+</td></tr>
+<tr>
+<td colspan="2">
+<%LOCALE id="41" string="This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/)."%>
+</td>
+</tr>
+
+<tr>
+</td></tr>
+<tr>
+<td>
+<b><%LOCALE id="42" string="Site Name"%>:</b>
+</td>
+<td>
+<input type="text" name="pref.site.name" value=""><br/>
+<input type="hidden" name="type.site.name" value="string">
+</td></tr>
+<tr>
+<td colspan="2">
+<%LOCALE id="43" string="This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog"%>.
+</td>
+</tr>
+<tr>
+<td>
+<b><%LOCALE id="44" string="Site Logo File"%>:</b>
+</td><td>
+ <input type="text" name="pref.site.logo" value=""><br/>
+<input type="hidden" name="type.site.logo" value="string">
+</td></tr>
+<tr>
+<td colspan="2">
+<%LOCALE id="45" string="You may specify the URL of an image that will be displayed in the default page layout template."%>
+</td>
+</tr>
+<tr>
+<td>
+<b><%LOCALE id="46" string="Site Tagline:"%></b>
+</td><td>
+<input type="text" name="pref.site.tagline" value=""><br/>
+<input type="hidden" name="type.site.tagline" value="string">
+</td></tr>
+<tr><td colspan="2">
+<%LOCALE id="47" string="A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me"%>.
+</td></tr>
+<tr>
+<td>
+<b><%LOCALE id="48" string="Track Views"%>:</b>
+</td><td> 
+<input type="radio" name="pref.site.track_views" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
+<input type="radio" name="pref.site.track_views" value="0" /> <%LOCALE id="50" string="No"%><br/>
+<input type="hidden" name="type.site.track_views" value="boolean">
+</td>
+</tr>
+<tr><td colspan="2">
+<%LOCALE id="51" string="Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase."%>
+</td></tr>
+</table>
+</form>
+</div>
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Application Configuration"%>">
+<form action="#" id="preferenceform2">
+<h1><%LOCALE id="52" string="Administration"%></h1>
+<table>
+<tr>
+<td><b>
+<%LOCALE id="53" string="Mail Host"%>:
+</b></td>
+<td> 
+<input type="text" name="pref.mail.host" value="" /><br/>
+<input type="hidden" name="type.mail.host" value="string">
+</td></tr>
+<tr><td colspan="2">
+<%LOCALE id="54" string="FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here."%>
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="55" string="Mail Return Address"%>:
+</b></td><td> 
+<input type="text" name="pref.mail.return_address" value="" /><br/>
+<input type="hidden" name="type.mail.return_address" value="string">
+</td></tr>
+<tr><td colspan="2">
+<%LOCALE id="56" string="Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc)."%>
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="57" string="Account Autocreate"%>:
+</b>
+</td><td> 
+<input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%> 
+<input type="radio" name="pref.administration.autocreate" value="0" /> <%LOCALE id="50" string="No"%>
+<input type="hidden" name="type.administration.autocreate" value="boolean">
+<br/>
+</td></tr>
+<tr><td><b>
+<%LOCALE id="58" string="Anonymous Commenting"%>:
+</b></td><td> 
+<input type="radio" name="pref.comments.anonymous" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%> 
+<input type="radio" name="pref.comments.anonymous" value="0" /> <%LOCALE id="50" string="No"%>
+<input type="hidden" name="type.comments.anonymous" value="boolean">
+<br/>
+</td></tr>
+<tr><td colspan="2">
+<%LOCALE id="59" string="Enabling this feature will allow anonymous users to comment (with spam-detection in place)."%>
+</td></tr>
+<tr>
+<td><b>
+Weblog.com PING:
+</b></td><td> 
+<input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
+<input type="radio" name="pref.blog.weblog_ping" value="0" /> <%LOCALE id="50" string="No"%><br/>
+<input type="hidden" name="type.blog.weblog_ping" value="boolean">
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="60" string="Enable PingBack sending"%>:
+</b></td><td> 
+<input type="radio" name="pref.blog.pingback_send" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
+<input type="radio" name="pref.blog.pingback_send" value="0" /> <%LOCALE id="50" string="No"%><br/>
+<input type="hidden" name="type.blog.pingback_send" value="boolean">
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="61" string="Enable PingBack recieving (recording)"%>:
+</b></td><td> 
+<input type="radio" name="pref.blog.pingback_receive" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
+<input type="radio" name="pref.blog.pingback_receive" value="0" /> <%LOCALE id="50" string="No"%><br/>
+<input type="hidden" name="type.blog.pingback_receive" value="boolean">
+</td></tr>
+<tr>
+<td colspan="2">
+<%LOCALE id="62" string="Should FinScribe receive 'pingbacks' for links made to objects we create?"%>
+</td></tr>
+</table>
+</form>
+</div>
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Administrative User"%>" passFunction="checkadmin">
+<h1><%LOCALE id="63" string="Administrative User Setup"%></h1>
+<form action="#" id="adminuserform1">
+<%LOCALE id="64" string="Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. "%>
+<p>
+<%LOCALE id="65" string="In the mean time, you'll use this account to log in and configure your site further."%>
+<p>
+<table>
+<tr>
+<td><b>
+<%LOCALE id="66" string="Username"%>:
+</b></td><td> 
+<input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="17" string="Password"%>:
+</b></td><td> 
+<input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="67" string="Confirm Password"%>:
+</b></td><td> 
+<input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+<tr>
+<td><b>
+<%LOCALE id="68" string="Email"%>:
+</b></td><td> 
+<input type="text" size="64" name="adminemail"/> 
+</td></tr>
+<tr><td colspan="2">
+</td></tr>
+</table>
+</form>
+</div>
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Application Configuration"%>" passFunction="populateprefs">
+<h1><%LOCALE id="69" string="Preparing to configure"%></h1>
+<%LOCALE id="70" string="We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages."%>
+<p>
+<%LOCALE id="71" string="When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away."%>
+</div>
+<div dojoType="dojox.widget.WizardPane" label="<%LOCALE string="Application Configuration"%>" doneFunction="done">
+<h1><%LOCALE id="72" string="Setup Complete!"%></h1>
+<%LOCALE id="73" string="Congratulations! Your FinScribe installation is complete and ready to use."%>
+<p>
+<%LOCALE id="74" string="Click 'done' below to visit your FinScribe site."%>
+</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
+
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
+<script type='text/javascript'>
+
+dojo.registerModulePath("fins", "http://bill.welliver.org/static/javascripts/fins_release");	
+dojo.require("dojox.widget.Wizard");  
+</script>
+
 <script type="text/javascript">
-	dojo.require("dijit.Wizard");
-	dojo.hostenv.writeIncludes();
+  function cancel() {
+    alert("<%LOCALE id="21" string="Wizard Cancelled!"%>");
+  }
 
-    function cancel() {
-        alert("<%LOCALE id="21" string="Wizard Cancelled!"%>");
-    }
-
-    function done() {
-	window.location="/";
-    }
+  function done() {
+    window.location="/";
+  }
 
 function updatedburl(url)
 {
@@ -166,263 +433,6 @@ function checkadmin()
 }
 </script>
 
-<style type="text/css">
-body {
-	font-family : sans-serif;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="wizard" dojoType="dijit.WizardContainer" style="width:100%; height:350px;">
-<div dojoType="dojo:dijit.WizardPane" label="Welcome!">
-<h1><%LOCALE id="26" string="Welcome to FinScribe"%></h1>
-
-<%LOCALE id="27" string="We're glad you've chosen to install FinScribe."%>
-<p>
-<%LOCALE id="28" string="The first step in getting FinScribe up and running is to configure the database and install the FinScribe objects. You'll also answer a few question about how you'd like the application to work."%>
-<p>
-<%LOCALE id="29" string="When you're finished with this wizard, your FinScribe install will be complete!"%>
-
-</div>
-
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Database Configuration (1)"%>" 
-passFunction="verifyandcreate">
-<h1><%LOCALE id="30" string="Select a database"%></h1>
-<%LOCALE id="31" string="FinScribe supports several database types for the storage of data. Please choose a database storage type from the list of available drivers below."%>
-<p>
-
-<form action="#" id="dbconfiguratorform">
-<b><%LOCALE id="32" string="Database type"%>:</b> <select name="db" id="db" onChange="selectdb()">
-<option><%LOCALE id="33" string="Select a DB"%>
-<% foreach var="$dbs" val="db" %>
-<option><%$db%>
-<% end %>
-</select>
-
-<input type="hidden" name="dburl" id="dburl" value=""/>
-
-<div id="dburlconfigurator">
-</div>
-</form>
-
-<%LOCALE id="34" string="Please verify this information before continuing. The database you've specified must already exist (in the case of SQLite, that means that the path must be writable)."%>
-<p>
-<%LOCALE id="35" string="When you click 'next', we will attempt to connect to the database you've specified and create the FinScribe objects. If the attempt fails, you can return to the previous page to correct your information."%>
-</div>
-
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Database Configuration (3)"%>" 
-canGoBack="false">
-<h1><%LOCALE id="36" string="Database Objects Created"%></h1>
-<%LOCALE id="37" string="We will now proceed to configure your copy of FinScribe."%>
-<p>
-<%LOCALE id="38" string="On the next few pages are a few questions that we will use to personalize your application."%>
-</div>
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" 
-canGoBack="false">
-<form action="#" id="preferenceform1">
-<h1><%LOCALE id="39" string="Site Basics"%></h1>
-<table>
-<tr><td>
-<b><%LOCALE id="40" string="Site URL"%>:</b>
-</td>
-<td>
-<input type="text" name="pref.site.url" value=""><br/>
-<input type="hidden" name="type.site.url" value="string">
-</td></tr>
-<tr>
-<td colspan="2">
-<%LOCALE id="41" string="This is the URL that users will enter to access your site (it should be the root, such as http://www.mysite.com/)."%>
-</td>
-</tr>
-
-<tr>
-</td></tr>
-<tr>
-<td>
-<b><%LOCALE id="42" string="Site Name"%>:</b>
-</td>
-<td>
-<input type="text" name="pref.site.name" value=""><br/>
-<input type="hidden" name="type.site.name" value="string">
-</td></tr>
-<tr>
-<td colspan="2">
-<%LOCALE id="43" string="This is the name for your website. It is used in the default templates. An example might be: Joe's Weblog"%>.
-</td>
-</tr>
-<tr>
-<td>
-<b><%LOCALE id="44" string="Site Logo File"%>:</b>
-</td><td>
- <input type="text" name="pref.site.logo" value=""><br/>
-<input type="hidden" name="type.site.logo" value="string">
-</td></tr>
-<tr>
-<td colspan="2">
-<%LOCALE id="45" string="You may specify the URL of an image that will be displayed in the default page layout template."%>
-</td>
-</tr>
-<tr>
-<td>
-<b><%LOCALE id="46" string="Site Tagline:"%></b>
-</td><td>
-<input type="text" name="pref.site.tagline" value=""><br/>
-<input type="hidden" name="type.site.tagline" value="string">
-</td></tr>
-<tr><td colspan="2">
-<%LOCALE id="47" string="A short phrase describing your website. Displayed in the default page layout template. Example: all the news that interests me"%>.
-</td></tr>
-<tr>
-<td>
-<b><%LOCALE id="48" string="Track Views"%>:</b>
-</td><td> 
-<input type="radio" name="pref.site.track_views" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
-<input type="radio" name="pref.site.track_views" value="0" /> <%LOCALE id="50" string="No"%><br/>
-<input type="hidden" name="type.site.track_views" value="boolean">
-</td>
-</tr>
-<tr><td colspan="2">
-<%LOCALE id="51" string="Should FinScribe track page view counts (aggregated)? You may turn this feature off for a (possibly negligible) speed increase."%>
-</td></tr>
-</table>
-</form>
-</div>
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>">
-<form action="#" id="preferenceform2">
-<h1><%LOCALE id="52" string="Administration"%></h1>
-<table>
-<tr>
-<td><b>
-<%LOCALE id="53" string="Mail Host"%>:
-</b></td>
-<td> 
-<input type="text" name="pref.mail.host" value="" /><br/>
-<input type="hidden" name="type.mail.host" value="string">
-</td></tr>
-<tr><td colspan="2">
-<%LOCALE id="54" string="FinScribe uses an SMTP mail host to send emails. Please specify the preferred host here."%>
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="55" string="Mail Return Address"%>:
-</b></td><td> 
-<input type="text" name="pref.mail.return_address" value="" /><br/>
-<input type="hidden" name="type.mail.return_address" value="string">
-</td></tr>
-<tr><td colspan="2">
-<%LOCALE id="56" string="Use this preference to specify the return address for any email sent by the FinScribe engine (such as for lost password retrieval, etc)."%>
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="57" string="Account Autocreate"%>:
-</b>
-</td><td> 
-<input type="radio" name="pref.administration.autocreate" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%> 
-<input type="radio" name="pref.administration.autocreate" value="0" /> <%LOCALE id="50" string="No"%>
-<input type="hidden" name="type.administration.autocreate" value="boolean">
-<br/>
-</td></tr>
-<tr><td><b>
-<%LOCALE id="58" string="Anonymous Commenting"%>:
-</b></td><td> 
-<input type="radio" name="pref.comments.anonymous" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%> 
-<input type="radio" name="pref.comments.anonymous" value="0" /> <%LOCALE id="50" string="No"%>
-<input type="hidden" name="type.comments.anonymous" value="boolean">
-<br/>
-</td></tr>
-<tr><td colspan="2">
-<%LOCALE id="59" string="Enabling this feature will allow anonymous users to comment (with spam-detection in place)."%>
-</td></tr>
-<tr>
-<td><b>
-Weblog.com PING:
-</b></td><td> 
-<input type="radio" name="pref.blog.weblog_ping" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
-<input type="radio" name="pref.blog.weblog_ping" value="0" /> <%LOCALE id="50" string="No"%><br/>
-<input type="hidden" name="type.blog.weblog_ping" value="boolean">
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="60" string="Enable PingBack sending"%>:
-</b></td><td> 
-<input type="radio" name="pref.blog.pingback_send" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
-<input type="radio" name="pref.blog.pingback_send" value="0" /> <%LOCALE id="50" string="No"%><br/>
-<input type="hidden" name="type.blog.pingback_send" value="boolean">
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="61" string="Enable PingBack recieving (recording)"%>:
-</b></td><td> 
-<input type="radio" name="pref.blog.pingback_receive" value="1" checked="1" /> <%LOCALE id="49" string="Yes"%>
-<input type="radio" name="pref.blog.pingback_receive" value="0" /> <%LOCALE id="50" string="No"%><br/>
-<input type="hidden" name="type.blog.pingback_receive" value="boolean">
-</td></tr>
-<tr>
-<td colspan="2">
-<%LOCALE id="62" string="Should FinScribe receive 'pingbacks' for links made to objects we create?"%>
-</td></tr>
-</table>
-</form>
-</div>
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Administrative User"%>" passFunction="checkadmin">
-<h1><%LOCALE id="63" string="Administrative User Setup"%></h1>
-<form action="#" id="adminuserform1">
-<%LOCALE id="64" string="Please specify the username, password and email address for this FinScribe's administrative user. An administrative user has full permission to change settings and content in on your FinScribe site. You can set up additional users (regular and administrative) once you complete this wizard. "%>
-<p>
-<%LOCALE id="65" string="In the mean time, you'll use this account to log in and configure your site further."%>
-<p>
-<table>
-<tr>
-<td><b>
-<%LOCALE id="66" string="Username"%>:
-</b></td><td> 
-<input type="text" size="16" id="adminuser" name="adminuser" value="admin"/> <br/>
-</td></tr>
-<tr><td colspan="2">
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="17" string="Password"%>:
-</b></td><td> 
-<input type="password" size="16" id="adminpassword"  name="adminpassword"/> <br/>
-</td></tr>
-<tr><td colspan="2">
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="67" string="Confirm Password"%>:
-</b></td><td> 
-<input type="password" size="16" id="confirmadminpassword" name="confirmadminpassword"/> <br/>
-</td></tr>
-<tr><td colspan="2">
-</td></tr>
-<tr>
-<td><b>
-<%LOCALE id="68" string="Email"%>:
-</b></td><td> 
-<input type="text" size="64" name="adminemail"/> 
-</td></tr>
-<tr><td colspan="2">
-</td></tr>
-</table>
-</form>
-</div>
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" passFunction="populateprefs">
-<h1><%LOCALE id="69" string="Preparing to configure"%></h1>
-<%LOCALE id="70" string="We're now ready to configure your FinScribe installation. At this time, you may wish to go back and confirm the information you've provided on the previous pages."%>
-<p>
-<%LOCALE id="71" string="When you click 'next', we will configure FinScribe using the information you've provided. We will also set up a few starter objects so that you'll be able to get started adding content right away."%>
-</div>
-<div dojoType="dijit.WizardPane" label="<%LOCALE string="Application Configuration"%>" doneFunction="done">
-<h1><%LOCALE id="72" string="Setup Complete!"%></h1>
-<%LOCALE id="73" string="Congratulations! Your FinScribe installation is complete and ready to use."%>
-<p>
-<%LOCALE id="74" string="Click 'done' below to visit your FinScribe site."%>
-</div>
-</div>
 
 
 </html>
