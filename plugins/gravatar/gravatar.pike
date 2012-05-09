@@ -2,7 +2,8 @@ import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
 
-constant name="Gravatar support";
+constant name = "Gravatar support";
+constant type = "gravatar";
 
 int _enabled = 1;
 

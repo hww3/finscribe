@@ -2,7 +2,8 @@ import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
 
-constant name="Pingback support";
+constant name = "Pingback support";
+constant type = "pingback";
 
 int _enabled = 1;
 

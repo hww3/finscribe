@@ -2,7 +2,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
-constant name="Album";
+constant name = "Album";
+constant type = "album";
 
 int _enabled = 1;
 

@@ -2,7 +2,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
-constant name="Category Display";
+constant name = "Category Display";
+constant type = "category_cloud";
 
 int _enabled = 1;
 

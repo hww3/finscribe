@@ -3,7 +3,8 @@ import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
 
-constant name="Full Text indexing";
+constant name = "Full Text indexing";
+constant type = "fulltext";
 
 int _enabled = 0;
 

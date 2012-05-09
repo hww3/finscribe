@@ -2,7 +2,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
-constant name="Plugin Support";
+constant name = "Plugin Support";
+constant type = "pluginsupport";
 
 int _enabled = 1;
 

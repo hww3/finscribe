@@ -6,7 +6,8 @@ import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
 
-constant name="reCAPTCHA support";
+constant name = "reCAPTCHA support";
+constant type = "recaptcha";
 
 int _enabled = 1;
 

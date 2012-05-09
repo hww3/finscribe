@@ -2,7 +2,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
-constant name="RSS Reader Macro";
+constant name = "RSS Reader Macro";
+constant type = "rssreader";
 
 #if constant(Public.Parser.XML2) && constant(Public.Syndication.RSS)
 int _enabled = 1;

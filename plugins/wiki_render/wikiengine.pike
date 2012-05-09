@@ -4,7 +4,8 @@ import Fins.Model;
 
 inherit FinScribe.Plugin;
 
-constant name="Wiki Markup Renderer";
+constant name = "Wiki Markup Renderer";
+constant type = "wiki";
 
 int _enabled = 1;
 

@@ -3,6 +3,7 @@ import Fins;
 inherit FinScribe.Plugin;
 
 constant name = "Backlinks Updater";
+constant type = "backlinks";
 
 int _enabled = 1;
 

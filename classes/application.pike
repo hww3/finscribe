@@ -39,17 +39,17 @@ void load_plugins()
 {
 	string plugindir = Stdio.append_path(config->app_dir, "plugins");
 	array p = get_dir(plugindir);
-//	Log.info("current directory is " + getcwd());
+//	logger->info("current directory is " + getcwd());
 	foreach(p||({});;string f)
 	{
 		if(f == "CVS") continue;
 		
-		Log.info("Considering plugin " + f);
+		logger->info("Considering plugin " + f);
 		Stdio.Stat stat = file_stat(Stdio.append_path(plugindir, f));
-//        Log.info("STAT: %O %O", Stdio.append_path(plugindir, f), stat);
+//        logger->info("STAT: %O %O", Stdio.append_path(plugindir, f), stat);
 		if(stat && stat->isdir)
 		{
-//			Log.info("  is a directory based plugin.");
+//			logger->info("  is a directory based plugin.");
 
             object installer;
             object module;
@@ -58,7 +58,7 @@ void load_plugins()
 			foreach(glob("*.pike", get_dir(pd));; string file)
 			{
 				program p = (program)combine_path(pd, file);
-//				Log.info("File: %O", p);
+//				logger->info("File: %O", p);
 				if(Program.implements(p, FinScribe.PluginInstaller) && !installer)
 				  installer = p(this);
 				else if(Program.implements(p, FinScribe.Plugin) && !module)
@@ -70,7 +70,7 @@ void load_plugins()
 			
 			if(!module || module->name =="")
 			{
-				Log.error("Module %s has no name, not loading.", f);
+				logger->error("Module %s has no name, not loading.", f);
 				continue;
 			}
 			
@@ -86,16 +86,16 @@ void load_plugins()
 
 void start_plugins()
 {
-	Log.debug("Starting plugins.");
+	logger->debug("Starting plugins.");
 	
 	foreach(plugins;string name; object plugin)
 	{
-           Log.debug("Processing " + name);
+           logger->debug("Processing " + name);
 
            // we don't start up plugins that explicitly tell us not to.
            if(plugin->enabled && !plugin->enabled())
              continue;
-           Log.debug("Starting " + name);
+           logger->debug("Starting " + name);
 
                 if(plugin->query_preferences && functionp(plugin->query_preferences))
                 {
@@ -111,12 +111,12 @@ void start_plugins()
                 if(plugin->query_macro_callers && 
                         functionp(plugin->query_macro_callers))
                 {
-                  Log.debug(name + " has a macro caller.");
+                  logger->debug(name + " has a macro caller.");
                   mapping a = plugin->query_macro_callers();
                   if(a)
                     foreach(a; string m; Public.Web.Wiki.Macros.Macro code)
                     {
-   	               Log.debug("adding macro " + m + ".");
+   	               logger->debug("adding macro " + m + ".");
                        render_macros[m] = code;
                     }
                 }
@@ -129,7 +129,7 @@ void start_plugins()
                   if(a)
                     foreach(a; string m; Public.Web.Wiki.RenderEngine code)
                     {
-   	               Log.debug("adding handler for " + m + ".");
+   	               logger->debug("adding handler for " + m + ".");
                        engines[m] = code;
                     }
                 }
@@ -154,7 +154,7 @@ void start_plugins()
                   if(a)
                     foreach(a; string m; mixed f)
                     {
-   	               Log.debug("adding internal path handler for " + m + ".");
+   	               logger->debug("adding internal path handler for " + m + ".");
                        internal_path_handlers[m] = f;
                     }
                 }
@@ -171,7 +171,7 @@ void start_plugins()
 
 int add_event_handler(string event, function handler)
 {
-  Log.debug("adding handler for " + event + ".");
+  logger->debug("adding handler for " + event + ".");
   if(!event_handlers[event])
     event_handlers[event] = ({});
   event_handlers[event] += ({ handler });
@@ -180,7 +180,7 @@ int add_event_handler(string event, function handler)
 int trigger_event(string event, mixed ... args)
 {
   int retval;
-  Log.debug("Calling event " + event);
+  logger->debug("Calling event " + event);
   if(event_handlers[event])
   {
     foreach(event_handlers[event];; function h)
@@ -211,7 +211,7 @@ string get_theme(object id)
 
   if(!stringp(t))
   {
-    Log.warn("Got unexpected value during theme retrieval: %O in %O", t, 
+    logger->warn("Got unexpected value during theme retrieval: %O in %O", t, 
          p->get_atomic());
   }
   return t;
@@ -247,7 +247,7 @@ public string render(string contents, FinScribe.Objects.Object obj, Fins.Request
   if(id &&  id["request_headers"]
         && id["request_headers"]["pragma"] == "no-cache")
   {
-    Log.info("Pragma: No-cache included as part of request. Forcing render.");
+    logger->info("Pragma: No-cache included as part of request. Forcing render.");
     force = 1;
   }
 
@@ -414,7 +414,7 @@ object new_string_pref(string pref, string value)
   if(p) return p;
   else 
   { 
-     Log.info("Creating new preference object '" + pref  + "'.");
+     logger->info("Creating new preference object '" + pref  + "'.");
      p = FinScribe.Objects.Preference();
      p["name"] = pref;
      p["type"] = FinScribe.STRING;

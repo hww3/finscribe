@@ -1,5 +1,7 @@
 inherit Fins.FinsController;
 
+static object logger = Tools.Logging.get_logger("finscribe.plugins.album");
+
 void index(object id, object response, mixed ... args)
 {
 

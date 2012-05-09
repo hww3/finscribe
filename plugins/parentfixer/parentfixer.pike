@@ -3,6 +3,7 @@ import Fins;
 inherit FinScribe.Plugin;
 
 constant name = "Parent Fixer";
+constant type = "parentfixer";
 
 int _enabled = 1;
 

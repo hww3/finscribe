@@ -3,7 +3,8 @@ import Fins;
 
 inherit FinScribe.Plugin;
 
-constant name="Recent Changes";
+constant name = "Recent Changes";
+constant type = "recentchanges";
 
 int _enabled = 1;
 

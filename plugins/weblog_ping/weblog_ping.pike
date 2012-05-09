@@ -2,7 +2,8 @@ import Public.Web.Wiki;
 
 inherit FinScribe.Plugin;
 
-constant name="Weblogs.com PING support";
+constant name = "Weblogs.com PING support";
+constant type = "weblog_ping";
 
 int _enabled = 1;
 

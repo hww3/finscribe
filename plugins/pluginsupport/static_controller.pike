@@ -1,5 +1,7 @@
 inherit Fins.FinsController;
 
+static object logger = Tools.Logging.get_logger("finscribe.plugins.pluginsupport");
+
 void index(object id, object response, mixed ... args)
 {
   if(!sizeof(args) || sizeof(args) < 2) 
