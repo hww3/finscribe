@@ -1,13 +1,9 @@
-<html>
-<head>
-   <link rel="STYLESHEET" type="text/css" href="/space/themes/default/default.css" />
-<title><%LOCALE id="90" string="Versions"%>: <%$object.title%></title>
-</head>
-<body>
-<%@include file="tagline.phtml"%>
-
+<%@ include file="top.phtml" %>
+<%@ include file="header.phtml" %>
+  <title><%LOCALE id="90" string="Versions"%>: <%$object.title%></title>
+<!--   <%$heads %> -->
 <%@include file="pagebegin.phtml"%>
-   <h3><%LOCALE id="90" string="Versions"%>: <%$object.title%></h3>
+<h3><%LOCALE id="90" string="Versions"%>: <%$object.title%></h3>
 <form action="/exec/diff/<%$object.path%>" method="post">
 <table>
 <tr>
@@ -34,4 +30,8 @@ href="/space/<%$object.path%>?show_version=<%$version.version%>"><%LOCALE id="96
 <input type="submit" name="submit" value="<%LOCALE string="Show Differences"%>"/>
 </form>
 
+
+<%@include file="pageend.phtml" %>
 <%@include file="footer.phtml" %>
+<%@include file="bottom.phtml" %>
+

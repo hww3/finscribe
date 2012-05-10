@@ -1,7 +1,8 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: <%LOCALE id="252" string="Pingbacks for"%> <%$object.title%></title>
   <%@include file="header.phtml" %>
+   <title><%syspref var="site.name" %> :: <%LOCALE id="252" string="Pingbacks for"%> <%$object.title%></title>
   <%@include file="pagebegin.phtml" %>
+
 <h3><%LOCALE id="252" string="Pingbacks for"%> <%$object.title%></h3>
 <ol>
 <%foreach var="$pingbacks" val="pingback" %>
@@ -9,6 +10,7 @@
 <% end %>
 </ol>
 <hr/>
+  <%@include file="pageend.phtml" %>
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
 

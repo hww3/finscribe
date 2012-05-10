@@ -1,7 +1,8 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: <%LOCALE id="253" string="Trackbacks for"%> <%$object.title%></title>
   <%@include file="header.phtml" %>
+   <title><%syspref var="site.name" %> :: <%LOCALE id="253" string="Trackbacks for"%> <%$object.title%></title>
   <%@include file="pagebegin.phtml" %>
+
 <h3><%LOCALE id="253" string="Trackbacks for"%> <%$object.title%></h3>
 
 <%LOCALE id="254" string="The trackback URL for this article is"%>: 
@@ -12,6 +13,8 @@ href="<%syspref var="site.url"%>/exec/trackback/<%$object.path%>"><%syspref var=
 <%$trackback.excerpt%>
 <hr/>
 <% end %>
+
+  <%@include file="pageend.phtml" %>
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
 

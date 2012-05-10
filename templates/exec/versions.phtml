@@ -1,7 +1,8 @@
 <%@include file="top.phtml"%>
-<title>Versions: {object.title}</title>
 <%@include file="header.phtml"%>
+<title>Versions: {object.title}</title>
 <%@include file="pagebegin.phtml"%>
+
    <h3>Versions: <%$object.title%></h3>
 <form action="/exec/diff/<%$object.path%>" method="post">
 <table>
@@ -28,6 +29,7 @@
 <input type="submit" name="submit" value="Show Differences"/>
 </form>
 
+<%@include file="pageend.phtml"%>
 <%@include file="footer.phtml"%>
 <%@include file="bottom.phtml"%>
 

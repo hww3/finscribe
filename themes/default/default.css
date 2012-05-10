@@ -336,7 +336,7 @@ a.wiki_link_external:before {
 }
 
 .snip-sniplinks td, th {
-  display: none;
+ /* display: none; */
   padding: 4px;
 }
 

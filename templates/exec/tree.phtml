@@ -1,7 +1,8 @@
   <%@include file="top.phtml"%>
-   <title><%syspref var="site.name" %> :: <%LOCALE id="297" string="document tree"%></title>
   <%@include file="header.phtml"%>
+   <title><%syspref var="site.name" %> :: <%LOCALE id="297" string="document tree"%></title>
 <%@include file="pagebegin.phtml"%>
+
 <div class="tundra flash-message"><%flash %></div>
           <h3><%LOCALE id="298" string="Site Index"%></h3>
 [ <%action_link controller="/space" args="object-index"%>object-index</a> | 
@@ -56,8 +57,9 @@ document-tree ]
 
 	</div>
 <%@include file="exec/_tree.phtml" %>
+
+  <%@include file="pageend.phtml"%>
   <%@include file="footer.phtml"%>
-  <%@include file="bottom.phtml"%>
 
 
 <script type="text/javascript">
@@ -115,4 +117,6 @@ documentStore = new dojo.store.JsonRest({
   dojo.parser.instantiate([dojo.byId("doctree")], {dojoType: "dijit.Tree"});
 }
 </script>
+
+  <%@include file="bottom.phtml"%>
 

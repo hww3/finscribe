@@ -1,6 +1,6 @@
 <%@include file="top.phtml"%>
-<title><%syspref var="site.name" %> :: <%LOCALE id="" string="select owner"%></title>
 <%@include file="header.phtml"%>
+<title><%syspref var="site.name" %> :: <%LOCALE id="" string="select owner"%></title>
 <%@include file="pagebegin.phtml" %>
    <h3><%LOCALE id="" string="Choose a new Owner"%></h3>
 <%LOCALE id="239" string="Document"%>: <b><%$obj%></b>
@@ -16,5 +16,6 @@
 </select>
 <button type="submit" value="Change"><%LOCALE id="240" string="Change"%></button>
 </form>
+<%@include file="pageend.phtml" %>
 <%@include file="footer.phtml" %>
 <%@include file="bottom.phtml" %>

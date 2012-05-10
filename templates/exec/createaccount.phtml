@@ -1,10 +1,8 @@
 <%@include file="top.phtml"%>
-
-<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-
-<title><%LOCALE id="162" string="Create Account"%></title>
 <%@include file="header.phtml"%>
+<title><%LOCALE id="162" string="Create Account"%></title>
 <%@include file="pagebegin.phtml"%>
+
    <h3><%LOCALE id="241" string="Create account"%></h3>
    <p>
 <font color="red"><%flash %></font><br>
@@ -51,7 +49,8 @@
 </tr>
 <tr>
 <td><b><%LOCALE id="423" string="Authenticate"%>:</b></td>
-<td>  <div id="recaptcha_div"></div>
+<td>  
+<div dojoType="fins.widget.Recaptcha" public_key="<%syspref var="plugin.reCAPTCHA support.public-key" %>" id="create_recaptcha"></div>
 </td></tr>
 <tr>
 <td colspan="2">
@@ -64,21 +63,6 @@
 
 </form>
 <p/>
+<%@include file="pageend.phtml"%>
 <%@include file="footer.phtml"%>
 <%@include file="bottom.phtml"%>
-
-<script type="text/javascript">
-function postOnLoad()
-{
-     Recaptcha.create("<%syspref var="plugin.reCAPTCHA support.public-key" %>",
-                        "recaptcha_div",
-                        { theme: "red",
-                          callback: Recaptcha.focus_response_field }
-                     );
-
-}
-
-dojo.addOnLoad(postOnLoad);
-
-</script>
-                  

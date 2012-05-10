@@ -1,13 +1,16 @@
 <%@ include file="top.phtml"%>
-<title><%LOCALE id="203" string="Login"%></title>
 <%@include file="header.phtml"%>
+<title><%LOCALE id="203" string="Login"%></title>
 <%@include file="pagebegin.phtml"%>
+
    <h3><%LOCALE id="203" string="Login"%></h3>
 
 <p>
 <div class="flash-message"><font color="red"><%flash %></font></div>
 <p>
 <%@ include file="exec/_login.phtml" %>
+
+<%@ include file="pageend.phtml"%>
 <%@ include file="footer.phtml"%>
 <%@ include file="bottom.phtml"%>
 

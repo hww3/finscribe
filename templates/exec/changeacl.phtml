@@ -1,7 +1,8 @@
 <%@include file="top.phtml"%>
-<title><%syspref var="site.name" %> :: <%LOCALE id="237" string="select acl"%></title>
 <%@include file="header.phtml"%>
+<title><%syspref var="site.name" %> :: <%LOCALE id="237" string="select acl"%></title>
 <%@include file="pagebegin.phtml" %>
+
    <h3><%LOCALE id="238" string="Choose a new ACL"%></h3>
 <%LOCALE id="239" string="Document"%>: <b><%$obj%></b>
 <br/>
@@ -16,5 +17,6 @@
 </select>
 <button type="submit" value="Change"><%LOCALE id="240" string="Change"%></button>
 </form>
+<%@include file="pageend.phtml" %>
 <%@include file="footer.phtml" %>
 <%@include file="bottom.phtml" %>

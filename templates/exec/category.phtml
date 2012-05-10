@@ -1,6 +1,6 @@
   <%@include file="top.phtml" %>
-   <title><%syspref var="site.name" %> :: <%LOCALE id="235" string="Category"%> <%$category.category%></title>
   <%@include file="header.phtml" %>
+   <title><%syspref var="site.name" %> :: <%LOCALE id="235" string="Category"%> <%$category.category%></title>
   <%@include file="pagebegin.phtml" %>
 
    <h3><%$category.category%></h3>
@@ -14,6 +14,7 @@
 <%action_link controller="/rss" args="$category.category" type="category"%><img src="/static/images/feed-icon-12x12.png" width="12" height="12" alt="[RSS]" border="0"></a>
 <%action_link controller="/rss" args="$category.category" type="category"%><%LOCALE id="12" string="RSS Feed"%></a>
 
+  <%@include file="pageend.phtml" %>
   <%@include file="footer.phtml" %>
   <%@include file="bottom.phtml" %>
 
