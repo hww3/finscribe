@@ -22,7 +22,7 @@ CREATE TABLE comments (
   object_id int(11) NOT NULL default '0',
   author_id int(11) NOT NULL default '0',
   created datetime NOT NULL default CURRENT_TIMESTAMP,
-  contents blob,
+  contents longblob,
   metadata blob
 )
 
