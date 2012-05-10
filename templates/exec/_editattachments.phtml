@@ -14,7 +14,7 @@
 <!--<th><%LOCALE id="83" string="Type"%></th>-->
 <th><%LOCALE id="84" string="Size"%></th><th></th></tr>
   <% foreach var="$attachments" val="attachment" %>
-  <tr><td align="left"><img src="<%syspref var="site.url"%>/static/images/attachment/<%$attachment.icon%>"> 
+  <tr><td align="left"><img src="<%syspref var="site.url"%>static/images/attachment/<%$attachment.icon%>"> 
 <%action_link controller="/space" args="$attachment.path"%><%$attachment.title%></a></td>
 <!--  <td><%$attachment.datatype.mimetype%></td> -->
   <td align="right"><%friendly_size size="$attachment.current_version.content_length"%></td>
@@ -25,7 +25,6 @@
 <form enctype="multipart/form-data" id="attachmentForm">
 <button type="file" multiple="true" id="attachment_uploader" dojoType="dojox.form.Uploader"
 uploadOnSelect="true" label="Add Files" url="<%syspref var="site.url"%>/exec/addattachments/<%$object.path%>">
-
 
 <script type="dojo/connect" event="onProgress" args="value">
 </script>
@@ -51,7 +50,8 @@ if(dialog) dialog.set('href', '<%syspref var="site.url"%>/exec/editattachments/<
 Add Files
 </button>
 </form>
+<div style="width:300px">
 <div id="files" dojoType="dojox.form.uploader.FileList" uploaderId="attachment_uploader"></div>
-
+</div>
 <% endif %>
 </div>

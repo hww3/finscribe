@@ -31,20 +31,11 @@ dependencies = {
 				"dijit.dijit-all"
 			]
 		},
-		{
-			name: "../dijit-fins.js",
-			layerDependencies: [
-				"../dijit/dijit.js"
-			],
-			dependencies: [
-				"fins"
-			]
-		}
 	],
 
 	prefixes: [
 		[ "dijit", "../dijit" ],
 		[ "dojox", "../dojox" ],
-		[ "fins", "$FSDIR/static/javascripts/fins" ]
+		[ "fins", "/Users/hww3/devel/FinScribe/static/javascripts/fins" ]
 	]
 }

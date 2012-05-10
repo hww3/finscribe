@@ -141,7 +141,7 @@ mapping format_data()
   else if(a && sizeof(a))
   {
     data->class="user";
-    data["user"] = a[0]["id"];
+    data["user"] = a["id"];
   }
   else
   {
@@ -149,7 +149,7 @@ mapping format_data()
     a = this["group"];
     if(a && sizeof(a))
     {
-      data["group"] = a[0]["id"];
+      data["group"] = a["id"];
     }
     else
     {

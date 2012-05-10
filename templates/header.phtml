@@ -5,7 +5,8 @@
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>page.css"/>
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>style.css"/>
    <xlink rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/lightbox.css"/>
-   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
+   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dijit/themes/tundra/tundra.css"/>
+   <link rel="STYLESHEET" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojox/form/resources/UploaderFileList.css"/>
    <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/javascripts/fins/widget/templates/Comments.css"/>
    <!-- IE doesn't like XHTML markup for an empty script container :/ -->
 
@@ -15,10 +16,11 @@
   djConfig = {
     isDebug : false,
     disableFlashStorage : true,
+    parseOnLoad: true,
 <% if data->config->config_name == "dev" %>
     useXDomain: false,
 <% else $%>
-	useXDomain: true,
+    useXDomain: true,
 <% endif %>
   };
 

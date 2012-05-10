@@ -1,5 +1,5 @@
 dojo.provide("fins.widget.Recaptcha");
-
+dojo.require("dijit._Widget");
 dojo.declare("fins.widget.Recaptcha", [dijit._Widget], 
 {
 

@@ -1,6 +1,8 @@
 dojo.provide("fins.widget.Comments");
 
 dojo.require("dojo.fx");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 /* Call <div dojoType="fins.widget.Comments" refreshUrl="/exec/json/comments?id=34" connectorId="button-34" /> */
 
 dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated], 

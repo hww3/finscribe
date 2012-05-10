@@ -110,8 +110,8 @@ string get_widget(object view, string contents)
         "<input id=\"contents\" type=\"hidden\" name=\"contents\">"
 		"<div data-dojo-type=\"dijit.Editor\" data-dojo-props=\""
 "extraPlugins:["
-//"'safepaste', "
-"'pastefromword', "
+"'safepaste', "
+//"'pastefromword', "
 "'normalizestyle', 'prettyprint', "
 "{name: 'dijit._editor.plugins.ViewSource', command:'viewsource'}]\" id=\"htmleditor\">" + 
                         (contents||"Edit your document contents here.") + "</div>";
