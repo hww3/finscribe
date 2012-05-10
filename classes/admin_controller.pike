@@ -81,7 +81,7 @@ public void getusers_json(Request id, Response response, mixed ... args)
   } 
 
   json = Tools.JSON.serialize((["data": j]));
-werror("json: %O\n", json);
+//werror("json: %O\n", json);
   response->set_data(json);
   response->set_type("text/json");
 }

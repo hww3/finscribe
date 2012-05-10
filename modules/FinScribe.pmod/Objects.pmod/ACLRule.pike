@@ -76,7 +76,7 @@ string format_nice()
 {
   string desc = "";
 
-  array a = this["user"];
+  mixed a = this["user"];
 
   if(this["class"])
   {
@@ -91,14 +91,14 @@ string format_nice()
   }
   else if(a && sizeof(a))
   {
-    desc+=("User: " + a[0]["name"] + " ");
+    desc+=("User: " + a["name"] + " ");
   }
   else
   {
     a = this["group"];
     if(a && sizeof(a))
     {
-      desc+=("Group: " + a[0]["name"] + " ");
+      desc+=("Group: " + a["name"] + " ");
     }
     else
     {

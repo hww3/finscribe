@@ -25,11 +25,11 @@
 
 <% if data["user_object"] %>
 | <%LOCALE id="3" string="logged in as"%> <%$user_object.username%> |
-<%action_link controller="/exec" action="logout"%>logout</a> <br/> |
+<%action_link controller="/exec" action="logout"%>logout</a> |
 <%action_link controller="/account"%>my account</a> 
 <% if data["object_is_weblog"] %>
       | 
-<a href="<%action_url controller="/exec" action="post" args="$metadata.weblog_source_path"%>" id="PostBlog">post blog</a> <br/>
+<a href="<%action_url controller="/exec" action="post" args="$metadata.weblog_source_path"%>" id="PostBlog">post blog</a> 
   <% endif %>
   <% if data["is_admin"]==1 %> 
 |

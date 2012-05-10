@@ -20,8 +20,7 @@
         <input type="hidden" name="newgroup" value="1"/>
 <% endif %>
 
-		<div dojoType="ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" 
-removesID="removed"></div>
+		<div dojoType="fins.widget.ComboPicker" loadAvailableFunction="getAvailable" loadMembersFunction="getMembers" addsId="added" removesID="removed"></div>
 
 <!--
         <p/>
@@ -36,6 +35,7 @@ removesID="removed"></div>
         <button type="submit" name="action" value="Save"><%LOCALE id="127" string="Save"%></button>
         </form>
         
+<%list_store name="jsfooter" val=" dojo.require('fins.widget.ComboPicker'); " %>
 <%@include file="adminfooter.phtml"%>
 
 <script type="text/javascript">
@@ -53,16 +53,16 @@ function getMembers()
     sync: true,
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJson(data.toString());
+        res = dojo.fromJson(data);
         res = res.data;
     }
 };
 
 // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrGet(bindArgs);
 
     return res;
 }
@@ -77,19 +77,23 @@ function getAvailable()
     sync: true,
     error:      function(type, errObj){
     },
-    load:      function(type, data, evt){
+    load:      function(data, evt){
         // handle successful response here
 
-        res = dojo.json.evalJson(data.toString());
+        res = dojo.fromJson(data.toString());
         res = res.data;
     }
 };
 
     // dispatch the request
-    var requestObj = dojo.io.bind(bindArgs);
+    var requestObj = dojo.xhrGet(bindArgs);
 
     return res;
 };
+
+dojo.require("fins.widget.ComboPicker");
 </script>
+ <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/javascripts/fins_release/widget/templates/ComboPicker.css"/>
 
 <%@include file="bottom.phtml"%>
+
