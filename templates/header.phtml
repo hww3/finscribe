@@ -1,9 +1,15 @@
-<!-- this is 2header.phtml -->
-   <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>general.css"/>
-   <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>wiki.css"/>
-   <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>snip.css"/>
-   <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>page.css"/>
+<!-- this is header.phtml -->
+    <% if data["object_is_weblog"] %>
+      <link rel="alternate" type="application/atom+xml" title="Atom Weblog Feed" href="/atom/<%$obj%>" />
+      <link rel="alternate" type="application/rss+xml" title="RSS Weblog Feed" href="/rss/<%$obj%>" />
+    <% elseif data["obj"] %>
+      <link rel="alternate" type="application/atom+xml" title="Atom Comments Feed" href="/atom/<%$obj%>?type=comments" />
+      <link rel="alternate" type="application/rss+xml" title="RSS Comments Feed" href="/rss/<%$obj%>?type=comments" />
+    <% endif %>
+
+   <link rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/theme/default/default.css"/>
    <link rel="STYLESHEET" type="text/css" href="<% theme show="path"%>style.css"/>
+
    <xlink rel="STYLESHEET" type="text/css" href="<%syspref var="site.url"%>/static/lightbox.css"/>
    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dijit/themes/tundra/tundra.css"/>
    <link rel="STYLESHEET" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojox/form/resources/UploaderFileList.css"/>
@@ -12,18 +18,20 @@
 
    <script src="<% theme show="path"%>functions.js"></script>
 
+
 <script type='text/javascript'>
   djConfig = {
-    isDebug : false,
+    parseOnLoad: true, 
+    debugAtAllCosts:false,
     disableFlashStorage : true,
-    parseOnLoad: true,
 <% if data->config->config_name == "dev" %>
     useXDomain: false,
-<% else $%>
+    isDebug:true, 
+<% else %>
     useXDomain: true,
+    isDebug: false,
 <% endif %>
   };
 
 </script>
-
 <div style="display:none" id="object"><%$obj%></div>
