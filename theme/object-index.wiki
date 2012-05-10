@@ -1,4 +1,2 @@
-\[ object-index | <a href="/space/attachment-index">attachment-index</a> | 
-<a href="space/category-index">category-index</a> | <a 
-href="/exec/doctree">tree-view</a> ] <p>
+\[ object-index | <a href="/space/attachment-index">attachment-index</a> | <a href="space/category-index">category-index</a> | <a href="/exec/doctree">tree-view</a> ] <p>
 {object-index}

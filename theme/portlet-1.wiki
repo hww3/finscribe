@@ -1,8 +1,8 @@
-__Topics__\\
+__Topics__ \\
 {image:img=Icon-Permalink} {link:GotPike?|http://www.gotpike.org|img=no}\\
 
-__Recent Changes__\\
-{recent-changes}\\
+__Recent Changes__ \\
+{recent-changes} \\
  \\
 
 {image:img=rss-small|link=/rss/start|alt=RSS Feed}
