@@ -91,8 +91,16 @@ public void activate(Request id, Response response, mixed ... args)
 
   object current_theme = app->new_string_pref("site.theme", "default");
   current_theme["value"] = theme;
-
+  app->view->flush_templates();
   response->flash(sprintf(LOCALE(422,"Activated theme %[0]s."), theme));
+  response->redirect(list);
+}
+
+
+public void flush(Request id, Response response, mixed ... args)
+{
+  app->view->flush_templates();
+  response->flash(LOCALE(0,"Flushed templates."));
   response->redirect(list);
 }
 

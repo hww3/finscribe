@@ -36,6 +36,8 @@ function openUpload(sid)
 
   <p>
   <a href="#" onclick="openUpload('<%sessionid%>');return false;"><%LOCALE id="186" string="Upload Theme"%></a>
+  &nbsp;
+  <%action_link controller="/admin/themes" action="flush"%><%LOCALE id="0" string="Flush Template Cache"%></a>
   <p>
 
   <%@include file="adminpageend.phtml" %>
