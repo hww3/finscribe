@@ -121,8 +121,9 @@ void process_object(object o, int|void immediate)
   mapping r = (["misc": ([]), "variables": ([]) ]);
 
   string html;
-
-  mixed e = catch(html = app->render(o["current_version"]["contents"], o, r));
+  if(!has_prefix(o["datatype"]["mimetype"], "text/"))
+    return;
+    mixed e = catch(html = app->render(o["current_version"]["contents"], o, r));
 
   if(!html) {
     logger->warn("Unable to render %O to html.", o["path"]);
