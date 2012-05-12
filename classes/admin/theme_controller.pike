@@ -26,11 +26,13 @@ public void list(Request id, Response response, mixed ... args)
 
      foreach(get_dir(combine_path(app->config->app_dir, "themes"));; mixed p)
      {
+       string themedir = combine_path(app->config->app_dir, "themes", p);
        object s;
 //werror("adding " + p + "\n");
        if(p == "CVS") continue;
-       if(!(s = file_stat(combine_path(app->config->app_dir, "themes", p)))) continue;
+       if(!(s = file_stat(themedir))) continue;
        if(!s->isdir) continue;
+       if(!file_stat(combine_path(themedir, "themeinfo.json"))) continue;
        ul += ({ (["name": p, "is_active": (p==current_theme?1:0) ])});
      }
 
