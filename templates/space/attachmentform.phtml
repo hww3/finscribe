@@ -1,12 +1,12 @@
 <% if data->object_is_weblog %>
 <% else %>
   <% if data->user||data->numattachments!=0 %>
-  <a id='link-attachments-<%$obj %>'
-  onclick="toggleVisibility('attachments-<%$obj %>')"><img
-  id="icon-attachments-<%$obj %>" src="/static/images/Icon-Unfold.png" border="0">
-  <%$numattachments %> <%LOCALE id="88" string="Attachments%"%>" style="display:none;margin-left:20px">
+  <a id='link-attachments-<%$obj %>' href="#"
+  onclick="toggleVisibility('attachments-<%$obj %>')"><img id="icon-attachments-<%$obj %>" src="/static/images/Icon-Unfold.png" border="0">
+  <%$numattachments %> <%LOCALE id="88" string="Attachments"%></a><br/><div style="display:none;margin-left:20px" id="attachments-<%$obj%>">
   <table>
-  <% foreach var="attachments" val="attachment" %>
+  <% foreach var="$attachments" val="attachment" %>
+
   <tr><td><a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.content_length%></td></tr>

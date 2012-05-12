@@ -1,4 +1,24 @@
 
+function toggleVisibility( what )
+{
+  var node = dojo.byId(what);
+  var link = dojo.byId("link-" + what);
+  var icon = dojo.byId("icon-" + what);
+
+  if(!node) return;
+
+  if(node.style.display == 'block')
+  {
+    node.style.display = 'none';
+    icon.src = '/static/images/Icon-Unfold.png';
+  }
+  else
+  {
+    node.style.display = 'block';
+    icon.src = '/static/images/Icon-Fold.png';
+  }
+}
+
 function openActions(item, event)
 {
   // onclick="menuLayers.show('actions', '/exec/actions/<%$obj%>', event, this)"
