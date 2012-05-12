@@ -76,7 +76,7 @@ string format_nice()
 {
   string desc = "";
 
-  mixed a = this["user"];
+  mixed a = this["users"];
 
   if(this["class"])
   {
@@ -91,14 +91,14 @@ string format_nice()
   }
   else if(a && sizeof(a))
   {
-    desc+=("User: " + a["name"] + " ");
+    desc+=("User: " + a[0]["name"] + " ");
   }
   else
   {
-    a = this["group"];
+    a = this["groups"];
     if(a && sizeof(a))
     {
-      desc+=("Group: " + a["name"] + " ");
+      desc+=("Group: " + a[0]["name"] + " ");
     }
     else
     {
@@ -125,8 +125,10 @@ mapping format_data()
 {
   mapping data = ([]);
 
+  data["id"] = this["id"];
 
-  array a = this["user"];
+
+  array a = this["users"];
 
   if(this["class"])
   {
@@ -141,15 +143,15 @@ mapping format_data()
   else if(a && sizeof(a))
   {
     data->class="user";
-    data["user"] = a["id"];
+    data["user"] = a[0]["id"];
   }
   else
   {
     data->class="group";
-    a = this["group"];
+    a = this["groups"];
     if(a && sizeof(a))
     {
-      data["group"] = a["id"];
+      data["group"] = a[0]["id"];
     }
     else
     {
@@ -158,7 +160,6 @@ mapping format_data()
     }
   }
 
-  data["id"] = this["id"];
   array privs = ({});
 
   foreach((<"browse", "read", "version", "write", "delete", "comment", "post", "lock">);string e;)

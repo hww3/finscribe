@@ -148,7 +148,7 @@ void create_acls()
   object e = model->context->find->groups((["name": "Editors"]))[0];
     if(!e) werror("no editors!\n");
   else 
-    r["group"] = e;
+    r["groups"] = e;
   a["aclrules"] += r;
 
 

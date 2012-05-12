@@ -1,6 +1,5 @@
 
 dojo.provide("fins.widget.ACLBuilder");
-
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form.Button");
@@ -503,6 +502,10 @@ dojo.declare("fins.widget.ACLBuilder", [dijit._Widget, dijit._Templated],
       var form;
 	  do
 	  {
+		if(f.form) {
+                  form = f.form;
+                  break;
+                }
 		if(f.parentNode == f)
 		  break;
 		f = f.parentNode;
@@ -519,12 +522,12 @@ dojo.declare("fins.widget.ACLBuilder", [dijit._Widget, dijit._Templated],
 	
       if(form)
       {
-              //alert("hooking into the form.");
+             // alert("hooking into the form.");
        	this.formNode = f;
                                 dojo.connect(f.form, "onsubmit",
                                         dojo.hitch(this, function(){
-											this.rulesElement.value = dojo.json.serialize({rules: this.originalRules.toArray(), deleted: this.deletedRules.toArray() });                              			
-//											this.formNode.appendChild(rules); 
+					  this.rulesElement.value = dojo.toJson({rules: this.originalRules.toArray(), deleted: this.deletedRules.toArray() });                              			
+//					  this.formNode.appendChild(rules); 
                                         })
                                 );
 

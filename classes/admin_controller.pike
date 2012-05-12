@@ -104,6 +104,7 @@ public void getrules_json(Request id, Response response, mixed ... args)
     j += ({([ "name": r->format_nice(), "value": r->format_data() ])});
   } 
 
+werror("j: %O\n", j);
   json = Tools.JSON.serialize((["data": j]));
 
   response->set_data(json);
@@ -203,7 +204,7 @@ public void editacl(Request id, Response response, mixed ... args)
           {
 //werror("%O\n", id->variables);
 
-            if(!id->variables->rules)
+            if(!id->variables->rules || !sizeof(id->variables->rules))
             {
               response->flash("msg", LOCALE(306,"ACL was not updated successfully. Rules were missing."));
               response->redirect("listacls");
@@ -212,7 +213,7 @@ public void editacl(Request id, Response response, mixed ... args)
 
             if(id->variables->newacl)
             {
-              g = Fins.DataSource._default.new("acl");
+              g = Fins.DataSource._default.new("ACL");
               Log.info("creating a new acl.");
             }
             if((id->variables->name != g["name"]) || id->variables->newacl)
@@ -222,17 +223,17 @@ public void editacl(Request id, Response response, mixed ... args)
               g->save();
 
             mapping rules = Tools.JSON.deserialize(id->variables->rules);
-            Log.debug("Rules: %O\n", rules);
+            werror("Rules: %O\n", rules);
 
             foreach(rules->deleted;;mapping r)
             {
-              object r = Fins.DataSource._default.find.aclrules_by_id((int)(r->id));
-              if(!r)
+              object rule = Fins.DataSource._default.find.aclrules_by_id((int)(r->id));
+              if(!rule)
                 Log.error("Non existent ACL Rule %d.", (int)r->id);
               else
               {
-                Log.info("Deleting ACL Rule %d", (int)r->id);
-                r->delete();
+                Log.info("Deleting ACL Rule %d", (int)rule["id"]);
+                rule->delete();
               }
             }
 
@@ -241,7 +242,7 @@ public void editacl(Request id, Response response, mixed ... args)
               if(r->isNew)
               {
                 Log.debug("adding a rule");
-                object newrule = Fins.DataSource._default.new("aclrule");
+                object newrule = Fins.DataSource._default.new("ACLRule");
                 int cls = 0;
                 if(r->class == "anonymous")
                   cls = 4;
@@ -263,16 +264,16 @@ public void editacl(Request id, Response response, mixed ... args)
                 if(r->class == "user")
                 {
                   object u = Fins.DataSource._default.find.users_by_id((int)r->user);
-                  newrule["user"] += u;
+                  newrule["users"] += u;
                 }
                 else if(r->class == "group")
                 {
                   object g = Fins.DataSource._default.find.groups_by_id((int)r->group);
-                  newrule["group"] += g;
+                  newrule["groups"] += g;
                 }
 
                 // add the acl rule to the acl.
-                g["rules"] += newrule;
+                g["aclrules"] += newrule;
 
 
               }
@@ -298,21 +299,23 @@ public void editacl(Request id, Response response, mixed ... args)
                   else oldrule->revoke_xmit(xm);
                 }
 
-                foreach(oldrule["user"];; object u)
-                  oldrule["user"] -= u;
+                if(oldrule["users"])
+                  foreach(oldrule["users"];; object u)
+                    oldrule["users"] -= u;
 
-                foreach(oldrule["group"];; object g)
-                  oldrule["group"] -= g;
+                if(oldrule["groups"])
+                  foreach(oldrule["groups"];; object g)
+                    oldrule["groups"] -= g;
 
                 if(r->class == "user")
                 {
                   object u = Fins.DataSource._default.find.users_by_id((int)r->user);
-                  oldrule["user"] += u;
+                  oldrule["users"] += u;
                 }
                 else if(r->class == "group")
                 {
                   object g = Fins.DataSource._default.find.groups_by_id((int)r->group);
-                  oldrule["group"] += g;
+                  oldrule["groups"] += g;
                 }
               }
             }
@@ -483,7 +486,7 @@ public void newuser(Request id, Response response, mixed ... args)
                         else
                         {
                                 // if we got here, everything should be good to go.
-                                object u = Fins.DataSource._default.new("user");
+                                object u = Fins.DataSource._default.new("User");
                                 u["username"] = UserName;
                                 u["name"] = Name;
                                 u["email"] = Email;
@@ -508,7 +511,7 @@ public void newuser(Request id, Response response, mixed ... args)
 // now, let's set up a page for the new user.
                                 object p = Fins.DataSource._default.find("object", (["path": "themes/default/newuser"]))[0];
 
-                                object up = Fins.DataSource._default.new("object");
+                                object up = Fins.DataSource._default.new("Object");
                                 up["path"] = u["username"];
                                 up["author"] = u;
                                 up["datatype"] = p["datatype"];
@@ -517,7 +520,7 @@ public void newuser(Request id, Response response, mixed ... args)
                                 up->save();
                                 up["md"]["locked"] = 1;
 
-                                object uv = Fins.DataSource._default.new("object_version");
+                                object uv = Fins.DataSource._default.new("Object_version");
                                 uv["author"] = u;
                                 uv["object"] = up;
                                 uv["contents"] = p["current_version"]["contents"];
