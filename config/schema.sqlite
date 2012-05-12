@@ -48,7 +48,7 @@ CREATE TABLE object_versions (
   author_id int(11) NOT NULL default '0',
   created datetime NOT NULL default CURRENT_TIMESTAMP,
   subject varchar(128) default NULL,
-  contents blob NOT NULL,
+  contents longblob NOT NULL,
   version int(11) NOT NULL default '0'
 ) 
 

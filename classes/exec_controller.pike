@@ -693,12 +693,12 @@ public void upload(Request id, Response response, mixed ... args)
   }
   
   array dtos = find.datatypes((["mimetype": 
-    Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"])]));
+    Protocols.HTTP.Server.filename_to_type(lower_case(id->variables["save-as-filename"]))]));
   
   if(!sizeof(dtos))
   {
     response->flash("msg", sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not permitted."), 
-    Protocols.HTTP.Server.filename_to_type(id->variables["save-as-filename"]),
+    Protocols.HTTP.Server.filename_to_type(lower_case(id->variables["save-as-filename"])),
       id->variables["save-as-filename"]));
   }
   else 
@@ -787,7 +787,7 @@ public void editattachments(Request id, Response response, mixed ... args)
 
 public void addattachments(Request id, Response response, mixed ... args)
 {
-  werror("addattachments!: %O %O\n", args, id->variables);
+//  werror("addattachments!: %O %O\n", args, id->variables);
   
   // workaround for flash player not passing cookies properly
   if(id->variables->PSESSIONID)
@@ -810,7 +810,7 @@ public void addattachments(Request id, Response response, mixed ... args)
     if(sizeof(a)) p = a[0];
     else 
     {
-    Log.debug("unable to find root object for attachment.");
+    Log.info("unable to find root object for attachment.");
       response->set_data(LOCALE(368,"Unable to find root object to attach this document to."));
     response->set_error(500);
       return;
@@ -832,18 +832,18 @@ public void addattachments(Request id, Response response, mixed ... args)
     string path = Stdio.append_path(obj, fn);
 
     object obj_o;
-    string mimetype = Protocols.HTTP.Server.filename_to_type(fn);
+    string mimetype = Protocols.HTTP.Server.filename_to_type(lower_case(fn));
   
     array dtos = find.datatypes((["mimetype": mimetype]));
     if(!sizeof(dtos))
     {
 
-       Log.debug("Mime type " + Protocols.HTTP.Server.filename_to_type(fn) + " for file " + fn + " is not permitted.");
+       Log.info("Mime type " + Protocols.HTTP.Server.filename_to_type(fn) + " for file " + fn + " is not permitted.");
 string e =            sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not permitted."), 
-             Protocols.HTTP.Server.filename_to_type(fn), fn);
+             Protocols.HTTP.Server.filename_to_type(lower_case(fn)), fn);
 
        response->set_data("[" + Tools.JSON.serialize( (["filename": fn, "filetype": 
-           Protocols.HTTP.Server.filename_to_type(fn), "error": e ])  
+           Protocols.HTTP.Server.filename_to_type(lower_case(fn)), "error": e ])  
          ) + "]" );
 
        return;
@@ -867,9 +867,16 @@ string e =            sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not 
         obj_o["path"] = path;
         obj_o->save();
       };
+      if(e) Log.warn("Unable to create new attachment, reason: " + Error.mkerror(e)->message());
     }
       object obj_n = Fins.DataSource._default.new("Object_version");
-      obj_n["contents"] = fc_array[file_index];
+      mixed err;
+      if(err = catch(obj_n["contents"] = fc_array[file_index]))
+      {
+        Log.warn("Unable to set content, reason: " + Error.mkerror(err)->message());
+        
+        return;
+      }
 
       int v;
       object cv;
@@ -884,13 +891,17 @@ string e =            sprintf(LOCALE(366,"Mime type %[0]s for file %[1]s is not 
         werror("no existing version.\n");         
       }
       obj_n["version"] = (v+1);
+werror("linking\n");
       obj_n["object"] = obj_o;
+werror("Setting author\n");
       obj_n["author"] = find.users_by_id(id->misc->session_variables->userid);
+werror("saving.\n");
       obj_n->save();
+werror("saved.\n");
       cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
-
+werror("cleared cache\n");
       app->trigger_event("postSaveAttachment", id, obj_o);
-
+werror("looks good.\n");
 //     string data = Tools.JSON.serialize((["file": fn, "extension": (fn/".")[-1]]));
      string data = Tools.JSON.serialize(([]));
   response->set_data(data);
