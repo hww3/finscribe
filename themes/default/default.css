@@ -16,6 +16,13 @@ img {
   vertical-align: middle;
 }
 
+img.internal
+{ 
+  padding: 0px;
+  border: 0px;
+  background:inherit;
+}
+
 img.left {
   display: block;
   left: 0px;

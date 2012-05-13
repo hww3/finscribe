@@ -7,7 +7,7 @@
       <td><strong><%LOCALE id="85" string="Updated"%></strong></td>
       <td><strong><%LOCALE id="86" string="Updated By"%></strong></td></tr>
   <% foreach var="$object.attachments" val="attachment" %>
-  <tr><td><img src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
+  <tr><td><img class="internal" src="/static/images/attachment/<%$attachment.icon%>"> <a href="/space/<%$attachment.path%>"><%$attachment.title%></a></td>
   <td><%$attachment.datatype.mimetype%></td>
   <td><%$attachment.current_version.nice_content_length%></td>
   <td><%$attachment.current_version.nice_created%></td>
