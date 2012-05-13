@@ -1,0 +1,10 @@
+syntax: glob
+static/javascripts/fins_release
+static/javascripts/dojo
+static/javascripts/dojox
+static/javascripts/dijit
+themes/*
+logs/*
+config/*
+# any dojo directories we might have laying around for development purposes
+dojo-*
