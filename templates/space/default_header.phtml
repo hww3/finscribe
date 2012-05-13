@@ -1,0 +1,24 @@
+      <% if data["object_is_weblog"] %>
+      <% else %>
+   <h3><%$title %></h3>
+   <%LOCALE id="103" string="Created by"%> <%$author_username %>. <%LOCALE id="103" string="Created by"%> <%$editor_username %>, 
+<%friendly_date var="$object_version.created"%>. <%LOCALE id="9" string="Version #"%><%$object_version.version%>.
+     <% endif %>
+
+
+<% if data["user_object"]  %>
+<div class="snip-buttons">
+[ <a id="Actions" href="/exec/actions/<%$obj%>">actions</a> ]
+</div>
+<% endif %> 
+<div id="snip-wrapper">
+
+   <div id="snip-content">
+ 
+   <div class="flash-message"><% flash %></div>
+
+   <%@ include file="space/attachmentform.phtml" %>
+<% if data["numcategories"] %>
+ <%LOCALE id="105" string="Posted in "%><% implode var="$category_links" final=" and " %>.
+<p/>
+<% endif %>

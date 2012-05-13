@@ -139,6 +139,7 @@ string simple_macro_fontlock(Fins.Template.TemplateData data, mapping|void args)
   else return contents;
 }
 
+//! args: var=preference name, val=default value for pref, store=variable to store the value in
 string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void arguments)
 {
   if(arguments->var)
@@ -148,6 +149,12 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
 
     if(!p) return "";
 
+    if(arguments->store)
+    {
+      mixed d = data->get_data();
+      d[arguments->store] = p["value"];
+      return "";
+    }
     if(!arguments->val)
       return p["value"];
   }
@@ -260,6 +267,23 @@ string simple_macro_describe_news_date(Fins.Template.TemplateData data, mapping|
   if(args->var && args->var->format_ymd)  
     return args->var->format_ymd();
   else return "N/A";
+} 
+
+//! split a string into an array
+//!
+//! args: var, on, val=variable to store the split into
+string simple_macro_split_string(Fins.Template.TemplateData data, mapping|void args)
+{
+
+  if(args->var)  
+  {
+    mixed d = data->get_data();
+    d[args->val] = (args->var)/(args->on);
+//werror("split: %O\n", d[args->val]);
+  }  
+
+
+  return "";
 } 
 
 
