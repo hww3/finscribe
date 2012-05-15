@@ -4,6 +4,8 @@ import Fins;
 inherit Fins.FinsView;
 import Tools.Logging;
 
+object logger = Tools.Logging.get_logger("fins.view");
+
 program default_template = (program)"themed_template";
 program default_data = (program)"themed_templatedata";
 
@@ -317,3 +319,65 @@ string simple_macro_recent_comments(Fins.Template.TemplateData data, mapping|voi
 
   return "";
 }
+
+
+Tools.Mapping.MappingCache feed_data = Tools.Mapping.MappingCache(600);
+
+//! get an rss feed and store the items in a variable.
+string simple_macro_rss_feed(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed res;
+  int max = 5;
+
+  if(args->max) max = (int) args->max;  
+
+  if(!args->store)
+    return "rss_feed macro requires a variable to store in.";
+  if(!args->url)
+    return "rss_feed macro requires a url to fetch.";
+
+#if constant(Public.Parser.XML2) && constant(Public.Syndication)
+  res = rss_fetch(args->url);
+#else
+  res = ({(["title": "RSS Feeds Unavailable - Install Public.Parser.XML2"])});
+#endif
+werror("res: %O\n", res);
+  mixed d = data->get_data();
+  d[args->store] = res;
+  return "";
+
+  return "";
+}
+
+
+#if constant(Public.Parser.XML2) && constant(Public.Syndication)
+
+mixed rss_fetch(string rssurl, int|void timeout)
+{
+  string rss;
+  object r;
+
+  if(!(rss = feed_data[rssurl]))
+  {
+
+    logger->info("rss-reader getting " + rssurl);
+
+    if(has_prefix(rssurl, "file://"))
+      rss = Stdio.read_file(rssurl[7..]);
+    else rss = Protocols.HTTP.get_url_data(rssurl);
+
+    if(rss) feed_data[rssurl] = rss;
+  }
+
+  mixed e = catch
+  {
+    if(rss)
+      r = Public.Syndication.RSS.parse(rss);
+  };
+
+ if(e) logger->exception("Error parsing RSS Feed.", e);
+
+  return r;
+}
+
+#endif
