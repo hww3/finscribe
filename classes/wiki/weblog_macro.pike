@@ -106,7 +106,9 @@ array evaluate(Macros.MacroParameters params)
 
     string contents = entry["current_version"]["contents"];
 
+    t->add("has_teaser", 1);
     t->add("content", contents);
+
     if (sizeof(contents / "<!-- break -->") > 1) 
       t->add("teaser", (contents / "<!-- break -->")[0]);
     else if (sizeof(contents / "<break>") > 1) 
@@ -116,8 +118,10 @@ array evaluate(Macros.MacroParameters params)
     else if (sizeof(contents / "{break}") > 1) 
       t->add("teaser", (contents / "{break}")[0]);
     else
+    {
+      t->add("has_teaser", 0);
       t->add("teaser", contents);
-
+    }   
   
     res += ({t->render()});
   }

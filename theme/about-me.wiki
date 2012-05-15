@@ -1,0 +1,3 @@
+1 About Me
+
+{image src=/theme/coolblue/images/gravatar.jpg|align=left} Mary had a little lamb, its fleece was white as snow. Every where that Mary went, that lamb was sure to go.

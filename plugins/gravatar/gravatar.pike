@@ -66,9 +66,9 @@ class generate_gravatar_url
 
   string simple_macro_gravatar(Fins.Template.TemplateData data, mapping|void arguments)
   {
-    string r = "<img src=\"http://www.gravatar.com/avatar.php?gravatar_id=";
+    string r = "http://www.gravatar.com/avatar.php?gravatar_id=";
 
-    if(!arguments) return "";
+    if(!arguments->url) r = "<img src=\"";
 
     string email = String.trim_whites(arguments->email || app->view->get_var_value(arguments->var, data->get_data()));
 
@@ -81,7 +81,8 @@ class generate_gravatar_url
         r = r + "&" + argument + "=" + value;
     }
 
-    r+="\">";
+    if(!arguments->url)
+      r+="\">";
 
     return r;
   }

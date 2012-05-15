@@ -16,7 +16,11 @@ dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated],
   refreshUrl: '',
   refreshRate: 30,
   connectorId: '',
+  myRoot: null,
   myDiv: null,
+  myLinkDiv: null,
+  myLink: null,
+  targetName: '',
   /* closure crap */
   onDisplay: 0,
   connectorOriginalHref: '',
@@ -24,12 +28,18 @@ dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated],
 
   startup: function() {
  //   dojo.debug("Hello from comments");
+//alert("have target " + this.targetName);
+    this.myLink.href="#" + this.targetName;
+
+  if(this.showLink)
+	  dojo.fx.wipeIn({ node: this.myLink, duration:10 }).play();
+
     var connector = dojo.byId(this.connectorId);
     if (connector) {
       // Do this so that if the widget doesn't work then the original
       // fallback in the href works.
       this.connectorOriginalHref = connector.href;
-      connector.href = '#';
+      connector.href = '#' + (this.targetName);
       this.connect(connector, "onclick", this.click);
     }
    this.myDiv.style.visibility = 'hidden';
@@ -37,13 +47,14 @@ dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated],
   },
 
   click: function() {
-//	alert("click!");
+	//alert("click!");
     if (!this.onDisplay) {
 		this.update();
     }
   },
 
   update: function() {
+//alert("update!");
     if (!this.updating) {
       var bindArgs = { 
 	url : this.refreshUrl,
@@ -61,6 +72,7 @@ dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated],
     widget.myDiv.innerHTML = data;
 	if(!widget.onDisplay)
 	{
+ 	  dojo.fx.wipeOut({ node: widget.myLink, duration:100 }).play();
 	  dojo.fx.wipeIn({ node: widget.myDiv, duration:1000 }).play();
 	  widget.onDisplay = 1;
 	}

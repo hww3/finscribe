@@ -56,7 +56,7 @@ function openPostBlog(item, event, source)
   if(!d) return;
   else obj = d.innerHTML;
 
-  openPopup(source + "?ajax=1", 'Post Blog Entry', null, null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
+  openPopup(source + "?ajax=1", 'Post Blog Entry', '800px', null, null, /*function(){if(window.postOnLoad) window.postOnLoad();}*/ null);
 }
 
 function uploadAttachemnts(obj, formid)
@@ -219,10 +219,10 @@ function saveComment(obj, formid, noanim, widgetId)
    		  }
           else
           {
-			  dialog.set('content', 'OK');
+			  dialog.set('content', 'Comment Posted.');
 		      window.setTimeout('closePopup();', 2000);
 			  var d = dijit.byId(obj + "_comments");
-			  if(d) d.click();
+			  if(d) d.update();
 	          //displayComments('wiper', obj);
           }
         }
@@ -277,6 +277,7 @@ function setCurrentSessionId(sid)
 {
   currentSessionId = sid;
 }
+
 
 var loadhandler;
 

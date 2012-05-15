@@ -315,6 +315,7 @@ public void set_default_data(Fins.Request id, object|mapping t)
 
 int admin_user_filter(Fins.Request id, Fins.Response response, mixed ... args)
 {
+werror("admin_user_filter: %O\n", id);
   return is_admin_user(id, response);
 }
 
@@ -337,6 +338,7 @@ object get_current_user(object id)
 
 public int is_admin_user(Fins.Request id, Fins.Response response)
 {
+werror("misc: %O\n", id->misc);
   if(!id->misc->session_variables->userid)
   {
     response->flash(LOCALE(331,"You must be logged in as an administrator to continue."));

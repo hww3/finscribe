@@ -1,5 +1,5 @@
-<h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
 
+<h3><%LOCALE id="206" string="Posting"%>: <%$obj%></h3>
 <form action="" method="post" id="postblogform">
 <table>
 <tr>
@@ -11,24 +11,25 @@
 <br/>
 </td>
 </tr>
+
 <tr>
 <td></td>
 <td>
-<textarea rows="20" cols="80" name="contents"><%$contents%></textarea>
+<textarea rows="20" cols="60" name="contents"><%$contents%></textarea>
 <br/>
 </td>
 </tr>
+
 <tr>
-<td>
+<td valign=top>
 <b><%LOCALE id="207" string="TrackBack URLs"%>: </b>
-<br>(<%LOCALE id="208" string="click preview to detect"%> <a 
-href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBack"%></a> <%LOCALE id="210" 
-string="URLs"%>)
-<br/>
 </td>
 <td>
-<textarea rows="5" cols="80" name="trackbacks"><%$trackbacks%></textarea> 
+<textarea rows="5" cols="60" name="trackbacks"><%$trackbacks%></textarea> 
 <br/>
+(<%LOCALE id="208" string="click preview to detect"%> <a 
+href="http://en.wikipedia.org/wiki/Trackback"><%LOCALE id="209" string="TrackBack"%></a> <%LOCALE id="210" 
+string="URLs"%>)
 </td>
 </tr>
 <tr>
@@ -64,6 +65,7 @@ onclick="toggleCreated()"/>
 </td>
 </tr>
 </table>
+
 <%if data->preview %>
 <b><%LOCALE id="191" string="Preview"%>:</b><p/>
 <%$preview%>
