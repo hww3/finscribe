@@ -157,8 +157,8 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
       d[arguments->store] = p["value"];
       return "";
     }
-    if(!arguments->val)
-      return p["value"];
+
+    return p["value"];
   }
 }
 
@@ -337,11 +337,11 @@ string simple_macro_rss_feed(Fins.Template.TemplateData data, mapping|void args)
     return "rss_feed macro requires a url to fetch.";
 
 #if constant(Public.Parser.XML2) && constant(Public.Syndication)
-  res = rss_fetch(args->url);
+  res = rss_fetch(args->url, max);
 #else
   res = ({(["title": "RSS Feeds Unavailable - Install Public.Parser.XML2"])});
 #endif
-werror("res: %O\n", res);
+//werror("res: %O\n", res);
   mixed d = data->get_data();
   d[args->store] = res;
   return "";
@@ -350,9 +350,71 @@ werror("res: %O\n", res);
 }
 
 
+//! get an image rss feed (smugmug, flicker, etc)
+string simple_macro_image_feed(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed res;
+  int max = 5;
+
+  if(args->max) max = (int) args->max;  
+
+  if(!args->store)
+    return "image_feed macro requires a variable to store in.";
+  if(!args->url)
+    return "image_feed macro requires a url to fetch.";
+
+#if constant(Public.Parser.XML2) && constant(Public.Syndication)
+  res = image_fetch(args->url, max);
+#else
+  res = ({(["title": "Image/RSS Feeds Unavailable - Install Public.Parser.XML2"])});
+#endif
+//werror("res: %O\n", res);
+  mixed d = data->get_data();
+  d[args->store] = res;
+  return "";
+
+  return "";
+}
+
+mixed image_fetch(string rssurl, int max, int|void timeout)
+{
+  object r = rss_fetch(rssurl, max, timeout);
+  array x = ({});
+  mapping res = ([]);
+
+  if(r && r->items)
+  { 
+
+    foreach(r->items;; object item)
+    {
+      mapping image = ([]);
+      mapping md = item->data["http://search.yahoo.com/mrss/"];
+      if(md && md->thumbnail)
+      {
+        image = md["thumbnail"]->get_attributes();
+        image->thumbnail = image->url;
+        image->title = item->data->title;
+        image->description = item->data->description;
+        image->date = Calendar.dwim_time(item->data->pubDate);
+        image->url = item->data->link;
+        x+=({image});
+        if(sizeof(x) >= max) break;
+      }
+      else continue;
+    }
+
+    res->photos=x;
+    res->title = r->data->title;
+    res->url = r->data->link;
+  }
+
+
+  return res;
+}
+
 #if constant(Public.Parser.XML2) && constant(Public.Syndication)
 
-mixed rss_fetch(string rssurl, int|void timeout)
+mixed rss_fetch(string rssurl, int max, int|void timeout)
 {
   string rss;
   object r;
@@ -378,6 +440,12 @@ mixed rss_fetch(string rssurl, int|void timeout)
  if(e) logger->exception("Error parsing RSS Feed.", e);
 
   return r;
+}
+
+#else
+mixed rss_fetch(string rssurl, int max, int|void timeout)
+{
+  return ([]);
 }
 
 #endif
