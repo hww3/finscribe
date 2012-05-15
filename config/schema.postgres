@@ -12,7 +12,7 @@ CREATE TABLE preferences (
   name char(64) NOT NULL UNIQUE default '',
   description char(256) NOT NULL default '',
   type smallint NOT NULL default 0,    
-  value varchar(64) NOT NULL default '',
+  value varchar(128) NOT NULL default '',
   PRIMARY KEY  (id)
 ) 
 
