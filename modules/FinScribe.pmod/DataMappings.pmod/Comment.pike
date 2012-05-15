@@ -10,7 +10,21 @@ import Fins.Model;
   //    add_field(context, BinaryStringField("metadata", 1024, 0, "")); 
       add_field(context, MetaDataField("md", "metadata"));
       add_field(context, TransformField("nice_created", "created", format_created));
+      add_field(context, TransformField("author_name", "md", get_name));
       add_field(context, TransformField("wiki_contents", "contents", context->app->render_wiki));
+      add_field(context, TransformField("short_wiki_contents", "wiki_contents", make_excerpt));
+   }
+
+   static string get_name(object c, object i)
+   {
+     string un;
+     if(un = c["name"]) return un;
+     else return i["author"]["name"];
+   }
+
+   static string make_excerpt(string c, object i)
+   {
+     return FinScribe.Blog.make_excerpt(c, 140);
    }
    
    static string format_created(object c, object i)

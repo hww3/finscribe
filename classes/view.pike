@@ -296,3 +296,24 @@ string simple_macro_blog_source(Fins.Template.TemplateData data, mapping|void ar
     return r->misc->object_is_weblog["path"];
   else return "";
 }
+
+
+//! get a list of recent comments and store them in a variable.
+string simple_macro_recent_comments(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed res;
+  int max = 5;
+
+  if(args->max) max = (int) args->max;  
+
+  if(!args->store)
+    return "recent_comments macro requires a variable to store in.";
+
+  res = app->model->context->find->comments(([]), Fins.Model.CompoundCriteria(({Fins.Model.SortCriteria("created", "desc"), Fins.Model.LimitCriteria(max)}) ));
+
+  mixed d = data->get_data();
+  d[args->store] = res;
+  return "";
+
+  return "";
+}
