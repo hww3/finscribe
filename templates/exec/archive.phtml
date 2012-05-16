@@ -1,0 +1,20 @@
+<%@ include file="top.phtml"%>
+<%@include file="header.phtml"%>
+<title><%LOCALE id="0" string="Archives for"%> <%$weblog.title%>, <%format_date var="$date" format="nice"%></title>
+<%@include file="pagebegin.phtml"%>
+
+   <h3><%LOCALE id="0" string="Archives for"%> <%$weblog.title%>, <%format_date var="$date" format="nice"%></h3>
+
+<p>
+<div class="flash-message"><font color="red"><%flash %></font></div>
+<p>
+<%foreach var="$archives" val="entry"%>
+<%action_link controller="/space" args="$entry.path"%><%$entry.title%></a> (<%$entry.nice_created%>)<p>
+<%end%>
+
+<%@ include file="pageend.phtml"%>
+<%@ include file="footer.phtml"%>
+<%@ include file="bottom.phtml"%>
+
+
+

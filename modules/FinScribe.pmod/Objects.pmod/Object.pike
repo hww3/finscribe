@@ -65,16 +65,21 @@ public int get_blog_count()
 
 }
 
-public array get_blog_entries(int|void max, int|void start, int|void include_wip)
+public array get_blog_entries(int|object|void max, int|void start, int|void include_wip)
 {
   Log.debug("Getting blog entries for " + this["path"]);
   array crit = ({});
 
   crit += ({Fins.Model.Criteria("ORDER BY created DESC")});
+  mapping search = (["is_attachment": (include_wip?({2,3}):2), "parent": this]);
 
-  if(max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
+  if(objectp(max))
+  {
+    search["created"] = max;
+  }
+  else if(!objectp(max) && max||start) crit += ({Fins.Model.LimitCriteria(max, start)});
 
-  array o = context->find->objects( ([ "is_attachment": (include_wip?({2,3}):2), "parent": this]),
+  array o = context->find->objects(search,
                         Fins.Model.CompoundCriteria( crit )
             );
 

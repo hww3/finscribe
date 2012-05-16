@@ -13,6 +13,26 @@ inherit Fins.FinsController;
 
 int i=0;
 
+public void archive(Request id, Response response, mixed ... args)
+{
+   object t = view->get_idview("exec/archive", id);
+
+   array apath = args[0..<2];
+   string path = apath*"/";
+   
+   // UGLY!
+   object created = Calendar.dwim_day((args[sizeof(args)-2..]*"/")+"/01")->month();
+
+   object root = model->get_fbobject(apath, id);
+   mixed e = root->get_blog_entries(created);
+
+   app->set_default_data(id, t);
+   t->add("date", created);
+   t->add("archives", e);
+   t->add("weblog", root);
+   response->set_view(t);
+}
+
 public void up(Request id, Response response, mixed ... args)
 {
   werror("UPLOAD: %O\n", id->variables);

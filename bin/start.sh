@@ -9,4 +9,5 @@
   fi
 
   cd `dirname $0`/../..
+  echo pike $PIKE_ARGS -x fins start FinScribe $*
   exec pike $PIKE_ARGS -x fins start FinScribe $*

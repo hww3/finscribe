@@ -1,0 +1,13 @@
+             <h3>Site Links</h3>
+
+                    <div class="footer-list">
+                            <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="index.html">Style Demo</a></li>
+                                    <li><a href="index.html">Blog</a></li>
+                                    <li><a href="index.html">Archive</a></li>
+                                    <li><a href="index.html">About</a></li>
+                                    <li><a href="index.html">Template Info</a></li>
+                                    <li><a href="index.html">Site Map</a></li>
+                            </ul>
+                    </div>

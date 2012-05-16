@@ -325,6 +325,59 @@ string simple_macro_recent_comments(Fins.Template.TemplateData data, mapping|voi
 }
 
 
+Tools.Mapping.MappingCache archive_data = Tools.Mapping.MappingCache(3600 * 3);
+
+string simple_macro_archive_list(Fins.Template.TemplateData data, mapping|void args)
+{
+  mixed res;
+  int max = 5;
+
+  if(!args->weblog)
+    return "archive_list macro must be provided with path to desired weblog.";
+
+  if(!args->store)
+    return "archive_list macro requires a variable to store in.";
+
+  if(!(res = archive_data[args->weblog])) 
+  {
+    logger->info("calculating archive buckets.");
+    object root = app->model->context->find->objects_by_path(args->weblog);
+
+    if(!root) return "archive_list macro could not retrieve weblog " + args->weblog + ".";
+
+    mixed entries = root->get_blog_entries();
+
+    mapping buckets = ([]);
+
+    foreach(entries;;object entry)
+    {
+      buckets[entry["created"]->month()]++;
+    }
+
+    array x = ({});
+    array y = ({});    
+
+    foreach(buckets;object b;)
+    {
+      string cn = sprintf("%04d%02d", b->year_no(), b->month_no());
+      x += ({ cn });
+      y += ({(["month": b->format_nice(), "url": app->url_for_action(app->controller->exec->archive, ({args->weblog, b->year_no(), b->month_no()}), 0), "items": buckets[b] ]) });
+    }
+
+    sort(x, y);
+
+    res = reverse(y);
+    archive_data[args->weblog] = res;
+  }
+
+  if(sizeof(res) > max)
+  res = res[0..max-1];
+
+  mixed d = data->get_data();
+  d[args->store] = res;
+  return "";
+}
+
 Tools.Mapping.MappingCache feed_data = Tools.Mapping.MappingCache(600);
 
 //! get an rss feed and store the items in a variable.
