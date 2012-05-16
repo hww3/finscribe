@@ -1,0 +1,34 @@
+                    <h3>Contact Info</h3>
+                
+                    <p>
+                    <strong>Phone: </strong>+1234567<br/>
+                    <strong>Fax: </strong>+123456789
+                    </p>
+
+                    <p><strong>Address: </strong>123 Put Your Address Here</p>
+            <p><strong>E-mail: </strong>me@coolblue.com</p>
+                    <p>Want more info - go to our <a href="#">contact page</a></p>
+
+            <h3>Updates</h3>
+
+            <ul class="subscribe-stuff">
+                <li><a title="RSS" href="index.html" rel="nofollow">
+                                <img alt="RSS" title="RSS" src="<% theme show="path"%>images/social_rss.png" /></a>
+                            </li>
+                <li><a title="Facebook" href="index.html" rel="nofollow">
+                                <img alt="Facebook" title="Facebook" src="<% theme show="path"%>images/social_facebook.png" /></a>
+                            </li>
+                            <li><a title="Twitter" href="index.html" rel="nofollow">
+                                <img alt="Twitter" title="Twitter" src="<% theme show="path"%>images/social_twitter.png" /></a>
+                            </li>
+                            <li><a title="E-mail this story to a friend!" href="index.html" rel="nofollow">
+                                <img alt="E-mail this story to a friend!" title="E-mail this story to a friend!" src="<% theme show="path"%>images/social_email.png" /></a>
+                            </li>
+            </ul>
+            
+            <p>Stay up to date. Subscribe via
+                    <a href="index">RSS</a>, <a href="index">Facebook</a>,
+                    <a href="index">Twitter</a> or <a href="index">Email</a>
+                    </p>
+
+
