@@ -1099,6 +1099,7 @@ public void comments(Request id, Response response, mixed ... args)
           object obj_n = Fins.DataSource._default.new("Comment");
             obj_n["contents"] = contents;
             obj_n["object"] = obj_o;
+            obj_n["created"] = Calendar.now();
             if(anonymous)
             {
               obj_n["author"] = find.users((["username": "anonymous"]))[0];
