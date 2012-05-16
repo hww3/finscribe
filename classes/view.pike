@@ -146,7 +146,11 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
 {
   if(arguments->var)
   {
-    object p = app->new_string_pref(arguments->var, arguments->val || 
+    object p;
+    if(arguments->type && arguments->type == "boolean")
+      p = app->new_boolean_pref(arguments->var, arguments->val);
+    else
+      p = app->new_string_pref(arguments->var, arguments->val || 
                                          arguments->var);
 
     if(!p) return "";
@@ -154,11 +158,11 @@ string simple_macro_syspref(Fins.Template.TemplateData data, mapping|void argume
     if(arguments->store)
     {
       mixed d = data->get_data();
-      d[arguments->store] = p["value"];
+      d[arguments->store] = p["typedvalue"];
       return "";
     }
 
-    return p["value"];
+    return p["typedvalue"];
   }
 }
 

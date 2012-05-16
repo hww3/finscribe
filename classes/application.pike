@@ -427,6 +427,24 @@ object new_string_pref(string pref, string value)
   }
 }
 
+object new_boolean_pref(string pref, string value)
+{
+  object p;
+  p = get_sys_pref(pref);
+  if(p) return p;
+  else 
+  { 
+     logger->info("Creating new preference object '" + pref  + "'.");
+     p = FinScribe.Objects.Preference();
+     p["name"] = pref;
+     p["type"] = FinScribe.BOOLEAN;
+     p["value"] = (int)value;
+     p["description"] = "";
+     p->save();
+     return p;
+  }
+}
+
 object new_pref(string pref, string value, int type)
 {
   object p;
