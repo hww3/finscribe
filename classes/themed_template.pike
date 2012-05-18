@@ -19,7 +19,6 @@ context_obj)
    context = context_obj;
 
    context->type = object_program(this);
-
    auto_reload = (int)(context->application->config["view"]["reload"]);
    templatename = _templatename + ".phtml";
 

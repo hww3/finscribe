@@ -1,13 +1,20 @@
 #charset utf8
 
 import Fins;
-inherit Fins.FinsView;
 import Tools.Logging;
+
+inherit Fins.FinsView;
+inherit Fins.Helpers.Macros.Pagination;
 
 object logger = Tools.Logging.get_logger("fins.view");
 
 program default_template = (program)"themed_template";
 program default_data = (program)"themed_templatedata";
+
+static void create(object app)
+{
+	::create(app);  
+}
 
 mapping included_snips = ([]);
 

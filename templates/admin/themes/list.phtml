@@ -20,7 +20,8 @@ function openUpload(sid)
 
         <table>
             <tr><td><b><%LOCALE id="183" string="Theme"%></b></td><td></td><td></td></tr>
-          <% foreach var="$themes" val="theme"%>
+<%paginator var="$themes" store="theme_page" size="10"%>
+          <% foreach var="$theme_page.page" val="theme"%>
         <tr>
             <td><%$theme.name%></td>
 <% if data["theme"]["is_active"] %>
@@ -33,7 +34,19 @@ function openUpload(sid)
         </tr>
           <% end %>
         </table>
-
+<p>
+[ <%if data->theme_page_prevurl %>
+<a href="<%$theme_page_prevurl%>">Previous</a>
+<%else%>
+Previous
+<%endif%>
+]  &nbsp; <%$theme_page.page_no%> / <%$theme_page.num_pages%> &nbsp;
+[ <%if data->theme_page_nexturl %>
+<a href="<%$theme_page_nexturl%>">Next</a>
+<%else%>
+Next
+<%endif%>
+]
   <p>
   <a href="#" onclick="openUpload('<%sessionid%>');return false;"><%LOCALE id="186" string="Upload Theme"%></a>
   &nbsp;
