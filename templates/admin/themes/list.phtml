@@ -21,6 +21,10 @@ function openUpload(sid)
         <table>
             <tr><td><b><%LOCALE id="183" string="Theme"%></b></td><td></td><td></td></tr>
 <%paginator var="$themes" store="theme_page" size="10"%>
+<!--
+Show: <a href="<%page_size_url paginator="$theme_page" size="2"%>">2</a> &nbsp;
+<a href="<%page_size_url paginator="$theme_page" size="10"%>">10</a>
+-->
           <% foreach var="$theme_page.page" val="theme"%>
         <tr>
             <td><%$theme.name%></td>
