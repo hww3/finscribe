@@ -1,0 +1,52 @@
+<%@ include file="top.phtml"%>
+<%@include file="header.phtml"%>
+<%searchresults store="results"%>
+
+<title><%LOCALE id="0" string="Search Results for"%> '<%$results_query%>'</title>
+<%@include file="pagebegin.phtml"%>
+
+<h3><%LOCALE id="0" string="Search Results for"%> '<%$results_query%>'</h3>
+
+<p>
+<div class="flash-message"><font color="red"><%flash %></font></div>
+<p>
+<%if data->results_success == 0 %>
+  An error occurred while searching:
+<p>
+<%$results_error%>
+<%elseif !sizeof(data->results) %>
+Your query returned no results.
+<%else%>
+<%paginator var="$results" store="results_page" size="10"%>
+<!--
+Show: <a href="<%page_size_url paginator="$results_page" size="2"%>">2</a> &nbsp;
+<a href="<%page_size_url paginator="$results_page" size="10"%>">10</a>
+-->
+          <% foreach var="$results_page.page" val="entry"%>
+<img src="/static/images/attachment/<%$entry.icon%>"> <a href="/space/<%$entry.handle%>"><%$entry.title%></a> 
+(<%$entry.date%>)  [<%$entry.score%>%] <dd>
+<%$entry.excerpt%></dd>
+<p>
+          <% end %>
+<p>
+[ <%if data->results_page_prevurl %>
+<a href="<%$results_page_prevurl%>">Previous</a>
+<%else%>
+Previous
+<%endif%>
+]  &nbsp; <%$results_page.page_no%> / <%$results_page.num_pages%> &nbsp;
+[ <%if data->results_page_nexturl %>
+<a href="<%$results_page_nexturl%>">Next</a>
+<%else%>
+Next
+<%endif%>
+]
+
+<%endif%>
+
+<%@ include file="pageend.phtml"%>
+<%@ include file="footer.phtml"%>
+<%@ include file="bottom.phtml"%>
+
+
+

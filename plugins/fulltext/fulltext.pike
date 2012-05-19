@@ -46,13 +46,14 @@ void start()
   app->view->add_simple_macro("searchresults", simple_macro_searchresults);
 }
 
-void simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void args)
+string simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void args)
 {
   String.Buffer res = String.Buffer();
   object request = data->get_request();
+  object user = app->get_current_user(request);
 
   if(!request || !request->variables->q)
-    return ({"No query specified."});
+    return "No query specified.";
 
   object c = SearchClient(get_preference("indexserver")->get_value(),
                                 get_preference("indexname")->get_value(),
@@ -60,6 +61,36 @@ void simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void ar
 
   mixed r;
   mixed e = catch(r = c->search(request->variables->q));
+
+  if(args->store)
+  {
+    mixed d = data->get_data();  
+    d[args->store + "_query"] = request->variables->q;
+    if(e)
+    {
+      d[args->store + "_success"] = 0;
+      d[args->store + "_error"] = e->message();
+
+    }
+    else
+    {
+      d[args->store + "_success"] = 1;
+      array rx = ({});
+      foreach(r;int i; mapping entry)
+      {
+        array o = app->model->context->find->objects((["path": entry->handle]));
+        if(!sizeof(o)) continue;
+        object e = o[0];
+        if(e->is_readable(user))
+        {
+          rx += ({ entry + (["score": entry->score*100.0, "icon": e["icon"], "obj": e ]) }); 
+        }
+      }
+      d[args->store] = rx;
+    }
+    return "";
+  }
+
   res+="<div class=\"search-results\">\n";
 
   if(e)
@@ -101,7 +132,8 @@ void simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void ar
 
 void Search(object id, object response, mixed ... args)
 {
-   object t = view->get_idview("exec/search", id);
+   object t = app->view->get_idview("plugins/fulltext/search", id);
+   app->set_default_data(id, t);
    response->set_view(t);
 }
 
@@ -215,11 +247,6 @@ array evaluate(Macros.MacroParameters params)
   int size;
   array a = params->parameters / "|";
 
-  if(!sizeof(a) || !strlen(a[0]))
-  {
-    return ({"No Search Result page specified!\n"});
-  }
-
   foreach(a;;string val)
   {
     if(has_prefix(val, "target_url=") || has_prefix(val, "target-url="))
@@ -236,6 +263,8 @@ array evaluate(Macros.MacroParameters params)
     }
   }
 
+
+  target_url=combine_path(app->get_context_root(), "/_internal/search");
 
   res+=({"<div class=\"search-dialog\">\n"});
   res+=({"<form action=\"" + target_url + "\">\n" });
