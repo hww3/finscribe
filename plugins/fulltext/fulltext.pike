@@ -22,7 +22,7 @@ mapping query_event_callers()
 
 mapping query_ipath_callers()
 {
-  return (["ftsearch": ftSearch ]);
+  return (["ftsearch": ftSearch, "search": Search ]);
 }
 
 mapping query_macro_callers()
@@ -39,6 +39,70 @@ mapping query_preferences()
     "authcode" : (["type": FinScribe.STRING, "value": "NANA"]) 
 
   ]);
+}
+
+void start()
+{
+  app->view->add_simple_macro("searchresults", simple_macro_searchresults);
+}
+
+void simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void args)
+{
+  String.Buffer res = String.Buffer();
+  object request = data->get_request();
+
+  if(!request || !request->variables->q)
+    return ({"No query specified."});
+
+  object c = SearchClient(get_preference("indexserver")->get_value(),
+                                get_preference("indexname")->get_value(),
+                                get_preference("authcode")->get_value());
+
+  mixed r;
+  mixed e = catch(r = c->search(request->variables->q));
+  res+="<div class=\"search-results\">\n";
+
+  if(e)
+  {
+    res += "<div class=\"search-results\">\n";
+    res += "<b>Searching failed, with the following response from the index server:</b><p>";
+    res += e->message() ;
+    res += "</div>\n";
+
+    return res->get();
+  }
+
+  res+= "<div class=\"search-results\">\n";
+
+  if(!r || !sizeof(r))
+  {
+    res += "Your search for <b>" + request->variables->q + "</b> returned no results.</b><p>\n";
+  }
+  else
+  {
+    object user = app->get_current_user(request);
+    res += "Results for your query: <b>" + request->variables->q + "</b>:<p>";
+    foreach(r;int i; mapping entry)
+    {
+      array o = app->model->context->find->objects((["path": entry->handle]));
+      if(!sizeof(o)) continue;
+      object e = o[0];
+      if(e->is_readable(user))
+        res += "<img src=\"/static/images/attachment/" + e["icon"] + "\"> <a href=\"/space/"
+              + entry->handle + "\">" + entry->title +
+              "</a> (" + entry->date + ")  [" + (int)(entry->score * 100.0)+ "%]<dd>\n" + entry->excerpt + "</dd><p>\n";
+    }
+  }
+
+  res+="</div>\n";
+
+  return res->get();
+}
+
+void Search(object id, object response, mixed ... args)
+{
+   object t = view->get_idview("exec/search", id);
+   response->set_view(t);
 }
 
 void ftSearch(object id, object response, mixed ... args)
