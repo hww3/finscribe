@@ -24,16 +24,17 @@ dojo.declare("fins.widget.Comments", [dijit._Widget, dijit._Templated],
   /* closure crap */
   onDisplay: 0,
   connectorOriginalHref: '',
+  showLink: '',
   updating: 0,
 
   startup: function() {
  //   dojo.debug("Hello from comments");
 //alert("have target " + this.targetName);
     this.myLink.href="#" + this.targetName;
-
-  if(this.showLink)
-	  dojo.fx.wipeIn({ node: this.myLink, duration:10 }).play();
-
+    if(this.showLink != '')
+    {
+ 	  dojo.fx.wipeIn({ node: this.myLinkDiv, duration:10 }).play();
+    }
     var connector = dojo.byId(this.connectorId);
     if (connector) {
       // Do this so that if the widget doesn't work then the original

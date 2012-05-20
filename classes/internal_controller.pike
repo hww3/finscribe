@@ -10,7 +10,11 @@ static void start()
 
 // provides a mount point for plugin supplied filesystem paths.
 
+function `-> = `[];
+
 static mixed `[](mixed a)
 {
+//werror("`->[%O]\n", a);
+//werror("internal_path_handlers=%O\n", app->internal_path_handlers);
    return app->internal_path_handlers[a];
 }
