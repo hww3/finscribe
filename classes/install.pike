@@ -46,7 +46,7 @@ int run()
 void populate()
 {
   // then, we create the datatypes
-  master()->cd(combine_path(app->config->app_dir,"theme"));
+  master()->cd(combine_path(app->config->app_dir,"install_data"));
   Log.info("Loading datatypes.");
   foreach(Stdio.read_file("datatypes.conf")/"\n", string dt)
   {
