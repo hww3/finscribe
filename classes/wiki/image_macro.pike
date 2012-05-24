@@ -7,6 +7,18 @@ string describe()
    return "Handles images";
 }
 
+// {image:path} <== an image based on its path
+// {image:src=path} <== an image based on its path
+// {image:img=staticimg} <== an image located in the /static/images folder, without png extenstion
+//
+// {image:src=path|link=url|alt=altdesc|align=aligndir}
+//
+// note: path is described based on the current object's path:
+// if current object is my/doc, and the image path is somepic.jpg,
+// the image path would be my/doc/somepic.jpg.
+//
+// in other words, the macro is designed to include images that are attachments
+// of the current object.
 array evaluate(Macros.MacroParameters params)
 {
   if(!sizeof(params->parameters))
@@ -40,7 +52,8 @@ array evaluate(Macros.MacroParameters params)
 
   if(params->extras->obj && objectp(params->extras->obj) && !params->args->img)
   {
-    image = combine_path("/space/" + params->extras->obj["path"], image);
+    image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({params->extras->obj["path"], image}));
+//combine_path("/space/" + params->extras->obj["path"], image);
   }
 
   if(link)

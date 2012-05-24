@@ -18,11 +18,11 @@ function openUpload(sid)
 <div class="flash-message"><%flash %></div>
           <h3><%LOCALE id="182" string="Theme List"%></h3>
 
-Show: <%page_size_selector paginator="$theme_page"%>
+<%paginator var="$themes" store="theme_page" size="10"%>
+Show: <%page_size_selector paginator="$theme_page" size="1,2,4"%>
 <br/>
         <table>
             <tr><td><b><%LOCALE id="183" string="Theme"%></b></td><td></td><td></td></tr>
-<%paginator var="$themes" store="theme_page" size="10"%>
 <!--
 Show: <a href="<%page_size_url paginator="$theme_page" size="2"%>">2</a> &nbsp;
 <a href="<%page_size_url paginator="$theme_page" size="10"%>">10</a>
@@ -46,7 +46,10 @@ Show: <a href="<%page_size_url paginator="$theme_page" size="2"%>">2</a> &nbsp;
 <%else%>
 Previous
 <%endif%>
-]  &nbsp; <%$theme_page.page_no%> / <%$theme_page.num_pages%> &nbsp;
+] 
+Show: <%page_selector paginator="$theme_page" window="3"%>
+
+ &nbsp; <%$theme_page.page_no%> / <%$theme_page.num_pages%> &nbsp;
 [ <%if data->theme_page_nexturl %>
 <a href="<%$theme_page_nexturl%>">Next</a>
 <%else%>
