@@ -13,9 +13,12 @@ filter.citation.class=Public.Web.Wiki.Filters.Bold
 filter.ital.match=(^|>|[[:punct:][:space:]]+)~~([\s\S]*?)~~($|<|[[:punct:][:space:]]+)
 filter.ital.print=$1<i class="ital">$2</i>$3
 filter.ital.class=Public.Web.Wiki.Filters.Ital
-filter.strikethrough.match=(^|>|[^\P{P}-]|[\p{Z}])-{1}([^-\v][\V]*)-{1}($|<|[^\P{P}-]|[\p{Z}])
+filter.strikethrough.match=(^|>|[^\P{P}-]|[\p{Z}])-{1}([^\V-][\V]*)+?-{1}($|<|[^\P{P}-]|[\p{Z}])
 filter.strikethrough.print=$1<strike class="strike">$2</strike>$3
 filter.strikethrough.class=Public.Web.Wiki.Filters.Bold
+filter.ins.match=(^|>|[\p{P}]|[\p{Z}])\+{1}([^-\v][\V]*)\+{1}($|<|[\p{P}]|[\p{Z}])
+filter.ins.print=$1<ins class="inserted">$2</ins>$3
+filter.ins.class=Public.Web.Wiki.Filters.Bold
 filter.superscript.match=(^|>|[[:punct:][:space:]]+)\^([\V]*?)\^($|<|[[:punct:][:space:]]+)
 filter.superscript.print=$1<sup class="superscript">$2</sup>$3
 filter.superscript.class=Public.Web.Wiki.Filters.Bold
