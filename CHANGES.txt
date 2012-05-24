@@ -1,3 +1,19 @@
+- added some new template/theme macros: image_feed, rss_feed, 
+  recent_comments, blog_source
+- added wiki macros: include, to insert the contents of another page;
+    break, which splits a weblog entry into the "teaser" and the rest
+    of the article; page, which is used in HTML mode to insert a link
+    to another wiki page, ala the [path/to/page] syntax.
+- wiki macros are also available on HTML pages using HTML syntax
+- updated attachments handling to be more robust
+- switched to MD5 passwords
+- updated HTML editor to produce friendlier HTML code
+- Updated to dojo 1.7
+- Added template cache flusing on themes management page
+- Search results are paginated
+- Archives page for browsing weblog entries through time
+- More wiki markup (underscore, subscript, superscript, strikethrough,
+    monospace and citation, plus em and en dashes)
 - Full text indexing uses updated client and server,
 - Full text indexing plugin no longer creates index automatically,
   see documentation for details and configuration steps.
