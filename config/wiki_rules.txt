@@ -4,10 +4,25 @@ filter.escape.class=Public.Web.Wiki.Filters.Escape
 filter.bold.match=(^|>|[[:punct:][:space:]]+)__([\s\S]*?)__($|<|[[:punct:][:space:]]+)
 filter.bold.print=$1<b class="bold">$2</b>$3
 filter.bold.class=Public.Web.Wiki.Filters.Bold
+filter.monospace.match=(^|>|[[:punct:][:space:]]+){{([\s\S]*?)}}($|<|[[:punct:][:space:]]+)
+filter.monospace.print=$1<tt class="monospace">$2</tt>$3
+filter.monospace.class=Public.Web.Wiki.Filters.Bold
+filter.citation.match=(^|>|[[:punct:][:space:]]+)\?\?([\s\S]*?)\?\?($|<|[[:punct:][:space:]]+)
+filter.citation.print=$1<cite class="citation">$2</cite>$3
+filter.citation.class=Public.Web.Wiki.Filters.Bold
 filter.ital.match=(^|>|[[:punct:][:space:]]+)~~([\s\S]*?)~~($|<|[[:punct:][:space:]]+)
 filter.ital.print=$1<i class="ital">$2</i>$3
 filter.ital.class=Public.Web.Wiki.Filters.Ital
-filter.line.match=-{5,}
+filter.strikethrough.match=(^|>|[^\P{P}-]|[\p{Z}])-{1}([^-\v][\V]*)-{1}($|<|[^\P{P}-]|[\p{Z}])
+filter.strikethrough.print=$1<strike class="strike">$2</strike>$3
+filter.strikethrough.class=Public.Web.Wiki.Filters.Bold
+filter.superscript.match=(^|>|[[:punct:][:space:]]+)\^([\V]*?)\^($|<|[[:punct:][:space:]]+)
+filter.superscript.print=$1<sup class="superscript">$2</sup>$3
+filter.superscript.class=Public.Web.Wiki.Filters.Bold
+filter.subscript.match=(^|>|[[:punct:][:space:]]+)~([\V]*?)~($|<|[[:punct:][:space:]]+)
+filter.subscript.print=$1<sub class="subscript">$2</sub>$3
+filter.subscript.class=Public.Web.Wiki.Filters.Bold
+filter.line.match=-{4,}
 filter.line.print=<hr class="line"/>\n
 filter.line.class=Public.Web.Wiki.Filters.Line
 filter.break.match=\\\\\r\n
@@ -23,14 +38,18 @@ filter.url.class=FinScribe.Blog.URLFilter
 filter.heading.match=^[[:space:]]*(1(?:\.1)?)[[:space:]]+([\s\S]*?)$
 filter.heading.print=<h3 class="heading-$1">$2</h3>
 filter.heading.class=Public.Web.Wiki.Filters.Heading
-#regex.strikethrough.match=([^!-]|^)--((?:(?:[^-]+)-?)+)--([^-]|$)
-#regex.strikethrough.print=$1<strike class="strike">$2</strike>$3
 filter.key.match=((Ctrl|Alt|Shift|Cmd|Meta)-[^ ]*)
 filter.key.print=<span class="key">$1</span>
 filter.key.class=Public.Web.Wiki.Filters.Key
 filter.typography.match=([^.]|^)[.][.][.](?!\\.)( |$)
 filter.typography.print=$1&#8230;$2
 filter.typography.class=Public.Web.Wiki.Filters.Typography
+filter.emdash.match=([^!-])-{3}([^->])
+filter.emdash.print=$1&#8212;$2
+filter.emdash.class=Public.Web.Wiki.Filters.Typography
+filter.endash.match=([^!-])-{2}([^>-])
+filter.endash.print=$1&#8210;$2
+filter.endash.class=Public.Web.Wiki.Filters.Typography
 filter.paragraph.match=([ \t\r]*[\n]){2}
 filter.paragraph.print=<p class="paragraph"/>\n
 filter.paragraph.class=Public.Web.Wiki.Filters.Paragraph
