@@ -334,10 +334,17 @@ string simple_macro_recent_comments(Fins.Template.TemplateData data, mapping|voi
 
 Tools.Mapping.MappingCache archive_data = Tools.Mapping.MappingCache(3600 * 3);
 
+//! args: weblog, store, max
 string simple_macro_archive_list(Fins.Template.TemplateData data, mapping|void args)
 {
   mixed res;
   int max = 5;
+
+  if(args->max)
+    max = (int) args->max;
+
+  if(max < 1 && max !=-1)
+    return "archive_list macro: max, if provided, must be greater than zero.";
 
   if(!args->weblog)
     return "archive_list macro must be provided with path to desired weblog.";
@@ -377,7 +384,7 @@ string simple_macro_archive_list(Fins.Template.TemplateData data, mapping|void a
     archive_data[args->weblog] = res;
   }
 
-  if(sizeof(res) > max)
+  if(max != -1 && sizeof(res) > max)
   res = res[0..max-1];
 
   mixed d = data->get_data();

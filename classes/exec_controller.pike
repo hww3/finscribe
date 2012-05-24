@@ -17,18 +17,43 @@ public void archive(Request id, Response response, mixed ... args)
 {
    object t = view->get_idview("exec/archive", id);
 
-   array apath = args[0..<2];
-   string path = apath*"/";
+   if(!args || !sizeof(args)){ response->not_found(""); return; } 
+
+   array apath;
+   string path;
+
+   object root;
+   mixed e;
+
+   int i = sizeof(args)-1;
+
+   do
+   {
+     apath = args[0..i];
+     root = model->get_fbobject(apath, id);
+     i--;
+
+   } while(!root && i >= 0);
+
+   if(!root)
+   { response->not_found(""); return; } 
+
+   path = apath*"/";
    
    // UGLY!
-   object created = Calendar.dwim_day((args[sizeof(args)-2..]*"/")+"/01")->month();
+   // we only handle the combination of year/month. should we also
+   // produce a year-at-a-glance view?
+   object created;
+   catch(created = Calendar.dwim_day((args[sizeof(apath)..]*"/")+"/01")->month());
 
-   object root = model->get_fbobject(apath, id);
-   mixed e = root->get_blog_entries(created);
+   if(created)
+   {
+     e = root->get_blog_entries(created);
+     t->add("archives", e);
+     t->add("date", created);
+   }
 
    app->set_default_data(id, t);
-   t->add("date", created);
-   t->add("archives", e);
    t->add("weblog", root);
    response->set_view(t);
 }

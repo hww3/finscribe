@@ -1,20 +1,34 @@
 <%@ include file="top.phtml"%>
 <%@include file="header.phtml"%>
+<%if data->archives %>
 <title><%LOCALE id="0" string="Archives for"%> <%$weblog.title%>, <%format_date var="$date" format="nice"%></title>
+<%else%>
+<title><%LOCALE id="0" string="Archives for"%> <%$weblog.title%></title>
+<%endif%>
 <%@include file="pagebegin.phtml"%>
 
+<%if data->archives %>
    <h3><%LOCALE id="0" string="Archives for"%> <%$weblog.title%>, <%format_date var="$date" format="nice"%></h3>
+<%else%>
+   <h3><%LOCALE id="0" string="Archives for"%> <%$weblog.title%></h3>
+<%endif%>
 
 <p>
 <div class="flash-message"><font color="red"><%flash %></font></div>
 <p>
+<%if data->archives %>
 <%foreach var="$archives" val="entry"%>
 <%action_link controller="/space" args="$entry.path"%><%$entry.title%></a> (<%$entry.nice_created%>)<p>
 <%end%>
+<%else%>
+<%archive_list weblog="$weblog.path" store="buckets" max="-1"%>
+<%foreach var="$buckets" val="bucket"%>
+<a href="<%$bucket.url%>"><%$bucket.month%></a>
+(<%$bucket.items%> entries)
+<p>
+<%end%>
+<%endif%>
 
 <%@ include file="pageend.phtml"%>
 <%@ include file="footer.phtml"%>
 <%@ include file="bottom.phtml"%>
-
-
-
