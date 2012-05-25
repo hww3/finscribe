@@ -1,6 +1,6 @@
 inherit "admin/preference_controller";
 
-protected string vtype = "admin";
+protected string vtype = "account";
 
 
 static void start()
@@ -9,3 +9,7 @@ static void start()
 }
 
 
+protected string get_root(object id)
+{
+  return app->get_current_user(id)["username"] + ".";
+}

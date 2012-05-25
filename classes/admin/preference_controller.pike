@@ -10,6 +10,11 @@ inherit Fins.FinsController;
 
 protected string vtype = "admin";
 
+protected string get_root(object id)
+{
+  return "";
+}
+
 static void start()
 {
   before_filter(app->admin_user_filter);
@@ -22,6 +27,7 @@ public void index(Request id, Response response, mixed ... args)
 
 public void tree(Request id, Response response, mixed ... args)
 {
+  string pr = get_root(id);
   if(id->variables->action && id->variables->action == "getChildren")
   {
       array data = ({});
@@ -33,10 +39,12 @@ public void tree(Request id, Response response, mixed ... args)
     if(d->node && d->node->widgetId && d->node->widgetId == "prefroot")
     {
 
-      array x =  find.preferences_all();
+      mapping prc = ([]);
+      if(pr && sizeof(pr)) prc->name = Fins.Model.LikeCriteria(pr + "%");
+      array x =  find.preferences(prc);
       foreach(x;;object p)
       {
-	array x = (p["name"]/".");
+	array x = (p["name"][sizeof(pr)..]/".");
         prefixes += ({x[0]});
       }
       prefixes = Array.uniq(prefixes);
@@ -47,7 +55,9 @@ public void tree(Request id, Response response, mixed ... args)
     }
     else if(d->node && d->node->widgetId)
     {
-      array x = find.preferences((["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
+      array x;
+      if(!has_prefix(d->node->widgetId[5..], pr?(pr):"")) x = ({});
+      else x = find.preferences((["name": Fins.Model.LikeCriteria(d->node->widgetId[5..] + "%")]));
       int q = sizeof(d->node->widgetId[5..] / ".");
       multiset nodesadded = (<>);
       foreach(x;;object p)
@@ -83,6 +93,7 @@ public void tree(Request id, Response response, mixed ... args)
 public void list(Request id, Response response, mixed ... args)
 {
     object t;
+  string pr = get_root(id);
 werror("list()\n");
     if(id->variables->ajax)
       t = view->get_view(vtype + "/prefs/_list");
@@ -97,20 +108,31 @@ werror("template: %O\n", t);
     array prefixes=({});
 
     {
-      array x =  find.preferences_all();
+      mapping prc = ([]);
+      if(pr && sizeof(pr)) prc->name = Fins.Model.LikeCriteria(pr + "%");
+      array x =  find.preferences(prc);
       foreach(x;;object p)
-        prefixes += ({ (p["name"]/".")[0]});
+        prefixes += ({ (p["name"][sizeof(pr)..]/".")[0]});
       prefixes -= ({"", 0});
       prefixes = Array.uniq(prefixes);
     }     
 
-    if(id->variables->startswith) c->name = Fins.Model.LikeCriteria(id->variables->startswith + "%");
+    string startswith = id->variables->startswith;
+    if(startswith && !has_prefix(startswith, pr))
+    {
+      ul = ({});
+    }
+    else
+    {
+    if(startswith) c->name = Fins.Model.LikeCriteria(startswith + "%");
+    else if(pr) c->name = Fins.Model.LikeCriteria(pr + "%");
     ul = find.preferences(c,  Fins.Model.Criteria("ORDER BY Name DESC"));
+    }
 werror("prefixes: %O\n", prefixes);
 werror("prefs:    %O\n", ul);
 
-    if(id->variables->startswith)
-      t->add("startswith", (id->variables->startswith||"")/".");
+    if(startswith)
+      t->add("startswith", (startswith||"")/".");
     t->add("prefprefixes", prefixes);
     t->add("preferences", ul);
 
@@ -120,7 +142,7 @@ werror("prefs:    %O\n", ul);
 public void set(Request id, Response response, mixed ... args)
 {
   mixed e;
-  if (id->variables->key && id->variables->value) {
+  if (id->variables->key && id->variables->value && has_prefix(id->variables->key, (string)get_root(id))) {
     object pref = app->get_sys_pref(id->variables->key);
     if (pref) {
       if(pref["type"] == FinScribe.BOOLEAN)

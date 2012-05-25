@@ -33,6 +33,7 @@
 <table cellpadding="10" valign="top">
 <tr>
 <td>
+<%if 0 %>
 <%if !data->startswith %>
 <% foreach var="$prefprefixes" val="prefix" %>
 <%action_link action="list" startswith="$prefix"%><%$prefix%></a>
@@ -40,12 +41,11 @@
 <%else%>
 <%action_link action="list"%>&lt;&lt; root</a>
 <%endif%>
+<%endif%>
 </td>
 <td valign="top">
 <div id="prefpane" style="vertical-align : top;">
-  <%if data->startswith %>
   <%@include file="account/prefs/_list.phtml"%>
-  <%endif %>
 </div>
 </td></tr>
 </table>
