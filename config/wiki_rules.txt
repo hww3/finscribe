@@ -16,7 +16,7 @@ filter.ital.class=Public.Web.Wiki.Filters.Ital
 #filter.strikethrough.match=(^|>|[^\P{P}-]|[\p{Z}])-{2}([^\V-\<][\V\<]*)+?-{2}($|<|[^\P{P}-]|[\p{Z}])
 filter.strikethrough.match=(^|>|[^-]|(?:\<[A-Za-z0-9 ="]*))-{2}([^\<\>\v- ]{1}(?:[^\<\>\v]*?[^\<\>\v- ]{1})??)-{2}(<|$|[^-])
 filter.strikethrough.print=$1<strike class="strike">$2</strike>$3
-filter.strikethrough.class=FinScribe.strikethrough_filter
+filter.strikethrough.class=Public.Web.Wiki.Filters.Bold
 filter.ins.match=(^|>|[\p{P}]|[\p{Z}])\+{1}([^-\v][\V]*)\+{1}($|<|[\p{P}]|[\p{Z}])
 filter.ins.print=$1<ins class="inserted">$2</ins>$3
 filter.ins.class=Public.Web.Wiki.Filters.Bold
