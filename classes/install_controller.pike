@@ -34,7 +34,7 @@ public void populateprefs(Request id, Response response, mixed ... args)
          pt = FinScribe.BOOLEAN;
          break;
     }
-    app->new_pref(p[5..], id->variables[p], pt);
+    app->new_pref(p[5..], (["value": id->variables[p], "type": pt]));
   }
   };
 

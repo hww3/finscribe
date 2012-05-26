@@ -3,10 +3,10 @@
 #define LOCALE(X,Y) Locale.translate(config->app_name, id->get_lang(), X, Y)
 
 import Fins;
-inherit Fins.Application : app;
-//inherit Fins.Helpers.Macros.Base : macros;
 import Fins.Model;
 import Tools.Logging;
+inherit "default_preferences" : defpref;
+inherit Fins.Application : app;
 
 mapping included_by = ([]);
 mapping plugins = ([]);
@@ -15,6 +15,12 @@ mapping render_methods = ([]);
 mapping render_macros = ([]);
 mapping event_handlers = ([]);
 mapping internal_path_handlers = ([]);
+mapping preferences = ([]);
+
+static void create(object config)
+{
+  ::create(config);
+}
 
 void start()
 {
@@ -101,7 +107,7 @@ void start_plugins()
                 {
                   foreach(plugin->query_preferences(); string p; mapping pv)
                   {
-                    new_pref("plugin." + plugin->name + "." + p, pv->value, pv->type);
+                    new_pref("plugin." + plugin->name + "." + p, pv);
                   }
                 }
 
@@ -445,7 +451,7 @@ object new_boolean_pref(string pref, string value)
   }
 }
 
-object new_pref(string pref, string value, int type)
+object new_pref(string pref, mapping data)
 {
   object p;
   p = get_sys_pref(pref);
@@ -454,10 +460,11 @@ object new_pref(string pref, string value, int type)
   { 
      p = FinScribe.Objects.Preference();
      p["name"] = pref;
-     p["type"] = type;
-     p["description"] = "";
-     p["value"] = value;
+     p["type"] = data->type;
+     p["description"] = data->description||"";
+     p["value"] = data->value;
      p->save();
+     preferences[pref] = (data + (["name":pref]));
      return p;
   }
 }
