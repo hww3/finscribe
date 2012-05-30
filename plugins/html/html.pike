@@ -3,6 +3,7 @@ inherit FinScribe.Plugin;
 constant name = "HTML content type support";
 constant type = "html";
 int _enabled = 1;
+constant startup_priority = 250;
 
 // distinct from "type" identifier above, used for content type rendering.
 constant typename = "HTML";

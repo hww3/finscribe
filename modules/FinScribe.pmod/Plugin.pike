@@ -6,6 +6,7 @@ constant name = "";
 constant description = "";
 string module_dir = "";
 constant type = "default";
+constant startup_priority = 100;
 
 int _enabled = 0;
 

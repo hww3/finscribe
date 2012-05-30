@@ -93,9 +93,14 @@ void load_plugins()
 void start_plugins()
 {
 	logger->debug("Starting plugins.");
-	
-	foreach(plugins;string name; object plugin)
+        // sort plugins by startup_priority;
+	array x = values(plugins)["name"];
+        array y = values(plugins)["startup_priority"];
+        sort(y, x);	
+
+	foreach(x;; string name)
 	{
+           object plugin = plugins[name];
            logger->debug("Processing " + name);
 
            // we don't start up plugins that explicitly tell us not to.

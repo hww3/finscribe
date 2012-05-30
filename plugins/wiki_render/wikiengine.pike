@@ -6,7 +6,7 @@ inherit FinScribe.Plugin;
 
 constant name = "Wiki Markup Renderer";
 constant type = "wiki";
-
+constant startup_priority = 50;
 int _enabled = 1;
 
 mapping query_type_callers()
