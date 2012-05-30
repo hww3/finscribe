@@ -427,3 +427,27 @@ werror("creating new version\n");
 }
 
 
+object export_db()
+{
+
+object tree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
+"finscribe_backup", (["taken": Calendar.now()->format_smtp()]), "");
+
+foreach(context->repository->instance_definitions; string name; 
+program ot)
+{
+  object subtree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
+      Tools.Language.Inflect.pluralize(name), ([]), "");
+
+  foreach(context->find_all(name);;object entry)
+  {
+     object node = entry->render_xml_node();
+     subtree->add_child(node);
+  }
+  
+  tree->add_child(subtree);
+}
+
+  return tree;
+}
+
