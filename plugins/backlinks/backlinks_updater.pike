@@ -19,7 +19,7 @@ void start()
 {
   logger->debug("starting backlinks updater...");
 
-  app->call_out(app->create_thread, 0, update_backlinks);
+  call_out(app->create_thread, 0, update_backlinks);
 }
 
 int doUpdateBacklinks(string event, object id, object obj)

@@ -24,8 +24,7 @@ void start()
 void register_macros()
 {
 //  add_macro("code", ((program)"wiki/code_macro")());
-  foreach(app->render_macros + app->engines["text/wiki"]->macros;string macro_name; object 
-macro_object)
+  foreach(app->render_macros + app->engines["text/wiki"]->macros;string macro_name; object macro_object)
     add_macro(macro_name, macro_object);
 }
 

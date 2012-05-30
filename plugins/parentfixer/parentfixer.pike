@@ -13,7 +13,7 @@ void start()
 {
   logger->debug("starting parent fixer.");
 
-  app->call_out(app->create_thread, 0, update_parents);
+  call_out(app->create_thread, 0, update_parents);
 }
 
 void update_parents()
@@ -61,7 +61,7 @@ void update_parents()
   }
 
   is_running = 0;
-  app->call_out(app->create_thread, 3600*24, update_parents);
+  call_out(app->create_thread, 3600*24, update_parents);
 
 }
 

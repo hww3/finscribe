@@ -15,7 +15,7 @@ mapping query_event_callers()
 
 int sendPingback(string event, object id, object obj)
 {
-  app->call_out(app->create_thread, 0, send_pingback, id, obj);
+  call_out(app->create_thread, 0, send_pingback, id, obj);
 
   return 0;
 }
