@@ -284,7 +284,6 @@ object do_post(object id, object obj_o, object user, string subject, string cont
       c = Calendar.Gregorian.dwim_day(createddate)->second();
     else
       c = Calendar.ISO.Second();
-    string date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(), c->month_day());
 
     // posting should always create a new entry; afterwards it's a standard object
     // that you can edit normally by editing its object content.
@@ -304,8 +303,34 @@ object do_post(object id, object obj_o, object user, string subject, string cont
 
         // let's get the next blog path name...
         string path = "";
-        array r = obj_o->get_blog_entries(0,0,1);
-        int seq = 1;
+        array r;
+        int seq = 0;
+
+        string date;
+        string candidate;
+        int use_title_permalink = 1; // TODO: make this use a preference.
+
+
+        // i dislike the amount of custom logic that depends on the form of permalink, but
+        // it probably can't be avoided without opening the possibility of failure at some point.
+        //
+        // also, because we search the entire post "bucket", active blogs that use title permalinks
+        // have to search all entries for a given month to ensure there are no duplicates.
+        if(use_title_permalink) 
+        {
+          string title = subject;
+          date = sprintf("%04d-%02d", c->year_no(), c->month_no());
+          candidate = (string)map(filter((array)Unicode.normalize(lower_case(title), "DK"), `<, 256), lambda(mixed x){if(x<'0') return '_'; else return x;}); 
+          candidate = combine_path(obj, date + "/" + candidate);
+          r = obj_o->get_blog_entries(c->month(),0,1);
+        }
+        else
+        {
+          r = obj_o->get_blog_entries(c,0,1);
+          date = sprintf("%04d-%02d-%02d", c->year_no(), c->month_no(), c->month_day());
+          candidate = combine_path(obj, date);
+        }
+
         if (sizeof(r))
         {
             foreach(r;; object entry)
@@ -313,13 +338,20 @@ object do_post(object id, object obj_o, object user, string subject, string cont
                 //                 write("LOOKING AT " + entry["path"] + "; does it match " + obj + "/" + date + "/ ?\n");
                 // we assume that everything in here will be organized chronologically, and that no out of
                 // date order pathnames will show up in the list.
-                if (has_prefix(entry["path"], obj + "/" + date + "/"))
-                seq++;
-                else break;
+                if (has_prefix(entry["path"], candidate))
+                  seq++;
+                //else break;
             }
         }
 
-        path = combine_path(obj, date + "/" + seq);
+        if(use_title_permalink)
+        {
+          path = candidate + (seq?("_" + seq):"");
+        }
+        else
+        {
+          path = combine_path(candidate, (string)((int)seq+1));
+        }
 
         // this is the parent, to which the new entry is associated.
         p = obj_o;
