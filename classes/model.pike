@@ -458,28 +458,30 @@ werror("creating new version\n");
     return obj_o;
 }
 
-
 object export_db()
 {
+  object tree;
+  object dom = Parser.XML.Tree.SimpleRootNode();
+  dom->add_child(Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_HEADER, "", ([]), ""));
+  tree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
+      "finscribe_backup", (["taken": Calendar.now()->format_smtp()]), "");
 
-object tree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
-"finscribe_backup", (["taken": Calendar.now()->format_smtp()]), "");
+  dom->add_child(tree);
 
-foreach(context->repository->instance_definitions; string name; 
-program ot)
-{
-  object subtree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
+  foreach(context->repository->instance_definitions; string name; program ot)
+  {
+    object subtree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
       Tools.Language.Inflect.pluralize(name), ([]), "");
 
-  foreach(context->find_all(name);;object entry)
-  {
-     object node = entry->render_xml_node();
-     subtree->add_child(node);
-  }
+    foreach(context->find_all(name);;object entry)
+    {
+      object node = entry->render_xml_node();
+      subtree->add_child(node);
+    }
   
-  tree->add_child(subtree);
-}
+    tree->add_child(subtree);
+  }
 
-  return tree;
+  return Tools.XML.indent_tree(dom, 0);
 }
 
