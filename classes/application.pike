@@ -27,6 +27,8 @@ void start()
   Locale.register_project(config->app_name, combine_path(config->app_dir,     
     "translations/%L/FinScribe.xml"));
 
+  load_preferences();
+
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();
 }
@@ -456,6 +458,12 @@ object new_boolean_pref(string pref, string value)
   }
 }
 
+//! register a new preference with the application.
+//! a class or plugin should register all preferences it is interested in at startup. 
+//! if a given preference is not present in the persistent store (model), it will be added
+//! with the default value (or the first of the option set) configured as its value.
+//! additionally, the metadata about the preference will be stored in the application's 
+//! temporal preference registry for use by the administration interface. 
 object new_pref(string pref, mapping data)
 {
   object p;
@@ -467,7 +475,7 @@ object new_pref(string pref, mapping data)
      p["name"] = pref;
      p["type"] = data->type;
      p["description"] = data->description||"";
-     p["value"] = data->value;
+     p["value"] = data->value || data->options?data->options[0]:0;
      p->save();
      preferences[pref] = (data + (["name":pref]));
      return p;

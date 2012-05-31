@@ -308,7 +308,7 @@ object do_post(object id, object obj_o, object user, string subject, string cont
 
         string date;
         string candidate;
-        int use_title_permalink = 1; // TODO: make this use a preference.
+        int use_title_permalink = (app->get_sys_pref("blog.permalink_title")["value"] == "date and title"); // TODO: make this use a preference.
 
 
         // i dislike the amount of custom logic that depends on the form of permalink, but

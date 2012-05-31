@@ -1,6 +1,13 @@
-
 static void create()
 {
+}
+
+void load_preferences()
+{
+  foreach(prefs;; mapping prefdef)
+  {
+    this->new_pref(prefdef->name, prefdef);
+  }
 }
 
 array prefs =
@@ -73,6 +80,14 @@ array prefs =
 "friendly_name": "Enable Weblog.com PING",
 "description": "",
 "type": FinScribe.BOOLEAN
+]),
+
+([
+"name": "blog.permalink_title",
+"friendly_name": "Permalink Format",
+"description": "Choosing 'date and title' includes the post's title in a weblog entry's permalink.",
+"type": FinScribe.STRING,
+"options": ({"date and title", "date only"})
 ]),
 
 ([
