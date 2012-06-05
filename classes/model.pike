@@ -458,13 +458,89 @@ werror("creating new version\n");
     return obj_o;
 }
 
+void import_db(object tree)
+{
+  object root;
+  array stash = ({});
+
+  foreach(tree->get_children();; object node)
+  {
+    if(node->get_node_type() == Parser.XML.Tree.XML_ELEMENT)
+    {
+      root = node;
+      break;
+    }
+    else // the root of an xml tree can have only 1 element child.
+      continue;
+  }
+  if(!root || (root->get_full_name() != "fins_backup"))
+  {
+    throw(Error.Generic("import_db(): xml tree does not contain a fins backup.\n"));
+  }
+
+  foreach(root->get_children();; object node)
+  {
+    if(node->get_node_type() == Parser.XML.Tree.XML_ELEMENT)
+    {
+      string type = Tools.Language.Inflect.singularize(node->get_full_name());
+      if(!context->repository->instance_definitions[type])
+      {
+        throw(Error.Generic("Specified object type " + type + " does not exist in model.\n"));
+      }
+      foreach(node->get_children();; object obj)
+      {
+        if(obj->get_node_type() == Parser.XML.Tree.XML_ELEMENT)
+        {
+          werror("Importing " + obj->get_full_name() + "\n");
+          object new_obj;
+          if(catch(new_obj = context->repository->instance_definitions[obj->get_full_name()](obj)))
+          {
+            werror("Deferring: %s\n", obj->render_xml());
+            stash += ({obj});
+          }
+          else
+          {
+            new_obj->save();
+          }
+        }
+      }
+
+      int last_count;
+      do 
+      {
+        last_count = sizeof(stash);
+        foreach(stash;; object n)
+        {
+          werror("Re-attempting Import of " + n->get_full_name() + "\n");
+          object new_obj;
+          mixed e;
+          if(e = catch(new_obj = context->repository->instance_definitions[n->get_full_name()](n)))
+          {
+            werror("Error: %O\n", e);
+          }
+          else
+          {
+            new_obj->save();
+            stash -= ({n});
+          }
+        }
+      } while(last_count != sizeof(stash));
+    }
+  }
+  if(sizeof(stash))
+  {
+    werror("Unable to load %d objects due to cyclical dependencies.\n", sizeof(stash));
+  }
+
+}
+
 object export_db()
 {
   object tree;
   object dom = Parser.XML.Tree.SimpleRootNode();
   dom->add_child(Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_HEADER, "", ([]), ""));
   tree = Parser.XML.Tree.SimpleNode(Parser.XML.Tree.XML_ELEMENT, 
-      "finscribe_backup", (["taken": Calendar.now()->format_smtp()]), "");
+      "fins_backup", (["taken": Calendar.now()->format_smtp()]), "");
 
   dom->add_child(tree);
 
@@ -485,3 +561,9 @@ object export_db()
   return Tools.XML.indent_tree(dom, 0);
 }
 
+
+void clean_db()
+{
+  foreach(app->model->context->repository->instance_definitions;string k;)
+    app->model->context->_find(k, ([]))->delete(1);
+}
