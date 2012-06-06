@@ -268,7 +268,8 @@ object add_media(object id, object parent, object user, string name, string type
    return obj_o;  
 }
 
-object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, array|void categories, int publish, int|void is_update)
+object do_post(object id, object obj_o, object user, string subject, string contents, string createddate, 
+               array|void categories, int publish, int|void is_update)
  {
     object c, p;
     object obj_n;
