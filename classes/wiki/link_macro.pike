@@ -23,13 +23,13 @@ array evaluate(Macros.MacroParameters params)
 
   if(sizeof(params->args) > 1) 
   {
-    link = a[-2];
-    name = a[-1];
+    link = params->positions[0];
+    name = params->positions[1];
   }
   else
   {
-    link = a[-1];
-    name = a[-1];
+    link = params->positions[0];
+    name = params->positions[0];
   }
 
   res+=({"<a href=\""});

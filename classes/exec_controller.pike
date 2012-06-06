@@ -1900,6 +1900,7 @@ public void publish(Request id, Response response, mixed ... args)
   response->redirect_temp(id->referrer);
 }
 
+//! NOTE
 //! we don't check to make sure that a page has a {weblog}
 //! entry, so malicious people could theoretically create post 
 //! objects to a non-existent weblog (though the page must exist
