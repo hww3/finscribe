@@ -458,13 +458,14 @@ werror("creating new version\n");
     return obj_o;
 }
 
-void import_db(object tree)
+void|array import_db(object tree)
 {
   object root;
   array stash = ({});
 
   foreach(tree->get_children();; object node)
   {
+//werror("node: %O\n", node);
     if(node->get_node_type() == Parser.XML.Tree.XML_ELEMENT)
     {
       root = node;
@@ -473,6 +474,7 @@ void import_db(object tree)
     else // the root of an xml tree can have only 1 element child.
       continue;
   }
+//werror("root:%O\n", root);
   if(!root || (root->get_full_name() != "fins_backup"))
   {
     throw(Error.Generic("import_db(): xml tree does not contain a fins backup.\n"));
@@ -491,11 +493,11 @@ void import_db(object tree)
       {
         if(obj->get_node_type() == Parser.XML.Tree.XML_ELEMENT)
         {
-          werror("Importing " + obj->get_full_name() + "\n");
+  //        werror("Importing " + obj->get_full_name() + "\n");
           object new_obj;
           if(catch(new_obj = context->repository->instance_definitions[obj->get_full_name()](obj)))
           {
-            werror("Deferring: %s\n", obj->render_xml());
+    //        werror("Deferring: %s\n", obj->render_xml());
             stash += ({obj});
           }
           else
@@ -511,12 +513,12 @@ void import_db(object tree)
         last_count = sizeof(stash);
         foreach(stash;; object n)
         {
-          werror("Re-attempting Import of " + n->get_full_name() + "\n");
+      //    werror("Re-attempting Import of " + n->get_full_name() + "\n");
           object new_obj;
           mixed e;
           if(e = catch(new_obj = context->repository->instance_definitions[n->get_full_name()](n)))
           {
-            werror("Error: %O\n", e);
+//            werror("Error: %O\n", e);
           }
           else
           {
@@ -529,9 +531,13 @@ void import_db(object tree)
   }
   if(sizeof(stash))
   {
-    werror("Unable to load %d objects due to cyclical dependencies.\n", sizeof(stash));
+    werror("Unable to load %d objects due to cyclical dependencies or unresolved references.\n", sizeof(stash));
+    return stash;
+    foreach(stash;; object n)
+    {
+       object qnew_obj = context->repository->instance_definitions[n->get_full_name()](n);
+    }
   }
-
 }
 
 object export_db()
