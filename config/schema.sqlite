@@ -2,7 +2,7 @@
 CREATE TABLE categories (
   id integer primary key,
   category char(64) NOT NULL default ''
-)
+);
 
 \g
 
@@ -24,21 +24,21 @@ CREATE TABLE comments (
   created datetime NOT NULL default CURRENT_TIMESTAMP,
   contents longblob,
   metadata blob
-)
+);
 
 \g
 
 CREATE TABLE datatypes (
   id integer primary key,
-  mimetype char(96) default NULL
-) 
+  mimetype char(96) NOT NULL UNIQUE
+) ;
 
 \g
 
 CREATE TABLE templates (
  id integer not null primary key,
  name char(32) not null unique
-)
+);
   
 \g
 
@@ -50,7 +50,7 @@ CREATE TABLE object_versions (
   subject varchar(128) default NULL,
   contents longblob NOT NULL,
   version int(11) NOT NULL default '0'
-) 
+) ;
 
 \g
 
@@ -65,14 +65,14 @@ CREATE TABLE objects (
   is_attachment int(11) default NULL,
   template_id int(11) DEFAULT NULL,
   metadata blob
-)
+);
 
 \g
 
 CREATE TABLE objects_categories (
   object_id int(11) NOT NULL default '0',
   category_id int(11) NOT NULL default '0'
-)
+);
 
 \g
 
@@ -85,42 +85,42 @@ CREATE TABLE users (
   is_active int(1) default NULL,
   name char(36) NOT NULL default '',
   email char(64) NOT NULL default ''
-)
+);
 
 \g
 
 CREATE TABLE groups (
   id integer primary key,
   name char(36) NOT NULL default ''
-)
+);
 
 \g
 
-CREATE TABLE users_groups (
+CREATE TABLE groups_users (
   user_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0'
-)
+);
 
 \g
 
 CREATE TABLE groups_groups (
   member_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0'
-)
+);
 
 \g
 
 CREATE TABLE acls (
   id integer NOT NULL primary key,
   name char(36) NOT NULL default ''
-)
+);
 
 \g
 
 CREATE TABLE acls_aclrules (
   acl_id int(11) NOT NULL,
   aclrule_id int(11) NOT NULL
-)
+);
 
 \g
 
@@ -131,21 +131,21 @@ CREATE TABLE aclrules (
   xmit int(1) default '0',
   class int(1) default '0',
   custom_name char(36)
-)
+);
 
 \g
 
 CREATE TABLE aclrules_users (
   aclrule_id int(11) NOT NULL,
   user_id int(11) NOT NULL
-)
+);
 
 \g
 
 CREATE TABLE aclrules_groups (
   aclrule_id int(11) NOT NULL,
   group_id int(11) NOT NULL
-)
+);
 
 \g
 

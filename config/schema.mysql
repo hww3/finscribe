@@ -44,7 +44,7 @@ CREATE TABLE comments (
 
 CREATE TABLE datatypes (
   id int(11) NOT NULL auto_increment,
-  mimetype char(96) default NULL,
+  mimetype char(96) not NULL unique,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -129,10 +129,10 @@ CREATE TABLE groups (
 
 
 #
-# Table structure for table 'users_groups'
+# Table structure for table 'groups_users'
 #
 
-CREATE TABLE users_groups (
+CREATE TABLE groups_users (
   user_id int(11) NOT NULL,
   group_id int(11) NOT NULL
 ) TYPE=MyISAM;

@@ -27,7 +27,6 @@ void start()
   Locale.register_project(config->app_name, combine_path(config->app_dir,     
     "translations/%L/FinScribe.xml"));
 
-  load_preferences();
 
   if(config["application"] && (int)config["application"]["installed"])
     load_plugins();
@@ -36,6 +35,7 @@ void start()
 void kick_model()
 {
   load_model();
+  load_preferences();
 }
 
 void load_cache()
@@ -416,8 +416,8 @@ mixed handle_request(Request request)
 object get_sys_pref(string pref)
 {
   FinScribe.Objects.Preference p;
-  mixed err = catch(p = Fins.DataSource->_default->find->preferences_by_alt(pref));
-
+  mixed err = catch(p = Fins.DataSource["_default"]->find->preferences_by_alt(pref));
+  err = Error.mkerror(err);
   if(err && !err->_is_recordnotfound_error) throw(err);
   return p;
 }
@@ -475,7 +475,7 @@ object new_pref(string pref, mapping data)
      p["name"] = pref;
      p["type"] = data->type;
      p["description"] = data->description||"";
-     p["value"] = data->value || data->options?data->options[0]:0;
+     p["value"] = data->value || ((arrayp(data->options) && sizeof(data->options))?data->options[0]:0);
      p->save();
      preferences[pref] = (data + (["name":pref]));
      return p;

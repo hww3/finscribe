@@ -42,7 +42,7 @@ CREATE TABLE comments (
 
 CREATE TABLE datatypes (
   id SERIAL not null,
-  mimetype varchar(96) default NULL,
+  mimetype varchar(96) NOT NULL UNIQUE,
   PRIMARY KEY  (id)
 )
 
@@ -110,7 +110,7 @@ CREATE TABLE groups (
 \g
 
 
-CREATE TABLE users_groups (
+CREATE TABLE groups_users (
   user_id integer NOT NULL default '0',
   group_id integer NOT NULL default '0'
 )

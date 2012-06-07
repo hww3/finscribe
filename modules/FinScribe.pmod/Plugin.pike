@@ -24,7 +24,7 @@ int enabled()
 {
   mixed m;
 
-  m = app->new_pref("plugin." + name + ".enabled", _enabled, FinScribe.BOOLEAN);
+  m = app->new_pref("plugin." + name + ".enabled", (["value": _enabled, "type": FinScribe.BOOLEAN]));
   return m->get_value();
 }
 
