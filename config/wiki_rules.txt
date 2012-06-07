@@ -30,7 +30,7 @@ filter.subscript.class=Public.Web.Wiki.Filters.Bold
 filter.line.match=-{4,}
 filter.line.print=<hr class="line"/>\n
 filter.line.class=Public.Web.Wiki.Filters.Line
-filter.break.match=\\\\\r\n
+filter.break.match=\\\\(\r\n|\n|\r)
 filter.break.print=<br class="break"/>\n
 filter.break.class=Public.Web.Wiki.Filters.Break
 filter.newline.match=\n{2,}
