@@ -1,0 +1,18 @@
+  <%@include file="top.phtml"%>
+  <%@include file="adminheader.phtml"%>
+   <title><%syspref var="site.name" %> :: admin :: <%LOCALE id="0" string="export data"%></title>
+  
+<%@include file="adminpagebegin.phtml"%>
+
+<div class="flash-message"><%flash %></div>
+
+          <h3><%LOCALE id="0" string="Export Data"%></h3>
+        
+		<%LOCALE id="0" string="Click the 'export' button to generate a file containing all data and settings in this FinScribe instance."%>
+	<p>
+	<%action_form action="doexport"%>
+<button type="submit">Export</button>
+        </form>
+<p>
+<%@include file="footer.phtml"%>
+<%@include file="bottom.phtml"%>

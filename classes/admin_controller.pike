@@ -137,6 +137,36 @@ public void getgroups_json(Request id, Response response, mixed ... args)
   response->set_type("text/json");
 }
 
+public void export(Request id, Response response, mixed ... args)
+{
+    object t = view->get_idview("admin/export");
+    app->set_default_data(id, t);
+
+    t->add("in_admin", 1);
+    response->set_view(t);
+}
+
+public void doexport(Request id, Response response, mixed ... args)
+{
+  object x;
+  mixed e;
+  e = catch(x = model->export_db());
+  
+  if(e)
+  {
+    response->flash("msg", "Export Failed: " + Error.mkerror(e)->message());
+    response->redirect(export);
+  }
+  else
+  {
+    response->set_data(x->render_xml());
+    response->set_header("content-disposition", "attachment; filename=" +
+       "finscribe_backup_" + replace(Calendar.now()->format_time(), ({"-", ":", " "}), ({"", "", ""})) + ".xml");
+    response->set_type("text/xml");
+    response->set_charset("utf-8");
+  }
+}
+
 public void listacls(Request id, Response response, mixed ... args)
 {
      object t = view->get_idview("admin/listacls");
