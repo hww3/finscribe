@@ -519,7 +519,7 @@ void|array import_db(object tree)
           mixed e;
           if(e = catch(new_obj = context->repository->instance_definitions[n->get_full_name()](n)))
           {
-            werror("Error: %O\n", Error.mkerror(e)->message());
+          //  werror("Error: %O\n", Error.mkerror(e)->message());
           }
           else
           {
