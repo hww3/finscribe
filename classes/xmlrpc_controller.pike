@@ -148,8 +148,8 @@ protected mapping object_to_struct(object doc)
 {
   mapping item = ([]);
 
-//      item["link"] = sprintf("%s/space/%s", app->get_sys_pref("site.url")["value"], doc["path"]);
-      item["permaLink"] = sprintf( "%s/space/%s", app->get_sys_pref("site.url")["value"], doc["path"]);
+//      item["link"] = sprintf("%s/space/%s", app->get_my_url(), doc["path"]);
+      item["permaLink"] = sprintf( "%s/space/%s", app->get_my_url(), doc["path"]);
       item["title"] = doc["title"];
       item["dateCreated"] = doc["created"];
       item["postid"] = doc["path"];
@@ -169,7 +169,7 @@ protected mapping object_to_bloginfo(object doc)
   mapping item = ([]);
 
       item["isAdmin"] = 1;
-      item["url"] = sprintf("%s/space/%s", app->get_sys_pref("site.url")["value"], doc["path"]);
+      item["url"] = sprintf("%s/space/%s", app->get_my_url(), doc["path"]);
       item["blogid"] =  doc["path"];
       item["blogName"] = doc["title"];
       item["xmlrpc"] = action_url(app->controller->xmlrpc);

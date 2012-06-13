@@ -241,7 +241,7 @@ private ATOM.Feed generate_history_atom(object root, array entries, object id)
 
 ATOM.Feed generate_empty_atom(object root, object id) {
   ATOM.Feed feed = ATOM.Feed();
-  feed->id(URI(id->not_query, app->get_sys_pref("site.url")["value"]));
+  feed->id(URI(id->not_query, (string)app->get_my_url()));
   ATOM.HRText title = ATOM.HRText();
   title->tag_name("title");
   title->type(ATOM.HRText.TEXT_PLAIN);
@@ -257,17 +257,17 @@ ATOM.Feed generate_empty_atom(object root, object id) {
   feed->title(title);
   ATOM.Link self = ATOM.Link();
   self->rel("self");
-  self->href(URI(id->not_query, app->get_sys_pref("site.url")["value"]));
+  self->href(URI(id->not_query, (string)app->get_my_url()));
   self->type("application/atom+xml");
   feed->add_link(self);
   ATOM.Link html = ATOM.Link();
   html->rel("alternate");
   // FIXME - Bill, is this the right thing to do (the replace())?
-  html->href(URI(replace(id->not_query, "atom", "space"), app->get_sys_pref("site.url")["value"]));
+  html->href(URI(replace(id->not_query, "atom", "space"), (string)app->get_my_url()));
   html->type("text/html");
   feed->add_link(html);
   ATOM.Link rss = ATOM.Link();
-  rss->href(URI(replace(id->not_query, "atom", "rss"), app->get_sys_pref("site.url")["value"]));
+  rss->href(URI(replace(id->not_query, "atom", "rss"), (string)app->get_my_url()));
   rss->type("application/rss+xml");
   feed->add_link(rss);
   feed->generator(ATOM.Generator());
@@ -275,8 +275,8 @@ ATOM.Feed generate_empty_atom(object root, object id) {
   feed->generator()->uri(URI("http://hww3.riverweb.com/space/pike/FinScribe"));
   // FIXME - potential bug if the logo isn't on the same host as
   // the site.url.
-  feed->logo(URI(app->get_sys_pref("site.logo")["value"], app->get_sys_pref("site.url")["value"]));
-  feed->icon(URI("/favicon.ico", app->get_sys_pref("site.url")["value"]));
+  feed->logo(URI(app->get_sys_pref("site.logo")["value"], (string)app->get_my_url()));
+  feed->icon(URI("/favicon.ico", (string)app->get_my_url()));
   feed->subtitle(ATOM.HRText());
   feed->subtitle()->tag_name("subtitle");
   feed->subtitle()->type(ATOM.HRText.TEXT_PLAIN);
@@ -328,7 +328,7 @@ static string|Node make_contents(string contents) {
 
 static ATOM.Entry make_entry(Request id, object e) {
   ATOM.Entry entry = ATOM.Entry();
-  URI perma = URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["value"]);
+  URI perma = URI(sprintf("/space/%s", e["path"]), (string)app->get_my_url());
   entry->id(perma);
   entry->title(ATOM.HRText());
   entry->title()->tag_name("title");
@@ -367,13 +367,13 @@ static ATOM.Entry make_entry(Request id, object e) {
     if (sizeof((array)e["comments"])) {
       ATOM.Link atom_comments = ATOM.Link();
       atom_comments->rel(URI("http://purl.org/syndication/thread/1.0/comments"));
-      atom_comments->href(URI(sprintf("/atom/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["value"]));
+      atom_comments->href(URI(sprintf("/atom/%s?type=comments", e["path"]), (string)app->get_my_url()));
       atom_comments->type("application/atom+xml");
       atom_comments->title("Comment feed.");
       entry->add_link(atom_comments);
       ATOM.Link rss_comments = ATOM.Link();
       rss_comments->rel(URI("http://purl.org/syndication/thread/1.0/comments"));
-      rss_comments->href(URI(sprintf("/rss/%s?type=comments", e["path"]), app->get_sys_pref("site.url")["value"]));
+      rss_comments->href(URI(sprintf("/rss/%s?type=comments", e["path"]), (string)app->get_my_url()));
       rss_comments->type("application/rss+xml");
       rss_comments->title("Comments feed.");
       entry->add_link(rss_comments);
@@ -383,7 +383,7 @@ static ATOM.Entry make_entry(Request id, object e) {
       foreach(attachments, object a) {
 	ATOM.Link at = ATOM.Link();
 	at->rel("enclosure");
-	at->href(URI(sprintf("/space/%s", a["path"]), app->get_sys_pref("site.url")["value"]));
+	at->href(URI(sprintf("/space/%s", a["path"]), (string)app->get_my_url()));
 	at->type(a["datatype"]["mimetype"]=="text/wiki"?"text/html":a["datatype"]["mimetype"]);
 	at->title(a["title"]);
 	at->length((int)a["current_version"]["content_length"]);
@@ -415,7 +415,7 @@ static ATOM.Entry make_entry(Request id, object e) {
   }
   else {
     entry->content(ATOM.Content());
-    entry->content()->set(e["datatype"]["mimetype"]=="text/wiki"?"text/html":e["datatype"]["mimetype"], URI(sprintf("/space/%s", e["path"]), app->get_sys_pref("site.url")["value"]));
+    entry->content()->set(e["datatype"]["mimetype"]=="text/wiki"?"text/html":e["datatype"]["mimetype"], URI(sprintf("/space/%s", e["path"]), (string)app->get_my_url()));
   }
   return entry;
 }

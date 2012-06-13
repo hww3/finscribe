@@ -424,7 +424,7 @@ werror("creating new version\n");
     if (publish)
     {
         // we use this object for both trackback and pingback processing.
-        object u = Standards.URI(app->get_sys_pref("site.url")->get_value());
+        object u = Standards.URI((string)app->get_my_url());
         u->path = combine_path(u->path, "/space");
 
         app->render(contents, obj_o, id);

@@ -35,7 +35,7 @@ public void index(Request id, Response response, mixed ... args)
 
   if(app->get_sys_pref("blog.pingback_receive")->get_value())
   {
-    response->set_header("X-Pingback", app->get_sys_pref("site.url")->get_value() + "/exec/pingback");
+    response->set_header("X-Pingback", (string)app->get_my_url() + "/exec/pingback");
   }
 
   id->misc->current_page = obj["path"];
@@ -166,7 +166,7 @@ private void low_handle_wiki(object v, object t, object obj, Request id, Respons
   if(id->misc->object_is_weblog)
   {
     t->add("heads", "<link rel=\"alternate\" type=\"application/rss+xml\" "
-                    "title=\"All Entries\" href=\"" +  app->get_sys_pref("site.url")->get_value() 
+                    "title=\"All Entries\" href=\"" +  (string)app->get_my_url() 
                     + "/rss/" + obj["path"] + "\"/>");
   }
   else 

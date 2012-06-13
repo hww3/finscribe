@@ -2270,7 +2270,7 @@ private string|array register_pingback(object id, object response, string source
   }
 
   // first, is the target ours?
-  object oururl = Standards.URI("/space/", app->get_sys_pref("site.url")->get_value());
+  object oururl = Standards.URI("/space/", (string)app->get_my_url());
 
   if(!has_prefix(targeturl, (string)oururl))
   {
@@ -2364,7 +2364,7 @@ public void trackback(Request id, Response response, mixed ... args)
       // ok, we don't already have a trackback for this url, let's try to add one.
 
       // first, we see if they've been kind enough to link to us (should be a prerequisite, right?)
-      object lookingfor = Standards.URI("/space/" + args*"/", app->get_sys_pref("site.url")->get_value());
+      object lookingfor = Standards.URI("/space/" + args*"/", (string)app->get_my_url());
       Log.info("TRACKBACK: looking for %O\n in %O\n", lookingfor, contents);
       if(search(contents, (string)lookingfor)==-1)
       {
