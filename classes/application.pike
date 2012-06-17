@@ -40,6 +40,7 @@ void kick_model()
 
 void load_cache()
 {
+//  cache = Fins.Cache.Cache();
   cache = FinScribe.Cache;
 }
 
