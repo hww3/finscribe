@@ -256,20 +256,6 @@ string simple_macro_theme(Template.TemplateData data, mapping|void args)
    return "";
 }
 
-string simple_macro_friendly_size(Template.TemplateData data, mapping|void args)
-{
-  if(args->size)
-  {
-    int size = (int)args->size;
-    if(size < 1024) return size + " bytes";
-    if(size < 1024*1024) return sprintf("%.1f KB", size/1024.0);
-    if(size < 1024*1024*1024) return sprintf("%.2f MB", size/(1024.0*1024.0));
-    if(size < 1024*1024*1024*1024) return sprintf("%.12f GB", size/(1024.0*1024.0*1024.0));
-  }
-  else return "--";
-}
- 
-  
 
 
 //! display a calendar object as a date and time in a friendly manner
