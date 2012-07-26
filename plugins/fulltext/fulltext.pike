@@ -245,21 +245,23 @@ array evaluate(Macros.MacroParameters params)
   string target_url;
   string button_url;
   int size;
-  array a = params->parameters / "|";
+  if(!params->args) params->make_args();
 
-  foreach(a;;string val)
+  foreach(params->args; string key ;string val)
   {
-    if(has_prefix(val, "target_url=") || has_prefix(val, "target-url="))
+    switch(key)
     {
-      target_url = val[11..];
-    }
-    if(has_prefix(val, "button_src=") || has_prefix(val, "button-src="))
-    {
-      button_url = val[11..];
-    }
-    if(has_prefix(val, "button_src=") || has_prefix(val, "button-src="))
-    {
-      size = (int)(val[5..]);
+      case "target_url":
+      case "target-url":
+        target_url = val;
+        break;
+      case "button_src":
+      case "button-src":
+        button_url = val;
+        break;
+      case "size":
+        size = (int)val;
+        break;
     }
   }
 
