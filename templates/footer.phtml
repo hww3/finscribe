@@ -26,6 +26,7 @@ dojo.require("dojox.form.uploader.FileList");
 dojo.require("dijit.Menu");
 dojo.require("dijit.MenuItem");
 dojo.require("dijit.Tree");
+<% list_retrieve var="$jsfooter" %>
 
 require(["dojo/ready", "dojo/parser", "dijit/registry", "dojox/form/Uploader"], function(ready, parser, registry){
      ready(function(){
@@ -34,7 +35,5 @@ require(["dojo/ready", "dojo/parser", "dijit/registry", "dojox/form/Uploader"], 
 dojo.require("dojox.form.uploader.plugins.IFrame");
      });
 });
-//dojo.require("dojox.form.uploader.plugins.Flash");
-<% list_retrieve var="$jsfooter" %>
 </script>
 
