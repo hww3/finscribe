@@ -612,6 +612,21 @@ public void createaccount(Request id, Response response, mixed ... args)
 				uv["object"] = up;
 				uv["contents"] = p["current_version"]["contents"];
 				uv->save();
+
+   object tp = view->get_idview("exec/sendaccount", id);
+
+
+   tp->add("name", Name);
+   tp->add("username", UserName);
+				
+   string mailmsg = tp->render();
+				
+   Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(Email, 
+	"New account at " + app->get_sys_pref("site.name")->get_value(), 
+	app->get_sys_pref("mail.return_address")->get_value(), 
+																											mailmsg);
+
+
 			}
 		}
                 else if(id->variables->action == "Cancel")
@@ -631,20 +646,6 @@ public void createaccount(Request id, Response response, mixed ... args)
    t->add("password", Password);
 
    response->set_view(t);
-
-   object tp = view->get_idview("exec/sendaccount", id);
-
-
-   tp->add("name", Name);
-   tp->add("username", UserName);
-				
-   string mailmsg = tp->render();
-				
-   Protocols.SMTP.Client(app->get_sys_pref("mail.host")->get_value())->simple_mail(Email, 
-	"New account at " + app->get_sys_pref("site.name")->get_value(), 
-	app->get_sys_pref("mail.return_address")->get_value(), 
-																											mailmsg);
-
 }
 
 public void forgotpassword(Request id, Response response, mixed ... args)
