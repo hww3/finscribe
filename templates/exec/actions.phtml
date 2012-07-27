@@ -15,8 +15,16 @@ onclick="openAttachments('<%$object.path%>', '<%sessionid%>');return false;"><%L
   <% if data["iseditable"] %> <li> <a href="<%syspref var="site.url"%>/exec/move/<%$object.path%>"><%LOCALE id="217" string="move page"%></a><% else %> <%LOCALE id="217" string="move page"%> 
 <% endif %>
 
-  <% if data["isdeleteable"] %> <li> <a 
+  <% if data["isdeleteable"] %> 
+<li> <a 
 href="<%syspref var="site.url"%>/exec/delete/<%$object.path%>"><%LOCALE id="218" string="delete"%></a><% else %> <%LOCALE id="219" string="delete page"%> 
+<% endif %>
+
+<% if data["isdeleteable"] && (data["object"]["current_version"]["version"]) > 1 %>
+<li> <a 
+href="<%syspref var="site.url"%>/exec/revert/<%$object.path%>"><%LOCALE id="0" string="revert to previous version"%></a><% else %> 
+<%LOCALE id="0" 
+string="revert to previous version"%> 
 <% endif %>
 
   <% if data["islockable"] %>

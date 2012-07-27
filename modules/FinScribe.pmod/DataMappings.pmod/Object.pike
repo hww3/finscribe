@@ -15,7 +15,7 @@ import Fins.Model;
 	  belongs_to(context, "Template", 0, 0, (["nullable": 0]));
 	  has_many(context, "Comment", "comments", "object");
 	  has_many(context, "Object", "children", "parent");
-	  has_many(context, "Object_version", "versions", "object");
+	  has_many(context, "Object_version", "versions", "object", SortCriteria("version"));
 //      add_field(context, KeyReference("parent", "parent_id", "Object", UNDEFINED, 1));
       
       add_field(context, TransformField("title", "path", get_title));

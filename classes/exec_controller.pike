@@ -1677,6 +1677,68 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
    response->set_view(t);
 }
 
+public void revert(Request id, Response response, mixed ... args)
+{
+   if(!id->misc->session_variables->userid)
+   {
+      response->flash("msg", LOCALE(0,"You must login to revert content."));
+      response->flash("from", id->not_query);
+      response->redirect_temp("/exec/login");
+      return;
+   }
+
+   object obj_o; 
+   object t;
+   string newpath;
+
+   t = view->get_idview("exec/revert", id);
+   obj_o = model->get_fbobject(args, id);
+
+  t->add("object", obj_o);
+  t->add("previous_version", obj_o["versions"][-2]);
+   app->set_default_data(id, t);
+
+   if(!obj_o)
+   {
+      response->flash("msg", sprintf(LOCALE(389,"This is a non-existent object: %[0]s"), args*"/"));
+      response->redirect_temp(id->variables->return_to || id->referrer);	
+      return;
+   }
+
+   if(obj_o && !obj_o->is_deleteable(t->get_data()["user_object"]))
+   {
+      response->flash("msg", LOCALE(396,"You do not have permission to revert this object"));
+      response->redirect_temp(id->variables->return_to || id->referrer);		
+      return;
+   }
+
+   newpath = "/space/" + combine_path(args*"/", "..");   
+
+   if(id->variables->action == "Cancel")
+   {
+      response->flash("msg", "Revert cancelled.");
+      response->redirect_temp(app->controller->space, args);
+      return;
+   }
+
+   else if(id->variables->action == "Revert")
+   {
+     int old_version = obj_o["current_version"]["version"]; 
+     obj_o["current_version"]->delete();
+     app->trigger_event("postSave", id, obj_o);
+     cache->clear(sprintf("CACHEFIELD%s-%d", "current_version", obj_o->get_id()));
+
+     response->flash("msg", sprintf(LOCALE(0,"Version %[0]d has been reverted to previous version, %[1]d."), old_version, obj_o["current_version"]["version"]));
+     response->redirect_temp(app->controller->space, args);
+     return;
+   }
+
+   t->add("object", obj_o);
+   t->add("newpath", newpath);
+ 
+   response->set_view(t);
+}
+
 public void edit(Request id, Response response, mixed ... args)
 {
    string contents, title, obj, subject, datatype;
