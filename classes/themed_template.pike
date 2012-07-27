@@ -9,9 +9,7 @@ inherit Fins.Template.Simple;
 
 class compilecontext(string theme)
 {
-
 }
-
 
 static void create(string _templatename, TemplateContext|void 
 context_obj)
@@ -123,12 +121,10 @@ static string load_template(string templatename, object|void compilecontext)
      Log.debug("attempting to load %s.", tn);
      template = Stdio.read_file(tn);
      if(template) break;
-
    }
 
    if((!template || !sizeof(template)) && is_internal)
    {
-
     template = load_internal_template(int_templatename, compilecontext);
 
    }
