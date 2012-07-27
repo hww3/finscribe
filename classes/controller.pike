@@ -1,5 +1,6 @@
 import Fins;
 inherit Fins.FinsController;
+inherit Fins.RootController;
 
 Fins.FinsController objects;
 
@@ -15,6 +16,11 @@ Fins.FinsController theme, themes;
 Fins.FinsController _internal;
 Fins.FinsController install;
 Fins.FinsController rest;
+
+static void create(object a)
+{
+  ::create(a);
+}
 
 // if we are started in install mode (that is, if the application->installed variable
 //  is zero or not present), load up the installer only. otherwise load up the real

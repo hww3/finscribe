@@ -7,7 +7,6 @@ import Fins.Model;
 import Tools.Logging;
 inherit "default_preferences" : defpref;
 inherit Fins.Application : app;
-inherit Fins.RootController;
 
 mapping included_by = ([]);
 mapping plugins = ([]);
