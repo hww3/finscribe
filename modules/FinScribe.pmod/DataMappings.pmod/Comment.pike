@@ -29,7 +29,7 @@ import Fins.Model;
    
    static string format_created(object c, object i)
    {
-      string howlongago;
+      string howlongago = "woogabooga";
 
       c = c->distance(Calendar.now());
 

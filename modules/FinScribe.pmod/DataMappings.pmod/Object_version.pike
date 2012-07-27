@@ -12,7 +12,7 @@ import Fins.Model;
 
 //      add_field(context, BinaryStringField("contents", 1024000, 0));
 
-      add_field(context, TransformField("nice_created", "created", lambda(mixed n, object i){ return n->format_time();}));
+      add_field(context, TransformField("nice_created", "created", format_created));
 
       add_default_value(context, "created", created);
 
@@ -24,3 +24,7 @@ import Fins.Model;
      return Calendar.now()->second();
    }   
         
+   string format_created(object c, object i)
+   {
+     return c->format_ext_ymd();
+   }

@@ -1,8 +1,6 @@
 <a name="<%$comment.id%>"></a>
-<img src="/static/images/Icon-Comment.png" width="15" height="11"
-border="0"></a>
-         
-         
+<img src="/static/images/Icon-Comment.png" width="15" height="11" border="0"></a>
+
 <%LOCALE id="192" string="Posted by"%>
 <% if data->comment["author"]["username"] == "anonymous" %><%$comment.md.name%> (<%LOCALE id="193" string="anonymous"%>)
 <% else %>
@@ -12,7 +10,8 @@ border="0"></a>
 src="/static/images/Icon-Permalink.png" width="8" height="9"
 alt="permalink" border="0"/></a>
 
-<% if data->is_admin||(data->user_object && data->user_object["username"] && data->user_object["username"]==data->comment["author"]["username"]) %>
+<% if data->is_admin||(data->user_object && data->user_object["username"] && 
+data->user_object["username"]==data->comment["author"]["username"]) %>
 <%action_link controller="/exec" action="deletecomment" id="$comment.id"%><%LOCALE id="146" string="Delete"%></a>
 <% endif %>
 
