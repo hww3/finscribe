@@ -101,6 +101,7 @@ string get_widget(object view, string contents)
     add_to_list(view, "jsfooter", "dojo.require('dojox.editor.plugins.PrettyPrint');");
     add_to_list(view, "jsfooter", "dojo.require('dojox.editor.plugins.NormalizeStyle');");
     add_to_list(view, "jsfooter", "dojo.require('dijit._editor.plugins.ViewSource');");
+    add_to_list(view, "jsfooter", "dojo.require('dijit._editor.plugins.FontChoice');");
     add_to_list(view, "jsfooter", 
 #"//load editor and ensure that the contents are submitted when appropriate.\nrequire([\"dijit/Editor\"], function(editor){
         	dojo.connect(dojo.byId('editform'), 
@@ -116,7 +117,7 @@ string get_widget(object view, string contents)
         "<input id=\"contents\" type=\"hidden\" name=\"contents\">"
 #"<div data-dojo-type=\"dijit.Editor\" data-dojo-props=\"
 extraPlugins:[
-'normalizestyle', 'prettyprint', 'safepaste',
+'normalizestyle', 'prettyprint', 'safepaste', 'formatBlock', 'removeFormat',
 {name: 'dijit._editor.plugins.ViewSource', command: 'viewsource'
 }]
 \" id=\"htmleditor\">" 
