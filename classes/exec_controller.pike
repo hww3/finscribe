@@ -1622,8 +1622,17 @@ Log.debug("Checking to see if %s is deleteable...", p["path"]);
        }
    }
 
+
+   if(id->variables->action == "Cancel")
+   {
+      response->flash("msg", "Delete cancelled.");
+      response->redirect_temp(app->controller->space, args);
+      return;
+   }
+
    if(id->variables->action == "Really Delete")
    {
+
      // ok, first, let's get a list of objects to move.
      array a;
      string oldpath = obj_o["path"];

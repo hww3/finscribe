@@ -291,7 +291,8 @@ public string get_widget_for_type(object view, string type, string contents)
   if(!t || !t->get_widget)
   {
     werror("using default widget.\n");
-    return "<textarea style=\"width: 100%;\" id=\"contents\" name=\"contents\" rows=\"10\">" + 
+    return "This editor uses Wiki markup. Read about <a href=\"http://bill.welliver.org/space/pike/FinScribe/Documentation/Wiki+Markup\">wiki syntax</a>."
+	"<textarea style=\"width: 100%;\" id=\"contents\" name=\"contents\" rows=\"10\">" + 
                   contents + "</textarea>";
   }
 
