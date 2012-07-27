@@ -53,7 +53,7 @@ class generate_gravatar_url
       {
 
         if(arg == "default") val = Protocols.HTTP.uri_encode(val);
-        r = r + "&" + arg + "=" + val;
+        r = (r + "&" + arg + "=" + val);
       }
 
     r+="\">";
@@ -68,7 +68,7 @@ class generate_gravatar_url
   {
     string r = "http://www.gravatar.com/avatar.php?gravatar_id=";
 
-    if(!arguments->url) r = "<img src=\"";
+    if(!arguments->url) r = "<img src=\"" + r;
 
     string email = String.trim_whites(arguments->email || app->view->get_var_value(arguments->var, data->get_data()));
 
