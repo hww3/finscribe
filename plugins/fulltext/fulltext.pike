@@ -166,21 +166,21 @@ void ftSearch(object id, object response, mixed ... args)
 
 int updateIndex(string event, object id, object obj)
 {
-  call_out(app->create_thread, 0, doUpdateIndex, event, id, obj);
+  call_out(Thread.Thread, 0, doUpdateIndex, event, id, obj);
 
   return 0;
 }
 
 int updateIndexDelete(string event, object id, string obj)
 {
-  call_out(app->create_thread, 0, doUpdateIndexDelete, event, id, obj);
+  call_out(Thread.Thread, 0, doUpdateIndexDelete, event, id, obj);
     
   return 0;
 }          
     
 int updateIndexMove(string event, object id, string oldpath, object obj)
 {
-  call_out(app->create_thread, 0, doUpdateIndexMove, event, id, oldpath, obj);
+  call_out(Thread.Thread, 0, doUpdateIndexMove, event, id, oldpath, obj);
         
   return 0;
 }
