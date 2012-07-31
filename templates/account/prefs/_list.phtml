@@ -7,33 +7,47 @@ var editbox;
 <% foreach var="$preferences" val="pref" %>
 <tr>
 <td>
-<%$pref.name %>: 
+<%$pref.def.friendly_name %>: 
 </td>
 <td width="100">
 <% if data->pref["type"] == FinScribe.BOOLEAN %>
+  <span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams:
+        { options: [
+                {label: 'Yes', value: 'Yes' <%if (int)data->pref->value %>, selected: 1<%endif%>},
+                {label: 'No', value: 'No' <%if !(int)data->pref->value %>, selected: 1<%endif%>}
+                ]
+        }"
+      title="<%$pref.def.friendly_name%>" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
+                  console.log(this.id + " changed to value " + value);
+                                saveValue(this.id, value);
+             </script><%$pref.yesnovalue%></span>
 
-<span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams: 
-	{ options: [
-		{label: 'Yes', value: 'Yes' <%if (int)data->pref->value %>, selected: 1<%endif%>}, 
-		{label: 'No', value: 'No' <%if !(int)data->pref->value %>, selected: 1<%endif%>}
-		] 
-	}"
-      title="<%$pref.name%>" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
-	          console.log(this.id + " changed to value " + value);
-	 			saveValue(this.id, value);
-	     </script><%$pref.yesnovalue%></span>
-
-<%else %>
-
-<span data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.TextBox', autoSave:false"
+<%elseif data->pref["type"] == FinScribe.STRING && arrayp(data->pref["def"]["options"]) && sizeof(data->pref["def"]["options"]) %>
+  <span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams:
+        { options: [
+    <%foreach var="$pref.def.options" val="opt"%>
+                {label: '<%$opt.name%>', value: '<%$opt.value%>' <%if data->pref["value"] == data->opt["value"] %>, selected: 1<%endif%>},
+    <%end%>
+                ]
+        }"
+      title="<%$pref.def.friendly_name%>" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
+                  console.log(this.id + " changed to value " + value);
+                                saveValue(this.id, value);
+             </script><%val_from_options var="$pref.value" options="$pref.def.options"%></span>
+<% else %>
+  <span data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.TextBox', autoSave:false"
       title="quantity" width="70px" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
-	          console.log(this.id + " changed to value " + value);
-	 			saveValue(this.id, value);
-	     </script>
-	<%$pref.value%></span>
+                  console.log(this.id + " changed to value " + value);
+                                saveValue(this.id, value);
+             </script>
+        <%$pref.value%></span>
 
 <% endif %>
+
 </td>
+</tr>
+<tr>
+<td colspan="2"><i><%$pref.def.description%></i></td>
 </tr>
 <% end %>
 </table>
