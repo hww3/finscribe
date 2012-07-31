@@ -49,6 +49,18 @@ public Template.View get_idview(string tn, object id)
   return t;  
 }
 
+//! args: var, options
+string simple_macro_val_from_options(Fins.Template.TemplateData data, mapping|void args)
+{
+  if(!args->var || !args->options) return "val_from_options missing arguments";
+
+  foreach(args->options;int o; mixed v)
+  {
+    if(v["value"] == args->var)
+     return v["name"];
+  }
+}
+
 //! args: content, object, force (optional)
 string simple_macro_render(Fins.Template.TemplateData data, mapping|void args)
 {
