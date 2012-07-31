@@ -1,3 +1,5 @@
+- added user account section: password changing, wip entry access,
+    preferences.
 - added some new template/theme macros: image_feed, rss_feed, 
   recent_comments, blog_source
 - added wiki macros: include, to insert the contents of another page;
