@@ -434,7 +434,9 @@ object get_sys_pref(string pref)
   return p;
 }
 
-object new_string_pref(string pref, string value)
+//! @param defs
+//!  optional mapping containing keys to set on new object if it doesn't exist already.
+object new_string_pref(string pref, string value, mapping|void defs)
 {
   object p;
   p = get_sys_pref(pref);
@@ -447,12 +449,19 @@ object new_string_pref(string pref, string value)
      p["type"] = FinScribe.STRING;
      p["value"] = value;
      p["description"] = "";
+     if(defs)
+     {
+       foreach(defs; string k; string v)
+         p[k] = v;
+     }
      p->save();
      return p;
   }
 }
 
-object new_boolean_pref(string pref, string value)
+//! @param defs
+//!  optional mapping containing keys to set on new object if it doesn't exist already.
+object new_boolean_pref(string pref, string value, mapping|void defs)
 {
   object p;
   p = get_sys_pref(pref);
@@ -465,6 +474,11 @@ object new_boolean_pref(string pref, string value)
      p["type"] = FinScribe.BOOLEAN;
      p["value"] = (int)value;
      p["description"] = "";
+     if(defs)
+     {
+       foreach(defs; string k; string v)
+         p[k] = v;
+     }
      p->save();
      return p;
   }
@@ -476,7 +490,7 @@ object new_boolean_pref(string pref, string value)
 //! with the default value (or the first of the option set) configured as its value.
 //! additionally, the metadata about the preference will be stored in the application's 
 //! temporal preference registry for use by the administration interface. 
-object new_pref(string pref, mapping data)
+object new_pref(string pref, mapping data, mapping|void defs)
 {
   object p;
 
@@ -491,6 +505,11 @@ object new_pref(string pref, mapping data)
      p["type"] = data->type;
      p["description"] = data->description||"";
      p["value"] = data->value || ((arrayp(data->options) && sizeof(data->options))?data->options[0]:0);
+     if(defs)
+     {
+       foreach(defs; string k; string v)
+         p[k] = v;
+     }
      p->save();
      return p;
   }

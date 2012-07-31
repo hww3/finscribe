@@ -1359,7 +1359,7 @@ public void new(Request id, Response response, mixed ... args)
 
      app->set_default_data(id, t);
 
-     mixed p = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki");
+     mixed p = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki", (["user_pref": 1]));
 
      array mimetypes = ({});
 
@@ -1807,7 +1807,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(!datatype && obj_o)  datatype = obj_o["datatype"]["mimetype"];
    else if(!datatype)
    {
-     datatype = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki")->get_value();
+     datatype = app->new_string_pref(t->get_data()["user_object"]["username"] + ".new.default_mimetype", "text/wiki", (["user_pref": 1]))->get_value();
    }
 
    if(id->variables->action)
