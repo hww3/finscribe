@@ -1350,7 +1350,6 @@ public void new(Request id, Response response, mixed ... args)
        }
      }
 
-
      response->redirect_temp("/exec/edit/" + id->variables->title + "?datatype=" + id->variables->datatype);
      return;
    }   

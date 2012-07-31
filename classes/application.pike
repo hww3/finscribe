@@ -422,8 +422,12 @@ mixed handle_request(Request request)
 mapping get_preference_definition(object pref)
 {
 //  write("basename: %O\n", pref["basename"]);
-//  write("prefdef: %O\n",  preferences[pref["basename"]]);
-  return preferences[pref["basename"]];
+  mapping pd = preferences[pref["basename"]] + ([]);
+
+  if(functionp(pd["options"]))
+    pd["options"] = pd["options"]();
+
+  return pd;
 }
 
 object get_sys_pref(string pref)

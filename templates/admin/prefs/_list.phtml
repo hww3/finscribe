@@ -30,14 +30,14 @@ var editbox;
   <span style="width:100px;" data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.Select', autoSave:false, editorParams: 
 	{ options: [
     <%foreach var="$pref.def.options" val="opt"%>
-		{label: '<%$opt.mimetype%>', value: '<%$opt.mimetype%>' <%if data->pref["value"] == data->opt["mimetype"] %>, selected: 1<%endif%>}, 
+		{label: '<%$opt.name%>', value: '<%$opt.value%>' <%if data->pref["value"] == data->opt["value"] %>, selected: 1<%endif%>}, 
     <%end%>
 		] 
 	}"
       title="<%$pref.def.friendly_name%>" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">
 	          console.log(this.id + " changed to value " + value);
 	 			saveValue(this.id, value);
-	     </script><%$pref.value%></span>
+	     </script><%val_from_options var="$pref.value" options="$pref.def.options"%></span>
 <% else %>
   <span data-dojo-type="dijit.InlineEditBox" data-dojo-props="editor:'dijit.form.TextBox', autoSave:false"
       title="quantity" width="70px" id="<%$pref.name%>" name="<%$pref.name%>"><script type="dojo/connect" event="onChange" args="value">

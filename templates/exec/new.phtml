@@ -48,7 +48,7 @@
 <td>
 <select  id="datatype" name="datatype">
 <% foreach var="$datatypes" val="dt" %>
-<option value="<%$dt.mimetype %>"><%$dt.name %>
+<option value="<%$dt.mimetype %>" <%if data->datatype == data->dt["mimetype"] %>selected="1"<%endif%>><%$dt.name %>
 <% end %>
 </select>
 

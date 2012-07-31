@@ -10,6 +10,17 @@ void load_preferences()
   }
 }
 
+array get_editors()
+{
+  array mt = ({});
+
+  foreach(this->engines;string t;object e)
+  {
+     mt += ({ (["name": e->typename, "value": t]) });
+  }
+  return mt;
+}
+
 array get_prefs()
 {
 
@@ -113,11 +124,10 @@ array prefs =
 "description": "Specifies the default type for new objects created by this user.",
 "type": FinScribe.STRING,
 "value": "text/wiki",
-"options": filter(this->model->get_datatypes(), lambda(object x){return has_prefix(x["mimetype"], "text/");})
+"options": get_editors
 ]),
 
 });
-
 
   return prefs;
 }
