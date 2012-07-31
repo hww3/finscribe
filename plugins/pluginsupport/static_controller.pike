@@ -2,6 +2,8 @@ inherit Fins.StaticController;
 
 static object logger = Tools.Logging.get_logger("finscribe.plugins.pluginsupport");
 
+int allow_directory_listings = 1;
+
 static mapping _pluginfs = ([]);
 
 void index(object id, object response, mixed ... args)
@@ -22,11 +24,18 @@ void index(object id, object response, mixed ... args)
   {
     Stdio.Stat st;
 
-    string plugindir = combine_path(app->plugins[plugin]->module_dir, "/static");
+    if(!app->plugins[plugin])
+    {
+      logger->debug("no such plugin: %O\n", plugin);
+      _pluginfs[plugin] = -1;
+    }
+
+    string plugindir = Stdio.append_path(app->plugins[plugin]->module_dir, "/static");
     st = file_stat(plugindir);
 
     if(!st || !st->isdir)
     {
+      logger->debug("plugin has no static directory: %O %O\n", plugin, app->plugins[plugin]->module_dir);
       _pluginfs[plugin] = -1;
     }
     else
@@ -38,16 +47,16 @@ void index(object id, object response, mixed ... args)
 
   if(_pluginfs[plugin] == -1)
   {
-    response->not_found(args*"/");
+    response->not_found(id->not_query);
     return;
   }
   else
   {
     string f = Stdio.append_path("/", args * "/");
+    object fs = _pluginfs[plugin];
+    logger->debug("Does %s exist in %O?", f, fs);
 
-    logger->debug("Does %s exist?", f);
-
-    return low_static_request(id, response, f, _pluginfs[plugin]);
+    low_static_request(id, response, f, fs);
   }
 
 }

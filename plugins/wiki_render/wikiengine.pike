@@ -89,23 +89,23 @@ string make_key(string s, string fn)
 }
 
 
-void appendLink(String.Buffer buf, string name, string view, string|void anchor)
+void appendLink(String.Buffer buf, string path, string view, string|void anchor)
 {
-  //werror("appendLink: %O %O %O\n", name, view, anchor);
+  //werror("appendLink: %O %O %O\n", path, view, anchor);
   buf->add("<a href=\"/space/");
-  buf->add(name + (anchor?("#" + anchor):""));
+  buf->add(path + (anchor?("#" + anchor):""));
   buf->add("\">");
   buf->add(wiki->model->get_object_name(view));
   buf->add("</a>");
 }
 
-void appendCreateLink(String.Buffer buf, string name, string view)
+void appendCreateLink(String.Buffer buf, string path, string view)
 {
-  //werror("appendCreateLink: %O %O\n", name, view);
+  //werror("appendCreateLink: %O %O\n", path, view);
   buf->add("&#");
   buf->add((string)'[');
   buf->add("; create <a href=\"/exec/edit/");
-  buf->add(name);
+  buf->add(path);
   buf->add("\">");
   buf->add(view);
   buf->add("</a>]");

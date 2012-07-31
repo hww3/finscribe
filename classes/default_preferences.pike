@@ -4,11 +4,14 @@ static void create()
 
 void load_preferences()
 {
-  foreach(prefs;; mapping prefdef)
+  foreach(get_prefs();; mapping prefdef)
   {
     this->new_pref(prefdef->name, prefdef);
   }
 }
+
+array get_prefs()
+{
 
 array prefs =
 ({
@@ -105,17 +108,16 @@ array prefs =
 ]),
 
 ([
-"name": "",
-"friendly_name": "",
-"description": "",
-"type": FinScribe.STRING
+"name": "user.new.default_mimetype",
+"friendly_name": "Default type for new objects",
+"description": "Specifies the default type for new objects created by this user.",
+"type": FinScribe.STRING,
+"value": "text/wiki",
+"options": filter(this->model->get_datatypes(), lambda(object x){return has_prefix(x["mimetype"], "text/");})
 ]),
 
-([
-"name": "",
-"friendly_name": "",
-"description": "",
-"type": FinScribe.STRING
-])
-
 });
+
+
+  return prefs;
+}

@@ -10,6 +10,7 @@ CREATE TABLE preferences (
   id integer primary key, 
   name char(64) NOT NULL UNIQUE default '',
   description char(256) NOT NULL default '',
+  user_pref int(1) NOT NULL DEFAULT 0,
   type integer NOT NULL default 0,    
   value char(128) NOT NULL default ''
 ) ;

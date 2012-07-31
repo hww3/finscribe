@@ -29,13 +29,17 @@ void start()
 
 
   if(config["application"] && (int)config["application"]["installed"])
+  {
+    load_preferences();
     load_plugins();
+  }
 }
 
 void kick_model()
 {
   load_model();
   load_preferences();
+  load_plugins();
 }
 
 void load_cache()
@@ -415,6 +419,13 @@ mixed handle_request(Request request)
   return ::handle_request(request);
 }
 
+mapping get_preference_definition(object pref)
+{
+//  write("basename: %O\n", pref["basename"]);
+//  write("prefdef: %O\n",  preferences[pref["basename"]]);
+  return preferences[pref["basename"]];
+}
+
 object get_sys_pref(string pref)
 {
   FinScribe.Objects.Preference p;
@@ -468,6 +479,9 @@ object new_boolean_pref(string pref, string value)
 object new_pref(string pref, mapping data)
 {
   object p;
+
+  if(!preferences[pref]) preferences[pref] = ((["name":pref, "friendly_name": pref]) | data);
+
   p = get_sys_pref(pref);
   if(p) return p;
   else 
@@ -478,7 +492,6 @@ object new_pref(string pref, mapping data)
      p["description"] = data->description||"";
      p["value"] = data->value || ((arrayp(data->options) && sizeof(data->options))?data->options[0]:0);
      p->save();
-     preferences[pref] = (data + (["name":pref]));
      return p;
   }
 }
