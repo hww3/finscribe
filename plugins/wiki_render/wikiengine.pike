@@ -11,8 +11,7 @@ int _enabled = 1;
 
 mapping query_type_callers()
 {
-return ([]);
-//  return ([ "text/wiki": wikiengine(app) ]);
+  return ([ "text/wiki": wikiengine(app) ]);
 }
 
 class wikiengine
