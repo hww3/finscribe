@@ -56,7 +56,7 @@ void index(object id, object response, mixed ... args)
     object fs = _pluginfs[plugin];
     logger->debug("Does %s exist in %O?", f, fs);
 
-    low_static_request(id, response, f, fs);
+    low_static_request(id, response, f, _pluginfs[plugin]);
   }
 
 }

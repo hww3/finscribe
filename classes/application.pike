@@ -20,14 +20,13 @@ mapping preferences = ([]);
 static void create(object config)
 {
   ::create(config);
+
+  Locale.register_project(config->app_name, combine_path(config->app_dir,     
+    "translations/%L/FinScribe.xml"));
 }
 
 void start()
 {
-  Locale.register_project(config->app_name, combine_path(config->app_dir,     
-    "translations/%L/FinScribe.xml"));
-
-
   if(config["application"] && (int)config["application"]["installed"])
   {
     load_preferences();
@@ -50,6 +49,7 @@ void load_cache()
 
 void load_plugins()
 {
+//werror("handlers: %O\n", master()->handlers[app_runner->handler_key]->programs);
 	string plugindir = Stdio.append_path(config->app_dir, "plugins");
 	array p = get_dir(plugindir);
 //	logger->info("current directory is " + getcwd());
