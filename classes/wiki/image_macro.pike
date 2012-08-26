@@ -52,7 +52,10 @@ array evaluate(Macros.MacroParameters params)
 
   if(params->extras->obj && objectp(params->extras->obj) && !params->args->img)
   {
-    image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({params->extras->obj["path"], image}));
+    if(image[0] == '/')
+      image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({image}));
+    else
+      image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({params->extras->obj["path"], image}));
 //combine_path("/space/" + params->extras->obj["path"], image);
   }
 
