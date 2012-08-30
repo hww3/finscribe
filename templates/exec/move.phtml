@@ -5,7 +5,10 @@
 
    <h3><%LOCALE id="262" string="Move an existing object"%></h3>
 
-<form action="" method="post">
+<div class="flash-message"><font color="red"><%flash %></font></div>
+
+<form action="" 
+method="post">
 <%LOCALE id="245" string="Current location"%>: <%$object.path%><br/>
 
 <% if data["getconfirm"] %>

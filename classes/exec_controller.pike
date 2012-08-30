@@ -1438,8 +1438,7 @@ public void move(Request id, Response response, mixed ... args)
      response->redirect_temp("/space/" + (args*"/"));
      return;
    }
-
-   if(id->variables->action == "Move")
+   else if(id->variables->action == "Move")
    {
      if(newpath == obj_o["path"])
      {
@@ -1489,8 +1488,7 @@ Log.debug("Checking to see if %s has an overlap at %s...", p["path"], pth);
        }
      }
    }
-
-   if(id->variables->action == "Really Move")
+   else if(id->variables->action == "Really Move")
    {
      // ok, first, let's get a list of objects to move.
      string oldpath = obj_o["path"];
@@ -1533,8 +1531,6 @@ Log.debug("moving %s to %s.", p["path"], pth);
      response->redirect_temp("/space/" + newpath);
      return;
    }
-
-   
 
    t->add("object", obj_o);
    t->add("newpath", newpath);
@@ -1812,7 +1808,7 @@ public void edit(Request id, Response response, mixed ... args)
    if(id->variables->action)
    {
       object dto;
-      contents = id->variables->contents||"";
+      contents = (id->variables->contents||"");
       subject = id->variables->subject ||"";
       switch(id->variables->action)
       {
@@ -1854,7 +1850,7 @@ public void edit(Request id, Response response, mixed ... args)
 	    werror("template: %O\n", id->variables->template);   
             obj_o["template"] = id->variables->template;
             object obj_n = Fins.DataSource._default.new("Object_version");
-            obj_n["contents"] = contents;
+            obj_n["contents"] = (contents);
 
             int v;
             object cv;
