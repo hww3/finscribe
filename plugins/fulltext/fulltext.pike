@@ -220,7 +220,7 @@ void doUpdateIndex(string event, object id, object obj)
 				get_preference("authcode")->get_value());
 
   string t = app->render(obj["current_version"]["contents"], obj, id);
-
+  logger->info("Adding content (%d bytes) to full text index.", sizeof(t));
   if(obj["path"] && strlen(obj["path"]))
   c->delete_by_handle(obj["path"]);  
   c->add(obj["title"], 
