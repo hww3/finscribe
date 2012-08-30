@@ -10,7 +10,7 @@ import Fins.Model;
       add_field(context, TransformField("content_length", "contents", lambda(mixed n, object i){return sizeof(n);}));
       add_field(context, TransformField("nice_content_length", "contents", lambda(mixed n, object i){int z = sizeof(n); if(z < 1024) return z + " bytes"; else if (z < 1024000) return (z / 1024) + " kb"; else return (z / 1024000) + " mb";}));
 
-//      add_field(context, BinaryStringField("contents", 1024000, 0));
+      add_field(context, FinScribe.FSBinaryStringField("contents", 1024*1024*10, 0), 1);
 
       add_field(context, TransformField("nice_created", "created", format_created));
 
