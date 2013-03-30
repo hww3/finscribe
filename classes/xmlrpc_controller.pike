@@ -181,8 +181,9 @@ protected int check_user(string user, string password)
 {
          
       array r = Fins.DataSource._default.find.users((["username": user,
-                                        "password": password,
                                         "is_active": 1]));
-      if(r && sizeof(r)) return 1;
+      
+      if(!r || !sizeof(r)) return 0;
+      if(Crypto.verify_crypt_md5(password, r[0]["password"])) return 1;
       else return 0;
 }
