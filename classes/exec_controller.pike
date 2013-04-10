@@ -1839,6 +1839,9 @@ public void edit(Request id, Response response, mixed ... args)
                obj_o["author"] = find.users_by_id(id->misc->session_variables->userid);
                obj_o["datatype"] = dto;
                obj_o["path"] = obj;
+	
+               object parent_object = app->model->find_nearest_parent(obj_o["path"]);
+	       if(parent_object) obj_o["parent"] = parent_object;
 
                // we make the acl of this object the same as our nearest 
                // parent. we can change this later.

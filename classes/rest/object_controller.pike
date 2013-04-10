@@ -1,5 +1,6 @@
 inherit Fins.RESTController;
 
+constant __uses_session = 0;
 string model_component = "Object";
 
 // data we don't want to expose, or which would likely cause circular references.
