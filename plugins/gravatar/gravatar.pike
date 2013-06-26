@@ -15,7 +15,7 @@ mapping(string:Public.Web.Wiki.Macros.Macro) query_macro_callers()
 void start()
 {
   logger->info("Adding Simple Macro gravatar.");
-  app->view->add_simple_macro("gravatar", simple_macro_gravatar);
+  app->view->add_macro("gravatar", simple_macro_gravatar);
 }
 
 class generate_gravatar_url

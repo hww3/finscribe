@@ -43,7 +43,7 @@ mapping query_preferences()
 
 void start()
 {
-  app->view->add_simple_macro("searchresults", simple_macro_searchresults);
+  app->view->add_macro("searchresults", simple_macro_searchresults);
 }
 
 string simple_macro_searchresults(Fins.Template.TemplateData data, mapping|void args)
