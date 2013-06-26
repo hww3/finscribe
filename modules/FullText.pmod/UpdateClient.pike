@@ -28,7 +28,7 @@ int exists(string name)
 //!
 int delete_by_handle(string handle)
 {
-  return index_call("delete_by_handle", handle);
+  return index_call("delete_by_handle", string_to_utf8(handle));
 
 }
 
@@ -41,7 +41,9 @@ int delete_by_uuid(string uuid)
 //!
 string add(string title, Calendar.Second date, string contents, string handle, string|void excerpt, string mimetype)
 {
-  return index_call("add", title, date->unix_time(), MIME.encode_base64(contents), handle, excerpt, mimetype);
+  return index_call("add", string_to_utf8(title), date->unix_time(), 
+    MIME.encode_base64(string_to_utf8(contents)), string_to_utf8(handle), 
+    excerpt?string_to_utf8(excerpt):0, mimetype);
 }
 
 //!
