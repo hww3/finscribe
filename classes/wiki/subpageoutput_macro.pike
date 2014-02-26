@@ -12,51 +12,14 @@ array evaluate(Macros.MacroParameters params)
   string subpage;
   // we should get a limit for the number of entries to display.
 
-  array res = ({"whee"});
-//werror(">>>\n>>>subpage: %O\n>>>\n", params->extras);
-
   subpage = params->extras->request ? params->extras->request->misc->current_page : 0;
-//werror("subpage: %O\n", subpage);
 
-  if(!subpage) return res;
+  if(!subpage) return ({""});
 
-  mixed r = params->engine->wiki->cache->get("__SUBPAGESdata-" + subpage);
-
-  if(!r)
-  {
-    r = subpage_fetch(subpage, params);
-    if(r)
-      params->engine->wiki->cache->set("__SUBPAGESdata-" + subpage, r, 1800);
-  }
-
-//werror("subpageoutput macro:%O, %O!\n", params->extras->request, params->engine->wiki->view);
-  int ci=0;
-
-  res = ({ params->engine->wiki->view->render_partial("space/_objectlist", 
-                (["objects": r]), UNDEFINED, UNDEFINED, params->extras->request) });
-
-  return res;
+  return ({params->engine->wiki->view->generate_subpages(subpage, params->extras->request)});
 }
 
 int is_cacheable()
 {
   return 0;
 }
-
-mixed subpage_fetch(string subpage, object params)
-{
-  array r;
-
-  werror("subpage-output: getting " + subpage + "\n");
-
-
-  r = params->engine->wiki->model->context->find->objects((["path" : 
-           Fins.Model.AndCriteria(({
-              Fins.Model.LikeCriteria(subpage + "/%")
-              , Fins.Model.NotCriteria(Fins.Model.LikeCriteria(subpage + "/%/%"))
-      }))
-      , "is_attachment": 0]));
-
-  return r;
-}
-

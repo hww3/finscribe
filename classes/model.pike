@@ -53,6 +53,16 @@ Model.DataObjectInstance find_nearest_parent(string path)
   return 0;
 }
 
+array find_subpages(string subpage)
+{
+   return context->find->objects((["path" :
+           Fins.Model.AndCriteria(({
+              Fins.Model.LikeCriteria(subpage + "/%")
+              , Fins.Model.NotCriteria(Fins.Model.LikeCriteria(subpage + "/%/%"))
+      }))
+      , "is_attachment": 0]));
+}
+
 // return the last component of a path.
 // for example, get_object_name("/path/to/document") would return "document".
 string get_object_name(string n)

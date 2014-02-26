@@ -232,7 +232,7 @@ string get_page_breadcrumbs(string page)
       newcomponent = component;
 
     if(i == (sizeof(p)-1))
-      s += ({ component });
+      s += ({ replace(component,"_", " ") });
     else
       s += ({ "<a href=\"/space/" + newcomponent + "\">" + component + "</a>" });
   }
@@ -518,3 +518,21 @@ mixed rss_fetch(string rssurl, int max, int|void timeout)
 }
 
 #endif
+
+mixed generate_subpages(string subpage, object request)
+{
+  mixed r = cache->get("__SUBPAGESdata-" + subpage);
+
+  if(!r)
+  {
+    r = app->model->find_subpages(subpage);
+    if(r)
+      cache->set("__SUBPAGESdata-" + subpage, r, 1800);
+  }
+
+  mixed res = ({ render_partial("space/_objectlist",
+                (["objects": r]), UNDEFINED, UNDEFINED, request) });
+
+  return res;
+
+}
