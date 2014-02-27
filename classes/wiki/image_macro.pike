@@ -26,20 +26,26 @@ array evaluate(Macros.MacroParameters params)
     return ({"INVALID IMAGE"});
   }
 
+
+  int internal = 0;
   string link, image, alt, align;
   array res = ({});
 
   if(!params->args) params->make_args();
 
   array a = indices(params->args);
-
+  object page = 
+    ((params->extras->request?params->extras->request->misc->wiki_obj:0)||params->extras->obj);
 
   if(params->args[a[0]] == "1")
     image = a[0];
   else if(params->args->src)
     image = params->args->src;
   else if(params->args->img)
+  { 
+    internal = 1;
     image = combine_path("/static/images/", params->args->img +".png");
+  }
   else return ({"INVALID IMAGE SRC"});
 
   if(params->args->link)
@@ -50,13 +56,13 @@ array evaluate(Macros.MacroParameters params)
     align = params->args->align;
 
 
-  if(params->extras->obj && objectp(params->extras->obj) && !params->args->img)
+  if(objectp(page) && !internal)
   {
     if(image[0] == '/')
       image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({image[1..]}));
     else
-      image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, ({params->extras->obj["path"], image}));
-//combine_path("/space/" + params->extras->obj["path"], image);
+      image = params->engine->wiki->url_for_action(params->engine->wiki->controller->space, 
+                     ({(page)["path"], image}));
   }
 
   if(link)

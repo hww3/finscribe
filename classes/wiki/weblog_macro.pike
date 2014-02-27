@@ -96,6 +96,8 @@ array evaluate(Macros.MacroParameters params)
     t = params->engine->wiki->view->get_view("space/" + template);
 
 //    werror("t->get_data(): %O\n", t->get_data());
+    if(objectp(params->extras->request))
+        params->extras->request->misc["wiki_obj"] = entry;
 
     t->data->set_request(params->extras->request || ([]));
 
@@ -124,6 +126,9 @@ array evaluate(Macros.MacroParameters params)
     }   
   
     res += ({t->render()});
+
+    m_delete(params->extras, "wiki_obj");
+
   }
 
   if(!params->args->quiet)
