@@ -102,6 +102,16 @@ string simple_macro_list_subpages(Fins.Template.TemplateData data, mapping|void 
   return(rv);
 }
 
+//! template: match all sub pages with this template name.
+string simple_macro_subpages(Fins.Template.TemplateData data, mapping|void args)
+{
+  object request = data->get_request();
+  mixed obj = request->misc->current_page;
+
+  if(!obj) return "";
+  else return generate_subpages(obj, request);
+}
+
 
 // args: name, val
 string simple_macro_list_store(Fins.Template.TemplateData data, mapping|void args)
@@ -226,7 +236,7 @@ string get_page_breadcrumbs(string page)
 
   foreach(p; int i; string component)
   {
-    if(newcomponent && !(i==1))
+    if(newcomponent && i)
       newcomponent=newcomponent+"/" + component;
     else
       newcomponent = component;
@@ -530,8 +540,8 @@ mixed generate_subpages(string subpage, object request)
       cache->set("__SUBPAGESdata-" + subpage, r, 1800);
   }
 
-  mixed res = ({ render_partial("space/_objectlist",
-                (["objects": r]), UNDEFINED, UNDEFINED, request) });
+  mixed res = render_partial("space/_objectlist",
+                (["objects": r]), UNDEFINED, UNDEFINED, request);
 
   return res;
 

@@ -59,8 +59,10 @@ array find_subpages(string subpage)
            Fins.Model.AndCriteria(({
               Fins.Model.LikeCriteria(subpage + "/%")
               , Fins.Model.NotCriteria(Fins.Model.LikeCriteria(subpage + "/%/%"))
-      }))
-      , "is_attachment": 0]));
+      })),
+      "is_attachment": Fins.Model.OrCriteria(({Fins.Model.OperatorCriteria("=", 0), 
+Fins.Model.OperatorCriteria("=", 2)}))
+     ]));
 }
 
 // return the last component of a path.

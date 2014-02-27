@@ -87,10 +87,13 @@ public void x(Request id, Response response, mixed ... args)
 public void notfound(Request id, Response response, mixed ... args)
 {
      object t = view->get_idview("exec/objectnotfound", id);
-
+     
      app->set_default_data(id, t);
+     string cp = args*"/";
 
-     t->add("obj", args*"/");
+     t->add("obj", cp);
+     id->misc->current_page = cp;
+
      response->set_view(t);
 }
 

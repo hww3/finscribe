@@ -29,7 +29,7 @@ public void index(Request id, Response response, mixed ... args)
 
   if(!obj)
   {
-     response->redirect(app->controller->exec->notfound, args); 
+     response->redirect(app->controller->exec->notfound,  args); 
      return;
   }
 
