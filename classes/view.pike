@@ -231,8 +231,8 @@ string get_page_breadcrumbs(string page)
   // we don't have any place left to go.
   if(sizeof(p) == 1 && (p[0]=="start" || p[0] == "admin")) return "";
 
-  if(p[0] != "start" && p[0] != "admin")
-    p = ({"start"}) + p;
+//  if(p[0] != "start" && p[0] != "admin")
+//    p = ({"space"}) + p;
 
   foreach(p; int i; string component)
   {
