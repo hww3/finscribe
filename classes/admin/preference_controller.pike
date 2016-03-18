@@ -47,7 +47,7 @@ public void tree(Request id, Response response, mixed ... args)
 	array x = (p["name"][sizeof(pr)..]/".");
         prefixes += ({x[0]});
       }
-      prefixes = Array.uniq(prefixes);
+      prefixes = global.Array.uniq(prefixes);
       prefixes -= ({"", 0});
 	foreach(prefixes;;string p)
        data += ({ (["title":  p, "data": p, "widgetId": "tree_" + p, "isFolder": 1 ]) });
@@ -73,7 +73,7 @@ public void tree(Request id, Response response, mixed ... args)
           nodes += ({p});
       }
   
-//      prefixes = Array.uniq(prefixes);
+//      prefixes = global.Array.uniq(prefixes);
     
 
       if(sizeof(prefixes))
@@ -114,7 +114,7 @@ werror("template: %O\n", t);
       foreach(x;;object p)
         prefixes += ({ (p["name"][sizeof(pr)..]/".")[0]});
       prefixes -= ({"", 0});
-      prefixes = Array.uniq(prefixes);
+      prefixes = global.Array.uniq(prefixes);
     }     
 
     string startswith = id->variables->startswith;
