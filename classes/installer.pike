@@ -7,13 +7,26 @@ import Fins;
 import Tools.Logging;
 inherit Fins.FinsBase;
 
-public void populateprefs(Request id, Response response, mixed ... args)
+public int install(string dburl, string username, string password, string email) {
+  if(verifyandcreate(dburl)) {
+   if(createadminuser(username, password, email))
+   {
+     werror("success!");
+     return 1;
+   }
+  }
+  
+  werror("failure!");
+  return 0;
+}
+
+public void populateprefs(mapping variables)
 {
   mixed e = catch {
-  foreach(glob("pref.*", indices(id->variables));; string p)
+  foreach(glob("pref.*", indices(variables));; string p)
   {
     int pt;
-    switch(id->variables["type." + p[5..]])
+    switch(variables["type." + p[5..]])
     {
        case "string":
          pt = FinScribe.STRING;
@@ -25,20 +38,17 @@ public void populateprefs(Request id, Response response, mixed ... args)
          pt = FinScribe.BOOLEAN;
          break;
     }
-    app->new_pref(p[5..], (["value": id->variables[p], "type": pt]));
+    app->new_pref(p[5..], (["value": variables[p], "type": pt]));
   }
   };
 
   if(e)
   {
     Log.exception("Error occurred while populating database.", e);
-    response->set_data(((array)e)[0]);  
   }
-  else
-    response->set_data("true");
 }
 
-public void createadminuser(string username, string password, string email)
+public int createadminuser(string username, string password, string email)
 {
     object u;
   mixed e = catch {
@@ -69,15 +79,17 @@ public void createadminuser(string username, string password, string email)
   {
 //	werror("error: %O", e);
     Log.exception("Error while populating the database.", e);
-  }
+   return 0;  
+}
   else
   {
     app->controller->install = 0;
     app->reload_controllers();
+    return 1;
   }
 }
 
-public void verifyandcreate(string dburl)
+public int verifyandcreate(string dburl)
 {
   string dbtype;
   string splitter;
@@ -87,7 +99,7 @@ public void verifyandcreate(string dburl)
   if(e) 
   {
     Log.exception("An error occurred while connecting to the database "+ dburl + ".", e);
-    return;
+    return 0;
   }
 
   // SQLite will happily allow you to create a database somewhere it can't
@@ -97,7 +109,7 @@ public void verifyandcreate(string dburl)
   if(e) 
   {
     Log.exception("An error occurred while communicating with the database "+ dburl + ".", e);
-    return;
+    return 0;
   }
 
   Log.debug("connection to database " + dburl + " successful.");
@@ -116,8 +128,8 @@ public void verifyandcreate(string dburl)
       splitter = "\\g\n";
       break;
     default:
-      Log.error("Unknown database type: %s", id->variables->dburl);
-      return;
+      Log.error("Unknown database type: %s", dburl);
+      return 0;
   }
 
   // now, we can populate the schema.
@@ -168,8 +180,7 @@ public void verifyandcreate(string dburl)
     e = catch(sql->query(tables[name]));
     if (e) {
       Log.exception("An error occurred while running a command: " + tables[name] + ".", e);
-      response->set_data(((array)e)[0]);
-      return;
+      return 0;
     }
   }
 
@@ -177,7 +188,7 @@ public void verifyandcreate(string dburl)
 
   // now, we restart the model.
   config->set_value("application", "installed", 1);
-  config->set_value("model", "datasource", id->variables->dburl);
+  config->set_value("model", "datasource", dburl);
 
   view->default_template = (program)"themed_template";
 
@@ -185,7 +196,8 @@ werror("app: %O\n", app);
 werror("app->kick_model: %O\n", app->kick_model);
 
   app->kick_model();
-  app->load_plugins();
+  app->load_plugins(); 
+ return 1;
 }
 
 private int haveit(string sym)

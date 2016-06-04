@@ -12,8 +12,8 @@ int lower_case_link_names = 1;
 //! @deprecated
 DataModelContext context;
 
-//object datatype_instance_module = FinScribe.Objects;
-//object datatype_definition_module = FinScribe.DataMappings;
+object datatype_instance_module = FinScribe.Objects;
+object datatype_definition_module = FinScribe.DataMappings;
 
 //object repository = FinScribe.Repo;
 

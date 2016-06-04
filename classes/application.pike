@@ -214,10 +214,10 @@ int trigger_event(string event, mixed ... args)
   return retval;
 }
 
-int install()
+int install(string dburl, string user, string password, string email)
 {
-  object i = ((program)"install")(this);
-  return i->run();
+  object o = ((program)"classes/installer")(this);
+  return o->install("sqlite://finscribe.db", "admin", "admin", "bill@welliver.org");
 }
 
 string get_theme(object id)
