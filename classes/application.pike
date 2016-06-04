@@ -216,7 +216,7 @@ int trigger_event(string event, mixed ... args)
 
 int install(string dburl, string user, string password, string email)
 {
-  object o = ((program)"classes/installer")(this);
+  object o = ((program)"installer")(this);
   return o->install("sqlite://finscribe.db", "admin", "admin", "bill@welliver.org");
 }
 
